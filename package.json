@@ -11,6 +11,8 @@
     "build": "vite build --configLoader native",
     "start": "wrangler dev --config dist/server/wrangler.json",
     "lint": "oxlint",
+    "typecheck": "tsc --noEmit",
+    "check": "pnpm run lint && pnpm run typecheck && pnpm run build",
     "format": "oxfmt",
     "db:generate": "drizzle-kit generate"
   },
