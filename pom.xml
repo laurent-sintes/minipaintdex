@@ -21,6 +21,7 @@
     <module>backend/domain</module>
     <module>backend/application</module>
     <module>backend/adapter-file</module>
+    <module>backend/bootstrap</module>
     <module>backend/server</module>
     <module>backend/cli</module>
   </modules>
@@ -77,8 +78,8 @@
         <version>${frontend-maven-plugin.version}</version>
         <inherited>false</inherited>
         <configuration>
-          <workingDirectory>${maven.multiModuleProjectDirectory}</workingDirectory>
-          <installDirectory>${project.build.directory}/frontend</installDirectory>
+          <workingDirectory>${maven.multiModuleProjectDirectory}/frontend</workingDirectory>
+          <installDirectory>${project.build.directory}/toolchain</installDirectory>
           <skip>${frontend.skip}</skip>
           <environmentVariables>
             <CI>true</CI>

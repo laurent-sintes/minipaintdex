@@ -61,24 +61,20 @@ class ChangeSetTests(unittest.TestCase):
         self.assertEqual(report["orphaned"], ["/orphan.png"])
         self.assertEqual(report["missing"], ["/missing.jpg"])
 
-    def test_accepts_market_painting_guides_in_project_changeset(self):
+    def test_accepts_market_painting_guides_in_paintable_product_changeset(self):
         changeset = {
             "schema_version": 1,
-            "kind": "miniature_project",
-            "project": {
-                "id": "game", "name": "Game", "game": "Game", "scope": "core",
+            "kind": "market_product",
+            "product": {
+                "id": "game", "name": "Game", "line": "Game", "product_type": "board_game", "scope": "core",
                 "expected_paintable_count": 1,
-                "catalog_items": [{"id": "game-hero", "game_id": "game", "name": "Hero", "kind": "miniature"}],
+                "catalog_items": [{"id": "game-hero", "product_id": "game", "name": "Hero", "kind": "hero", "quantity": 1}],
             },
             "painting_guides": [{
                 "id": "game-hero-guide", "version": 1, "knowledge_status": "documented",
                 "catalog_item_id": "game-hero",
                 "slots": [{"id": "game-hero-guide-slot-01", "market_paint_id": "paint"}],
                 "preparation": [], "painting": [],
-            }],
-            "workshop_items": [{
-                "id": "ws-game-hero-001", "catalog_item_id": "game-hero",
-                "project_id": "game", "display_name": "Hero #1",
             }],
         }
         self.assertEqual(validate_changeset(changeset), [])

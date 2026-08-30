@@ -11,7 +11,7 @@ import java.util.Map;
 public record WorkshopItemState(
         String id,
         String catalogItemId,
-        String projectId,
+        String workshopProductId,
         String displayName,
         Map<WorkflowStage, WorkflowStageStatus> workflow,
         WorkflowStage currentStage,

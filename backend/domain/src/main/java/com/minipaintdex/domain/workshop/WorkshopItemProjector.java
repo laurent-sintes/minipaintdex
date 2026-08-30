@@ -19,8 +19,10 @@ public final class WorkshopItemProjector {
         var states = new LinkedHashMap<String, WorkshopItemState>();
         for (var event : events) {
             if ("workshop_item.added".equals(event.eventType())) {
+                var workshopProductId = text(event.payload().get("workshop_product_id"));
+                if (workshopProductId.isBlank()) workshopProductId = event.projectId();
                 states.put(event.aggregateId(), new WorkshopItemState(
-                        event.aggregateId(), text(event.payload().get("catalog_item_id")), event.projectId(),
+                        event.aggregateId(), text(event.payload().get("catalog_item_id")), workshopProductId,
                         text(event.payload().getOrDefault("display_name", event.aggregateId())),
                         WorkshopItemState.emptyWorkflow(), null, false, null, 0, event.recordedAt()));
                 continue;
@@ -29,7 +31,7 @@ public final class WorkshopItemProjector {
                 var current = states.get(event.aggregateId());
                 if (current == null) continue;
                 states.put(current.id(), new WorkshopItemState(
-                        current.id(), current.catalogItemId(), current.projectId(), current.displayName(),
+                        current.id(), current.catalogItemId(), current.workshopProductId(), current.displayName(),
                         current.workflow(), current.currentStage(), current.completed(),
                         text(event.payload().get("recipe_id")), number(event.payload().get("recipe_version")), event.recordedAt()));
                 continue;
@@ -43,7 +45,7 @@ public final class WorkshopItemProjector {
             var nextStage = first(workflow, WorkflowStageStatus.IN_PROGRESS);
             if (nextStage == null) nextStage = first(workflow, WorkflowStageStatus.PENDING);
             var completed = workflow.values().stream().allMatch(status -> status == WorkflowStageStatus.COMPLETED || status == WorkflowStageStatus.SKIPPED);
-            states.put(current.id(), new WorkshopItemState(current.id(), current.catalogItemId(), current.projectId(), current.displayName(), workflow, nextStage, completed, current.recipeId(), current.recipeVersion(), event.recordedAt()));
+            states.put(current.id(), new WorkshopItemState(current.id(), current.catalogItemId(), current.workshopProductId(), current.displayName(), workflow, nextStage, completed, current.recipeId(), current.recipeVersion(), event.recordedAt()));
         }
         return new ArrayList<>(states.values());
     }

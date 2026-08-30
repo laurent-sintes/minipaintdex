@@ -1,0 +1,673 @@
+schema_version: 1
+id: reichbusters-reloaded
+name: Reichbusters Reloaded
+line: "Reichbusters: Projekt Vril"
+product_type: board_game
+scope: Pledge complet Reloaded · boîtes rouge et bleue · 198 éléments à peindre
+expected_paintable_count: 198
+edition:
+  note: "Inventaire complet du pledge Reichbusters Reloaded : 121 éléments dans la boîte rouge et 77 dans la boîte bleue, soit 155 personnages ou créatures et 43 décors en classant le portail extraterrestre comme décor."
+  url: https://gamefound.com/en/projects/monolith-board-games-sarl/reichbusters-reloaded
+sources:
+  - kind: official_inventory
+    label: "Règle du jeu Reichbusters: Projekt Vril"
+    url: https://cdn.1j1ju.com/medias/67/7f/83-reichbusters-projekt-vril-rulebook.pdf
+  - kind: painted_gallery
+    label: Galerie de figurines peintes · Paintedfigs
+    url: https://www.paintedfigs.com/blog/paintingpainting-mythic-games-reichbusters-miniature-painting-service
+  - kind: painted_gallery
+    label: Galerie communautaire · BoardGameGeek
+    url: https://boardgamegeek.com/boardgame/262733/reichbusters-projekt-vril/images
+  - kind: complete_pledge_inventory
+    label: Inventaire photographié du pledge complet Reloaded · 198 éléments
+    url: https://www.onlywargamesfans.com/2026/06/13/reviews-unboxing-reichbusters-reloaded/
+  - kind: expansion_inventory
+    label: Inventaire Cargo Hold · BoardGameGeek
+    url: https://boardgamegeek.com/boardgame/288562/reichbusters-projekt-vril-cargo-hold
+  - kind: official_rulebook
+    label: Livret Not of This Earth · liste des 34 figurines
+    url: https://ammd.ch/pdfregles/reichbustersprojektvrilnotofthisearth.pdf
+  - kind: official_campaign
+    label: Reichbusters Reloaded · campagne Gamefound
+    url: https://gamefound.com/en/projects/monolith-board-games-sarl/reichbusters-reloaded
+catalog_items:
+  - id: reichbusters-reloaded-red-hawk
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Red Hawk
+    kind: hero
+    description: "Tireuse d’élite : tons naturels, cuir, peau et détails froids sur les armes."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Tutoriel Red Hawk · OnTableTop
+        url: https://www.ontabletop.com/project/1515465/
+  - id: reichbusters-reloaded-sarge
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Sarge
+    kind: hero
+    description: "Chef d’escouade : uniforme militaire brun-vert, cuir sombre et équipement très lisible."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Tutoriel général Reichbusters · No More Grey Studio
+        url: https://www.emaginarock.fr/2020/chroniques/tutoriel-peinture-reich-busters-de-mythic-games-no-more-grey-studio/
+  - id: reichbusters-reloaded-brick
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Brick
+    kind: hero
+    description: "Combattant lourd : volumes francs, équipement sombre et accents froids pour séparer les pièces d’armure."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Tutoriel général Reichbusters · No More Grey Studio
+        url: https://www.emaginarock.fr/2020/chroniques/tutoriel-peinture-reich-busters-de-mythic-games-no-more-grey-studio/
+  - id: reichbusters-reloaded-claudine
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Claudine
+    kind: hero
+    description: "Opératrice française : silhouette sombre, peau chaude et quelques accents froids sur l’équipement."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Tutoriel général Reichbusters · No More Grey Studio
+        url: https://www.emaginarock.fr/2020/chroniques/tutoriel-peinture-reich-busters-de-mythic-games-no-more-grey-studio/
+  - id: reichbusters-reloaded-quentin
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Quentin
+    kind: hero
+    description: "Archer britannique : verts militaires, bois chaud, cuirs sombres et peau naturelle."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Tutoriel général Reichbusters · No More Grey Studio
+        url: https://www.emaginarock.fr/2020/chroniques/tutoriel-peinture-reich-busters-de-mythic-games-no-more-grey-studio/
+  - id: reichbusters-reloaded-nazi-soldiers
+    product_id: reichbusters-reloaded
+    quantity: 16
+    name: Soldats
+    kind: enemy
+    description: Groupe principal à traiter en série pour conserver un uniforme cohérent et gagner du temps.
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Inventaire des figurines · livret de règles
+        url: https://cdn.1j1ju.com/medias/67/7f/83-reichbusters-projekt-vril-rulebook.pdf
+  - id: reichbusters-reloaded-nazi-officers
+    product_id: reichbusters-reloaded
+    quantity: 4
+    name: Officiers
+    kind: enemy
+    description: Chefs d’unité à différencier des soldats par des uniformes plus sombres et des détails rouges.
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Inventaire des figurines · livret de règles
+        url: https://cdn.1j1ju.com/medias/67/7f/83-reichbusters-projekt-vril-rulebook.pdf
+  - id: reichbusters-reloaded-sturmsoldat-gunners
+    product_id: reichbusters-reloaded
+    quantity: 4
+    name: Sturmsoldat Gunners
+    kind: enemy
+    description: "Troupes lourdes : armure sombre, métal usé et énergie Vril froide."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Inventaire des figurines · livret de règles
+        url: https://cdn.1j1ju.com/medias/67/7f/83-reichbusters-projekt-vril-rulebook.pdf
+  - id: reichbusters-reloaded-sturmsoldat-assault
+    product_id: reichbusters-reloaded
+    quantity: 4
+    name: Sturmsoldat Assault Troopers
+    kind: enemy
+    description: "Troupes d’assaut : métal sombre, protections froides et marquages rouges."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Inventaire des figurines · livret de règles
+        url: https://cdn.1j1ju.com/medias/67/7f/83-reichbusters-projekt-vril-rulebook.pdf
+  - id: reichbusters-reloaded-scientists
+    product_id: reichbusters-reloaded
+    quantity: 4
+    name: Scientifiques
+    kind: enemy
+    description: Blouses claires salies, gants et accessoires de laboratoire colorés.
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Inventaire des figurines · livret de règles
+        url: https://cdn.1j1ju.com/medias/67/7f/83-reichbusters-projekt-vril-rulebook.pdf
+  - id: reichbusters-reloaded-zombies
+    product_id: reichbusters-reloaded
+    quantity: 12
+    name: Zombies
+    kind: enemy
+    description: Peaux désaturées, uniformes sales et blessures rouges traitées rapidement en série.
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Inventaire des figurines · livret de règles
+        url: https://cdn.1j1ju.com/medias/67/7f/83-reichbusters-projekt-vril-rulebook.pdf
+  - id: reichbusters-reloaded-nazi-dogs
+    product_id: reichbusters-reloaded
+    quantity: 4
+    name: Chiens
+    kind: enemy
+    description: Pelages sombres lisibles par brossage, museaux et harnais bruns.
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Inventaire des figurines · livret de règles
+        url: https://cdn.1j1ju.com/medias/67/7f/83-reichbusters-projekt-vril-rulebook.pdf
+  - id: reichbusters-reloaded-tracking-bombers
+    product_id: reichbusters-reloaded
+    quantity: 4
+    name: Tracking Bombers
+    kind: enemy
+    description: "Unités explosives : métal, cuir, corps sombre et charge très visible en orange."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Inventaire des figurines · livret de règles
+        url: https://cdn.1j1ju.com/medias/67/7f/83-reichbusters-projekt-vril-rulebook.pdf
+  - id: reichbusters-reloaded-experiment-601
+    product_id: reichbusters-reloaded
+    quantity: 4
+    name: Experiment 601
+    kind: enemy
+    description: "Créatures de laboratoire : chair maladive, bleus spectraux et zones de mutation contrastées."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Inventaire des figurines · livret de règles
+        url: https://cdn.1j1ju.com/medias/67/7f/83-reichbusters-projekt-vril-rulebook.pdf
+  - id: reichbusters-reloaded-experiment-6xx
+    product_id: reichbusters-reloaded
+    quantity: 8
+    name: Experiment 6XX
+    kind: enemy
+    description: "Variantes mutantes : conserver une base commune et varier les zones Vril pour identifier les sculptures."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Inventaire des figurines · livret de règles
+        url: https://cdn.1j1ju.com/medias/67/7f/83-reichbusters-projekt-vril-rulebook.pdf
+  - id: reichbusters-reloaded-gisela-gruber
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Gisela Gruber
+    kind: enemy
+    description: "Personnage nommé : uniforme froid, peau claire et détails Vril soignés."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Galerie de références peintes · Paintedfigs
+        url: https://www.paintedfigs.com/blog/paintingpainting-mythic-games-reichbusters-miniature-painting-service
+  - id: reichbusters-reloaded-general-wolff
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: General Wolff
+    kind: enemy
+    description: "Boss humain : uniforme presque noir, insignes rouges et métal propre pour attirer le regard."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Galerie de références peintes · Paintedfigs
+        url: https://www.paintedfigs.com/blog/paintingpainting-mythic-games-reichbusters-miniature-painting-service
+  - id: reichbusters-reloaded-vrilpanzer
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Vrilpanzer
+    kind: enemy
+    description: "Pièce centrale mécanique : blindage sombre, métal usé et énergie Vril très lumineuse."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: painting_reference
+        label: Galerie de références peintes · Paintedfigs
+        url: https://www.paintedfigs.com/blog/paintingpainting-mythic-games-reichbusters-miniature-painting-service
+  - id: reichbusters-reloaded-bjorn
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Bjorn
+    kind: hero
+    description: "Combattant nordique : silhouette froide, cuir robuste et arme très contrastée."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - &a1
+        kind: inventory_reference
+        label: Cartes des héros du full set
+        url: https://forum.cwowd.com/t/reichbusters-par-monolith-livraison-en-avril-2026/57435?page=8
+  - id: reichbusters-reloaded-bochka
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Bochka
+    kind: hero
+    description: "Spécialiste soviétique : toile militaire, équipement lourd et visage chaud."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a1
+  - id: reichbusters-reloaded-brad
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Brad
+    kind: hero
+    description: "Héros de renfort : uniforme de campagne, cuirs bruns et métal usé."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a1
+  - id: reichbusters-reloaded-hans
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Hans
+    kind: hero
+    description: "Opérateur au profil sombre : bleus profonds, peau claire et arme argentée."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a1
+  - id: reichbusters-reloaded-irena
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Irena
+    kind: hero
+    description: "Éclaireuse : tons froids, équipement discret et visage lumineux."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a1
+  - id: reichbusters-reloaded-joe-le-flambeur
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Joe le Flambeur
+    kind: hero
+    description: "Spécialiste incendiaire : uniforme kaki, cuir marqué et arme chauffée."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a1
+  - id: reichbusters-reloaded-kulbir
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Kulbir
+    kind: hero
+    description: "Combattant d’assaut : toile chaude, cuirs profonds et métal fortement usé."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a1
+  - id: reichbusters-reloaded-prof
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Prof
+    kind: hero
+    description: "Scientifique de terrain : vêtements clairs, instruments froids et fioles bleues."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a1
+  - id: reichbusters-reloaded-remy
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Rémy
+    kind: hero
+    description: "Agent français : silhouette bleu sombre, peau chaude et détails métalliques."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a1
+  - id: reichbusters-reloaded-tane
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Tane
+    kind: hero
+    description: "Éclaireur du Pacifique : tons de toile naturels, peau chaude et équipement patiné."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a1
+  - id: reichbusters-reloaded-toubib
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Toubib
+    kind: hero
+    description: "Médecin de combat : protections claires, matériel médical et accents froids."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a1
+  - id: reichbusters-reloaded-oreilly
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: O’Reilly
+    kind: hero
+    description: "Démolisseur irlandais : kaki, cuir brun et points métalliques francs."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a1
+  - id: reichbusters-reloaded-sergeant-sally
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Sergent Sally
+    kind: hero
+    description: "Sergente de renfort : uniforme froid, cuir sombre et visage très lisible."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a1
+  - id: reichbusters-reloaded-nazi-soldiers-alt
+    product_id: reichbusters-reloaded
+    quantity: 8
+    name: Soldats · sculptures alternatives
+    kind: enemy
+    description: Renforts de la boîte rouge avec des poses alternatives aux soldats de base.
+    assembly_required: false
+    reference_images: []
+    sources:
+      - &a2
+        kind: inventory_reference
+        label: Boîte rouge et inventaire Cargo Hold
+        url: https://boardgamegeek.com/boardgame/288562/reichbusters-projekt-vril-cargo-hold
+  - id: reichbusters-reloaded-zombies-alt
+    product_id: reichbusters-reloaded
+    quantity: 6
+    name: Zombies · sculptures alternatives
+    kind: enemy
+    description: Cadavres réanimés aux poses alternatives, à varier par la peau et les blessures.
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a2
+  - id: reichbusters-reloaded-experiment-6xx-alt
+    product_id: reichbusters-reloaded
+    quantity: 4
+    name: Experiment 6XX · sculptures alternatives
+    kind: enemy
+    description: "Expériences massives alternatives : chair malade, os et lésions exposées."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a2
+  - id: reichbusters-reloaded-heinrich-gruber
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Heinrich Gruber
+    kind: enemy
+    description: Vrilmeister en tenue de laboratoire, point focal clair entouré de technologie froide.
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a2
+  - id: reichbusters-reloaded-nazi-engineers
+    product_id: reichbusters-reloaded
+    quantity: 4
+    name: Ingénieurs nazis
+    kind: enemy
+    description: "Équipe technique : blouses, outils, câbles et petits effets lumineux."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a2
+  - id: reichbusters-reloaded-ubersoldaten
+    product_id: reichbusters-reloaded
+    quantity: 2
+    name: Übersoldaten
+    kind: enemy
+    description: "Super-soldats blindés : acier sombre, usure argentée et énergie vril turquoise."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a2
+  - id: reichbusters-reloaded-sentry-flamers
+    product_id: reichbusters-reloaded
+    quantity: 2
+    name: Sentry Flamers
+    kind: enemy
+    description: "Tourelles lance-flammes : métal brûlé, arêtes usées et conduites énergétiques."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a2
+  - id: reichbusters-reloaded-sentry-guns
+    product_id: reichbusters-reloaded
+    quantity: 2
+    name: Sentry Guns
+    kind: enemy
+    description: "Tourelles automatiques : volumes sombres et optiques vril très lumineuses."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a2
+  - id: reichbusters-reloaded-general-von-eichenberg
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: General von Eichenberg
+    kind: enemy
+    description: "Officier supérieur : uniforme net, cuir profond et insignes contrastés."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a2
+  - id: reichbusters-reloaded-detectors
+    product_id: reichbusters-reloaded
+    quantity: 4
+    name: Detectors
+    kind: enemy
+    description: "Automates de détection : métal froid et capteurs bleus concentrés."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a2
+  - id: reichbusters-reloaded-experiment-1080-a
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Experiment 1080-A
+    kind: enemy
+    description: Créature expérimentale imposante, dominée par la chair verte et les plaies rouges.
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a2
+  - id: reichbusters-reloaded-experiment-1080-b
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Experiment 1080-B
+    kind: enemy
+    description: "Variante du 1080 : teintes maladives, griffes osseuses et volumes très marqués."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a2
+  - id: reichbusters-reloaded-doktor-kopff
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Doktor Kopff
+    kind: enemy
+    description: Scientifique renégat de Not of This Earth, en contraste avec les créatures violettes.
+    assembly_required: false
+    reference_images: []
+    sources:
+      - &a3
+        kind: official_rulebook
+        label: Not of This Earth · composants
+        url: https://ammd.ch/pdfregles/reichbustersprojektvrilnotofthisearth.pdf
+  - id: reichbusters-reloaded-alien-portal
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Portail extraterrestre
+    kind: scenery
+    description: Portail organo-mécanique servant de point lumineux central aux missions extraterrestres.
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a3
+  - id: reichbusters-reloaded-alien-handlers
+    product_id: reichbusters-reloaded
+    quantity: 4
+    name: Alien Handlers
+    kind: enemy
+    description: "Dresseurs hybrides : chair violette, plaques sombres et implants vril."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a3
+  - id: reichbusters-reloaded-elite-ubersoldaten
+    product_id: reichbusters-reloaded
+    quantity: 2
+    name: Elite Übersoldaten
+    kind: enemy
+    description: "Élite contaminée par le vril : armure métallique et lueurs froides intenses."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a3
+  - id: reichbusters-reloaded-vril-acolytes
+    product_id: reichbusters-reloaded
+    quantity: 4
+    name: Vril Acolytes
+    kind: enemy
+    description: "Acolytes extraterrestres : carapaces violettes, pointes osseuses et organes lumineux."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a3
+  - id: reichbusters-reloaded-die-ausgeburt
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Die Ausgeburt
+    kind: enemy
+    description: "Monstruosité psychique : grands volumes organiques et contraste violet–os."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a3
+  - id: reichbusters-reloaded-die-kleinen
+    product_id: reichbusters-reloaded
+    quantity: 8
+    name: Die Kleinen
+    kind: enemy
+    description: Petites créatures rapides à traiter en série avec des variations de carapace.
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a3
+  - id: reichbusters-reloaded-augen
+    product_id: reichbusters-reloaded
+    quantity: 8
+    name: Augen
+    kind: enemy
+    description: "Créatures oculaires : chair sombre, plaques osseuses et yeux glacés."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a3
+  - id: reichbusters-reloaded-augenmutter
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Augenmutter
+    kind: enemy
+    description: "Mère des Augen : pièce centrale violette avec lueurs vril et pointes ivoire."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a3
+  - id: reichbusters-reloaded-vril-cannon-teams
+    product_id: reichbusters-reloaded
+    quantity: 2
+    name: Vril Cannon Teams
+    kind: enemy
+    description: "Équipes de canon vril : affûts sombres, arêtes métalliques et source lumineuse bleue."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a3
+  - id: reichbusters-reloaded-hugo-hander
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Hugo Hander
+    kind: enemy
+    description: Vrilmeister et xénobiologiste, en blouse claire entourée d’équipement froid.
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a3
+  - id: reichbusters-reloaded-shrieker
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Shrieker
+    kind: enemy
+    description: "Créature massive et sonore : chair violette, gueule claire et organes luminescents."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a3
+  - id: reichbusters-reloaded-projekt-x
+    product_id: reichbusters-reloaded
+    quantity: 1
+    name: Projekt X · Uberkoloss-X
+    kind: enemy
+    description: Colosse de 137 mm mêlant blindage, chair expérimentale, os et blessures ouvertes.
+    assembly_required: false
+    reference_images: []
+    sources:
+      - kind: publisher_reference
+        label: Projekt X · figurine de 137 mm
+        url: https://icv2.com/articles/news/view/41914/mythic-faces-aliens-and-nazis-reichbusters
+  - id: reichbusters-reloaded-doors-3d
+    product_id: reichbusters-reloaded
+    quantity: 20
+    name: Portes 3D
+    kind: scenery
+    description: Portes fonctionnelles des intérieurs, à traiter en série avec métal, bois et usure.
+    assembly_required: false
+    reference_images: []
+    sources:
+      - &a4
+        kind: complete_pledge_inventory
+        label: Pledge Reloaded · 198 éléments
+        url: https://www.onlywargamesfans.com/2026/06/13/reviews-unboxing-reichbusters-reloaded/
+  - id: reichbusters-reloaded-tile-risers-train
+    product_id: reichbusters-reloaded
+    quantity: 20
+    name: Supports de tuiles et train
+    kind: scenery
+    description: Supports 3D créant les niveaux du train et les passerelles enneigées.
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a4
+  - id: reichbusters-reloaded-watchtowers
+    product_id: reichbusters-reloaded
+    quantity: 2
+    name: Miradors
+    kind: scenery
+    description: "Tours de guet extérieures : métal patiné, marches usées et accumulation de neige."
+    assembly_required: false
+    reference_images: []
+    sources:
+      - *a4

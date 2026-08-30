@@ -11,7 +11,8 @@ from typing import Any
 
 ID_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 PAINT_REQUIRED_FIELDS = ("id", "brand", "manufacturer", "range", "functional_type", "name")
-CHANGESET_KINDS = {"market_paints", "miniature_project"}
+CHANGESET_KINDS = {"market_paints", "market_product"}
+PAINTABLE_KINDS = {"hero", "enemy", "scenery", "vehicle", "creature", "accessory"}
 TECHNICAL_TYPES = {"technical_effect", "primer", "wash_shade", "ink", "auxiliary"}
 
 
@@ -203,35 +204,43 @@ def validate_changeset(changeset: Any, *, allow_empty: bool = False) -> list[str
             if identifier in seen:
                 errors.append(f"duplicate paint id: {identifier}")
             seen.add(identifier)
-    if kind == "miniature_project":
-        project = changeset.get("project")
-        if not isinstance(project, dict):
-            errors.append("project must be an object")
+    if kind == "market_product":
+        product = changeset.get("product")
+        if not isinstance(product, dict):
+            errors.append("product must be an object")
             return errors
-        for field in ("id", "name", "game", "scope", "catalog_items"):
-            if project.get(field) in (None, "", []):
-                errors.append(f"project.{field} is required")
-        identifier = _text(project.get("id"))
+        for field in ("id", "name", "line", "product_type", "scope", "catalog_items"):
+            if product.get(field) in (None, "", []):
+                errors.append(f"product.{field} is required")
+        identifier = _text(product.get("id"))
         if identifier and not ID_PATTERN.fullmatch(identifier):
-            errors.append("project.id must be lowercase kebab-case")
-        items = project.get("catalog_items", [])
+            errors.append("product.id must be lowercase kebab-case")
+        items = product.get("catalog_items", [])
         catalog_item_ids: set[str] = set()
+        total_quantity = 0
         if isinstance(items, list):
             seen_items: set[str] = set()
             for index, item in enumerate(items):
                 if not isinstance(item, dict):
-                    errors.append(f"project.catalog_items[{index}] must be an object")
+                    errors.append(f"product.catalog_items[{index}] must be an object")
                     continue
-                for field in ("id", "game_id", "name", "kind"):
+                for field in ("id", "product_id", "name", "kind", "quantity"):
                     if not _text(item.get(field)):
-                        errors.append(f"project.catalog_items[{index}].{field} is required")
+                        errors.append(f"product.catalog_items[{index}].{field} is required")
                 item_id = _text(item.get("id"))
                 if item_id in seen_items:
                     errors.append(f"duplicate catalog item id: {item_id}")
                 seen_items.add(item_id)
                 catalog_item_ids.add(item_id)
-                if _text(item.get("game_id")) != identifier:
-                    errors.append(f"project.catalog_items[{index}].game_id must reference {identifier}")
+                if _text(item.get("product_id")) != identifier:
+                    errors.append(f"product.catalog_items[{index}].product_id must reference {identifier}")
+                if _text(item.get("kind")) not in PAINTABLE_KINDS:
+                    errors.append(f"product.catalog_items[{index}].kind is invalid")
+                quantity = item.get("quantity")
+                if not isinstance(quantity, int) or quantity < 1:
+                    errors.append(f"product.catalog_items[{index}].quantity must be a positive integer")
+                else:
+                    total_quantity += quantity
         guides = changeset.get("painting_guides")
         if not isinstance(guides, list):
             errors.append("painting_guides must be a list")
@@ -262,27 +271,13 @@ def validate_changeset(changeset: Any, *, allow_empty: bool = False) -> list[str
                     errors.append(f"painting_guides[{index}].slots[{slot_index}].id is required")
                 if not _text(slot.get("market_paint_id")) and slot.get("pending_import") is not True:
                     errors.append(f"painting_guides[{index}].slots[{slot_index}] needs market_paint_id or pending_import")
-        workshop_items = changeset.get("workshop_items")
-        if not isinstance(workshop_items, list):
-            errors.append("workshop_items must be a list")
-            workshop_items = []
-        seen_workshop_items: set[str] = set()
-        for index, item in enumerate(workshop_items):
-            if not isinstance(item, dict):
-                errors.append(f"workshop_items[{index}] must be an object")
-                continue
-            for field in ("id", "catalog_item_id", "project_id", "display_name"):
-                if not _text(item.get(field)):
-                    errors.append(f"workshop_items[{index}].{field} is required")
-            item_id = _text(item.get("id"))
-            if item_id in seen_workshop_items:
-                errors.append(f"duplicate workshop item id: {item_id}")
-            seen_workshop_items.add(item_id)
-            if _text(item.get("project_id")) != identifier:
-                errors.append(f"workshop_items[{index}].project_id must reference {identifier}")
-            if _text(item.get("catalog_item_id")) not in catalog_item_ids:
-                errors.append(f"workshop_items[{index}].catalog_item_id references an unknown catalog item")
-        expected = project.get("expected_paintable_count")
-        if isinstance(expected, int) and expected > 0 and expected != len(workshop_items):
-            errors.append(f"workshop_items has {len(workshop_items)} entries but expected_paintable_count is {expected}")
+        expected = product.get("expected_paintable_count")
+        if not isinstance(expected, int) or expected < 1:
+            errors.append("product.expected_paintable_count must be a positive integer")
+        elif expected != total_quantity:
+            errors.append(
+                f"catalog item quantities total {total_quantity} but expected_paintable_count is {expected}"
+            )
+        if "workshop_items" in changeset:
+            errors.append("workshop_items do not belong to a market_product change set")
     return errors

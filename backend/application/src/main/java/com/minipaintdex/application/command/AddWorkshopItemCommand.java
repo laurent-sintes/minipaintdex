@@ -5,7 +5,7 @@ import java.time.Instant;
 public record AddWorkshopItemCommand(
         String itemId,
         String catalogItemId,
-        String projectId,
+        String workshopProductId,
         String displayName,
         String actorId,
         Instant occurredAt,

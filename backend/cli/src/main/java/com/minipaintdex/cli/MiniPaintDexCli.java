@@ -1,16 +1,21 @@
 package com.minipaintdex.cli;
 
-import com.minipaintdex.adapter.file.FileMiniPaintDexRepository;
 import com.minipaintdex.application.MiniPaintDexService;
 import com.minipaintdex.application.command.AddWorkshopItemCommand;
 import com.minipaintdex.application.command.ApplyMarketPaintChangeSetCommand;
-import com.minipaintdex.application.command.ApplyMiniatureProjectChangeSetCommand;
+import com.minipaintdex.application.command.ApplyMarketPaintableProductChangeSetCommand;
 import com.minipaintdex.application.command.AssignWorkshopRecipeCommand;
 import com.minipaintdex.application.command.CreateWorkshopRecipeCommand;
+import com.minipaintdex.application.command.ImportPaintableProductToWorkshopCommand;
 import com.minipaintdex.application.command.TransitionStageCommand;
 import com.minipaintdex.application.command.TransitionWorkshopRecipeCommand;
 import com.minipaintdex.application.query.SearchMarketPaintsQuery;
+import com.minipaintdex.bootstrap.MiniPaintDexSpringConfiguration;
 import com.minipaintdex.domain.workflow.DomainException;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -24,8 +29,12 @@ import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.concurrent.Callable;
 
+@SpringBootApplication(proxyBeanMethods = false, scanBasePackages = "com.minipaintdex.cli")
+@Import(MiniPaintDexSpringConfiguration.class)
 @Command(
         name = "minipaintdex",
         mixinStandardHelpOptions = true,
@@ -48,24 +57,35 @@ public final class MiniPaintDexCli implements Runnable {
     String format;
 
     private final JsonMapper json = JsonMapper.builder().build();
-    private MiniPaintDexService service;
+    private final MiniPaintDexService service;
+
+    MiniPaintDexCli(MiniPaintDexService service) {
+        this.service = Objects.requireNonNull(service);
+    }
 
     public static void main(String[] args) {
-        var root = new MiniPaintDexCli();
-        var commandLine = new CommandLine(root);
-        commandLine.setExecutionExceptionHandler((exception, command, parseResult) -> {
-            if (exception instanceof DomainException domain) {
-                root.error(domain.code(), domain.getMessage());
-                return switch (domain.code()) {
-                    case "not_found" -> 4;
-                    case "conflict", "invalid_transition" -> 5;
-                    default -> 2;
-                };
-            }
-            exception.printStackTrace(command.getErr());
-            return 1;
-        });
-        System.exit(commandLine.execute(args));
+        var application = new SpringApplication(MiniPaintDexCli.class);
+        application.setWebApplicationType(WebApplicationType.NONE);
+        application.setDefaultProperties(defaultProperties(args));
+        int exitCode;
+        try (var context = application.run(args)) {
+            var root = context.getBean(MiniPaintDexCli.class);
+            var commandLine = new CommandLine(root);
+            commandLine.setExecutionExceptionHandler((exception, command, parseResult) -> {
+                if (exception instanceof DomainException domain) {
+                    root.error(domain.code(), domain.getMessage());
+                    return switch (domain.code()) {
+                        case "not_found" -> 4;
+                        case "conflict", "invalid_transition" -> 5;
+                        default -> 2;
+                    };
+                }
+                exception.printStackTrace(command.getErr());
+                return 1;
+            });
+            exitCode = commandLine.execute(cliArguments(args));
+        }
+        System.exit(exitCode);
     }
 
     @Override
@@ -74,11 +94,27 @@ public final class MiniPaintDexCli implements Runnable {
     }
 
     MiniPaintDexService service() {
-        if (service == null) {
-            var repository = new FileMiniPaintDexRepository(root);
-            service = new MiniPaintDexService(repository, repository, repository, repository, repository);
-        }
         return service;
+    }
+
+    private static Map<String, Object> defaultProperties(String[] args) {
+        var properties = new LinkedHashMap<String, Object>();
+        properties.put("spring.main.banner-mode", "off");
+        properties.put("logging.level.root", "OFF");
+        for (var index = 0; index < args.length; index++) {
+            if (args[index].startsWith("--root=")) {
+                properties.put("minipaintdex.root", args[index].substring("--root=".length()));
+            } else if (args[index].equals("--root") && index + 1 < args.length) {
+                properties.put("minipaintdex.root", args[index + 1]);
+            }
+        }
+        return Map.copyOf(properties);
+    }
+
+    static String[] cliArguments(String[] args) {
+        return Arrays.stream(args)
+                .filter(argument -> !argument.startsWith("--minipaintdex."))
+                .toArray(String[]::new);
     }
 
     void output(Object value) {
@@ -104,16 +140,11 @@ public final class MiniPaintDexCli implements Runnable {
                 number(payload.get("schema_version")), String.valueOf(payload.get("kind")), operations, dryRun);
     }
 
-    ApplyMiniatureProjectChangeSetCommand readProjectChangeSet(Path path, boolean dryRun) throws Exception {
+    ApplyMarketPaintableProductChangeSetCommand readPaintableProductChangeSet(Path path, boolean dryRun) throws Exception {
         var payload = json.readValue(Files.readString(path), MAP_TYPE);
-        var items = mapList(payload.get("workshop_items")).stream()
-                .map(item -> new ApplyMiniatureProjectChangeSetCommand.WorkshopItem(
-                        String.valueOf(item.get("id")), String.valueOf(item.get("catalog_item_id")),
-                        String.valueOf(item.get("project_id")), String.valueOf(item.get("display_name"))))
-                .toList();
-        return new ApplyMiniatureProjectChangeSetCommand(
+        return new ApplyMarketPaintableProductChangeSetCommand(
                 number(payload.get("schema_version")), String.valueOf(payload.get("kind")),
-                stringMap(payload.get("project")), mapList(payload.get("painting_guides")), items, dryRun,
+                stringMap(payload.get("product")), mapList(payload.get("painting_guides")), dryRun,
                 nullable(payload.get("actor_id")), nullable(payload.get("correlation_id")));
     }
 
@@ -158,7 +189,7 @@ public final class MiniPaintDexCli implements Runnable {
         public Integer call() { root.output(root.service().bootstrap()); return 0; }
     }
 
-    @Command(name = "market", subcommands = {Market.Paints.class, Market.Games.class, Market.Guides.class})
+    @Command(name = "market", subcommands = {Market.Paints.class, Market.PaintableProducts.class, Market.Guides.class})
     static final class Market implements Runnable {
         @ParentCommand MiniPaintDexCli root;
         public void run() { CommandLine.usage(this, System.out); }
@@ -206,23 +237,37 @@ public final class MiniPaintDexCli implements Runnable {
             }
         }
 
-        @Command(name = "games", subcommands = {Games.ListGames.class, Games.Apply.class})
-        static final class Games implements Runnable {
+        @Command(name = "paintable-products", subcommands = {
+                PaintableProducts.ListProducts.class, PaintableProducts.Show.class,
+                PaintableProducts.PreviewImport.class, PaintableProducts.Apply.class})
+        static final class PaintableProducts implements Runnable {
             @ParentCommand Market parent;
             public void run() { CommandLine.usage(this, System.out); }
             @Command(name = "list")
-            static final class ListGames implements Callable<Integer> {
-                @ParentCommand Games parent;
-                public Integer call() { var root = parent.parent.root; root.output(Map.of("games", root.service().listProjects())); return 0; }
+            static final class ListProducts implements Callable<Integer> {
+                @ParentCommand PaintableProducts parent;
+                public Integer call() { var root = parent.parent.root; root.output(Map.of("paintableProducts", root.service().listMarketPaintableProducts())); return 0; }
             }
-            @Command(name = "apply", description = "Validate and apply a miniature-project change set")
+            @Command(name = "show")
+            static final class Show implements Callable<Integer> {
+                @ParentCommand PaintableProducts parent;
+                @Option(names = "--product", required = true) String product;
+                public Integer call() { var root = parent.parent.root; root.output(Map.of("paintableProduct", root.service().getMarketPaintableProduct(product))); return 0; }
+            }
+            @Command(name = "preview-import")
+            static final class PreviewImport implements Callable<Integer> {
+                @ParentCommand PaintableProducts parent;
+                @Option(names = "--product", required = true) String product;
+                public Integer call() { var root = parent.parent.root; root.output(Map.of("preview", root.service().previewProductImport(product))); return 0; }
+            }
+            @Command(name = "apply", description = "Validate and apply a paintable-product change set")
             static final class Apply implements Callable<Integer> {
-                @ParentCommand Games parent;
+                @ParentCommand PaintableProducts parent;
                 @Option(names = "--input", required = true) Path input;
                 @Option(names = "--dry-run") boolean dryRun;
                 public Integer call() throws Exception {
                     var root = parent.parent.root;
-                    root.output(Map.of("result", root.service().applyMiniatureProjectChangeSet(root.readProjectChangeSet(input, dryRun))));
+                    root.output(Map.of("result", root.service().applyMarketPaintableProductChangeSet(root.readPaintableProductChangeSet(input, dryRun))));
                     return 0;
                 }
             }
@@ -255,19 +300,40 @@ public final class MiniPaintDexCli implements Runnable {
         }
     }
 
-    @Command(name = "workshop", subcommands = {Workshop.Projects.class, Workshop.Items.class, Workshop.Stage.class, Workshop.Recipes.class})
+    @Command(name = "workshop", subcommands = {Workshop.Overview.class, Workshop.PaintableProducts.class, Workshop.Items.class, Workshop.Stage.class, Workshop.Recipes.class})
     static final class Workshop implements Runnable {
         @ParentCommand MiniPaintDexCli root;
         public void run() { CommandLine.usage(this, System.out); }
 
-        @Command(name = "projects", subcommands = Projects.ListProjects.class)
-        static final class Projects implements Runnable {
+        @Command(name = "overview")
+        static final class Overview implements Callable<Integer> {
+            @ParentCommand Workshop parent;
+            public Integer call() { parent.root.output(Map.of("workshop", parent.root.service().workshopOverview())); return 0; }
+        }
+
+        @Command(name = "paintable-products", subcommands = {PaintableProducts.ListProducts.class, PaintableProducts.Import.class})
+        static final class PaintableProducts implements Runnable {
             @ParentCommand Workshop parent;
             public void run() { CommandLine.usage(this, System.out); }
             @Command(name = "list")
-            static final class ListProjects implements Callable<Integer> {
-                @ParentCommand Projects parent;
-                public Integer call() { var root = parent.parent.root; root.output(Map.of("projects", root.service().listProjects())); return 0; }
+            static final class ListProducts implements Callable<Integer> {
+                @ParentCommand PaintableProducts parent;
+                public Integer call() { var root = parent.parent.root; root.output(Map.of("paintableProducts", root.service().listWorkshopProducts())); return 0; }
+            }
+            @Command(name = "import")
+            static final class Import implements Callable<Integer> {
+                @ParentCommand PaintableProducts parent;
+                @Option(names = "--product", required = true) String product;
+                @Option(names = "--actor") String actor;
+                @Option(names = "--occurred-at") Instant occurredAt;
+                @Option(names = "--correlation-id") String correlationId;
+                @Option(names = "--idempotency-key") String idempotencyKey;
+                public Integer call() {
+                    var root = parent.parent.root;
+                    root.output(Map.of("result", root.service().importPaintableProductToWorkshop(
+                            new ImportPaintableProductToWorkshopCommand(product, actor, occurredAt, correlationId, idempotencyKey))));
+                    return 0;
+                }
             }
         }
 
@@ -278,15 +344,15 @@ public final class MiniPaintDexCli implements Runnable {
             @Command(name = "list")
             static final class ListItems implements Callable<Integer> {
                 @ParentCommand Items parent;
-                @Option(names = "--project") String project;
-                public Integer call() { var root = parent.parent.root; root.output(Map.of("items", root.service().listWorkshopItems(project))); return 0; }
+                @Option(names = "--product") String product;
+                public Integer call() { var root = parent.parent.root; root.output(Map.of("items", root.service().listWorkshopItems(product))); return 0; }
             }
             @Command(name = "add")
             static final class AddItem implements Callable<Integer> {
                 @ParentCommand Items parent;
                 @Option(names = "--item-id") String itemId;
                 @Option(names = "--catalog-item", required = true) String catalogItem;
-                @Option(names = "--project", required = true) String project;
+                @Option(names = "--product", required = true) String product;
                 @Option(names = "--name", required = true) String name;
                 @Option(names = "--actor") String actor;
                 @Option(names = "--occurred-at") Instant occurredAt;
@@ -294,7 +360,7 @@ public final class MiniPaintDexCli implements Runnable {
                 @Option(names = "--idempotency-key") String idempotencyKey;
                 public Integer call() {
                     var root = parent.parent.root;
-                    root.output(Map.of("event", root.service().addWorkshopItem(new AddWorkshopItemCommand(itemId, catalogItem, project, name, actor, occurredAt, correlationId, idempotencyKey))));
+                    root.output(Map.of("event", root.service().addWorkshopItem(new AddWorkshopItemCommand(itemId, catalogItem, product, name, actor, occurredAt, correlationId, idempotencyKey))));
                     return 0;
                 }
             }
@@ -393,8 +459,8 @@ public final class MiniPaintDexCli implements Runnable {
         @Command(name = "list")
         static final class ListActivity implements Callable<Integer> {
             @ParentCommand Activity parent;
-            @Option(names = "--project") String project;
-            public Integer call() { parent.root.output(Map.of("events", parent.root.service().listActivity(project))); return 0; }
+            @Option(names = "--product") String product;
+            public Integer call() { parent.root.output(Map.of("events", parent.root.service().listActivity(product))); return 0; }
         }
     }
 

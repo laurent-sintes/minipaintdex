@@ -35,6 +35,7 @@ public record DomainEvent(
         require(correlationId, "correlation_id");
         payload = payload == null ? Map.of() : Map.copyOf(payload);
         if ("workshop_item.added".equals(eventType)) require(payload.get("catalog_item_id"), "payload.catalog_item_id");
+        if ("workshop.product_imported".equals(eventType)) require(payload.get("product_id"), "payload.product_id");
         if (eventType.startsWith("workflow.stage.")) require(payload.get("stage"), "payload.stage");
         if ("workflow.stage.skipped".equals(eventType)) require(payload.get("reason"), "payload.reason");
         if ("workshop_recipe.created".equals(eventType)) {

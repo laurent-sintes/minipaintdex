@@ -3,8 +3,10 @@ package com.minipaintdex.server.api;
 import com.minipaintdex.application.MiniPaintDexService;
 import com.minipaintdex.application.command.ApplyMarketPaintChangeSetCommand;
 import com.minipaintdex.application.command.CreateWorkshopRecipeCommand;
+import com.minipaintdex.application.command.ImportPaintableProductToWorkshopCommand;
 import com.minipaintdex.application.query.SearchMarketPaintsQuery;
 import com.minipaintdex.application.result.ApplyMarketPaintChangeSetResult;
+import com.minipaintdex.application.result.ImportPaintableProductToWorkshopResult;
 import com.minipaintdex.domain.event.DomainEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -93,6 +95,40 @@ class MiniPaintDexControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.guide.id").value("guide-1"))
                 .andExpect(jsonPath("$.ownedPaintCount").value(47));
+    }
+
+    @Test
+    void exposesMarketPaintableProductsSeparatelyFromTheWorkshop() throws Exception {
+        when(service.listMarketPaintableProducts()).thenReturn(List.of(Map.of("id", "reichbusters-reloaded")));
+        when(service.workshopOverview()).thenReturn(Map.of("id", "my-workshop", "productCount", 1));
+
+        mvc.perform(get("/api/v1/market/paintable-products"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.paintableProducts[0].id").value("reichbusters-reloaded"));
+        mvc.perform(get("/api/v1/workshop"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.workshop.id").value("my-workshop"));
+    }
+
+    @Test
+    void importsAPaintableProductThroughTheWorkshopAggregate() throws Exception {
+        when(service.importPaintableProductToWorkshop(any())).thenReturn(
+                new ImportPaintableProductToWorkshopResult(
+                        "my-workshop", "reichbusters-reloaded", 198, 0, false, true));
+
+        mvc.perform(post("/api/v1/workshop/paintable-products")
+                        .header("Idempotency-Key", "import-reichbusters")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"productId":"reichbusters-reloaded"}
+                                """))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.result.workshopItemsAdded").value(198));
+
+        var command = ArgumentCaptor.forClass(ImportPaintableProductToWorkshopCommand.class);
+        verify(service).importPaintableProductToWorkshop(command.capture());
+        assertEquals("reichbusters-reloaded", command.getValue().productId());
+        assertEquals("import-reichbusters", command.getValue().idempotencyKey());
     }
 
     @Test

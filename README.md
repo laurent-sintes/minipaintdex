@@ -40,7 +40,7 @@ Les tests backend seuls se lancent avec :
 .\scripts\minipaintdex.ps1 test
 ```
 
-Le build complet exécute également les tests Vitest du SPA et les validations des référentiels. Les outils de données Python ont leur propre suite :
+Le build complet exécute également les tests du frontend et les validations des référentiels. Les outils de données Python ont leur propre suite :
 
 ```powershell
 .\scripts\test-data-tools.ps1
@@ -54,9 +54,11 @@ La CLI réutilise exactement les mêmes services applicatifs que l’API REST.
 .\scripts\minipaintdex.ps1 cli --root . --format json health
 .\scripts\minipaintdex.ps1 cli --root . --format json market paints search --brand "Warhammer Colour"
 .\scripts\minipaintdex.ps1 cli --root . --format json market paints apply --input imports/runs/paint-refresh/changeset.json --dry-run
-.\scripts\minipaintdex.ps1 cli --root . --format json market games apply --input imports/runs/game-import/changeset.json --dry-run
+.\scripts\minipaintdex.ps1 cli --root . --format json market paintable-products apply --input imports/runs/product-import/changeset.json --dry-run
+.\scripts\minipaintdex.ps1 cli --root . --format json market paintable-products preview-import --product reichbusters-reloaded
+.\scripts\minipaintdex.ps1 cli --root . --format json workshop paintable-products import --product reichbusters-reloaded
 .\scripts\minipaintdex.ps1 cli --root . --format json market guides reconcile --guide reichbusters-reloaded-red-hawk-guide
-.\scripts\minipaintdex.ps1 cli --root . --format json workshop items list --project reichbusters-reloaded
+.\scripts\minipaintdex.ps1 cli --root . --format json workshop items list --product reichbusters-reloaded
 .\scripts\minipaintdex.ps1 cli --root . --format json workshop recipes list --catalog-item reichbusters-reloaded-red-hawk
 .\scripts\minipaintdex.ps1 cli --root . --format json activity list
 ```
@@ -74,7 +76,8 @@ Le développement conserve deux processus pour bénéficier du rechargement Vite
 Puis, dans un second terminal après un premier build :
 
 ```powershell
-.\target\frontend\node\pnpm.cmd dev
+Push-Location .\frontend
+..\target\toolchain\node\pnpm.cmd dev
 ```
 
 Vite sert alors le SPA sur `http://127.0.0.1:5173` et transmet `/api` et `/media` à Spring Boot sur le port `8080`.
@@ -83,17 +86,36 @@ Vite sert alors le SPA sur `http://127.0.0.1:5173` et transmet `/api` et `/media
 
 Le backend est un monolithe modulaire Maven :
 
-- `backend/domain` : modèle d’événements, workflow et projection des objets physiques ;
+- `backend/domain` : agrégats `PaintableProduct`, `Workshop`, objets physiques, recettes, workflow et événements ;
 - `backend/application` : cas d’usage indépendants des transports et du stockage ;
 - `backend/adapter-file` : lecture YAML et journal JSONL append-only ;
+- `backend/bootstrap` : configuration Spring typée et assemblage commun des dépendances ;
 - `backend/server` : adaptateur REST Spring MVC et hébergement du SPA ;
 - `backend/cli` : adaptateur Picocli des mêmes cas d’usage ;
-- `spa/src` : interface React/Vite consommant uniquement l’API REST ;
+- `frontend` : package React/Vite autonome, avec ses sources, ses assets et sa configuration ;
 - `tools/minipaintdex-data` : traitements déterministes partagés par les skills d’import et de rafraîchissement.
 
 Le navigateur n’écrit jamais dans `data`. Toute mutation passe par un service applicatif, exposé en REST et en CLI, puis produit un événement dans le ledger global.
 
-Les décisions détaillées et règles destinées aux agents sont consignées dans `AGENTS.md`.
+Le modèle DDD canonique, ses invariants, les décisions détaillées et les règles destinées aux agents sont consignés dans `AGENTS.md`.
+
+## Configuration Spring Boot
+
+Les valeurs techniques par défaut sont centralisées dans `config/application.yaml`. Spring Boot charge ce fichier dans le serveur REST comme dans la CLI, puis applique ses mécanismes standards de surcharge : fichier externe, variable d’environnement, propriété système ou argument de ligne de commande.
+
+La configuration typée `minipaintdex` couvre notamment :
+
+- la racine du dépôt et chaque emplacement du stockage fichier ;
+- le répertoire des médias et les origines autorisées en développement ;
+- les types comportementaux, limites, scores, seuils et poids du moteur de rapprochement.
+
+Les propriétés sont validées au démarrage. Chaque jeu de poids du matcher doit être positif ou nul et totaliser exactement `1.0`. Par exemple, une surcharge locale peut être passée sans modifier le code :
+
+```powershell
+.\scripts\minipaintdex.ps1 server --minipaintdex.paint-matching.candidate-limit=8
+```
+
+Spring résout ces valeurs et construit des objets Java typés. Le domaine et les services applicatifs restent indépendants de Spring ; l’adaptateur fichier ne contient plus de chemins relatifs codés en dur.
 
 ## Référentiels
 
@@ -104,7 +126,7 @@ data/
   site/                  libellés et configuration de présentation
   market/
     paints/              catalogue des peintures du marché
-    games/               jeux et éléments de catalogue
+    paintable-products/  boîtes, gammes et éléments de catalogue à peindre
     painting-guides/     guides publics sourcés et versionnés
   workshop/
     paints.yaml          identifiants et quantités possédés
@@ -112,9 +134,9 @@ data/
   ledger/events/         journal métier global JSONL append-only
 ```
 
-Un guide de peinture du marché contient la palette et la méthode publiées ou inférées à partir d’une référence traçable. Une recette d’atelier est un autre agrégat : elle versionne les substitutions, mélanges, couches et techniques réellement choisies par le propriétaire, puis peut être affectée à un objet physique précis. Son cycle `draft → validated → active → superseded/archived` est conservé dans le ledger.
+Un `PaintableProduct` est l’agrégat du marché pour une boîte, une extension ou une gamme contenant des éléments à peindre. Ses quantités décrivent le contenu théorique. `Workshop` est un agrégat distinct : son import référence le produit puis crée un `WorkshopItem` par exemplaire physique. Un guide de peinture du marché contient la palette et la méthode publiées ou inférées à partir d’une référence traçable. Une recette d’atelier est un autre agrégat : elle versionne les substitutions, mélanges, couches et techniques réellement choisies par le propriétaire, puis peut être affectée à un objet physique précis. Son cycle `draft → validated → active → superseded/archived` est conservé dans le ledger.
 
-Le rapprochement d’un guide avec l’atelier ne compare que les peintures possédées. Les peintures opaques sont classées principalement par distance CIEDE2000. Les gammes comportementales (Contrast, Speedpaint, lavis, encres et effets techniques) combinent type et profil d’application et exigent toujours une validation manuelle.
+Le rapprochement d’un guide avec l’atelier ne compare que les peintures possédées. Les peintures opaques sont classées principalement par distance CIEDE2000. Les gammes comportementales (Contrast, Speedpaint, lavis, encres et effets techniques) combinent type et profil d’application et exigent toujours une validation manuelle. Tous les paramètres de classement sont injectés depuis la configuration Spring Boot.
 
 L’import actuel contient 47 peintures possédées, 59 types d’éléments Reichbusters Reloaded et 198 objets physiques suivis individuellement. Le workflow d’un objet couvre `preparation`, `priming`, `pre_highlight`, `painting`, `finishing` et `basing`.
 
@@ -127,9 +149,10 @@ La base de l’API est `/api/v1`. Les principaux services couvrent :
 - santé et bootstrap du SPA ;
 - recherche du marché par texte, type, couleur, marque, gamme, fini, volume et tags ;
 - recherche complémentaire par fabricant, médium, opacité, cycle de vie et référence ;
-- simulation et application de change sets de peintures et de projets ;
+- simulation et application de change sets de peintures et de produits à peindre ;
+- consultation d’un `PaintableProduct`, prévisualisation de ses peintures manquantes et import idempotent dans `Workshop` ;
 - consultation des guides de peinture du marché et rapprochement avec le stock possédé ;
-- consultation des jeux, projets et objets physiques ;
+- administration de l’atelier, progression des produits possédés et consultation des objets physiques ;
 - création, transition et consultation des recettes d’atelier, puis affectation à un objet physique ;
 - ajout d’un objet et transitions du workflow ;
 - lecture du ledger et reconstruction des projections ;
@@ -149,8 +172,9 @@ Le rafraîchissement accepte une marque canonique ou `all`. Dans ce dernier cas,
 Les skills dans `.agents/skills` automatisent les opérations persistantes :
 
 - `import-miniature-paints` identifie et fusionne les pots photographiés ;
-- `import-miniature-project` importe un jeu et ses références traçables ;
+- `import-paintable-product` importe une boîte, une extension ou une gamme et ses références traçables, puis la rattache séparément à l’atelier si demandé ;
 - `refresh-paint-brands` rafraîchit une marque ou toutes les marques connues, avec comparaison complète et simulation ;
+- `run-local-server` construit, démarre et vérifie l’application locale self-contained ;
 - `commit` crée un commit Git atomique ;
 - `push` vérifie et pousse la branche courante.
 

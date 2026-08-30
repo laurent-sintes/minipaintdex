@@ -7,10 +7,11 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PaintMatchEngineTest {
-    private final PaintMatchEngine engine = new PaintMatchEngine();
+    private final PaintMatchEngine engine = new PaintMatchEngine(policy());
 
     @Test
     void ranksStandardPaintsPrimarilyByCiede2000ColorDistance() {
@@ -18,7 +19,7 @@ class PaintMatchEngineTest {
         var close = paint("close", "#A62B2B", "opaque_standard", Set.of());
         var distant = paint("distant", "#1C4DA1", "opaque_standard", Set.of());
 
-        var result = engine.rank(source, List.of(distant, close), 5);
+        var result = engine.rank(source, List.of(distant, close));
 
         assertEquals("close", result.getFirst().candidatePaintId());
         assertTrue(result.getFirst().deltaE2000() < result.getLast().deltaE2000());
@@ -37,7 +38,28 @@ class PaintMatchEngineTest {
         assertTrue(match.reasons().contains("similar_application_behavior"));
     }
 
+    @Test
+    void rejectsWeightSetsThatAreNotNormalized() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new PaintMatchingPolicy.Weights(.60, .20, 0, .10, .05, .01));
+    }
+
     private static PaintMatchEngine.Paint paint(String id, String hex, String type, Set<String> behavior) {
         return new PaintMatchEngine.Paint(id, hex, type, "matt", "opaque", "water acrylic", behavior);
+    }
+
+    private static PaintMatchingPolicy policy() {
+        return new PaintMatchingPolicy(
+                5,
+                Set.of("one_coat_contrast", "technical_effect", "primer", "wash_shade", "ink", "auxiliary"),
+                2.5,
+                20,
+                25,
+                50,
+                50,
+                80,
+                75,
+                new PaintMatchingPolicy.Weights(.65, .15, 0, .08, .07, .05),
+                new PaintMatchingPolicy.Weights(.15, .35, .30, .10, .10, 0));
     }
 }

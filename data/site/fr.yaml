@@ -1,7 +1,7 @@
 metadata:
   title: Mini Paint Dex — Atelier de peinture de figurines
   short_title: Mini Paint Dex
-  description: Référentiel local de peintures et projets de figurines, avec guides par modèle.
+  description: Référentiel local de peintures et produits à peindre, avec suivi d’atelier.
 brand:
   name: Mini Paint Dex
   subtitle: Atelier de peinture
@@ -16,18 +16,15 @@ navigation:
   home: Accueil
   market_section: Marché
   market_paints: Peintures
-  market_games: Jeux
+  market_paintable_products: Produits à peindre
   workshop_section: Mon atelier
   workshop_paints: Mes peintures
-  workshop_projects: Mes projets
+  workshop_admin: Administration
   shopping: Achats
-  imports: Imports
 header:
   search_placeholder: Rechercher une teinte, une marque, un usage…
   search_short_placeholder: Rechercher…
   search_aria_label: Rechercher dans les peintures
-  add_by_photo: Ajouter par photo
-  add: Ajouter
   workshop_prefix: Mon atelier
 home:
   eyebrow: Votre atelier de peinture, au même endroit
@@ -39,26 +36,22 @@ home:
     title: Explorer les peintures
     description: Rechercher une teinte par marque, gamme, type, couleur ou propriétés techniques.
     action: Ouvrir le marché des peintures
-  market_games:
-    title: Consulter les jeux
-    description: Parcourir les jeux, figurines, décors et guides de peinture sourcés.
-    action: Ouvrir les jeux du marché
+  market_paintable_products:
+    title: Consulter les produits à peindre
+    description: Parcourir les boîtes, gammes, figurines, décors et guides de peinture sourcés.
+    action: Ouvrir le référentiel
   workshop_paints:
     title: Gérer mes peintures
     description: Retrouver les références que vous possédez et préparer vos substitutions.
     action: Voir mes peintures
-  workshop_projects:
-    title: Suivre mes projets
-    description: Visualiser l’avancement de chaque élément physique et son plan de peinture.
-    action: Ouvrir mes projets
+  workshop_admin:
+    title: Administrer mon atelier
+    description: Visualiser les produits possédés, les éléments physiques, leur avancement et les peintures manquantes.
+    action: Ouvrir l’administration
   shopping:
     title: Préparer mes achats
     description: Regrouper les peintures manquantes identifiées pour vos prochains projets.
     action: Voir les achats
-  imports:
-    title: Importer des références
-    description: Préparer l’identification de vos pots et enrichir les référentiels de façon traçable.
-    action: Commencer un import
 workflow:
   preparation: Préparation
   priming: Sous-couche
@@ -71,12 +64,72 @@ market:
   paints_description: Explorez le référentiel global des marques et des gammes, indépendamment de votre stock.
   paints_metric: peintures au catalogue
   brands_metric: marques référencées
-  games_title: Jeux du marché
-  games_description: Consultez les jeux et leurs inventaires de figurines avant de les ajouter à votre atelier.
+  paintable_products_title: Produits à peindre du marché
+  paintable_products_description: Consultez les boîtes et gammes indépendamment de ce que vous possédez.
   catalog_items: références de figurines et décors
-  physical_items: éléments physiques
-  open_workshop: Ouvrir dans mon atelier
+  paintable_items: éléments à peindre
+  view_product: Voir le produit
+  in_workshop: Dans mon atelier
   source: Source du référentiel
+  kind_labels:
+    hero: Héros
+    enemy: Ennemi
+    scenery: Décor
+    Héros: Héros
+    Ennemis: Ennemi
+    Décor: Décor
+workshop:
+  title: Administration de mon atelier
+  description: Pilotez les produits que vous possédez et l’avancement de chaque élément physique.
+  products: produits possédés
+  items: éléments physiques
+  completed: terminés
+  in_progress: en cours
+  pending: à démarrer
+  progress: Avancement
+  missing_paints: Peintures manquantes
+  no_missing_paints: Toutes les peintures référencées sont dans votre atelier.
+  pending_paint_slots: références de peinture encore à qualifier
+  recent_activity: Activité récente
+  manage_product: Voir le suivi
+  empty_title: Votre atelier ne contient encore aucun produit
+  empty_description: Ouvrez un produit du marché pour prévisualiser puis confirmer son import.
+  event_labels:
+    project.created: Produit historique ajouté
+    workshop.created: Atelier créé
+    workshop.product_imported: Produit importé
+    workshop_item.added: Élément physique ajouté
+    workflow.stage.started: Étape démarrée
+    workflow.stage.completed: Étape terminée
+    workflow.stage.skipped: Étape ignorée
+    workflow.stage.reopened: Étape rouverte
+    workshop_recipe.created: Plan de peinture créé
+    recipe.assigned: Plan de peinture affecté
+product_detail:
+  back: Retour aux produits
+  reference: Référentiel du marché
+  contents: Contenu du produit
+  painting_sheets: fiches de peinture
+  sources: Sources
+  assembly_required: Assemblage requis
+  paint_guide: Guide de peinture du marché
+  preparation: Préparation du support
+  painting: Mise en peinture
+  import_preview: Ajouter à mon atelier
+  import_description: Vérifiez le volume à suivre et les peintures manquantes avant de créer les éléments physiques.
+  required_paints: peintures référencées
+  missing_paints: peintures manquantes
+  pending_slots: références encore à qualifier
+  import_action: Importer dans mon atelier
+  importing: Import en cours…
+  already_imported: Ce produit est déjà présent dans votre atelier.
+  import_success: Le produit a été importé dans votre atelier.
+  open_workshop: Ouvrir son suivi
+  no_licensed_image: Aucune photo réutilisable n’est encore enregistrée pour cette référence.
+  external_references: Voir les références externes
+  paint_available: Disponible
+  paint_missing: Manquante
+  paint_pending: À qualifier
 collection:
   title: Ma collection
   description: Retrouvez vos teintes, combinez les filtres et exportez le référentiel.
@@ -121,36 +174,6 @@ collection:
   active_filters: Filtres actifs
   remove_filter: Retirer le filtre
   no_active_filter: Aucun filtre actif
-projects:
-  title_fallback: Projets de peinture
-  description: Peintures et mode opératoire, figurine par figurine.
-  active_project: Projet actif
-  current_project: Projet en cours
-  edition_source: Consulter la source d’édition
-  all_sheets: Voir toutes les fiches
-  paints_to_use: Peintures à utiliser
-  market_guide: Référence du marché
-  market_guide_help: Guide public sourcé ou inféré. Il constitue une base de connaissance, pas votre choix d’atelier.
-  market_guide_statuses:
-    documented: Documenté
-    observed: Observé
-    inferred: Inféré — à vérifier
-  workshop_recipe: Mon plan d’atelier
-  workshop_recipe_help: Vos substitutions, mélanges, couches et techniques ont leur propre version et cycle de vie.
-  no_workshop_recipe: Aucun plan personnel n’est encore défini pour cette référence.
-  reconciliation_help: Les rapprochements de peintures spéciales demandent toujours une validation manuelle.
-  support_preparation: Préparation du support
-  painting_steps: Mise en peinture
-  full_sheet: Ouvrir la fiche complète
-  available: Disponible
-  import_pending: Import en attente
-  missing: Manquante
-  figure_unit: éléments à peindre
-  sheet_unit: fiches
-  statuses:
-    completed: Terminé
-    in_progress: En cours
-    pending: À préparer
 shopping:
   title: Ce qu’il me manque
   description: Une liste courte, motivée par les figurines que vous préparez.
@@ -161,48 +184,6 @@ shopping:
     high: Haute
     medium: Moyenne
     low: Basse
-imports:
-  title: Importer mes pots
-  description: Ajoutez une photo, puis confirmez l’étiquette avant l’enregistrement.
-  choose_photo: Choisir une photo
-  change_photo: Changer la photo
-  photo_help: JPEG, PNG ou HEIC selon le navigateur. Vous vérifierez chaque étiquette avant l’ajout.
-  browse: Parcourir
-  from_iphone: Depuis l’iPhone
-  folder_ready: Le dossier OneDrive est prêt
-  folder_step: Dans Fichiers ou OneDrive, ouvrez Documents › ChatGPT › Peinture figurines › imports › photos.
-  photos_step: Déposez des photos de 4 à 8 pots, étiquettes face à l’objectif.
-  return_step: Revenez dans cette tâche et indiquez que la synchronisation est terminée.
-  photo_tip_title: Astuce photo
-  photo_tip: lumière diffuse, cadrage rapproché et peu de reflets. Le JPEG est le format le plus simple à traiter.
-  preview_notice: Cette saisie sert d’aperçu. Le skill import-miniature-paints prépare et fait appliquer ensuite un lot de changements par le service local.
-  photo_selected: "Photo sélectionnée :"
-  new_paint: Nouvelle peinture
-  label_photo_help: Photographiez l’étiquette de face
-  brand: Marque
-  range: Gamme
-  paint_name: Nom de la teinte
-  reference: Référence
-  finish: Fini
-  approximate_color: Couleur approchée
-  quantity: Quantité
-  brand_placeholder: Citadel, Vallejo…
-  range_placeholder: Model Color, Layer…
-  paint_name_placeholder: Mephiston Red
-  reference_placeholder: "70.950"
-  finish_options:
-    - mat
-    - satiné
-    - brillant
-    - métallique
-    - transparent
-  cancel: Annuler
-  saving: Enregistrement…
-  validate: Valider la peinture
-  required_notice: Renseignez au minimum la marque et le nom.
-  preview_failed: La prévisualisation locale a échoué.
-  preview_credit: Aperçu local non enregistré
-  session_preview_suffix: est visible pour cette session. Utilisez le skill import-miniature-paints pour proposer son ajout au référentiel du marché.
 paint_detail:
   sheet: Fiche peinture
   close: Fermer la fiche
@@ -223,28 +204,10 @@ paint_detail:
   digital_preview_help: Le rendu écran est une approximation. Ajoutez une photo d’échantillon peint et sa source dans le référentiel pour montrer le résultat réel.
   no_product_visual: Aucun visuel fabricant enregistré.
   real_result_source: Voir un exemple réel sourcé
-miniature_detail:
-  painted_references: Références peintes
-  no_licensed_image: Aucune photo réutilisable n’est encore enregistrée pour cette figurine.
-  external_references: Voir les galeries externes sourcées
-  paints_to_use: Peintures à utiliser
-  support_preparation: Préparation du support
-  painting_steps: Mise en peinture
-  market_guide: Référence du marché
-  workshop_recipe: Plan de mon atelier
-project_detail:
-  back: Retour à l’atelier
-  sheets: fiches
-  figures: éléments à peindre
-  painting_sheets: Fiches de peinture
-  open_recipe: Consulter la recette →
-  sources: Sources du projet
-paint_page:
-  back: Retour à la collection
-  reference_prefix: Réf.
-  stock_suffix: en stock
-  color: Couleur
+  reference_label: Réf.
+  volume_label: Volume
 errors:
-  project_not_found: Projet introuvable
-  miniature_not_found: Figurine introuvable
+  product_not_found: Produit à peindre introuvable
+  catalog_item_not_found: Élément du produit introuvable
   paint_not_found: Peinture introuvable
+  request_failed: L’opération n’a pas abouti. Vérifiez que le service local est disponible.

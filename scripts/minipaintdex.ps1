@@ -52,7 +52,12 @@ try {
         }
         'server' {
             if (-not (Test-Path -LiteralPath $serverJar)) { Invoke-Build }
-            & $java -jar $serverJar @Arguments
+            $serverArguments = @($Arguments)
+            $hasConfiguredRoot = $env:MINIPAINTDEX_ROOT -or ($serverArguments | Where-Object { $_ -like '--minipaintdex.root=*' })
+            if (-not $hasConfiguredRoot) {
+                $serverArguments = @("--minipaintdex.root=$projectRoot") + $serverArguments
+            }
+            & $java -jar $serverJar @serverArguments
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
         }
         'cli' {

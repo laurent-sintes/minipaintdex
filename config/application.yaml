@@ -1,0 +1,61 @@
+server:
+  address: 127.0.0.1
+  port: 8080
+  error:
+    include-message: never
+
+spring:
+  application:
+    name: minipaintdex
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          max-age: 1h
+
+minipaintdex:
+  root: "${MINIPAINTDEX_ROOT:${user.dir}}"
+  storage:
+    site-configuration: data/site/fr.yaml
+    market-paint-catalog: data/market/paints/catalog.yaml
+    workshop-paint-inventory: data/workshop/paints.yaml
+    shopping-list: data/workshop/shopping.yaml
+    market-paintable-products-directory: data/market/paintable-products
+    painting-guides-directory: data/market/painting-guides
+    ledger-directory: data/ledger/events
+    media-directory: media
+  paint-matching:
+    candidate-limit: 5
+    behavioral-types:
+      - one_coat_contrast
+      - technical_effect
+      - primer
+      - wash_shade
+      - ink
+      - auxiliary
+    color-distance-factor: 2.5
+    scores:
+      functional-type-mismatch: 20
+      metadata-mismatch: 25
+      missing-metadata: 50
+      empty-behavior: 50
+      close-color-threshold: 80
+      similar-behavior-threshold: 75
+    standard:
+      color: 0.65
+      functional-type: 0.15
+      behavior: 0.00
+      finish: 0.08
+      opacity: 0.07
+      medium: 0.05
+    behavioral:
+      color: 0.15
+      functional-type: 0.35
+      behavior: 0.30
+      finish: 0.10
+      opacity: 0.10
+      medium: 0.00
+  web:
+    allowed-origins:
+      - http://127.0.0.1:5173
+      - http://localhost:5173

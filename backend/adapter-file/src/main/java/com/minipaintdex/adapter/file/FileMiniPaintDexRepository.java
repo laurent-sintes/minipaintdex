@@ -3,11 +3,12 @@ package com.minipaintdex.adapter.file;
 import com.minipaintdex.application.port.DataSnapshot;
 import com.minipaintdex.application.port.EventLedger;
 import com.minipaintdex.application.port.MarketPaintCatalogWriter;
-import com.minipaintdex.application.port.ProjectCatalogWriter;
+import com.minipaintdex.application.port.PaintableProductCatalogWriter;
 import com.minipaintdex.application.port.SnapshotRepository;
 import com.minipaintdex.application.port.WorkshopPaintInventoryWriter;
 import com.minipaintdex.domain.event.Actor;
 import com.minipaintdex.domain.event.DomainEvent;
+import com.minipaintdex.domain.product.PaintableProduct;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import tools.jackson.core.type.TypeReference;
@@ -33,47 +34,54 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedger, MarketPaintCatalogWriter, WorkshopPaintInventoryWriter, ProjectCatalogWriter {
+public final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedger, MarketPaintCatalogWriter, WorkshopPaintInventoryWriter, PaintableProductCatalogWriter {
     private static final DateTimeFormatter MONTH = DateTimeFormatter.ofPattern("yyyy-MM").withZone(ZoneOffset.UTC);
     private static final TypeReference<Map<String, Object>> MAP_TYPE = new TypeReference<>() {};
 
-    private final Path root;
+    private final FileRepositoryLayout layout;
     private final Yaml yaml = createYaml();
     private final JsonMapper json = JsonMapper.builder().build();
 
-    public FileMiniPaintDexRepository(Path root) {
-        this.root = root.toAbsolutePath().normalize();
-    }
-
-    public Path root() {
-        return root;
+    public FileMiniPaintDexRepository(FileRepositoryLayout layout) {
+        this.layout = java.util.Objects.requireNonNull(layout);
     }
 
     @Override
     public DataSnapshot load() {
-        var data = root.resolve("data");
-        var paints = yaml(data.resolve("market/paints/catalog.yaml"));
-        var inventory = yaml(data.resolve("workshop/paints.yaml"));
-        var shopping = yaml(data.resolve("workshop/shopping.yaml"));
-        var games = yamlDocuments(data.resolve("market/games"));
-        var guideDocuments = yamlDocuments(data.resolve("market/painting-guides"));
+        var paints = yaml(layout.marketPaintCatalog());
+        var inventory = yaml(layout.workshopPaintInventory());
+        var shopping = yaml(layout.shoppingList());
+        var products = yamlDocuments(layout.marketPaintableProductsDirectory()).stream().map(this::product).toList();
+        var guideDocuments = yamlDocuments(layout.paintingGuidesDirectory());
         var guides = guideDocuments.stream().flatMap(document -> listOfMaps(document.get("painting_guides")).stream()).toList();
         return new DataSnapshot(
-                yaml(data.resolve("site/fr.yaml")),
+                yaml(layout.siteConfiguration()),
                 listOfMaps(paints.get("paints")),
                 listOfMaps(inventory.get("paints")),
-                games,
+                products,
                 guides,
                 listOfMaps(shopping.get("items")),
-                readEvents(data.resolve("ledger/events")));
+                readEvents(layout.ledgerDirectory()));
     }
 
     @Override
     public void append(DomainEvent event) {
-        var path = root.resolve("data/ledger/events").resolve(MONTH.format(event.recordedAt()) + ".jsonl");
+        appendAll(List.of(event));
+    }
+
+    @Override
+    public void appendAll(List<DomainEvent> events) {
+        if (events.isEmpty()) return;
+        var month = MONTH.format(events.getFirst().recordedAt());
+        if (events.stream().anyMatch(event -> !month.equals(MONTH.format(event.recordedAt())))) {
+            throw new FileStorageException("An atomic event batch must target one ledger month.", null);
+        }
+        var path = layout.ledgerDirectory().resolve(month + ".jsonl");
         try {
             Files.createDirectories(path.getParent());
-            var bytes = (json.writeValueAsString(toMap(event)) + System.lineSeparator()).getBytes(StandardCharsets.UTF_8);
+            var output = new StringBuilder();
+            for (var event : events) output.append(json.writeValueAsString(toMap(event))).append(System.lineSeparator());
+            var bytes = output.toString().getBytes(StandardCharsets.UTF_8);
             try (var channel = FileChannel.open(path, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND);
                  var ignored = channel.lock()) {
                 channel.write(ByteBuffer.wrap(bytes));
@@ -86,30 +94,52 @@ public final class FileMiniPaintDexRepository implements SnapshotRepository, Eve
 
     @Override
     public void replaceMarketPaints(List<Map<String, Object>> paints) {
-        var target = root.resolve("data/market/paints/catalog.yaml");
         var document = new LinkedHashMap<String, Object>();
         document.put("schema_version", 1);
         document.put("paints", paints);
-        replaceYaml(target, document);
+        replaceYaml(layout.marketPaintCatalog(), document);
     }
 
     @Override
     public void replaceWorkshopPaints(List<Map<String, Object>> paints) {
-        var target = root.resolve("data/workshop/paints.yaml");
         var document = new LinkedHashMap<String, Object>();
         document.put("schema_version", 1);
         document.put("paints", paints);
-        replaceYaml(target, document);
+        replaceYaml(layout.workshopPaintInventory(), document);
     }
 
     @Override
-    public void replaceProject(String projectId, Map<String, Object> project, List<Map<String, Object>> paintingGuides) {
-        replaceYaml(root.resolve("data/market/games").resolve(projectId + ".yaml"), project);
+    public void replaceProduct(String productId, Map<String, Object> product, List<Map<String, Object>> paintingGuides) {
+        replaceYaml(layout.marketPaintableProductsDirectory().resolve(productId + ".yaml"), product);
         var guideDocument = new LinkedHashMap<String, Object>();
         guideDocument.put("schema_version", 1);
-        guideDocument.put("project_id", projectId);
+        guideDocument.put("product_id", productId);
         guideDocument.put("painting_guides", paintingGuides);
-        replaceYaml(root.resolve("data/market/painting-guides").resolve(projectId + ".yaml"), guideDocument);
+        replaceYaml(layout.paintingGuidesDirectory().resolve(productId + ".yaml"), guideDocument);
+    }
+
+    private PaintableProduct product(Map<String, Object> document) {
+        var edition = map(document.get("edition"));
+        var productId = text(document.get("id"));
+        var sources = listOfMaps(document.get("sources")).stream().map(this::source).toList();
+        var items = listOfMaps(document.get("catalog_items")).stream().map(item -> new PaintableProduct.CatalogItem(
+                text(item.get("id")),
+                defaultText(text(item.get("product_id")), text(item.get("game_id"))),
+                text(item.get("name")), text(item.get("kind")), number(item.get("quantity")),
+                text(item.get("description")), Boolean.TRUE.equals(item.get("assembly_required")),
+                listOfMaps(item.get("reference_images")).stream().map(image -> new PaintableProduct.ReferenceImage(
+                        text(image.get("url")), text(image.get("page_url")), text(image.get("credit")), text(image.get("license")))).toList(),
+                listOfMaps(item.get("sources")).stream().map(this::source).toList())).toList();
+        return new PaintableProduct(
+                number(document.getOrDefault("schema_version", 1)), productId, text(document.get("name")),
+                defaultText(text(document.get("line")), text(document.get("game"))),
+                defaultText(text(document.get("product_type")), "board_game"), text(document.get("scope")),
+                number(document.get("expected_paintable_count")),
+                new PaintableProduct.Edition(text(edition.get("note")), text(edition.get("url"))), sources, items);
+    }
+
+    private PaintableProduct.Source source(Map<String, Object> source) {
+        return new PaintableProduct.Source(text(source.get("kind")), text(source.get("label")), text(source.get("url")));
     }
 
     private void replaceYaml(Path target, Map<String, Object> document) {
@@ -219,7 +249,12 @@ public final class FileMiniPaintDexRepository implements SnapshotRepository, Eve
     }
 
     private static int number(Object value) {
-        return value instanceof Number number ? number.intValue() : Integer.parseInt(text(value));
+        if (value instanceof Number number) return number.intValue();
+        try { return Integer.parseInt(text(value)); } catch (NumberFormatException ignored) { return 0; }
+    }
+
+    private static String defaultText(String value, String fallback) {
+        return value == null || value.isBlank() ? fallback : value;
     }
 
     private static Yaml createYaml() {

@@ -2,21 +2,86 @@
 
 This file defines the mandatory architecture and contribution rules for MiniPaintDex. Agents must preserve these decisions unless the user explicitly changes them.
 
+## User communication
+
+Communicate with the user in French and use informal second-person address (`tu`, `te`, `ton`) unless the user explicitly asks for another language or form of address.
+
 ## Product scope
 
 MiniPaintDex is currently a local-first miniature-painting workshop application. Do not add authentication, remote hosting requirements, or a database unless explicitly requested. The architecture must nevertheless keep storage behind interfaces so a database can replace file storage later without changing the web client or the application use cases.
 
-The application distinguishes three domains:
+The application distinguishes three bounded contexts:
 
 - `site`: application configuration and localized UI labels;
-- `market`: public reference catalogs for paints, games, miniatures, scenery, and other paintable products;
-- `workshop`: the owner's inventory, projects, physical paintable items, recipes, progress, photos, and activity.
+- `market`: public reference catalogs for paints and paintable products;
+- `workshop`: the owner's inventory, imported paintable products, physical items, recipes, progress, photos, and activity.
 
 Use English for directory names, schema keys, identifiers, event names, source code, API contracts, and other core data. French belongs in localized site configuration and user-facing text only. Use lowercase ASCII kebab-case for stable domain identifiers.
 
+## Canonical domain model (DDD)
+
+The domain model is the primary architectural driver. Before changing storage, REST, CLI, projections, or React, identify the affected bounded context, aggregate, identity, invariant, command, and event here. If a product decision changes the ubiquitous language or an aggregate boundary, update this section in the same change as the code. Adapters and screens must conform to the domain model; they must not define a competing model for convenience.
+
+### Ubiquitous language and aggregate boundaries
+
+```text
+MARKET (reference knowledge, file-versioned)
+  MarketPaint                         aggregate root for one commercial paint reference
+  PaintableProduct                    aggregate root for a box, range, expansion, or set
+    └── CatalogItem                   entity describing one kind of paintable component
+         └── quantity                 number supplied by the market product
+  MarketPaintingGuide                versioned aggregate root targeting one CatalogItem
+
+WORKSHOP (owner state, event-sourced)
+  Workshop                            aggregate root for the owner's whole workshop
+    └── WorkshopProduct               membership referencing one PaintableProduct ID
+  WorkshopItem                        aggregate root for one physical miniature/scenery copy
+  WorkshopRecipe                     versioned aggregate root for one personal painting plan
+
+SITE (supporting configuration, file-versioned)
+  SiteConfiguration                   localized labels and application presentation settings
+```
+
+`Product` alone is not part of the ubiquitous language because it is ambiguous with a paint sold on the market. Always use `PaintableProduct` in Java, API contracts, CLI semantics, file schemas, and technical documentation. User-facing French may use “produit à peindre”. `MiniProduct` is not used because a `PaintableProduct` can also contain scenery, vehicles, creatures, or accessories.
+
+### Market bounded context
+
+- `MarketPaint` and `PaintableProduct` have different identities, metadata, search behavior, and lifecycles.
+- A `PaintableProduct` owns its `CatalogItem` entities. Each catalog item has a stable ID, `product_id`, English `kind`, and positive market quantity.
+- The sum of catalog-item quantities must equal `expected_paintable_count`; invalid products must fail loading or change-set validation.
+- A `PaintableProduct` contains public facts and sourced knowledge only. It never contains ownership, personal progress, physical workshop state, or personal recipes.
+- A `MarketPaintingGuide` targets a catalog item by ID and owns its public paint slots and source provenance. It is not the owner's recipe.
+
+### Workshop bounded context
+
+- `Workshop` is an aggregate root with stable ID `my-workshop`. It records which `PaintableProduct` references were imported, without copying their market facts.
+- `WorkshopProduct` is a membership inside `Workshop`, identified by the referenced `PaintableProduct` ID and import date. It is not a market product copy and not a painting project.
+- Importing a paintable product is an idempotent application command. The command uses catalog quantities to append one `workshop.product_imported` event and one `workshop_item.added` event per missing physical copy in one atomic ledger batch.
+- Every physical copy is a separate `WorkshopItem` aggregate root with its own workflow, recipe assignment, future photos, notes, and history. It references both a `catalog_item_id` and a `workshop_product_id`.
+- `WorkshopRecipe` has an independent lifecycle. It may be inspired by a market guide, but the owner's substitutions, mixtures, layers, and techniques belong only to the workshop.
+- The term `Project` is reserved for a possible future planning concept. New workshop events and contracts must not misuse `project_id` to mean paintable-product ownership.
+
+### Relationships and read models
+
+| Source | Relationship | Target | Rule |
+| --- | --- | --- | --- |
+| `CatalogItem` | belongs to | `PaintableProduct` | same `product_id`, no cross-product child |
+| `MarketPaintingGuide` | documents | `CatalogItem` | versioned, sourced market knowledge |
+| `WorkshopProduct` | references | `PaintableProduct` | ID only; market facts stay in market |
+| `WorkshopItem` | instance of | `CatalogItem` | one aggregate per physical copy |
+| `WorkshopItem` | grouped by | `WorkshopProduct` | `workshop_product_id`, not `project_id` |
+| `WorkshopRecipe` | plans | `CatalogItem` | owner lifecycle independent of market guide |
+| recipe assignment | attaches | `WorkshopItem` | two copies may use different recipes |
+
+Market product views and workshop views are distinct projections. A market view may overlay an `inWorkshop` badge, but it must not expose workshop progress as market truth. A workshop view joins IDs at read time to calculate physical counts, workflow progress, missing owned paints, activity, and guide coverage.
+
+### Legacy compatibility
+
+The existing ledger is immutable. `project.created`, its `market_game_id`, and legacy `project_id` values on `workshop_item.added` remain readable compatibility inputs. Projectors translate them to `Workshop` membership and `workshop_product_id` semantics. Never rewrite these historical lines, and never emit the legacy shape for new commands.
+
 ## Target repository layout
 
-The target architecture is a modular Spring Boot application with a React/Vite frontend. Java 25 is the target language level. Maven is the root build and dependency-management tool; use the checked-in Maven Wrapper. pnpm remains the frontend package manager pinned in `package.json`, but the root Maven lifecycle must orchestrate the frontend validation and build so `mvnw verify` validates the whole product.
+The target architecture is a modular Spring Boot application with a React/Vite frontend. Java 25 is the target language level. Maven is the root build and dependency-management tool; use the checked-in Maven Wrapper. pnpm remains the frontend package manager pinned in `frontend/package.json`, but the root Maven lifecycle must orchestrate the frontend validation and build so `mvnw verify` validates the whole product.
 
 MiniPaintDex follows the self-contained system pattern. The production deliverable is one executable Spring Boot JAR containing the REST API and the compiled SPA. Spring Boot serves `index.html`, frontend assets, media, and the client-side route fallback. The separate Vite server exists only for development and proxies API requests to Spring Boot.
 
@@ -25,10 +90,14 @@ backend/
   domain/                 # Pure Java entities, value objects, events, workflow rules
   application/            # Commands, queries, handlers, ports, DTO contracts
   adapter-file/           # YAML/JSONL outbound repositories
+  bootstrap/              # Shared validated Spring configuration and bean wiring
   server/                 # Spring Boot and Spring MVC REST adapter
   cli/                    # Picocli adapter using the same application services
 
-spa/
+frontend/
+  package.json            # Frontend package and scripts
+  vite.config.ts          # Vite development and production build
+  public/                 # Static web assets copied by Vite
   src/
     components/           # React UI
     models/               # Frontend DTOs and view models
@@ -37,11 +106,14 @@ spa/
 tools/
   minipaintdex-data/      # Deterministic Python import and validation tools
 
+config/
+  application.yaml       # Canonical Spring Boot technical defaults
+
 data/
   site/
   market/
     paints/
-    games/
+    paintable-products/
     painting-guides/
   workshop/
   ledger/
@@ -72,6 +144,20 @@ Bind the local server to `127.0.0.1` by default. During development, the web dev
 Do not put business rules in React components, REST controllers, CLI commands, filesystem repositories, or serialization code.
 
 Keep Spring annotations out of `backend/domain` and `backend/application`. Wire plain Java application services from the Spring Boot modules. Use Spring MVC rather than WebFlux for the local file-backed server. Use Picocli for non-interactive CLI commands, JSON output, and deterministic exit codes.
+
+## Spring Boot configuration
+
+Use Spring Boot's standard configuration facilities for every runtime or infrastructure setting. Canonical technical defaults belong in the versioned `config/application.yaml`; Spring may override them through the usual external `application.yaml`, environment variables, system properties, or command-line properties.
+
+- Bind related settings once with validated, typed `@ConfigurationProperties` classes in the Spring bootstrap module.
+- Do not scatter `@Value` expressions, direct environment reads, or repository-relative path literals across controllers, CLI commands, services, or adapters.
+- Resolve storage locations, media locations, matching policies, limits, weights, scores, and other tunable behavior at startup. Inject typed layout or policy objects afterward.
+- The REST server and CLI must start the same shared Spring bootstrap and therefore use the same configuration, repositories, application services, and domain policies.
+- Keep Spring out of `backend/domain` and `backend/application`. Configuration binding maps Spring properties to plain Java policy/value objects before injecting them into those modules.
+- File-backed market, workshop, ledger, and localized-site contents remain domain data loaded through repository ports. Spring owns their configured locations and object wiring; it does not turn those domain files into ad-hoc `Resource` reads in controllers.
+- Fail startup on missing, malformed, out-of-range, or internally inconsistent mandatory configuration. In particular, each paint-matching weight set must be non-negative and sum to `1.0`.
+
+Frontend-specific package management, TypeScript, lint, Vite configuration, and static assets belong under `frontend/`. The Maven root remains the single product build entry point and invokes pnpm with `frontend/` as its working directory.
 
 ## Hexagonal application architecture
 
@@ -139,9 +225,9 @@ The paint-brand refresh skill must accept a brand name or `all`, where `all` is 
 
 Paints with functional types `technical_effect`, `primer`, `wash_shade`, `ink`, or `auxiliary` must include structured `usage_instructions` with an explanatory summary, actionable steps, and useful tips or precautions. These instructions are market product knowledge and are displayed dynamically by the paint sheet.
 
-### Games and paintable catalog items
+### Paintable products and catalog items
 
-The market game catalog describes games, editions, products, and generic paintable catalog items. Use a generic `catalog_item` concept so miniatures, vehicles, scenery, and other paintable components share the same model. Market records contain facts such as name, kind, game, source, reference image, and whether assembly is normally required. They do not contain ownership, personal progress, or personal recipes.
+The market `PaintableProduct` catalog describes boxes, games, editions, expansions, ranges, and sets containing things to paint. Use a generic `catalog_item` concept so miniatures, vehicles, scenery, creatures, and other paintable components share the same model. Market records contain facts such as name, kind, product line, market quantity, source, reference image, and whether assembly is normally required. They do not contain ownership, personal progress, or personal recipes.
 
 ### Market painting guides
 
@@ -168,7 +254,7 @@ All paint IDs used by a workshop recipe must exist in the owner's paint inventor
 
 ## Paint reconciliation
 
-Reconciliation is a read-only proposal from a market guide slot to paints owned in the workshop. It never mutates or auto-accepts a recipe.
+Reconciliation is a read-only proposal from a market guide slot to paints owned in the workshop. It never mutates or auto-accepts a recipe. Matching weights, thresholds, behavioral paint types, candidate limits, and other tuning parameters must come from validated Spring Boot configuration at startup rather than numeric constants in the matcher.
 
 For ordinary opaque paints, rank candidates primarily with CIE Lab and CIEDE2000 color distance, then use functional type, finish, opacity, and medium. For behavioral products such as Contrast, Speedpaint, washes, inks, primers, auxiliaries, and technical effects, compare functional type plus structured application behavior such as transparency, pooling, pigment separation, reactivation, undercoat, finish, and effect type. RGB is only a minor signal for those products and every result requires manual review.
 
@@ -191,16 +277,16 @@ Allow workshop-specific fields only when they describe the owned stock, such as 
 
 Every physical miniature, vehicle, scenery piece, or other paintable component owned by the user is a first-class `workshop_item`. Do not model ownership only as a catalog ID plus a quantity or a painted boolean.
 
-Each physical item has its own stable ID and references one market catalog item. It can independently hold a display name, project membership, recipe assignment, progress, notes, photos, and history. Multiple copies of one market item therefore produce multiple workshop items.
+Each physical item has its own stable ID and references one market catalog item. It can independently hold a display name, workshop-product membership, recipe assignment, progress, notes, photos, and history. Multiple copies of one market item therefore produce multiple workshop items.
 
 ```yaml
 id: ws-reichbusters-soldier-001
 catalog_item_id: reichbusters-soldier
-project_id: reichbusters-reloaded
+workshop_product_id: reichbusters-reloaded
 display_name: Soldier 1
 ```
 
-This per-item identity is mandatory because each physical piece may later receive its own progress photos and journal entries. Project quantities and completion counts are projections calculated from workshop items, not primary ownership fields.
+This per-item identity is mandatory because each physical piece may later receive its own progress photos and journal entries. Paintable-product quantities and completion counts in the workshop are projections calculated from workshop items, not primary ownership fields.
 
 ## Painting workflow
 
@@ -242,7 +328,7 @@ Every event envelope must include:
 - past-tense `event_type`;
 - `occurred_at` and `recorded_at` UTC timestamps;
 - `aggregate_type` and `aggregate_id`;
-- optional `project_id`;
+- optional `project_id`, reserved for a future genuine planning project and omitted from current paintable-product imports;
 - actor information;
 - correlation and causation identifiers when applicable;
 - a typed payload.
@@ -250,7 +336,8 @@ Every event envelope must include:
 Representative event types include:
 
 ```text
-project.created
+workshop.created
+workshop.product_imported
 workshop_item.added
 workshop_item.named
 workflow.stage.started
@@ -278,7 +365,7 @@ Events are immutable. Never edit or delete an existing event to correct history.
 Build read models from the ledger for:
 
 - each workshop item's current workflow state;
-- project progress and counts;
+- paintable-product progress and counts;
 - chronological workshop activity;
 - Kanban views by workflow stage;
 - recent photos and per-item galleries;
@@ -293,13 +380,12 @@ The left navigation must visually separate market references from personal data:
 ```text
 MARKET
   Paints
-  Games and miniatures
+  Paintable products
 
 MY WORKSHOP
   My paints
-  My projects
+  Workshop administration
   Shopping list
-  Imports
 ```
 
 The actual user-facing French labels and other project-independent UI strings must come from `data/site` localization/configuration files rather than being hard-coded in components. Domain-dependent names continue to come from market or workshop data.
@@ -314,7 +400,7 @@ For internet images and manufacturer assets, retain source URLs, attribution, an
 
 All persistence must be accessed through outbound repository ports. The initial adapters use files. Future database adapters must be replaceable without changing domain entities, application handlers, REST contracts, CLI semantics, or the frontend.
 
-Stable IDs act as foreign keys across market catalogs, workshop inventory, projects, recipes, events, projections, and media metadata. Avoid denormalized copies of market facts in workshop records. YAML is the canonical format for reference/configuration files; CSV may exist only as generated import/export material, not as a second manually maintained source of truth.
+Stable IDs act as foreign keys across market catalogs, workshop membership, physical items, recipes, events, projections, and media metadata. Avoid denormalized copies of market facts in workshop records. YAML is the canonical format for reference/configuration files; CSV may exist only as generated import/export material, not as a second manually maintained source of truth.
 
 ## Validation and delivery
 
