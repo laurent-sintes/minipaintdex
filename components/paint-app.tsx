@@ -6,8 +6,8 @@ import {
   ShoppingBasket, Sparkles, Upload, X,
 } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { reichbustersProject, type ProjectItem } from '@/lib/project-data';
-import { samplePaints, shoppingSeed, type Paint } from '@/lib/sample-data';
+import type { Paint, ShoppingItem } from '@/lib/paint-model';
+import type { PaintingProject } from '@/lib/project-model';
 
 type View = 'collection' | 'projects' | 'shopping' | 'imports';
 
@@ -70,8 +70,12 @@ function EmptyState({ text }: { text: string }) {
   );
 }
 
-export function PaintApp() {
-  const [paints, setPaints] = useState<Paint[]>(samplePaints);
+export function PaintApp({ initialPaints, projects, shoppingSeed }: {
+  initialPaints: Paint[];
+  projects: PaintingProject[];
+  shoppingSeed: ShoppingItem[];
+}) {
+  const [paints, setPaints] = useState<Paint[]>(initialPaints);
   const [view, setView] = useState<View>('collection');
   const [query, setQuery] = useState('');
   const [brand, setBrand] = useState('Toutes');
@@ -81,22 +85,15 @@ export function PaintApp() {
   const [photoUrl, setPhotoUrl] = useState('');
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState('');
-  const [selectedProjectItem, setSelectedProjectItem] = useState<ProjectItem>(reichbustersProject.items[0]);
+  const [selectedProjectId, setSelectedProjectId] = useState(projects[0]?.id ?? '');
+  const activeProject = (projects.find((project) => project.id === selectedProjectId) ?? projects[0])!;
+  const [selectedProjectItemId, setSelectedProjectItemId] = useState(projects[0]?.items[0]?.id ?? '');
+  const selectedProjectItem = (activeProject.items.find((item) => item.id === selectedProjectItemId) ?? activeProject.items[0])!;
   const [checkedBuys, setCheckedBuys] = useState<string[]>([]);
   const [form, setForm] = useState({
     brand: '', range: '', reference: '', name: '', colorHex: '#6f746f', finish: 'mat', quantity: 1,
   });
   const fileInput = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    fetch('/api/paints')
-      .then(async (response) => {
-        if (!response.ok) throw new Error('paint-list');
-        return await response.json() as { paints: Paint[] };
-      })
-      .then((data) => setPaints(data.paints))
-      .catch(() => setNotice('Mode hors connexion : les données de démonstration restent disponibles.'));
-  }, []);
 
   useEffect(() => () => {
     if (photoUrl) URL.revokeObjectURL(photoUrl);
@@ -144,25 +141,30 @@ export function PaintApp() {
     }
     setSaving(true);
     try {
-      if (photo) {
-        const body = new FormData();
-        body.set('photo', photo);
-        const upload = await fetch('/api/imports', { method: 'POST', body });
-        if (!upload.ok) throw new Error('upload');
-      }
-      const response = await fetch('/api/paints', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ ...form, medium: 'acrylique', tags: [], notes: '' }),
-      });
-      if (!response.ok) throw new Error('paint');
-      const data = await response.json() as { paint: Paint };
-      setPaints((current) => [data.paint, ...current]);
-      setNotice(data.paint.name + ' a été ajouté au référentiel.');
+      const now = new Date().toISOString();
+      const paint: Paint = {
+        id: `session-${crypto.randomUUID()}`,
+        ...form,
+        medium: 'acrylique',
+        tags: [],
+        notes: photo ? `Photo sélectionnée : ${photo.name}` : '',
+        createdAt: now,
+        updatedAt: now,
+        manufacturerUrl: '',
+        manufacturerImage: '',
+        manufacturerImageCredit: photo ? 'Aperçu local non enregistré' : '',
+        volumeMl: 0,
+        colorFamily: '',
+        manufacturerDescription: '',
+        recommendedUses: [],
+        manufacturerVerifiedAt: '',
+      };
+      setPaints((current) => [paint, ...current]);
+      setNotice(`${paint.name} est visible pour cette session. Utilisez le skill import-miniature-paints pour l’enregistrer dans data/peintures.yaml.`);
       closeModal();
       setView('collection');
     } catch {
-      setNotice('L’enregistrement local a échoué. Vérifiez que le serveur est bien lancé.');
+      setNotice('La prévisualisation locale a échoué.');
     } finally {
       setSaving(false);
     }
@@ -196,7 +198,7 @@ export function PaintApp() {
         <aside className="hidden min-h-[calc(100vh-72px)] border-r px-4 py-6 lg:block">
           <nav aria-label="Navigation principale" className="space-y-1">
             <NavButton icon={<Grid2X2 size={18} />} label="Collection" active={view === 'collection'} badge={String(paints.length)} onClick={() => setView('collection')} />
-            <NavButton icon={<FolderOpen size={18} />} label="Projets" active={view === 'projects'} badge="1" onClick={() => setView('projects')} />
+            <NavButton icon={<FolderOpen size={18} />} label="Projets" active={view === 'projects'} badge={String(projects.length)} onClick={() => setView('projects')} />
             <NavButton icon={<ShoppingBasket size={18} />} label="Liste d’achats" active={view === 'shopping'} badge={String(shoppingSeed.length)} onClick={() => setView('shopping')} />
             <NavButton icon={<Camera size={18} />} label="Imports photo" active={view === 'imports'} onClick={() => setView('imports')} />
           </nav>
@@ -204,9 +206,9 @@ export function PaintApp() {
           <div className="mt-8 rounded-[22px] border bg-card p-4 shadow-sm">
             <div className="mb-3 grid size-9 place-items-center rounded-xl bg-secondary text-primary"><Sparkles size={17} /></div>
             <p className="text-sm font-semibold">Projet en cours</p>
-            <p className="mt-1 text-xs leading-5 text-muted-foreground">Reichbusters Reloaded</p>
+            <p className="mt-1 text-xs leading-5 text-muted-foreground">{activeProject.name}</p>
             <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-secondary"><div className="h-full w-[8%] rounded-full bg-primary" /></div>
-            <p className="mt-2 text-[11px] text-muted-foreground">72 figurines de base · {reichbustersProject.items.length} fiches</p>
+            <p className="mt-2 text-[11px] text-muted-foreground">{activeProject.items.reduce((sum, item) => sum + item.quantity, 0)} figurines · {activeProject.items.length} fiches</p>
           </div>
         </aside>
 
@@ -216,7 +218,7 @@ export function PaintApp() {
               <p className="eyebrow">Mon atelier · {viewLabels[view]}</p>
               <h1 className="mt-1 text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">
                 {view === 'collection' && 'Ma collection'}
-                {view === 'projects' && 'Reichbusters Reloaded'}
+                {view === 'projects' && activeProject.name}
                 {view === 'shopping' && 'Ce qu’il me manque'}
                 {view === 'imports' && 'Importer mes pots'}
               </h1>
@@ -264,17 +266,19 @@ export function PaintApp() {
 
           {view === 'projects' && (
             <>
-            <div className="mt-6 flex items-start gap-3 rounded-2xl border border-primary/15 bg-primary/5 p-4 text-xs leading-5 text-muted-foreground"><CircleAlert className="mt-0.5 size-4 flex-none text-primary" /><span>{reichbustersProject.editionNote} <a className="font-semibold text-primary" href={reichbustersProject.editionUrl} target="_blank" rel="noreferrer">Voir le contenu du Green Upgrade</a></span></div>
+            <div className="mt-6 flex items-start gap-3 rounded-2xl border border-primary/15 bg-primary/5 p-4 text-xs leading-5 text-muted-foreground"><CircleAlert className="mt-0.5 size-4 flex-none text-primary" /><span>{activeProject.edition.note} {activeProject.edition.url && <a className="font-semibold text-primary" href={activeProject.edition.url} target="_blank" rel="noreferrer">Consulter la source d’édition</a>}</span></div>
             <div className="mt-5 grid gap-5 xl:grid-cols-[320px_minmax(0,1fr)]">
               <aside className="overflow-hidden rounded-[26px] border bg-card shadow-sm">
                 <div className="border-b p-5">
                   <p className="eyebrow">Projet actif</p>
-                  <h2 className="mt-2 text-lg font-semibold">{reichbustersProject.name}</h2>
-                  <p className="mt-1 text-xs leading-5 text-muted-foreground">{reichbustersProject.scope}</p>
+                  {projects.length > 1 && <select value={activeProject.id} onChange={(event) => { const project = projects.find((item) => item.id === event.target.value); setSelectedProjectId(event.target.value); setSelectedProjectItemId(project?.items[0]?.id ?? ''); }} className="mt-2 h-10 w-full rounded-xl border bg-background px-3 text-sm font-semibold">{projects.map((project) => <option key={project.id} value={project.id}>{project.name}</option>)}</select>}
+                  <h2 className="mt-2 text-lg font-semibold">{activeProject.name}</h2>
+                  <p className="mt-1 text-xs leading-5 text-muted-foreground">{activeProject.scope}</p>
+                  <a href={`/projects/${activeProject.id}`} className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-primary"><BookOpen size={13} />Voir toutes les fiches</a>
                 </div>
                 <div className="max-h-[70vh] overflow-y-auto p-2">
-                  {reichbustersProject.items.map((item) => (
-                    <button key={item.id} onClick={() => setSelectedProjectItem(item)} className={'flex w-full items-center gap-3 rounded-2xl p-3 text-left transition ' + (selectedProjectItem.id === item.id ? 'bg-primary text-primary-foreground' : 'hover:bg-secondary')}>
+                  {activeProject.items.map((item) => (
+                    <button key={item.id} onClick={() => setSelectedProjectItemId(item.id)} className={'flex w-full items-center gap-3 rounded-2xl p-3 text-left transition ' + (selectedProjectItem.id === item.id ? 'bg-primary text-primary-foreground' : 'hover:bg-secondary')}>
                       <span className={'grid size-10 flex-none place-items-center rounded-xl ' + (selectedProjectItem.id === item.id ? 'bg-white/12' : 'bg-secondary text-primary')}><Paintbrush size={17} /></span>
                       <span className="min-w-0 flex-1"><strong className="block truncate text-sm">{item.name}</strong><span className={'mt-0.5 block text-[11px] ' + (selectedProjectItem.id === item.id ? 'text-white/65' : 'text-muted-foreground')}>{item.kind} · × {item.quantity}</span></span>
                       <ChevronRight size={16} className="flex-none opacity-60" />
@@ -303,7 +307,10 @@ export function PaintApp() {
                   <section className="rounded-[22px] bg-secondary/60 p-5"><h3 className="text-sm font-semibold">Préparation du support</h3><ol className="mt-4 space-y-4">{selectedProjectItem.preparation.map((step, index) => <li key={step.title} className="flex gap-3"><span className="step-number">{index + 1}</span><div><strong className="text-xs">{step.title}</strong><p className="mt-1 text-xs leading-5 text-muted-foreground">{step.detail}</p></div></li>)}</ol></section>
                   <section className="rounded-[22px] border p-5"><h3 className="text-sm font-semibold">Mise en peinture</h3><ol className="mt-4 space-y-4">{selectedProjectItem.painting.map((step, index) => <li key={step.title} className="flex gap-3"><span className="step-number">{index + 1}</span><div><strong className="text-xs">{step.title}</strong><p className="mt-1 text-xs leading-5 text-muted-foreground">{step.detail}</p></div></li>)}</ol></section>
                 </div>
-                {selectedProjectItem.sourceUrl && <a href={selectedProjectItem.sourceUrl} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 text-xs font-semibold text-primary"><ExternalLink size={14} />{selectedProjectItem.sourceLabel || 'Consulter la source'}</a>}
+                <div className="mt-5 flex flex-wrap gap-4">
+                  <a href={`/projects/${activeProject.id}/${selectedProjectItem.id}`} className="inline-flex items-center gap-2 text-xs font-semibold text-primary"><BookOpen size={14} />Ouvrir la fiche complète</a>
+                  {selectedProjectItem.sources.map((source) => <a key={source.url} href={source.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-xs font-semibold text-primary"><ExternalLink size={14} />{source.label}</a>)}
+                </div>
               </article>
             </div>
             </>
@@ -395,6 +402,7 @@ export function PaintApp() {
                   </div>
                 </section>
                 <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:items-center">
+                  {!selectedPaint.id.startsWith('session-') && <a href={`/paints/${selectedPaint.id}`} className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border bg-card px-4 text-sm font-semibold"><BookOpen size={15} />Ouvrir la fiche</a>}
                   {selectedPaint.manufacturerUrl && <a href={selectedPaint.manufacturerUrl} target="_blank" rel="noreferrer" className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground"><ExternalLink size={15} />Ouvrir la fiche fabricant</a>}
                   <span className="text-[10px] text-muted-foreground">Vérifié le {selectedPaint.manufacturerVerifiedAt}</span>
                 </div>
@@ -418,7 +426,7 @@ export function PaintApp() {
                   {photoUrl ? <img src={photoUrl} alt="Aperçu du pot à importer" className="absolute inset-0 h-full w-full object-cover" /> : <><FileImage size={30} className="text-primary" /><strong className="mt-3 text-sm">Choisir une photo</strong><span className="mt-1 px-5 text-xs leading-5 text-muted-foreground">Photographiez l’étiquette de face</span></>}
                   {photoUrl && <span className="absolute bottom-3 rounded-full bg-black/55 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur">Changer la photo</span>}
                 </button>
-                <div className="mt-3 flex items-start gap-2 rounded-xl bg-secondary p-3 text-[11px] leading-4 text-muted-foreground"><CircleAlert className="mt-0.5 size-3.5 flex-none" /><span>La validation humaine évite les doublons et les erreurs de référence.</span></div>
+                <div className="mt-3 flex items-start gap-2 rounded-xl bg-secondary p-3 text-[11px] leading-4 text-muted-foreground"><CircleAlert className="mt-0.5 size-3.5 flex-none" /><span>Cette saisie sert d’aperçu. Le skill import-miniature-paints valide et écrit ensuite le référentiel YAML.</span></div>
               </div>
               <div className="grid content-start gap-4">
                 <div className="grid gap-4 sm:grid-cols-2">

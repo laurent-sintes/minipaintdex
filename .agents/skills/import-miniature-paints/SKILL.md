@@ -23,6 +23,7 @@ Produire un inventaire exact, traçable et comparable entre marques à partir de
 6. Classer la peinture par fonction commune en suivant [`references/taxonomy.md`](references/taxonomy.md). Garder aussi le nom de gamme propre à la marque : l’équivalence fonctionnelle ne signifie pas que les formulations ou couleurs sont interchangeables.
 7. Exécuter `paint_inventory.py merge` vers de nouveaux fichiers de sortie, examiner le rapport, puis seulement remplacer les fichiers du référentiel si la fusion est correcte.
 8. Archiver la photo et son analyse en conservant l’empreinte, la date, les sources consultées et le statut de validation. Après déplacement, utiliser `paint_inventory.py relocate-source` pour mettre à jour la provenance sans compter une seconde fois les pots.
+9. Mettre à jour `data/peintures.yaml`, qui est la source de vérité du site, puis exécuter `pnpm validate:catalogs` et `pnpm check`. Les pages de peinture sont générées automatiquement à partir de ce fichier.
 
 ## Invariants
 

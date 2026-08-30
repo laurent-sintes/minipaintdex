@@ -1,4 +1,4 @@
-import { listPaints } from '@/lib/paint-store';
+import { paintCatalog } from '@/lib/catalog';
 
 function csvCell(value: string | number) {
   const text = String(value);
@@ -10,7 +10,7 @@ export async function GET(
   { params }: { params: Promise<{ format: string }> },
 ) {
   const { format } = await params;
-  const paints = await listPaints();
+  const paints = paintCatalog;
 
   if (format === 'csv') {
     const header = ['id', 'marque', 'gamme', 'reference', 'nom', 'couleur_hex', 'famille_couleur', 'fini', 'medium', 'volume_ml', 'quantite', 'tags', 'usages_conseilles', 'fiche_fabricant', 'image_fabricant', 'credit_image', 'verifie_le', 'notes'];
