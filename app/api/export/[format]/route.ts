@@ -13,11 +13,13 @@ export async function GET(
   const paints = paintCatalog;
 
   if (format === 'csv') {
-    const header = ['id', 'marque', 'gamme', 'reference', 'nom', 'couleur_hex', 'famille_couleur', 'fini', 'medium', 'volume_ml', 'quantite', 'tags', 'usages_conseilles', 'fiche_fabricant', 'image_fabricant', 'credit_image', 'verifie_le', 'notes'];
+    const header = ['id', 'marque', 'gamme', 'reference', 'nom', 'couleur_hex', 'famille_couleur', 'fini', 'medium', 'volume_ml', 'quantite', 'tags', 'usages_conseilles', 'fiche_fabricant', 'image_fabricant', 'credit_image', 'rendu_image', 'source_rendu', 'credit_rendu', 'licence_rendu', 'exemple_rendu_url', 'verifie_le', 'notes'];
     const rows = paints.map((paint) => [
       paint.id, paint.brand, paint.range, paint.reference, paint.name, paint.colorHex, paint.colorFamily,
       paint.finish, paint.medium, paint.volumeMl, paint.quantity, paint.tags.join('|'), paint.recommendedUses.join('|'),
-      paint.manufacturerUrl, paint.manufacturerImage, paint.manufacturerImageCredit, paint.manufacturerVerifiedAt, paint.notes,
+      paint.manufacturerUrl, paint.manufacturerImage, paint.manufacturerImageCredit, paint.resultImage,
+      paint.resultImageSource, paint.resultImageCredit, paint.resultImageLicense, paint.resultReferenceUrl,
+      paint.manufacturerVerifiedAt, paint.notes,
     ].map(csvCell).join(','));
     return new Response([header.join(','), ...rows].join('\n'), {
       headers: {
@@ -47,6 +49,11 @@ export async function GET(
       `  fiche_fabricant: ${quote(paint.manufacturerUrl)}`,
       `  image_fabricant: ${quote(paint.manufacturerImage)}`,
       `  credit_image: ${quote(paint.manufacturerImageCredit)}`,
+      `  rendu_image: ${quote(paint.resultImage)}`,
+      `  source_rendu: ${quote(paint.resultImageSource)}`,
+      `  credit_rendu: ${quote(paint.resultImageCredit)}`,
+      `  licence_rendu: ${quote(paint.resultImageLicense)}`,
+      `  exemple_rendu_url: ${quote(paint.resultReferenceUrl)}`,
       `  verifie_le: ${quote(paint.manufacturerVerifiedAt)}`,
       `  notes: ${quote(paint.notes)}`,
     ].join('\n')).join('\n');

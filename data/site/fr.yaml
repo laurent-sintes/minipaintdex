@@ -1,0 +1,187 @@
+metadata:
+  title: Nuancier — Mon atelier de peinture
+  short_title: Nuancier
+  description: Référentiel local de peintures et projets de figurines, avec guides par modèle.
+brand:
+  name: Nuancier
+  subtitle: Atelier de peinture
+units:
+  color_singular: teinte
+  color_plural: teintes
+  paint_singular: peinture
+  paint_plural: peintures
+navigation:
+  aria_label: Navigation principale
+  mobile_aria_label: Navigation mobile
+  market_section: Marché
+  market_paints: Peintures
+  market_games: Jeux
+  workshop_section: Mon atelier
+  workshop_paints: Mes peintures
+  workshop_projects: Mes projets
+  shopping: Achats
+  imports: Imports
+header:
+  search_placeholder: Rechercher une teinte, une marque, un usage…
+  search_short_placeholder: Rechercher…
+  search_aria_label: Rechercher dans les peintures
+  add_by_photo: Ajouter par photo
+  add: Ajouter
+  workshop_prefix: Mon atelier
+workflow:
+  preparation: Préparation
+  priming: Sous-couche
+  pre_highlight: Pré-éclairage
+  painting: Peinture
+  finishing: Finitions et éclaircissements
+  basing: Socle
+market:
+  paints_title: Peintures du marché
+  paints_description: Explorez le référentiel global des marques et des gammes, indépendamment de votre stock.
+  paints_metric: peintures au catalogue
+  brands_metric: marques référencées
+  games_title: Jeux du marché
+  games_description: Consultez les jeux et leurs inventaires de figurines avant de les ajouter à votre atelier.
+  catalog_items: références de figurines et décors
+  physical_items: éléments physiques
+  open_workshop: Ouvrir dans mon atelier
+  source: Source du référentiel
+collection:
+  title: Ma collection
+  description: Retrouvez vos teintes, combinez les filtres et exportez le référentiel.
+  all_brands: Toutes les marques
+  pots_metric: pots référencés
+  colors_metric: teintes distinctes
+  sheets_metric: fiches fabricant
+  results_title: Résultats
+  all_paints_title: Toutes les peintures
+  empty_title: Aucune peinture trouvée
+  empty_hint: Essayez un autre terme ou retirez un filtre.
+  manufacturer_sheet: Fiche fabricant
+  filters: Filtres
+  filter_panel_title: Affiner la collection
+  filter_panel_description: Combinez plusieurs critères pour retrouver précisément une peinture.
+  filter_aria_label: Filtres de recherche des peintures
+  search_filter: Recherche
+  type_filter: Type
+  all_types: Tous les types
+  color_filter: Couleur
+  all_colors: Toutes les couleurs
+  brand_filter: Marque
+  range_filter: Gamme
+  all_ranges: Toutes les gammes
+  finish_filter: Fini
+  all_finishes: Tous les finis
+  volume_filter: Volume
+  all_volumes: Tous les volumes
+  tag_filter: Propriété
+  all_tags: Toutes les propriétés
+  manufacturer_sheet_only: Avec fiche fabricant
+  real_result_only: Avec exemple de rendu réel
+  reset_filters: Tout effacer
+  active_filters: Filtres actifs
+  remove_filter: Retirer le filtre
+  no_active_filter: Aucun filtre actif
+projects:
+  title_fallback: Projets de peinture
+  description: Peintures et mode opératoire, figurine par figurine.
+  active_project: Projet actif
+  current_project: Projet en cours
+  edition_source: Consulter la source d’édition
+  all_sheets: Voir toutes les fiches
+  paints_to_use: Peintures à utiliser
+  support_preparation: Préparation du support
+  painting_steps: Mise en peinture
+  full_sheet: Ouvrir la fiche complète
+  available: Disponible
+  import_pending: Import en attente
+  missing: Manquante
+  figure_unit: éléments à peindre
+  sheet_unit: fiches
+shopping:
+  title: Ce qu’il me manque
+  description: Une liste courte, motivée par les figurines que vous préparez.
+  ready: Prêt pour le magasin
+  remaining_suffix: encore à trouver.
+  export: Exporter la liste
+imports:
+  title: Importer mes pots
+  description: Ajoutez une photo, puis confirmez l’étiquette avant l’enregistrement.
+  choose_photo: Choisir une photo
+  change_photo: Changer la photo
+  photo_help: JPEG, PNG ou HEIC selon le navigateur. Vous vérifierez chaque étiquette avant l’ajout.
+  browse: Parcourir
+  from_iphone: Depuis l’iPhone
+  folder_ready: Le dossier OneDrive est prêt
+  folder_step: Dans Fichiers ou OneDrive, ouvrez Documents › ChatGPT › Peinture figurines › imports › photos.
+  photos_step: Déposez des photos de 4 à 8 pots, étiquettes face à l’objectif.
+  return_step: Revenez dans cette tâche et indiquez que la synchronisation est terminée.
+  photo_tip_title: Astuce photo
+  photo_tip: lumière diffuse, cadrage rapproché et peu de reflets. Le JPEG est le format le plus simple à traiter.
+  preview_notice: Cette saisie sert d’aperçu. Le skill import-miniature-paints valide et écrit ensuite le référentiel YAML.
+  new_paint: Nouvelle peinture
+  label_photo_help: Photographiez l’étiquette de face
+  brand: Marque
+  range: Gamme
+  paint_name: Nom de la teinte
+  reference: Référence
+  finish: Fini
+  approximate_color: Couleur approchée
+  quantity: Quantité
+  brand_placeholder: Citadel, Vallejo…
+  range_placeholder: Model Color, Layer…
+  paint_name_placeholder: Mephiston Red
+  reference_placeholder: "70.950"
+  finish_options:
+    - mat
+    - satiné
+    - brillant
+    - métallique
+    - transparent
+  cancel: Annuler
+  saving: Enregistrement…
+  validate: Valider la peinture
+  required_notice: Renseignez au minimum la marque et le nom.
+  preview_failed: La prévisualisation locale a échoué.
+  preview_credit: Aperçu local non enregistré
+  session_preview_suffix: est visible pour cette session. Utilisez le skill import-miniature-paints pour l’enregistrer dans data/peintures.yaml.
+paint_detail:
+  sheet: Fiche peinture
+  close: Fermer la fiche
+  color_family: Famille de couleur
+  to_qualify: À qualifier
+  manufacturer_features: Caractéristiques fabricant
+  no_manufacturer_description: Aucune description fabricant enregistrée.
+  recommended_uses: Usages conseillés
+  open_sheet: Ouvrir la fiche
+  open_manufacturer_sheet: Ouvrir la fiche fabricant
+  verified_on: Vérifié le
+  product_visual: Visuel du produit
+  applied_result: Rendu réel appliqué
+  digital_preview: Aperçu numérique indicatif
+  digital_preview_help: Le rendu écran est une approximation. Ajoutez une photo d’échantillon peint et sa source dans le référentiel pour montrer le résultat réel.
+  no_product_visual: Aucun visuel fabricant enregistré.
+  real_result_source: Voir un exemple réel sourcé
+miniature_detail:
+  painted_references: Références peintes
+  no_licensed_image: Aucune photo réutilisable n’est encore enregistrée pour cette figurine.
+  external_references: Voir les galeries externes sourcées
+  paints_to_use: Peintures à utiliser
+  support_preparation: Préparation du support
+  painting_steps: Mise en peinture
+project_detail:
+  back: Retour à l’atelier
+  sheets: fiches
+  figures: éléments à peindre
+  painting_sheets: Fiches de peinture
+  open_recipe: Consulter la recette →
+  sources: Sources du projet
+paint_page:
+  back: Retour à la collection
+  reference_prefix: Réf.
+  stock_suffix: en stock
+  color: Couleur
+errors:
+  project_not_found: Projet introuvable
+  miniature_not_found: Figurine introuvable
+  paint_not_found: Peinture introuvable

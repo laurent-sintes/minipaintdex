@@ -8,6 +8,7 @@ id: slug-stable
 name: Nom affiché
 game: Nom du jeu
 scope: Boîte de base et extension X
+expected_paintable_count: 198
 edition:
   note: Précision sur l’édition
   url: https://source-officielle.example
@@ -50,7 +51,8 @@ items:
 - `schema_version`, `id`, `name`, `game`, `scope` et `items` sont requis.
 - Les identifiants sont uniques dans leur portée, stables et écrits en minuscules ASCII avec des tirets.
 - `quantity` est un entier strictement positif.
+- `expected_paintable_count` est optionnel. Lorsqu’il est présent, il doit être égal à la somme des `quantity` de toutes les fiches du projet.
 - `paints`, `preparation`, `painting`, `reference_images` et `sources` sont toujours des listes, même vides.
-- Une image affichée exige `url`, `page_url` et `credit`; ajouter `license` lorsqu’elle est connue.
+- Une image affichée exige `url`, `page_url`, `credit` et une `license` autorisant sa réutilisation. Sans droit clair, enregistrer uniquement la page comme `source` externe.
 - Une peinture absente de `data/peintures.yaml` porte `pending_import: true`.
 - Les faits, sources et propositions de peinture ne doivent jamais être présentés comme équivalents.

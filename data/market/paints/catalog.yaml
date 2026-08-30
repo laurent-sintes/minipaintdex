@@ -1,0 +1,2289 @@
+schema_version: 1
+paints:
+  - id: prince-august-classic-uniforme-luftwaffe
+    observed_brand: PRINCE AUGUST
+    brand: Prince August
+    brand_aliases:
+      - Prince Auguste
+    manufacturer: Prince August
+    observed_range: CLASSIC
+    range: CLASSIC
+    functional_type: opaque_standard
+    reference: P816
+    name: Uniforme Luftwaffe
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#4D5A63"
+      family: Gris bleu uniforme
+    finish: mat opaque
+    medium: acrylique à l’eau
+    volume_ml: 17
+    tags:
+      - gris bleu
+      - uniforme
+      - Luftwaffe
+      - WWII
+    recommended_uses:
+      - Uniformes Luftwaffe
+      - Tissus gris bleu
+      - Équipements militaires
+    manufacturer_page: https://www.prince-august.net/peintures/classic/?sf_paged=3
+    manufacturer_image:
+      path: ""
+      source_url: ""
+      credit: ""
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5312.jpeg
+      hashes:
+        - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    verified_at: 2026-08-30
+    notes: P816 – 105 – Uniforme Luftwaffe confirmé par le catalogue Prince August. Couleur d’interface indicative.
+    deduplication_key: prince-august|classic|ref:P816
+  - id: prince-august-classic-vert-allemand-wwii
+    observed_brand: PRINCE AUGUST
+    brand: Prince August
+    brand_aliases:
+      - Prince Auguste
+    manufacturer: Prince August
+    observed_range: CLASSIC
+    range: CLASSIC
+    functional_type: opaque_standard
+    reference: P830
+    name: Vert Allemand WWII
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#667566"
+      family: Vert allemand grisé
+    finish: mat opaque
+    medium: acrylique à l’eau
+    volume_ml: 17
+    tags:
+      - vert
+      - uniforme
+      - allemand
+      - WWII
+    recommended_uses:
+      - Uniformes allemands WWII
+      - Équipements militaires
+      - Tissus vert grisé
+    manufacturer_page: https://www.prince-august.net/peintures/classic/102-vert-allem-wwii
+    manufacturer_image:
+      path: ""
+      source_url: ""
+      credit: ""
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5312.jpeg
+      hashes:
+        - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    verified_at: 2026-08-30
+    notes: P830 – 102 – Vert Allemand WWII confirmé par la fiche Prince August. Couleur d’interface indicative.
+    deduplication_key: prince-august|classic|ref:P830
+  - id: the-army-painter-speedpaint-blood-red
+    observed_brand: ARMY PAINTER
+    brand: The Army Painter
+    brand_aliases:
+      - Army Painter
+    manufacturer: The Army Painter
+    observed_range: SPEED PAINT
+    range: Speedpaint
+    functional_type: one_coat_contrast
+    reference: WP2010P
+    name: Blood Red
+    confidence: 0.98
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#A42E31"
+      family: Rouge sang
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - rouge
+      - sang
+      - Speedpaint
+      - une couche
+    recommended_uses:
+      - Uniformes rouges
+      - Peaux et tissus
+      - Zones organiques
+    manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-blood-red-wp2010p
+    manufacturer_image:
+      path: /manufacturer/army-painter-blood-red-wp2010p.jpg
+      source_url: https://thearmypainter.com/cdn/shop/files/WP2010P_0.jpg?v=1750957887&width=3000
+      credit: Packshot officiel The Army Painter · copie locale
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: https://thearmypainter.com/blogs/explore/the-army-painter-academy-how-to-paint-red-three-ways
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5311.jpeg
+      hashes:
+        - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    verified_at: 2026-08-30
+    notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée.
+    deduplication_key: the-army-painter|speedpaint|ref:WP2010P
+  - id: the-army-painter-speedpaint-crusader-skin
+    observed_brand: ARMY PAINTER
+    brand: The Army Painter
+    brand_aliases:
+      - Army Painter
+    manufacturer: The Army Painter
+    observed_range: SPEED PAINT
+    range: Speedpaint
+    functional_type: one_coat_contrast
+    reference: WP2004P
+    name: Crusader Skin
+    confidence: 0.98
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#C1846C"
+      family: Chair rougeâtre pâle
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - chair
+      - peau
+      - Speedpaint
+      - une couche
+    recommended_uses:
+      - Carnations claires
+      - Visages et mains
+      - Cuir rose-brun
+    manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-crusader-skin-wp2004p
+    manufacturer_image:
+      path: /manufacturer/army-painter-crusader-skin-wp2004p.jpg
+      source_url: https://thearmypainter.com/cdn/shop/files/WP2004P_0.jpg?v=1750957887&width=3000
+      credit: Packshot officiel The Army Painter · copie locale
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5311.jpeg
+      hashes:
+        - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    verified_at: 2026-08-30
+    notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée.
+    deduplication_key: the-army-painter|speedpaint|ref:WP2004P
+  - id: the-army-painter-speedpaint-fire-giant-orange
+    observed_brand: ARMY PAINTER
+    brand: The Army Painter
+    brand_aliases:
+      - Army Painter
+    manufacturer: The Army Painter
+    observed_range: SPEED PAINT
+    range: Speedpaint
+    functional_type: one_coat_contrast
+    reference: WP2017P
+    name: Fire Giant Orange
+    confidence: 0.98
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#D1662D"
+      family: Orange brûlé
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - orange
+      - feu
+      - Speedpaint
+      - une couche
+    recommended_uses:
+      - Flammes et lueurs
+      - Cuir roux
+      - Tissus orange
+    manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-fire-giant-orange-wp2017p
+    manufacturer_image:
+      path: /manufacturer/army-painter-fire-giant-orange-wp2017p.jpg
+      source_url: https://thearmypainter.com/cdn/shop/files/WP2017P_0.jpg?v=1750957887&width=3000
+      credit: Packshot officiel The Army Painter · copie locale
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5311.jpeg
+      hashes:
+        - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    verified_at: 2026-08-30
+    notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée.
+    deduplication_key: the-army-painter|speedpaint|ref:WP2017P
+  - id: the-army-painter-speedpaint-hardened-leather
+    observed_brand: ARMY PAINTER
+    brand: The Army Painter
+    brand_aliases:
+      - Army Painter
+    manufacturer: The Army Painter
+    observed_range: SPEED PAINT
+    range: Speedpaint
+    functional_type: one_coat_contrast
+    reference: WP2023P
+    name: Hardened Leather
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#76513A"
+      family: Brun cuir clair
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - brun
+      - cuir
+      - Speedpaint
+      - une couche
+    recommended_uses:
+      - Cuir
+      - Sangles
+      - Bois clair et textures naturelles
+    manufacturer_page: https://thearmypainter.com/en-gb/products/speedpaint-speedpaint-hardened-leather-wp2023p
+    manufacturer_image:
+      path: /manufacturer/army-painter-hardened-leather-wp2023p.jpg
+      source_url: https://thearmypainter.com/cdn/shop/files/WP2023P_0.jpg?v=1750957887&width=3000
+      credit: Packshot officiel The Army Painter · copie locale
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5312.jpeg
+      hashes:
+        - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    verified_at: 2026-08-30
+    notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée.
+    deduplication_key: the-army-painter|speedpaint|ref:WP2023P
+  - id: the-army-painter-speedpaint-highlord-blue
+    observed_brand: ARMY PAINTER
+    brand: The Army Painter
+    brand_aliases:
+      - Army Painter
+    manufacturer: The Army Painter
+    observed_range: SPEED PAINT
+    range: Speedpaint
+    functional_type: one_coat_contrast
+    reference: WP2015P
+    name: Highlord Blue
+    confidence: 0.98
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#335991"
+      family: Bleu soutenu
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - bleu
+      - uniforme
+      - Speedpaint
+      - une couche
+    recommended_uses:
+      - Uniformes bleus
+      - Armures
+      - Énergie et tissus
+    manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-highlord-blue-wp2015p
+    manufacturer_image:
+      path: /manufacturer/army-painter-highlord-blue-wp2015p.jpg
+      source_url: https://thearmypainter.com/cdn/shop/files/WP2015P_0.jpg?v=1750957887&width=3000
+      credit: Packshot officiel The Army Painter · copie locale
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5311.jpeg
+      hashes:
+        - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    verified_at: 2026-08-30
+    notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée.
+    deduplication_key: the-army-painter|speedpaint|ref:WP2015P
+  - id: the-army-painter-speedpaint-hive-dweller-purple
+    observed_brand: ARMY PAINTER
+    brand: The Army Painter
+    brand_aliases:
+      - Army Painter
+    manufacturer: The Army Painter
+    observed_range: SPEED PAINT
+    range: Speedpaint
+    functional_type: one_coat_contrast
+    reference: WP2018P
+    name: Hive Dweller Purple
+    confidence: 0.98
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#533B65"
+      family: Violet très sombre
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - violet
+      - sombre
+      - Speedpaint
+      - une couche
+    recommended_uses:
+      - Peaux extraterrestres
+      - Tissus violets
+      - Ombres surnaturelles
+    manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-hive-dweller-purple-wp2018p
+    manufacturer_image:
+      path: /manufacturer/army-painter-hive-dweller-purple-wp2018p.jpg
+      source_url: https://thearmypainter.com/cdn/shop/files/WP2018P_0.jpg?v=1750957887&width=3000
+      credit: Packshot officiel The Army Painter · copie locale
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5311.jpeg
+      hashes:
+        - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    verified_at: 2026-08-30
+    notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée.
+    deduplication_key: the-army-painter|speedpaint|ref:WP2018P
+  - id: the-army-painter-speedpaint-orc-skin
+    observed_brand: ARMY PAINTER
+    brand: The Army Painter
+    brand_aliases:
+      - Army Painter
+    manufacturer: The Army Painter
+    observed_range: SPEED PAINT
+    range: Speedpaint
+    functional_type: one_coat_contrast
+    reference: WP2009P
+    name: Orc Skin
+    confidence: 0.98
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#4E7C43"
+      family: Vert peau
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - vert
+      - peau
+      - Speedpaint
+      - une couche
+    recommended_uses:
+      - Peaux d’orcs et de créatures
+      - Tissus verts
+      - Végétation sombre
+    manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-orc-skin-wp2009p
+    manufacturer_image:
+      path: /manufacturer/army-painter-orc-skin-wp2009p.jpg
+      source_url: https://thearmypainter.com/cdn/shop/files/WP2009P_0.jpg?v=1750957887&width=3000
+      credit: Packshot officiel The Army Painter · copie locale
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5311.jpeg
+      hashes:
+        - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    verified_at: 2026-08-30
+    notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée.
+    deduplication_key: the-army-painter|speedpaint|ref:WP2009P
+  - id: the-army-painter-speedpaint-pallid-bone
+    observed_brand: ARMY PAINTER
+    brand: The Army Painter
+    brand_aliases:
+      - Army Painter
+    manufacturer: The Army Painter
+    observed_range: SPEED PAINT
+    range: Speedpaint
+    functional_type: one_coat_contrast
+    reference: WP2006P
+    name: Pallid Bone
+    confidence: 0.98
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#C4B486"
+      family: Os pâle
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - os
+      - beige
+      - Speedpaint
+      - une couche
+    recommended_uses:
+      - Os et squelettes
+      - Parchemins
+      - Toiles et tissus beiges
+    manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-pallid-bone-wp2006p
+    manufacturer_image:
+      path: /manufacturer/army-painter-pallid-bone-wp2006p.jpg
+      source_url: https://thearmypainter.com/cdn/shop/files/WP2006P_0.jpg?v=1750957887&width=3000
+      credit: Packshot officiel The Army Painter · copie locale
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5311.jpeg
+      hashes:
+        - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    verified_at: 2026-08-30
+    notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée.
+    deduplication_key: the-army-painter|speedpaint|ref:WP2006P
+  - id: the-army-painter-speedpaint-zealot-yellow
+    observed_brand: ARMY PAINTER
+    brand: The Army Painter
+    brand_aliases:
+      - Army Painter
+    manufacturer: The Army Painter
+    observed_range: SPEED PAINT
+    range: Speedpaint
+    functional_type: one_coat_contrast
+    reference: WP2013P
+    name: Zealot Yellow
+    confidence: 0.98
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#D4B12F"
+      family: Jaune chaud
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - jaune
+      - signalétique
+      - Speedpaint
+      - une couche
+    recommended_uses:
+      - Marquages jaunes
+      - Tissus
+      - Lumières chaudes
+    manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-zealot-yellow-wp2013p
+    manufacturer_image:
+      path: /manufacturer/army-painter-zealot-yellow-wp2013p.jpg
+      source_url: https://thearmypainter.com/cdn/shop/files/WP2013P_0.jpg?v=1750957887&width=3000
+      credit: Packshot officiel The Army Painter · copie locale
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5311.jpeg
+      hashes:
+        - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    verified_at: 2026-08-30
+    notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée.
+    deduplication_key: the-army-painter|speedpaint|ref:WP2013P
+  - id: vallejo-game-color-hexed-lichen
+    observed_brand: VALLEJO
+    brand: Vallejo
+    brand_aliases:
+      - Acrylicos Vallejo
+    manufacturer: Acrylicos Vallejo
+    observed_range: GAME COLOR
+    range: Game Color
+    functional_type: opaque_standard
+    reference: "72.015"
+    name: Hexed Lichen
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#56345F"
+      family: Violet lichen
+    finish: mat opaque
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - violet
+      - lichen
+      - fantasy
+      - Vallejo
+    recommended_uses:
+      - Tissus violets
+      - Peaux fantastiques
+      - Ombres colorées
+    manufacturer_page: https://acrylicosvallejo.com/wp-content/uploads/2025/09/CC266-Game_Color.pdf
+    manufacturer_image:
+      path: ""
+      source_url: ""
+      credit: ""
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5312.jpeg
+      hashes:
+        - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    verified_at: 2026-08-30
+    notes: Hexed Lichen 72.015 confirmé dans le nuancier Game Color. Couleur d’interface indicative.
+    deduplication_key: vallejo|game-color|ref:72.015
+  - id: vallejo-game-color-metallic-chainmail
+    observed_brand: VALLEJO
+    brand: Vallejo
+    brand_aliases:
+      - Acrylicos Vallejo
+    manufacturer: Acrylicos Vallejo
+    observed_range: GAME COLOR METALLIC
+    range: Game Color Metallic
+    functional_type: metallic
+    reference: "72.053"
+    name: Chainmail
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#818A90"
+      family: Acier moyen
+    finish: métallique
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - acier
+      - métal
+      - armure
+      - Vallejo
+    recommended_uses:
+      - Cottes de mailles
+      - Armes
+      - Armures et machines
+    manufacturer_page: https://acrylicosvallejo.com/en/producto/hobby/sets/basic-en/metallic-colors-72303/
+    manufacturer_image:
+      path: /manufacturer/vallejo-chainmail-72053.jpg
+      source_url: https://www.vallejo-farben.de/media/image/product/61556/md/chainmail-18-ml-game-metallic.jpg
+      credit: "Packshot Acrylicos Vallejo · copie locale · source de distribution : Vallejo-Farben.de"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5311.jpeg
+      hashes:
+        - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    verified_at: 2026-08-30
+    notes: Couleur d’interface indicative. Référence et contenance confirmées dans la documentation Vallejo.
+    deduplication_key: vallejo|game-color-metallic|ref:72.053
+  - id: vallejo-game-color-metallic-dark-gunmetal
+    observed_brand: VALLEJO
+    brand: Vallejo
+    brand_aliases:
+      - Acrylicos Vallejo
+    manufacturer: Acrylicos Vallejo
+    observed_range: GAME COLOR METALLIC
+    range: Game Color Metallic
+    functional_type: metallic
+    reference: "72.054"
+    name: Dark Gunmetal
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#51595A"
+      family: Acier sombre
+    finish: métallique
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - acier
+      - métal
+      - sombre
+      - Vallejo
+    recommended_uses:
+      - Armes sombres
+      - Armures
+      - Machines
+    manufacturer_page: https://acrylicosvallejo.com/en/category/hobby/game-color-en/page/5/
+    manufacturer_image:
+      path: ""
+      source_url: ""
+      credit: ""
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5312.jpeg
+      hashes:
+        - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    verified_at: 2026-08-30
+    notes: Nom Dark Gunmetal et référence confirmés dans le catalogue Vallejo. Couleur d’interface indicative.
+    deduplication_key: vallejo|game-color-metallic|ref:72.054
+  - id: vallejo-game-color-metallic-silver
+    observed_brand: VALLEJO
+    brand: Vallejo
+    brand_aliases:
+      - Acrylicos Vallejo
+    manufacturer: Acrylicos Vallejo
+    observed_range: GAME COLOR METALLIC
+    range: Game Color Metallic
+    functional_type: metallic
+    reference: "72.052"
+    name: Silver
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#B9BEC1"
+      family: Argent clair
+    finish: métallique
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - argent
+      - métal
+      - éclaircissement
+      - Vallejo
+    recommended_uses:
+      - Arêtes métalliques
+      - Armes et armures claires
+      - Éclats et usure
+    manufacturer_page: https://acrylicosvallejo.com/en/producto/hobby/sets/basic-en/metallic-colors-72303/
+    manufacturer_image:
+      path: /manufacturer/vallejo-silver-72052.jpg
+      source_url: https://www.vallejo-farben.de/media/image/product/61452/md/silver-18-ml-game-metallic.jpg
+      credit: "Packshot Acrylicos Vallejo · copie locale · source de distribution : Vallejo-Farben.de"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5311.jpeg
+      hashes:
+        - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    verified_at: 2026-08-30
+    notes: Couleur d’interface indicative. Référence et contenance confirmées dans la documentation Vallejo.
+    deduplication_key: vallejo|game-color-metallic|ref:72.052
+  - id: vallejo-model-color-yellow-ochre
+    observed_brand: VALLEJO
+    brand: Vallejo
+    brand_aliases:
+      - Acrylicos Vallejo
+    manufacturer: Acrylicos Vallejo
+    observed_range: MODEL COLOR
+    range: Model Color
+    functional_type: opaque_standard
+    reference: "70.913"
+    name: Yellow Ochre
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#C49432"
+      family: Ocre jaune
+    finish: mat opaque
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - ocre
+      - jaune
+      - terre
+      - Vallejo
+    recommended_uses:
+      - Tissus ocres
+      - Terres et poussières
+      - Éclaircissements chauds
+    manufacturer_page: https://acrylicosvallejo.com/wp-content/uploads/2025/02/MO-CC078Catalago-2025-R01-Baja2.pdf
+    manufacturer_image:
+      path: ""
+      source_url: ""
+      credit: ""
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5312.jpeg
+      hashes:
+        - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    verified_at: 2026-08-30
+    notes: Yellow Ochre 70.913 confirmé dans le catalogue Vallejo. Couleur d’interface indicative.
+    deduplication_key: vallejo|model-color|ref:70.913
+  - id: vallejo-true-metallic-metal-aged-metal-base
+    observed_brand: VALLEJO
+    brand: Vallejo
+    brand_aliases:
+      - Acrylicos Vallejo
+    manufacturer: Acrylicos Vallejo
+    observed_range: TRUE METALLIC METAL
+    range: TRUE METALLIC METAL
+    functional_type: metallic
+    reference: "77.139"
+    name: Aged Metal (Base)
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#665C4D"
+      family: Métal vieilli brun
+    finish: métallique
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - métal
+      - vieilli
+      - brun
+      - base
+      - Vallejo
+    recommended_uses:
+      - Métal ancien
+      - Armures patinées
+      - Machines et décors
+    manufacturer_page: https://acrylicosvallejo.com/en/producto/hobby/sets/true-metallic-metal-sets-en/aged-metal-paint-set-77258/
+    manufacturer_image:
+      path: ""
+      source_url: ""
+      credit: ""
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5312.jpeg
+      hashes:
+        - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    verified_at: 2026-08-30
+    notes: Aged Metal (Base) confirmé par la fiche fabricant du set 77.258. Couleur d’interface indicative.
+    deduplication_key: vallejo|true-metallic-metal|ref:77.139
+  - id: vallejo-xpress-color-fairy-skin
+    observed_brand: VALLEJO
+    brand: Vallejo
+    brand_aliases:
+      - Acrylicos Vallejo
+    manufacturer: Acrylicos Vallejo
+    observed_range: XPRESS COLOR
+    range: Xpress Color
+    functional_type: one_coat_contrast
+    reference: "72.457"
+    name: Fairy Skin
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#CA8774"
+      family: Chair rosée
+    finish: mat transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - chair
+      - rose
+      - Xpress Color
+      - une couche
+    recommended_uses:
+      - Carnations rosées
+      - Créatures pâles
+      - Tissus rose terre cuite
+    manufacturer_page: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
+    manufacturer_image:
+      path: /manufacturer/vallejo-fairy-skin-72457.png
+      source_url: https://www.vallejo-farben.de/media/image/product/65797/md/fairy-skin-18-ml-xpress-color.png
+      credit: "Packshot Acrylicos Vallejo · copie locale · source de distribution : Vallejo-Farben.de"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5311.jpeg
+      hashes:
+        - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    verified_at: 2026-08-30
+    notes: Appliquer sur une sous-couche blanche, grise ou claire. Couleur d’interface indicative.
+    deduplication_key: vallejo|xpress-color|ref:72.457
+  - id: vallejo-xpress-color-khaki-drill
+    observed_brand: VALLEJO
+    brand: Vallejo
+    brand_aliases:
+      - Acrylicos Vallejo
+    manufacturer: Acrylicos Vallejo
+    observed_range: XPRESS COLOR
+    range: Xpress Color
+    functional_type: one_coat_contrast
+    reference: "72.451"
+    name: Khaki Drill
+    confidence: 0.98
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#766F48"
+      family: Kaki
+    finish: mat transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - kaki
+      - uniforme
+      - Xpress Color
+      - une couche
+    recommended_uses:
+      - Uniformes
+      - Sangles et paquetages
+      - Toiles et tissus militaires
+    manufacturer_page: https://acrylicosvallejo.com/en/category/hobby/xpress-color-en/
+    manufacturer_image:
+      path: /manufacturer/vallejo-khaki-drill-72451.png
+      source_url: https://www.vallejo-farben.de/media/image/product/65791/md/khaki-drill-18-ml-xpress-color.png
+      credit: "Packshot Acrylicos Vallejo · copie locale · source de distribution : Vallejo-Farben.de"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5311.jpeg
+      hashes:
+        - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    verified_at: 2026-08-30
+    notes: Appliquer sur une sous-couche blanche, grise ou claire. Couleur d’interface indicative.
+    deduplication_key: vallejo|xpress-color|ref:72.451
+  - id: vallejo-xpress-color-lizard-green
+    observed_brand: VALLEJO
+    brand: Vallejo
+    brand_aliases:
+      - Acrylicos Vallejo
+    manufacturer: Acrylicos Vallejo
+    observed_range: XPRESS COLOR
+    range: Xpress Color
+    functional_type: one_coat_contrast
+    reference: "72.418"
+    name: Lizard Green
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#315A3B"
+      family: Vert sombre
+    finish: mat transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - vert
+      - Xpress Color
+      - une couche
+      - écailles
+    recommended_uses:
+      - Écailles
+      - Peaux vert sombre
+      - Feuillages et uniformes
+    manufacturer_page: https://acrylicosvallejo.com/en/category/hobby/xpress-color-en/
+    manufacturer_image:
+      path: /manufacturer/vallejo-lizard-green-72418.jpg
+      source_url: https://cld-assets.dick-blick.com/image/upload/d_ComingSoon_b9zgfu.jpg/c_limit%2Cw_1920/f_auto/q_auto/v1/09471-7758-M-4ww?_a=BAVMn6DY0
+      credit: "Packshot Acrylicos Vallejo · copie locale · source de distribution : Blick Art Materials"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5311.jpeg
+      hashes:
+        - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    verified_at: 2026-08-30
+    notes: Appliquer sur une sous-couche blanche, grise ou claire. Couleur d’interface indicative.
+    deduplication_key: vallejo|xpress-color|ref:72.418
+  - id: vallejo-xpress-color-mummy-white
+    observed_brand: VALLEJO
+    brand: Vallejo
+    brand_aliases:
+      - Acrylicos Vallejo
+    manufacturer: Acrylicos Vallejo
+    observed_range: XPRESS COLOR
+    range: Xpress Color
+    functional_type: one_coat_contrast
+    reference: "72.449"
+    name: Mummy White
+    confidence: 0.98
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#D8D5C5"
+      family: Blanc cassé
+    finish: mat transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - blanc cassé
+      - os
+      - Xpress Color
+      - une couche
+    recommended_uses:
+      - Tissus blancs ombrés
+      - Os pâle
+      - Bandages et parchemins
+    manufacturer_page: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
+    manufacturer_image:
+      path: /manufacturer/vallejo-mummy-white-72449.png
+      source_url: https://www.vallejo-farben.de/media/image/product/65789/md/mummy-white-18-ml-xpress-color.png
+      credit: "Packshot Acrylicos Vallejo · copie locale · source de distribution : Vallejo-Farben.de"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5311.jpeg
+      hashes:
+        - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    verified_at: 2026-08-30
+    notes: Appliquer sur une sous-couche blanche, grise ou claire. Couleur d’interface indicative.
+    deduplication_key: vallejo|xpress-color|ref:72.449
+  - id: vallejo-xpress-color-space-grey
+    observed_brand: VALLEJO
+    brand: Vallejo
+    brand_aliases:
+      - Acrylicos Vallejo
+    manufacturer: Acrylicos Vallejo
+    observed_range: XPRESS COLOR
+    range: Xpress Color
+    functional_type: one_coat_contrast
+    reference: "72.422"
+    name: Space Grey
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#607383"
+      family: Gris bleuté
+    finish: mat transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - gris bleu
+      - uniforme
+      - Xpress Color
+      - une couche
+    recommended_uses:
+      - Uniformes gris-bleu
+      - Armures froides
+      - Fourrures et tissus
+    manufacturer_page: https://acrylicosvallejo.com/en/category/hobby/xpress-color-en/
+    manufacturer_image:
+      path: /manufacturer/vallejo-space-grey-72422.jpg
+      source_url: https://www.vallejo-farben.de/media/image/product/61553/md/space-grey-18-ml-xpress-color.jpg
+      credit: "Packshot Acrylicos Vallejo · copie locale · source de distribution : Vallejo-Farben.de"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5311.jpeg
+      hashes:
+        - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    verified_at: 2026-08-30
+    notes: Appliquer sur une sous-couche blanche, grise ou claire. Couleur d’interface indicative.
+    deduplication_key: vallejo|xpress-color|ref:72.422
+  - id: vallejo-xpress-color-intense-viking-grey
+    observed_brand: VALLEJO
+    brand: Vallejo
+    brand_aliases:
+      - Acrylicos Vallejo
+    manufacturer: Acrylicos Vallejo
+    observed_range: XPRESS COLOR INTENSE
+    range: Xpress Color Intense
+    functional_type: one_coat_contrast
+    reference: "72.483"
+    name: Viking Grey
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#46515A"
+      family: Gris froid intense
+    finish: mat transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - gris
+      - bleu froid
+      - Xpress Color Intense
+      - une couche
+    recommended_uses:
+      - Armures gris froid
+      - Uniformes
+      - Ombres bleutées
+    manufacturer_page: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
+    manufacturer_image:
+      path: /manufacturer/vallejo-viking-grey-72483.png
+      source_url: https://www.miniaturicum.de/media/image/product/46878/md/vallejo-xpress-color-viking-grey.png
+      credit: "Packshot Acrylicos Vallejo · copie locale · source de distribution : Miniaturicum"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5311.jpeg
+      hashes:
+        - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    verified_at: 2026-08-30
+    notes: Xpress Color Intense, plus pigmentée que la gamme Xpress standard. Couleur d’interface indicative.
+    deduplication_key: vallejo|xpress-color-intense|ref:72.483
+  - id: cit-contrast-aggaros-dunes
+    observed_brand: Citadel
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: Contrast
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: ""
+    name: Aggaros Dunes
+    confidence: 0
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#806b43"
+      family: Ocre sable
+    finish: transparent
+    medium: acrylique
+    volume_ml: 18
+    tags:
+      - ocre
+      - sable
+      - cuir
+      - contrast
+    recommended_uses:
+      - Sable et terre
+      - Cuir clair
+      - Os vieilli et tissus ocres
+    manufacturer_page: https://www.warhammer.com/shop/Aggaros-Dunes-2019
+    manufacturer_image:
+      path: /manufacturer/aggaros-dunes.jpg
+      source_url: ""
+      credit: "Packshot Citadel · copie locale · source de distribution : The Art Store"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: IMG_5310.jpeg
+      hashes: []
+    verified_at: 2026-08-30
+    notes: ""
+    deduplication_key: warhammer-colour|contrast|name:aggaros-dunes
+  - id: warhammer-colour-contrast-apothecary-white
+    observed_brand: CITADEL COLOUR
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: CONTRAST
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-34
+    name: Apothecary White
+    confidence: 1
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#C5D0D2"
+      family: Blanc ombré froid
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - blanc
+      - gris froid
+      - Contrast
+      - une couche
+    recommended_uses:
+      - Armures blanches
+      - Tissus blancs
+      - Ombres froides sur sous-couche blanche
+    manufacturer_page: https://trade.games-workshop.com/wp-content/uploads/2019/11/03449999655_Trade_OF_2020_SPA_LoRes.pdf
+    manufacturer_image:
+      path: ""
+      source_url: ""
+      credit: ""
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5312.jpeg
+      hashes:
+        - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    verified_at: 2026-08-30
+    notes: Identité confirmée par le propriétaire malgré l’étiquette manuscrite. Couleur d’interface indicative.
+    deduplication_key: warhammer-colour|contrast|ref:29-34
+  - id: cit-contrast-briar-queen-chill
+    observed_brand: Citadel
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: Contrast
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-56
+    name: Briar Queen Chill
+    confidence: 0
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#74c4c9"
+      family: Bleu spectral
+    finish: transparent
+    medium: acrylique
+    volume_ml: 18
+    tags:
+      - bleu clair
+      - spectral
+      - glace
+      - contrast
+    recommended_uses:
+      - Fantômes
+      - Fumées et apparitions
+      - Glace et blancs corrompus
+    manufacturer_page: https://www.warhammer.com/shop/contrast-briar-queen-chill-18ml-2022
+    manufacturer_image:
+      path: /manufacturer/briar-queen-chill-clean.png
+      source_url: ""
+      credit: Packshot Citadel · copie locale · visuel Games Workshop Trade via TC War Room
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: IMG_5310.jpeg
+      hashes: []
+    verified_at: 2026-08-30
+    notes: ""
+    deduplication_key: warhammer-colour|contrast|ref:29-56
+  - id: warhammer-colour-contrast-creed-camo
+    observed_brand: CITADEL COLOUR
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: CONTRAST
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-23
+    name: Creed Camo
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#3F4930"
+      family: Vert camouflage sombre
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - vert
+      - camouflage
+      - militaire
+      - Contrast
+      - une couche
+    recommended_uses:
+      - Uniformes
+      - Camouflages
+      - Végétation sombre
+    manufacturer_page: https://trade.games-workshop.com/wp-content/uploads/2019/11/03449999655_Trade_OF_2020_SPA_LoRes.pdf
+    manufacturer_image:
+      path: ""
+      source_url: ""
+      credit: ""
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5312.jpeg
+      hashes:
+        - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    verified_at: 2026-08-30
+    notes: Référence confirmée par le catalogue Games Workshop Trade. Couleur d’interface indicative.
+    deduplication_key: warhammer-colour|contrast|ref:29-23
+  - id: cit-contrast-cygor-brown
+    observed_brand: Citadel
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: Contrast
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: ""
+    name: Cygor Brown
+    confidence: 0
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#3a2322"
+      family: Brun profond
+    finish: transparent
+    medium: acrylique
+    volume_ml: 18
+    tags:
+      - brun
+      - cuir
+      - ombre
+      - contrast
+    recommended_uses:
+      - Bois très sombre
+      - Cuir profond
+      - Ombres chaudes
+    manufacturer_page: https://www.warhammer.com/shop/Cygor-Brown-2019
+    manufacturer_image:
+      path: /manufacturer/cygor-brown.png
+      source_url: ""
+      credit: "Packshot Citadel · copie locale · source de distribution : Wargames Emporium"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: IMG_5310.jpeg
+      hashes: []
+    verified_at: 2026-08-30
+    notes: ""
+    deduplication_key: warhammer-colour|contrast|name:cygor-brown
+  - id: cit-contrast-darkoath-flesh
+    observed_brand: Citadel
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: Contrast
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-33
+    name: Darkoath Flesh
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#9a6b58"
+      family: Chair hâlée
+    finish: transparent
+    medium: acrylique
+    volume_ml: 18
+    tags:
+      - chair
+      - peau
+      - contrast
+    recommended_uses:
+      - Carnations hâlées
+      - Cuir clair
+      - Tissus terre cuite
+    manufacturer_page: https://www.warhammer.com/shop/Darkoath-Flesh-2019
+    manufacturer_image:
+      path: /manufacturer/darkoath-flesh.jpg
+      source_url: ""
+      credit: "Packshot Citadel · copie locale · source de distribution : More Hobby Games"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: IMG_5310.jpeg|imports/archive/2026-08-30/IMG_5312.jpeg
+      hashes:
+        - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    verified_at: 2026-08-30
+    notes: Couleur d’interface indicative.
+    deduplication_key: warhammer-colour|contrast|ref:29-33
+  - id: cit-contrast-gore-grunta-fur
+    observed_brand: Citadel
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: Contrast
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: ""
+    name: Gore-Grunta Fur
+    confidence: 0
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#6d3524"
+      family: Brun roux
+    finish: transparent
+    medium: acrylique
+    volume_ml: 18
+    tags:
+      - brun rouge
+      - fourrure
+      - cuir
+      - contrast
+    recommended_uses:
+      - Fourrures
+      - Cuir roux
+      - Bois chaud
+    manufacturer_page: https://www.warhammer.com/shop/Gore-Grunta-Fur-2019
+    manufacturer_image:
+      path: /manufacturer/gore-grunta-fur.jpg
+      source_url: ""
+      credit: "Packshot Citadel · copie locale · source de distribution : Hobby-Max"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: IMG_5310.jpeg
+      hashes: []
+    verified_at: 2026-08-30
+    notes: ""
+    deduplication_key: warhammer-colour|contrast|name:gore-grunta-fur
+  - id: warhammer-colour-contrast-gryph-charger-grey
+    observed_brand: CITADEL COLOUR
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: CONTRAST
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-35
+    name: Gryph-Charger Grey
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#607985"
+      family: Gris bleu froid
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - gris bleu
+      - froid
+      - Contrast
+      - une couche
+    recommended_uses:
+      - Armures gris bleu
+      - Fourrures
+      - Ombres froides
+    manufacturer_page: https://trade.games-workshop.com/wp-content/uploads/2019/11/03449999655_Trade_OF_2020_SPA_LoRes.pdf
+    manufacturer_image:
+      path: ""
+      source_url: ""
+      credit: ""
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5312.jpeg
+      hashes:
+        - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    verified_at: 2026-08-30
+    notes: Référence confirmée par le catalogue Games Workshop Trade. Couleur d’interface indicative.
+    deduplication_key: warhammer-colour|contrast|ref:29-35
+  - id: cit-contrast-guilliman-flesh
+    observed_brand: Citadel
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: Contrast
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-32
+    name: Guilliman Flesh
+    confidence: 0
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#a76550"
+      family: Chair chaude
+    finish: transparent
+    medium: acrylique
+    volume_ml: 18
+    tags:
+      - chair
+      - peau
+      - contrast
+    recommended_uses:
+      - Carnations claires
+      - Visages
+      - Mains et détails de peau
+    manufacturer_page: https://www.warhammer.com/shop/Guilliman-Flesh-2019
+    manufacturer_image:
+      path: /manufacturer/guilliman-flesh.png
+      source_url: ""
+      credit: "Packshot Citadel · copie locale · source de distribution : The Forge"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: IMG_5310.jpeg
+      hashes: []
+    verified_at: 2026-08-30
+    notes: ""
+    deduplication_key: warhammer-colour|contrast|ref:29-32
+  - id: warhammer-colour-contrast-gutrippa-flesh
+    observed_brand: CITADEL COLOUR
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: CONTRAST
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-49
+    name: Gutrippa Flesh
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#87934E"
+      family: Vert peau jaunâtre
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - vert
+      - peau
+      - orque
+      - Contrast
+      - une couche
+    recommended_uses:
+      - Peaux d’orques
+      - Créatures
+      - Végétation claire
+    manufacturer_page: https://www.blackheartgames.com.au/collections/back-in-stock
+    manufacturer_image:
+      path: ""
+      source_url: ""
+      credit: ""
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5312.jpeg
+      hashes:
+        - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    verified_at: 2026-08-30
+    notes: Référence confirmée par une liste de distribution. Couleur d’interface indicative.
+    deduplication_key: warhammer-colour|contrast|ref:29-49
+  - id: cit-contrast-imperial-fist
+    observed_brand: Citadel
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: Contrast
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-54
+    name: Imperial Fist
+    confidence: 0
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#ffb300"
+      family: Jaune vif
+    finish: transparent
+    medium: acrylique
+    volume_ml: 18
+    tags:
+      - jaune
+      - vif
+      - contrast
+    recommended_uses:
+      - Armures jaune vif
+      - Héraldiques
+      - Aplats saturés sur sous-couche claire
+    manufacturer_page: https://www.warhammer.com/shop/contrast-imperial-fist-18ml-2022
+    manufacturer_image:
+      path: /manufacturer/imperial-fist.jpg
+      source_url: ""
+      credit: "Packshot Citadel · copie locale · source de distribution : L’Atelier du Train"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: IMG_5310.jpeg
+      hashes: []
+    verified_at: 2026-08-30
+    notes: ""
+    deduplication_key: warhammer-colour|contrast|ref:29-54
+  - id: cit-contrast-ironjawz-yellow
+    observed_brand: Citadel
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: Contrast
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-52
+    name: Ironjawz Yellow
+    confidence: 0
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#d6a800"
+      family: Jaune ocre
+    finish: transparent
+    medium: acrylique
+    volume_ml: 18
+    tags:
+      - jaune
+      - ocre
+      - contrast
+    recommended_uses:
+      - Armures jaunes
+      - Cuir ocre
+      - Grandes surfaces texturées
+    manufacturer_page: https://www.warhammer.com/shop/contrast-ironjawz-yellow-18ml-2022
+    manufacturer_image:
+      path: /manufacturer/ironjawz-yellow.png
+      source_url: ""
+      credit: Packshot Citadel · copie locale · visuel Games Workshop Trade via Kick-Ass Mail Order
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: IMG_5310.jpeg
+      hashes: []
+    verified_at: 2026-08-30
+    notes: ""
+    deduplication_key: warhammer-colour|contrast|ref:29-52
+  - id: cit-contrast-kroxigor-scales
+    observed_brand: Citadel
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: Contrast
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-55
+    name: Kroxigor Scales
+    confidence: 0
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#0b7f91"
+      family: Turquoise vif
+    finish: transparent
+    medium: acrylique
+    volume_ml: 18
+    tags:
+      - turquoise
+      - bleu
+      - contrast
+    recommended_uses:
+      - Peaux et écailles
+      - Gemmes et fumées
+      - Vert-de-gris dilué
+    manufacturer_page: https://www.warhammer.com/shop/contrast-kroxigor-scales-18ml-2022
+    manufacturer_image:
+      path: /manufacturer/kroxigor-scales.png
+      source_url: ""
+      credit: "Packshot Citadel · copie locale · source de distribution : Wargame Portal"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: IMG_5310.jpeg
+      hashes: []
+    verified_at: 2026-08-30
+    notes: ""
+    deduplication_key: warhammer-colour|contrast|ref:29-55
+  - id: cit-contrast-leviadon-blue
+    observed_brand: Citadel
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: Contrast
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-17
+    name: Leviadon Blue
+    confidence: 0
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#112c4f"
+      family: Bleu sombre
+    finish: transparent
+    medium: acrylique
+    volume_ml: 18
+    tags:
+      - bleu
+      - ombre
+      - contrast
+    recommended_uses:
+      - Armures bleu nuit
+      - Tissus profonds
+      - Ombres froides
+    manufacturer_page: https://www.warhammer.com/shop/Leviadon-Blue-2019
+    manufacturer_image:
+      path: /manufacturer/leviadon-blue.jpg
+      source_url: ""
+      credit: "Packshot Citadel · copie locale · source de distribution : Ludifolie"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: https://www.imago.cz/citadel-contrast-leviadon-blue
+    provenance:
+      photo: IMG_5310.jpeg
+      hashes: []
+    verified_at: 2026-08-30
+    notes: ""
+    deduplication_key: warhammer-colour|contrast|ref:29-17
+  - id: warhammer-colour-contrast-mantis-warriors-green
+    observed_brand: CITADEL COLOUR
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: CONTRAST
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-47
+    name: Mantis Warriors Green
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#587B2B"
+      family: Vert mante
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - vert
+      - nature
+      - Contrast
+      - une couche
+    recommended_uses:
+      - Peaux vertes
+      - Végétation
+      - Armures et tissus verts
+    manufacturer_page: https://www.blackheartgames.com.au/collections/back-in-stock
+    manufacturer_image:
+      path: ""
+      source_url: ""
+      credit: ""
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5312.jpeg
+      hashes:
+        - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    verified_at: 2026-08-30
+    notes: Référence confirmée par une liste de distribution. Couleur d’interface indicative.
+    deduplication_key: warhammer-colour|contrast|ref:29-47
+  - id: warhammer-colour-contrast-militarum-green
+    observed_brand: CITADEL COLOUR
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: CONTRAST
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-24
+    name: Militarum Green
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#4B5535"
+      family: Vert militaire
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - vert
+      - militaire
+      - uniforme
+      - Contrast
+      - une couche
+    recommended_uses:
+      - Uniformes
+      - Armures vertes
+      - Véhicules et équipements
+    manufacturer_page: https://trade.games-workshop.com/wp-content/uploads/2019/11/03449999655_Trade_OF_2020_SPA_LoRes.pdf
+    manufacturer_image:
+      path: ""
+      source_url: ""
+      credit: ""
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5312.jpeg
+      hashes:
+        - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    verified_at: 2026-08-30
+    notes: Référence confirmée par le catalogue Games Workshop Trade. Couleur d’interface indicative.
+    deduplication_key: warhammer-colour|contrast|ref:29-24
+  - id: cit-contrast-nazdreg-yellow
+    observed_brand: Citadel
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: Contrast
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-21
+    name: Nazdreg Yellow
+    confidence: 0
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#8b7c21"
+      family: Jaune moutarde
+    finish: transparent
+    medium: acrylique
+    volume_ml: 18
+    tags:
+      - jaune
+      - ocre
+      - contrast
+    recommended_uses:
+      - Jaunes ombrés
+      - Os chaud
+      - Métal doré patiné
+    manufacturer_page: https://www.warhammer.com/shop/Nazdreg-Yellow-2019
+    manufacturer_image:
+      path: /manufacturer/nazdreg-yellow.png
+      source_url: ""
+      credit: Packshot Citadel · copie locale · visuel Games Workshop Trade via The Guardtower
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: IMG_5310.jpeg
+      hashes: []
+    verified_at: 2026-08-30
+    notes: ""
+    deduplication_key: warhammer-colour|contrast|ref:29-21
+  - id: warhammer-colour-contrast-ork-flesh
+    observed_brand: CITADEL COLOUR
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: CONTRAST
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-22
+    name: Ork Flesh
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#1E5947"
+      family: Vert orque profond
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - vert
+      - orque
+      - peau
+      - Contrast
+      - une couche
+    recommended_uses:
+      - Peaux d’orques
+      - Écailles
+      - Tissus verts profonds
+    manufacturer_page: https://trade.games-workshop.com/wp-content/uploads/2019/11/03449999655_Trade_OF_2020_SPA_LoRes.pdf
+    manufacturer_image:
+      path: ""
+      source_url: ""
+      credit: ""
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5312.jpeg
+      hashes:
+        - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    verified_at: 2026-08-30
+    notes: Référence confirmée par le catalogue Games Workshop Trade. Couleur d’interface indicative.
+    deduplication_key: warhammer-colour|contrast|ref:29-22
+  - id: warhammer-colour-contrast-plaguebearer-flesh
+    observed_brand: CITADEL COLOUR
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: CONTRAST
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-42
+    name: Plaguebearer Flesh
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#9B9A45"
+      family: Vert olive maladif
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - vert
+      - olive
+      - peau
+      - Contrast
+      - une couche
+    recommended_uses:
+      - Peaux maladives
+      - Nurgle et démons
+      - Végétation jaunie
+    manufacturer_page: https://trade.games-workshop.com/wp-content/uploads/2019/11/03449999655_Trade_OF_2020_SPA_LoRes.pdf
+    manufacturer_image:
+      path: ""
+      source_url: ""
+      credit: ""
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5312.jpeg
+      hashes:
+        - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    verified_at: 2026-08-30
+    notes: Référence confirmée par le catalogue Games Workshop Trade. Couleur d’interface indicative.
+    deduplication_key: warhammer-colour|contrast|ref:29-42
+  - id: cit-contrast-pylar-glacier
+    observed_brand: Citadel
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: Contrast
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-58
+    name: Pylar Glacier
+    confidence: 0
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#45c5e9"
+      family: Bleu glacier
+    finish: transparent
+    medium: acrylique
+    volume_ml: 18
+    tags:
+      - bleu clair
+      - glace
+      - contrast
+    recommended_uses:
+      - Glace et givre
+      - Lueurs sur métal
+      - Effets énergétiques pâles
+    manufacturer_page: https://www.warhammer.com/shop/contrast-pylar-glacier-18ml-2022
+    manufacturer_image:
+      path: /manufacturer/pylar-glacier.png
+      source_url: ""
+      credit: Packshot Citadel · copie locale · visuel Games Workshop Trade via Herrick Games
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: IMG_5310.jpeg
+      hashes: []
+    verified_at: 2026-08-30
+    notes: ""
+    deduplication_key: warhammer-colour|contrast|ref:29-58
+  - id: warhammer-colour-contrast-snakebite-leather
+    observed_brand: CITADEL COLOUR
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: CONTRAST
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-27
+    name: Snakebite Leather
+    confidence: 0.99
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#725026"
+      family: Brun cuir chaud
+    finish: transparent contrasté
+    medium: acrylique à l’eau
+    volume_ml: 18
+    tags:
+      - brun
+      - cuir
+      - bois
+      - Contrast
+      - une couche
+    recommended_uses:
+      - Cuir
+      - Bois
+      - Sangles et équipements
+    manufacturer_page: https://trade.games-workshop.com/wp-content/uploads/2019/11/03449999655_Trade_OF_2020_SPA_LoRes.pdf
+    manufacturer_image:
+      path: ""
+      source_url: ""
+      credit: ""
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: imports/archive/2026-08-30/IMG_5312.jpeg
+      hashes:
+        - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    verified_at: 2026-08-30
+    notes: Référence confirmée par le catalogue Games Workshop Trade. Couleur d’interface indicative.
+    deduplication_key: warhammer-colour|contrast|ref:29-27
+  - id: cit-contrast-talassar-blue
+    observed_brand: Citadel
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: Contrast
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-39
+    name: Talassar Blue
+    confidence: 0
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#155cc4"
+      family: Bleu vif
+    finish: transparent
+    medium: acrylique
+    volume_ml: 18
+    tags:
+      - bleu
+      - vif
+      - contrast
+    recommended_uses:
+      - Armures bleues vives
+      - Énergie
+      - Tissus saturés
+    manufacturer_page: https://www.warhammer.com/shop/Talassar-Blue-2019
+    manufacturer_image:
+      path: /manufacturer/talassar-blue.jpg
+      source_url: ""
+      credit: "Packshot Citadel · copie locale · source de distribution : Hobby-Max"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: IMG_5310.jpeg
+      hashes: []
+    verified_at: 2026-08-30
+    notes: ""
+    deduplication_key: warhammer-colour|contrast|ref:29-39
+  - id: cit-contrast-terradon-turquoise
+    observed_brand: Citadel
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: Contrast
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: ""
+    name: Terradon Turquoise
+    confidence: 0
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#0f6b70"
+      family: Turquoise profond
+    finish: transparent
+    medium: acrylique
+    volume_ml: 18
+    tags:
+      - turquoise
+      - bleu
+      - contrast
+    recommended_uses:
+      - Écailles
+      - Eaux profondes
+      - Effets magiques
+    manufacturer_page: https://www.warhammer.com/shop/Terradon-Turquoise-2019
+    manufacturer_image:
+      path: /manufacturer/terradon-turquoise.jpg
+      source_url: ""
+      credit: "Packshot Citadel · copie locale · source de distribution : The Art Store"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: IMG_5310.jpeg
+      hashes: []
+    verified_at: 2026-08-30
+    notes: ""
+    deduplication_key: warhammer-colour|contrast|name:terradon-turquoise
+  - id: cit-contrast-wyldwood
+    observed_brand: Citadel
+    brand: Warhammer Colour
+    brand_aliases:
+      - Citadel
+      - Citadel Colour
+      - Games Workshop
+    manufacturer: Games Workshop
+    observed_range: Contrast
+    range: Contrast
+    functional_type: one_coat_contrast
+    reference: 29-30
+    name: Wyldwood
+    confidence: 0
+    data_status: confirme
+    lifecycle_status: unknown
+    warnings: []
+    color:
+      hex: "#2e241e"
+      family: Brun très sombre
+    finish: transparent
+    medium: acrylique
+    volume_ml: 18
+    tags:
+      - brun
+      - bois
+      - ombre
+      - contrast
+    recommended_uses:
+      - Bois
+      - Cuir sombre
+      - Fourrures et ombres brunes
+    manufacturer_page: https://www.warhammer.com/shop/Wyldwood-2019
+    manufacturer_image:
+      path: /manufacturer/wyldwood.jpg
+      source_url: ""
+      credit: "Packshot Citadel · copie locale · source de distribution : Pandemonium Books & Games"
+    result_image:
+      path: ""
+      source_url: ""
+      credit: ""
+      license: ""
+      reference_url: ""
+    provenance:
+      photo: IMG_5310.jpeg
+      hashes: []
+    verified_at: 2026-08-30
+    notes: ""
+    deduplication_key: warhammer-colour|contrast|ref:29-30

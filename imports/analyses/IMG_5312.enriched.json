@@ -1,0 +1,863 @@
+{
+  "source_photo": "imports/photos/IMG_5312.jpeg",
+  "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+  "normalized_at": "2026-08-30T16:44:46.679051+00:00",
+  "paints": [
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Darkoath Flesh",
+      "reference_observed": "29-33",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme et nom lisibles",
+        "référence confirmée par le catalogue déjà vérifié"
+      ],
+      "warnings": [],
+      "brand_canonical": "Warhammer Colour",
+      "brand_aliases": [
+        "Citadel",
+        "Citadel Colour",
+        "Games Workshop"
+      ],
+      "manufacturer": "Games Workshop",
+      "range_canonical": "Contrast",
+      "functional_class": "one_coat_contrast",
+      "reference": "29-33",
+      "name": "Darkoath Flesh",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/photos/IMG_5312.jpeg",
+      "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+      "dedupe_key": "warhammer-colour|contrast|ref:29-33",
+      "enrichment": {
+        "color_hex": "#9A6B58",
+        "color_family": "Chair hâlée",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "chair",
+          "peau",
+          "brun",
+          "Contrast",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Carnations hâlées",
+          "Cuir clair",
+          "Tissus terre cuite"
+        ],
+        "manufacturer_url": "https://www.warhammer.com/shop/Darkoath-Flesh-2019",
+        "local_image": "/manufacturer/darkoath-flesh.jpg",
+        "image_credit": "Packshot Citadel · copie locale · source de distribution : More Hobby Games",
+        "verified_on": "2026-08-30",
+        "notes": "Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Plaguebearer Flesh",
+      "reference_observed": "29-42",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme et nom lisibles",
+        "référence confirmée par le catalogue Games Workshop Trade"
+      ],
+      "warnings": [],
+      "brand_canonical": "Warhammer Colour",
+      "brand_aliases": [
+        "Citadel",
+        "Citadel Colour",
+        "Games Workshop"
+      ],
+      "manufacturer": "Games Workshop",
+      "range_canonical": "Contrast",
+      "functional_class": "one_coat_contrast",
+      "reference": "29-42",
+      "name": "Plaguebearer Flesh",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/photos/IMG_5312.jpeg",
+      "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+      "dedupe_key": "warhammer-colour|contrast|ref:29-42",
+      "enrichment": {
+        "color_hex": "#9B9A45",
+        "color_family": "Vert olive maladif",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "vert",
+          "olive",
+          "peau",
+          "Contrast",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Peaux maladives",
+          "Nurgle et démons",
+          "Végétation jaunie"
+        ],
+        "manufacturer_url": "https://trade.games-workshop.com/wp-content/uploads/2019/11/03449999655_Trade_OF_2020_SPA_LoRes.pdf",
+        "verified_on": "2026-08-30",
+        "notes": "Référence confirmée par le catalogue Games Workshop Trade. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Creed Camo",
+      "reference_observed": "29-23",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme et nom lisibles",
+        "référence confirmée par le catalogue Games Workshop Trade"
+      ],
+      "warnings": [],
+      "brand_canonical": "Warhammer Colour",
+      "brand_aliases": [
+        "Citadel",
+        "Citadel Colour",
+        "Games Workshop"
+      ],
+      "manufacturer": "Games Workshop",
+      "range_canonical": "Contrast",
+      "functional_class": "one_coat_contrast",
+      "reference": "29-23",
+      "name": "Creed Camo",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/photos/IMG_5312.jpeg",
+      "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+      "dedupe_key": "warhammer-colour|contrast|ref:29-23",
+      "enrichment": {
+        "color_hex": "#3F4930",
+        "color_family": "Vert camouflage sombre",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "vert",
+          "camouflage",
+          "militaire",
+          "Contrast",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Uniformes",
+          "Camouflages",
+          "Végétation sombre"
+        ],
+        "manufacturer_url": "https://trade.games-workshop.com/wp-content/uploads/2019/11/03449999655_Trade_OF_2020_SPA_LoRes.pdf",
+        "verified_on": "2026-08-30",
+        "notes": "Référence confirmée par le catalogue Games Workshop Trade. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "GAME COLOR METALLIC",
+      "name_observed": "Dark Gunmetal",
+      "reference_observed": "72.054",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme et référence 72.054 lisibles",
+        "nom anglais confirmé dans le catalogue Vallejo"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Game Color Metallic",
+      "functional_class": "metallic",
+      "reference": "72.054",
+      "name": "Dark Gunmetal",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/photos/IMG_5312.jpeg",
+      "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+      "dedupe_key": "vallejo|game-color-metallic|ref:72.054",
+      "enrichment": {
+        "color_hex": "#51595A",
+        "color_family": "Acier sombre",
+        "finish": "métallique",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "acier",
+          "métal",
+          "sombre",
+          "Vallejo"
+        ],
+        "recommended_uses": [
+          "Armes sombres",
+          "Armures",
+          "Machines"
+        ],
+        "manufacturer_url": "https://acrylicosvallejo.com/en/category/hobby/game-color-en/page/5/",
+        "verified_on": "2026-08-30",
+        "notes": "Nom Dark Gunmetal et référence confirmés dans le catalogue Vallejo. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "PRINCE AUGUST",
+      "range_observed": "CLASSIC",
+      "name_observed": "Uniforme Luftwaffe",
+      "reference_observed": "P816",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, nom et numéro 816 lisibles",
+        "préfixe P et nom confirmés par le catalogue Prince August"
+      ],
+      "warnings": [],
+      "brand_canonical": "Prince August",
+      "brand_aliases": [
+        "Prince Auguste"
+      ],
+      "manufacturer": "Prince August",
+      "range_canonical": "CLASSIC",
+      "functional_class": "opaque_standard",
+      "reference": "P816",
+      "name": "Uniforme Luftwaffe",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/photos/IMG_5312.jpeg",
+      "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+      "dedupe_key": "prince-august|classic|ref:P816",
+      "enrichment": {
+        "color_hex": "#4D5A63",
+        "color_family": "Gris bleu uniforme",
+        "finish": "mat opaque",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 17,
+        "tags": [
+          "gris bleu",
+          "uniforme",
+          "Luftwaffe",
+          "WWII"
+        ],
+        "recommended_uses": [
+          "Uniformes Luftwaffe",
+          "Tissus gris bleu",
+          "Équipements militaires"
+        ],
+        "manufacturer_url": "https://www.prince-august.net/peintures/classic/?sf_paged=3",
+        "verified_on": "2026-08-30",
+        "notes": "P816 – 105 – Uniforme Luftwaffe confirmé par le catalogue Prince August. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "TRUE METALLIC METAL",
+      "name_observed": "Aged Metal (Base)",
+      "reference_observed": "77.139",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "gamme, mention Base et référence 77.139 lisibles",
+        "nom confirmé par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "TRUE METALLIC METAL",
+      "functional_class": "metallic",
+      "reference": "77.139",
+      "name": "Aged Metal (Base)",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/photos/IMG_5312.jpeg",
+      "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+      "dedupe_key": "vallejo|true-metallic-metal|ref:77.139",
+      "enrichment": {
+        "color_hex": "#665C4D",
+        "color_family": "Métal vieilli brun",
+        "finish": "métallique",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "métal",
+          "vieilli",
+          "brun",
+          "base",
+          "Vallejo"
+        ],
+        "recommended_uses": [
+          "Métal ancien",
+          "Armures patinées",
+          "Machines et décors"
+        ],
+        "manufacturer_url": "https://acrylicosvallejo.com/en/producto/hobby/sets/true-metallic-metal-sets-en/aged-metal-paint-set-77258/",
+        "verified_on": "2026-08-30",
+        "notes": "Aged Metal (Base) confirmé par la fiche fabricant du set 77.258. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Hardened Leather",
+      "reference_observed": "WP2023P",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme et nom lisibles",
+        "référence confirmée par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "The Army Painter",
+      "brand_aliases": [
+        "Army Painter"
+      ],
+      "manufacturer": "The Army Painter",
+      "range_canonical": "Speedpaint",
+      "functional_class": "one_coat_contrast",
+      "reference": "WP2023P",
+      "name": "Hardened Leather",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/photos/IMG_5312.jpeg",
+      "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+      "dedupe_key": "the-army-painter|speedpaint|ref:WP2023P",
+      "enrichment": {
+        "color_hex": "#76513A",
+        "color_family": "Brun cuir clair",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "brun",
+          "cuir",
+          "Speedpaint",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Cuir",
+          "Sangles",
+          "Bois clair et textures naturelles"
+        ],
+        "manufacturer_url": "https://thearmypainter.com/en-gb/products/speedpaint-speedpaint-hardened-leather-wp2023p",
+        "local_image": "/manufacturer/army-painter-hardened-leather-wp2023p.jpg",
+        "image_source_url": "https://thearmypainter.com/cdn/shop/files/WP2023P_0.jpg?v=1750957887&width=3000",
+        "image_credit": "Packshot officiel The Army Painter · copie locale",
+        "verified_on": "2026-08-30",
+        "notes": "Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée."
+      }
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "MODEL COLOR",
+      "name_observed": "Yellow Ochre",
+      "reference_observed": "70.913",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme, libellé Ochre et référence 70.913 lisibles",
+        "nom anglais confirmé dans le catalogue Vallejo"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Model Color",
+      "functional_class": "opaque_standard",
+      "reference": "70.913",
+      "name": "Yellow Ochre",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/photos/IMG_5312.jpeg",
+      "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+      "dedupe_key": "vallejo|model-color|ref:70.913",
+      "enrichment": {
+        "color_hex": "#C49432",
+        "color_family": "Ocre jaune",
+        "finish": "mat opaque",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "ocre",
+          "jaune",
+          "terre",
+          "Vallejo"
+        ],
+        "recommended_uses": [
+          "Tissus ocres",
+          "Terres et poussières",
+          "Éclaircissements chauds"
+        ],
+        "manufacturer_url": "https://acrylicosvallejo.com/wp-content/uploads/2025/02/MO-CC078Catalago-2025-R01-Baja2.pdf",
+        "verified_on": "2026-08-30",
+        "notes": "Yellow Ochre 70.913 confirmé dans le catalogue Vallejo. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "GAME COLOR",
+      "name_observed": "Hexed Lichen",
+      "reference_observed": "72.015",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme, libellé Lichen et référence 72.015 lisibles",
+        "nom anglais confirmé dans le catalogue Vallejo"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Game Color",
+      "functional_class": "opaque_standard",
+      "reference": "72.015",
+      "name": "Hexed Lichen",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/photos/IMG_5312.jpeg",
+      "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+      "dedupe_key": "vallejo|game-color|ref:72.015",
+      "enrichment": {
+        "color_hex": "#56345F",
+        "color_family": "Violet lichen",
+        "finish": "mat opaque",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "violet",
+          "lichen",
+          "fantasy",
+          "Vallejo"
+        ],
+        "recommended_uses": [
+          "Tissus violets",
+          "Peaux fantastiques",
+          "Ombres colorées"
+        ],
+        "manufacturer_url": "https://acrylicosvallejo.com/wp-content/uploads/2025/09/CC266-Game_Color.pdf",
+        "verified_on": "2026-08-30",
+        "notes": "Hexed Lichen 72.015 confirmé dans le nuancier Game Color. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "PRINCE AUGUST",
+      "range_observed": "CLASSIC",
+      "name_observed": "Vert Allemand WWII",
+      "reference_observed": "P830",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque et référence 830 lisibles",
+        "nom et préfixe P confirmés par la fiche Prince August"
+      ],
+      "warnings": [],
+      "brand_canonical": "Prince August",
+      "brand_aliases": [
+        "Prince Auguste"
+      ],
+      "manufacturer": "Prince August",
+      "range_canonical": "CLASSIC",
+      "functional_class": "opaque_standard",
+      "reference": "P830",
+      "name": "Vert Allemand WWII",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/photos/IMG_5312.jpeg",
+      "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+      "dedupe_key": "prince-august|classic|ref:P830",
+      "enrichment": {
+        "color_hex": "#667566",
+        "color_family": "Vert allemand grisé",
+        "finish": "mat opaque",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 17,
+        "tags": [
+          "vert",
+          "uniforme",
+          "allemand",
+          "WWII"
+        ],
+        "recommended_uses": [
+          "Uniformes allemands WWII",
+          "Équipements militaires",
+          "Tissus vert grisé"
+        ],
+        "manufacturer_url": "https://www.prince-august.net/peintures/classic/102-vert-allem-wwii",
+        "verified_on": "2026-08-30",
+        "notes": "P830 – 102 – Vert Allemand WWII confirmé par la fiche Prince August. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Apothecary White",
+      "reference_observed": "29-34",
+      "quantity": 1,
+      "confidence": 1.0,
+      "evidence": [
+        "étiquette manuscrite",
+        "identité Citadel Contrast confirmée par le propriétaire",
+        "référence confirmée par le catalogue Games Workshop Trade"
+      ],
+      "warnings": [],
+      "brand_canonical": "Warhammer Colour",
+      "brand_aliases": [
+        "Citadel",
+        "Citadel Colour",
+        "Games Workshop"
+      ],
+      "manufacturer": "Games Workshop",
+      "range_canonical": "Contrast",
+      "functional_class": "one_coat_contrast",
+      "reference": "29-34",
+      "name": "Apothecary White",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/photos/IMG_5312.jpeg",
+      "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+      "dedupe_key": "warhammer-colour|contrast|ref:29-34",
+      "enrichment": {
+        "color_hex": "#C5D0D2",
+        "color_family": "Blanc ombré froid",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "blanc",
+          "gris froid",
+          "Contrast",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Armures blanches",
+          "Tissus blancs",
+          "Ombres froides sur sous-couche blanche"
+        ],
+        "manufacturer_url": "https://trade.games-workshop.com/wp-content/uploads/2019/11/03449999655_Trade_OF_2020_SPA_LoRes.pdf",
+        "verified_on": "2026-08-30",
+        "notes": "Identité confirmée par le propriétaire malgré l’étiquette manuscrite. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Mantis Warriors Green",
+      "reference_observed": "29-47",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme et nom lisibles",
+        "référence confirmée par une liste de distribution"
+      ],
+      "warnings": [],
+      "brand_canonical": "Warhammer Colour",
+      "brand_aliases": [
+        "Citadel",
+        "Citadel Colour",
+        "Games Workshop"
+      ],
+      "manufacturer": "Games Workshop",
+      "range_canonical": "Contrast",
+      "functional_class": "one_coat_contrast",
+      "reference": "29-47",
+      "name": "Mantis Warriors Green",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/photos/IMG_5312.jpeg",
+      "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+      "dedupe_key": "warhammer-colour|contrast|ref:29-47",
+      "enrichment": {
+        "color_hex": "#587B2B",
+        "color_family": "Vert mante",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "vert",
+          "nature",
+          "Contrast",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Peaux vertes",
+          "Végétation",
+          "Armures et tissus verts"
+        ],
+        "manufacturer_url": "https://www.blackheartgames.com.au/collections/back-in-stock",
+        "verified_on": "2026-08-30",
+        "notes": "Référence confirmée par une liste de distribution. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Gryph-Charger Grey",
+      "reference_observed": "29-35",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme et nom lisibles",
+        "référence confirmée par une liste de distribution"
+      ],
+      "warnings": [],
+      "brand_canonical": "Warhammer Colour",
+      "brand_aliases": [
+        "Citadel",
+        "Citadel Colour",
+        "Games Workshop"
+      ],
+      "manufacturer": "Games Workshop",
+      "range_canonical": "Contrast",
+      "functional_class": "one_coat_contrast",
+      "reference": "29-35",
+      "name": "Gryph-Charger Grey",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/photos/IMG_5312.jpeg",
+      "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+      "dedupe_key": "warhammer-colour|contrast|ref:29-35",
+      "enrichment": {
+        "color_hex": "#607985",
+        "color_family": "Gris bleu froid",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "gris bleu",
+          "froid",
+          "Contrast",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Armures gris bleu",
+          "Fourrures",
+          "Ombres froides"
+        ],
+        "manufacturer_url": "https://trade.games-workshop.com/wp-content/uploads/2019/11/03449999655_Trade_OF_2020_SPA_LoRes.pdf",
+        "verified_on": "2026-08-30",
+        "notes": "Référence confirmée par le catalogue Games Workshop Trade. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Gutrippa Flesh",
+      "reference_observed": "29-49",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme et nom lisibles",
+        "référence confirmée par une liste de distribution"
+      ],
+      "warnings": [],
+      "brand_canonical": "Warhammer Colour",
+      "brand_aliases": [
+        "Citadel",
+        "Citadel Colour",
+        "Games Workshop"
+      ],
+      "manufacturer": "Games Workshop",
+      "range_canonical": "Contrast",
+      "functional_class": "one_coat_contrast",
+      "reference": "29-49",
+      "name": "Gutrippa Flesh",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/photos/IMG_5312.jpeg",
+      "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+      "dedupe_key": "warhammer-colour|contrast|ref:29-49",
+      "enrichment": {
+        "color_hex": "#87934E",
+        "color_family": "Vert peau jaunâtre",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "vert",
+          "peau",
+          "orque",
+          "Contrast",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Peaux d’orques",
+          "Créatures",
+          "Végétation claire"
+        ],
+        "manufacturer_url": "https://www.blackheartgames.com.au/collections/back-in-stock",
+        "verified_on": "2026-08-30",
+        "notes": "Référence confirmée par une liste de distribution. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Militarum Green",
+      "reference_observed": "29-24",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme et nom lisibles",
+        "référence confirmée par une liste de distribution"
+      ],
+      "warnings": [],
+      "brand_canonical": "Warhammer Colour",
+      "brand_aliases": [
+        "Citadel",
+        "Citadel Colour",
+        "Games Workshop"
+      ],
+      "manufacturer": "Games Workshop",
+      "range_canonical": "Contrast",
+      "functional_class": "one_coat_contrast",
+      "reference": "29-24",
+      "name": "Militarum Green",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/photos/IMG_5312.jpeg",
+      "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+      "dedupe_key": "warhammer-colour|contrast|ref:29-24",
+      "enrichment": {
+        "color_hex": "#4B5535",
+        "color_family": "Vert militaire",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "vert",
+          "militaire",
+          "uniforme",
+          "Contrast",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Uniformes",
+          "Armures vertes",
+          "Véhicules et équipements"
+        ],
+        "manufacturer_url": "https://trade.games-workshop.com/wp-content/uploads/2019/11/03449999655_Trade_OF_2020_SPA_LoRes.pdf",
+        "verified_on": "2026-08-30",
+        "notes": "Référence confirmée par le catalogue Games Workshop Trade. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Ork Flesh",
+      "reference_observed": "29-22",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme et nom lisibles",
+        "référence confirmée par une liste de distribution"
+      ],
+      "warnings": [],
+      "brand_canonical": "Warhammer Colour",
+      "brand_aliases": [
+        "Citadel",
+        "Citadel Colour",
+        "Games Workshop"
+      ],
+      "manufacturer": "Games Workshop",
+      "range_canonical": "Contrast",
+      "functional_class": "one_coat_contrast",
+      "reference": "29-22",
+      "name": "Ork Flesh",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/photos/IMG_5312.jpeg",
+      "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+      "dedupe_key": "warhammer-colour|contrast|ref:29-22",
+      "enrichment": {
+        "color_hex": "#1E5947",
+        "color_family": "Vert orque profond",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "vert",
+          "orque",
+          "peau",
+          "Contrast",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Peaux d’orques",
+          "Écailles",
+          "Tissus verts profonds"
+        ],
+        "manufacturer_url": "https://trade.games-workshop.com/wp-content/uploads/2019/11/03449999655_Trade_OF_2020_SPA_LoRes.pdf",
+        "verified_on": "2026-08-30",
+        "notes": "Référence confirmée par le catalogue Games Workshop Trade. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Snakebite Leather",
+      "reference_observed": "29-27",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme et nom lisibles",
+        "référence confirmée par une liste de distribution"
+      ],
+      "warnings": [],
+      "brand_canonical": "Warhammer Colour",
+      "brand_aliases": [
+        "Citadel",
+        "Citadel Colour",
+        "Games Workshop"
+      ],
+      "manufacturer": "Games Workshop",
+      "range_canonical": "Contrast",
+      "functional_class": "one_coat_contrast",
+      "reference": "29-27",
+      "name": "Snakebite Leather",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/photos/IMG_5312.jpeg",
+      "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+      "dedupe_key": "warhammer-colour|contrast|ref:29-27",
+      "enrichment": {
+        "color_hex": "#725026",
+        "color_family": "Brun cuir chaud",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "brun",
+          "cuir",
+          "bois",
+          "Contrast",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Cuir",
+          "Bois",
+          "Sangles et équipements"
+        ],
+        "manufacturer_url": "https://trade.games-workshop.com/wp-content/uploads/2019/11/03449999655_Trade_OF_2020_SPA_LoRes.pdf",
+        "verified_on": "2026-08-30",
+        "notes": "Référence confirmée par le catalogue Games Workshop Trade. Couleur d’interface indicative."
+      }
+    }
+  ],
+  "summary": {
+    "total": 17,
+    "confirmed": 17,
+    "needs_review": 0
+  },
+  "enriched_at": "2026-08-30T16:46:35.417933+00:00"
+}

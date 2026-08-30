@@ -1,0 +1,23 @@
+schema_version: 1
+items:
+  - id: buy-1
+    brand: The Army Painter
+    name: Matt Black Colour Primer
+    reference: ""
+    color_hex: "#242526"
+    reason: Sous-couche noire du projet Reichbusters
+    priority: high
+  - id: buy-2
+    brand: Warhammer Colour
+    name: Nuln Oil
+    reference: ""
+    color_hex: "#2d2e2e"
+    reason: Ombres des armes, armures et uniformes
+    priority: high
+  - id: buy-3
+    brand: Vallejo
+    name: Dead White
+    reference: "72.001"
+    color_hex: "#f2f1e8"
+    reason: Zénithal au pinceau et cœur des lueurs Vril
+    priority: medium

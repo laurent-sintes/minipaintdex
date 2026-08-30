@@ -43,6 +43,10 @@ yarn-error.log*
 .vercel
 next-env.d.ts
 /dist/
+/.local-build/
+/target/
+**/target/
+/.tools/
 /.wrangler/
 /outputs/
 /work/

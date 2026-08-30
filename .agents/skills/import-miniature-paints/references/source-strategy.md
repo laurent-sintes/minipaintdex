@@ -45,3 +45,14 @@ Une fiche enrichie doit permettre de répondre oui à ces questions :
 - La fonction commune est-elle distincte de la gamme commerciale ?
 - L’URL officielle et la provenance du visuel sont-elles séparées ?
 - Une incertitude visible est-elle conservée dans `warnings` et `status` ?
+
+## Rendu appliqué
+
+Le packshot du pot et le rendu de la peinture sont deux visuels différents. Pour afficher un échantillon réellement peint dans le site, renseigner dans `data/peintures.yaml` :
+
+- `rendu_image` : URL autorisée ou chemin d’une copie locale ;
+- `source_rendu` : page d’origine ;
+- `credit_rendu` : auteur ou fabricant ;
+- `licence_rendu` : licence ou autorisation de réutilisation.
+
+Si la réutilisation n’est pas autorisée explicitement, ne pas copier ni afficher l’image. Utiliser seulement `exemple_rendu_url` pour proposer un lien vers l’exemple externe.

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { notFound } from 'next/navigation';
-import { findProject, projectCatalog } from '@/lib/catalog';
+import { findProject, projectCatalog, siteConfig } from '@/lib/catalog';
 
 type PageProps = { params: Promise<{ projectId: string; miniatureId: string }> };
 
@@ -12,7 +12,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { projectId, miniatureId } = await params;
   const item = findProject(projectId)?.items.find((entry) => entry.id === miniatureId);
-  return { title: item ? `${item.name} — MiniPaintDex` : 'Figurine introuvable' };
+  return { title: item ? `${item.name} — ${siteConfig.metadata.shortTitle}` : siteConfig.errors.miniatureNotFound };
 }
 
 export default async function MiniaturePage({ params }: PageProps) {
@@ -20,6 +20,10 @@ export default async function MiniaturePage({ params }: PageProps) {
   const project = findProject(projectId);
   const item = project?.items.find((entry) => entry.id === miniatureId);
   if (!project || !item) notFound();
+  const externalReferences = [
+    ...item.sources,
+    ...project.sources.filter((source) => source.kind === 'painted_gallery'),
+  ].filter((source, index, sources) => sources.findIndex((candidate) => candidate.url === source.url) === index);
 
   return (
     <main className="min-h-screen bg-background px-4 py-8 text-foreground sm:px-6 lg:px-8">
@@ -32,16 +36,21 @@ export default async function MiniaturePage({ params }: PageProps) {
           <span className="mt-5 inline-flex rounded-full bg-[#fff0da] px-3 py-1.5 text-xs font-semibold text-[#9a5217]">{item.status}</span>
         </header>
 
-        {item.referenceImages.length > 0 && <section className="mt-7"><h2 className="text-lg font-semibold">Références peintes</h2><div className="mt-3 grid gap-3 sm:grid-cols-2">{item.referenceImages.map((image) => <figure key={image.url} className="overflow-hidden rounded-[24px] border bg-card"><img src={image.url} alt={`Référence peinte de ${item.name}`} className="aspect-[4/3] w-full object-cover" /><figcaption className="p-3 text-[11px] text-muted-foreground"><a href={image.pageUrl} target="_blank" rel="noreferrer" className="font-semibold text-primary">{image.credit}</a>{image.license ? ` · ${image.license}` : ''}</figcaption></figure>)}</div></section>}
+        <section className="mt-7">
+          <h2 className="text-lg font-semibold">{siteConfig.miniatureDetail.paintedReferences}</h2>
+          {item.referenceImages.length > 0
+            ? <div className="mt-3 grid gap-3 sm:grid-cols-2">{item.referenceImages.map((image) => <figure key={image.url} className="overflow-hidden rounded-[24px] border bg-card"><img src={image.url} alt={`${siteConfig.miniatureDetail.paintedReferences} — ${item.name}`} className="aspect-[4/3] w-full object-cover" /><figcaption className="p-3 text-[11px] text-muted-foreground"><a href={image.pageUrl} target="_blank" rel="noreferrer" className="font-semibold text-primary">{image.credit}</a>{image.license ? ` · ${image.license}` : ''}</figcaption></figure>)}</div>
+            : <div className="mt-3 rounded-[24px] border border-dashed bg-card p-5"><p className="text-sm text-muted-foreground">{siteConfig.miniatureDetail.noLicensedImage}</p>{externalReferences.length > 0 && <div className="mt-3"><p className="text-xs font-semibold">{siteConfig.miniatureDetail.externalReferences}</p><div className="mt-2 flex flex-wrap gap-3">{externalReferences.map((source) => <a key={source.url} href={source.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary"><ExternalLink size={13} />{source.label}</a>)}</div></div>}</div>}
+        </section>
 
         <section className="mt-7 rounded-[26px] border bg-card p-5 shadow-sm sm:p-7">
-          <h2 className="text-lg font-semibold">Peintures à utiliser</h2>
+          <h2 className="text-lg font-semibold">{siteConfig.miniatureDetail.paintsToUse}</h2>
           <div className="mt-4 grid gap-2 sm:grid-cols-2">{item.paints.map((paint) => <div key={`${paint.brand}-${paint.name}`} className="flex items-center gap-3 rounded-2xl border bg-background/50 p-3"><span className="size-10 rounded-xl border" style={{ background: paint.colorHex }} /><div><strong className="block text-sm">{paint.name}</strong><span className="text-[11px] text-muted-foreground">{paint.brand} · {paint.role}</span></div></div>)}</div>
         </section>
 
         <div className="mt-7 grid gap-5 lg:grid-cols-2">
-          <Guide title="Préparation du support" steps={item.preparation} />
-          <Guide title="Mise en peinture" steps={item.painting} bordered />
+          <Guide title={siteConfig.miniatureDetail.supportPreparation} steps={item.preparation} />
+          <Guide title={siteConfig.miniatureDetail.paintingSteps} steps={item.painting} bordered />
         </div>
 
         {item.sources.length > 0 && <footer className="mt-7 flex flex-wrap gap-4">{item.sources.map((source) => <a key={source.url} href={source.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-xs font-semibold text-primary"><ExternalLink size={14} />{source.label}</a>)}</footer>}

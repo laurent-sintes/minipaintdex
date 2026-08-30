@@ -1,0 +1,17 @@
+server:
+  address: 127.0.0.1
+  port: 8080
+  error:
+    include-message: never
+
+spring:
+  application:
+    name: minipaintdex
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          max-age: 1h
+
+minipaintdex:
+  root: ${MINIPAINTDEX_ROOT:.}

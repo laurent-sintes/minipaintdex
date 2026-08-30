@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
-    "types": ["node", "vite/client", "@cloudflare/workers-types", "vinext/types"],
+    "types": ["node", "vite/client"],
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
@@ -19,12 +19,17 @@
     }
   },
   "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "spa/**/*.ts",
+    "spa/**/*.tsx",
+    "components/**/*.ts",
+    "components/**/*.tsx",
+    "hooks/**/*.ts",
+    "lib/paint-model.ts",
+    "lib/project-model.ts",
+    "lib/site-config-model.ts",
+    "lib/shopping-data.ts",
+    "lib/utils.ts",
+    "vite.spa.config.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "backend", "app", "lib/catalog.ts"]
 }

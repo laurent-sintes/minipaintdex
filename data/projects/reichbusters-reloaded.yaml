@@ -2,14 +2,33 @@ schema_version: 1
 id: reichbusters-reloaded
 name: Reichbusters Reloaded
 game: "Reichbusters: Projekt Vril"
-scope: Inventaire initial · boîte de base et décors
+scope: Pledge complet Reloaded · boîtes rouge et bleue · 198 éléments à peindre
+expected_paintable_count: 198
 edition:
-  note: La première liste reprend les 72 figurines de la boîte de base historique. Le contenu additionnel de Reloaded dépend de la Red Box ou du Green Upgrade et sera complété après inventaire de vos boîtes.
-  url: https://monolithedition.com/produit/rbr-green-upg-en/
+  note: "Inventaire complet du pledge Reichbusters Reloaded : 121 éléments dans la boîte rouge et 77 dans la boîte bleue, soit 155 personnages ou créatures et 43 décors en classant le portail extraterrestre comme décor."
+  url: https://gamefound.com/en/projects/monolith-board-games-sarl/reichbusters-reloaded
 sources:
   - kind: official_inventory
     label: "Règle du jeu Reichbusters: Projekt Vril"
     url: https://cdn.1j1ju.com/medias/67/7f/83-reichbusters-projekt-vril-rulebook.pdf
+  - kind: painted_gallery
+    label: Galerie de figurines peintes · Paintedfigs
+    url: https://www.paintedfigs.com/blog/paintingpainting-mythic-games-reichbusters-miniature-painting-service
+  - kind: painted_gallery
+    label: Galerie communautaire · BoardGameGeek
+    url: https://boardgamegeek.com/boardgame/262733/reichbusters-projekt-vril/images
+  - kind: complete_pledge_inventory
+    label: Inventaire photographié du pledge complet Reloaded · 198 éléments
+    url: https://www.onlywargamesfans.com/2026/06/13/reviews-unboxing-reichbusters-reloaded/
+  - kind: expansion_inventory
+    label: Inventaire Cargo Hold · BoardGameGeek
+    url: https://boardgamegeek.com/boardgame/288562/reichbusters-projekt-vril-cargo-hold
+  - kind: official_rulebook
+    label: Livret Not of This Earth · liste des 34 figurines
+    url: https://ammd.ch/pdfregles/reichbustersprojektvrilnotofthisearth.pdf
+  - kind: official_campaign
+    label: Reichbusters Reloaded · campagne Gamefound
+    url: https://gamefound.com/en/projects/monolith-board-games-sarl/reichbusters-reloaded
 items:
   - id: red-hawk
     name: Red Hawk
@@ -874,39 +893,1499 @@ items:
       - kind: painting_reference
         label: Galerie de références peintes · Paintedfigs
         url: https://www.paintedfigs.com/blog/paintingpainting-mythic-games-reichbusters-miniature-painting-service
-  - id: doors-lab
-    name: Portes et laboratoire
-    kind: Décor
+  - id: bjorn
+    name: Bjorn
+    kind: Héros
     quantity: 1
     status: à préparer
-    description: Lot de décors à inventorier précisément selon les extensions possédées.
+    description: "Combattant nordique : silhouette froide, cuir robuste et arme très contrastée."
+    reference_images: []
+    paints:
+      - brand: The Army Painter
+        name: Highlord Blue
+        role: Vêtement ou accent froid
+        color_hex: "#335991"
+      - brand: Warhammer Colour
+        name: Leviadon Blue
+        role: Ombres profondes
+        color_hex: "#112c4f"
+      - brand: The Army Painter
+        name: Crusader Skin
+        role: Visage et mains
+        color_hex: "#C1846C"
+      - brand: Vallejo
+        name: Silver
+        role: Armes et boucles
+        color_hex: "#B9BEC1"
+    preparation: &a1
+      - title: Nettoyer
+        detail: Laver les pièces à l’eau tiède savonneuse, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer les lignes de moulage avec une lame neuve et redresser les éléments fins à l’eau chaude si nécessaire.
+      - title: Sous-coucher
+        detail: Appliquer une sous-couche noire fine puis un zénithal blanc pour rendre les volumes immédiatement lisibles.
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+    sources:
+      - &a2
+        kind: inventory_reference
+        label: Cartes des héros du full set
+        url: https://forum.cwowd.com/t/reichbusters-par-monolith-livraison-en-avril-2026/57435?page=8
+  - id: bochka
+    name: Bochka
+    kind: Héros
+    quantity: 1
+    status: à préparer
+    description: "Spécialiste soviétique : toile militaire, équipement lourd et visage chaud."
     reference_images: []
     paints:
       - brand: Vallejo
+        name: Khaki Drill
+        role: Uniforme et toile
+        color_hex: "#766F48"
+      - brand: The Army Painter
+        name: Hardened Leather
+        role: Cuir, sangles et holsters
+        color_hex: "#76513A"
+      - brand: The Army Painter
+        name: Crusader Skin
+        role: Visage et mains
+        color_hex: "#C1846C"
+      - brand: Vallejo
         name: Silver
-        role: Métal apparent
-        color_hex: "#bfc3c2"
-        pending_import: true
+        role: Armes et boucles
+        color_hex: "#B9BEC1"
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+    sources:
+      - *a2
+  - id: brad
+    name: Brad
+    kind: Héros
+    quantity: 1
+    status: à préparer
+    description: "Héros de renfort : uniforme de campagne, cuirs bruns et métal usé."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Khaki Drill
+        role: Uniforme et toile
+        color_hex: "#766F48"
+      - brand: The Army Painter
+        name: Hardened Leather
+        role: Cuir, sangles et holsters
+        color_hex: "#76513A"
+      - brand: The Army Painter
+        name: Crusader Skin
+        role: Visage et mains
+        color_hex: "#C1846C"
+      - brand: Vallejo
+        name: Silver
+        role: Armes et boucles
+        color_hex: "#B9BEC1"
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+    sources:
+      - *a2
+  - id: hans
+    name: Hans
+    kind: Héros
+    quantity: 1
+    status: à préparer
+    description: "Opérateur au profil sombre : bleus profonds, peau claire et arme argentée."
+    reference_images: []
+    paints:
+      - brand: The Army Painter
+        name: Highlord Blue
+        role: Vêtement ou accent froid
+        color_hex: "#335991"
+      - brand: Warhammer Colour
+        name: Leviadon Blue
+        role: Ombres profondes
+        color_hex: "#112c4f"
+      - brand: The Army Painter
+        name: Crusader Skin
+        role: Visage et mains
+        color_hex: "#C1846C"
+      - brand: Vallejo
+        name: Silver
+        role: Armes et boucles
+        color_hex: "#B9BEC1"
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+    sources:
+      - *a2
+  - id: irena
+    name: Irena
+    kind: Héros
+    quantity: 1
+    status: à préparer
+    description: "Éclaireuse : tons froids, équipement discret et visage lumineux."
+    reference_images: []
+    paints:
+      - brand: The Army Painter
+        name: Highlord Blue
+        role: Vêtement ou accent froid
+        color_hex: "#335991"
+      - brand: Warhammer Colour
+        name: Leviadon Blue
+        role: Ombres profondes
+        color_hex: "#112c4f"
+      - brand: The Army Painter
+        name: Crusader Skin
+        role: Visage et mains
+        color_hex: "#C1846C"
+      - brand: Vallejo
+        name: Silver
+        role: Armes et boucles
+        color_hex: "#B9BEC1"
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+    sources:
+      - *a2
+  - id: joe-le-flambeur
+    name: Joe le Flambeur
+    kind: Héros
+    quantity: 1
+    status: à préparer
+    description: "Spécialiste incendiaire : uniforme kaki, cuir marqué et arme chauffée."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Khaki Drill
+        role: Uniforme et toile
+        color_hex: "#766F48"
+      - brand: The Army Painter
+        name: Hardened Leather
+        role: Cuir, sangles et holsters
+        color_hex: "#76513A"
+      - brand: The Army Painter
+        name: Crusader Skin
+        role: Visage et mains
+        color_hex: "#C1846C"
+      - brand: Vallejo
+        name: Silver
+        role: Armes et boucles
+        color_hex: "#B9BEC1"
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+    sources:
+      - *a2
+  - id: kulbir
+    name: Kulbir
+    kind: Héros
+    quantity: 1
+    status: à préparer
+    description: "Combattant d’assaut : toile chaude, cuirs profonds et métal fortement usé."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Khaki Drill
+        role: Uniforme et toile
+        color_hex: "#766F48"
+      - brand: The Army Painter
+        name: Hardened Leather
+        role: Cuir, sangles et holsters
+        color_hex: "#76513A"
+      - brand: The Army Painter
+        name: Crusader Skin
+        role: Visage et mains
+        color_hex: "#C1846C"
+      - brand: Vallejo
+        name: Silver
+        role: Armes et boucles
+        color_hex: "#B9BEC1"
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+    sources:
+      - *a2
+  - id: prof
+    name: Prof
+    kind: Héros
+    quantity: 1
+    status: à préparer
+    description: "Scientifique de terrain : vêtements clairs, instruments froids et fioles bleues."
+    reference_images: []
+    paints:
+      - brand: Warhammer Colour
+        name: Apothecary White
+        role: Blouses et protections claires
+        color_hex: "#C5D0D2"
+      - brand: Warhammer Colour
+        name: Gryph-Charger Grey
+        role: Ombres froides
+        color_hex: "#607985"
       - brand: Warhammer Colour
         name: Talassar Blue
-        role: Énergie et écrans
+        role: Fioles et écrans
         color_hex: "#155cc4"
-      - brand: Warhammer Colour
-        name: Briar Queen Chill
-        role: Lueurs froides
-        color_hex: "#74c4c9"
-    preparation:
-      - title: Inventorier
-        detail: Séparer portes, mobilier et accessoires. Noter le nombre de pièces avant la sous-couche.
-      - title: Préparer
-        detail: Nettoyer, ébarber et tester les assemblages mobiles avant peinture.
-      - title: Sous-coucher
-        detail: Utiliser une sous-couche noire pour les éléments métalliques, avec un zénithal gris.
+      - brand: Vallejo
+        name: Silver
+        role: Instruments
+        color_hex: "#B9BEC1"
+    preparation: *a1
     painting:
-      - title: Métal
-        detail: Brosser Silver sur une base sombre en laissant les creux noirs.
-      - title: Écrans et Vril
-        detail: Poser Talassar Blue ou Briar Queen Chill sur une base blanche localisée.
-      - title: Vieillissement
-        detail: Ajouter des jus bruns dans les angles et quelques éraflures claires sur les arêtes.
-    sources: []
+      - title: Volumes clairs
+        detail: Construire les blouses et protections avec des couches translucides en gardant les creux gris froid.
+      - title: Instruments
+        detail: Traiter les outils en métal sombre puis poser des points d’argent sur les zones manipulées.
+      - title: Écrans et fioles
+        detail: Placer le bleu saturé au centre des éléments technologiques et finir par un point lumineux.
+      - title: Finitions
+        detail: Nettoyer les séparations, renforcer le visage ou l’optique principale et vernir en mat.
+    sources:
+      - *a2
+  - id: remy
+    name: Rémy
+    kind: Héros
+    quantity: 1
+    status: à préparer
+    description: "Agent français : silhouette bleu sombre, peau chaude et détails métalliques."
+    reference_images: []
+    paints:
+      - brand: The Army Painter
+        name: Highlord Blue
+        role: Vêtement ou accent froid
+        color_hex: "#335991"
+      - brand: Warhammer Colour
+        name: Leviadon Blue
+        role: Ombres profondes
+        color_hex: "#112c4f"
+      - brand: The Army Painter
+        name: Crusader Skin
+        role: Visage et mains
+        color_hex: "#C1846C"
+      - brand: Vallejo
+        name: Silver
+        role: Armes et boucles
+        color_hex: "#B9BEC1"
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+    sources:
+      - *a2
+  - id: tane
+    name: Tane
+    kind: Héros
+    quantity: 1
+    status: à préparer
+    description: "Éclaireur du Pacifique : tons de toile naturels, peau chaude et équipement patiné."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Khaki Drill
+        role: Uniforme et toile
+        color_hex: "#766F48"
+      - brand: The Army Painter
+        name: Hardened Leather
+        role: Cuir, sangles et holsters
+        color_hex: "#76513A"
+      - brand: The Army Painter
+        name: Crusader Skin
+        role: Visage et mains
+        color_hex: "#C1846C"
+      - brand: Vallejo
+        name: Silver
+        role: Armes et boucles
+        color_hex: "#B9BEC1"
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+    sources:
+      - *a2
+  - id: toubib
+    name: Toubib
+    kind: Héros
+    quantity: 1
+    status: à préparer
+    description: "Médecin de combat : protections claires, matériel médical et accents froids."
+    reference_images: []
+    paints:
+      - brand: Warhammer Colour
+        name: Apothecary White
+        role: Blouses et protections claires
+        color_hex: "#C5D0D2"
+      - brand: Warhammer Colour
+        name: Gryph-Charger Grey
+        role: Ombres froides
+        color_hex: "#607985"
+      - brand: Warhammer Colour
+        name: Talassar Blue
+        role: Fioles et écrans
+        color_hex: "#155cc4"
+      - brand: Vallejo
+        name: Silver
+        role: Instruments
+        color_hex: "#B9BEC1"
+    preparation: *a1
+    painting:
+      - title: Volumes clairs
+        detail: Construire les blouses et protections avec des couches translucides en gardant les creux gris froid.
+      - title: Instruments
+        detail: Traiter les outils en métal sombre puis poser des points d’argent sur les zones manipulées.
+      - title: Écrans et fioles
+        detail: Placer le bleu saturé au centre des éléments technologiques et finir par un point lumineux.
+      - title: Finitions
+        detail: Nettoyer les séparations, renforcer le visage ou l’optique principale et vernir en mat.
+    sources:
+      - *a2
+  - id: oreilly
+    name: O’Reilly
+    kind: Héros
+    quantity: 1
+    status: à préparer
+    description: "Démolisseur irlandais : kaki, cuir brun et points métalliques francs."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Khaki Drill
+        role: Uniforme et toile
+        color_hex: "#766F48"
+      - brand: The Army Painter
+        name: Hardened Leather
+        role: Cuir, sangles et holsters
+        color_hex: "#76513A"
+      - brand: The Army Painter
+        name: Crusader Skin
+        role: Visage et mains
+        color_hex: "#C1846C"
+      - brand: Vallejo
+        name: Silver
+        role: Armes et boucles
+        color_hex: "#B9BEC1"
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+    sources:
+      - *a2
+  - id: sergeant-sally
+    name: Sergent Sally
+    kind: Héros
+    quantity: 1
+    status: à préparer
+    description: "Sergente de renfort : uniforme froid, cuir sombre et visage très lisible."
+    reference_images: []
+    paints:
+      - brand: The Army Painter
+        name: Highlord Blue
+        role: Vêtement ou accent froid
+        color_hex: "#335991"
+      - brand: Warhammer Colour
+        name: Leviadon Blue
+        role: Ombres profondes
+        color_hex: "#112c4f"
+      - brand: The Army Painter
+        name: Crusader Skin
+        role: Visage et mains
+        color_hex: "#C1846C"
+      - brand: Vallejo
+        name: Silver
+        role: Armes et boucles
+        color_hex: "#B9BEC1"
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+    sources:
+      - *a2
+  - id: nazi-soldiers-alt
+    name: Soldats · sculptures alternatives
+    kind: Ennemis
+    quantity: 8
+    status: à préparer
+    description: Renforts de la boîte rouge avec des poses alternatives aux soldats de base.
+    reference_images: []
+    paints:
+      - brand: Prince August
+        name: Vert Allemand WWII
+        role: Uniformes
+        color_hex: "#667566"
+      - brand: Prince August
+        name: Uniforme Luftwaffe
+        role: Casques et tissus sombres
+        color_hex: "#4D5A63"
+      - brand: Vallejo
+        name: Dark Gunmetal
+        role: Armes et blindages
+        color_hex: "#51595A"
+      - brand: The Army Painter
+        name: Hardened Leather
+        role: Sangles et accessoires
+        color_hex: "#76513A"
+    preparation: *a1
+    painting:
+      - title: Uniformes
+        detail: Appliquer le vert militaire sur les grandes zones puis renforcer les plis avec une seconde passe localisée.
+      - title: Équipement
+        detail: Peindre casques, bottes et sangles avant de reprendre proprement les bordures.
+      - title: Métaux
+        detail: Conserver les armes sombres et réserver l’argent aux arêtes exposées et aux rayures.
+      - title: Cohérence d’unité
+        detail: Répéter les mêmes couleurs sur toute l’escouade puis varier légèrement visages, boue et usure.
+    sources:
+      - &a3
+        kind: inventory_reference
+        label: Boîte rouge et inventaire Cargo Hold
+        url: https://boardgamegeek.com/boardgame/288562/reichbusters-projekt-vril-cargo-hold
+  - id: zombies-alt
+    name: Zombies · sculptures alternatives
+    kind: Ennemis
+    quantity: 6
+    status: à préparer
+    description: Cadavres réanimés aux poses alternatives, à varier par la peau et les blessures.
+    reference_images: []
+    paints:
+      - brand: Warhammer Colour
+        name: Gutrippa Flesh
+        role: Chair principale
+        color_hex: "#87934E"
+      - brand: Warhammer Colour
+        name: Plaguebearer Flesh
+        role: Transitions maladives
+        color_hex: "#9B9A45"
+      - brand: The Army Painter
+        name: Pallid Bone
+        role: Os, dents et griffes
+        color_hex: "#C4B486"
+      - brand: The Army Painter
+        name: Blood Red
+        role: Plaies et tissus exposés
+        color_hex: "#A42E31"
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Appliquer le vert maladif en variant la saturation entre les muscles et les zones gonflées.
+      - title: Plaies
+        detail: Glacer le rouge dans les blessures et garder les bords plus sombres que leur centre.
+      - title: Os et griffes
+        detail: Poser la teinte os en plusieurs couches fines puis éclaircir seulement les pointes.
+      - title: Finitions
+        detail: Renforcer les yeux et la bouche, ajouter les salissures du socle puis vernir en mat.
+    sources:
+      - *a3
+  - id: experiment-6xx-alt
+    name: Experiment 6XX · sculptures alternatives
+    kind: Ennemis
+    quantity: 4
+    status: à préparer
+    description: "Expériences massives alternatives : chair malade, os et lésions exposées."
+    reference_images: []
+    paints:
+      - brand: Warhammer Colour
+        name: Gutrippa Flesh
+        role: Chair principale
+        color_hex: "#87934E"
+      - brand: Warhammer Colour
+        name: Plaguebearer Flesh
+        role: Transitions maladives
+        color_hex: "#9B9A45"
+      - brand: The Army Painter
+        name: Pallid Bone
+        role: Os, dents et griffes
+        color_hex: "#C4B486"
+      - brand: The Army Painter
+        name: Blood Red
+        role: Plaies et tissus exposés
+        color_hex: "#A42E31"
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Appliquer le vert maladif en variant la saturation entre les muscles et les zones gonflées.
+      - title: Plaies
+        detail: Glacer le rouge dans les blessures et garder les bords plus sombres que leur centre.
+      - title: Os et griffes
+        detail: Poser la teinte os en plusieurs couches fines puis éclaircir seulement les pointes.
+      - title: Finitions
+        detail: Renforcer les yeux et la bouche, ajouter les salissures du socle puis vernir en mat.
+    sources:
+      - *a3
+  - id: heinrich-gruber
+    name: Heinrich Gruber
+    kind: Ennemis
+    quantity: 1
+    status: à préparer
+    description: Vrilmeister en tenue de laboratoire, point focal clair entouré de technologie froide.
+    reference_images: []
+    paints:
+      - brand: Warhammer Colour
+        name: Apothecary White
+        role: Blouses et protections claires
+        color_hex: "#C5D0D2"
+      - brand: Warhammer Colour
+        name: Gryph-Charger Grey
+        role: Ombres froides
+        color_hex: "#607985"
+      - brand: Warhammer Colour
+        name: Talassar Blue
+        role: Fioles et écrans
+        color_hex: "#155cc4"
+      - brand: Vallejo
+        name: Silver
+        role: Instruments
+        color_hex: "#B9BEC1"
+    preparation: *a1
+    painting:
+      - title: Volumes clairs
+        detail: Construire les blouses et protections avec des couches translucides en gardant les creux gris froid.
+      - title: Instruments
+        detail: Traiter les outils en métal sombre puis poser des points d’argent sur les zones manipulées.
+      - title: Écrans et fioles
+        detail: Placer le bleu saturé au centre des éléments technologiques et finir par un point lumineux.
+      - title: Finitions
+        detail: Nettoyer les séparations, renforcer le visage ou l’optique principale et vernir en mat.
+    sources:
+      - *a3
+  - id: nazi-engineers
+    name: Ingénieurs nazis
+    kind: Ennemis
+    quantity: 4
+    status: à préparer
+    description: "Équipe technique : blouses, outils, câbles et petits effets lumineux."
+    reference_images: []
+    paints:
+      - brand: Warhammer Colour
+        name: Apothecary White
+        role: Blouses et protections claires
+        color_hex: "#C5D0D2"
+      - brand: Warhammer Colour
+        name: Gryph-Charger Grey
+        role: Ombres froides
+        color_hex: "#607985"
+      - brand: Warhammer Colour
+        name: Talassar Blue
+        role: Fioles et écrans
+        color_hex: "#155cc4"
+      - brand: Vallejo
+        name: Silver
+        role: Instruments
+        color_hex: "#B9BEC1"
+    preparation: *a1
+    painting:
+      - title: Volumes clairs
+        detail: Construire les blouses et protections avec des couches translucides en gardant les creux gris froid.
+      - title: Instruments
+        detail: Traiter les outils en métal sombre puis poser des points d’argent sur les zones manipulées.
+      - title: Écrans et fioles
+        detail: Placer le bleu saturé au centre des éléments technologiques et finir par un point lumineux.
+      - title: Finitions
+        detail: Nettoyer les séparations, renforcer le visage ou l’optique principale et vernir en mat.
+    sources:
+      - *a3
+  - id: ubersoldaten
+    name: Übersoldaten
+    kind: Ennemis
+    quantity: 2
+    status: à préparer
+    description: "Super-soldats blindés : acier sombre, usure argentée et énergie vril turquoise."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Dark Gunmetal
+        role: Structure métallique
+        color_hex: "#51595A"
+      - brand: Vallejo
+        name: Silver
+        role: Arêtes et usure
+        color_hex: "#B9BEC1"
+      - brand: Warhammer Colour
+        name: Terradon Turquoise
+        role: Énergie vril
+        color_hex: "#0f6b70"
+      - brand: Warhammer Colour
+        name: Pylar Glacier
+        role: Lueur et points chauds
+        color_hex: "#45c5e9"
+    preparation: *a1
+    painting:
+      - title: Structure
+        detail: Poser un métal sombre homogène en conservant du noir dans les joints et sous les plaques.
+      - title: Usure
+        detail: Brosser légèrement l’argent sur les arêtes puis ajouter quelques rayures dirigées.
+      - title: Énergie vril
+        detail: Glacer le turquoise autour des conduites et concentrer le bleu glacier vers la source.
+      - title: Contraste final
+        detail: Assombrir les creux proches de la lueur afin d’augmenter l’effet lumineux, puis vernir.
+    sources:
+      - *a3
+  - id: sentry-flamers
+    name: Sentry Flamers
+    kind: Ennemis
+    quantity: 2
+    status: à préparer
+    description: "Tourelles lance-flammes : métal brûlé, arêtes usées et conduites énergétiques."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Dark Gunmetal
+        role: Structure métallique
+        color_hex: "#51595A"
+      - brand: Vallejo
+        name: Silver
+        role: Arêtes et usure
+        color_hex: "#B9BEC1"
+      - brand: Warhammer Colour
+        name: Terradon Turquoise
+        role: Énergie vril
+        color_hex: "#0f6b70"
+      - brand: Warhammer Colour
+        name: Pylar Glacier
+        role: Lueur et points chauds
+        color_hex: "#45c5e9"
+    preparation: *a1
+    painting:
+      - title: Structure
+        detail: Poser un métal sombre homogène en conservant du noir dans les joints et sous les plaques.
+      - title: Usure
+        detail: Brosser légèrement l’argent sur les arêtes puis ajouter quelques rayures dirigées.
+      - title: Énergie vril
+        detail: Glacer le turquoise autour des conduites et concentrer le bleu glacier vers la source.
+      - title: Contraste final
+        detail: Assombrir les creux proches de la lueur afin d’augmenter l’effet lumineux, puis vernir.
+    sources:
+      - *a3
+  - id: sentry-guns
+    name: Sentry Guns
+    kind: Ennemis
+    quantity: 2
+    status: à préparer
+    description: "Tourelles automatiques : volumes sombres et optiques vril très lumineuses."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Dark Gunmetal
+        role: Structure métallique
+        color_hex: "#51595A"
+      - brand: Vallejo
+        name: Silver
+        role: Arêtes et usure
+        color_hex: "#B9BEC1"
+      - brand: Warhammer Colour
+        name: Terradon Turquoise
+        role: Énergie vril
+        color_hex: "#0f6b70"
+      - brand: Warhammer Colour
+        name: Pylar Glacier
+        role: Lueur et points chauds
+        color_hex: "#45c5e9"
+    preparation: *a1
+    painting:
+      - title: Structure
+        detail: Poser un métal sombre homogène en conservant du noir dans les joints et sous les plaques.
+      - title: Usure
+        detail: Brosser légèrement l’argent sur les arêtes puis ajouter quelques rayures dirigées.
+      - title: Énergie vril
+        detail: Glacer le turquoise autour des conduites et concentrer le bleu glacier vers la source.
+      - title: Contraste final
+        detail: Assombrir les creux proches de la lueur afin d’augmenter l’effet lumineux, puis vernir.
+    sources:
+      - *a3
+  - id: general-von-eichenberg
+    name: General von Eichenberg
+    kind: Ennemis
+    quantity: 1
+    status: à préparer
+    description: "Officier supérieur : uniforme net, cuir profond et insignes contrastés."
+    reference_images: []
+    paints:
+      - brand: Prince August
+        name: Vert Allemand WWII
+        role: Uniformes
+        color_hex: "#667566"
+      - brand: Prince August
+        name: Uniforme Luftwaffe
+        role: Casques et tissus sombres
+        color_hex: "#4D5A63"
+      - brand: Vallejo
+        name: Dark Gunmetal
+        role: Armes et blindages
+        color_hex: "#51595A"
+      - brand: The Army Painter
+        name: Hardened Leather
+        role: Sangles et accessoires
+        color_hex: "#76513A"
+    preparation: *a1
+    painting:
+      - title: Uniformes
+        detail: Appliquer le vert militaire sur les grandes zones puis renforcer les plis avec une seconde passe localisée.
+      - title: Équipement
+        detail: Peindre casques, bottes et sangles avant de reprendre proprement les bordures.
+      - title: Métaux
+        detail: Conserver les armes sombres et réserver l’argent aux arêtes exposées et aux rayures.
+      - title: Cohérence d’unité
+        detail: Répéter les mêmes couleurs sur toute l’escouade puis varier légèrement visages, boue et usure.
+    sources:
+      - *a3
+  - id: detectors
+    name: Detectors
+    kind: Ennemis
+    quantity: 4
+    status: à préparer
+    description: "Automates de détection : métal froid et capteurs bleus concentrés."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Dark Gunmetal
+        role: Structure métallique
+        color_hex: "#51595A"
+      - brand: Vallejo
+        name: Silver
+        role: Arêtes et usure
+        color_hex: "#B9BEC1"
+      - brand: Warhammer Colour
+        name: Terradon Turquoise
+        role: Énergie vril
+        color_hex: "#0f6b70"
+      - brand: Warhammer Colour
+        name: Pylar Glacier
+        role: Lueur et points chauds
+        color_hex: "#45c5e9"
+    preparation: *a1
+    painting:
+      - title: Structure
+        detail: Poser un métal sombre homogène en conservant du noir dans les joints et sous les plaques.
+      - title: Usure
+        detail: Brosser légèrement l’argent sur les arêtes puis ajouter quelques rayures dirigées.
+      - title: Énergie vril
+        detail: Glacer le turquoise autour des conduites et concentrer le bleu glacier vers la source.
+      - title: Contraste final
+        detail: Assombrir les creux proches de la lueur afin d’augmenter l’effet lumineux, puis vernir.
+    sources:
+      - *a3
+  - id: experiment-1080-a
+    name: Experiment 1080-A
+    kind: Ennemis
+    quantity: 1
+    status: à préparer
+    description: Créature expérimentale imposante, dominée par la chair verte et les plaies rouges.
+    reference_images: []
+    paints:
+      - brand: Warhammer Colour
+        name: Gutrippa Flesh
+        role: Chair principale
+        color_hex: "#87934E"
+      - brand: Warhammer Colour
+        name: Plaguebearer Flesh
+        role: Transitions maladives
+        color_hex: "#9B9A45"
+      - brand: The Army Painter
+        name: Pallid Bone
+        role: Os, dents et griffes
+        color_hex: "#C4B486"
+      - brand: The Army Painter
+        name: Blood Red
+        role: Plaies et tissus exposés
+        color_hex: "#A42E31"
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Appliquer le vert maladif en variant la saturation entre les muscles et les zones gonflées.
+      - title: Plaies
+        detail: Glacer le rouge dans les blessures et garder les bords plus sombres que leur centre.
+      - title: Os et griffes
+        detail: Poser la teinte os en plusieurs couches fines puis éclaircir seulement les pointes.
+      - title: Finitions
+        detail: Renforcer les yeux et la bouche, ajouter les salissures du socle puis vernir en mat.
+    sources:
+      - *a3
+  - id: experiment-1080-b
+    name: Experiment 1080-B
+    kind: Ennemis
+    quantity: 1
+    status: à préparer
+    description: "Variante du 1080 : teintes maladives, griffes osseuses et volumes très marqués."
+    reference_images: []
+    paints:
+      - brand: Warhammer Colour
+        name: Gutrippa Flesh
+        role: Chair principale
+        color_hex: "#87934E"
+      - brand: Warhammer Colour
+        name: Plaguebearer Flesh
+        role: Transitions maladives
+        color_hex: "#9B9A45"
+      - brand: The Army Painter
+        name: Pallid Bone
+        role: Os, dents et griffes
+        color_hex: "#C4B486"
+      - brand: The Army Painter
+        name: Blood Red
+        role: Plaies et tissus exposés
+        color_hex: "#A42E31"
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Appliquer le vert maladif en variant la saturation entre les muscles et les zones gonflées.
+      - title: Plaies
+        detail: Glacer le rouge dans les blessures et garder les bords plus sombres que leur centre.
+      - title: Os et griffes
+        detail: Poser la teinte os en plusieurs couches fines puis éclaircir seulement les pointes.
+      - title: Finitions
+        detail: Renforcer les yeux et la bouche, ajouter les salissures du socle puis vernir en mat.
+    sources:
+      - *a3
+  - id: doktor-kopff
+    name: Doktor Kopff
+    kind: Ennemis
+    quantity: 1
+    status: à préparer
+    description: Scientifique renégat de Not of This Earth, en contraste avec les créatures violettes.
+    reference_images: []
+    paints:
+      - brand: Warhammer Colour
+        name: Apothecary White
+        role: Blouses et protections claires
+        color_hex: "#C5D0D2"
+      - brand: Warhammer Colour
+        name: Gryph-Charger Grey
+        role: Ombres froides
+        color_hex: "#607985"
+      - brand: Warhammer Colour
+        name: Talassar Blue
+        role: Fioles et écrans
+        color_hex: "#155cc4"
+      - brand: Vallejo
+        name: Silver
+        role: Instruments
+        color_hex: "#B9BEC1"
+    preparation: *a1
+    painting:
+      - title: Volumes clairs
+        detail: Construire les blouses et protections avec des couches translucides en gardant les creux gris froid.
+      - title: Instruments
+        detail: Traiter les outils en métal sombre puis poser des points d’argent sur les zones manipulées.
+      - title: Écrans et fioles
+        detail: Placer le bleu saturé au centre des éléments technologiques et finir par un point lumineux.
+      - title: Finitions
+        detail: Nettoyer les séparations, renforcer le visage ou l’optique principale et vernir en mat.
+    sources:
+      - &a4
+        kind: official_rulebook
+        label: Not of This Earth · composants
+        url: https://ammd.ch/pdfregles/reichbustersprojektvrilnotofthisearth.pdf
+  - id: alien-portal
+    name: Portail extraterrestre
+    kind: Décor
+    quantity: 1
+    status: à préparer
+    description: Portail organo-mécanique servant de point lumineux central aux missions extraterrestres.
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Dark Gunmetal
+        role: Structure métallique
+        color_hex: "#51595A"
+      - brand: Vallejo
+        name: Silver
+        role: Arêtes et usure
+        color_hex: "#B9BEC1"
+      - brand: Warhammer Colour
+        name: Terradon Turquoise
+        role: Énergie vril
+        color_hex: "#0f6b70"
+      - brand: Warhammer Colour
+        name: Pylar Glacier
+        role: Lueur et points chauds
+        color_hex: "#45c5e9"
+    preparation: *a1
+    painting:
+      - title: Structure
+        detail: Poser un métal sombre homogène en conservant du noir dans les joints et sous les plaques.
+      - title: Usure
+        detail: Brosser légèrement l’argent sur les arêtes puis ajouter quelques rayures dirigées.
+      - title: Énergie vril
+        detail: Glacer le turquoise autour des conduites et concentrer le bleu glacier vers la source.
+      - title: Contraste final
+        detail: Assombrir les creux proches de la lueur afin d’augmenter l’effet lumineux, puis vernir.
+    sources:
+      - *a4
+  - id: alien-handlers
+    name: Alien Handlers
+    kind: Ennemis
+    quantity: 4
+    status: à préparer
+    description: "Dresseurs hybrides : chair violette, plaques sombres et implants vril."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Hexed Lichen
+        role: Carapace et ombres
+        color_hex: "#56345F"
+      - brand: The Army Painter
+        name: Hive Dweller Purple
+        role: Chair extraterrestre
+        color_hex: "#533B65"
+      - brand: The Army Painter
+        name: Pallid Bone
+        role: Pointes et plaques claires
+        color_hex: "#C4B486"
+      - brand: Warhammer Colour
+        name: Pylar Glacier
+        role: Organes vril lumineux
+        color_hex: "#45c5e9"
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Poser le violet en voiles irréguliers pour conserver une texture organique.
+      - title: Carapace
+        detail: Renforcer les plaques avec le lichen, puis éclaircir leurs arêtes avec une teinte os.
+      - title: Organes vril
+        detail: Créer une lueur bleu glacier sur les yeux, glandes ou implants, sans couvrir toute la chair.
+      - title: Finitions
+        detail: Ajouter quelques glacis autour des articulations, traiter la bouche puis protéger en mat.
+    sources:
+      - *a4
+  - id: elite-ubersoldaten
+    name: Elite Übersoldaten
+    kind: Ennemis
+    quantity: 2
+    status: à préparer
+    description: "Élite contaminée par le vril : armure métallique et lueurs froides intenses."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Dark Gunmetal
+        role: Structure métallique
+        color_hex: "#51595A"
+      - brand: Vallejo
+        name: Silver
+        role: Arêtes et usure
+        color_hex: "#B9BEC1"
+      - brand: Warhammer Colour
+        name: Terradon Turquoise
+        role: Énergie vril
+        color_hex: "#0f6b70"
+      - brand: Warhammer Colour
+        name: Pylar Glacier
+        role: Lueur et points chauds
+        color_hex: "#45c5e9"
+    preparation: *a1
+    painting:
+      - title: Structure
+        detail: Poser un métal sombre homogène en conservant du noir dans les joints et sous les plaques.
+      - title: Usure
+        detail: Brosser légèrement l’argent sur les arêtes puis ajouter quelques rayures dirigées.
+      - title: Énergie vril
+        detail: Glacer le turquoise autour des conduites et concentrer le bleu glacier vers la source.
+      - title: Contraste final
+        detail: Assombrir les creux proches de la lueur afin d’augmenter l’effet lumineux, puis vernir.
+    sources:
+      - *a4
+  - id: vril-acolytes
+    name: Vril Acolytes
+    kind: Ennemis
+    quantity: 4
+    status: à préparer
+    description: "Acolytes extraterrestres : carapaces violettes, pointes osseuses et organes lumineux."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Hexed Lichen
+        role: Carapace et ombres
+        color_hex: "#56345F"
+      - brand: The Army Painter
+        name: Hive Dweller Purple
+        role: Chair extraterrestre
+        color_hex: "#533B65"
+      - brand: The Army Painter
+        name: Pallid Bone
+        role: Pointes et plaques claires
+        color_hex: "#C4B486"
+      - brand: Warhammer Colour
+        name: Pylar Glacier
+        role: Organes vril lumineux
+        color_hex: "#45c5e9"
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Poser le violet en voiles irréguliers pour conserver une texture organique.
+      - title: Carapace
+        detail: Renforcer les plaques avec le lichen, puis éclaircir leurs arêtes avec une teinte os.
+      - title: Organes vril
+        detail: Créer une lueur bleu glacier sur les yeux, glandes ou implants, sans couvrir toute la chair.
+      - title: Finitions
+        detail: Ajouter quelques glacis autour des articulations, traiter la bouche puis protéger en mat.
+    sources:
+      - *a4
+  - id: die-ausgeburt
+    name: Die Ausgeburt
+    kind: Ennemis
+    quantity: 1
+    status: à préparer
+    description: "Monstruosité psychique : grands volumes organiques et contraste violet–os."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Hexed Lichen
+        role: Carapace et ombres
+        color_hex: "#56345F"
+      - brand: The Army Painter
+        name: Hive Dweller Purple
+        role: Chair extraterrestre
+        color_hex: "#533B65"
+      - brand: The Army Painter
+        name: Pallid Bone
+        role: Pointes et plaques claires
+        color_hex: "#C4B486"
+      - brand: Warhammer Colour
+        name: Pylar Glacier
+        role: Organes vril lumineux
+        color_hex: "#45c5e9"
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Poser le violet en voiles irréguliers pour conserver une texture organique.
+      - title: Carapace
+        detail: Renforcer les plaques avec le lichen, puis éclaircir leurs arêtes avec une teinte os.
+      - title: Organes vril
+        detail: Créer une lueur bleu glacier sur les yeux, glandes ou implants, sans couvrir toute la chair.
+      - title: Finitions
+        detail: Ajouter quelques glacis autour des articulations, traiter la bouche puis protéger en mat.
+    sources:
+      - *a4
+  - id: die-kleinen
+    name: Die Kleinen
+    kind: Ennemis
+    quantity: 8
+    status: à préparer
+    description: Petites créatures rapides à traiter en série avec des variations de carapace.
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Hexed Lichen
+        role: Carapace et ombres
+        color_hex: "#56345F"
+      - brand: The Army Painter
+        name: Hive Dweller Purple
+        role: Chair extraterrestre
+        color_hex: "#533B65"
+      - brand: The Army Painter
+        name: Pallid Bone
+        role: Pointes et plaques claires
+        color_hex: "#C4B486"
+      - brand: Warhammer Colour
+        name: Pylar Glacier
+        role: Organes vril lumineux
+        color_hex: "#45c5e9"
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Poser le violet en voiles irréguliers pour conserver une texture organique.
+      - title: Carapace
+        detail: Renforcer les plaques avec le lichen, puis éclaircir leurs arêtes avec une teinte os.
+      - title: Organes vril
+        detail: Créer une lueur bleu glacier sur les yeux, glandes ou implants, sans couvrir toute la chair.
+      - title: Finitions
+        detail: Ajouter quelques glacis autour des articulations, traiter la bouche puis protéger en mat.
+    sources:
+      - *a4
+  - id: augen
+    name: Augen
+    kind: Ennemis
+    quantity: 8
+    status: à préparer
+    description: "Créatures oculaires : chair sombre, plaques osseuses et yeux glacés."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Hexed Lichen
+        role: Carapace et ombres
+        color_hex: "#56345F"
+      - brand: The Army Painter
+        name: Hive Dweller Purple
+        role: Chair extraterrestre
+        color_hex: "#533B65"
+      - brand: The Army Painter
+        name: Pallid Bone
+        role: Pointes et plaques claires
+        color_hex: "#C4B486"
+      - brand: Warhammer Colour
+        name: Pylar Glacier
+        role: Organes vril lumineux
+        color_hex: "#45c5e9"
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Poser le violet en voiles irréguliers pour conserver une texture organique.
+      - title: Carapace
+        detail: Renforcer les plaques avec le lichen, puis éclaircir leurs arêtes avec une teinte os.
+      - title: Organes vril
+        detail: Créer une lueur bleu glacier sur les yeux, glandes ou implants, sans couvrir toute la chair.
+      - title: Finitions
+        detail: Ajouter quelques glacis autour des articulations, traiter la bouche puis protéger en mat.
+    sources:
+      - *a4
+  - id: augenmutter
+    name: Augenmutter
+    kind: Ennemis
+    quantity: 1
+    status: à préparer
+    description: "Mère des Augen : pièce centrale violette avec lueurs vril et pointes ivoire."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Hexed Lichen
+        role: Carapace et ombres
+        color_hex: "#56345F"
+      - brand: The Army Painter
+        name: Hive Dweller Purple
+        role: Chair extraterrestre
+        color_hex: "#533B65"
+      - brand: The Army Painter
+        name: Pallid Bone
+        role: Pointes et plaques claires
+        color_hex: "#C4B486"
+      - brand: Warhammer Colour
+        name: Pylar Glacier
+        role: Organes vril lumineux
+        color_hex: "#45c5e9"
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Poser le violet en voiles irréguliers pour conserver une texture organique.
+      - title: Carapace
+        detail: Renforcer les plaques avec le lichen, puis éclaircir leurs arêtes avec une teinte os.
+      - title: Organes vril
+        detail: Créer une lueur bleu glacier sur les yeux, glandes ou implants, sans couvrir toute la chair.
+      - title: Finitions
+        detail: Ajouter quelques glacis autour des articulations, traiter la bouche puis protéger en mat.
+    sources:
+      - *a4
+  - id: vril-cannon-teams
+    name: Vril Cannon Teams
+    kind: Ennemis
+    quantity: 2
+    status: à préparer
+    description: "Équipes de canon vril : affûts sombres, arêtes métalliques et source lumineuse bleue."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Dark Gunmetal
+        role: Structure métallique
+        color_hex: "#51595A"
+      - brand: Vallejo
+        name: Silver
+        role: Arêtes et usure
+        color_hex: "#B9BEC1"
+      - brand: Warhammer Colour
+        name: Terradon Turquoise
+        role: Énergie vril
+        color_hex: "#0f6b70"
+      - brand: Warhammer Colour
+        name: Pylar Glacier
+        role: Lueur et points chauds
+        color_hex: "#45c5e9"
+    preparation: *a1
+    painting:
+      - title: Structure
+        detail: Poser un métal sombre homogène en conservant du noir dans les joints et sous les plaques.
+      - title: Usure
+        detail: Brosser légèrement l’argent sur les arêtes puis ajouter quelques rayures dirigées.
+      - title: Énergie vril
+        detail: Glacer le turquoise autour des conduites et concentrer le bleu glacier vers la source.
+      - title: Contraste final
+        detail: Assombrir les creux proches de la lueur afin d’augmenter l’effet lumineux, puis vernir.
+    sources:
+      - *a4
+  - id: hugo-hander
+    name: Hugo Hander
+    kind: Ennemis
+    quantity: 1
+    status: à préparer
+    description: Vrilmeister et xénobiologiste, en blouse claire entourée d’équipement froid.
+    reference_images: []
+    paints:
+      - brand: Warhammer Colour
+        name: Apothecary White
+        role: Blouses et protections claires
+        color_hex: "#C5D0D2"
+      - brand: Warhammer Colour
+        name: Gryph-Charger Grey
+        role: Ombres froides
+        color_hex: "#607985"
+      - brand: Warhammer Colour
+        name: Talassar Blue
+        role: Fioles et écrans
+        color_hex: "#155cc4"
+      - brand: Vallejo
+        name: Silver
+        role: Instruments
+        color_hex: "#B9BEC1"
+    preparation: *a1
+    painting:
+      - title: Volumes clairs
+        detail: Construire les blouses et protections avec des couches translucides en gardant les creux gris froid.
+      - title: Instruments
+        detail: Traiter les outils en métal sombre puis poser des points d’argent sur les zones manipulées.
+      - title: Écrans et fioles
+        detail: Placer le bleu saturé au centre des éléments technologiques et finir par un point lumineux.
+      - title: Finitions
+        detail: Nettoyer les séparations, renforcer le visage ou l’optique principale et vernir en mat.
+    sources:
+      - *a4
+  - id: shrieker
+    name: Shrieker
+    kind: Ennemis
+    quantity: 1
+    status: à préparer
+    description: "Créature massive et sonore : chair violette, gueule claire et organes luminescents."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Hexed Lichen
+        role: Carapace et ombres
+        color_hex: "#56345F"
+      - brand: The Army Painter
+        name: Hive Dweller Purple
+        role: Chair extraterrestre
+        color_hex: "#533B65"
+      - brand: The Army Painter
+        name: Pallid Bone
+        role: Pointes et plaques claires
+        color_hex: "#C4B486"
+      - brand: Warhammer Colour
+        name: Pylar Glacier
+        role: Organes vril lumineux
+        color_hex: "#45c5e9"
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Poser le violet en voiles irréguliers pour conserver une texture organique.
+      - title: Carapace
+        detail: Renforcer les plaques avec le lichen, puis éclaircir leurs arêtes avec une teinte os.
+      - title: Organes vril
+        detail: Créer une lueur bleu glacier sur les yeux, glandes ou implants, sans couvrir toute la chair.
+      - title: Finitions
+        detail: Ajouter quelques glacis autour des articulations, traiter la bouche puis protéger en mat.
+    sources:
+      - *a4
+  - id: projekt-x
+    name: Projekt X · Uberkoloss-X
+    kind: Ennemis
+    quantity: 1
+    status: à préparer
+    description: Colosse de 137 mm mêlant blindage, chair expérimentale, os et blessures ouvertes.
+    reference_images: []
+    paints:
+      - brand: Warhammer Colour
+        name: Gutrippa Flesh
+        role: Chair principale
+        color_hex: "#87934E"
+      - brand: Warhammer Colour
+        name: Plaguebearer Flesh
+        role: Transitions maladives
+        color_hex: "#9B9A45"
+      - brand: The Army Painter
+        name: Pallid Bone
+        role: Os, dents et griffes
+        color_hex: "#C4B486"
+      - brand: The Army Painter
+        name: Blood Red
+        role: Plaies et tissus exposés
+        color_hex: "#A42E31"
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Appliquer le vert maladif en variant la saturation entre les muscles et les zones gonflées.
+      - title: Plaies
+        detail: Glacer le rouge dans les blessures et garder les bords plus sombres que leur centre.
+      - title: Os et griffes
+        detail: Poser la teinte os en plusieurs couches fines puis éclaircir seulement les pointes.
+      - title: Finitions
+        detail: Renforcer les yeux et la bouche, ajouter les salissures du socle puis vernir en mat.
+    sources:
+      - kind: publisher_reference
+        label: Projekt X · figurine de 137 mm
+        url: https://icv2.com/articles/news/view/41914/mythic-faces-aliens-and-nazis-reichbusters
+  - id: doors-3d
+    name: Portes 3D
+    kind: Décor
+    quantity: 20
+    status: à préparer
+    description: Portes fonctionnelles des intérieurs, à traiter en série avec métal, bois et usure.
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Dark Gunmetal
+        role: Métal sombre
+        color_hex: "#51595A"
+      - brand: Vallejo
+        name: Aged Metal (Base)
+        role: Métal vieilli
+        color_hex: "#665C4D"
+      - brand: Warhammer Colour
+        name: Gore-Grunta Fur
+        role: Bois et rouille chaude
+        color_hex: "#6d3524"
+      - brand: Warhammer Colour
+        name: Apothecary White
+        role: Neige et givre
+        color_hex: "#C5D0D2"
+    preparation: *a1
+    painting:
+      - title: Couche de base
+        detail: Bloquer les grandes matières en métal sombre, métal vieilli ou brun chaud selon la pièce.
+      - title: Usure
+        detail: Brosser les arêtes et tamponner de petites zones brunes pour simuler peinture écaillée et corrosion.
+      - title: Neige
+        detail: Poser le blanc froid sur les surfaces horizontales en laissant visibles les salissures aux points de passage.
+      - title: Lisibilité
+        detail: Renforcer charnières, marches et zones de contact, puis protéger avec un vernis mat résistant.
+    sources:
+      - &a5
+        kind: complete_pledge_inventory
+        label: Pledge Reloaded · 198 éléments
+        url: https://www.onlywargamesfans.com/2026/06/13/reviews-unboxing-reichbusters-reloaded/
+  - id: tile-risers-train
+    name: Supports de tuiles et train
+    kind: Décor
+    quantity: 20
+    status: à préparer
+    description: Supports 3D créant les niveaux du train et les passerelles enneigées.
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Dark Gunmetal
+        role: Métal sombre
+        color_hex: "#51595A"
+      - brand: Vallejo
+        name: Aged Metal (Base)
+        role: Métal vieilli
+        color_hex: "#665C4D"
+      - brand: Warhammer Colour
+        name: Gore-Grunta Fur
+        role: Bois et rouille chaude
+        color_hex: "#6d3524"
+      - brand: Warhammer Colour
+        name: Apothecary White
+        role: Neige et givre
+        color_hex: "#C5D0D2"
+    preparation: *a1
+    painting:
+      - title: Couche de base
+        detail: Bloquer les grandes matières en métal sombre, métal vieilli ou brun chaud selon la pièce.
+      - title: Usure
+        detail: Brosser les arêtes et tamponner de petites zones brunes pour simuler peinture écaillée et corrosion.
+      - title: Neige
+        detail: Poser le blanc froid sur les surfaces horizontales en laissant visibles les salissures aux points de passage.
+      - title: Lisibilité
+        detail: Renforcer charnières, marches et zones de contact, puis protéger avec un vernis mat résistant.
+    sources:
+      - *a5
+  - id: watchtowers
+    name: Miradors
+    kind: Décor
+    quantity: 2
+    status: à préparer
+    description: "Tours de guet extérieures : métal patiné, marches usées et accumulation de neige."
+    reference_images: []
+    paints:
+      - brand: Vallejo
+        name: Dark Gunmetal
+        role: Métal sombre
+        color_hex: "#51595A"
+      - brand: Vallejo
+        name: Aged Metal (Base)
+        role: Métal vieilli
+        color_hex: "#665C4D"
+      - brand: Warhammer Colour
+        name: Gore-Grunta Fur
+        role: Bois et rouille chaude
+        color_hex: "#6d3524"
+      - brand: Warhammer Colour
+        name: Apothecary White
+        role: Neige et givre
+        color_hex: "#C5D0D2"
+    preparation: *a1
+    painting:
+      - title: Couche de base
+        detail: Bloquer les grandes matières en métal sombre, métal vieilli ou brun chaud selon la pièce.
+      - title: Usure
+        detail: Brosser les arêtes et tamponner de petites zones brunes pour simuler peinture écaillée et corrosion.
+      - title: Neige
+        detail: Poser le blanc froid sur les surfaces horizontales en laissant visibles les salissures aux points de passage.
+      - title: Lisibilité
+        detail: Renforcer charnières, marches et zones de contact, puis protéger avec un vernis mat résistant.
+    sources:
+      - *a5

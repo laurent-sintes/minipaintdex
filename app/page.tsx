@@ -1,7 +1,5 @@
-import { PaintApp } from '@/components/paint-app';
-import { paintCatalog, projectCatalog } from '@/lib/catalog';
-import { shoppingSeed } from '@/lib/shopping-data';
+import { PaintAppLoader } from '@/components/paint-app-loader';
 
 export default function Home() {
-  return <PaintApp initialPaints={paintCatalog} projects={projectCatalog} shoppingSeed={shoppingSeed} />;
+  return <PaintAppLoader />;
 }

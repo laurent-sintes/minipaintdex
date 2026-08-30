@@ -7,13 +7,13 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "dev": "vite --configLoader native --host 127.0.0.1",
-    "build": "vite build --configLoader native",
-    "start": "wrangler dev --config dist/server/wrangler.json",
-    "lint": "oxlint",
+    "dev": "vite --config vite.spa.config.ts --configLoader native --host 127.0.0.1",
+    "build": "vite build --config vite.spa.config.ts --configLoader native",
+    "lint": "oxlint spa components hooks lib/paint-model.ts lib/project-model.ts lib/site-config-model.ts lib/shopping-data.ts lib/utils.ts vite.spa.config.ts",
     "typecheck": "tsc --noEmit",
     "validate:catalogs": "node scripts/validate-catalogs.mjs",
-    "check": "pnpm run validate:catalogs && pnpm run lint && pnpm run typecheck && pnpm run build",
+    "check": "pnpm run check:web",
+    "check:web": "pnpm run validate:catalogs && pnpm run lint && pnpm run typecheck && pnpm run build",
     "format": "oxfmt"
   },
   "dependencies": {

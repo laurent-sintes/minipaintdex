@@ -1,0 +1,36 @@
+source: "imports/archive/2026-08-30/IMG_5312.jpeg"
+source_hash: "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f"
+analyse_le: "2026-08-30"
+statut: "integre"
+pots_detectes: 17
+ajouts: 16
+doublons_fusionnes: 1
+validation_humaine:
+  - produit: "Apothecary White"
+    marque: "Citadel"
+    gamme: "Contrast"
+    raison: "identité du pot à étiquette manuscrite confirmée par le propriétaire"
+sources_principales:
+  - "https://trade.games-workshop.com/wp-content/uploads/2019/11/03449999655_Trade_OF_2020_SPA_LoRes.pdf"
+  - "https://acrylicosvallejo.com/wp-content/uploads/2025/02/MO-CC078Catalago-2025-R01-Baja2.pdf"
+  - "https://acrylicosvallejo.com/wp-content/uploads/2025/09/CC266-Game_Color.pdf"
+  - "https://www.prince-august.net/peintures/classic/?sf_paged=3"
+  - "https://thearmypainter.com/en-gb/products/speedpaint-speedpaint-hardened-leather-wp2023p"
+peintures:
+  - "Darkoath Flesh (quantité fusionnée à 2)"
+  - "Plaguebearer Flesh"
+  - "Creed Camo"
+  - "Dark Gunmetal"
+  - "Uniforme Luftwaffe"
+  - "Aged Metal (Base)"
+  - "Hardened Leather"
+  - "Yellow Ochre"
+  - "Hexed Lichen"
+  - "Vert Allemand WWII"
+  - "Apothecary White"
+  - "Mantis Warriors Green"
+  - "Gryph-Charger Grey"
+  - "Gutrippa Flesh"
+  - "Militarum Green"
+  - "Ork Flesh"
+  - "Snakebite Leather"

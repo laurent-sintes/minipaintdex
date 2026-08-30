@@ -1,0 +1,176 @@
+{
+  "source_photo": "imports/photos/IMG_5312.jpeg",
+  "source_hash": "91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f",
+  "paints": [
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Darkoath Flesh",
+      "reference_observed": "29-33",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme et nom lisibles", "référence confirmée par le catalogue déjà vérifié"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Plaguebearer Flesh",
+      "reference_observed": "29-42",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme et nom lisibles", "référence confirmée par le catalogue Games Workshop Trade"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Creed Camo",
+      "reference_observed": "29-23",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme et nom lisibles", "référence confirmée par le catalogue Games Workshop Trade"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "GAME COLOR METALLIC",
+      "name_observed": "Dark Gunmetal",
+      "reference_observed": "72.054",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme et référence 72.054 lisibles", "nom anglais confirmé dans le catalogue Vallejo"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "PRINCE AUGUST",
+      "range_observed": "CLASSIC",
+      "name_observed": "Uniforme Luftwaffe",
+      "reference_observed": "P816",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, nom et numéro 816 lisibles", "préfixe P et nom confirmés par le catalogue Prince August"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "TRUE METALLIC METAL",
+      "name_observed": "Aged Metal (Base)",
+      "reference_observed": "77.139",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["gamme, mention Base et référence 77.139 lisibles", "nom confirmé par la fiche fabricant"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Hardened Leather",
+      "reference_observed": "WP2023P",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme et nom lisibles", "référence confirmée par la fiche fabricant"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "MODEL COLOR",
+      "name_observed": "Yellow Ochre",
+      "reference_observed": "70.913",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme, libellé Ochre et référence 70.913 lisibles", "nom anglais confirmé dans le catalogue Vallejo"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "GAME COLOR",
+      "name_observed": "Hexed Lichen",
+      "reference_observed": "72.015",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme, libellé Lichen et référence 72.015 lisibles", "nom anglais confirmé dans le catalogue Vallejo"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "PRINCE AUGUST",
+      "range_observed": "CLASSIC",
+      "name_observed": "Vert Allemand WWII",
+      "reference_observed": "P830",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque et référence 830 lisibles", "nom et préfixe P confirmés par la fiche Prince August"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Apothecary White",
+      "reference_observed": "29-34",
+      "quantity": 1,
+      "confidence": 1.0,
+      "evidence": ["étiquette manuscrite", "identité Citadel Contrast confirmée par le propriétaire", "référence confirmée par le catalogue Games Workshop Trade"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Mantis Warriors Green",
+      "reference_observed": "29-47",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme et nom lisibles", "référence confirmée par une liste de distribution"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Gryph-Charger Grey",
+      "reference_observed": "29-35",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme et nom lisibles", "référence confirmée par une liste de distribution"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Gutrippa Flesh",
+      "reference_observed": "29-49",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme et nom lisibles", "référence confirmée par une liste de distribution"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Militarum Green",
+      "reference_observed": "29-24",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme et nom lisibles", "référence confirmée par une liste de distribution"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Ork Flesh",
+      "reference_observed": "29-22",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme et nom lisibles", "référence confirmée par une liste de distribution"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "CITADEL COLOUR",
+      "range_observed": "CONTRAST",
+      "name_observed": "Snakebite Leather",
+      "reference_observed": "29-27",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme et nom lisibles", "référence confirmée par une liste de distribution"],
+      "warnings": []
+    }
+  ]
+}
