@@ -1,0 +1,38 @@
+source: "imports/archive/2026-08-30/IMG_5311.jpeg"
+source_hash: "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775"
+analyse_le: "2026-08-30"
+statut: "integre"
+pots_detectes: 16
+confiance_identification: "haute"
+marques:
+  - "Vallejo"
+  - "The Army Painter"
+gammes:
+  - "Game Color Metallic"
+  - "Xpress Color"
+  - "Xpress Color Intense"
+  - "Speedpaint"
+peintures:
+  - "Vallejo 72.052 Silver"
+  - "Vallejo 72.053 Chainmail"
+  - "The Army Painter WP2009P Orc Skin"
+  - "Vallejo 72.418 Lizard Green"
+  - "Vallejo 72.451 Khaki Drill"
+  - "Vallejo 72.422 Space Grey"
+  - "Vallejo 72.483 Viking Grey"
+  - "The Army Painter WP2018P Hive Dweller Purple"
+  - "The Army Painter WP2017P Fire Giant Orange"
+  - "The Army Painter WP2010P Blood Red"
+  - "The Army Painter WP2015P Highlord Blue"
+  - "The Army Painter WP2013P Zealot Yellow"
+  - "The Army Painter WP2006P Pallid Bone"
+  - "Vallejo 72.449 Mummy White"
+  - "The Army Painter WP2004P Crusader Skin"
+  - "Vallejo 72.457 Fairy Skin"
+sources_principales:
+  - "Catalogue Acrylicos Vallejo 2026"
+  - "Fiches produit officielles The Army Painter"
+  - "Packshots officiels ou copies locales de distributeurs crédités dans l’enrichissement JSON"
+traitement_images:
+  - "16 packshots téléchargés"
+  - "4 PNG Vallejo recadrés automatiquement sur leur contenu alpha pour supprimer les marges transparentes excessives"

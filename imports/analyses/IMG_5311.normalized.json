@@ -1,0 +1,437 @@
+{
+  "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+  "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+  "normalized_at": "2026-08-30T13:05:44.648608+00:00",
+  "paints": [
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "GAME COLOR METALLIC",
+      "name_observed": "Silver",
+      "reference_observed": "72.052",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme, nom et référence lisibles sur l’étiquette"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Game Color Metallic",
+      "functional_class": "metallic",
+      "reference": "72.052",
+      "name": "Silver",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "vallejo|game-color-metallic|ref:72.052"
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "GAME COLOR METALLIC",
+      "name_observed": "Chainmail",
+      "reference_observed": "72.053",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme, nom et référence lisibles sur l’étiquette"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Game Color Metallic",
+      "functional_class": "metallic",
+      "reference": "72.053",
+      "name": "Chainmail",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "vallejo|game-color-metallic|ref:72.053"
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Orc Skin",
+      "reference_observed": "WP2009P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme et nom lisibles sur l’étiquette",
+        "référence confirmée par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "The Army Painter",
+      "brand_aliases": [
+        "Army Painter"
+      ],
+      "manufacturer": "The Army Painter",
+      "range_canonical": "Speedpaint",
+      "functional_class": "one_coat_contrast",
+      "reference": "WP2009P",
+      "name": "Orc Skin",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "the-army-painter|speedpaint|ref:WP2009P"
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR",
+      "name_observed": "Lizard Green",
+      "reference_observed": "72.418",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme, nom et référence lisibles sur l’étiquette"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Xpress Color",
+      "functional_class": "one_coat_contrast",
+      "reference": "72.418",
+      "name": "Lizard Green",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "vallejo|xpress-color|ref:72.418"
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR",
+      "name_observed": "Khaki Drill",
+      "reference_observed": "72.451",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "libellé espagnol « Uniforme Caqui » et référence 72.451 lisibles",
+        "nom anglais confirmé par le catalogue fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Xpress Color",
+      "functional_class": "one_coat_contrast",
+      "reference": "72.451",
+      "name": "Khaki Drill",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "vallejo|xpress-color|ref:72.451"
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR",
+      "name_observed": "Space Grey",
+      "reference_observed": "72.422",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme, nom et référence lisibles sur l’étiquette"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Xpress Color",
+      "functional_class": "one_coat_contrast",
+      "reference": "72.422",
+      "name": "Space Grey",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "vallejo|xpress-color|ref:72.422"
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR INTENSE",
+      "name_observed": "Viking Grey",
+      "reference_observed": "72.483",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme Intense, nom et référence lisibles sur l’étiquette"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Xpress Color Intense",
+      "functional_class": "one_coat_contrast",
+      "reference": "72.483",
+      "name": "Viking Grey",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "vallejo|xpress-color-intense|ref:72.483"
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Hive Dweller Purple",
+      "reference_observed": "WP2018P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme et nom lisibles sur l’étiquette",
+        "référence confirmée par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "The Army Painter",
+      "brand_aliases": [
+        "Army Painter"
+      ],
+      "manufacturer": "The Army Painter",
+      "range_canonical": "Speedpaint",
+      "functional_class": "one_coat_contrast",
+      "reference": "WP2018P",
+      "name": "Hive Dweller Purple",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "the-army-painter|speedpaint|ref:WP2018P"
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Fire Giant Orange",
+      "reference_observed": "WP2017P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme et nom lisibles sur l’étiquette",
+        "référence confirmée par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "The Army Painter",
+      "brand_aliases": [
+        "Army Painter"
+      ],
+      "manufacturer": "The Army Painter",
+      "range_canonical": "Speedpaint",
+      "functional_class": "one_coat_contrast",
+      "reference": "WP2017P",
+      "name": "Fire Giant Orange",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "the-army-painter|speedpaint|ref:WP2017P"
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Blood Red",
+      "reference_observed": "WP2010P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme et nom lisibles sur l’étiquette",
+        "référence confirmée par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "The Army Painter",
+      "brand_aliases": [
+        "Army Painter"
+      ],
+      "manufacturer": "The Army Painter",
+      "range_canonical": "Speedpaint",
+      "functional_class": "one_coat_contrast",
+      "reference": "WP2010P",
+      "name": "Blood Red",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "the-army-painter|speedpaint|ref:WP2010P"
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Highlord Blue",
+      "reference_observed": "WP2015P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme et nom lisibles sur l’étiquette",
+        "référence confirmée par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "The Army Painter",
+      "brand_aliases": [
+        "Army Painter"
+      ],
+      "manufacturer": "The Army Painter",
+      "range_canonical": "Speedpaint",
+      "functional_class": "one_coat_contrast",
+      "reference": "WP2015P",
+      "name": "Highlord Blue",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "the-army-painter|speedpaint|ref:WP2015P"
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Zealot Yellow",
+      "reference_observed": "WP2013P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme et nom lisibles sur l’étiquette",
+        "référence confirmée par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "The Army Painter",
+      "brand_aliases": [
+        "Army Painter"
+      ],
+      "manufacturer": "The Army Painter",
+      "range_canonical": "Speedpaint",
+      "functional_class": "one_coat_contrast",
+      "reference": "WP2013P",
+      "name": "Zealot Yellow",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "the-army-painter|speedpaint|ref:WP2013P"
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Pallid Bone",
+      "reference_observed": "WP2006P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme et nom lisibles sur l’étiquette",
+        "référence confirmée par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "The Army Painter",
+      "brand_aliases": [
+        "Army Painter"
+      ],
+      "manufacturer": "The Army Painter",
+      "range_canonical": "Speedpaint",
+      "functional_class": "one_coat_contrast",
+      "reference": "WP2006P",
+      "name": "Pallid Bone",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "the-army-painter|speedpaint|ref:WP2006P"
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR",
+      "name_observed": "Mummy White",
+      "reference_observed": "72.449",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme, nom et référence lisibles sur l’étiquette"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Xpress Color",
+      "functional_class": "one_coat_contrast",
+      "reference": "72.449",
+      "name": "Mummy White",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "vallejo|xpress-color|ref:72.449"
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Crusader Skin",
+      "reference_observed": "WP2004P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme et nom lisibles sur l’étiquette",
+        "référence confirmée par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "The Army Painter",
+      "brand_aliases": [
+        "Army Painter"
+      ],
+      "manufacturer": "The Army Painter",
+      "range_canonical": "Speedpaint",
+      "functional_class": "one_coat_contrast",
+      "reference": "WP2004P",
+      "name": "Crusader Skin",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "the-army-painter|speedpaint|ref:WP2004P"
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR",
+      "name_observed": "Fairy Skin",
+      "reference_observed": "72.457",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme, nom et référence lisibles sur l’étiquette"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Xpress Color",
+      "functional_class": "one_coat_contrast",
+      "reference": "72.457",
+      "name": "Fairy Skin",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "vallejo|xpress-color|ref:72.457"
+    }
+  ],
+  "summary": {
+    "total": 16,
+    "confirmed": 16,
+    "needs_review": 0
+  }
+}

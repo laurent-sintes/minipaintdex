@@ -1,0 +1,822 @@
+{
+  "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+  "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+  "normalized_at": "2026-08-30T13:05:44.648608+00:00",
+  "paints": [
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "GAME COLOR METALLIC",
+      "name_observed": "Silver",
+      "reference_observed": "72.052",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme, nom et référence lisibles sur l’étiquette"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Game Color Metallic",
+      "functional_class": "metallic",
+      "reference": "72.052",
+      "name": "Silver",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "vallejo|game-color-metallic|ref:72.052",
+      "enrichment": {
+        "color_hex": "#B9BEC1",
+        "color_family": "Argent clair",
+        "finish": "métallique",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "argent",
+          "métal",
+          "éclaircissement",
+          "Vallejo"
+        ],
+        "recommended_uses": [
+          "Arêtes métalliques",
+          "Armes et armures claires",
+          "Éclats et usure"
+        ],
+        "manufacturer_url": "https://acrylicosvallejo.com/en/producto/hobby/sets/basic-en/metallic-colors-72303/",
+        "local_image": "/manufacturer/vallejo-silver-72052.jpg",
+        "image_source_url": "https://www.vallejo-farben.de/media/image/product/61452/md/silver-18-ml-game-metallic.jpg",
+        "image_credit": "Packshot Acrylicos Vallejo · copie locale · source de distribution : Vallejo-Farben.de",
+        "verified_on": "2026-08-30",
+        "notes": "Couleur d’interface indicative. Référence et contenance confirmées dans la documentation Vallejo."
+      }
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "GAME COLOR METALLIC",
+      "name_observed": "Chainmail",
+      "reference_observed": "72.053",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme, nom et référence lisibles sur l’étiquette"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Game Color Metallic",
+      "functional_class": "metallic",
+      "reference": "72.053",
+      "name": "Chainmail",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "vallejo|game-color-metallic|ref:72.053",
+      "enrichment": {
+        "color_hex": "#818A90",
+        "color_family": "Acier moyen",
+        "finish": "métallique",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "acier",
+          "métal",
+          "armure",
+          "Vallejo"
+        ],
+        "recommended_uses": [
+          "Cottes de mailles",
+          "Armes",
+          "Armures et machines"
+        ],
+        "manufacturer_url": "https://acrylicosvallejo.com/en/producto/hobby/sets/basic-en/metallic-colors-72303/",
+        "local_image": "/manufacturer/vallejo-chainmail-72053.jpg",
+        "image_source_url": "https://www.vallejo-farben.de/media/image/product/61556/md/chainmail-18-ml-game-metallic.jpg",
+        "image_credit": "Packshot Acrylicos Vallejo · copie locale · source de distribution : Vallejo-Farben.de",
+        "verified_on": "2026-08-30",
+        "notes": "Couleur d’interface indicative. Référence et contenance confirmées dans la documentation Vallejo."
+      }
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Orc Skin",
+      "reference_observed": "WP2009P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme et nom lisibles sur l’étiquette",
+        "référence confirmée par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "The Army Painter",
+      "brand_aliases": [
+        "Army Painter"
+      ],
+      "manufacturer": "The Army Painter",
+      "range_canonical": "Speedpaint",
+      "functional_class": "one_coat_contrast",
+      "reference": "WP2009P",
+      "name": "Orc Skin",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "the-army-painter|speedpaint|ref:WP2009P",
+      "enrichment": {
+        "color_hex": "#4E7C43",
+        "color_family": "Vert peau",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "vert",
+          "peau",
+          "Speedpaint",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Peaux d’orcs et de créatures",
+          "Tissus verts",
+          "Végétation sombre"
+        ],
+        "manufacturer_url": "https://thearmypainter.com/products/speedpaint-speedpaint-orc-skin-wp2009p",
+        "local_image": "/manufacturer/army-painter-orc-skin-wp2009p.jpg",
+        "image_source_url": "https://thearmypainter.com/cdn/shop/files/WP2009P_0.jpg?v=1750957887&width=3000",
+        "image_credit": "Packshot officiel The Army Painter · copie locale",
+        "verified_on": "2026-08-30",
+        "notes": "Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée."
+      }
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR",
+      "name_observed": "Lizard Green",
+      "reference_observed": "72.418",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme, nom et référence lisibles sur l’étiquette"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Xpress Color",
+      "functional_class": "one_coat_contrast",
+      "reference": "72.418",
+      "name": "Lizard Green",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "vallejo|xpress-color|ref:72.418",
+      "enrichment": {
+        "color_hex": "#315A3B",
+        "color_family": "Vert sombre",
+        "finish": "mat transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "vert",
+          "Xpress Color",
+          "une couche",
+          "écailles"
+        ],
+        "recommended_uses": [
+          "Écailles",
+          "Peaux vert sombre",
+          "Feuillages et uniformes"
+        ],
+        "manufacturer_url": "https://acrylicosvallejo.com/en/category/hobby/xpress-color-en/",
+        "local_image": "/manufacturer/vallejo-lizard-green-72418.jpg",
+        "image_source_url": "https://cld-assets.dick-blick.com/image/upload/d_ComingSoon_b9zgfu.jpg/c_limit%2Cw_1920/f_auto/q_auto/v1/09471-7758-M-4ww?_a=BAVMn6DY0",
+        "image_credit": "Packshot Acrylicos Vallejo · copie locale · source de distribution : Blick Art Materials",
+        "verified_on": "2026-08-30",
+        "notes": "Appliquer sur une sous-couche blanche, grise ou claire. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR",
+      "name_observed": "Khaki Drill",
+      "reference_observed": "72.451",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "libellé espagnol « Uniforme Caqui » et référence 72.451 lisibles",
+        "nom anglais confirmé par le catalogue fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Xpress Color",
+      "functional_class": "one_coat_contrast",
+      "reference": "72.451",
+      "name": "Khaki Drill",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "vallejo|xpress-color|ref:72.451",
+      "enrichment": {
+        "color_hex": "#766F48",
+        "color_family": "Kaki",
+        "finish": "mat transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "kaki",
+          "uniforme",
+          "Xpress Color",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Uniformes",
+          "Sangles et paquetages",
+          "Toiles et tissus militaires"
+        ],
+        "manufacturer_url": "https://acrylicosvallejo.com/en/category/hobby/xpress-color-en/",
+        "local_image": "/manufacturer/vallejo-khaki-drill-72451.png",
+        "image_source_url": "https://www.vallejo-farben.de/media/image/product/65791/md/khaki-drill-18-ml-xpress-color.png",
+        "image_credit": "Packshot Acrylicos Vallejo · copie locale · source de distribution : Vallejo-Farben.de",
+        "verified_on": "2026-08-30",
+        "notes": "Appliquer sur une sous-couche blanche, grise ou claire. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR",
+      "name_observed": "Space Grey",
+      "reference_observed": "72.422",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme, nom et référence lisibles sur l’étiquette"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Xpress Color",
+      "functional_class": "one_coat_contrast",
+      "reference": "72.422",
+      "name": "Space Grey",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "vallejo|xpress-color|ref:72.422",
+      "enrichment": {
+        "color_hex": "#607383",
+        "color_family": "Gris bleuté",
+        "finish": "mat transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "gris bleu",
+          "uniforme",
+          "Xpress Color",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Uniformes gris-bleu",
+          "Armures froides",
+          "Fourrures et tissus"
+        ],
+        "manufacturer_url": "https://acrylicosvallejo.com/en/category/hobby/xpress-color-en/",
+        "local_image": "/manufacturer/vallejo-space-grey-72422.jpg",
+        "image_source_url": "https://www.vallejo-farben.de/media/image/product/61553/md/space-grey-18-ml-xpress-color.jpg",
+        "image_credit": "Packshot Acrylicos Vallejo · copie locale · source de distribution : Vallejo-Farben.de",
+        "verified_on": "2026-08-30",
+        "notes": "Appliquer sur une sous-couche blanche, grise ou claire. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR INTENSE",
+      "name_observed": "Viking Grey",
+      "reference_observed": "72.483",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme Intense, nom et référence lisibles sur l’étiquette"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Xpress Color Intense",
+      "functional_class": "one_coat_contrast",
+      "reference": "72.483",
+      "name": "Viking Grey",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "vallejo|xpress-color-intense|ref:72.483",
+      "enrichment": {
+        "color_hex": "#46515A",
+        "color_family": "Gris froid intense",
+        "finish": "mat transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "gris",
+          "bleu froid",
+          "Xpress Color Intense",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Armures gris froid",
+          "Uniformes",
+          "Ombres bleutées"
+        ],
+        "manufacturer_url": "https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf",
+        "local_image": "/manufacturer/vallejo-viking-grey-72483.png",
+        "image_source_url": "https://www.miniaturicum.de/media/image/product/46878/md/vallejo-xpress-color-viking-grey.png",
+        "image_credit": "Packshot Acrylicos Vallejo · copie locale · source de distribution : Miniaturicum",
+        "verified_on": "2026-08-30",
+        "notes": "Xpress Color Intense, plus pigmentée que la gamme Xpress standard. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Hive Dweller Purple",
+      "reference_observed": "WP2018P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme et nom lisibles sur l’étiquette",
+        "référence confirmée par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "The Army Painter",
+      "brand_aliases": [
+        "Army Painter"
+      ],
+      "manufacturer": "The Army Painter",
+      "range_canonical": "Speedpaint",
+      "functional_class": "one_coat_contrast",
+      "reference": "WP2018P",
+      "name": "Hive Dweller Purple",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "the-army-painter|speedpaint|ref:WP2018P",
+      "enrichment": {
+        "color_hex": "#533B65",
+        "color_family": "Violet très sombre",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "violet",
+          "sombre",
+          "Speedpaint",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Peaux extraterrestres",
+          "Tissus violets",
+          "Ombres surnaturelles"
+        ],
+        "manufacturer_url": "https://thearmypainter.com/products/speedpaint-speedpaint-hive-dweller-purple-wp2018p",
+        "local_image": "/manufacturer/army-painter-hive-dweller-purple-wp2018p.jpg",
+        "image_source_url": "https://thearmypainter.com/cdn/shop/files/WP2018P_0.jpg?v=1750957887&width=3000",
+        "image_credit": "Packshot officiel The Army Painter · copie locale",
+        "verified_on": "2026-08-30",
+        "notes": "Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée."
+      }
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Fire Giant Orange",
+      "reference_observed": "WP2017P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme et nom lisibles sur l’étiquette",
+        "référence confirmée par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "The Army Painter",
+      "brand_aliases": [
+        "Army Painter"
+      ],
+      "manufacturer": "The Army Painter",
+      "range_canonical": "Speedpaint",
+      "functional_class": "one_coat_contrast",
+      "reference": "WP2017P",
+      "name": "Fire Giant Orange",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "the-army-painter|speedpaint|ref:WP2017P",
+      "enrichment": {
+        "color_hex": "#D1662D",
+        "color_family": "Orange brûlé",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "orange",
+          "feu",
+          "Speedpaint",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Flammes et lueurs",
+          "Cuir roux",
+          "Tissus orange"
+        ],
+        "manufacturer_url": "https://thearmypainter.com/products/speedpaint-speedpaint-fire-giant-orange-wp2017p",
+        "local_image": "/manufacturer/army-painter-fire-giant-orange-wp2017p.jpg",
+        "image_source_url": "https://thearmypainter.com/cdn/shop/files/WP2017P_0.jpg?v=1750957887&width=3000",
+        "image_credit": "Packshot officiel The Army Painter · copie locale",
+        "verified_on": "2026-08-30",
+        "notes": "Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée."
+      }
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Blood Red",
+      "reference_observed": "WP2010P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme et nom lisibles sur l’étiquette",
+        "référence confirmée par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "The Army Painter",
+      "brand_aliases": [
+        "Army Painter"
+      ],
+      "manufacturer": "The Army Painter",
+      "range_canonical": "Speedpaint",
+      "functional_class": "one_coat_contrast",
+      "reference": "WP2010P",
+      "name": "Blood Red",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "the-army-painter|speedpaint|ref:WP2010P",
+      "enrichment": {
+        "color_hex": "#A42E31",
+        "color_family": "Rouge sang",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "rouge",
+          "sang",
+          "Speedpaint",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Uniformes rouges",
+          "Peaux et tissus",
+          "Zones organiques"
+        ],
+        "manufacturer_url": "https://thearmypainter.com/products/speedpaint-speedpaint-blood-red-wp2010p",
+        "local_image": "/manufacturer/army-painter-blood-red-wp2010p.jpg",
+        "image_source_url": "https://thearmypainter.com/cdn/shop/files/WP2010P_0.jpg?v=1750957887&width=3000",
+        "image_credit": "Packshot officiel The Army Painter · copie locale",
+        "verified_on": "2026-08-30",
+        "notes": "Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée."
+      }
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Highlord Blue",
+      "reference_observed": "WP2015P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme et nom lisibles sur l’étiquette",
+        "référence confirmée par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "The Army Painter",
+      "brand_aliases": [
+        "Army Painter"
+      ],
+      "manufacturer": "The Army Painter",
+      "range_canonical": "Speedpaint",
+      "functional_class": "one_coat_contrast",
+      "reference": "WP2015P",
+      "name": "Highlord Blue",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "the-army-painter|speedpaint|ref:WP2015P",
+      "enrichment": {
+        "color_hex": "#335991",
+        "color_family": "Bleu soutenu",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "bleu",
+          "uniforme",
+          "Speedpaint",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Uniformes bleus",
+          "Armures",
+          "Énergie et tissus"
+        ],
+        "manufacturer_url": "https://thearmypainter.com/products/speedpaint-speedpaint-highlord-blue-wp2015p",
+        "local_image": "/manufacturer/army-painter-highlord-blue-wp2015p.jpg",
+        "image_source_url": "https://thearmypainter.com/cdn/shop/files/WP2015P_0.jpg?v=1750957887&width=3000",
+        "image_credit": "Packshot officiel The Army Painter · copie locale",
+        "verified_on": "2026-08-30",
+        "notes": "Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée."
+      }
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Zealot Yellow",
+      "reference_observed": "WP2013P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme et nom lisibles sur l’étiquette",
+        "référence confirmée par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "The Army Painter",
+      "brand_aliases": [
+        "Army Painter"
+      ],
+      "manufacturer": "The Army Painter",
+      "range_canonical": "Speedpaint",
+      "functional_class": "one_coat_contrast",
+      "reference": "WP2013P",
+      "name": "Zealot Yellow",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "the-army-painter|speedpaint|ref:WP2013P",
+      "enrichment": {
+        "color_hex": "#D4B12F",
+        "color_family": "Jaune chaud",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "jaune",
+          "signalétique",
+          "Speedpaint",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Marquages jaunes",
+          "Tissus",
+          "Lumières chaudes"
+        ],
+        "manufacturer_url": "https://thearmypainter.com/products/speedpaint-speedpaint-zealot-yellow-wp2013p",
+        "local_image": "/manufacturer/army-painter-zealot-yellow-wp2013p.jpg",
+        "image_source_url": "https://thearmypainter.com/cdn/shop/files/WP2013P_0.jpg?v=1750957887&width=3000",
+        "image_credit": "Packshot officiel The Army Painter · copie locale",
+        "verified_on": "2026-08-30",
+        "notes": "Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée."
+      }
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Pallid Bone",
+      "reference_observed": "WP2006P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme et nom lisibles sur l’étiquette",
+        "référence confirmée par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "The Army Painter",
+      "brand_aliases": [
+        "Army Painter"
+      ],
+      "manufacturer": "The Army Painter",
+      "range_canonical": "Speedpaint",
+      "functional_class": "one_coat_contrast",
+      "reference": "WP2006P",
+      "name": "Pallid Bone",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "the-army-painter|speedpaint|ref:WP2006P",
+      "enrichment": {
+        "color_hex": "#C4B486",
+        "color_family": "Os pâle",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "os",
+          "beige",
+          "Speedpaint",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Os et squelettes",
+          "Parchemins",
+          "Toiles et tissus beiges"
+        ],
+        "manufacturer_url": "https://thearmypainter.com/products/speedpaint-speedpaint-pallid-bone-wp2006p",
+        "local_image": "/manufacturer/army-painter-pallid-bone-wp2006p.jpg",
+        "image_source_url": "https://thearmypainter.com/cdn/shop/files/WP2006P_0.jpg?v=1750957887&width=3000",
+        "image_credit": "Packshot officiel The Army Painter · copie locale",
+        "verified_on": "2026-08-30",
+        "notes": "Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée."
+      }
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR",
+      "name_observed": "Mummy White",
+      "reference_observed": "72.449",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme, nom et référence lisibles sur l’étiquette"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Xpress Color",
+      "functional_class": "one_coat_contrast",
+      "reference": "72.449",
+      "name": "Mummy White",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "vallejo|xpress-color|ref:72.449",
+      "enrichment": {
+        "color_hex": "#D8D5C5",
+        "color_family": "Blanc cassé",
+        "finish": "mat transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "blanc cassé",
+          "os",
+          "Xpress Color",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Tissus blancs ombrés",
+          "Os pâle",
+          "Bandages et parchemins"
+        ],
+        "manufacturer_url": "https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf",
+        "local_image": "/manufacturer/vallejo-mummy-white-72449.png",
+        "image_source_url": "https://www.vallejo-farben.de/media/image/product/65789/md/mummy-white-18-ml-xpress-color.png",
+        "image_credit": "Packshot Acrylicos Vallejo · copie locale · source de distribution : Vallejo-Farben.de",
+        "verified_on": "2026-08-30",
+        "notes": "Appliquer sur une sous-couche blanche, grise ou claire. Couleur d’interface indicative."
+      }
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Crusader Skin",
+      "reference_observed": "WP2004P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": [
+        "marque, gamme et nom lisibles sur l’étiquette",
+        "référence confirmée par la fiche fabricant"
+      ],
+      "warnings": [],
+      "brand_canonical": "The Army Painter",
+      "brand_aliases": [
+        "Army Painter"
+      ],
+      "manufacturer": "The Army Painter",
+      "range_canonical": "Speedpaint",
+      "functional_class": "one_coat_contrast",
+      "reference": "WP2004P",
+      "name": "Crusader Skin",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "the-army-painter|speedpaint|ref:WP2004P",
+      "enrichment": {
+        "color_hex": "#C1846C",
+        "color_family": "Chair rougeâtre pâle",
+        "finish": "transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "chair",
+          "peau",
+          "Speedpaint",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Carnations claires",
+          "Visages et mains",
+          "Cuir rose-brun"
+        ],
+        "manufacturer_url": "https://thearmypainter.com/products/speedpaint-speedpaint-crusader-skin-wp2004p",
+        "local_image": "/manufacturer/army-painter-crusader-skin-wp2004p.jpg",
+        "image_source_url": "https://thearmypainter.com/cdn/shop/files/WP2004P_0.jpg?v=1750957887&width=3000",
+        "image_credit": "Packshot officiel The Army Painter · copie locale",
+        "verified_on": "2026-08-30",
+        "notes": "Appliquer généreusement en une couche sur une sous-couche claire ; palette dure recommandée."
+      }
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR",
+      "name_observed": "Fairy Skin",
+      "reference_observed": "72.457",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": [
+        "marque, gamme, nom et référence lisibles sur l’étiquette"
+      ],
+      "warnings": [],
+      "brand_canonical": "Vallejo",
+      "brand_aliases": [
+        "Acrylicos Vallejo"
+      ],
+      "manufacturer": "Acrylicos Vallejo",
+      "range_canonical": "Xpress Color",
+      "functional_class": "one_coat_contrast",
+      "reference": "72.457",
+      "name": "Fairy Skin",
+      "needs_review": false,
+      "status": "confirme",
+      "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+      "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+      "dedupe_key": "vallejo|xpress-color|ref:72.457",
+      "enrichment": {
+        "color_hex": "#CA8774",
+        "color_family": "Chair rosée",
+        "finish": "mat transparent contrasté",
+        "medium": "acrylique à l’eau",
+        "volume_ml": 18,
+        "tags": [
+          "chair",
+          "rose",
+          "Xpress Color",
+          "une couche"
+        ],
+        "recommended_uses": [
+          "Carnations rosées",
+          "Créatures pâles",
+          "Tissus rose terre cuite"
+        ],
+        "manufacturer_url": "https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf",
+        "local_image": "/manufacturer/vallejo-fairy-skin-72457.png",
+        "image_source_url": "https://www.vallejo-farben.de/media/image/product/65797/md/fairy-skin-18-ml-xpress-color.png",
+        "image_credit": "Packshot Acrylicos Vallejo · copie locale · source de distribution : Vallejo-Farben.de",
+        "verified_on": "2026-08-30",
+        "notes": "Appliquer sur une sous-couche blanche, grise ou claire. Couleur d’interface indicative."
+      }
+    }
+  ],
+  "summary": {
+    "total": 16,
+    "confirmed": 16,
+    "needs_review": 0
+  },
+  "enriched_at": "2026-08-30T13:05:44.996357+00:00"
+}

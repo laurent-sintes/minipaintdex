@@ -1,0 +1,166 @@
+{
+  "source_photo": "imports/archive/2026-08-30/IMG_5311.jpeg",
+  "source_hash": "641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775",
+  "paints": [
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "GAME COLOR METALLIC",
+      "name_observed": "Silver",
+      "reference_observed": "72.052",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme, nom et référence lisibles sur l’étiquette"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "GAME COLOR METALLIC",
+      "name_observed": "Chainmail",
+      "reference_observed": "72.053",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme, nom et référence lisibles sur l’étiquette"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Orc Skin",
+      "reference_observed": "WP2009P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": ["marque, gamme et nom lisibles sur l’étiquette", "référence confirmée par la fiche fabricant"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR",
+      "name_observed": "Lizard Green",
+      "reference_observed": "72.418",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme, nom et référence lisibles sur l’étiquette"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR",
+      "name_observed": "Khaki Drill",
+      "reference_observed": "72.451",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": ["libellé espagnol « Uniforme Caqui » et référence 72.451 lisibles", "nom anglais confirmé par le catalogue fabricant"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR",
+      "name_observed": "Space Grey",
+      "reference_observed": "72.422",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme, nom et référence lisibles sur l’étiquette"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR INTENSE",
+      "name_observed": "Viking Grey",
+      "reference_observed": "72.483",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme Intense, nom et référence lisibles sur l’étiquette"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Hive Dweller Purple",
+      "reference_observed": "WP2018P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": ["marque, gamme et nom lisibles sur l’étiquette", "référence confirmée par la fiche fabricant"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Fire Giant Orange",
+      "reference_observed": "WP2017P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": ["marque, gamme et nom lisibles sur l’étiquette", "référence confirmée par la fiche fabricant"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Blood Red",
+      "reference_observed": "WP2010P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": ["marque, gamme et nom lisibles sur l’étiquette", "référence confirmée par la fiche fabricant"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Highlord Blue",
+      "reference_observed": "WP2015P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": ["marque, gamme et nom lisibles sur l’étiquette", "référence confirmée par la fiche fabricant"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Zealot Yellow",
+      "reference_observed": "WP2013P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": ["marque, gamme et nom lisibles sur l’étiquette", "référence confirmée par la fiche fabricant"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Pallid Bone",
+      "reference_observed": "WP2006P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": ["marque, gamme et nom lisibles sur l’étiquette", "référence confirmée par la fiche fabricant"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR",
+      "name_observed": "Mummy White",
+      "reference_observed": "72.449",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": ["marque, gamme, nom et référence lisibles sur l’étiquette"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "ARMY PAINTER",
+      "range_observed": "SPEED PAINT",
+      "name_observed": "Crusader Skin",
+      "reference_observed": "WP2004P",
+      "quantity": 1,
+      "confidence": 0.98,
+      "evidence": ["marque, gamme et nom lisibles sur l’étiquette", "référence confirmée par la fiche fabricant"],
+      "warnings": []
+    },
+    {
+      "brand_observed": "VALLEJO",
+      "range_observed": "XPRESS COLOR",
+      "name_observed": "Fairy Skin",
+      "reference_observed": "72.457",
+      "quantity": 1,
+      "confidence": 0.99,
+      "evidence": ["marque, gamme, nom et référence lisibles sur l’étiquette"],
+      "warnings": []
+    }
+  ]
+}
