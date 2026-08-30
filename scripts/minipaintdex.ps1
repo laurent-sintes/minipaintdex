@@ -36,7 +36,7 @@ $serverJar = Join-Path $projectRoot 'backend\server\target\minipaintdex-server-0
 $cliJar = Join-Path $projectRoot 'backend\cli\target\minipaintdex-cli-0.2.0-SNAPSHOT.jar'
 
 function Invoke-Build {
-    & $mavenWrapper "-Dmaven.repo.local=$mavenRepository" verify
+    & $mavenWrapper "-Dmaven.repo.local=$mavenRepository" clean verify
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 }
 

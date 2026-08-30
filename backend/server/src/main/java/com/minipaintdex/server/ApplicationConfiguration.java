@@ -17,6 +17,6 @@ class ApplicationConfiguration {
 
     @Bean
     MiniPaintDexService miniPaintDexService(FileMiniPaintDexRepository repository) {
-        return new MiniPaintDexService(repository, repository);
+        return new MiniPaintDexService(repository, repository, repository, repository, repository);
     }
 }

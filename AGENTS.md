@@ -28,15 +28,21 @@ backend/
   server/                 # Spring Boot and Spring MVC REST adapter
   cli/                    # Picocli adapter using the same application services
 
-app/                      # Existing Vinext/React application routes
-components/               # React UI
-lib/                      # Frontend-only adapters and types
+spa/
+  src/
+    components/           # React UI
+    models/               # Frontend DTOs and view models
+    styles/               # Shared Tailwind and application CSS
+
+tools/
+  minipaintdex-data/      # Deterministic Python import and validation tools
 
 data/
   site/
   market/
     paints/
     games/
+    painting-guides/
   workshop/
   ledger/
     events/
@@ -129,11 +135,44 @@ Do not use a display name alone as identity. Prefer a manufacturer reference whe
 
 The market paint browser must support normal filters including brand, range, type, color, finish, medium, opacity, volume, manufacturer reference, lifecycle status, and other catalog metadata. It may overlay workshop ownership as a computed badge or filter without copying market fields into workshop data.
 
-The paint-brand refresh skill must accept a brand name and may accept range, current/all scope, and dry-run options. It must resolve aliases, prefer official sources, normalize identifiers, retain provenance and verification dates, report diffs, validate data, and run the project checks. A dry run must not mutate canonical catalogs. Skills must use REST or CLI application interfaces for writes once those interfaces exist.
+The paint-brand refresh skill must accept a brand name or `all`, where `all` is resolved dynamically from the brands already present in the market catalog. It may accept range, current/all scope, removal, and dry-run options. It must resolve aliases, prefer official sources, normalize identifiers, retain provenance and verification dates, compare every refreshed product with the local record, report additions and field-level updates, and handle missing products explicitly. Missing products are retired by default. Deletion requires verified complete source coverage, an explicit removal option, and application validation; owned paints and paints referenced by market guides or workshop recipes cannot be deleted. A dry run must not mutate canonical catalogs. Skills must use REST or CLI application interfaces for writes once those interfaces exist.
+
+Paints with functional types `technical_effect`, `primer`, `wash_shade`, `ink`, or `auxiliary` must include structured `usage_instructions` with an explanatory summary, actionable steps, and useful tips or precautions. These instructions are market product knowledge and are displayed dynamically by the paint sheet.
 
 ### Games and paintable catalog items
 
 The market game catalog describes games, editions, products, and generic paintable catalog items. Use a generic `catalog_item` concept so miniatures, vehicles, scenery, and other paintable components share the same model. Market records contain facts such as name, kind, game, source, reference image, and whether assembly is normally required. They do not contain ownership, personal progress, or personal recipes.
+
+### Market painting guides
+
+A `market_painting_guide` records knowledge published or inferred from professional, official, community, or otherwise traceable painted references. It belongs to `data/market/painting-guides`, targets one catalog item, has a stable ID and version, and carries a `knowledge_status` of `documented`, `observed`, or `inferred`.
+
+Each guide contains stable `slots`. A slot describes the public guide's visual or technical intent and may reference a `market_paint_id`, role, application notes, and a pending market import. Preparation and painting steps are guide knowledge. Every guide must retain direct sources or source references and must not be presented as the owner's chosen recipe.
+
+A new guide version must retain provenance and must not silently rewrite a workshop recipe based on an earlier version.
+
+## Workshop recipes and assignments
+
+A `workshop_recipe` is the owner's painting plan. It has an independent identity, version, lifecycle, and history in the global ledger. It may reference the market guide version that inspired it, but it owns the substitutions, mixtures, ordered layers, and techniques the owner actually plans to use.
+
+The canonical lifecycle is `draft -> validated -> active -> superseded`; any non-archived state may transition to `archived`. A new revision is a new version that references the recipe it supersedes. Never overwrite an existing recipe event to revise it.
+
+Recipe solutions map one guide slot to one of:
+
+- `single_paint`: one owned market paint ID;
+- `mixture`: several owned paint components and optional ratios;
+- `layer_stack`: ordered owned paint components and application notes;
+- `technique`: explicit instructions, with optional owned paint components.
+
+All paint IDs used by a workshop recipe must exist in the owner's paint inventory at creation time. A `recipe.assigned` event attaches one active recipe version to one physical `workshop_item`. The assignment is not stored on the market catalog item, because two copies may use different plans.
+
+## Paint reconciliation
+
+Reconciliation is a read-only proposal from a market guide slot to paints owned in the workshop. It never mutates or auto-accepts a recipe.
+
+For ordinary opaque paints, rank candidates primarily with CIE Lab and CIEDE2000 color distance, then use functional type, finish, opacity, and medium. For behavioral products such as Contrast, Speedpaint, washes, inks, primers, auxiliaries, and technical effects, compare functional type plus structured application behavior such as transparency, pooling, pigment separation, reactivation, undercoat, finish, and effect type. RGB is only a minor signal for those products and every result requires manual review.
+
+The matcher may propose a single paint candidate, but the workshop solution may instead be a mixture, ordered layer stack, or technique. Persist only the user's explicit workshop choice through the recipe command.
 
 ## Workshop inventory
 
@@ -219,6 +258,11 @@ workflow.stage.completed
 workflow.stage.skipped
 workflow.stage.reopened
 recipe.assigned
+workshop_recipe.created
+workshop_recipe.validated
+workshop_recipe.activated
+workshop_recipe.superseded
+workshop_recipe.archived
 paint.used
 photo.added
 photo.caption.updated
@@ -274,6 +318,8 @@ Stable IDs act as foreign keys across market catalogs, workshop inventory, proje
 
 ## Validation and delivery
 
+- Treat a user message containing only `Go` (or equivalent approval) as authorization to implement the refactor or change currently under discussion. It does not authorize a Git commit or push.
+- Keep Git publication under the user's control. Create a commit only when the user explicitly asks for a commit in the current request, and push only when the user explicitly asks for a push in the current request. Never carry commit or push authorization forward from an older request after additional work has been requested.
 - Keep schemas versioned and validate all persisted files.
 - Validate event payloads by event type before appending.
 - Make event writes idempotent and safe against partial writes.

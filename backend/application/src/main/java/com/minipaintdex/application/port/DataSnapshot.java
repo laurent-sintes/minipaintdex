@@ -10,7 +10,7 @@ public record DataSnapshot(
         List<Map<String, Object>> marketPaints,
         List<Map<String, Object>> paintInventory,
         List<Map<String, Object>> games,
-        List<Map<String, Object>> recipes,
+        List<Map<String, Object>> marketPaintingGuides,
         List<Map<String, Object>> shopping,
         List<DomainEvent> events) {
 }

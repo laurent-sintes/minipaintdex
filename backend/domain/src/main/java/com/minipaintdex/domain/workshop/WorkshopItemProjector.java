@@ -22,7 +22,16 @@ public final class WorkshopItemProjector {
                 states.put(event.aggregateId(), new WorkshopItemState(
                         event.aggregateId(), text(event.payload().get("catalog_item_id")), event.projectId(),
                         text(event.payload().getOrDefault("display_name", event.aggregateId())),
-                        WorkshopItemState.emptyWorkflow(), null, false, event.recordedAt()));
+                        WorkshopItemState.emptyWorkflow(), null, false, null, 0, event.recordedAt()));
+                continue;
+            }
+            if ("recipe.assigned".equals(event.eventType())) {
+                var current = states.get(event.aggregateId());
+                if (current == null) continue;
+                states.put(current.id(), new WorkshopItemState(
+                        current.id(), current.catalogItemId(), current.projectId(), current.displayName(),
+                        current.workflow(), current.currentStage(), current.completed(),
+                        text(event.payload().get("recipe_id")), number(event.payload().get("recipe_version")), event.recordedAt()));
                 continue;
             }
             if (!event.eventType().startsWith("workflow.stage.")) continue;
@@ -34,7 +43,7 @@ public final class WorkshopItemProjector {
             var nextStage = first(workflow, WorkflowStageStatus.IN_PROGRESS);
             if (nextStage == null) nextStage = first(workflow, WorkflowStageStatus.PENDING);
             var completed = workflow.values().stream().allMatch(status -> status == WorkflowStageStatus.COMPLETED || status == WorkflowStageStatus.SKIPPED);
-            states.put(current.id(), new WorkshopItemState(current.id(), current.catalogItemId(), current.projectId(), current.displayName(), workflow, nextStage, completed, event.recordedAt()));
+            states.put(current.id(), new WorkshopItemState(current.id(), current.catalogItemId(), current.projectId(), current.displayName(), workflow, nextStage, completed, current.recipeId(), current.recipeVersion(), event.recordedAt()));
         }
         return new ArrayList<>(states.values());
     }
@@ -62,5 +71,10 @@ public final class WorkshopItemProjector {
 
     private static String text(Object value) {
         return value == null ? "" : String.valueOf(value);
+    }
+
+    private static int number(Object value) {
+        if (value instanceof Number number) return number.intValue();
+        try { return Integer.parseInt(text(value)); } catch (NumberFormatException ignored) { return 0; }
     }
 }

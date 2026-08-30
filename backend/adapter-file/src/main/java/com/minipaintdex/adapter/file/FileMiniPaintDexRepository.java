@@ -2,20 +2,27 @@ package com.minipaintdex.adapter.file;
 
 import com.minipaintdex.application.port.DataSnapshot;
 import com.minipaintdex.application.port.EventLedger;
+import com.minipaintdex.application.port.MarketPaintCatalogWriter;
+import com.minipaintdex.application.port.ProjectCatalogWriter;
 import com.minipaintdex.application.port.SnapshotRepository;
+import com.minipaintdex.application.port.WorkshopPaintInventoryWriter;
 import com.minipaintdex.domain.event.Actor;
 import com.minipaintdex.domain.event.DomainEvent;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Writer;
 import java.nio.ByteBuffer;
+import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -26,12 +33,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedger {
+public final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedger, MarketPaintCatalogWriter, WorkshopPaintInventoryWriter, ProjectCatalogWriter {
     private static final DateTimeFormatter MONTH = DateTimeFormatter.ofPattern("yyyy-MM").withZone(ZoneOffset.UTC);
     private static final TypeReference<Map<String, Object>> MAP_TYPE = new TypeReference<>() {};
 
     private final Path root;
-    private final Yaml yaml = new Yaml();
+    private final Yaml yaml = createYaml();
     private final JsonMapper json = JsonMapper.builder().build();
 
     public FileMiniPaintDexRepository(Path root) {
@@ -49,14 +56,14 @@ public final class FileMiniPaintDexRepository implements SnapshotRepository, Eve
         var inventory = yaml(data.resolve("workshop/paints.yaml"));
         var shopping = yaml(data.resolve("workshop/shopping.yaml"));
         var games = yamlDocuments(data.resolve("market/games"));
-        var recipeDocuments = yamlDocuments(data.resolve("workshop/recipes"));
-        var recipes = recipeDocuments.stream().flatMap(document -> listOfMaps(document.get("recipes")).stream()).toList();
+        var guideDocuments = yamlDocuments(data.resolve("market/painting-guides"));
+        var guides = guideDocuments.stream().flatMap(document -> listOfMaps(document.get("painting_guides")).stream()).toList();
         return new DataSnapshot(
                 yaml(data.resolve("site/fr.yaml")),
                 listOfMaps(paints.get("paints")),
                 listOfMaps(inventory.get("paints")),
                 games,
-                recipes,
+                guides,
                 listOfMaps(shopping.get("items")),
                 readEvents(data.resolve("ledger/events")));
     }
@@ -74,6 +81,56 @@ public final class FileMiniPaintDexRepository implements SnapshotRepository, Eve
             }
         } catch (IOException exception) {
             throw new FileStorageException("Unable to append event to " + path, exception);
+        }
+    }
+
+    @Override
+    public void replaceMarketPaints(List<Map<String, Object>> paints) {
+        var target = root.resolve("data/market/paints/catalog.yaml");
+        var document = new LinkedHashMap<String, Object>();
+        document.put("schema_version", 1);
+        document.put("paints", paints);
+        replaceYaml(target, document);
+    }
+
+    @Override
+    public void replaceWorkshopPaints(List<Map<String, Object>> paints) {
+        var target = root.resolve("data/workshop/paints.yaml");
+        var document = new LinkedHashMap<String, Object>();
+        document.put("schema_version", 1);
+        document.put("paints", paints);
+        replaceYaml(target, document);
+    }
+
+    @Override
+    public void replaceProject(String projectId, Map<String, Object> project, List<Map<String, Object>> paintingGuides) {
+        replaceYaml(root.resolve("data/market/games").resolve(projectId + ".yaml"), project);
+        var guideDocument = new LinkedHashMap<String, Object>();
+        guideDocument.put("schema_version", 1);
+        guideDocument.put("project_id", projectId);
+        guideDocument.put("painting_guides", paintingGuides);
+        replaceYaml(root.resolve("data/market/painting-guides").resolve(projectId + ".yaml"), guideDocument);
+    }
+
+    private void replaceYaml(Path target, Map<String, Object> document) {
+        Path temporary = null;
+        try {
+            Files.createDirectories(target.getParent());
+            temporary = Files.createTempFile(target.getParent(), "catalog-", ".yaml.tmp");
+            try (Writer writer = Files.newBufferedWriter(temporary, StandardCharsets.UTF_8)) {
+                yaml.dump(document, writer);
+            }
+            try {
+                Files.move(temporary, target, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+            } catch (AtomicMoveNotSupportedException ignored) {
+                Files.move(temporary, target, StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (IOException exception) {
+            throw new FileStorageException("Unable to replace YAML repository " + target, exception);
+        } finally {
+            if (temporary != null) {
+                try { Files.deleteIfExists(temporary); } catch (IOException ignored) { }
+            }
         }
     }
 
@@ -106,6 +163,7 @@ public final class FileMiniPaintDexRepository implements SnapshotRepository, Eve
     }
 
     private List<Path> files(Path directory, String suffix) {
+        if (!Files.isDirectory(directory)) return List.of();
         try (var paths = Files.list(directory)) {
             return paths.filter(Files::isRegularFile).filter(path -> path.getFileName().toString().endsWith(suffix)).sorted().toList();
         } catch (IOException exception) {
@@ -162,5 +220,14 @@ public final class FileMiniPaintDexRepository implements SnapshotRepository, Eve
 
     private static int number(Object value) {
         return value instanceof Number number ? number.intValue() : Integer.parseInt(text(value));
+    }
+
+    private static Yaml createYaml() {
+        var options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        options.setPrettyFlow(true);
+        options.setIndent(2);
+        options.setIndicatorIndent(0);
+        return new Yaml(options);
     }
 }

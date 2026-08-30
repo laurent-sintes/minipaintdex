@@ -12,7 +12,7 @@ paints:
     reference: P816
     name: Uniforme Luftwaffe
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -60,7 +60,7 @@ paints:
     reference: P830
     name: Vert Allemand WWII
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -108,7 +108,7 @@ paints:
     reference: WP2010P
     name: Blood Red
     confidence: 0.98
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -156,7 +156,7 @@ paints:
     reference: WP2004P
     name: Crusader Skin
     confidence: 0.98
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -204,7 +204,7 @@ paints:
     reference: WP2017P
     name: Fire Giant Orange
     confidence: 0.98
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -252,7 +252,7 @@ paints:
     reference: WP2023P
     name: Hardened Leather
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -300,7 +300,7 @@ paints:
     reference: WP2015P
     name: Highlord Blue
     confidence: 0.98
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -348,7 +348,7 @@ paints:
     reference: WP2018P
     name: Hive Dweller Purple
     confidence: 0.98
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -396,7 +396,7 @@ paints:
     reference: WP2009P
     name: Orc Skin
     confidence: 0.98
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -444,7 +444,7 @@ paints:
     reference: WP2006P
     name: Pallid Bone
     confidence: 0.98
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -492,7 +492,7 @@ paints:
     reference: WP2013P
     name: Zealot Yellow
     confidence: 0.98
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -540,7 +540,7 @@ paints:
     reference: "72.015"
     name: Hexed Lichen
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -588,7 +588,7 @@ paints:
     reference: "72.053"
     name: Chainmail
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -636,7 +636,7 @@ paints:
     reference: "72.054"
     name: Dark Gunmetal
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -684,7 +684,7 @@ paints:
     reference: "72.052"
     name: Silver
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -732,7 +732,7 @@ paints:
     reference: "70.913"
     name: Yellow Ochre
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -780,7 +780,7 @@ paints:
     reference: "77.139"
     name: Aged Metal (Base)
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -829,7 +829,7 @@ paints:
     reference: "72.457"
     name: Fairy Skin
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -877,7 +877,7 @@ paints:
     reference: "72.451"
     name: Khaki Drill
     confidence: 0.98
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -925,7 +925,7 @@ paints:
     reference: "72.418"
     name: Lizard Green
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -973,7 +973,7 @@ paints:
     reference: "72.449"
     name: Mummy White
     confidence: 0.98
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1021,7 +1021,7 @@ paints:
     reference: "72.422"
     name: Space Grey
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1069,7 +1069,7 @@ paints:
     reference: "72.483"
     name: Viking Grey
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1119,7 +1119,7 @@ paints:
     reference: ""
     name: Aggaros Dunes
     confidence: 0
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1168,7 +1168,7 @@ paints:
     reference: 29-34
     name: Apothecary White
     confidence: 1
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1218,7 +1218,7 @@ paints:
     reference: 29-56
     name: Briar Queen Chill
     confidence: 0
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1267,7 +1267,7 @@ paints:
     reference: 29-23
     name: Creed Camo
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1318,7 +1318,7 @@ paints:
     reference: ""
     name: Cygor Brown
     confidence: 0
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1367,7 +1367,7 @@ paints:
     reference: 29-33
     name: Darkoath Flesh
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1416,7 +1416,7 @@ paints:
     reference: ""
     name: Gore-Grunta Fur
     confidence: 0
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1465,7 +1465,7 @@ paints:
     reference: 29-35
     name: Gryph-Charger Grey
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1515,7 +1515,7 @@ paints:
     reference: 29-32
     name: Guilliman Flesh
     confidence: 0
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1563,7 +1563,7 @@ paints:
     reference: 29-49
     name: Gutrippa Flesh
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1614,7 +1614,7 @@ paints:
     reference: 29-54
     name: Imperial Fist
     confidence: 0
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1662,7 +1662,7 @@ paints:
     reference: 29-52
     name: Ironjawz Yellow
     confidence: 0
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1710,7 +1710,7 @@ paints:
     reference: 29-55
     name: Kroxigor Scales
     confidence: 0
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1758,7 +1758,7 @@ paints:
     reference: 29-17
     name: Leviadon Blue
     confidence: 0
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1806,7 +1806,7 @@ paints:
     reference: 29-47
     name: Mantis Warriors Green
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1856,7 +1856,7 @@ paints:
     reference: 29-24
     name: Militarum Green
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1907,7 +1907,7 @@ paints:
     reference: 29-21
     name: Nazdreg Yellow
     confidence: 0
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -1955,7 +1955,7 @@ paints:
     reference: 29-22
     name: Ork Flesh
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -2006,7 +2006,7 @@ paints:
     reference: 29-42
     name: Plaguebearer Flesh
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -2057,7 +2057,7 @@ paints:
     reference: 29-58
     name: Pylar Glacier
     confidence: 0
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -2105,7 +2105,7 @@ paints:
     reference: 29-27
     name: Snakebite Leather
     confidence: 0.99
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -2156,7 +2156,7 @@ paints:
     reference: 29-39
     name: Talassar Blue
     confidence: 0
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -2204,7 +2204,7 @@ paints:
     reference: ""
     name: Terradon Turquoise
     confidence: 0
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:
@@ -2252,7 +2252,7 @@ paints:
     reference: 29-30
     name: Wyldwood
     confidence: 0
-    data_status: confirme
+    data_status: confirmed
     lifecycle_status: unknown
     warnings: []
     color:

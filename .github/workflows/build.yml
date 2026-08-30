@@ -14,20 +14,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v6
+      - name: Install Java
+        uses: actions/setup-java@v5
         with:
-          version: 11.19.0
-          run_install: false
+          distribution: temurin
+          java-version: 25
+          cache: maven
 
-      - name: Install Node.js
-        uses: actions/setup-node@v7
+      - name: Install Python
+        uses: actions/setup-python@v6
         with:
-          node-version: 24
-          cache: pnpm
+          python-version: '3.14'
+          cache: pip
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Install data tools
+        run: python -m pip install -e './tools/minipaintdex-data[images]'
 
-      - name: Validate and build
-        run: pnpm check
+      - name: Test data tools
+        run: python -m unittest discover -s tools/minipaintdex-data/tests
+
+      - name: Validate and build the self-contained system
+        run: ./mvnw clean verify

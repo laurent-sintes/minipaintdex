@@ -80,6 +80,9 @@
           <workingDirectory>${maven.multiModuleProjectDirectory}</workingDirectory>
           <installDirectory>${project.build.directory}/frontend</installDirectory>
           <skip>${frontend.skip}</skip>
+          <environmentVariables>
+            <CI>true</CI>
+          </environmentVariables>
         </configuration>
         <executions>
           <execution>

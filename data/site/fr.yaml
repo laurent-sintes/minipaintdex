@@ -1,9 +1,9 @@
 metadata:
-  title: Nuancier — Mon atelier de peinture
-  short_title: Nuancier
+  title: Mini Paint Dex — Atelier de peinture de figurines
+  short_title: Mini Paint Dex
   description: Référentiel local de peintures et projets de figurines, avec guides par modèle.
 brand:
-  name: Nuancier
+  name: Mini Paint Dex
   subtitle: Atelier de peinture
 units:
   color_singular: teinte
@@ -13,6 +13,7 @@ units:
 navigation:
   aria_label: Navigation principale
   mobile_aria_label: Navigation mobile
+  home: Accueil
   market_section: Marché
   market_paints: Peintures
   market_games: Jeux
@@ -28,6 +29,36 @@ header:
   add_by_photo: Ajouter par photo
   add: Ajouter
   workshop_prefix: Mon atelier
+home:
+  eyebrow: Votre atelier de peinture, au même endroit
+  title: Bienvenue dans Mini Paint Dex
+  description: Explorez les références du marché, organisez ce que vous possédez et suivez chaque figurine jusqu’aux finitions.
+  services_title: Que souhaitez-vous faire ?
+  services_description: Chaque service s’appuie sur les mêmes référentiels et le même journal d’atelier.
+  market_paints:
+    title: Explorer les peintures
+    description: Rechercher une teinte par marque, gamme, type, couleur ou propriétés techniques.
+    action: Ouvrir le marché des peintures
+  market_games:
+    title: Consulter les jeux
+    description: Parcourir les jeux, figurines, décors et guides de peinture sourcés.
+    action: Ouvrir les jeux du marché
+  workshop_paints:
+    title: Gérer mes peintures
+    description: Retrouver les références que vous possédez et préparer vos substitutions.
+    action: Voir mes peintures
+  workshop_projects:
+    title: Suivre mes projets
+    description: Visualiser l’avancement de chaque élément physique et son plan de peinture.
+    action: Ouvrir mes projets
+  shopping:
+    title: Préparer mes achats
+    description: Regrouper les peintures manquantes identifiées pour vos prochains projets.
+    action: Voir les achats
+  imports:
+    title: Importer des références
+    description: Préparer l’identification de vos pots et enrichir les référentiels de façon traçable.
+    action: Commencer un import
 workflow:
   preparation: Préparation
   priming: Sous-couche
@@ -50,6 +81,8 @@ collection:
   title: Ma collection
   description: Retrouvez vos teintes, combinez les filtres et exportez le référentiel.
   all_brands: Toutes les marques
+  manufacturer_filter: Fabricant
+  all_manufacturers: Tous les fabricants
   pots_metric: pots référencés
   colors_metric: teintes distinctes
   sheets_metric: fiches fabricant
@@ -72,6 +105,12 @@ collection:
   all_ranges: Toutes les gammes
   finish_filter: Fini
   all_finishes: Tous les finis
+  medium_filter: Liant
+  all_mediums: Tous les liants
+  opacity_filter: Opacité
+  all_opacities: Toutes les opacités
+  lifecycle_filter: Disponibilité
+  all_lifecycles: Tous les statuts
   volume_filter: Volume
   all_volumes: Tous les volumes
   tag_filter: Propriété
@@ -90,6 +129,16 @@ projects:
   edition_source: Consulter la source d’édition
   all_sheets: Voir toutes les fiches
   paints_to_use: Peintures à utiliser
+  market_guide: Référence du marché
+  market_guide_help: Guide public sourcé ou inféré. Il constitue une base de connaissance, pas votre choix d’atelier.
+  market_guide_statuses:
+    documented: Documenté
+    observed: Observé
+    inferred: Inféré — à vérifier
+  workshop_recipe: Mon plan d’atelier
+  workshop_recipe_help: Vos substitutions, mélanges, couches et techniques ont leur propre version et cycle de vie.
+  no_workshop_recipe: Aucun plan personnel n’est encore défini pour cette référence.
+  reconciliation_help: Les rapprochements de peintures spéciales demandent toujours une validation manuelle.
   support_preparation: Préparation du support
   painting_steps: Mise en peinture
   full_sheet: Ouvrir la fiche complète
@@ -98,12 +147,20 @@ projects:
   missing: Manquante
   figure_unit: éléments à peindre
   sheet_unit: fiches
+  statuses:
+    completed: Terminé
+    in_progress: En cours
+    pending: À préparer
 shopping:
   title: Ce qu’il me manque
   description: Une liste courte, motivée par les figurines que vous préparez.
   ready: Prêt pour le magasin
   remaining_suffix: encore à trouver.
   export: Exporter la liste
+  priorities:
+    high: Haute
+    medium: Moyenne
+    low: Basse
 imports:
   title: Importer mes pots
   description: Ajoutez une photo, puis confirmez l’étiquette avant l’enregistrement.
@@ -118,7 +175,8 @@ imports:
   return_step: Revenez dans cette tâche et indiquez que la synchronisation est terminée.
   photo_tip_title: Astuce photo
   photo_tip: lumière diffuse, cadrage rapproché et peu de reflets. Le JPEG est le format le plus simple à traiter.
-  preview_notice: Cette saisie sert d’aperçu. Le skill import-miniature-paints valide et écrit ensuite le référentiel YAML.
+  preview_notice: Cette saisie sert d’aperçu. Le skill import-miniature-paints prépare et fait appliquer ensuite un lot de changements par le service local.
+  photo_selected: "Photo sélectionnée :"
   new_paint: Nouvelle peinture
   label_photo_help: Photographiez l’étiquette de face
   brand: Marque
@@ -144,7 +202,7 @@ imports:
   required_notice: Renseignez au minimum la marque et le nom.
   preview_failed: La prévisualisation locale a échoué.
   preview_credit: Aperçu local non enregistré
-  session_preview_suffix: est visible pour cette session. Utilisez le skill import-miniature-paints pour l’enregistrer dans data/peintures.yaml.
+  session_preview_suffix: est visible pour cette session. Utilisez le skill import-miniature-paints pour proposer son ajout au référentiel du marché.
 paint_detail:
   sheet: Fiche peinture
   close: Fermer la fiche
@@ -153,6 +211,9 @@ paint_detail:
   manufacturer_features: Caractéristiques fabricant
   no_manufacturer_description: Aucune description fabricant enregistrée.
   recommended_uses: Usages conseillés
+  usage_instructions: Mode d’emploi
+  usage_steps: Étapes
+  usage_tips: Conseils et précautions
   open_sheet: Ouvrir la fiche
   open_manufacturer_sheet: Ouvrir la fiche fabricant
   verified_on: Vérifié le
@@ -169,6 +230,8 @@ miniature_detail:
   paints_to_use: Peintures à utiliser
   support_preparation: Préparation du support
   painting_steps: Mise en peinture
+  market_guide: Référence du marché
+  workshop_recipe: Plan de mon atelier
 project_detail:
   back: Retour à l’atelier
   sheets: fiches

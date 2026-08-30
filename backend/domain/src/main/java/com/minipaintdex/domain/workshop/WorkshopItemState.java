@@ -16,6 +16,8 @@ public record WorkshopItemState(
         Map<WorkflowStage, WorkflowStageStatus> workflow,
         WorkflowStage currentStage,
         boolean completed,
+        String recipeId,
+        int recipeVersion,
         Instant updatedAt) {
 
     public WorkshopItemState {

@@ -7,7 +7,7 @@ export default defineConfig({
   root: path.resolve(import.meta.dirname, 'spa'),
   publicDir: path.resolve(import.meta.dirname, 'public'),
   resolve: {
-    alias: { '@': path.resolve(import.meta.dirname) },
+    alias: { '@': path.resolve(import.meta.dirname, 'spa/src') },
   },
   css: { postcss: { plugins: [tailwindcss()] } },
   plugins: [react()],

@@ -26,7 +26,7 @@ Le reactor Maven est l’unique point d’entrée du build : validation des réf
 Équivalent Maven pour un environnement Java déjà configuré :
 
 ```powershell
-.\mvnw.cmd verify
+.\mvnw.cmd clean verify
 ```
 
 Artefacts produits :
@@ -40,14 +40,24 @@ Les tests backend seuls se lancent avec :
 .\scripts\minipaintdex.ps1 test
 ```
 
+Le build complet exécute également les tests Vitest du SPA et les validations des référentiels. Les outils de données Python ont leur propre suite :
+
+```powershell
+.\scripts\test-data-tools.ps1
+```
+
 ## CLI
 
 La CLI réutilise exactement les mêmes services applicatifs que l’API REST.
 
 ```powershell
 .\scripts\minipaintdex.ps1 cli --root . --format json health
-.\scripts\minipaintdex.ps1 cli --root . --format json market paints search --brand Citadel
+.\scripts\minipaintdex.ps1 cli --root . --format json market paints search --brand "Warhammer Colour"
+.\scripts\minipaintdex.ps1 cli --root . --format json market paints apply --input imports/runs/paint-refresh/changeset.json --dry-run
+.\scripts\minipaintdex.ps1 cli --root . --format json market games apply --input imports/runs/game-import/changeset.json --dry-run
+.\scripts\minipaintdex.ps1 cli --root . --format json market guides reconcile --guide reichbusters-reloaded-red-hawk-guide
 .\scripts\minipaintdex.ps1 cli --root . --format json workshop items list --project reichbusters-reloaded
+.\scripts\minipaintdex.ps1 cli --root . --format json workshop recipes list --catalog-item reichbusters-reloaded-red-hawk
 .\scripts\minipaintdex.ps1 cli --root . --format json activity list
 ```
 
@@ -78,7 +88,8 @@ Le backend est un monolithe modulaire Maven :
 - `backend/adapter-file` : lecture YAML et journal JSONL append-only ;
 - `backend/server` : adaptateur REST Spring MVC et hébergement du SPA ;
 - `backend/cli` : adaptateur Picocli des mêmes cas d’usage ;
-- `spa` et `components` : interface React/Vite consommant uniquement l’API REST.
+- `spa/src` : interface React/Vite consommant uniquement l’API REST ;
+- `tools/minipaintdex-data` : traitements déterministes partagés par les skills d’import et de rafraîchissement.
 
 Le navigateur n’écrit jamais dans `data`. Toute mutation passe par un service applicatif, exposé en REST et en CLI, puis produit un événement dans le ledger global.
 
@@ -94,12 +105,16 @@ data/
   market/
     paints/              catalogue des peintures du marché
     games/               jeux et éléments de catalogue
+    painting-guides/     guides publics sourcés et versionnés
   workshop/
     paints.yaml          identifiants et quantités possédés
-    recipes/             fiches et recettes de peinture
     shopping.yaml        achats envisagés
   ledger/events/         journal métier global JSONL append-only
 ```
+
+Un guide de peinture du marché contient la palette et la méthode publiées ou inférées à partir d’une référence traçable. Une recette d’atelier est un autre agrégat : elle versionne les substitutions, mélanges, couches et techniques réellement choisies par le propriétaire, puis peut être affectée à un objet physique précis. Son cycle `draft → validated → active → superseded/archived` est conservé dans le ledger.
+
+Le rapprochement d’un guide avec l’atelier ne compare que les peintures possédées. Les peintures opaques sont classées principalement par distance CIEDE2000. Les gammes comportementales (Contrast, Speedpaint, lavis, encres et effets techniques) combinent type et profil d’application et exigent toujours une validation manuelle.
 
 L’import actuel contient 47 peintures possédées, 59 types d’éléments Reichbusters Reloaded et 198 objets physiques suivis individuellement. Le workflow d’un objet couvre `preparation`, `priming`, `pre_highlight`, `painting`, `finishing` et `basing`.
 
@@ -111,18 +126,34 @@ La base de l’API est `/api/v1`. Les principaux services couvrent :
 
 - santé et bootstrap du SPA ;
 - recherche du marché par texte, type, couleur, marque, gamme, fini, volume et tags ;
+- recherche complémentaire par fabricant, médium, opacité, cycle de vie et référence ;
+- simulation et application de change sets de peintures et de projets ;
+- consultation des guides de peinture du marché et rapprochement avec le stock possédé ;
 - consultation des jeux, projets et objets physiques ;
+- création, transition et consultation des recettes d’atelier, puis affectation à un objet physique ;
 - ajout d’un objet et transitions du workflow ;
 - lecture du ledger et reconstruction des projections ;
 - exports CSV et YAML.
 
-## Skills du dépôt
+## Outils de données et skills
+
+Les traitements répétables sont regroupés dans le package Python `tools/minipaintdex-data`. Pour développer les imports sur une nouvelle machine :
+
+```powershell
+python -m pip install -e ".\tools\minipaintdex-data[images]"
+python .\tools\minipaintdex-data\mpdx_data.py --help
+```
+
+Le rafraîchissement accepte une marque canonique ou `all`. Dans ce dernier cas, la liste est déduite du catalogue local. Il compare les références existantes, propose les ajouts et mises à jour, et transforme une disparition vérifiée en retrait par défaut. Une suppression doit être explicitement demandée et reste refusée si la peinture est possédée, citée par un guide du marché ou utilisée par une recette d’atelier. Toute peinture technique doit fournir un résumé et des étapes d’utilisation.
 
 Les skills dans `.agents/skills` automatisent les opérations persistantes :
 
 - `import-miniature-paints` identifie et fusionne les pots photographiés ;
 - `import-miniature-project` importe un jeu et ses références traçables ;
+- `refresh-paint-brands` rafraîchit une marque ou toutes les marques connues, avec comparaison complète et simulation ;
 - `commit` crée un commit Git atomique ;
 - `push` vérifie et pousse la branche courante.
+
+Les imports et rafraîchissements produisent un change set, puis utilisent le service REST local ou son adaptateur CLI. Ils n’écrivent jamais directement dans `data`. Les skills Git ne s’exécutent que sur une demande explicite de commit ou de push ; le mot « Go » n’accorde pas cette autorisation.
 
 Toute image enregistrée doit conserver sa source, son crédit et sa licence. Un aperçu numérique de couleur ne doit pas être présenté comme un rendu réel peint.

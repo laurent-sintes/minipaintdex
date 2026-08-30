@@ -47,3 +47,14 @@ Ne pas remplacer les propriétés techniques par la seule classe fonctionnelle. 
 - `color_family` et `color_hex` ;
 - `recommended_uses` ;
 - `requires_light_primer` pour les peintures monocouche à contraste.
+
+Pour les produits dont le rendu dépend davantage du comportement que du RGB, utiliser aussi `application_profile` avec les propriétés connues et sourcées :
+
+- `transparency_behavior` ;
+- `pooling` ;
+- `pigment_separation` ;
+- `reactivation` ;
+- `recommended_undercoat` ;
+- `effect_type`.
+
+Laisser une propriété absente plutôt que de l’inférer à partir du nom commercial. Ce profil aide à classer des candidats, jamais à déclarer automatiquement deux produits interchangeables.

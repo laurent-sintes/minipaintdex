@@ -48,11 +48,12 @@ Une fiche enrichie doit permettre de répondre oui à ces questions :
 
 ## Rendu appliqué
 
-Le packshot du pot et le rendu de la peinture sont deux visuels différents. Pour afficher un échantillon réellement peint dans le site, renseigner dans `data/peintures.yaml` :
+Le packshot du pot et le rendu de la peinture sont deux visuels différents. Pour afficher un échantillon réellement peint, renseigner la fiche proposée pour `data/market/paints/catalog.yaml` :
 
-- `rendu_image` : URL autorisée ou chemin d’une copie locale ;
-- `source_rendu` : page d’origine ;
-- `credit_rendu` : auteur ou fabricant ;
-- `licence_rendu` : licence ou autorisation de réutilisation.
+- `result_image.path` : chemin d’une copie locale autorisée ;
+- `result_image.source_url` : page d’origine ;
+- `result_image.credit` : auteur ou fabricant ;
+- `result_image.license` : licence ou autorisation de réutilisation ;
+- `result_image.reference_url` : lien externe lorsque la copie n’est pas autorisée.
 
 Si la réutilisation n’est pas autorisée explicitement, ne pas copier ni afficher l’image. Utiliser seulement `exemple_rendu_url` pour proposer un lien vers l’exemple externe.

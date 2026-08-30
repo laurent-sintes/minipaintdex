@@ -15,21 +15,13 @@
     "jsx": "react-jsx",
     "incremental": true,
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./spa/src/*"]
     }
   },
   "include": [
     "spa/**/*.ts",
     "spa/**/*.tsx",
-    "components/**/*.ts",
-    "components/**/*.tsx",
-    "hooks/**/*.ts",
-    "lib/paint-model.ts",
-    "lib/project-model.ts",
-    "lib/site-config-model.ts",
-    "lib/shopping-data.ts",
-    "lib/utils.ts",
     "vite.spa.config.ts"
   ],
-  "exclude": ["node_modules", "backend", "app", "lib/catalog.ts"]
+  "exclude": ["node_modules", "backend"]
 }

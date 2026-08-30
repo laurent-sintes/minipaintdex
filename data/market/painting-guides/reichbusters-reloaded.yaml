@@ -1,0 +1,2063 @@
+schema_version: 1
+painting_guides:
+  - id: reichbusters-reloaded-red-hawk-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-red-hawk
+    source_refs:
+      - catalog-item:reichbusters-reloaded-red-hawk
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-red-hawk-guide-slot-01
+        market_paint_id: cit-contrast-guilliman-flesh
+        role: Peau — base et ombres
+      - id: reichbusters-reloaded-red-hawk-guide-slot-02
+        market_paint_id: cit-contrast-aggaros-dunes
+        role: Uniforme et toile
+      - id: reichbusters-reloaded-red-hawk-guide-slot-03
+        market_paint_id: cit-contrast-wyldwood
+        role: Cuir et bois sombre
+      - id: reichbusters-reloaded-red-hawk-guide-slot-04
+        market_paint_id: cit-contrast-gore-grunta-fur
+        role: Cuir chaud et cheveux
+      - id: reichbusters-reloaded-red-hawk-guide-slot-05
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Armes et boucles métalliques
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Peau
+        detail: Poser Guilliman Flesh en couche contrôlée. Reprendre les reliefs avec une teinte chair claire si nécessaire.
+      - title: Uniforme
+        detail: Appliquer Aggaros Dunes sur les tissus, en évitant les cuirs. Renforcer les plis profonds avec une seconde passe localisée.
+      - title: Cuir et bois
+        detail: Utiliser Wyldwood dans les creux et Gore-Grunta Fur sur les zones plus chaudes ou exposées.
+      - title: Métaux
+        detail: Peindre l’arme en sombre, poser Silver sur les arêtes et garder du noir dans les creux.
+      - title: Finitions
+        detail: Corriger les débordements, éclaircir les volumes supérieurs puis protéger avec un vernis mat.
+  - id: reichbusters-reloaded-sarge-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-sarge
+    source_refs:
+      - catalog-item:reichbusters-reloaded-sarge
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-sarge-guide-slot-01
+        market_paint_id: cit-contrast-aggaros-dunes
+        role: Uniforme
+      - id: reichbusters-reloaded-sarge-guide-slot-02
+        market_paint_id: cit-contrast-wyldwood
+        role: Bottes et sangles
+      - id: reichbusters-reloaded-sarge-guide-slot-03
+        market_paint_id: cit-contrast-guilliman-flesh
+        role: Visage et mains
+      - id: reichbusters-reloaded-sarge-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Arme et boucles
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Grandes zones
+        detail: Poser d’abord les vêtements et l’équipement, en gardant les zones de peau propres.
+      - title: Peau
+        detail: Appliquer la teinte chair en couche contrôlée puis reprendre les reliefs du visage et des mains.
+      - title: Matériaux
+        detail: Distinguer cuir, tissu et métal par des finitions et des éclaircissements différents.
+      - title: Point focal
+        detail: "Renforcer le visage et l’arme principale : ce sont les zones qui doivent se lire en premier."
+      - title: Protection
+        detail: Après séchage complet, protéger la figurine avec un vernis mat en couche fine.
+  - id: reichbusters-reloaded-brick-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-brick
+    source_refs:
+      - catalog-item:reichbusters-reloaded-brick
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-brick-guide-slot-01
+        market_paint_id: cit-contrast-leviadon-blue
+        role: Équipement bleu sombre
+      - id: reichbusters-reloaded-brick-guide-slot-02
+        market_paint_id: cit-contrast-cygor-brown
+        role: Cuir profond
+      - id: reichbusters-reloaded-brick-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-crusader-skin
+        role: Peau
+      - id: reichbusters-reloaded-brick-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Armes lourdes
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Grandes zones
+        detail: Poser d’abord les vêtements et l’équipement, en gardant les zones de peau propres.
+      - title: Peau
+        detail: Appliquer la teinte chair en couche contrôlée puis reprendre les reliefs du visage et des mains.
+      - title: Matériaux
+        detail: Distinguer cuir, tissu et métal par des finitions et des éclaircissements différents.
+      - title: Point focal
+        detail: "Renforcer le visage et l’arme principale : ce sont les zones qui doivent se lire en premier."
+      - title: Protection
+        detail: Après séchage complet, protéger la figurine avec un vernis mat en couche fine.
+  - id: reichbusters-reloaded-claudine-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-claudine
+    source_refs:
+      - catalog-item:reichbusters-reloaded-claudine
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-claudine-guide-slot-01
+        market_paint_id: cit-contrast-darkoath-flesh
+        role: Peau
+      - id: reichbusters-reloaded-claudine-guide-slot-02
+        market_paint_id: cit-contrast-cygor-brown
+        role: Vêtements et cuir sombres
+      - id: reichbusters-reloaded-claudine-guide-slot-03
+        market_paint_id: cit-contrast-talassar-blue
+        role: Détails froids
+      - id: reichbusters-reloaded-claudine-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Armes et boucles
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Grandes zones
+        detail: Poser d’abord les vêtements et l’équipement, en gardant les zones de peau propres.
+      - title: Peau
+        detail: Appliquer la teinte chair en couche contrôlée puis reprendre les reliefs du visage et des mains.
+      - title: Matériaux
+        detail: Distinguer cuir, tissu et métal par des finitions et des éclaircissements différents.
+      - title: Point focal
+        detail: "Renforcer le visage et l’arme principale : ce sont les zones qui doivent se lire en premier."
+      - title: Protection
+        detail: Après séchage complet, protéger la figurine avec un vernis mat en couche fine.
+  - id: reichbusters-reloaded-quentin-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-quentin
+    source_refs:
+      - catalog-item:reichbusters-reloaded-quentin
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-quentin-guide-slot-01
+        market_paint_id: null
+        role: Uniforme
+        requested_paint:
+          brand: Vallejo
+          name: Uniform Green
+          color_hex: "#496145"
+        pending_import: true
+      - id: reichbusters-reloaded-quentin-guide-slot-02
+        market_paint_id: cit-contrast-gore-grunta-fur
+        role: Arc et cuir chaud
+      - id: reichbusters-reloaded-quentin-guide-slot-03
+        market_paint_id: cit-contrast-wyldwood
+        role: Bottes et carquois
+      - id: reichbusters-reloaded-quentin-guide-slot-04
+        market_paint_id: cit-contrast-guilliman-flesh
+        role: Peau
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Grandes zones
+        detail: Poser d’abord les vêtements et l’équipement, en gardant les zones de peau propres.
+      - title: Peau
+        detail: Appliquer la teinte chair en couche contrôlée puis reprendre les reliefs du visage et des mains.
+      - title: Matériaux
+        detail: Distinguer cuir, tissu et métal par des finitions et des éclaircissements différents.
+      - title: Point focal
+        detail: "Renforcer le visage et l’arme principale : ce sont les zones qui doivent se lire en premier."
+      - title: Protection
+        detail: Après séchage complet, protéger la figurine avec un vernis mat en couche fine.
+  - id: reichbusters-reloaded-nazi-soldiers-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-nazi-soldiers
+    source_refs:
+      - catalog-item:reichbusters-reloaded-nazi-soldiers
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-nazi-soldiers-guide-slot-01
+        market_paint_id: null
+        role: Uniformes
+        requested_paint:
+          brand: Vallejo
+          name: Uniform Green
+          color_hex: "#496145"
+        pending_import: true
+      - id: reichbusters-reloaded-nazi-soldiers-guide-slot-02
+        market_paint_id: cit-contrast-wyldwood
+        role: Bottes, sangles et crosses
+      - id: reichbusters-reloaded-nazi-soldiers-guide-slot-03
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Armes et équipements
+      - id: reichbusters-reloaded-nazi-soldiers-guide-slot-04
+        market_paint_id: cit-contrast-guilliman-flesh
+        role: Visages et mains
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Travail en série
+        detail: Préparer quatre figurines à la fois et terminer une couleur sur tout le groupe avant de passer à la suivante.
+      - title: Aplats
+        detail: Poser les couleurs principales en couches fines, sans remplir les détails ni les creux.
+      - title: Ombres
+        detail: Appliquer un lavis sombre localisé, puis laisser sécher complètement.
+      - title: Reliefs
+        detail: Reprendre les épaules, têtes, genoux et armes avec la couleur de base ou une teinte plus claire.
+      - title: Socles
+        detail: Traiter tous les socles de la même manière pour rendre le groupe identifiable sur le plateau.
+  - id: reichbusters-reloaded-nazi-officers-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-nazi-officers
+    source_refs:
+      - catalog-item:reichbusters-reloaded-nazi-officers
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-nazi-officers-guide-slot-01
+        market_paint_id: cit-contrast-leviadon-blue
+        role: Uniformes très sombres
+      - id: reichbusters-reloaded-nazi-officers-guide-slot-02
+        market_paint_id: the-army-painter-speedpaint-blood-red
+        role: Insignes et liserés
+      - id: reichbusters-reloaded-nazi-officers-guide-slot-03
+        market_paint_id: cit-contrast-darkoath-flesh
+        role: Peau
+      - id: reichbusters-reloaded-nazi-officers-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Armes et décorations
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Travail en série
+        detail: Préparer quatre figurines à la fois et terminer une couleur sur tout le groupe avant de passer à la suivante.
+      - title: Aplats
+        detail: Poser les couleurs principales en couches fines, sans remplir les détails ni les creux.
+      - title: Ombres
+        detail: Appliquer un lavis sombre localisé, puis laisser sécher complètement.
+      - title: Reliefs
+        detail: Reprendre les épaules, têtes, genoux et armes avec la couleur de base ou une teinte plus claire.
+      - title: Socles
+        detail: Traiter tous les socles de la même manière pour rendre le groupe identifiable sur le plateau.
+  - id: reichbusters-reloaded-sturmsoldat-gunners-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-sturmsoldat-gunners
+    source_refs:
+      - catalog-item:reichbusters-reloaded-sturmsoldat-gunners
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-sturmsoldat-gunners-guide-slot-01
+        market_paint_id: cit-contrast-leviadon-blue
+        role: Armure sombre
+      - id: reichbusters-reloaded-sturmsoldat-gunners-guide-slot-02
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Blindage et armes
+      - id: reichbusters-reloaded-sturmsoldat-gunners-guide-slot-03
+        market_paint_id: cit-contrast-briar-queen-chill
+        role: Énergie Vril
+      - id: reichbusters-reloaded-sturmsoldat-gunners-guide-slot-04
+        market_paint_id: cit-contrast-talassar-blue
+        role: Lueurs intenses
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Travail en série
+        detail: Préparer quatre figurines à la fois et terminer une couleur sur tout le groupe avant de passer à la suivante.
+      - title: Aplats
+        detail: Poser les couleurs principales en couches fines, sans remplir les détails ni les creux.
+      - title: Ombres
+        detail: Appliquer un lavis sombre localisé, puis laisser sécher complètement.
+      - title: Reliefs
+        detail: Reprendre les épaules, têtes, genoux et armes avec la couleur de base ou une teinte plus claire.
+      - title: Socles
+        detail: Traiter tous les socles de la même manière pour rendre le groupe identifiable sur le plateau.
+  - id: reichbusters-reloaded-sturmsoldat-assault-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-sturmsoldat-assault
+    source_refs:
+      - catalog-item:reichbusters-reloaded-sturmsoldat-assault
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-sturmsoldat-assault-guide-slot-01
+        market_paint_id: cit-contrast-cygor-brown
+        role: Sous-combinaison et sangles
+      - id: reichbusters-reloaded-sturmsoldat-assault-guide-slot-02
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Armure et armes
+      - id: reichbusters-reloaded-sturmsoldat-assault-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-blood-red
+        role: Marquages
+      - id: reichbusters-reloaded-sturmsoldat-assault-guide-slot-04
+        market_paint_id: cit-contrast-briar-queen-chill
+        role: Énergie Vril
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Travail en série
+        detail: Préparer quatre figurines à la fois et terminer une couleur sur tout le groupe avant de passer à la suivante.
+      - title: Aplats
+        detail: Poser les couleurs principales en couches fines, sans remplir les détails ni les creux.
+      - title: Ombres
+        detail: Appliquer un lavis sombre localisé, puis laisser sécher complètement.
+      - title: Reliefs
+        detail: Reprendre les épaules, têtes, genoux et armes avec la couleur de base ou une teinte plus claire.
+      - title: Socles
+        detail: Traiter tous les socles de la même manière pour rendre le groupe identifiable sur le plateau.
+  - id: reichbusters-reloaded-scientists-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-scientists
+    source_refs:
+      - catalog-item:reichbusters-reloaded-scientists
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-scientists-guide-slot-01
+        market_paint_id: null
+        role: Blouses
+        requested_paint:
+          brand: Vallejo
+          name: Army White
+          color_hex: "#d8d7ca"
+        pending_import: true
+      - id: reichbusters-reloaded-scientists-guide-slot-02
+        market_paint_id: cit-contrast-guilliman-flesh
+        role: Peau
+      - id: reichbusters-reloaded-scientists-guide-slot-03
+        market_paint_id: cit-contrast-aggaros-dunes
+        role: Salissures
+      - id: reichbusters-reloaded-scientists-guide-slot-04
+        market_paint_id: cit-contrast-talassar-blue
+        role: Fioles et écrans
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Travail en série
+        detail: Préparer quatre figurines à la fois et terminer une couleur sur tout le groupe avant de passer à la suivante.
+      - title: Aplats
+        detail: Poser les couleurs principales en couches fines, sans remplir les détails ni les creux.
+      - title: Ombres
+        detail: Appliquer un lavis sombre localisé, puis laisser sécher complètement.
+      - title: Reliefs
+        detail: Reprendre les épaules, têtes, genoux et armes avec la couleur de base ou une teinte plus claire.
+      - title: Socles
+        detail: Traiter tous les socles de la même manière pour rendre le groupe identifiable sur le plateau.
+  - id: reichbusters-reloaded-zombies-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-zombies
+    source_refs:
+      - catalog-item:reichbusters-reloaded-zombies
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-zombies-guide-slot-01
+        market_paint_id: the-army-painter-speedpaint-pallid-bone
+        role: Peaux mortes
+      - id: reichbusters-reloaded-zombies-guide-slot-02
+        market_paint_id: null
+        role: Restes d’uniformes
+        requested_paint:
+          brand: Vallejo
+          name: Uniform Green
+          color_hex: "#496145"
+        pending_import: true
+      - id: reichbusters-reloaded-zombies-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-blood-red
+        role: Blessures
+      - id: reichbusters-reloaded-zombies-guide-slot-04
+        market_paint_id: cit-contrast-wyldwood
+        role: Boue et cuirs
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Travail en série
+        detail: Préparer quatre figurines à la fois et terminer une couleur sur tout le groupe avant de passer à la suivante.
+      - title: Aplats
+        detail: Poser les couleurs principales en couches fines, sans remplir les détails ni les creux.
+      - title: Ombres
+        detail: Appliquer un lavis sombre localisé, puis laisser sécher complètement.
+      - title: Reliefs
+        detail: Reprendre les épaules, têtes, genoux et armes avec la couleur de base ou une teinte plus claire.
+      - title: Socles
+        detail: Traiter tous les socles de la même manière pour rendre le groupe identifiable sur le plateau.
+  - id: reichbusters-reloaded-nazi-dogs-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-nazi-dogs
+    source_refs:
+      - catalog-item:reichbusters-reloaded-nazi-dogs
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-nazi-dogs-guide-slot-01
+        market_paint_id: cit-contrast-cygor-brown
+        role: Pelage sombre
+      - id: reichbusters-reloaded-nazi-dogs-guide-slot-02
+        market_paint_id: cit-contrast-gore-grunta-fur
+        role: Éclaircissements du pelage
+      - id: reichbusters-reloaded-nazi-dogs-guide-slot-03
+        market_paint_id: cit-contrast-wyldwood
+        role: Harnais
+      - id: reichbusters-reloaded-nazi-dogs-guide-slot-04
+        market_paint_id: the-army-painter-speedpaint-blood-red
+        role: Langue et blessures
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Travail en série
+        detail: Préparer quatre figurines à la fois et terminer une couleur sur tout le groupe avant de passer à la suivante.
+      - title: Aplats
+        detail: Poser les couleurs principales en couches fines, sans remplir les détails ni les creux.
+      - title: Ombres
+        detail: Appliquer un lavis sombre localisé, puis laisser sécher complètement.
+      - title: Reliefs
+        detail: Reprendre les épaules, têtes, genoux et armes avec la couleur de base ou une teinte plus claire.
+      - title: Socles
+        detail: Traiter tous les socles de la même manière pour rendre le groupe identifiable sur le plateau.
+  - id: reichbusters-reloaded-tracking-bombers-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-tracking-bombers
+    source_refs:
+      - catalog-item:reichbusters-reloaded-tracking-bombers
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-tracking-bombers-guide-slot-01
+        market_paint_id: cit-contrast-cygor-brown
+        role: Corps et harnais
+      - id: reichbusters-reloaded-tracking-bombers-guide-slot-02
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Mécanismes
+      - id: reichbusters-reloaded-tracking-bombers-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-fire-giant-orange
+        role: Charge explosive
+      - id: reichbusters-reloaded-tracking-bombers-guide-slot-04
+        market_paint_id: the-army-painter-speedpaint-zealot-yellow
+        role: Signalétique
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Travail en série
+        detail: Préparer quatre figurines à la fois et terminer une couleur sur tout le groupe avant de passer à la suivante.
+      - title: Aplats
+        detail: Poser les couleurs principales en couches fines, sans remplir les détails ni les creux.
+      - title: Ombres
+        detail: Appliquer un lavis sombre localisé, puis laisser sécher complètement.
+      - title: Reliefs
+        detail: Reprendre les épaules, têtes, genoux et armes avec la couleur de base ou une teinte plus claire.
+      - title: Socles
+        detail: Traiter tous les socles de la même manière pour rendre le groupe identifiable sur le plateau.
+  - id: reichbusters-reloaded-experiment-601-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-experiment-601
+    source_refs:
+      - catalog-item:reichbusters-reloaded-experiment-601
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-experiment-601-guide-slot-01
+        market_paint_id: the-army-painter-speedpaint-pallid-bone
+        role: Chair pâle
+      - id: reichbusters-reloaded-experiment-601-guide-slot-02
+        market_paint_id: cit-contrast-briar-queen-chill
+        role: Chair froide
+      - id: reichbusters-reloaded-experiment-601-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-hive-dweller-purple
+        role: Mutations et ombres
+      - id: reichbusters-reloaded-experiment-601-guide-slot-04
+        market_paint_id: the-army-painter-speedpaint-blood-red
+        role: Plaies
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Travail en série
+        detail: Préparer quatre figurines à la fois et terminer une couleur sur tout le groupe avant de passer à la suivante.
+      - title: Aplats
+        detail: Poser les couleurs principales en couches fines, sans remplir les détails ni les creux.
+      - title: Ombres
+        detail: Appliquer un lavis sombre localisé, puis laisser sécher complètement.
+      - title: Reliefs
+        detail: Reprendre les épaules, têtes, genoux et armes avec la couleur de base ou une teinte plus claire.
+      - title: Socles
+        detail: Traiter tous les socles de la même manière pour rendre le groupe identifiable sur le plateau.
+  - id: reichbusters-reloaded-experiment-6xx-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-experiment-6xx
+    source_refs:
+      - catalog-item:reichbusters-reloaded-experiment-6xx
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-experiment-6xx-guide-slot-01
+        market_paint_id: vallejo-xpress-color-fairy-skin
+        role: Chair mutante
+      - id: reichbusters-reloaded-experiment-6xx-guide-slot-02
+        market_paint_id: cit-contrast-pylar-glacier
+        role: Lueurs froides
+      - id: reichbusters-reloaded-experiment-6xx-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-hive-dweller-purple
+        role: Mutations
+      - id: reichbusters-reloaded-experiment-6xx-guide-slot-04
+        market_paint_id: cit-contrast-briar-queen-chill
+        role: Transitions Vril
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Travail en série
+        detail: Préparer quatre figurines à la fois et terminer une couleur sur tout le groupe avant de passer à la suivante.
+      - title: Aplats
+        detail: Poser les couleurs principales en couches fines, sans remplir les détails ni les creux.
+      - title: Ombres
+        detail: Appliquer un lavis sombre localisé, puis laisser sécher complètement.
+      - title: Reliefs
+        detail: Reprendre les épaules, têtes, genoux et armes avec la couleur de base ou une teinte plus claire.
+      - title: Socles
+        detail: Traiter tous les socles de la même manière pour rendre le groupe identifiable sur le plateau.
+  - id: reichbusters-reloaded-gisela-gruber-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-gisela-gruber
+    source_refs:
+      - catalog-item:reichbusters-reloaded-gisela-gruber
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-gisela-gruber-guide-slot-01
+        market_paint_id: cit-contrast-leviadon-blue
+        role: Uniforme sombre
+      - id: reichbusters-reloaded-gisela-gruber-guide-slot-02
+        market_paint_id: vallejo-xpress-color-fairy-skin
+        role: Peau
+      - id: reichbusters-reloaded-gisela-gruber-guide-slot-03
+        market_paint_id: cit-contrast-briar-queen-chill
+        role: Détails Vril
+      - id: reichbusters-reloaded-gisela-gruber-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Équipement
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Grandes zones
+        detail: Poser d’abord les vêtements et l’équipement, en gardant les zones de peau propres.
+      - title: Peau
+        detail: Appliquer la teinte chair en couche contrôlée puis reprendre les reliefs du visage et des mains.
+      - title: Matériaux
+        detail: Distinguer cuir, tissu et métal par des finitions et des éclaircissements différents.
+      - title: Point focal
+        detail: "Renforcer le visage et l’arme principale : ce sont les zones qui doivent se lire en premier."
+      - title: Protection
+        detail: Après séchage complet, protéger la figurine avec un vernis mat en couche fine.
+  - id: reichbusters-reloaded-general-wolff-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-general-wolff
+    source_refs:
+      - catalog-item:reichbusters-reloaded-general-wolff
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-general-wolff-guide-slot-01
+        market_paint_id: cit-contrast-leviadon-blue
+        role: Uniforme noir bleuté
+      - id: reichbusters-reloaded-general-wolff-guide-slot-02
+        market_paint_id: the-army-painter-speedpaint-blood-red
+        role: Insignes
+      - id: reichbusters-reloaded-general-wolff-guide-slot-03
+        market_paint_id: cit-contrast-darkoath-flesh
+        role: Peau
+      - id: reichbusters-reloaded-general-wolff-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Décorations et arme
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Grandes zones
+        detail: Poser d’abord les vêtements et l’équipement, en gardant les zones de peau propres.
+      - title: Peau
+        detail: Appliquer la teinte chair en couche contrôlée puis reprendre les reliefs du visage et des mains.
+      - title: Matériaux
+        detail: Distinguer cuir, tissu et métal par des finitions et des éclaircissements différents.
+      - title: Point focal
+        detail: "Renforcer le visage et l’arme principale : ce sont les zones qui doivent se lire en premier."
+      - title: Protection
+        detail: Après séchage complet, protéger la figurine avec un vernis mat en couche fine.
+  - id: reichbusters-reloaded-vrilpanzer-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-vrilpanzer
+    source_refs:
+      - catalog-item:reichbusters-reloaded-vrilpanzer
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-vrilpanzer-guide-slot-01
+        market_paint_id: cit-contrast-leviadon-blue
+        role: Blindage sombre
+      - id: reichbusters-reloaded-vrilpanzer-guide-slot-02
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Métal et impacts
+      - id: reichbusters-reloaded-vrilpanzer-guide-slot-03
+        market_paint_id: cit-contrast-talassar-blue
+        role: Énergie Vril
+      - id: reichbusters-reloaded-vrilpanzer-guide-slot-04
+        market_paint_id: cit-contrast-pylar-glacier
+        role: Cœur des lueurs
+    preparation:
+      - title: Nettoyer
+        detail: Laver la figurine à l’eau tiède avec une goutte de liquide vaisselle, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer doucement les lignes de moulage. Éviter de forcer sur les armes et accessoires fins.
+      - title: Sous-coucher
+        detail: Appliquer une couche noire fine, puis un zénithal blanc léger depuis le dessus pour rendre les volumes lisibles.
+    painting:
+      - title: Blindage
+        detail: Poser la base sombre sur tous les panneaux sans couvrir les conduites et zones lumineuses.
+      - title: Métal
+        detail: Brosser Silver sur les arêtes, rivets et mécanismes ; garder les creux sombres.
+      - title: Énergie Vril
+        detail: Peindre les sources en blanc, couvrir de Pylar Glacier puis renforcer autour avec Talassar Blue très dilué.
+      - title: Usure
+        detail: Ajouter quelques impacts Silver et des jus bruns sous les plaques et articulations.
+      - title: Contraste final
+        detail: Rétablir les points les plus clairs au centre des sources d’énergie.
+  - id: reichbusters-reloaded-bjorn-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-bjorn
+    source_refs:
+      - catalog-item:reichbusters-reloaded-bjorn
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-bjorn-guide-slot-01
+        market_paint_id: the-army-painter-speedpaint-highlord-blue
+        role: Vêtement ou accent froid
+      - id: reichbusters-reloaded-bjorn-guide-slot-02
+        market_paint_id: cit-contrast-leviadon-blue
+        role: Ombres profondes
+      - id: reichbusters-reloaded-bjorn-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-crusader-skin
+        role: Visage et mains
+      - id: reichbusters-reloaded-bjorn-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Armes et boucles
+    preparation: &a1
+      - title: Nettoyer
+        detail: Laver les pièces à l’eau tiède savonneuse, rincer puis laisser sécher complètement.
+      - title: Ébarber
+        detail: Retirer les lignes de moulage avec une lame neuve et redresser les éléments fins à l’eau chaude si nécessaire.
+      - title: Sous-coucher
+        detail: Appliquer une sous-couche noire fine puis un zénithal blanc pour rendre les volumes immédiatement lisibles.
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+  - id: reichbusters-reloaded-bochka-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-bochka
+    source_refs:
+      - catalog-item:reichbusters-reloaded-bochka
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-bochka-guide-slot-01
+        market_paint_id: vallejo-xpress-color-khaki-drill
+        role: Uniforme et toile
+      - id: reichbusters-reloaded-bochka-guide-slot-02
+        market_paint_id: the-army-painter-speedpaint-hardened-leather
+        role: Cuir, sangles et holsters
+      - id: reichbusters-reloaded-bochka-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-crusader-skin
+        role: Visage et mains
+      - id: reichbusters-reloaded-bochka-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Armes et boucles
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+  - id: reichbusters-reloaded-brad-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-brad
+    source_refs:
+      - catalog-item:reichbusters-reloaded-brad
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-brad-guide-slot-01
+        market_paint_id: vallejo-xpress-color-khaki-drill
+        role: Uniforme et toile
+      - id: reichbusters-reloaded-brad-guide-slot-02
+        market_paint_id: the-army-painter-speedpaint-hardened-leather
+        role: Cuir, sangles et holsters
+      - id: reichbusters-reloaded-brad-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-crusader-skin
+        role: Visage et mains
+      - id: reichbusters-reloaded-brad-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Armes et boucles
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+  - id: reichbusters-reloaded-hans-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-hans
+    source_refs:
+      - catalog-item:reichbusters-reloaded-hans
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-hans-guide-slot-01
+        market_paint_id: the-army-painter-speedpaint-highlord-blue
+        role: Vêtement ou accent froid
+      - id: reichbusters-reloaded-hans-guide-slot-02
+        market_paint_id: cit-contrast-leviadon-blue
+        role: Ombres profondes
+      - id: reichbusters-reloaded-hans-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-crusader-skin
+        role: Visage et mains
+      - id: reichbusters-reloaded-hans-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Armes et boucles
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+  - id: reichbusters-reloaded-irena-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-irena
+    source_refs:
+      - catalog-item:reichbusters-reloaded-irena
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-irena-guide-slot-01
+        market_paint_id: the-army-painter-speedpaint-highlord-blue
+        role: Vêtement ou accent froid
+      - id: reichbusters-reloaded-irena-guide-slot-02
+        market_paint_id: cit-contrast-leviadon-blue
+        role: Ombres profondes
+      - id: reichbusters-reloaded-irena-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-crusader-skin
+        role: Visage et mains
+      - id: reichbusters-reloaded-irena-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Armes et boucles
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+  - id: reichbusters-reloaded-joe-le-flambeur-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-joe-le-flambeur
+    source_refs:
+      - catalog-item:reichbusters-reloaded-joe-le-flambeur
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-joe-le-flambeur-guide-slot-01
+        market_paint_id: vallejo-xpress-color-khaki-drill
+        role: Uniforme et toile
+      - id: reichbusters-reloaded-joe-le-flambeur-guide-slot-02
+        market_paint_id: the-army-painter-speedpaint-hardened-leather
+        role: Cuir, sangles et holsters
+      - id: reichbusters-reloaded-joe-le-flambeur-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-crusader-skin
+        role: Visage et mains
+      - id: reichbusters-reloaded-joe-le-flambeur-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Armes et boucles
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+  - id: reichbusters-reloaded-kulbir-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-kulbir
+    source_refs:
+      - catalog-item:reichbusters-reloaded-kulbir
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-kulbir-guide-slot-01
+        market_paint_id: vallejo-xpress-color-khaki-drill
+        role: Uniforme et toile
+      - id: reichbusters-reloaded-kulbir-guide-slot-02
+        market_paint_id: the-army-painter-speedpaint-hardened-leather
+        role: Cuir, sangles et holsters
+      - id: reichbusters-reloaded-kulbir-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-crusader-skin
+        role: Visage et mains
+      - id: reichbusters-reloaded-kulbir-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Armes et boucles
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+  - id: reichbusters-reloaded-prof-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-prof
+    source_refs:
+      - catalog-item:reichbusters-reloaded-prof
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-prof-guide-slot-01
+        market_paint_id: warhammer-colour-contrast-apothecary-white
+        role: Blouses et protections claires
+      - id: reichbusters-reloaded-prof-guide-slot-02
+        market_paint_id: warhammer-colour-contrast-gryph-charger-grey
+        role: Ombres froides
+      - id: reichbusters-reloaded-prof-guide-slot-03
+        market_paint_id: cit-contrast-talassar-blue
+        role: Fioles et écrans
+      - id: reichbusters-reloaded-prof-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Instruments
+    preparation: *a1
+    painting:
+      - title: Volumes clairs
+        detail: Construire les blouses et protections avec des couches translucides en gardant les creux gris froid.
+      - title: Instruments
+        detail: Traiter les outils en métal sombre puis poser des points d’argent sur les zones manipulées.
+      - title: Écrans et fioles
+        detail: Placer le bleu saturé au centre des éléments technologiques et finir par un point lumineux.
+      - title: Finitions
+        detail: Nettoyer les séparations, renforcer le visage ou l’optique principale et vernir en mat.
+  - id: reichbusters-reloaded-remy-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-remy
+    source_refs:
+      - catalog-item:reichbusters-reloaded-remy
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-remy-guide-slot-01
+        market_paint_id: the-army-painter-speedpaint-highlord-blue
+        role: Vêtement ou accent froid
+      - id: reichbusters-reloaded-remy-guide-slot-02
+        market_paint_id: cit-contrast-leviadon-blue
+        role: Ombres profondes
+      - id: reichbusters-reloaded-remy-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-crusader-skin
+        role: Visage et mains
+      - id: reichbusters-reloaded-remy-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Armes et boucles
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+  - id: reichbusters-reloaded-tane-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-tane
+    source_refs:
+      - catalog-item:reichbusters-reloaded-tane
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-tane-guide-slot-01
+        market_paint_id: vallejo-xpress-color-khaki-drill
+        role: Uniforme et toile
+      - id: reichbusters-reloaded-tane-guide-slot-02
+        market_paint_id: the-army-painter-speedpaint-hardened-leather
+        role: Cuir, sangles et holsters
+      - id: reichbusters-reloaded-tane-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-crusader-skin
+        role: Visage et mains
+      - id: reichbusters-reloaded-tane-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Armes et boucles
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+  - id: reichbusters-reloaded-toubib-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-toubib
+    source_refs:
+      - catalog-item:reichbusters-reloaded-toubib
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-toubib-guide-slot-01
+        market_paint_id: warhammer-colour-contrast-apothecary-white
+        role: Blouses et protections claires
+      - id: reichbusters-reloaded-toubib-guide-slot-02
+        market_paint_id: warhammer-colour-contrast-gryph-charger-grey
+        role: Ombres froides
+      - id: reichbusters-reloaded-toubib-guide-slot-03
+        market_paint_id: cit-contrast-talassar-blue
+        role: Fioles et écrans
+      - id: reichbusters-reloaded-toubib-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Instruments
+    preparation: *a1
+    painting:
+      - title: Volumes clairs
+        detail: Construire les blouses et protections avec des couches translucides en gardant les creux gris froid.
+      - title: Instruments
+        detail: Traiter les outils en métal sombre puis poser des points d’argent sur les zones manipulées.
+      - title: Écrans et fioles
+        detail: Placer le bleu saturé au centre des éléments technologiques et finir par un point lumineux.
+      - title: Finitions
+        detail: Nettoyer les séparations, renforcer le visage ou l’optique principale et vernir en mat.
+  - id: reichbusters-reloaded-oreilly-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-oreilly
+    source_refs:
+      - catalog-item:reichbusters-reloaded-oreilly
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-oreilly-guide-slot-01
+        market_paint_id: vallejo-xpress-color-khaki-drill
+        role: Uniforme et toile
+      - id: reichbusters-reloaded-oreilly-guide-slot-02
+        market_paint_id: the-army-painter-speedpaint-hardened-leather
+        role: Cuir, sangles et holsters
+      - id: reichbusters-reloaded-oreilly-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-crusader-skin
+        role: Visage et mains
+      - id: reichbusters-reloaded-oreilly-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Armes et boucles
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+  - id: reichbusters-reloaded-sergeant-sally-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-sergeant-sally
+    source_refs:
+      - catalog-item:reichbusters-reloaded-sergeant-sally
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-sergeant-sally-guide-slot-01
+        market_paint_id: the-army-painter-speedpaint-highlord-blue
+        role: Vêtement ou accent froid
+      - id: reichbusters-reloaded-sergeant-sally-guide-slot-02
+        market_paint_id: cit-contrast-leviadon-blue
+        role: Ombres profondes
+      - id: reichbusters-reloaded-sergeant-sally-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-crusader-skin
+        role: Visage et mains
+      - id: reichbusters-reloaded-sergeant-sally-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Armes et boucles
+    preparation: *a1
+    painting:
+      - title: Uniforme
+        detail: Poser la couleur principale en couches fines et garder les ombres du zénithal dans les creux.
+      - title: Peau
+        detail: Traiter le visage et les mains en contrôlant les accumulations autour des yeux et des doigts.
+      - title: Équipement
+        detail: Séparer clairement le cuir, le tissu et le métal par des valeurs et des finitions différentes.
+      - title: Finitions
+        detail: Éclaircir le visage, les épaules et l’arme, puis protéger avec un vernis mat.
+  - id: reichbusters-reloaded-nazi-soldiers-alt-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-nazi-soldiers-alt
+    source_refs:
+      - catalog-item:reichbusters-reloaded-nazi-soldiers-alt
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-nazi-soldiers-alt-guide-slot-01
+        market_paint_id: prince-august-classic-vert-allemand-wwii
+        role: Uniformes
+      - id: reichbusters-reloaded-nazi-soldiers-alt-guide-slot-02
+        market_paint_id: prince-august-classic-uniforme-luftwaffe
+        role: Casques et tissus sombres
+      - id: reichbusters-reloaded-nazi-soldiers-alt-guide-slot-03
+        market_paint_id: vallejo-game-color-metallic-dark-gunmetal
+        role: Armes et blindages
+      - id: reichbusters-reloaded-nazi-soldiers-alt-guide-slot-04
+        market_paint_id: the-army-painter-speedpaint-hardened-leather
+        role: Sangles et accessoires
+    preparation: *a1
+    painting:
+      - title: Uniformes
+        detail: Appliquer le vert militaire sur les grandes zones puis renforcer les plis avec une seconde passe localisée.
+      - title: Équipement
+        detail: Peindre casques, bottes et sangles avant de reprendre proprement les bordures.
+      - title: Métaux
+        detail: Conserver les armes sombres et réserver l’argent aux arêtes exposées et aux rayures.
+      - title: Cohérence d’unité
+        detail: Répéter les mêmes couleurs sur toute l’escouade puis varier légèrement visages, boue et usure.
+  - id: reichbusters-reloaded-zombies-alt-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-zombies-alt
+    source_refs:
+      - catalog-item:reichbusters-reloaded-zombies-alt
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-zombies-alt-guide-slot-01
+        market_paint_id: warhammer-colour-contrast-gutrippa-flesh
+        role: Chair principale
+      - id: reichbusters-reloaded-zombies-alt-guide-slot-02
+        market_paint_id: warhammer-colour-contrast-plaguebearer-flesh
+        role: Transitions maladives
+      - id: reichbusters-reloaded-zombies-alt-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-pallid-bone
+        role: Os, dents et griffes
+      - id: reichbusters-reloaded-zombies-alt-guide-slot-04
+        market_paint_id: the-army-painter-speedpaint-blood-red
+        role: Plaies et tissus exposés
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Appliquer le vert maladif en variant la saturation entre les muscles et les zones gonflées.
+      - title: Plaies
+        detail: Glacer le rouge dans les blessures et garder les bords plus sombres que leur centre.
+      - title: Os et griffes
+        detail: Poser la teinte os en plusieurs couches fines puis éclaircir seulement les pointes.
+      - title: Finitions
+        detail: Renforcer les yeux et la bouche, ajouter les salissures du socle puis vernir en mat.
+  - id: reichbusters-reloaded-experiment-6xx-alt-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-experiment-6xx-alt
+    source_refs:
+      - catalog-item:reichbusters-reloaded-experiment-6xx-alt
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-experiment-6xx-alt-guide-slot-01
+        market_paint_id: warhammer-colour-contrast-gutrippa-flesh
+        role: Chair principale
+      - id: reichbusters-reloaded-experiment-6xx-alt-guide-slot-02
+        market_paint_id: warhammer-colour-contrast-plaguebearer-flesh
+        role: Transitions maladives
+      - id: reichbusters-reloaded-experiment-6xx-alt-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-pallid-bone
+        role: Os, dents et griffes
+      - id: reichbusters-reloaded-experiment-6xx-alt-guide-slot-04
+        market_paint_id: the-army-painter-speedpaint-blood-red
+        role: Plaies et tissus exposés
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Appliquer le vert maladif en variant la saturation entre les muscles et les zones gonflées.
+      - title: Plaies
+        detail: Glacer le rouge dans les blessures et garder les bords plus sombres que leur centre.
+      - title: Os et griffes
+        detail: Poser la teinte os en plusieurs couches fines puis éclaircir seulement les pointes.
+      - title: Finitions
+        detail: Renforcer les yeux et la bouche, ajouter les salissures du socle puis vernir en mat.
+  - id: reichbusters-reloaded-heinrich-gruber-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-heinrich-gruber
+    source_refs:
+      - catalog-item:reichbusters-reloaded-heinrich-gruber
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-heinrich-gruber-guide-slot-01
+        market_paint_id: warhammer-colour-contrast-apothecary-white
+        role: Blouses et protections claires
+      - id: reichbusters-reloaded-heinrich-gruber-guide-slot-02
+        market_paint_id: warhammer-colour-contrast-gryph-charger-grey
+        role: Ombres froides
+      - id: reichbusters-reloaded-heinrich-gruber-guide-slot-03
+        market_paint_id: cit-contrast-talassar-blue
+        role: Fioles et écrans
+      - id: reichbusters-reloaded-heinrich-gruber-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Instruments
+    preparation: *a1
+    painting:
+      - title: Volumes clairs
+        detail: Construire les blouses et protections avec des couches translucides en gardant les creux gris froid.
+      - title: Instruments
+        detail: Traiter les outils en métal sombre puis poser des points d’argent sur les zones manipulées.
+      - title: Écrans et fioles
+        detail: Placer le bleu saturé au centre des éléments technologiques et finir par un point lumineux.
+      - title: Finitions
+        detail: Nettoyer les séparations, renforcer le visage ou l’optique principale et vernir en mat.
+  - id: reichbusters-reloaded-nazi-engineers-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-nazi-engineers
+    source_refs:
+      - catalog-item:reichbusters-reloaded-nazi-engineers
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-nazi-engineers-guide-slot-01
+        market_paint_id: warhammer-colour-contrast-apothecary-white
+        role: Blouses et protections claires
+      - id: reichbusters-reloaded-nazi-engineers-guide-slot-02
+        market_paint_id: warhammer-colour-contrast-gryph-charger-grey
+        role: Ombres froides
+      - id: reichbusters-reloaded-nazi-engineers-guide-slot-03
+        market_paint_id: cit-contrast-talassar-blue
+        role: Fioles et écrans
+      - id: reichbusters-reloaded-nazi-engineers-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Instruments
+    preparation: *a1
+    painting:
+      - title: Volumes clairs
+        detail: Construire les blouses et protections avec des couches translucides en gardant les creux gris froid.
+      - title: Instruments
+        detail: Traiter les outils en métal sombre puis poser des points d’argent sur les zones manipulées.
+      - title: Écrans et fioles
+        detail: Placer le bleu saturé au centre des éléments technologiques et finir par un point lumineux.
+      - title: Finitions
+        detail: Nettoyer les séparations, renforcer le visage ou l’optique principale et vernir en mat.
+  - id: reichbusters-reloaded-ubersoldaten-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-ubersoldaten
+    source_refs:
+      - catalog-item:reichbusters-reloaded-ubersoldaten
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-ubersoldaten-guide-slot-01
+        market_paint_id: vallejo-game-color-metallic-dark-gunmetal
+        role: Structure métallique
+      - id: reichbusters-reloaded-ubersoldaten-guide-slot-02
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Arêtes et usure
+      - id: reichbusters-reloaded-ubersoldaten-guide-slot-03
+        market_paint_id: cit-contrast-terradon-turquoise
+        role: Énergie vril
+      - id: reichbusters-reloaded-ubersoldaten-guide-slot-04
+        market_paint_id: cit-contrast-pylar-glacier
+        role: Lueur et points chauds
+    preparation: *a1
+    painting:
+      - title: Structure
+        detail: Poser un métal sombre homogène en conservant du noir dans les joints et sous les plaques.
+      - title: Usure
+        detail: Brosser légèrement l’argent sur les arêtes puis ajouter quelques rayures dirigées.
+      - title: Énergie vril
+        detail: Glacer le turquoise autour des conduites et concentrer le bleu glacier vers la source.
+      - title: Contraste final
+        detail: Assombrir les creux proches de la lueur afin d’augmenter l’effet lumineux, puis vernir.
+  - id: reichbusters-reloaded-sentry-flamers-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-sentry-flamers
+    source_refs:
+      - catalog-item:reichbusters-reloaded-sentry-flamers
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-sentry-flamers-guide-slot-01
+        market_paint_id: vallejo-game-color-metallic-dark-gunmetal
+        role: Structure métallique
+      - id: reichbusters-reloaded-sentry-flamers-guide-slot-02
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Arêtes et usure
+      - id: reichbusters-reloaded-sentry-flamers-guide-slot-03
+        market_paint_id: cit-contrast-terradon-turquoise
+        role: Énergie vril
+      - id: reichbusters-reloaded-sentry-flamers-guide-slot-04
+        market_paint_id: cit-contrast-pylar-glacier
+        role: Lueur et points chauds
+    preparation: *a1
+    painting:
+      - title: Structure
+        detail: Poser un métal sombre homogène en conservant du noir dans les joints et sous les plaques.
+      - title: Usure
+        detail: Brosser légèrement l’argent sur les arêtes puis ajouter quelques rayures dirigées.
+      - title: Énergie vril
+        detail: Glacer le turquoise autour des conduites et concentrer le bleu glacier vers la source.
+      - title: Contraste final
+        detail: Assombrir les creux proches de la lueur afin d’augmenter l’effet lumineux, puis vernir.
+  - id: reichbusters-reloaded-sentry-guns-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-sentry-guns
+    source_refs:
+      - catalog-item:reichbusters-reloaded-sentry-guns
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-sentry-guns-guide-slot-01
+        market_paint_id: vallejo-game-color-metallic-dark-gunmetal
+        role: Structure métallique
+      - id: reichbusters-reloaded-sentry-guns-guide-slot-02
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Arêtes et usure
+      - id: reichbusters-reloaded-sentry-guns-guide-slot-03
+        market_paint_id: cit-contrast-terradon-turquoise
+        role: Énergie vril
+      - id: reichbusters-reloaded-sentry-guns-guide-slot-04
+        market_paint_id: cit-contrast-pylar-glacier
+        role: Lueur et points chauds
+    preparation: *a1
+    painting:
+      - title: Structure
+        detail: Poser un métal sombre homogène en conservant du noir dans les joints et sous les plaques.
+      - title: Usure
+        detail: Brosser légèrement l’argent sur les arêtes puis ajouter quelques rayures dirigées.
+      - title: Énergie vril
+        detail: Glacer le turquoise autour des conduites et concentrer le bleu glacier vers la source.
+      - title: Contraste final
+        detail: Assombrir les creux proches de la lueur afin d’augmenter l’effet lumineux, puis vernir.
+  - id: reichbusters-reloaded-general-von-eichenberg-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-general-von-eichenberg
+    source_refs:
+      - catalog-item:reichbusters-reloaded-general-von-eichenberg
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-general-von-eichenberg-guide-slot-01
+        market_paint_id: prince-august-classic-vert-allemand-wwii
+        role: Uniformes
+      - id: reichbusters-reloaded-general-von-eichenberg-guide-slot-02
+        market_paint_id: prince-august-classic-uniforme-luftwaffe
+        role: Casques et tissus sombres
+      - id: reichbusters-reloaded-general-von-eichenberg-guide-slot-03
+        market_paint_id: vallejo-game-color-metallic-dark-gunmetal
+        role: Armes et blindages
+      - id: reichbusters-reloaded-general-von-eichenberg-guide-slot-04
+        market_paint_id: the-army-painter-speedpaint-hardened-leather
+        role: Sangles et accessoires
+    preparation: *a1
+    painting:
+      - title: Uniformes
+        detail: Appliquer le vert militaire sur les grandes zones puis renforcer les plis avec une seconde passe localisée.
+      - title: Équipement
+        detail: Peindre casques, bottes et sangles avant de reprendre proprement les bordures.
+      - title: Métaux
+        detail: Conserver les armes sombres et réserver l’argent aux arêtes exposées et aux rayures.
+      - title: Cohérence d’unité
+        detail: Répéter les mêmes couleurs sur toute l’escouade puis varier légèrement visages, boue et usure.
+  - id: reichbusters-reloaded-detectors-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-detectors
+    source_refs:
+      - catalog-item:reichbusters-reloaded-detectors
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-detectors-guide-slot-01
+        market_paint_id: vallejo-game-color-metallic-dark-gunmetal
+        role: Structure métallique
+      - id: reichbusters-reloaded-detectors-guide-slot-02
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Arêtes et usure
+      - id: reichbusters-reloaded-detectors-guide-slot-03
+        market_paint_id: cit-contrast-terradon-turquoise
+        role: Énergie vril
+      - id: reichbusters-reloaded-detectors-guide-slot-04
+        market_paint_id: cit-contrast-pylar-glacier
+        role: Lueur et points chauds
+    preparation: *a1
+    painting:
+      - title: Structure
+        detail: Poser un métal sombre homogène en conservant du noir dans les joints et sous les plaques.
+      - title: Usure
+        detail: Brosser légèrement l’argent sur les arêtes puis ajouter quelques rayures dirigées.
+      - title: Énergie vril
+        detail: Glacer le turquoise autour des conduites et concentrer le bleu glacier vers la source.
+      - title: Contraste final
+        detail: Assombrir les creux proches de la lueur afin d’augmenter l’effet lumineux, puis vernir.
+  - id: reichbusters-reloaded-experiment-1080-a-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-experiment-1080-a
+    source_refs:
+      - catalog-item:reichbusters-reloaded-experiment-1080-a
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-experiment-1080-a-guide-slot-01
+        market_paint_id: warhammer-colour-contrast-gutrippa-flesh
+        role: Chair principale
+      - id: reichbusters-reloaded-experiment-1080-a-guide-slot-02
+        market_paint_id: warhammer-colour-contrast-plaguebearer-flesh
+        role: Transitions maladives
+      - id: reichbusters-reloaded-experiment-1080-a-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-pallid-bone
+        role: Os, dents et griffes
+      - id: reichbusters-reloaded-experiment-1080-a-guide-slot-04
+        market_paint_id: the-army-painter-speedpaint-blood-red
+        role: Plaies et tissus exposés
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Appliquer le vert maladif en variant la saturation entre les muscles et les zones gonflées.
+      - title: Plaies
+        detail: Glacer le rouge dans les blessures et garder les bords plus sombres que leur centre.
+      - title: Os et griffes
+        detail: Poser la teinte os en plusieurs couches fines puis éclaircir seulement les pointes.
+      - title: Finitions
+        detail: Renforcer les yeux et la bouche, ajouter les salissures du socle puis vernir en mat.
+  - id: reichbusters-reloaded-experiment-1080-b-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-experiment-1080-b
+    source_refs:
+      - catalog-item:reichbusters-reloaded-experiment-1080-b
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-experiment-1080-b-guide-slot-01
+        market_paint_id: warhammer-colour-contrast-gutrippa-flesh
+        role: Chair principale
+      - id: reichbusters-reloaded-experiment-1080-b-guide-slot-02
+        market_paint_id: warhammer-colour-contrast-plaguebearer-flesh
+        role: Transitions maladives
+      - id: reichbusters-reloaded-experiment-1080-b-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-pallid-bone
+        role: Os, dents et griffes
+      - id: reichbusters-reloaded-experiment-1080-b-guide-slot-04
+        market_paint_id: the-army-painter-speedpaint-blood-red
+        role: Plaies et tissus exposés
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Appliquer le vert maladif en variant la saturation entre les muscles et les zones gonflées.
+      - title: Plaies
+        detail: Glacer le rouge dans les blessures et garder les bords plus sombres que leur centre.
+      - title: Os et griffes
+        detail: Poser la teinte os en plusieurs couches fines puis éclaircir seulement les pointes.
+      - title: Finitions
+        detail: Renforcer les yeux et la bouche, ajouter les salissures du socle puis vernir en mat.
+  - id: reichbusters-reloaded-doktor-kopff-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-doktor-kopff
+    source_refs:
+      - catalog-item:reichbusters-reloaded-doktor-kopff
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-doktor-kopff-guide-slot-01
+        market_paint_id: warhammer-colour-contrast-apothecary-white
+        role: Blouses et protections claires
+      - id: reichbusters-reloaded-doktor-kopff-guide-slot-02
+        market_paint_id: warhammer-colour-contrast-gryph-charger-grey
+        role: Ombres froides
+      - id: reichbusters-reloaded-doktor-kopff-guide-slot-03
+        market_paint_id: cit-contrast-talassar-blue
+        role: Fioles et écrans
+      - id: reichbusters-reloaded-doktor-kopff-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Instruments
+    preparation: *a1
+    painting:
+      - title: Volumes clairs
+        detail: Construire les blouses et protections avec des couches translucides en gardant les creux gris froid.
+      - title: Instruments
+        detail: Traiter les outils en métal sombre puis poser des points d’argent sur les zones manipulées.
+      - title: Écrans et fioles
+        detail: Placer le bleu saturé au centre des éléments technologiques et finir par un point lumineux.
+      - title: Finitions
+        detail: Nettoyer les séparations, renforcer le visage ou l’optique principale et vernir en mat.
+  - id: reichbusters-reloaded-alien-portal-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-alien-portal
+    source_refs:
+      - catalog-item:reichbusters-reloaded-alien-portal
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-alien-portal-guide-slot-01
+        market_paint_id: vallejo-game-color-metallic-dark-gunmetal
+        role: Structure métallique
+      - id: reichbusters-reloaded-alien-portal-guide-slot-02
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Arêtes et usure
+      - id: reichbusters-reloaded-alien-portal-guide-slot-03
+        market_paint_id: cit-contrast-terradon-turquoise
+        role: Énergie vril
+      - id: reichbusters-reloaded-alien-portal-guide-slot-04
+        market_paint_id: cit-contrast-pylar-glacier
+        role: Lueur et points chauds
+    preparation: *a1
+    painting:
+      - title: Structure
+        detail: Poser un métal sombre homogène en conservant du noir dans les joints et sous les plaques.
+      - title: Usure
+        detail: Brosser légèrement l’argent sur les arêtes puis ajouter quelques rayures dirigées.
+      - title: Énergie vril
+        detail: Glacer le turquoise autour des conduites et concentrer le bleu glacier vers la source.
+      - title: Contraste final
+        detail: Assombrir les creux proches de la lueur afin d’augmenter l’effet lumineux, puis vernir.
+  - id: reichbusters-reloaded-alien-handlers-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-alien-handlers
+    source_refs:
+      - catalog-item:reichbusters-reloaded-alien-handlers
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-alien-handlers-guide-slot-01
+        market_paint_id: vallejo-game-color-hexed-lichen
+        role: Carapace et ombres
+      - id: reichbusters-reloaded-alien-handlers-guide-slot-02
+        market_paint_id: the-army-painter-speedpaint-hive-dweller-purple
+        role: Chair extraterrestre
+      - id: reichbusters-reloaded-alien-handlers-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-pallid-bone
+        role: Pointes et plaques claires
+      - id: reichbusters-reloaded-alien-handlers-guide-slot-04
+        market_paint_id: cit-contrast-pylar-glacier
+        role: Organes vril lumineux
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Poser le violet en voiles irréguliers pour conserver une texture organique.
+      - title: Carapace
+        detail: Renforcer les plaques avec le lichen, puis éclaircir leurs arêtes avec une teinte os.
+      - title: Organes vril
+        detail: Créer une lueur bleu glacier sur les yeux, glandes ou implants, sans couvrir toute la chair.
+      - title: Finitions
+        detail: Ajouter quelques glacis autour des articulations, traiter la bouche puis protéger en mat.
+  - id: reichbusters-reloaded-elite-ubersoldaten-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-elite-ubersoldaten
+    source_refs:
+      - catalog-item:reichbusters-reloaded-elite-ubersoldaten
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-elite-ubersoldaten-guide-slot-01
+        market_paint_id: vallejo-game-color-metallic-dark-gunmetal
+        role: Structure métallique
+      - id: reichbusters-reloaded-elite-ubersoldaten-guide-slot-02
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Arêtes et usure
+      - id: reichbusters-reloaded-elite-ubersoldaten-guide-slot-03
+        market_paint_id: cit-contrast-terradon-turquoise
+        role: Énergie vril
+      - id: reichbusters-reloaded-elite-ubersoldaten-guide-slot-04
+        market_paint_id: cit-contrast-pylar-glacier
+        role: Lueur et points chauds
+    preparation: *a1
+    painting:
+      - title: Structure
+        detail: Poser un métal sombre homogène en conservant du noir dans les joints et sous les plaques.
+      - title: Usure
+        detail: Brosser légèrement l’argent sur les arêtes puis ajouter quelques rayures dirigées.
+      - title: Énergie vril
+        detail: Glacer le turquoise autour des conduites et concentrer le bleu glacier vers la source.
+      - title: Contraste final
+        detail: Assombrir les creux proches de la lueur afin d’augmenter l’effet lumineux, puis vernir.
+  - id: reichbusters-reloaded-vril-acolytes-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-vril-acolytes
+    source_refs:
+      - catalog-item:reichbusters-reloaded-vril-acolytes
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-vril-acolytes-guide-slot-01
+        market_paint_id: vallejo-game-color-hexed-lichen
+        role: Carapace et ombres
+      - id: reichbusters-reloaded-vril-acolytes-guide-slot-02
+        market_paint_id: the-army-painter-speedpaint-hive-dweller-purple
+        role: Chair extraterrestre
+      - id: reichbusters-reloaded-vril-acolytes-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-pallid-bone
+        role: Pointes et plaques claires
+      - id: reichbusters-reloaded-vril-acolytes-guide-slot-04
+        market_paint_id: cit-contrast-pylar-glacier
+        role: Organes vril lumineux
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Poser le violet en voiles irréguliers pour conserver une texture organique.
+      - title: Carapace
+        detail: Renforcer les plaques avec le lichen, puis éclaircir leurs arêtes avec une teinte os.
+      - title: Organes vril
+        detail: Créer une lueur bleu glacier sur les yeux, glandes ou implants, sans couvrir toute la chair.
+      - title: Finitions
+        detail: Ajouter quelques glacis autour des articulations, traiter la bouche puis protéger en mat.
+  - id: reichbusters-reloaded-die-ausgeburt-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-die-ausgeburt
+    source_refs:
+      - catalog-item:reichbusters-reloaded-die-ausgeburt
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-die-ausgeburt-guide-slot-01
+        market_paint_id: vallejo-game-color-hexed-lichen
+        role: Carapace et ombres
+      - id: reichbusters-reloaded-die-ausgeburt-guide-slot-02
+        market_paint_id: the-army-painter-speedpaint-hive-dweller-purple
+        role: Chair extraterrestre
+      - id: reichbusters-reloaded-die-ausgeburt-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-pallid-bone
+        role: Pointes et plaques claires
+      - id: reichbusters-reloaded-die-ausgeburt-guide-slot-04
+        market_paint_id: cit-contrast-pylar-glacier
+        role: Organes vril lumineux
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Poser le violet en voiles irréguliers pour conserver une texture organique.
+      - title: Carapace
+        detail: Renforcer les plaques avec le lichen, puis éclaircir leurs arêtes avec une teinte os.
+      - title: Organes vril
+        detail: Créer une lueur bleu glacier sur les yeux, glandes ou implants, sans couvrir toute la chair.
+      - title: Finitions
+        detail: Ajouter quelques glacis autour des articulations, traiter la bouche puis protéger en mat.
+  - id: reichbusters-reloaded-die-kleinen-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-die-kleinen
+    source_refs:
+      - catalog-item:reichbusters-reloaded-die-kleinen
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-die-kleinen-guide-slot-01
+        market_paint_id: vallejo-game-color-hexed-lichen
+        role: Carapace et ombres
+      - id: reichbusters-reloaded-die-kleinen-guide-slot-02
+        market_paint_id: the-army-painter-speedpaint-hive-dweller-purple
+        role: Chair extraterrestre
+      - id: reichbusters-reloaded-die-kleinen-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-pallid-bone
+        role: Pointes et plaques claires
+      - id: reichbusters-reloaded-die-kleinen-guide-slot-04
+        market_paint_id: cit-contrast-pylar-glacier
+        role: Organes vril lumineux
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Poser le violet en voiles irréguliers pour conserver une texture organique.
+      - title: Carapace
+        detail: Renforcer les plaques avec le lichen, puis éclaircir leurs arêtes avec une teinte os.
+      - title: Organes vril
+        detail: Créer une lueur bleu glacier sur les yeux, glandes ou implants, sans couvrir toute la chair.
+      - title: Finitions
+        detail: Ajouter quelques glacis autour des articulations, traiter la bouche puis protéger en mat.
+  - id: reichbusters-reloaded-augen-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-augen
+    source_refs:
+      - catalog-item:reichbusters-reloaded-augen
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-augen-guide-slot-01
+        market_paint_id: vallejo-game-color-hexed-lichen
+        role: Carapace et ombres
+      - id: reichbusters-reloaded-augen-guide-slot-02
+        market_paint_id: the-army-painter-speedpaint-hive-dweller-purple
+        role: Chair extraterrestre
+      - id: reichbusters-reloaded-augen-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-pallid-bone
+        role: Pointes et plaques claires
+      - id: reichbusters-reloaded-augen-guide-slot-04
+        market_paint_id: cit-contrast-pylar-glacier
+        role: Organes vril lumineux
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Poser le violet en voiles irréguliers pour conserver une texture organique.
+      - title: Carapace
+        detail: Renforcer les plaques avec le lichen, puis éclaircir leurs arêtes avec une teinte os.
+      - title: Organes vril
+        detail: Créer une lueur bleu glacier sur les yeux, glandes ou implants, sans couvrir toute la chair.
+      - title: Finitions
+        detail: Ajouter quelques glacis autour des articulations, traiter la bouche puis protéger en mat.
+  - id: reichbusters-reloaded-augenmutter-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-augenmutter
+    source_refs:
+      - catalog-item:reichbusters-reloaded-augenmutter
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-augenmutter-guide-slot-01
+        market_paint_id: vallejo-game-color-hexed-lichen
+        role: Carapace et ombres
+      - id: reichbusters-reloaded-augenmutter-guide-slot-02
+        market_paint_id: the-army-painter-speedpaint-hive-dweller-purple
+        role: Chair extraterrestre
+      - id: reichbusters-reloaded-augenmutter-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-pallid-bone
+        role: Pointes et plaques claires
+      - id: reichbusters-reloaded-augenmutter-guide-slot-04
+        market_paint_id: cit-contrast-pylar-glacier
+        role: Organes vril lumineux
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Poser le violet en voiles irréguliers pour conserver une texture organique.
+      - title: Carapace
+        detail: Renforcer les plaques avec le lichen, puis éclaircir leurs arêtes avec une teinte os.
+      - title: Organes vril
+        detail: Créer une lueur bleu glacier sur les yeux, glandes ou implants, sans couvrir toute la chair.
+      - title: Finitions
+        detail: Ajouter quelques glacis autour des articulations, traiter la bouche puis protéger en mat.
+  - id: reichbusters-reloaded-vril-cannon-teams-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-vril-cannon-teams
+    source_refs:
+      - catalog-item:reichbusters-reloaded-vril-cannon-teams
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-vril-cannon-teams-guide-slot-01
+        market_paint_id: vallejo-game-color-metallic-dark-gunmetal
+        role: Structure métallique
+      - id: reichbusters-reloaded-vril-cannon-teams-guide-slot-02
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Arêtes et usure
+      - id: reichbusters-reloaded-vril-cannon-teams-guide-slot-03
+        market_paint_id: cit-contrast-terradon-turquoise
+        role: Énergie vril
+      - id: reichbusters-reloaded-vril-cannon-teams-guide-slot-04
+        market_paint_id: cit-contrast-pylar-glacier
+        role: Lueur et points chauds
+    preparation: *a1
+    painting:
+      - title: Structure
+        detail: Poser un métal sombre homogène en conservant du noir dans les joints et sous les plaques.
+      - title: Usure
+        detail: Brosser légèrement l’argent sur les arêtes puis ajouter quelques rayures dirigées.
+      - title: Énergie vril
+        detail: Glacer le turquoise autour des conduites et concentrer le bleu glacier vers la source.
+      - title: Contraste final
+        detail: Assombrir les creux proches de la lueur afin d’augmenter l’effet lumineux, puis vernir.
+  - id: reichbusters-reloaded-hugo-hander-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-hugo-hander
+    source_refs:
+      - catalog-item:reichbusters-reloaded-hugo-hander
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-hugo-hander-guide-slot-01
+        market_paint_id: warhammer-colour-contrast-apothecary-white
+        role: Blouses et protections claires
+      - id: reichbusters-reloaded-hugo-hander-guide-slot-02
+        market_paint_id: warhammer-colour-contrast-gryph-charger-grey
+        role: Ombres froides
+      - id: reichbusters-reloaded-hugo-hander-guide-slot-03
+        market_paint_id: cit-contrast-talassar-blue
+        role: Fioles et écrans
+      - id: reichbusters-reloaded-hugo-hander-guide-slot-04
+        market_paint_id: vallejo-game-color-metallic-silver
+        role: Instruments
+    preparation: *a1
+    painting:
+      - title: Volumes clairs
+        detail: Construire les blouses et protections avec des couches translucides en gardant les creux gris froid.
+      - title: Instruments
+        detail: Traiter les outils en métal sombre puis poser des points d’argent sur les zones manipulées.
+      - title: Écrans et fioles
+        detail: Placer le bleu saturé au centre des éléments technologiques et finir par un point lumineux.
+      - title: Finitions
+        detail: Nettoyer les séparations, renforcer le visage ou l’optique principale et vernir en mat.
+  - id: reichbusters-reloaded-shrieker-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-shrieker
+    source_refs:
+      - catalog-item:reichbusters-reloaded-shrieker
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-shrieker-guide-slot-01
+        market_paint_id: vallejo-game-color-hexed-lichen
+        role: Carapace et ombres
+      - id: reichbusters-reloaded-shrieker-guide-slot-02
+        market_paint_id: the-army-painter-speedpaint-hive-dweller-purple
+        role: Chair extraterrestre
+      - id: reichbusters-reloaded-shrieker-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-pallid-bone
+        role: Pointes et plaques claires
+      - id: reichbusters-reloaded-shrieker-guide-slot-04
+        market_paint_id: cit-contrast-pylar-glacier
+        role: Organes vril lumineux
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Poser le violet en voiles irréguliers pour conserver une texture organique.
+      - title: Carapace
+        detail: Renforcer les plaques avec le lichen, puis éclaircir leurs arêtes avec une teinte os.
+      - title: Organes vril
+        detail: Créer une lueur bleu glacier sur les yeux, glandes ou implants, sans couvrir toute la chair.
+      - title: Finitions
+        detail: Ajouter quelques glacis autour des articulations, traiter la bouche puis protéger en mat.
+  - id: reichbusters-reloaded-projekt-x-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-projekt-x
+    source_refs:
+      - catalog-item:reichbusters-reloaded-projekt-x
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-projekt-x-guide-slot-01
+        market_paint_id: warhammer-colour-contrast-gutrippa-flesh
+        role: Chair principale
+      - id: reichbusters-reloaded-projekt-x-guide-slot-02
+        market_paint_id: warhammer-colour-contrast-plaguebearer-flesh
+        role: Transitions maladives
+      - id: reichbusters-reloaded-projekt-x-guide-slot-03
+        market_paint_id: the-army-painter-speedpaint-pallid-bone
+        role: Os, dents et griffes
+      - id: reichbusters-reloaded-projekt-x-guide-slot-04
+        market_paint_id: the-army-painter-speedpaint-blood-red
+        role: Plaies et tissus exposés
+    preparation: *a1
+    painting:
+      - title: Chair
+        detail: Appliquer le vert maladif en variant la saturation entre les muscles et les zones gonflées.
+      - title: Plaies
+        detail: Glacer le rouge dans les blessures et garder les bords plus sombres que leur centre.
+      - title: Os et griffes
+        detail: Poser la teinte os en plusieurs couches fines puis éclaircir seulement les pointes.
+      - title: Finitions
+        detail: Renforcer les yeux et la bouche, ajouter les salissures du socle puis vernir en mat.
+  - id: reichbusters-reloaded-doors-3d-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-doors-3d
+    source_refs:
+      - catalog-item:reichbusters-reloaded-doors-3d
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-doors-3d-guide-slot-01
+        market_paint_id: vallejo-game-color-metallic-dark-gunmetal
+        role: Métal sombre
+      - id: reichbusters-reloaded-doors-3d-guide-slot-02
+        market_paint_id: vallejo-true-metallic-metal-aged-metal-base
+        role: Métal vieilli
+      - id: reichbusters-reloaded-doors-3d-guide-slot-03
+        market_paint_id: cit-contrast-gore-grunta-fur
+        role: Bois et rouille chaude
+      - id: reichbusters-reloaded-doors-3d-guide-slot-04
+        market_paint_id: warhammer-colour-contrast-apothecary-white
+        role: Neige et givre
+    preparation: *a1
+    painting:
+      - title: Couche de base
+        detail: Bloquer les grandes matières en métal sombre, métal vieilli ou brun chaud selon la pièce.
+      - title: Usure
+        detail: Brosser les arêtes et tamponner de petites zones brunes pour simuler peinture écaillée et corrosion.
+      - title: Neige
+        detail: Poser le blanc froid sur les surfaces horizontales en laissant visibles les salissures aux points de passage.
+      - title: Lisibilité
+        detail: Renforcer charnières, marches et zones de contact, puis protéger avec un vernis mat résistant.
+  - id: reichbusters-reloaded-tile-risers-train-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-tile-risers-train
+    source_refs:
+      - catalog-item:reichbusters-reloaded-tile-risers-train
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-tile-risers-train-guide-slot-01
+        market_paint_id: vallejo-game-color-metallic-dark-gunmetal
+        role: Métal sombre
+      - id: reichbusters-reloaded-tile-risers-train-guide-slot-02
+        market_paint_id: vallejo-true-metallic-metal-aged-metal-base
+        role: Métal vieilli
+      - id: reichbusters-reloaded-tile-risers-train-guide-slot-03
+        market_paint_id: cit-contrast-gore-grunta-fur
+        role: Bois et rouille chaude
+      - id: reichbusters-reloaded-tile-risers-train-guide-slot-04
+        market_paint_id: warhammer-colour-contrast-apothecary-white
+        role: Neige et givre
+    preparation: *a1
+    painting:
+      - title: Couche de base
+        detail: Bloquer les grandes matières en métal sombre, métal vieilli ou brun chaud selon la pièce.
+      - title: Usure
+        detail: Brosser les arêtes et tamponner de petites zones brunes pour simuler peinture écaillée et corrosion.
+      - title: Neige
+        detail: Poser le blanc froid sur les surfaces horizontales en laissant visibles les salissures aux points de passage.
+      - title: Lisibilité
+        detail: Renforcer charnières, marches et zones de contact, puis protéger avec un vernis mat résistant.
+  - id: reichbusters-reloaded-watchtowers-guide
+    version: 1
+    knowledge_status: inferred
+    catalog_item_id: reichbusters-reloaded-watchtowers
+    source_refs:
+      - catalog-item:reichbusters-reloaded-watchtowers
+    provenance:
+      method: inferred_from_public_references
+      review_required: true
+    slots:
+      - id: reichbusters-reloaded-watchtowers-guide-slot-01
+        market_paint_id: vallejo-game-color-metallic-dark-gunmetal
+        role: Métal sombre
+      - id: reichbusters-reloaded-watchtowers-guide-slot-02
+        market_paint_id: vallejo-true-metallic-metal-aged-metal-base
+        role: Métal vieilli
+      - id: reichbusters-reloaded-watchtowers-guide-slot-03
+        market_paint_id: cit-contrast-gore-grunta-fur
+        role: Bois et rouille chaude
+      - id: reichbusters-reloaded-watchtowers-guide-slot-04
+        market_paint_id: warhammer-colour-contrast-apothecary-white
+        role: Neige et givre
+    preparation: *a1
+    painting:
+      - title: Couche de base
+        detail: Bloquer les grandes matières en métal sombre, métal vieilli ou brun chaud selon la pièce.
+      - title: Usure
+        detail: Brosser les arêtes et tamponner de petites zones brunes pour simuler peinture écaillée et corrosion.
+      - title: Neige
+        detail: Poser le blanc froid sur les surfaces horizontales en laissant visibles les salissures aux points de passage.
+      - title: Lisibilité
+        detail: Renforcer charnières, marches et zones de contact, puis protéger avec un vernis mat résistant.
