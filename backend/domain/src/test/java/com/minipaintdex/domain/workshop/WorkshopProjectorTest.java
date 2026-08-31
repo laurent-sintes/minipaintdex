@@ -19,7 +19,7 @@ class WorkshopProjectorTest {
         var events = new ArrayList<>(workshop.releaseEvents());
         events.addAll(project.releaseEvents());
 
-        var projectedWorkshop = WorkshopProjector.project(events);
+        var projectedWorkshop = WorkshopProjector.project(events).orElseThrow();
         var projectedProject = PaintingProjectProjector.project(events).getFirst();
         assertTrue(projectedWorkshop.containsPaintingProject("paint-game"));
         assertEquals("game", projectedProject.paintableProductId());

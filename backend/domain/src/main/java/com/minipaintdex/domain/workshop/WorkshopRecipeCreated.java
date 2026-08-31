@@ -14,9 +14,15 @@ public record WorkshopRecipeCreated(
         List<RecipeSolution> solutions,
         Instant occurredAt) implements WorkshopRecipeEvent {
     public WorkshopRecipeCreated {
-        recipeId = DomainFields.required(recipeId, "recipeId");
-        paintingProjectId = DomainFields.required(paintingProjectId, "paintingProjectId");
-        catalogItemId = DomainFields.required(catalogItemId, "catalogItemId");
+        recipeId = DomainFields.id(recipeId, "recipeId");
+        paintingProjectId = DomainFields.id(paintingProjectId, "paintingProjectId");
+        catalogItemId = DomainFields.id(catalogItemId, "catalogItemId");
+        if (basedOnGuideId != null && !basedOnGuideId.isBlank()) {
+            basedOnGuideId = DomainFields.id(basedOnGuideId, "basedOnGuideId");
+        }
+        if (supersedesRecipeId != null && !supersedesRecipeId.isBlank()) {
+            supersedesRecipeId = DomainFields.id(supersedesRecipeId, "supersedesRecipeId");
+        }
         basedOnGuideId = DomainFields.optional(basedOnGuideId);
         supersedesRecipeId = DomainFields.optional(supersedesRecipeId);
         displayName = DomainFields.required(displayName, "displayName");

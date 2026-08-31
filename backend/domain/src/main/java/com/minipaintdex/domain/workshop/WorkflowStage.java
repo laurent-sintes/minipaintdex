@@ -3,21 +3,27 @@ package com.minipaintdex.domain.workshop;
 import com.minipaintdex.domain.shared.DomainException;
 
 public enum WorkflowStage {
-    PREPARATION("preparation"),
-    PRIMING("priming"),
-    PRE_HIGHLIGHT("pre_highlight"),
-    PAINTING("painting"),
-    FINISHING("finishing"),
-    BASING("basing");
+    PREPARATION("preparation", false),
+    PRIMING("priming", false),
+    PRE_HIGHLIGHT("pre_highlight", true),
+    PAINTING("painting", false),
+    FINISHING("finishing", true),
+    BASING("basing", true);
 
     private final String id;
+    private final boolean skippable;
 
-    WorkflowStage(String id) {
+    WorkflowStage(String id, boolean skippable) {
         this.id = id;
+        this.skippable = skippable;
     }
 
     public String id() {
         return id;
+    }
+
+    public boolean skippable() {
+        return skippable;
     }
 
     public static WorkflowStage fromId(String id) {

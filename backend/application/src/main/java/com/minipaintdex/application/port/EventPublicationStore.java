@@ -24,9 +24,15 @@ public interface EventPublicationStore {
     /** Atomically records a failed attempt without discarding its batch. */
     EventPublication markFailed(String publicationId, Instant at, String failure);
 
+    /** Moves an exhausted publication to terminal dead-letter state without discarding its batch. */
+    EventPublication markDeadLetter(String publicationId, Instant at, String failure);
+
     /** Reads one durable publication state. */
     Optional<EventPublication> find(String publicationId);
 
-    /** Lists non-completed publications in deterministic recovery order. */
+    /** Lists retryable non-completed publications in deterministic recovery order. */
     List<EventPublication> recoverable();
+
+    /** Lists terminal failed publications in deterministic order for health and administration. */
+    List<EventPublication> deadLetters();
 }

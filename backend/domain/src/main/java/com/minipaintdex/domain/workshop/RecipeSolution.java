@@ -26,7 +26,12 @@ public record RecipeSolution(
             }
             case TECHNIQUE -> {
                 if (instructions == null) throw DomainFields.invalid("technique requires instructions.");
+                if (paintId != null) throw DomainFields.invalid("technique uses optional components instead of paintId.");
             }
+        }
+        if (type == RecipeSolutionType.MIXTURE
+                && components.stream().map(PaintComponent::paintId).distinct().count() != components.size()) {
+            throw DomainFields.invalid("mixture cannot contain the same paint more than once.");
         }
     }
 

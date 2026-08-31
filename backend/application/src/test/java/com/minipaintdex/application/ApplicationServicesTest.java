@@ -26,12 +26,14 @@ import com.minipaintdex.application.port.SnapshotRepository;
 import com.minipaintdex.application.port.WorkshopMediaStorage;
 import com.minipaintdex.application.port.WorkshopPaintInventoryWriter;
 import com.minipaintdex.application.query.SearchMarketPaintsQuery;
+import com.minipaintdex.application.validation.MarketCatalogFactory;
 import com.minipaintdex.domain.event.Actor;
 import com.minipaintdex.domain.event.DomainEvent;
 import com.minipaintdex.domain.event.EventEnvelope;
 import com.minipaintdex.domain.market.paint.PaintMatchEngine;
 import com.minipaintdex.domain.market.paint.PaintMatchingPolicy;
 import com.minipaintdex.domain.market.product.PaintableProduct;
+import com.minipaintdex.domain.shared.DomainException;
 import com.minipaintdex.domain.workshop.PaintingProjectCreated;
 import com.minipaintdex.domain.workshop.PaintingProjectRegistered;
 import com.minipaintdex.domain.workshop.PaintingProjectStatus;
@@ -55,15 +57,16 @@ import java.util.concurrent.Executors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class MiniPaintDexServiceTest {
+class ApplicationServicesTest {
     private static final Instant AT = Instant.parse("2026-08-30T10:00:00Z");
 
     @Test
     void searchesEverySupportedMarketFacet() {
         var result = marketService(repository()).searchMarketPaints(new SearchMarketPaintsQuery(
                 "white", "Warhammer Colour", "Contrast", "one_coat_contrast", "White",
-                "matt", "water acrylic", "transparent", "18", "29-34", "current",
+                "matt", "water acrylic", "transparent", "18", "29-34", "active",
                 "Games Workshop", "cold"));
         assertEquals(1, result.size());
         assertEquals("Apothecary White", result.getFirst().name());
@@ -128,7 +131,7 @@ class MiniPaintDexServiceTest {
     @Test
     void previewsThenAppliesAMarketPaintChangeSet() {
         var repository = repository();
-        var service = service(repository);
+        var service = new AdministrationApplicationService(repository, repository, repository, repository);
         var operation = new ApplyMarketPaintChangeSetCommand.Operation(
                 "upsert", document(paint("new-paint", "New Paint")), 2, false);
         var preview = service.applyMarketPaintChangeSet(
@@ -140,6 +143,19 @@ class MiniPaintDexServiceTest {
                 new ApplyMarketPaintChangeSetCommand(1, "market_paints", List.of(operation), false));
         assertTrue(applied.applied());
         assertEquals(2, documentMap(repository.inventory.getFirst()).get("quantity"));
+    }
+
+    @Test
+    void rejectsAmbiguousPaintChangeSetsBeforeAnyWrite() {
+        var repository = repository();
+        var service = new AdministrationApplicationService(repository, repository, repository, repository);
+        var operation = new ApplyMarketPaintChangeSetCommand.Operation(
+                "upsert", document(paint("new-paint", "New Paint")), 0, false);
+
+        assertThrows(DomainException.class, () -> service.applyMarketPaintChangeSet(
+                new ApplyMarketPaintChangeSetCommand(
+                        1, "market_paints", List.of(operation, operation), false)));
+        assertTrue(repository.replaced.isEmpty());
     }
 
     @Test
@@ -212,7 +228,7 @@ class MiniPaintDexServiceTest {
     private static MarketCatalogApplicationService marketService(FakeRepository repository) {
         return new MarketCatalogApplicationService(() -> {
             var snapshot = repository.load();
-            return new MarketCatalogSnapshot(
+            return MarketCatalogFactory.create(
                     snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides());
         });
     }
@@ -239,16 +255,19 @@ class MiniPaintDexServiceTest {
                 "correlation", null, key, event);
     }
 
-    private static MiniPaintDexService service(FakeRepository repository) {
+    private static WorkshopApplicationService service(FakeRepository repository) {
         var policy = new PaintMatchingPolicy(
                 5, Set.of("one_coat_contrast", "technical_effect", "primer", "wash_shade", "ink", "auxiliary"),
                 2.5, 20, 25, 50, 50, 80, 75,
                 new PaintMatchingPolicy.Weights(.65, .15, 0, .08, .07, .05),
                 new PaintMatchingPolicy.Weights(.15, .35, .30, .10, .10, 0));
-        return new MiniPaintDexService(
-                repository, repository, repository, repository, repository, repository,
+        var paintMatchEngine = new PaintMatchEngine(policy);
+        var queries = new WorkshopQueryService(repository, paintMatchEngine);
+        var commands = new WorkshopCommandService(
+                repository, repository, repository,
                 new WorkshopMediaPolicy(10 * 1024 * 1024, Set.of("image/jpeg", "image/png", "image/webp")),
-                new PaintMatchEngine(policy));
+                queries);
+        return new WorkshopApplicationService(commands, queries, marketService(repository), repository);
     }
 
     private static PaintableProduct product() {
@@ -265,7 +284,7 @@ class MiniPaintDexServiceTest {
                 Map.entry("functional_type", "one_coat_contrast"), Map.entry("reference", "29-34"), Map.entry("name", name),
                 Map.entry("color", Map.of("hex", "#D9DEDA", "family", "White")), Map.entry("finish", "matt"),
                 Map.entry("medium", "water acrylic"), Map.entry("opacity", "transparent"), Map.entry("volume_ml", 18),
-                Map.entry("lifecycle_status", "current"), Map.entry("tags", List.of("cold")));
+                Map.entry("lifecycle_status", "active"), Map.entry("tags", List.of("cold")));
     }
 
     private static StructuredDocument document(Map<String, Object> values) {
@@ -275,7 +294,7 @@ class MiniPaintDexServiceTest {
     }
 
     private static List<StructuredDocument> documents(List<Map<String, Object>> values) {
-        return values.stream().map(MiniPaintDexServiceTest::document).toList();
+        return values.stream().map(ApplicationServicesTest::document).toList();
     }
 
     private static Map<String, Object> documentMap(StructuredDocument document) {
@@ -291,7 +310,7 @@ class MiniPaintDexServiceTest {
             case StructuredDocument.BooleanValue bool -> bool.value();
             case StructuredDocument.NullValue ignored -> null;
             case StructuredDocument.ArrayValue array -> array.values().stream()
-                    .map(MiniPaintDexServiceTest::plainValue).toList();
+                    .map(ApplicationServicesTest::plainValue).toList();
             case StructuredDocument.ObjectValue object -> documentMap(object.value());
         };
     }
@@ -305,7 +324,7 @@ class MiniPaintDexServiceTest {
         }
         if (value instanceof List<?> values) {
             return new StructuredDocument.ArrayValue(values.stream()
-                    .map(MiniPaintDexServiceTest::documentValue).toList());
+                    .map(ApplicationServicesTest::documentValue).toList());
         }
         if (value instanceof Number number) return new StructuredDocument.NumberValue(number);
         if (value instanceof Boolean bool) return new StructuredDocument.BooleanValue(bool);
@@ -336,17 +355,25 @@ class MiniPaintDexServiceTest {
         }
         @Override public Optional<EventPublication> publication(String publicationId) { return Optional.ofNullable(publications.get(publicationId)); }
         @Override public EventPublication await(String publicationId, Duration timeout) { return publications.get(publicationId); }
-        @Override public EventBusState state() { return new EventBusState(true, true, 0); }
+        @Override public EventBusState state() { return new EventBusState(true, true, 0, 0); }
         @Override public InitializationReport initialize() { return new InitializationReport(status(), snapshot.marketPaints().size(), snapshot.paintableProducts().size(), snapshot.events().size()); }
         @Override public RefreshResult refreshIfChanged() { return new RefreshResult(false, status()); }
         @Override public PersistenceStatus status() { return new PersistenceStatus("ready", "test", 1, "fixture", AT, AT, AT, null); }
         @Override public void replaceMarketPaints(List<StructuredDocument> paints) { replaced = List.copyOf(paints); }
+        @Override public void replaceMarketPaintsAndWorkshopInventory(
+                List<StructuredDocument> paints,
+                List<StructuredDocument> inventory,
+                WorkshopPaintInventoryWriter inventoryWriter) {
+            replaced = List.copyOf(paints);
+            this.inventory = List.copyOf(inventory);
+        }
         @Override public void replaceWorkshopPaints(List<StructuredDocument> paints) { inventory = List.copyOf(paints); }
         @Override public void replaceProduct(
                 String productId, StructuredDocument product, List<StructuredDocument> guides) { }
         @Override public StoredMedia store(String itemId, String mediaId, String filename, String contentType, byte[] content) {
             mediaStored++;
-            return new StoredMedia(mediaId, "/media/" + mediaId, "workshop/" + mediaId, filename, contentType, content.length, "hash");
+            return new StoredMedia(mediaId, "/media/" + mediaId, "workshop/" + mediaId, filename, contentType,
+                    content.length, "0".repeat(64));
         }
         @Override public void delete(StoredMedia media) { }
     }

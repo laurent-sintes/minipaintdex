@@ -4,5 +4,6 @@ public enum EventPublicationStatus {
     PENDING,
     PROCESSING,
     COMPLETED,
-    FAILED
+    FAILED,
+    DEAD_LETTER
 }

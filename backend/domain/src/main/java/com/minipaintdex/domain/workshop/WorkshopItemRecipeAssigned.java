@@ -6,9 +6,9 @@ public record WorkshopItemRecipeAssigned(
         String workshopItemId, String paintingProjectId, String recipeId,
         int recipeVersion, Instant occurredAt) implements WorkshopItemEvent {
     public WorkshopItemRecipeAssigned {
-        workshopItemId = DomainFields.required(workshopItemId, "workshopItemId");
-        paintingProjectId = DomainFields.required(paintingProjectId, "paintingProjectId");
-        recipeId = DomainFields.required(recipeId, "recipeId");
+        workshopItemId = DomainFields.id(workshopItemId, "workshopItemId");
+        paintingProjectId = DomainFields.id(paintingProjectId, "paintingProjectId");
+        recipeId = DomainFields.id(recipeId, "recipeId");
         if (recipeVersion < 1) throw DomainFields.invalid("recipeVersion must be positive.");
         occurredAt = DomainFields.required(occurredAt, "occurredAt");
     }

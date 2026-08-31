@@ -1,6 +1,5 @@
 package com.minipaintdex.application;
 
-import com.minipaintdex.application.document.StructuredDocument;
 import com.minipaintdex.application.port.SnapshotRepository;
 import com.minipaintdex.application.query.PageQuery;
 import com.minipaintdex.application.query.SearchMarketPaintsQuery;
@@ -11,6 +10,7 @@ import com.minipaintdex.application.view.MarketPaintView;
 import com.minipaintdex.application.view.PaintFacetValue;
 import com.minipaintdex.application.view.PaintFacetsView;
 import com.minipaintdex.application.view.WorkshopPaintView;
+import com.minipaintdex.application.validation.StructuredDocuments;
 import com.minipaintdex.domain.shared.DomainException;
 
 import java.util.Comparator;
@@ -71,11 +71,12 @@ final class WorkshopPaintQueryService {
 
     private Map<String, Integer> quantities() {
         return snapshots.load().paintInventory().stream()
-                .map(WorkshopPaintQueryService::documentMap)
+                .map(StructuredDocuments::toMap)
                 .collect(Collectors.toMap(
-                        entry -> text(entry.get("paint_id")),
-                        entry -> number(entry.get("quantity")),
-                        Integer::sum,
+                        entry -> StructuredDocuments.text(entry.get("paint_id")),
+                        entry -> StructuredDocuments.integer(entry.get("quantity"), "paint_inventory.quantity"),
+                        (left, right) -> { throw new DomainException(
+                                "invalid_input", "Duplicate workshop paint inventory entry."); },
                         LinkedHashMap::new));
     }
 
@@ -116,28 +117,5 @@ final class WorkshopPaintQueryService {
         };
     }
 
-    private static Map<String, Object> documentMap(StructuredDocument document) {
-        var result = new LinkedHashMap<String, Object>();
-        document.fields().forEach(field -> result.put(field.name(), documentValue(field.value())));
-        return result;
-    }
-
-    private static Object documentValue(StructuredDocument.Value value) {
-        return switch (value) {
-            case StructuredDocument.Text text -> text.value();
-            case StructuredDocument.NumberValue number -> number.value();
-            case StructuredDocument.BooleanValue bool -> bool.value();
-            case StructuredDocument.NullValue ignored -> null;
-            case StructuredDocument.ArrayValue array -> array.values().stream()
-                    .map(WorkshopPaintQueryService::documentValue).toList();
-            case StructuredDocument.ObjectValue object -> documentMap(object.value());
-        };
-    }
-
     private static boolean present(String value) { return value != null && !value.isBlank(); }
-    private static String text(Object value) { return value == null ? "" : String.valueOf(value); }
-    private static int number(Object value) {
-        if (value instanceof Number number) return number.intValue();
-        try { return Integer.parseInt(text(value)); } catch (NumberFormatException ignored) { return 0; }
-    }
 }

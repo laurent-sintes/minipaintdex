@@ -37,8 +37,8 @@ class FileMiniPaintDexRepositoryTest {
         assertEquals(1, snapshot.marketPaints().size());
         assertEquals(1, snapshot.paintableProducts().size());
         assertEquals(1, snapshot.marketPaintingGuides().size());
-        assertEquals(1, snapshot.events().size());
-        assertEquals("workshop_item.added", snapshot.events().getFirst().eventType());
+        assertEquals(5, snapshot.events().size());
+        assertEquals("workshop.created", snapshot.events().getFirst().eventType());
     }
 
     @Test
@@ -62,7 +62,7 @@ class FileMiniPaintDexRepositoryTest {
         repository.initialize();
 
         repository.replaceMarketPaints(List.of(document(Map.of(
-                "id", "new-paint",
+                "id", "paint",
                 "brand", "Brand",
                 "manufacturer", "Maker",
                 "range", "Range",
@@ -70,7 +70,7 @@ class FileMiniPaintDexRepositoryTest {
                 "name", "New Paint"))));
 
         var snapshot = repository.load();
-        assertEquals("new-paint", text(snapshot.marketPaints().getFirst(), "id"));
+        assertEquals("New Paint", text(snapshot.marketPaints().getFirst(), "name"));
         assertTrue(Files.readString(root.resolve("data/market/paints/catalog.yaml")).contains("schema_version: 1"));
     }
 
@@ -92,7 +92,7 @@ class FileMiniPaintDexRepositoryTest {
                 new WorkshopItemCommentAdded("ws-1", "paint-game", "Note", now)));
 
         assertEquals(event.eventId(), duplicate.eventId());
-        assertEquals(2, repository.load().events().size());
+        assertEquals(6, repository.load().events().size());
     }
 
     @Test
@@ -107,7 +107,7 @@ class FileMiniPaintDexRepositoryTest {
                 new WorkshopItemCommentAdded("ws-1", "paint-game", "Note", now));
 
         assertThrows(FileStorageException.class, () -> repository.append(stale));
-        assertEquals(1, repository.load().events().size());
+        assertEquals(5, repository.load().events().size());
     }
 
     @Test
@@ -130,7 +130,7 @@ class FileMiniPaintDexRepositoryTest {
         write("data/market/paints/catalog.yaml", """
                 schema_version: 1
                 paints:
-                  - id: refreshed-paint
+                  - id: paint
                     brand: Brand
                     manufacturer: Maker
                     range: Range
@@ -143,7 +143,7 @@ class FileMiniPaintDexRepositoryTest {
 
         assertTrue(refresh.changed());
         assertEquals("ready", refresh.status().state());
-        assertEquals("refreshed-paint", text(repository.load().marketPaints().getFirst(), "id"));
+        assertEquals("Refreshed Paint", text(repository.load().marketPaints().getFirst(), "name"));
     }
 
     @Test
@@ -202,10 +202,23 @@ class FileMiniPaintDexRepositoryTest {
                 schema_version: 1
                 painting_guides:
                   - id: game-hero-guide
+                    version: 1
+                    knowledge_status: documented
                     catalog_item_id: game-hero
+                    sources:
+                      - kind: test_fixture
+                        label: Repository fixture
+                    slots:
+                      - id: base-color
+                        role: Base color
+                        market_paint_id: paint
                 """);
         write("data/ledger/events/2026-08.jsonl", """
-                {"event_id":"01KTESTEVENT00000000000000","schema_version":1,"event_type":"workshop_item.added","occurred_at":"2026-08-30T10:00:00Z","recorded_at":"2026-08-30T10:00:00Z","aggregate_type":"workshop_item","aggregate_id":"ws-1","project_id":"paint-game","actor":{"type":"user","id":"owner"},"correlation_id":"correlation","payload":{"catalog_item_id":"game-hero","painting_project_id":"paint-game","display_name":"Hero"}}
+                {"event_id":"01KTESTWORKSHOP00000000000","schema_version":1,"aggregate_version":1,"event_type":"workshop.created","occurred_at":"2026-08-30T09:56:00Z","recorded_at":"2026-08-30T09:56:00Z","aggregate_type":"workshop","aggregate_id":"my-workshop","actor":{"type":"user","id":"owner"},"correlation_id":"correlation","idempotency_key":"workshop","payload":{"name":"My workshop"}}
+                {"event_id":"01KTESTPROJECT000000000001","schema_version":1,"aggregate_version":1,"event_type":"painting_project.created","occurred_at":"2026-08-30T09:57:00Z","recorded_at":"2026-08-30T09:57:00Z","aggregate_type":"painting_project","aggregate_id":"paint-game","project_id":"paint-game","actor":{"type":"user","id":"owner"},"correlation_id":"correlation","idempotency_key":"project","payload":{"workshop_id":"my-workshop","paintable_product_id":"game","name":"Paint Game","paintable_item_count":1}}
+                {"event_id":"01KTESTPROJECT000000000002","schema_version":1,"aggregate_version":2,"event_type":"painting_project.status_changed","occurred_at":"2026-08-30T09:58:00Z","recorded_at":"2026-08-30T09:58:00Z","aggregate_type":"painting_project","aggregate_id":"paint-game","project_id":"paint-game","actor":{"type":"user","id":"owner"},"correlation_id":"correlation","idempotency_key":"project-active","payload":{"status":"active"}}
+                {"event_id":"01KTESTREGISTER00000000001","schema_version":1,"aggregate_version":2,"event_type":"workshop.painting_project_registered","occurred_at":"2026-08-30T09:59:00Z","recorded_at":"2026-08-30T09:59:00Z","aggregate_type":"workshop","aggregate_id":"my-workshop","actor":{"type":"user","id":"owner"},"correlation_id":"correlation","idempotency_key":"register","payload":{"painting_project_id":"paint-game"}}
+                {"event_id":"01KTESTEVENT00000000000000","schema_version":1,"aggregate_version":1,"event_type":"workshop_item.added","occurred_at":"2026-08-30T10:00:00Z","recorded_at":"2026-08-30T10:00:00Z","aggregate_type":"workshop_item","aggregate_id":"ws-1","project_id":"paint-game","actor":{"type":"user","id":"owner"},"correlation_id":"correlation","payload":{"catalog_item_id":"game-hero","painting_project_id":"paint-game","display_name":"Hero","ordinal":1}}
                 """);
     }
 

@@ -238,9 +238,11 @@ When the REST server is running, mutation commands from the CLI should use it so
 
 The application layer is the single transport-independent pivot for REST and CLI, but it must not become one universal service class. Define cohesive input-port interfaces by bounded context and capability, with one typed command or query and one typed result per use case. REST controllers and Picocli commands depend on those input ports, never on a concrete all-purpose facade. An optional facade may compose use cases for bootstrap purposes, but it must not own business rules or untyped presentation mapping.
 
-The concrete Spring topology exposes four cohesive application services: `SiteApplicationService`, `MarketCatalogApplicationService`, `WorkshopApplicationService` and `AdministrationApplicationService`. REST controllers inject only the port they serve; Picocli subcommands select the same capability-specific ports. The shared coordination kernel is not an input port and must never be injected into REST or CLI. When a rule becomes local to one capability, move it from the coordination kernel into that application service instead of growing the kernel.
+The concrete Spring topology exposes four cohesive application services: `SiteApplicationService`, `MarketCatalogApplicationService`, `WorkshopApplicationService` and `AdministrationApplicationService`. REST controllers inject only the port they serve; Picocli subcommands select the same capability-specific ports. `WorkshopCommandService` and `WorkshopQueryService` are separate internal collaborators, never input ports and never injected into REST or CLI. The query side builds read models and cannot depend on `EventBus` or mutation writers; the command side loads aggregates and publishes their decisions. Site and administration logic must not flow through either collaborator.
 
 Use interfaces where they express an architectural boundary, substitutable policy, input port or output port. Do not create one-to-one interfaces for every concrete class. Every public port interface must have Javadoc that specifies observable behavior, validation, ordering, idempotency, concurrency, consistency, failure and resource-lifetime guarantees. Implementation Javadoc and comments are reserved for non-obvious hotspots such as locking, atomic replacement, asynchronous shutdown, cache publication, retries, back-pressure or recovery; do not paraphrase straightforward code.
+
+Each architectural Java package has a concise `package-info.java` describing its responsibility and dependency direction. Keep those files conceptual and stable; put behavior contracts on public interfaces, and reserve implementation comments for hotspots rather than duplicating code line by line.
 
 Application contracts use domain types or dedicated immutable Java records. Do not expose `Map<String, Object>`, filesystem documents, Spring types, Jackson nodes or transport response objects across application boundaries. Export formatting, HAL links, HTTP errors, CLI rendering and YAML/JSON serialization belong to adapters.
 
@@ -492,7 +494,7 @@ shopping_item.status_changed
 milestone.reached
 ```
 
-Events are immutable. Never edit or delete an existing event to correct history. Append a compensating or corrective domain event instead. Media files are not embedded in the ledger; photo events reference a stable media ID and server-managed location plus metadata such as stage, timestamp, caption, provenance, and hash when useful.
+Within a released data contract, events are immutable: never edit or delete an event to correct history; append a compensating or corrective domain event instead. Before the first release, local ledger history and publication files are disposable development data. A refactor may reset them completely instead of adding migrations or compatibility code, provided the reset is explicit and the resulting seed data passes the current model. Media files are not embedded in the ledger; photo events reference a stable media ID and server-managed location plus metadata such as stage, timestamp, caption, provenance, and hash when useful.
 
 ## Projections and activity board
 

@@ -154,7 +154,8 @@ public final class MiniPaintDexCli implements Runnable {
                 "storage", storage.storage(),
                 "persistenceState", storage.state(),
                 "eventPipelineRunning", events.running(),
-                "recoverablePublications", events.recoverablePublications());
+                "recoverablePublications", events.recoverablePublications(),
+                "deadLetterPublications", events.deadLetterPublications());
     }
 
     private static Map<String, Object> defaultProperties(String[] args) {

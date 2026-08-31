@@ -35,7 +35,7 @@ public final class WorkshopRecipe extends EventSourcedAggregateRoot {
 
     public static WorkshopRecipe rehydrate(List<? extends WorkshopRecipeEvent> history) {
         var recipe = new WorkshopRecipe();
-        history.forEach(recipe::replay);
+        recipe.replayHistory(history, WorkshopRecipeCreated.class, "workshop_recipe");
         return recipe;
     }
 
@@ -76,13 +76,23 @@ public final class WorkshopRecipe extends EventSourcedAggregateRoot {
                 solutions = created.solutions();
                 updatedAt = created.occurredAt();
             }
-            case WorkshopRecipeValidated validated -> updateStatus(WorkshopRecipeStatus.VALIDATED, validated.occurredAt());
-            case WorkshopRecipeActivated activated -> updateStatus(WorkshopRecipeStatus.ACTIVE, activated.occurredAt());
+            case WorkshopRecipeValidated validated -> {
+                requireStatus(WorkshopRecipeStatus.DRAFT, "validate");
+                updateStatus(WorkshopRecipeStatus.VALIDATED, validated.occurredAt());
+            }
+            case WorkshopRecipeActivated activated -> {
+                requireStatus(WorkshopRecipeStatus.VALIDATED, "activate");
+                updateStatus(WorkshopRecipeStatus.ACTIVE, activated.occurredAt());
+            }
             case WorkshopRecipeSuperseded superseded -> {
+                requireStatus(WorkshopRecipeStatus.ACTIVE, "supersede");
                 successorRecipeId = superseded.successorRecipeId();
                 updateStatus(WorkshopRecipeStatus.SUPERSEDED, superseded.occurredAt());
             }
-            case WorkshopRecipeArchived archived -> updateStatus(WorkshopRecipeStatus.ARCHIVED, archived.occurredAt());
+            case WorkshopRecipeArchived archived -> {
+                if (status == WorkshopRecipeStatus.ARCHIVED) throw invalidTransition("archive");
+                updateStatus(WorkshopRecipeStatus.ARCHIVED, archived.occurredAt());
+            }
             default -> throw new DomainException("invalid_workshop_recipe_event",
                     "Unsupported workshop recipe event: " + event.eventType());
         }

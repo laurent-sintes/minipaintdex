@@ -14,7 +14,7 @@ public final class ShoppingItem extends EventSourcedAggregateRoot {
     private Instant updatedAt;
 
     private ShoppingItem(String id, boolean checked) {
-        this.id = DomainFields.required(id, "shoppingItemId");
+        this.id = DomainFields.id(id, "shoppingItemId");
         this.checked = checked;
     }
 

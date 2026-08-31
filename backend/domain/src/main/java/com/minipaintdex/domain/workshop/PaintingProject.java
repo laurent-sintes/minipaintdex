@@ -31,22 +31,12 @@ public final class PaintingProject extends EventSourcedAggregateRoot {
 
     public static PaintingProject rehydrate(List<? extends PaintingProjectEvent> history) {
         var project = new PaintingProject();
-        history.forEach(project::replay);
+        project.replayHistory(history, PaintingProjectCreated.class, "painting_project");
         return project;
     }
 
     public void changeStatus(PaintingProjectStatus target, Instant occurredAt) {
         if (target == status) return;
-        var allowed = switch (status) {
-            case PLANNED -> target == PaintingProjectStatus.ACTIVE || target == PaintingProjectStatus.ARCHIVED;
-            case ACTIVE -> target == PaintingProjectStatus.COMPLETED || target == PaintingProjectStatus.ARCHIVED;
-            case COMPLETED -> target == PaintingProjectStatus.ACTIVE || target == PaintingProjectStatus.ARCHIVED;
-            case ARCHIVED -> false;
-        };
-        if (!allowed) {
-            throw new DomainException("invalid_painting_project_transition",
-                    "Cannot change painting project from " + status.id() + " to " + target.id() + ".");
-        }
         raise(new PaintingProjectStatusChanged(id, target, occurredAt));
     }
 
@@ -64,11 +54,26 @@ public final class PaintingProject extends EventSourcedAggregateRoot {
                 updatedAt = created.occurredAt();
             }
             case PaintingProjectStatusChanged changed -> {
+                assertStatusTransition(changed.status());
                 status = changed.status();
                 updatedAt = changed.occurredAt();
             }
             default -> throw new DomainException("invalid_painting_project_event",
                     "Unsupported painting project event: " + event.eventType());
+        }
+    }
+
+    private void assertStatusTransition(PaintingProjectStatus target) {
+        if (target == null) throw new DomainException("invalid_painting_project_transition", "Target status is required.");
+        var allowed = switch (status) {
+            case PLANNED -> target == PaintingProjectStatus.ACTIVE || target == PaintingProjectStatus.ARCHIVED;
+            case ACTIVE -> target == PaintingProjectStatus.COMPLETED || target == PaintingProjectStatus.ARCHIVED;
+            case COMPLETED -> target == PaintingProjectStatus.ACTIVE || target == PaintingProjectStatus.ARCHIVED;
+            case ARCHIVED -> false;
+        };
+        if (!allowed) {
+            throw new DomainException("invalid_painting_project_transition",
+                    "Cannot change painting project from " + status.id() + " to " + target.id() + ".");
         }
     }
 

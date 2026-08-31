@@ -9,12 +9,9 @@ public interface MarketPaintCatalogWriter {
     /** Replaces the validated catalog as one persistence generation or leaves the old generation intact. */
     void replaceMarketPaints(List<StructuredDocument> paints);
 
-    /** Replaces catalog and inventory together when the adapter supports an atomic multi-document batch. */
-    default void replaceMarketPaintsAndWorkshopInventory(
+    /** Replaces catalog and inventory as one atomic persistence generation or leaves both unchanged. */
+    void replaceMarketPaintsAndWorkshopInventory(
             List<StructuredDocument> paints,
             List<StructuredDocument> inventory,
-            WorkshopPaintInventoryWriter inventoryWriter) {
-        replaceMarketPaints(paints);
-        inventoryWriter.replaceWorkshopPaints(inventory);
-    }
+            WorkshopPaintInventoryWriter inventoryWriter);
 }

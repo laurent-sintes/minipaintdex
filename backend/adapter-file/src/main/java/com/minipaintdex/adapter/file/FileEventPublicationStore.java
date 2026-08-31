@@ -22,29 +22,33 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /** File-backed durable publication state using one atomically replaced JSON document per batch. */
 public final class FileEventPublicationStore implements EventPublicationStore {
     private static final TypeReference<Map<String, Object>> MAP_TYPE = new TypeReference<>() {};
+    private static final java.util.concurrent.ConcurrentMap<Path, Object> JVM_LOCKS =
+            new java.util.concurrent.ConcurrentHashMap<>();
 
     private final Path directory;
     private final JsonMapper json = JsonMapper.builder().build();
     private final DomainEventCodec eventCodec = new DomainEventCodec();
-    private final Object mutex = new Object();
+    private final Object mutex;
 
     public FileEventPublicationStore(Path directory) {
         this.directory = directory.toAbsolutePath().normalize();
+        this.mutex = JVM_LOCKS.computeIfAbsent(this.directory, ignored -> new Object());
     }
 
     @Override
     public EventPublication savePending(EventBatch batch) {
-        synchronized (mutex) {
-            var existing = find(batch.batchId());
+        return withStorageLock(() -> {
+            var existing = findUnlocked(batch.batchId());
             if (existing.isPresent()) return existing.get();
             var now = batch.acceptedAt();
             return write(new EventPublication(
                     batch.batchId(), EventPublicationStatus.PENDING, batch, now, now, 0, null));
-        }
+        });
     }
 
     @Override
@@ -63,21 +67,18 @@ public final class FileEventPublicationStore implements EventPublicationStore {
     }
 
     @Override
+    public EventPublication markDeadLetter(String publicationId, Instant at, String failure) {
+        return transition(publicationId, EventPublicationStatus.DEAD_LETTER, at, failure, false);
+    }
+
+    @Override
     public Optional<EventPublication> find(String publicationId) {
-        synchronized (mutex) {
-            var path = path(publicationId);
-            if (!Files.isRegularFile(path)) return Optional.empty();
-            try {
-                return Optional.of(decode(json.readValue(Files.readString(path, StandardCharsets.UTF_8), MAP_TYPE)));
-            } catch (IOException | RuntimeException exception) {
-                throw new FileStorageException("Unable to read event publication " + path, exception);
-            }
-        }
+        return withStorageLock(() -> findUnlocked(publicationId));
     }
 
     @Override
     public List<EventPublication> recoverable() {
-        synchronized (mutex) {
+        return withStorageLock(() -> {
             if (!Files.isDirectory(directory)) return List.of();
             try (var paths = Files.list(directory)) {
                 var result = new ArrayList<EventPublication>();
@@ -85,23 +86,73 @@ public final class FileEventPublicationStore implements EventPublicationStore {
                         .filter(candidate -> candidate.getFileName().toString().endsWith(".json"))
                         .sorted().toList()) {
                     var publication = decode(json.readValue(Files.readString(path, StandardCharsets.UTF_8), MAP_TYPE));
-                    if (publication.status() != EventPublicationStatus.COMPLETED) result.add(publication);
+                    if (publication.status() != EventPublicationStatus.COMPLETED
+                            && publication.status() != EventPublicationStatus.DEAD_LETTER) {
+                        result.add(publication);
+                    }
                 }
                 return List.copyOf(result);
             } catch (IOException | RuntimeException exception) {
                 throw new FileStorageException("Unable to list event publications " + directory, exception);
             }
-        }
+        });
+    }
+
+    @Override
+    public List<EventPublication> deadLetters() {
+        return withStorageLock(() -> {
+            if (!Files.isDirectory(directory)) return List.of();
+            try (var paths = Files.list(directory)) {
+                var result = new ArrayList<EventPublication>();
+                for (var path : paths.filter(Files::isRegularFile)
+                        .filter(candidate -> candidate.getFileName().toString().endsWith(".json"))
+                        .sorted().toList()) {
+                    var publication = decode(json.readValue(Files.readString(path, StandardCharsets.UTF_8), MAP_TYPE));
+                    if (publication.status() == EventPublicationStatus.DEAD_LETTER) result.add(publication);
+                }
+                return List.copyOf(result);
+            } catch (IOException | RuntimeException exception) {
+                throw new FileStorageException("Unable to list dead-letter publications " + directory, exception);
+            }
+        });
     }
 
     private EventPublication transition(
             String publicationId, EventPublicationStatus status, Instant at, String failure, boolean incrementAttempt) {
-        synchronized (mutex) {
-            var current = find(publicationId).orElseThrow(() ->
+        return withStorageLock(() -> {
+            var current = findUnlocked(publicationId).orElseThrow(() ->
                     new FileStorageException("Unknown event publication: " + publicationId, null));
+            assertTransition(current.status(), status);
             return write(new EventPublication(
                     current.publicationId(), status, current.batch(), current.createdAt(), at,
                     current.attempts() + (incrementAttempt ? 1 : 0), failure));
+        });
+    }
+
+    private Optional<EventPublication> findUnlocked(String publicationId) {
+        var publicationPath = path(publicationId);
+        if (!Files.isRegularFile(publicationPath)) return Optional.empty();
+        try {
+            return Optional.of(decode(json.readValue(
+                    Files.readString(publicationPath, StandardCharsets.UTF_8), MAP_TYPE)));
+        } catch (IOException | RuntimeException exception) {
+            throw new FileStorageException("Unable to read event publication " + publicationPath, exception);
+        }
+    }
+
+    private <T> T withStorageLock(Supplier<T> operation) {
+        synchronized (mutex) {
+            try {
+                Files.createDirectories(directory);
+                var lockPath = directory.resolve(".publications.lock");
+                try (var channel = FileChannel.open(
+                        lockPath, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+                     var ignored = channel.lock()) {
+                    return operation.get();
+                }
+            } catch (IOException exception) {
+                throw new FileStorageException("Unable to lock event publications " + directory, exception);
+            }
         }
     }
 
@@ -114,7 +165,7 @@ public final class FileEventPublicationStore implements EventPublicationStore {
                 var bytes = json.writeValueAsString(encode(publication)).getBytes(StandardCharsets.UTF_8);
                 try (var channel = FileChannel.open(
                         temporary, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING)) {
-                    channel.write(ByteBuffer.wrap(bytes));
+                    writeFully(channel, ByteBuffer.wrap(bytes));
                     channel.force(true);
                 }
                 try {
@@ -173,6 +224,24 @@ public final class FileEventPublicationStore implements EventPublicationStore {
         return directory.resolve(publicationId + ".json");
     }
 
+    private static void assertTransition(EventPublicationStatus current, EventPublicationStatus target) {
+        var allowed = switch (target) {
+            case PROCESSING -> current == EventPublicationStatus.PENDING
+                    || current == EventPublicationStatus.PROCESSING
+                    || current == EventPublicationStatus.FAILED;
+            case COMPLETED, FAILED, DEAD_LETTER -> current == EventPublicationStatus.PROCESSING;
+            case PENDING -> false;
+        };
+        if (!allowed) {
+            throw new FileStorageException(
+                    "Invalid event publication transition from " + current + " to " + target + ".", null);
+        }
+    }
+
+    private static void writeFully(FileChannel channel, ByteBuffer buffer) throws IOException {
+        while (buffer.hasRemaining()) channel.write(buffer);
+    }
+
     @SuppressWarnings("unchecked")
     private static Map<String, Object> map(Object value) {
         return value instanceof Map<?, ?> source ? (Map<String, Object>) source : Map.of();
@@ -187,6 +256,10 @@ public final class FileEventPublicationStore implements EventPublicationStore {
     private static String nullable(Object value) { var result = text(value); return result.isBlank() ? null : result; }
     private static int number(Object value) {
         if (value instanceof Number number) return number.intValue();
-        try { return Integer.parseInt(text(value)); } catch (NumberFormatException ignored) { return 0; }
+        try {
+            return Integer.parseInt(text(value));
+        } catch (NumberFormatException exception) {
+            throw new FileStorageException("Expected an integer publication field.", exception);
+        }
     }
 }

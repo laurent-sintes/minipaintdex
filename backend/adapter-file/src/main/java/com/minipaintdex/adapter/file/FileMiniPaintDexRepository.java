@@ -8,6 +8,7 @@ import com.minipaintdex.application.port.PaintableProductCatalogWriter;
 import com.minipaintdex.application.port.PersistenceLifecycle;
 import com.minipaintdex.application.port.SnapshotRepository;
 import com.minipaintdex.application.port.WorkshopPaintInventoryWriter;
+import com.minipaintdex.application.validation.DataSnapshotValidator;
 import com.minipaintdex.application.port.WorkshopMediaStorage;
 import com.minipaintdex.domain.event.EventEnvelope;
 import com.minipaintdex.domain.market.product.PaintableProduct;
@@ -171,7 +172,8 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
                 for (var event : events) output.append(json.writeValueAsString(eventCodec.encode(event))).append(System.lineSeparator());
                 var bytes = output.toString().getBytes(StandardCharsets.UTF_8);
                 try (var channel = FileChannel.open(path, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND)) {
-                    channel.write(ByteBuffer.wrap(bytes));
+                    var buffer = ByteBuffer.wrap(bytes);
+                    while (buffer.hasRemaining()) channel.write(buffer);
                     channel.force(true);
                 }
                 var updatedEvents = new ArrayList<>(existing);
@@ -485,29 +487,10 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
     }
 
     private void validateSnapshot(DataSnapshot snapshot) {
-        var marketIds = new HashSet<String>();
-        for (var paintDocument : snapshot.marketPaints()) {
-            var paint = documentMap(paintDocument);
-            var id = text(paint.get("id"));
-            if (id.isBlank()) throw new FileStorageException("Market paint id is required.", null);
-            if (!marketIds.add(id)) throw new FileStorageException("Duplicate market paint id: " + id, null);
-            for (var field : List.of("brand", "manufacturer", "range", "functional_type", "name")) {
-                if (text(paint.get(field)).isBlank()) {
-                    throw new FileStorageException("Market paint " + id + " is missing " + field + ".", null);
-                }
-            }
-        }
-        var ownedIds = new HashSet<String>();
-        for (var inventoryDocument : snapshot.paintInventory()) {
-            var entry = documentMap(inventoryDocument);
-            var id = text(entry.get("paint_id"));
-            if (!marketIds.contains(id)) {
-                throw new FileStorageException("Workshop inventory references unknown market paint: " + id, null);
-            }
-            if (!ownedIds.add(id)) throw new FileStorageException("Duplicate workshop paint: " + id, null);
-            if (number(entry.get("quantity")) < 0) {
-                throw new FileStorageException("Workshop paint quantity cannot be negative: " + id, null);
-            }
+        try {
+            DataSnapshotValidator.validate(snapshot);
+        } catch (com.minipaintdex.domain.shared.DomainException invalidSnapshot) {
+            throw new FileStorageException("Invalid data snapshot: " + invalidSnapshot.getMessage(), invalidSnapshot);
         }
     }
 

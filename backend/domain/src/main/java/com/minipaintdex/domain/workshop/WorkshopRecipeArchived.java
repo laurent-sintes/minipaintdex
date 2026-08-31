@@ -6,8 +6,8 @@ public record WorkshopRecipeArchived(
         String recipeId, String paintingProjectId, String reason,
         Instant occurredAt) implements WorkshopRecipeEvent {
     public WorkshopRecipeArchived {
-        recipeId = DomainFields.required(recipeId, "recipeId");
-        paintingProjectId = DomainFields.required(paintingProjectId, "paintingProjectId");
+        recipeId = DomainFields.id(recipeId, "recipeId");
+        paintingProjectId = DomainFields.id(paintingProjectId, "paintingProjectId");
         reason = DomainFields.optional(reason);
         occurredAt = DomainFields.required(occurredAt, "occurredAt");
     }

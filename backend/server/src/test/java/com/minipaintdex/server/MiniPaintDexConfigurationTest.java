@@ -3,11 +3,16 @@ package com.minipaintdex.server;
 import com.minipaintdex.bootstrap.MiniPaintDexProperties;
 import com.minipaintdex.application.port.PersistenceLifecycle;
 import com.minipaintdex.domain.market.paint.PaintMatchEngine;
+import com.minipaintdex.application.usecase.MarketCatalogUseCases;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
+import jakarta.validation.Validator;
+
+import java.nio.file.Path;
+import java.time.Duration;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -38,6 +43,12 @@ class MiniPaintDexConfigurationTest {
     @Autowired
     MockMvc mvc;
 
+    @Autowired
+    Validator validator;
+
+    @Autowired
+    MarketCatalogUseCases market;
+
     @Test
     void bindsTypedSpringPropertiesIntoInfrastructureAndDomainPolicies() {
         assertEquals(0.55, paintMatchEngine.policy().standard().color());
@@ -67,5 +78,29 @@ class MiniPaintDexConfigurationTest {
                 .andExpect(jsonPath("$.paths['/api/v1/workshop/painting-project-import-previews/{productId}']")
                         .exists())
                 .andExpect(jsonPath("$.paths['/api/v1/workshop/paints']").exists());
+    }
+
+    @Test
+    void rejectsNonPositiveLifecycleDurations() {
+        var storage = new MiniPaintDexProperties.Storage(
+                Path.of("site"), Path.of("paints"), Path.of("inventory"), Path.of("shopping"),
+                Path.of("products"), Path.of("guides"), Path.of("ledger"), Path.of("publications"),
+                Path.of("media"), true, Duration.ZERO);
+        var eventing = new MiniPaintDexProperties.Eventing(
+                1, 1, 1, Duration.ZERO, Duration.ZERO);
+
+        assertTrue(validator.validate(storage).stream().anyMatch(violation ->
+                violation.getPropertyPath().toString().equals("sentinelIntervalPositive")));
+        assertTrue(validator.validate(eventing).stream().anyMatch(violation ->
+                violation.getPropertyPath().toString().equals("shutdownTimeoutPositive")));
+    }
+
+    @Test
+    void validatesTheCanonicalDevelopmentDatasetThroughTheApplicationBoundary() {
+        var product = market.getMarketPaintableProduct("reichbusters-reloaded");
+
+        assertEquals(198, product.expectedPaintableCount());
+        assertEquals(198, product.items().stream().mapToInt(item -> item.quantity()).sum());
+        assertTrue(market.marketPaintFacets().total() > 1_500);
     }
 }

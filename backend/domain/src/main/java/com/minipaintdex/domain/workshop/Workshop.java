@@ -20,6 +20,9 @@ public final class Workshop extends EventSourcedAggregateRoot {
     private Workshop() {}
 
     public static Workshop create(String id, String name, Instant occurredAt) {
+        if (!DEFAULT_ID.equals(id)) {
+            throw new DomainException("invalid_workshop_id", "Workshop id must be " + DEFAULT_ID + ".");
+        }
         var workshop = new Workshop();
         workshop.raise(new WorkshopCreated(id, name, occurredAt));
         return workshop;
@@ -27,15 +30,11 @@ public final class Workshop extends EventSourcedAggregateRoot {
 
     public static Workshop rehydrate(List<? extends WorkshopEvent> history) {
         var workshop = new Workshop();
-        history.forEach(workshop::replay);
+        workshop.replayHistory(history, WorkshopCreated.class, "workshop");
         return workshop;
     }
 
     public void registerPaintingProject(String paintingProjectId, Instant occurredAt) {
-        if (paintingProjectIds.contains(paintingProjectId)) {
-            throw new DomainException("painting_project_already_registered",
-                    "Painting project is already registered in the workshop: " + paintingProjectId);
-        }
         raise(new PaintingProjectRegistered(id, paintingProjectId, occurredAt));
     }
 
@@ -43,11 +42,19 @@ public final class Workshop extends EventSourcedAggregateRoot {
     protected void apply(DomainEvent event) {
         switch (event) {
             case WorkshopCreated created -> {
+                if (!DEFAULT_ID.equals(created.workshopId())) {
+                    throw new DomainException("invalid_workshop_id", "Workshop id must be " + DEFAULT_ID + ".");
+                }
                 id = created.workshopId();
                 name = created.name();
                 updatedAt = created.occurredAt();
             }
             case PaintingProjectRegistered registered -> {
+                if (paintingProjectIds.contains(registered.paintingProjectId())) {
+                    throw new DomainException("painting_project_already_registered",
+                            "Painting project is already registered in the workshop: "
+                                    + registered.paintingProjectId());
+                }
                 paintingProjectIds.add(registered.paintingProjectId());
                 updatedAt = registered.occurredAt();
             }

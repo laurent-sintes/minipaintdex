@@ -4,6 +4,10 @@
   <parent><groupId>com.minipaintdex</groupId><artifactId>minipaintdex-parent</artifactId><version>0.2.0-SNAPSHOT</version><relativePath>../../pom.xml</relativePath></parent>
   <artifactId>minipaintdex-server</artifactId>
   <name>MiniPaintDex REST Server</name>
+  <properties>
+    <jacoco.line.minimum>0.40</jacoco.line.minimum>
+    <jacoco.branch.minimum>0.25</jacoco.branch.minimum>
+  </properties>
   <dependencies>
     <dependency><groupId>com.minipaintdex</groupId><artifactId>minipaintdex-application</artifactId><version>${project.version}</version></dependency>
     <dependency><groupId>com.minipaintdex</groupId><artifactId>minipaintdex-bootstrap</artifactId><version>${project.version}</version></dependency>

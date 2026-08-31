@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.AssertTrue;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
@@ -39,14 +40,29 @@ public record MiniPaintDexProperties(
             @NotNull Path eventPublicationsDirectory,
             @NotNull Path mediaDirectory,
             boolean sentinelEnabled,
-            @NotNull Duration sentinelInterval) {}
+            @NotNull Duration sentinelInterval) {
+        @AssertTrue(message = "minipaintdex.storage.sentinel-interval must be positive")
+        public boolean isSentinelIntervalPositive() {
+            return sentinelInterval != null && !sentinelInterval.isNegative() && !sentinelInterval.isZero();
+        }
+    }
 
     public record Eventing(
             @Min(1) @Max(1) int workerCount,
             @Min(1) int queueCapacity,
             @Min(1) int maxAttempts,
             @NotNull Duration retryDelay,
-            @NotNull Duration shutdownTimeout) {}
+            @NotNull Duration shutdownTimeout) {
+        @AssertTrue(message = "minipaintdex.eventing.retry-delay must not be negative")
+        public boolean isRetryDelayValid() {
+            return retryDelay != null && !retryDelay.isNegative();
+        }
+
+        @AssertTrue(message = "minipaintdex.eventing.shutdown-timeout must be positive")
+        public boolean isShutdownTimeoutPositive() {
+            return shutdownTimeout != null && !shutdownTimeout.isNegative() && !shutdownTimeout.isZero();
+        }
+    }
 
     public record PaintMatching(
             @Min(1) int candidateLimit,
@@ -79,5 +95,16 @@ public record MiniPaintDexProperties(
             @Min(1) int sseReplayCapacity,
             @Min(1) int sseQueueCapacity,
             @NotNull Duration sseConnectionTimeout,
-            @NotNull Duration sseHeartbeat) {}
+            @NotNull Duration sseHeartbeat) {
+        @AssertTrue(message = "minipaintdex.web.sse-connection-timeout must be positive")
+        public boolean isSseConnectionTimeoutPositive() {
+            return sseConnectionTimeout != null
+                    && !sseConnectionTimeout.isNegative() && !sseConnectionTimeout.isZero();
+        }
+
+        @AssertTrue(message = "minipaintdex.web.sse-heartbeat must be positive")
+        public boolean isSseHeartbeatPositive() {
+            return sseHeartbeat != null && !sseHeartbeat.isNegative() && !sseHeartbeat.isZero();
+        }
+    }
 }

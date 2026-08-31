@@ -7,8 +7,8 @@ public record WorkflowStageStarted(
         String workshopItemId, String paintingProjectId, WorkflowStage stage,
         String comment, Instant occurredAt) implements WorkshopItemEvent {
     public WorkflowStageStarted {
-        workshopItemId = DomainFields.required(workshopItemId, "workshopItemId");
-        paintingProjectId = DomainFields.required(paintingProjectId, "paintingProjectId");
+        workshopItemId = DomainFields.id(workshopItemId, "workshopItemId");
+        paintingProjectId = DomainFields.id(paintingProjectId, "paintingProjectId");
         stage = Objects.requireNonNull(stage, "stage is required.");
         comment = DomainFields.optional(comment);
         occurredAt = DomainFields.required(occurredAt, "occurredAt");

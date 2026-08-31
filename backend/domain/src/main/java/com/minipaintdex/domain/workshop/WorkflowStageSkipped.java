@@ -7,8 +7,8 @@ public record WorkflowStageSkipped(
         String workshopItemId, String paintingProjectId, WorkflowStage stage,
         String reason, Instant occurredAt) implements WorkshopItemEvent {
     public WorkflowStageSkipped {
-        workshopItemId = DomainFields.required(workshopItemId, "workshopItemId");
-        paintingProjectId = DomainFields.required(paintingProjectId, "paintingProjectId");
+        workshopItemId = DomainFields.id(workshopItemId, "workshopItemId");
+        paintingProjectId = DomainFields.id(paintingProjectId, "paintingProjectId");
         stage = Objects.requireNonNull(stage, "stage is required.");
         reason = DomainFields.required(reason, "reason");
         occurredAt = DomainFields.required(occurredAt, "occurredAt");

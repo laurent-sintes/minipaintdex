@@ -4,6 +4,10 @@
   <parent><groupId>com.minipaintdex</groupId><artifactId>minipaintdex-parent</artifactId><version>0.2.0-SNAPSHOT</version><relativePath>../../pom.xml</relativePath></parent>
   <artifactId>minipaintdex-domain</artifactId>
   <name>MiniPaintDex Domain</name>
+  <properties>
+    <jacoco.line.minimum>0.70</jacoco.line.minimum>
+    <jacoco.branch.minimum>0.40</jacoco.branch.minimum>
+  </properties>
   <dependencies>
     <dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter</artifactId><scope>test</scope></dependency>
   </dependencies>

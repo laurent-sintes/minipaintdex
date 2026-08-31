@@ -33,12 +33,15 @@
     <picocli.version>4.7.7</picocli.version>
     <springdoc.version>3.1.0</springdoc.version>
     <archunit.version>1.4.1</archunit.version>
+    <jacoco.version>0.8.14</jacoco.version>
     <frontend-maven-plugin.version>2.0.1</frontend-maven-plugin.version>
     <node.version>v24.11.1</node.version>
     <pnpm.version>11.19.0</pnpm.version>
     <frontend.skip>false</frontend.skip>
     <python.executable>python</python.executable>
     <data-tools.skip>false</data-tools.skip>
+    <jacoco.line.minimum>0.00</jacoco.line.minimum>
+    <jacoco.branch.minimum>0.00</jacoco.branch.minimum>
   </properties>
 
   <dependencyManagement>
@@ -71,6 +74,46 @@
       </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <executions>
+          <execution>
+            <id>prepare-code-coverage</id>
+            <goals><goal>prepare-agent</goal></goals>
+          </execution>
+          <execution>
+            <id>report-code-coverage</id>
+            <phase>verify</phase>
+            <goals><goal>report</goal></goals>
+          </execution>
+          <execution>
+            <id>check-code-coverage</id>
+            <phase>verify</phase>
+            <goals><goal>check</goal></goals>
+            <configuration>
+              <rules>
+                <rule>
+                  <element>BUNDLE</element>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>${jacoco.line.minimum}</minimum>
+                    </limit>
+                    <limit>
+                      <counter>BRANCH</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>${jacoco.branch.minimum}</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>

@@ -34,69 +34,72 @@ import java.util.Objects;
 
 /** Cohesive command/query service for workshop aggregates and their ledger projections. */
 public final class WorkshopApplicationService implements WorkshopUseCases {
-    private final MiniPaintDexService kernel;
+    private final WorkshopCommandService commands;
+    private final WorkshopQueryService queries;
     private final WorkshopPaintQueryService paintQueries;
 
     public WorkshopApplicationService(
-            MiniPaintDexService kernel,
+            WorkshopCommandService commands,
+            WorkshopQueryService queries,
             MarketCatalogUseCases market,
             SnapshotRepository snapshots) {
-        this.kernel = Objects.requireNonNull(kernel);
+        this.commands = Objects.requireNonNull(commands);
+        this.queries = Objects.requireNonNull(queries);
         this.paintQueries = new WorkshopPaintQueryService(
                 Objects.requireNonNull(market), Objects.requireNonNull(snapshots));
     }
 
-    @Override public WorkshopOverviewView workshopOverview() { return kernel.workshopOverview(); }
+    @Override public WorkshopOverviewView workshopOverview() { return queries.workshopOverview(); }
     @Override public PageResult<WorkshopPaintView> searchWorkshopPaintPage(
             SearchMarketPaintsQuery filters, boolean manufacturerSheetOnly,
             boolean realResultOnly, PageQuery page) {
         return paintQueries.page(filters, manufacturerSheetOnly, realResultOnly, page);
     }
     @Override public PaintFacetsView workshopPaintFacets() { return paintQueries.facets(); }
-    @Override public List<PaintingProjectView> listPaintingProjects() { return kernel.listPaintingProjects(); }
+    @Override public List<PaintingProjectView> listPaintingProjects() { return queries.listPaintingProjects(); }
     @Override public List<WorkshopItemView> listWorkshopItems(String projectId) {
-        return kernel.listWorkshopItems(projectId);
+        return queries.listWorkshopItems(projectId);
     }
-    @Override public WorkshopItemView.Detail getWorkshopItem(String itemId) { return kernel.getWorkshopItem(itemId); }
+    @Override public WorkshopItemView.Detail getWorkshopItem(String itemId) { return queries.getWorkshopItem(itemId); }
     @Override public ProductImportPreviewView previewProductImport(String productId) {
-        return kernel.previewProductImport(productId);
+        return queries.previewProductImport(productId);
     }
     @Override public GuideReconciliationView reconcileMarketPaintingGuide(String guideId) {
-        return kernel.reconcileMarketPaintingGuide(guideId);
+        return queries.reconcileMarketPaintingGuide(guideId);
     }
     @Override public CreatePaintingProjectResult createPaintingProject(CreatePaintingProjectCommand command) {
-        return kernel.createPaintingProject(command);
+        return commands.createPaintingProject(command);
     }
     @Override public PublicationReceipt transitionPaintingProject(TransitionPaintingProjectCommand command) {
-        return kernel.transitionPaintingProject(command);
+        return commands.transitionPaintingProject(command);
     }
     @Override public PublicationReceipt addWorkshopItem(AddWorkshopItemCommand command) {
-        return kernel.addWorkshopItem(command);
+        return commands.addWorkshopItem(command);
     }
     @Override public PublicationReceipt transitionStage(TransitionStageCommand command) {
-        return kernel.transitionStage(command);
+        return commands.transitionStage(command);
     }
     @Override public PublicationReceipt addWorkshopItemComment(AddWorkshopItemCommentCommand command) {
-        return kernel.addWorkshopItemComment(command);
+        return commands.addWorkshopItemComment(command);
     }
     @Override public PublicationReceipt addWorkshopItemPhoto(AddWorkshopItemPhotoCommand command) {
-        return kernel.addWorkshopItemPhoto(command);
+        return commands.addWorkshopItemPhoto(command);
     }
     @Override public List<WorkshopRecipeView> listWorkshopRecipes(String catalogItemId) {
-        return kernel.listWorkshopRecipes(catalogItemId);
+        return queries.listWorkshopRecipes(catalogItemId);
     }
     @Override public PublicationReceipt createWorkshopRecipe(CreateWorkshopRecipeCommand command) {
-        return kernel.createWorkshopRecipe(command);
+        return commands.createWorkshopRecipe(command);
     }
     @Override public PublicationReceipt transitionWorkshopRecipe(TransitionWorkshopRecipeCommand command) {
-        return kernel.transitionWorkshopRecipe(command);
+        return commands.transitionWorkshopRecipe(command);
     }
     @Override public PublicationReceipt assignWorkshopRecipe(AssignWorkshopRecipeCommand command) {
-        return kernel.assignWorkshopRecipe(command);
+        return commands.assignWorkshopRecipe(command);
     }
-    @Override public List<ShoppingItemView> listShoppingItems() { return kernel.listShoppingItems(); }
+    @Override public List<ShoppingItemView> listShoppingItems() { return queries.listShoppingItems(); }
     @Override public PublicationReceipt setShoppingItemStatus(SetShoppingItemStatusCommand command) {
-        return kernel.setShoppingItemStatus(command);
+        return commands.setShoppingItemStatus(command);
     }
-    @Override public List<EventEnvelope> listActivity(String projectId) { return kernel.listActivity(projectId); }
+    @Override public List<EventEnvelope> listActivity(String projectId) { return queries.listActivity(projectId); }
 }

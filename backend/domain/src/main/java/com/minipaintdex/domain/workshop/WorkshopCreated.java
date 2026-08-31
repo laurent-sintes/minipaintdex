@@ -4,7 +4,7 @@ import java.time.Instant;
 
 public record WorkshopCreated(String workshopId, String name, Instant occurredAt) implements WorkshopEvent {
     public WorkshopCreated {
-        workshopId = DomainFields.required(workshopId, "workshopId");
+        workshopId = DomainFields.id(workshopId, "workshopId");
         name = DomainFields.required(name, "name");
         occurredAt = DomainFields.required(occurredAt, "occurredAt");
     }

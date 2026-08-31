@@ -27,11 +27,13 @@ class MiniPaintDexHealthConfiguration {
     HealthIndicator eventPipelineHealth(EventBus eventBus) {
         return () -> {
             var state = eventBus.state();
-            var builder = state.running() && state.accepting() ? Health.up() : Health.outOfService();
+            var builder = state.running() && state.accepting() && state.deadLetterPublications() == 0
+                    ? Health.up() : Health.outOfService();
             return builder
                     .withDetail("running", state.running())
                     .withDetail("accepting", state.accepting())
                     .withDetail("recoverablePublications", state.recoverablePublications())
+                    .withDetail("deadLetterPublications", state.deadLetterPublications())
                     .build();
         };
     }

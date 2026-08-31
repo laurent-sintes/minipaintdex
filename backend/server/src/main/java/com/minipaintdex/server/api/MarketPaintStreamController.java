@@ -26,11 +26,20 @@ final class MarketPaintStreamController {
     StreamingResponseBody stream(
             @RequestParam(required = false) String query,
             @RequestParam(required = false) String brand,
+            @RequestParam(required = false) String range,
             @RequestParam(required = false) String type,
-            @RequestParam(required = false) String color) {
+            @RequestParam(required = false) String color,
+            @RequestParam(required = false) String finish,
+            @RequestParam(required = false) String medium,
+            @RequestParam(required = false) String opacity,
+            @RequestParam(required = false) String volume,
+            @RequestParam(required = false) String reference,
+            @RequestParam(required = false) String lifecycle,
+            @RequestParam(required = false) String manufacturer,
+            @RequestParam(required = false) String tag) {
         var filters = new SearchMarketPaintsQuery(
-                query, brand, null, type, color, null, null, null,
-                null, null, null, null, null);
+                query, brand, range, type, color, finish, medium, opacity,
+                volume, reference, lifecycle, manufacturer, tag);
         return output -> {
             try (var paints = service.streamMarketPaints(filters)) {
                 var iterator = paints.iterator();

@@ -5,11 +5,12 @@ import com.minipaintdex.domain.event.EventEnvelope;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public final class WorkshopProjector {
     private WorkshopProjector() {}
 
-    public static Workshop project(List<? extends DomainEvent> events) {
+    public static Optional<Workshop> project(List<? extends DomainEvent> events) {
         var history = new ArrayList<WorkshopEvent>();
         for (var candidate : events) {
             var event = candidate instanceof EventEnvelope envelope ? envelope.event() : candidate;
@@ -18,6 +19,6 @@ public final class WorkshopProjector {
                 history.add(workshopEvent);
             }
         }
-        return Workshop.rehydrate(history);
+        return history.isEmpty() ? Optional.empty() : Optional.of(Workshop.rehydrate(history));
     }
 }

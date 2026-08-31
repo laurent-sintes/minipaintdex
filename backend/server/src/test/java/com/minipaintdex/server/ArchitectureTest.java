@@ -8,8 +8,10 @@ import com.tngtech.archunit.lang.ArchCondition;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.lang.ConditionEvents;
 import com.tngtech.archunit.lang.SimpleConditionEvent;
+import com.minipaintdex.domain.event.DomainEvent;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 @AnalyzeClasses(packages = "com.minipaintdex", importOptions = ImportOption.DoNotIncludeTests.class)
 class ArchitectureTest {
@@ -27,7 +29,7 @@ class ArchitectureTest {
     @ArchTest
     static final ArchRule market_catalog_does_not_use_the_cross_context_kernel = noClasses()
             .that().haveSimpleName("MarketCatalogApplicationService")
-            .should().dependOnClassesThat().haveSimpleName("MiniPaintDexService");
+            .should().dependOnClassesThat().haveSimpleName("WorkshopCommandService");
 
     @ArchTest
     static final ArchRule market_application_does_not_use_the_global_snapshot_repository = noClasses()
@@ -89,4 +91,30 @@ class ArchitectureTest {
                     "com.minipaintdex.application.document..",
                     "com.minipaintdex.application.port..")
             .should().dependOnClassesThat().haveFullyQualifiedName("java.util.Map");
+
+    @ArchTest
+    static final ArchRule concrete_domain_events_are_immutable_data_records = classes()
+            .that().areAssignableTo(DomainEvent.class)
+            .and().areNotInterfaces()
+            .should(new ArchCondition<>("be Java records") {
+                @Override
+                public void check(JavaClass item, ConditionEvents events) {
+                    if (!item.isRecord()) {
+                        events.add(SimpleConditionEvent.violated(
+                                item, item.getName() + " is a domain event but is not a record"));
+                    }
+                }
+            });
+
+    @ArchTest
+    static final ArchRule site_and_market_services_do_not_use_workshop_command_coordination = noClasses()
+            .that().haveSimpleName("SiteApplicationService")
+            .or().haveSimpleName("MarketCatalogApplicationService")
+            .should().dependOnClassesThat().haveSimpleName("WorkshopCommandService");
+
+    @ArchTest
+    static final ArchRule workshop_queries_do_not_depend_on_mutation_ports = noClasses()
+            .that().haveSimpleName("WorkshopQueryService")
+            .should().dependOnClassesThat().haveSimpleNameEndingWith("Writer")
+            .orShould().dependOnClassesThat().haveSimpleName("EventBus");
 }

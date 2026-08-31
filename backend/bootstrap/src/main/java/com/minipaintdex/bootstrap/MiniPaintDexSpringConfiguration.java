@@ -5,7 +5,8 @@ import com.minipaintdex.adapter.file.FileEventPublicationStore;
 import com.minipaintdex.adapter.file.FileRepositoryLayout;
 import com.minipaintdex.adapter.springevents.EventBusSettings;
 import com.minipaintdex.adapter.springevents.SpringEventBus;
-import com.minipaintdex.application.MiniPaintDexService;
+import com.minipaintdex.application.WorkshopCommandService;
+import com.minipaintdex.application.WorkshopQueryService;
 import com.minipaintdex.application.AdministrationApplicationService;
 import com.minipaintdex.application.MarketCatalogApplicationService;
 import com.minipaintdex.application.SiteApplicationService;
@@ -19,6 +20,7 @@ import com.minipaintdex.application.port.EventLedger;
 import com.minipaintdex.application.port.MarketPaintCatalogWriter;
 import com.minipaintdex.application.port.MarketCatalogReader;
 import com.minipaintdex.application.port.MarketCatalogSnapshot;
+import com.minipaintdex.application.validation.MarketCatalogFactory;
 import com.minipaintdex.application.port.PaintableProductCatalogWriter;
 import com.minipaintdex.application.port.PersistenceLifecycle;
 import com.minipaintdex.application.port.WorkshopMediaStorage;
@@ -163,30 +165,32 @@ public class MiniPaintDexSpringConfiguration {
     }
 
     @Bean
-    MiniPaintDexService miniPaintDexService(
+    WorkshopQueryService workshopQueryService(
             SnapshotRepository snapshots,
-            EventBus eventBus,
-            MarketPaintCatalogWriter marketPaints,
-            WorkshopPaintInventoryWriter workshopPaints,
-            PaintableProductCatalogWriter paintableProducts,
-            WorkshopMediaStorage media,
-            WorkshopMediaPolicy mediaPolicy,
             PaintMatchEngine paintMatchEngine) {
-        return new MiniPaintDexService(
-                snapshots, eventBus, marketPaints, workshopPaints, paintableProducts, media,
-                mediaPolicy, paintMatchEngine);
+        return new WorkshopQueryService(snapshots, paintMatchEngine);
     }
 
     @Bean
-    SiteQueries siteQueries(MiniPaintDexService kernel) {
-        return new SiteApplicationService(kernel);
+    WorkshopCommandService workshopCommandService(
+            SnapshotRepository snapshots,
+            EventBus eventBus,
+            WorkshopMediaStorage media,
+            WorkshopMediaPolicy mediaPolicy,
+            WorkshopQueryService queries) {
+        return new WorkshopCommandService(snapshots, eventBus, media, mediaPolicy, queries);
+    }
+
+    @Bean
+    SiteQueries siteQueries(SnapshotRepository snapshots) {
+        return new SiteApplicationService(snapshots);
     }
 
     @Bean
     MarketCatalogReader marketCatalogReader(SnapshotRepository snapshots) {
         return () -> {
             var snapshot = snapshots.load();
-            return new MarketCatalogSnapshot(
+            return MarketCatalogFactory.create(
                     snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides());
         };
     }
@@ -198,15 +202,21 @@ public class MiniPaintDexSpringConfiguration {
 
     @Bean
     WorkshopUseCases workshopUseCases(
-            MiniPaintDexService kernel,
+            WorkshopCommandService commands,
+            WorkshopQueryService queries,
             MarketCatalogUseCases market,
             SnapshotRepository snapshots) {
-        return new WorkshopApplicationService(kernel, market, snapshots);
+        return new WorkshopApplicationService(commands, queries, market, snapshots);
     }
 
     @Bean
-    AdministrationUseCases administrationUseCases(MiniPaintDexService kernel) {
-        return new AdministrationApplicationService(kernel);
+    AdministrationUseCases administrationUseCases(
+            SnapshotRepository snapshots,
+            MarketPaintCatalogWriter marketPaints,
+            WorkshopPaintInventoryWriter workshopPaints,
+            PaintableProductCatalogWriter paintableProducts) {
+        return new AdministrationApplicationService(
+                snapshots, marketPaints, workshopPaints, paintableProducts);
     }
 
     private static PaintMatchingPolicy.Weights weights(MiniPaintDexProperties.Weights weights) {

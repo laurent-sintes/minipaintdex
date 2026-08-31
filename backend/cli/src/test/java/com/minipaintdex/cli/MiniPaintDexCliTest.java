@@ -32,7 +32,7 @@ class MiniPaintDexCliTest {
             var eventBus = mock(EventBus.class);
             var persistence = mock(PersistenceLifecycle.class);
             var now = Instant.parse("2026-08-30T10:00:00Z");
-            org.mockito.Mockito.when(eventBus.state()).thenReturn(new EventBusState(true, true, 0));
+            org.mockito.Mockito.when(eventBus.state()).thenReturn(new EventBusState(true, true, 0, 0));
             org.mockito.Mockito.when(persistence.status()).thenReturn(new PersistenceLifecycle.PersistenceStatus(
                     "ready", "files", 1, "fixture", now, now, now, null));
             var exitCode = new CommandLine(new MiniPaintDexCli(

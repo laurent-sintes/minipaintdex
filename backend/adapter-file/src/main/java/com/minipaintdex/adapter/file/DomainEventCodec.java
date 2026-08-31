@@ -31,6 +31,7 @@ import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /** Explicit, versioned mapping between typed domain events and their JSONL representation. */
 public final class DomainEventCodec {
@@ -42,9 +43,19 @@ public final class DomainEventCodec {
         var occurredAt = instant(entry.get("occurred_at"));
         var payload = map(entry.get("payload"));
         var event = decodeEvent(eventType, aggregateId, projectId, occurredAt, payload);
+        var schemaVersion = number(entry.getOrDefault("schema_version", 1));
+        if (schemaVersion != 1) {
+            throw new FileStorageException("Unsupported domain event schema version: " + schemaVersion, null);
+        }
+        if (!event.aggregateType().equals(text(entry.get("aggregate_type")))) {
+            throw new FileStorageException("Stored aggregate_type does not match event_type " + eventType, null);
+        }
+        if (!Objects.equals(event.projectId(), projectId)) {
+            throw new FileStorageException("Stored project_id does not match event_type " + eventType, null);
+        }
         return new EventEnvelope(
                 text(entry.get("event_id")),
-                number(entry.getOrDefault("schema_version", 1)),
+                schemaVersion,
                 longNumber(entry.getOrDefault("aggregate_version", 1)),
                 instant(entry.get("recorded_at")),
                 new Actor(text(actor.get("type")), text(actor.get("id"))),
@@ -92,7 +103,7 @@ public final class DomainEventCodec {
                     aggregateId, requiredProject(projectId, payload), text(payload.get("comment")), at);
             case "workshop_item.photo_added" -> new WorkshopItemPhotoAdded(
                     aggregateId, requiredProject(projectId, payload), text(payload.get("media_id")),
-                    text(payload.get("url")), text(payload.get("stage")), text(payload.get("caption")),
+                    text(payload.get("url")), nullableStage(payload), text(payload.get("caption")),
                     text(payload.get("original_filename")), text(payload.get("content_type")),
                     longNumber(payload.get("size")), text(payload.get("sha256")), at);
             case "recipe.assigned" -> new WorkshopItemRecipeAssigned(
@@ -151,7 +162,7 @@ public final class DomainEventCodec {
                 payload.put("painting_project_id", value.paintingProjectId());
                 payload.put("media_id", value.mediaId());
                 payload.put("url", value.url());
-                optional(payload, "stage", value.stage());
+                optional(payload, "stage", value.stage() == null ? null : value.stage().id());
                 optional(payload, "caption", value.caption());
                 payload.put("original_filename", value.originalFilename());
                 payload.put("content_type", value.contentType());
@@ -228,6 +239,11 @@ public final class DomainEventCodec {
 
     private static WorkflowStage stage(Map<String, Object> payload) {
         return WorkflowStage.fromId(text(payload.get("stage")));
+    }
+
+    private static WorkflowStage nullableStage(Map<String, Object> payload) {
+        var value = nullable(payload.get("stage"));
+        return value == null ? null : WorkflowStage.fromId(value);
     }
 
     private static String requiredProject(String projectId, Map<String, Object> payload) {

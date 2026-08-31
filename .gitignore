@@ -56,6 +56,7 @@ next-env.d.ts
 /data/.write.lock
 /data/ledger/events/*.jsonl
 /data/ledger/publications/*.json
+/data/ledger/publications/.publications.lock
 !/data/ledger/events/.gitkeep
 !/data/ledger/publications/.gitkeep
 

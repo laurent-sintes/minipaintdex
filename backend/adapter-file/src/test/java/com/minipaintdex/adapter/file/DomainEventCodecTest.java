@@ -32,6 +32,7 @@ import java.time.Instant;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DomainEventCodecTest {
     private static final Instant AT = Instant.parse("2026-08-30T10:00:00Z");
@@ -49,8 +50,8 @@ class DomainEventCodecTest {
                 new PaintingProjectStatusChanged("project-1", PaintingProjectStatus.ACTIVE, AT),
                 new WorkshopItemAdded("item-1", "hero", "project-1", "Hero", 1, AT),
                 new WorkshopItemCommentAdded("item-1", "project-1", "Note", AT),
-                new WorkshopItemPhotoAdded("item-1", "project-1", "media-1", "/media/1", "painting",
-                        "Progress", "photo.png", "image/png", 3, "hash", AT),
+                new WorkshopItemPhotoAdded("item-1", "project-1", "media-1", "/media/1", WorkflowStage.PAINTING,
+                        "Progress", "photo.png", "image/png", 3, "0".repeat(64), AT),
                 new WorkshopItemRecipeAssigned("item-1", "project-1", "recipe-1", 1, AT),
                 new WorkflowStageStarted("item-1", "project-1", WorkflowStage.PREPARATION, "Start", AT),
                 new WorkflowStageCompleted("item-1", "project-1", WorkflowStage.PREPARATION, null, AT),
@@ -72,5 +73,17 @@ class DomainEventCodecTest {
                     "correlation", null, "key-" + index, event);
             assertEquals(envelope, codec.decode(codec.encode(envelope)), event.eventType());
         }
+    }
+
+    @Test
+    void rejectsEnvelopeMetadataThatContradictsTheTypedEvent() {
+        var codec = new DomainEventCodec();
+        var envelope = new EventEnvelope(
+                "event", 1, 1, AT, new Actor("user", "owner"),
+                "correlation", null, "key", new WorkshopCreated("my-workshop", "Workshop", AT));
+        var encoded = new java.util.LinkedHashMap<>(codec.encode(envelope));
+        encoded.put("aggregate_type", "workshop_item");
+
+        assertThrows(FileStorageException.class, () -> codec.decode(encoded));
     }
 }

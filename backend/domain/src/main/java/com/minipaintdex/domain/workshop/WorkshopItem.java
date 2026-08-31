@@ -36,12 +36,14 @@ public final class WorkshopItem extends EventSourcedAggregateRoot {
 
     public static WorkshopItem rehydrate(List<? extends WorkshopItemEvent> history) {
         var item = new WorkshopItem();
-        history.forEach(item::replay);
+        item.replayHistory(history, WorkshopItemAdded.class, "workshop_item");
         return item;
     }
 
     public void transition(WorkflowStage stage, StageAction action, String note, Instant occurredAt) {
-        assertTransition(stage, action);
+        if (stage == null || action == null) {
+            throw new DomainException("invalid_transition", "Workflow stage and action are required.");
+        }
         switch (action) {
             case START -> raise(new WorkflowStageStarted(id, paintingProjectId, stage, note, occurredAt));
             case COMPLETE -> raise(new WorkflowStageCompleted(id, paintingProjectId, stage, note, occurredAt));
@@ -56,7 +58,7 @@ public final class WorkshopItem extends EventSourcedAggregateRoot {
     }
 
     public void addPhoto(
-            String mediaId, String url, String stage, String caption, String originalFilename,
+            String mediaId, String url, WorkflowStage stage, String caption, String originalFilename,
             String contentType, long size, String sha256, Instant occurredAt) {
         raise(new WorkshopItemPhotoAdded(id, paintingProjectId, mediaId, url, stage, caption,
                 originalFilename, contentType, size, sha256, occurredAt));
@@ -84,10 +86,22 @@ public final class WorkshopItem extends EventSourcedAggregateRoot {
                 recipeVersion = assigned.recipeVersion();
                 updatedAt = assigned.occurredAt();
             }
-            case WorkflowStageStarted started -> applyStage(started.stage(), WorkflowStageStatus.IN_PROGRESS, started.occurredAt());
-            case WorkflowStageCompleted completed -> applyStage(completed.stage(), WorkflowStageStatus.COMPLETED, completed.occurredAt());
-            case WorkflowStageSkipped skipped -> applyStage(skipped.stage(), WorkflowStageStatus.SKIPPED, skipped.occurredAt());
-            case WorkflowStageReopened reopened -> applyStage(reopened.stage(), WorkflowStageStatus.IN_PROGRESS, reopened.occurredAt());
+            case WorkflowStageStarted started -> {
+                assertTransition(started.stage(), StageAction.START);
+                applyStage(started.stage(), WorkflowStageStatus.IN_PROGRESS, started.occurredAt());
+            }
+            case WorkflowStageCompleted completed -> {
+                assertTransition(completed.stage(), StageAction.COMPLETE);
+                applyStage(completed.stage(), WorkflowStageStatus.COMPLETED, completed.occurredAt());
+            }
+            case WorkflowStageSkipped skipped -> {
+                assertTransition(skipped.stage(), StageAction.SKIP);
+                applyStage(skipped.stage(), WorkflowStageStatus.SKIPPED, skipped.occurredAt());
+            }
+            case WorkflowStageReopened reopened -> {
+                assertTransition(reopened.stage(), StageAction.REOPEN);
+                applyStage(reopened.stage(), WorkflowStageStatus.IN_PROGRESS, reopened.occurredAt());
+            }
             case WorkshopItemCommentAdded comment -> updatedAt = comment.occurredAt();
             case WorkshopItemPhotoAdded photo -> updatedAt = photo.occurredAt();
             default -> throw new DomainException("invalid_workshop_item_event",
@@ -96,6 +110,12 @@ public final class WorkshopItem extends EventSourcedAggregateRoot {
     }
 
     private void assertTransition(WorkflowStage stage, StageAction action) {
+        if (stage == null || action == null) {
+            throw new DomainException("invalid_transition", "Workflow stage and action are required.");
+        }
+        if (action == StageAction.SKIP && !stage.skippable()) {
+            throw new DomainException("invalid_transition", "Workflow stage " + stage.id() + " cannot be skipped.");
+        }
         var current = workflow.get(stage);
         var valid = switch (action) {
             case START -> current == WorkflowStageStatus.PENDING;

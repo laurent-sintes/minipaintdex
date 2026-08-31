@@ -20,7 +20,8 @@ class MarketPaintStreamControllerTest {
         when(market.streamMarketPaints(any(SearchMarketPaintsQuery.class))).thenReturn(Stream.of(
                 MiniPaintDexControllerTest.paint("paint-1", "One"),
                 MiniPaintDexControllerTest.paint("paint-2", "Two")));
-        var body = new MarketPaintStreamController(market).stream(null, null, null, null);
+        var body = new MarketPaintStreamController(market).stream(
+                null, null, null, null, null, null, null, null, null, null, null, null, null);
         var output = new ByteArrayOutputStream();
 
         body.writeTo(output);

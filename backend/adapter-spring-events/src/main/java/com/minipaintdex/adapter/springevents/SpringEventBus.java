@@ -26,9 +26,12 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /** Spring Events adapter with durable acceptance and one ordered critical consumer. */
 public final class SpringEventBus implements EventBus, ApplicationListener<PublicationAvailable>, SmartLifecycle {
+    private static final Logger LOGGER = Logger.getLogger(SpringEventBus.class.getName());
     private final ApplicationEventPublisher springEvents;
     private final EventPublicationStore store;
     private final EventSubscriber subscriber;
@@ -83,6 +86,12 @@ public final class SpringEventBus implements EventBus, ApplicationListener<Publi
 
     @Override
     public EventPublication await(String publicationId, Duration timeout) throws InterruptedException {
+        if (publicationId == null || publicationId.isBlank()) {
+            throw new IllegalArgumentException("publicationId is required.");
+        }
+        if (timeout == null || timeout.isNegative() || timeout.isZero()) {
+            throw new IllegalArgumentException("timeout must be positive.");
+        }
         var deadline = System.nanoTime() + timeout.toNanos();
         synchronized (completionMonitor) {
             while (true) {
@@ -99,7 +108,8 @@ public final class SpringEventBus implements EventBus, ApplicationListener<Publi
 
     @Override
     public EventBusState state() {
-        return new EventBusState(running.get(), accepting.get(), store.recoverable().size());
+        return new EventBusState(
+                running.get(), accepting.get(), store.recoverable().size(), store.deadLetters().size());
     }
 
     @Override
@@ -162,16 +172,23 @@ public final class SpringEventBus implements EventBus, ApplicationListener<Publi
 
     private void process(String publicationId, boolean retryOnFailure) {
         var retry = false;
+        EventPublication completed = null;
         try {
             var current = store.find(publicationId).orElse(null);
-            if (current == null || current.status() == EventPublicationStatus.COMPLETED) return;
+            if (current == null || terminal(current)) return;
             var processing = store.markProcessing(publicationId, Instant.now());
             subscriber.consume(processing.batch());
-            var completed = store.markCompleted(publicationId, Instant.now());
-            committedEvents.publish(new CommittedEventBatch(completed.batch(), completed.updatedAt()));
+            completed = store.markCompleted(publicationId, Instant.now());
         } catch (RuntimeException failure) {
-            var failed = store.markFailed(publicationId, Instant.now(), safeMessage(failure));
-            retry = retryOnFailure && running.get() && failed.attempts() < settings.maxAttempts();
+            var current = store.find(publicationId).orElse(null);
+            if (current != null && current.status() == EventPublicationStatus.PROCESSING) {
+                if (current.attempts() >= settings.maxAttempts()) {
+                    store.markDeadLetter(publicationId, Instant.now(), safeMessage(failure));
+                } else {
+                    store.markFailed(publicationId, Instant.now(), safeMessage(failure));
+                    retry = retryOnFailure && running.get();
+                }
+            }
         } finally {
             scheduled.remove(publicationId);
             synchronized (completionMonitor) {
@@ -179,6 +196,7 @@ public final class SpringEventBus implements EventBus, ApplicationListener<Publi
             }
             if (retry) retryLater(publicationId);
         }
+        if (completed != null) notifyCommitted(completed);
     }
 
     private void retryLater(String publicationId) {
@@ -205,8 +223,17 @@ public final class SpringEventBus implements EventBus, ApplicationListener<Publi
 
     private boolean terminal(EventPublication publication) {
         return publication.status() == EventPublicationStatus.COMPLETED
-                || publication.status() == EventPublicationStatus.FAILED
-                && publication.attempts() >= settings.maxAttempts();
+                || publication.status() == EventPublicationStatus.DEAD_LETTER;
+    }
+
+    private void notifyCommitted(EventPublication completed) {
+        try {
+            committedEvents.publish(new CommittedEventBatch(completed.batch(), completed.updatedAt()));
+        } catch (RuntimeException notificationFailure) {
+            LOGGER.log(Level.WARNING,
+                    "Committed event notification failed for publication " + completed.publicationId(),
+                    notificationFailure);
+        }
     }
 
     private static String safeMessage(RuntimeException failure) {

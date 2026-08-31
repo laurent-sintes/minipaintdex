@@ -5,8 +5,8 @@ import java.time.Instant;
 public record WorkshopItemCommentAdded(
         String workshopItemId, String paintingProjectId, String comment, Instant occurredAt) implements WorkshopItemEvent {
     public WorkshopItemCommentAdded {
-        workshopItemId = DomainFields.required(workshopItemId, "workshopItemId");
-        paintingProjectId = DomainFields.required(paintingProjectId, "paintingProjectId");
+        workshopItemId = DomainFields.id(workshopItemId, "workshopItemId");
+        paintingProjectId = DomainFields.id(paintingProjectId, "paintingProjectId");
         comment = DomainFields.required(comment, "comment");
         occurredAt = DomainFields.required(occurredAt, "occurredAt");
     }
