@@ -6,6 +6,25 @@
 - `PaintableProduct` est l’aggregate root d’une boîte, gamme ou autre produit contenant des figurines ou décors à peindre.
 - `MarketPaintingGuide` conserve la connaissance sourcée d’un peintre ou d’une publication. Il ne décrit pas les choix personnels de l’atelier.
 
+`MARKET` porte le shared kernel de connaissances de référence. `WORKSHOP` peut dépendre de ses
+contrats stables pour référencer peintures, produits, éléments de catalogue et guides. La dépendance
+inverse est interdite : le marché ne connaît ni état, ni service, ni événement, ni projection de
+l’atelier. Les vues qui rapprochent les deux contextes, telles que la prévisualisation d’import ou
+le rapprochement avec les peintures possédées, sont des cas d’usage de l’atelier.
+
+Concrètement, les réponses Market ne portent ni `inWorkshop`, ni quantité possédée. L’endpoint
+Workshop des peintures compose une référence Market avec la quantité personnelle en dépendant du
+port `MarketCatalogUseCases`. Le navigateur compose de la même manière le badge « dans l’atelier »
+à partir des collections Market et Workshop séparées.
+
+Les packages Java rendent cette direction visible avec `com.minipaintdex.domain.market..` et
+`com.minipaintdex.domain.workshop..`. Une règle ArchUnit autorise `WORKSHOP -> MARKET` par contrat
+et refuse toute dépendance `MARKET -> WORKSHOP`.
+
+Le port `MarketCatalogReader` publie un `MarketCatalogSnapshot` limité aux peintures, produits à
+peindre et guides du contexte. Les services Market ne reçoivent ni le `SnapshotRepository` global,
+ni son `DataSnapshot` transverse. Cette restriction est contrôlée automatiquement par ArchUnit.
+
 ## Bounded context Workshop
 
 - `Workshop` est l’aggregate root durable du contexte personnel et référence les projets en cours.
@@ -16,5 +35,11 @@
 ## Bounded context Activity
 
 Le ledger JSONL est le journal global append-only du board de l’atelier. Les projections reconstruisent les vues du Workshop, des PaintingProjects, des WorkshopItems, des recettes et des achats.
+
+Seuls les AggregateRoots émettent les événements métier, sous forme de records Java typés rangés dans leur package. Une enveloppe technique porte l’identité, la version d’agrégat, la corrélation, l’acteur et l’idempotence. Un `EventBatch` regroupe atomiquement tous les événements d’une commande.
+
+L’application publie ce lot dans un `EventBus` indépendant de Spring. L’adaptateur Spring Events l’enregistre d’abord dans une outbox fichier, puis un consommateur unique l’ajoute au ledger. L’acquittement produit une notification de lot committé destinée aux projections et au SSE. Au shutdown, Spring ferme l’admission, vide le dispatcher puis laisse toute publication non terminée récupérable au redémarrage.
+
+La version attendue de chaque agrégat est contrôlée dans la même section critique que l’append. Les événements acceptés mais pas encore ingérés participent au snapshot effectif des décisions suivantes.
 
 Le cœur des identifiants, événements et données reste en anglais. Les libellés français appartiennent à `data/site/fr.yaml`.

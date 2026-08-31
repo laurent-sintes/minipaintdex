@@ -10,8 +10,8 @@ import { useRef } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 import type { Paint, ShoppingItem } from '@/models/paint-model';
 import type {
-  PaintableCatalogItem, PaintableProduct, PaintableProductImportPreview, WorkshopItem,
-  WorkshopItemDetail, WorkshopOverview, PaintingProjectSummary,
+  Dashboard, PaintableCatalogItem, PaintableProduct, PaintableProductImportPreview, PaintableProductSummary,
+  WorkshopItem, WorkshopItemDetail, WorkshopOverview, PaintingProjectSummary,
 } from '@/models/paintable-product-model';
 import type { SiteConfig } from '@/models/site-config-model';
 import { appRoutePath, parseAppRoute } from '@/utils/app-routing';
@@ -28,6 +28,10 @@ const emptyPaintFilters: PaintFilters = {
   type: '', color: '', brand: '', manufacturer: '', range: '', finish: '', medium: '', opacity: '', lifecycle: '', volume: '', tag: '',
 };
 const PAINT_PAGE_SIZE = 60;
+
+function isPaintRoute(route: Route) {
+  return route.view === 'marketPaints' || route.view === 'workshopPaints';
+}
 
 function validColor(value: string) {
   return /^#[0-9a-f]{6}$/i.test(value);
@@ -86,7 +90,7 @@ function PaintCard({ paint, config, onOpen }: { paint: Paint; config: SiteConfig
         <h3 className="mt-0.5 truncate text-[15px] font-semibold tracking-tight">{paint.name}</h3>
         <div className="mt-3 flex flex-wrap gap-1.5">
           <span className="rounded-full bg-secondary px-2.5 py-1 text-[11px] font-medium">{formatMetadata(paint.paintType)}</span>
-          {paint.quantity > 0 && <span className="rounded-full bg-primary/8 px-2.5 py-1 text-[11px] font-semibold text-primary">× {paint.quantity}</span>}
+          {(paint.quantity ?? 0) > 0 && <span className="rounded-full bg-primary/8 px-2.5 py-1 text-[11px] font-semibold text-primary">× {paint.quantity}</span>}
         </div>
         {paint.manufacturerUrl && <span className="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-primary"><BookOpen size={12} />{config.collection.manufacturerSheet}</span>}
       </div>
@@ -102,35 +106,36 @@ function EmptyState({ title, description }: { title: string; description: string
   return <section className="rounded-[24px] border border-dashed bg-card/60 px-6 py-14 text-center"><PackageOpen className="mx-auto size-8 text-muted-foreground/60" /><h2 className="mt-3 text-sm font-semibold">{title}</h2><p className="mx-auto mt-2 max-w-lg text-xs leading-5 text-muted-foreground">{description}</p></section>;
 }
 
-export function PaintApp({ initialPaints, initialWorkshopPaints, initialPaintStats, initialPaintTotal, initialPaintFacets, initialProducts, initialWorkshop, initialWorkshopItems, shoppingSeed, config }: {
-  initialPaints: Paint[];
-  initialWorkshopPaints: Paint[];
-  initialPaintStats: { total: number; owned: number; brands: number };
-  initialPaintTotal: number;
-  initialPaintFacets: FilterOptions;
-  initialProducts: PaintableProduct[];
-  initialWorkshop: WorkshopOverview;
-  initialWorkshopItems: WorkshopItem[];
-  shoppingSeed: ShoppingItem[];
-  config: SiteConfig;
-}) {
+const emptyFacets: FilterOptions = {
+  types: [], colors: [], brands: [], manufacturers: [], ranges: [], finishes: [], mediums: [],
+  opacities: [], lifecycles: [], volumes: [], tags: [],
+};
+
+const emptyWorkshop: WorkshopOverview = {
+  id: 'my-workshop', paintingProjects: [], projectCount: 0, itemCount: 0,
+  completedItemCount: 0, progressPercentage: 0, recentActivity: [],
+};
+
+export function PaintApp({ initialDashboard, config }: { initialDashboard: Dashboard; config: SiteConfig }) {
   const [route, setRoute] = useState<Route>(() => parseAppRoute(window.location.pathname));
-  const [paints, setPaints] = useState(initialPaints);
-  const [workshopPaints, setWorkshopPaints] = useState(initialWorkshopPaints);
-  const [paintStats, setPaintStats] = useState(initialPaintStats);
-  const [paintResultCount, setPaintResultCount] = useState(initialPaintTotal);
-  const [paintCatalogTotal, setPaintCatalogTotal] = useState(initialPaintTotal);
-  const [filterOptions, setFilterOptions] = useState(initialPaintFacets);
-  const [products, setProducts] = useState(initialProducts);
-  const [workshop, setWorkshop] = useState(initialWorkshop);
-  const [workshopItems, setWorkshopItems] = useState(initialWorkshopItems);
+  const [dashboard, setDashboard] = useState(initialDashboard);
+  const [paints, setPaints] = useState<Paint[]>([]);
+  const [paintResultCount, setPaintResultCount] = useState(0);
+  const [paintCatalogTotal, setPaintCatalogTotal] = useState(0);
+  const [paintOffset, setPaintOffset] = useState(0);
+  const [filterOptions, setFilterOptions] = useState<FilterOptions>(emptyFacets);
+  const [productSummaries, setProductSummaries] = useState<PaintableProductSummary[]>([]);
+  const [activeProduct, setActiveProduct] = useState<PaintableProduct | null>(null);
+  const [loadingProduct, setLoadingProduct] = useState(route.view === 'product');
+  const [workshop, setWorkshop] = useState<WorkshopOverview>(emptyWorkshop);
+  const [workshopItems, setWorkshopItems] = useState<WorkshopItem[]>([]);
   const [query, setQuery] = useState('');
   const [filters, setFilters] = useState<PaintFilters>(emptyPaintFilters);
   const [filtersOpen, setFiltersOpen] = useState(true);
   const [manufacturerSheetOnly, setManufacturerSheetOnly] = useState(false);
   const [realResultOnly, setRealResultOnly] = useState(false);
   const [selectedPaint, setSelectedPaint] = useState<Paint | null>(null);
-  const [shoppingItems, setShoppingItems] = useState(shoppingSeed);
+  const [shoppingItems, setShoppingItems] = useState<ShoppingItem[]>([]);
   const [importPreviewState, setImportPreviewState] = useState<{ productId: string; preview: PaintableProductImportPreview } | null>(null);
   const [importing, setImporting] = useState(false);
   const [notice, setNotice] = useState('');
@@ -138,37 +143,74 @@ export function PaintApp({ initialPaints, initialWorkshopPaints, initialPaintSta
   const [savingItem, setSavingItem] = useState(false);
   const [aboutData, setAboutData] = useState<AboutData | null>(null);
   const [documentation, setDocumentation] = useState<DocumentationData | null>(null);
-  const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
+  const [serverRevision, setServerRevision] = useState(0);
+
+  const activateRoute = useCallback((next: Route) => {
+    const sameView = route.view === next.view;
+    const sameProduct = route.view === 'product' && next.view === 'product'
+      && route.productId === next.productId && route.paintingProjectId === next.paintingProjectId;
+    if (!sameView || !isPaintRoute(next)) { setPaints([]); setFilterOptions(emptyFacets); setSelectedPaint(null); }
+    if (!sameView || next.view !== 'marketProducts') setProductSummaries([]);
+    if (!sameProduct) { setActiveProduct(null); setWorkshopItems([]); setImportPreviewState(null); }
+    setLoadingProduct(!sameProduct && next.view === 'product');
+    if (!sameView || next.view !== 'shopping') setShoppingItems([]);
+    if (!sameView || (next.view !== 'aboutUser' && next.view !== 'aboutAdmin')) setDocumentation(null);
+    if (!sameView || next.view !== 'aboutVersion') setAboutData(null);
+    setPaintOffset(0);
+    setRoute(next);
+  }, [route]);
 
   function navigate(next: Route) {
     window.history.pushState({}, '', appRoutePath(next));
-    setRoute(next);
+    activateRoute(next);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   useEffect(() => {
-    const onPopState = () => setRoute(parseAppRoute(window.location.pathname));
+    const onPopState = () => activateRoute(parseAppRoute(window.location.pathname));
     window.addEventListener('popstate', onPopState);
     return () => window.removeEventListener('popstate', onPopState);
+  }, [activateRoute]);
+
+  useEffect(() => {
+    const events = new EventSource('/api/v1/events');
+    const invalidate = () => setServerRevision((revision) => revision + 1);
+    events.addEventListener('domain-events-committed', invalidate);
+    events.addEventListener('resync-required', invalidate);
+    return () => events.close();
   }, []);
 
   useEffect(() => {
-    if (route.view !== 'about' || (aboutData && documentation)) return;
+    if (route.view !== 'home' || serverRevision === 0) return;
     const controller = new AbortController();
-    Promise.all([
-      fetch('/api/v1/about', { signal: controller.signal, headers: { accept: 'application/json' } }),
-      fetch('/api/v1/documentation', { signal: controller.signal, headers: { accept: 'application/json' } }),
-    ]).then(async ([about, docs]) => {
-      if (!about.ok || !docs.ok) throw new Error('About load failed');
-      return [await about.json() as AboutData, await docs.json() as DocumentationData] as const;
-    }).then(([about, docs]) => { setAboutData(about); setDocumentation(docs); })
-      .catch((reason) => {
-        if (!(reason instanceof DOMException && reason.name === 'AbortError')) setNotice(config.errors.requestFailed);
-      });
+    fetch('/api/v1/dashboard', { signal: controller.signal, headers: { accept: 'application/json' } })
+      .then((response) => { if (!response.ok) throw new Error(String(response.status)); return response.json() as Promise<Dashboard>; })
+      .then(setDashboard)
+      .catch((reason) => { if (!(reason instanceof DOMException && reason.name === 'AbortError')) setNotice(config.errors.requestFailed); });
     return () => controller.abort();
-  }, [aboutData, config.errors.requestFailed, documentation, route.view]);
+  }, [config.errors.requestFailed, route.view, serverRevision]);
 
-  const activeProduct = products.find((product) => product.id === route.productId);
+  useEffect(() => {
+    if (route.view !== 'aboutUser' && route.view !== 'aboutAdmin') return;
+    const controller = new AbortController();
+    const audience = route.view === 'aboutUser' ? 'user' : 'administrator';
+    fetch(`/api/v1/documentation?audience=${audience}`, { signal: controller.signal, headers: { accept: 'application/json' } })
+      .then((response) => { if (!response.ok) throw new Error(String(response.status)); return response.json() as Promise<DocumentationData>; })
+      .then(setDocumentation)
+      .catch((reason) => { if (!(reason instanceof DOMException && reason.name === 'AbortError')) setNotice(config.errors.requestFailed); });
+    return () => controller.abort();
+  }, [config.errors.requestFailed, route.view]);
+
+  useEffect(() => {
+    if (route.view !== 'aboutVersion') return;
+    const controller = new AbortController();
+    fetch('/api/v1/about', { signal: controller.signal, headers: { accept: 'application/json' } })
+      .then((response) => { if (!response.ok) throw new Error(String(response.status)); return response.json() as Promise<AboutData>; })
+      .then(setAboutData)
+      .catch((reason) => { if (!(reason instanceof DOMException && reason.name === 'AbortError')) setNotice(config.errors.requestFailed); });
+    return () => controller.abort();
+  }, [config.errors.requestFailed, route.view]);
+
   const activeCatalogItem = activeProduct?.items.find((item) => item.id === route.catalogItemId) ?? activeProduct?.items[0];
   const activePaintingProject = workshop.paintingProjects.find((project) => project.projectId === route.paintingProjectId);
   const importPreview = importPreviewState && importPreviewState.productId === route.productId
@@ -179,19 +221,73 @@ export function PaintApp({ initialPaints, initialWorkshopPaints, initialPaintSta
     if (route.view !== 'product' || !route.productId) return;
     const productId = route.productId;
     const controller = new AbortController();
-    fetch(`/api/v1/market/paintable-products/${productId}/workshop-import-preview`, {
-      signal: controller.signal, headers: { accept: 'application/json' },
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error(String(response.status));
-        return response.json() as Promise<{ preview: PaintableProductImportPreview }>;
+    const requests: Promise<Response>[] = [
+      fetch(`/api/v1/market/paintable-products/${productId}`, { signal: controller.signal, headers: { accept: 'application/json' } }),
+      fetch(`/api/v1/workshop/painting-project-import-previews/${productId}`, { signal: controller.signal, headers: { accept: 'application/json' } }),
+    ];
+    if (route.paintingProjectId) {
+      requests.push(fetch('/api/v1/workshop', { signal: controller.signal, headers: { accept: 'application/json' } }));
+      requests.push(fetch(`/api/v1/workshop/items?paintingProjectId=${encodeURIComponent(route.paintingProjectId)}`, { signal: controller.signal, headers: { accept: 'application/json' } }));
+    }
+    Promise.all(requests)
+      .then(async (responses) => {
+        if (responses.some((response) => !response.ok)) throw new Error('Product load failed');
+        const product = await responses[0].json() as { paintableProduct: PaintableProduct };
+        const preview = await responses[1].json() as { preview: PaintableProductImportPreview };
+        const workshopResult = responses[2] ? await responses[2].json() as { workshop: WorkshopOverview } : null;
+        const itemResult = responses[3] ? await responses[3].json() as { items: WorkshopItem[] } : null;
+        return { product: product.paintableProduct, preview: preview.preview, workshop: workshopResult?.workshop, items: itemResult?.items };
       })
-      .then((result) => setImportPreviewState({ productId, preview: result.preview }))
+      .then((result) => {
+        setActiveProduct(result.product);
+        setLoadingProduct(false);
+        setImportPreviewState({ productId, preview: result.preview });
+        if (result.workshop) setWorkshop(result.workshop);
+        if (result.items) setWorkshopItems(result.items);
+      })
       .catch((reason) => {
-        if (!(reason instanceof DOMException && reason.name === 'AbortError')) setNotice(config.errors.requestFailed);
+        if (!(reason instanceof DOMException && reason.name === 'AbortError')) { setLoadingProduct(false); setNotice(config.errors.requestFailed); }
       });
     return () => controller.abort();
-  }, [config.errors.requestFailed, route.productId, route.view]);
+  }, [config.errors.requestFailed, route.paintingProjectId, route.productId, route.view, serverRevision]);
+
+  useEffect(() => {
+    if (route.view !== 'marketProducts') return;
+    const controller = new AbortController();
+    Promise.all([
+      fetch('/api/v1/market/paintable-products', { signal: controller.signal, headers: { accept: 'application/json' } }),
+      fetch('/api/v1/workshop', { signal: controller.signal, headers: { accept: 'application/json' } }),
+    ])
+      .then(async ([marketResponse, workshopResponse]) => {
+        if (!marketResponse.ok || !workshopResponse.ok) throw new Error('Product collections load failed');
+        const marketResult = await marketResponse.json() as { paintableProducts: PaintableProductSummary[] };
+        const workshopResult = await workshopResponse.json() as { workshop: WorkshopOverview };
+        return { products: marketResult.paintableProducts, workshop: workshopResult.workshop };
+      })
+      .then((result) => { setProductSummaries(result.products); setWorkshop(result.workshop); })
+      .catch((reason) => { if (!(reason instanceof DOMException && reason.name === 'AbortError')) setNotice(config.errors.requestFailed); });
+    return () => controller.abort();
+  }, [config.errors.requestFailed, route.view, serverRevision]);
+
+  useEffect(() => {
+    if (route.view !== 'workshop') return;
+    const controller = new AbortController();
+    fetch('/api/v1/workshop', { signal: controller.signal, headers: { accept: 'application/json' } })
+      .then((response) => { if (!response.ok) throw new Error(String(response.status)); return response.json() as Promise<{ workshop: WorkshopOverview }>; })
+      .then((result) => setWorkshop(result.workshop))
+      .catch((reason) => { if (!(reason instanceof DOMException && reason.name === 'AbortError')) setNotice(config.errors.requestFailed); });
+    return () => controller.abort();
+  }, [config.errors.requestFailed, route.view, serverRevision]);
+
+  useEffect(() => {
+    if (route.view !== 'shopping') return;
+    const controller = new AbortController();
+    fetch('/api/v1/shopping/items', { signal: controller.signal, headers: { accept: 'application/json' } })
+      .then((response) => { if (!response.ok) throw new Error(String(response.status)); return response.json() as Promise<{ items: ShoppingItem[] }>; })
+      .then((result) => setShoppingItems(result.items))
+      .catch((reason) => { if (!(reason instanceof DOMException && reason.name === 'AbortError')) setNotice(config.errors.requestFailed); });
+    return () => controller.abort();
+  }, [config.errors.requestFailed, route.view, serverRevision]);
 
   async function fetchWorkshopItem(itemId: string, signal?: AbortSignal) {
     const response = await fetch(`/api/v1/workshop/items/${encodeURIComponent(itemId)}`, {
@@ -206,55 +302,56 @@ export function PaintApp({ initialPaints, initialWorkshopPaints, initialPaintSta
     if (route.view !== 'item' || !route.itemId) return;
     const itemId = route.itemId;
     const controller = new AbortController();
-    fetchWorkshopItem(itemId, controller.signal)
-      .then(setWorkshopItemDetail)
+    Promise.all([
+      fetchWorkshopItem(itemId, controller.signal),
+      fetch('/api/v1/workshop', { signal: controller.signal, headers: { accept: 'application/json' } })
+        .then((response) => { if (!response.ok) throw new Error(String(response.status)); return response.json() as Promise<{ workshop: WorkshopOverview }>; }),
+    ])
+      .then(([item, result]) => { setWorkshopItemDetail(item); setWorkshop(result.workshop); })
       .catch((reason) => {
         if (!(reason instanceof DOMException && reason.name === 'AbortError')) setNotice(config.errors.requestFailed);
       });
     return () => controller.abort();
-  }, [config.errors.requestFailed, route.itemId, route.view]);
+  }, [config.errors.requestFailed, route.itemId, route.view, serverRevision]);
 
   const isPaintView = route.view === 'marketPaints' || route.view === 'workshopPaints';
   const paintSearchUrl = useCallback((offset: number) => {
-    const params = new URLSearchParams({ offset: String(offset), limit: String(PAINT_PAGE_SIZE) });
-    if (route.view === 'workshopPaints') params.set('ownedOnly', 'true');
+    const params = new URLSearchParams({ page: String(Math.floor(offset / PAINT_PAGE_SIZE)), size: String(PAINT_PAGE_SIZE) });
     if (query.trim()) params.set('query', query.trim());
     Object.entries(filters).forEach(([key, value]) => { if (value) params.set(key, value); });
     if (manufacturerSheetOnly) params.set('manufacturerSheetOnly', 'true');
     if (realResultOnly) params.set('realResultOnly', 'true');
-    return `/api/v1/market/paints?${params.toString()}`;
+    const collection = route.view === 'workshopPaints' ? '/api/v1/workshop/paints' : '/api/v1/market/paints';
+    return `${collection}?${params.toString()}`;
   }, [filters, manufacturerSheetOnly, query, realResultOnly, route.view]);
 
   useEffect(() => {
     if (!isPaintView) return;
     const controller = new AbortController();
     const timer = window.setTimeout(() => {
-      fetch(paintSearchUrl(0), { signal: controller.signal, headers: { accept: 'application/json' } })
-        .then((response) => { if (!response.ok) throw new Error(String(response.status)); return response.json() as Promise<{ paints: Paint[]; total: number }>; })
-        .then((result) => { setPaints(result.paints); setPaintResultCount(result.total); })
+      fetch(paintSearchUrl(paintOffset), { signal: controller.signal, headers: { accept: 'application/json' } })
+        .then((response) => { if (!response.ok) throw new Error(String(response.status)); return response.json() as Promise<{ paints: Array<Paint | { marketPaint: Paint; quantity: number }>; total: number }>; })
+        .then((result) => {
+          const paints = result.paints.map((paint) => 'marketPaint' in paint
+            ? { ...paint.marketPaint, quantity: paint.quantity }
+            : paint);
+          setPaints(paints); setPaintResultCount(result.total);
+        })
         .catch((reason) => { if (!(reason instanceof DOMException && reason.name === 'AbortError')) setNotice(config.errors.requestFailed); });
     }, 180);
     return () => { window.clearTimeout(timer); controller.abort(); };
-  }, [config.errors.requestFailed, isPaintView, paintSearchUrl]);
+  }, [config.errors.requestFailed, isPaintView, paintOffset, paintSearchUrl, serverRevision]);
 
   useEffect(() => {
     if (!isPaintView) return;
     const controller = new AbortController();
-    const owned = route.view === 'workshopPaints' ? '?ownedOnly=true' : '';
-    fetch(`/api/v1/market/paints/facets${owned}`, { signal: controller.signal, headers: { accept: 'application/json' } })
-      .then((response) => { if (!response.ok) throw new Error(String(response.status)); return response.json() as Promise<{ total: number; facets: FilterOptions }>; })
-      .then((result) => { setFilterOptions(result.facets); setPaintCatalogTotal(result.total); })
+    const collection = route.view === 'workshopPaints' ? '/api/v1/workshop/paints/facets' : '/api/v1/market/paints/facets';
+    fetch(collection, { signal: controller.signal, headers: { accept: 'application/json' } })
+      .then((response) => { if (!response.ok) throw new Error(String(response.status)); return response.json() as Promise<FilterOptions & { total: number }>; })
+      .then((result) => { setFilterOptions(result); setPaintCatalogTotal(result.total); })
       .catch((reason) => { if (!(reason instanceof DOMException && reason.name === 'AbortError')) setNotice(config.errors.requestFailed); });
     return () => controller.abort();
-  }, [config.errors.requestFailed, isPaintView, route.view]);
-
-  async function loadMorePaints() {
-    const response = await fetch(paintSearchUrl(paints.length), { headers: { accept: 'application/json' } });
-    if (!response.ok) { setNotice(config.errors.requestFailed); return; }
-    const result = await response.json() as { paints: Paint[]; total: number };
-    setPaints((current) => [...current, ...result.paints]);
-    setPaintResultCount(result.total);
-  }
+  }, [config.errors.requestFailed, isPaintView, route.view, serverRevision]);
 
   const brands = filterOptions.brands.length;
   const activeFilterCount = Object.values(filters).filter(Boolean).length + Number(manufacturerSheetOnly) + Number(realResultOnly);
@@ -264,7 +361,10 @@ export function PaintApp({ initialPaints, initialWorkshopPaints, initialPaintSta
         : route.view === 'workshopPaints' ? config.collection.title
           : route.view === 'workshop' ? config.workshop.title
             : route.view === 'shopping' ? config.shopping.title
-              : route.view === 'about' ? config.about.title
+              : route.view === 'aboutUser' ? config.about.userTitle
+              : route.view === 'aboutAdmin' ? config.about.administratorTitle
+                : route.view === 'aboutApi' ? config.about.apiTitle
+                  : route.view === 'aboutVersion' ? config.about.versionTitle
               : route.view === 'item' ? workshopItemDetail?.displayName ?? config.workshop.itemDetail
                 : activeProduct?.name ?? config.errors.productNotFound;
   const description = route.view === 'home' ? config.home.description
@@ -273,22 +373,16 @@ export function PaintApp({ initialPaints, initialWorkshopPaints, initialPaintSta
         : route.view === 'workshopPaints' ? config.collection.description
           : route.view === 'workshop' ? config.workshop.description
             : route.view === 'shopping' ? config.shopping.description
-              : route.view === 'about' ? config.about.description
+              : route.view === 'aboutUser' || route.view === 'aboutAdmin' ? config.about.description
+                : route.view === 'aboutApi' ? config.about.apiDescription
+                : route.view === 'aboutVersion' ? config.about.versionDescription
               : route.view === 'item' ? config.workshop.itemDetail
                 : activeProduct?.scope ?? '';
 
-  async function refreshBootstrap() {
-    const response = await fetch('/api/v1/bootstrap?includeMarketPaints=false', { headers: { accept: 'application/json' } });
+  async function refreshDashboard() {
+    const response = await fetch('/api/v1/dashboard', { headers: { accept: 'application/json' } });
     if (!response.ok) throw new Error(String(response.status));
-    const data = await response.json() as {
-      workshopPaints: Paint[]; paintStats: { total: number; owned: number; brands: number }; marketPaintableProducts: PaintableProduct[]; workshop: WorkshopOverview; workshopItems: WorkshopItem[]; shoppingSeed: ShoppingItem[];
-    };
-    setWorkshopPaints(data.workshopPaints);
-    setPaintStats(data.paintStats);
-    setProducts(data.marketPaintableProducts);
-    setWorkshop(data.workshop);
-    setWorkshopItems(data.workshopItems);
-    setShoppingItems(data.shoppingSeed);
+    setDashboard(await response.json() as Dashboard);
   }
 
   async function importProduct(productId: string) {
@@ -301,7 +395,7 @@ export function PaintApp({ initialPaints, initialWorkshopPaints, initialPaintSta
         body: JSON.stringify({ paintableProductId: productId }),
       });
       if (!response.ok) throw new Error(String(response.status));
-      await refreshBootstrap();
+      await refreshDashboard();
       setImportPreviewState((current) => current?.productId === productId
         ? { ...current, preview: { ...current.preview, alreadyImported: true } }
         : current);
@@ -322,7 +416,7 @@ export function PaintApp({ initialPaints, initialWorkshopPaints, initialPaintSta
         body: JSON.stringify({ stage, action }),
       });
       if (!response.ok) throw new Error(String(response.status));
-      const [detail] = await Promise.all([fetchWorkshopItem(itemId), refreshBootstrap()]);
+      const [detail] = await Promise.all([fetchWorkshopItem(itemId), refreshDashboard()]);
       setWorkshopItemDetail(detail);
     } catch { setNotice(config.errors.requestFailed); } finally { setSavingItem(false); }
   }
@@ -369,17 +463,32 @@ export function PaintApp({ initialPaints, initialWorkshopPaints, initialPaintSta
   }
 
   function clearFilters() {
-    setQuery(''); setFilters(emptyPaintFilters); setManufacturerSheetOnly(false); setRealResultOnly(false);
+    setQuery(''); setFilters(emptyPaintFilters); setManufacturerSheetOnly(false); setRealResultOnly(false); setPaintOffset(0); setSelectedPaint(null);
   }
 
-  const navigation = [
-    { route: { view: 'home' } as Route, icon: <House size={18} />, label: config.navigation.home },
-    { route: { view: 'marketPaints' } as Route, icon: <Droplets size={18} />, label: config.navigation.marketPaints, badge: String(paintStats.total) },
-    { route: { view: 'marketProducts' } as Route, icon: <PackageOpen size={18} />, label: config.navigation.marketPaintableProducts, badge: String(products.length) },
+  function changeQuery(value: string) { setQuery(value); setPaintOffset(0); setSelectedPaint(null); }
+  function changeFilters(value: PaintFilters) { setFilters(value); setPaintOffset(0); setSelectedPaint(null); }
+  function changeManufacturerSheetOnly(value: boolean) { setManufacturerSheetOnly(value); setPaintOffset(0); setSelectedPaint(null); }
+  function changeRealResultOnly(value: boolean) { setRealResultOnly(value); setPaintOffset(0); setSelectedPaint(null); }
+
+  const marketNavigation = [
+    { route: { view: 'marketPaints' } as Route, icon: <Droplets size={18} />, label: config.navigation.marketPaints, badge: String(dashboard.paintStats.total) },
+    { route: { view: 'marketProducts' } as Route, icon: <PackageOpen size={18} />, label: config.navigation.marketPaintableProducts, badge: String(dashboard.paintableProductCount) },
+  ];
+  const workshopNavigation = [
     { route: { view: 'workshopPaints' } as Route, icon: <Paintbrush size={18} />, label: config.navigation.workshopPaints },
-    { route: { view: 'workshop' } as Route, icon: <FolderCog size={18} />, label: config.navigation.workshopAdmin, badge: String(workshop.projectCount) },
+    { route: { view: 'workshop' } as Route, icon: <FolderCog size={18} />, label: config.navigation.workshopAdmin, badge: String(dashboard.workshop.projectCount) },
     { route: { view: 'shopping' } as Route, icon: <ShoppingBasket size={18} />, label: config.navigation.shopping },
-    { route: { view: 'about' } as Route, icon: <Info size={18} />, label: config.navigation.about },
+  ];
+  const aboutNavigation = [
+    { route: { view: 'aboutUser' } as Route, icon: <BookOpen size={18} />, label: config.navigation.userDocumentation },
+    { route: { view: 'aboutAdmin' } as Route, icon: <FolderCog size={18} />, label: config.navigation.adminDocumentation },
+    { route: { view: 'aboutApi' } as Route, icon: <ExternalLink size={18} />, label: config.navigation.restApi },
+    { route: { view: 'aboutVersion' } as Route, icon: <Info size={18} />, label: config.navigation.version },
+  ];
+  const mobileNavigation = [
+    { route: { view: 'home' } as Route, icon: <House size={18} />, label: config.navigation.home },
+    ...marketNavigation, ...workshopNavigation, aboutNavigation[0],
   ];
 
   return (
@@ -390,7 +499,7 @@ export function PaintApp({ initialPaints, initialWorkshopPaints, initialPaintSta
             <span className="grid size-10 flex-none place-items-center rounded-2xl bg-primary text-primary-foreground"><Paintbrush size={20} /></span>
             <span className="hidden min-w-0 sm:block"><strong className="block truncate text-sm">{config.brand.name}</strong><span className="block truncate text-[11px] text-muted-foreground">{config.brand.subtitle}</span></span>
           </button>
-          {isPaintView && <label className="relative ml-auto w-full max-w-xl"><Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={config.header.searchShortPlaceholder} aria-label={config.header.searchAriaLabel} className="h-10 w-full rounded-xl border bg-background pl-9 pr-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10" /></label>}
+          {isPaintView && <label className="relative ml-auto w-full max-w-xl"><Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" /><input value={query} onChange={(event) => changeQuery(event.target.value)} placeholder={config.header.searchShortPlaceholder} aria-label={config.header.searchAriaLabel} className="h-10 w-full rounded-xl border bg-background pl-9 pr-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10" /></label>}
         </div>
       </header>
 
@@ -398,47 +507,51 @@ export function PaintApp({ initialPaints, initialWorkshopPaints, initialPaintSta
         <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-64 flex-none border-r bg-card/55 p-4 lg:block">
           <nav aria-label={config.navigation.ariaLabel}>
             <NavButton icon={<House size={18} />} label={config.navigation.home} active={route.view === 'home'} onClick={() => navigate({ view: 'home' })} />
-            <p className="mb-2 mt-6 px-3 text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">{config.navigation.marketSection}</p>
-            {navigation.slice(1, 3).map((item) => <NavButton key={item.route.view} {...item} active={route.view === item.route.view || (route.view === 'product' && !route.paintingProjectId && item.route.view === 'marketProducts')} onClick={() => navigate(item.route)} />)}
-            <p className="mb-2 mt-6 px-3 text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">{config.navigation.workshopSection}</p>
-            {navigation.slice(3, 6).map((item) => <NavButton key={item.route.view} {...item} active={route.view === item.route.view || (route.view === 'product' && Boolean(route.paintingProjectId) && item.route.view === 'workshop')} onClick={() => navigate(item.route)} />)}
-            <div className="mt-6 border-t pt-4"><NavButton icon={<Info size={18} />} label={config.navigation.about} active={route.view === 'about'} onClick={() => navigate({ view: 'about' })} /></div>
+            <p className="nav-section-label">{config.navigation.marketSection}</p>
+            {marketNavigation.map((item) => <NavButton key={item.route.view} {...item} active={route.view === item.route.view || (route.view === 'product' && !route.paintingProjectId && item.route.view === 'marketProducts')} onClick={() => navigate(item.route)} />)}
+            <p className="nav-section-label">{config.navigation.workshopSection}</p>
+            {workshopNavigation.map((item) => <NavButton key={item.route.view} {...item} active={route.view === item.route.view || (route.view === 'product' && Boolean(route.paintingProjectId) && item.route.view === 'workshop')} onClick={() => navigate(item.route)} />)}
+            <p className="nav-section-label">{config.navigation.aboutSection}</p>
+            {aboutNavigation.map((item) => <NavButton key={item.route.view} {...item} active={route.view === item.route.view} onClick={() => navigate(item.route)} />)}
           </nav>
-          {workshop.projectCount > 0 && <div className="mt-8 rounded-2xl border bg-background p-4"><p className="text-xs font-semibold">{config.workshop.progress}</p><div className="mt-3 h-2 overflow-hidden rounded-full bg-secondary"><div className="h-full rounded-full bg-primary" style={{ width: `${workshop.progressPercentage}%` }} /></div><p className="mt-2 text-[11px] text-muted-foreground">{workshop.completedItemCount} / {workshop.itemCount} · {workshop.progressPercentage}%</p></div>}
+          {dashboard.workshop.projectCount > 0 && <div className="mt-8 rounded-2xl border bg-background p-4"><p className="text-xs font-semibold">{config.workshop.progress}</p><div className="mt-3 h-2 overflow-hidden rounded-full bg-secondary"><div className="h-full rounded-full bg-primary" style={{ width: `${dashboard.workshop.progressPercentage}%` }} /></div><p className="mt-2 text-[11px] text-muted-foreground">{dashboard.workshop.completedItemCount} / {dashboard.workshop.itemCount} · {dashboard.workshop.progressPercentage}%</p></div>}
         </aside>
 
         <main className="min-w-0 flex-1 px-4 pb-24 pt-8 sm:px-6 lg:px-10 lg:pb-10">
           <div className="mx-auto max-w-6xl">
-            <p className="eyebrow">{route.view === 'home' ? config.home.eyebrow : route.view === 'about' ? config.about.eyebrow : route.paintingProjectId || ['workshopPaints', 'workshop', 'shopping', 'item'].includes(route.view) ? config.navigation.workshopSection : config.navigation.marketSection}</p>
+            <p className="eyebrow">{route.view === 'home' ? config.home.eyebrow : route.view.startsWith('about') ? config.navigation.aboutSection : route.paintingProjectId || ['workshopPaints', 'workshop', 'shopping', 'item'].includes(route.view) ? config.navigation.workshopSection : config.navigation.marketSection}</p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h1>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground">{description}</p>
             {notice && <div className="mt-5 flex items-start gap-2 rounded-2xl border border-primary/20 bg-primary/5 p-4 text-sm"><CircleAlert className="mt-0.5 size-4 flex-none text-primary" /><span>{notice}</span></div>}
+            {route.view.startsWith('about') && <div className="mt-6 flex flex-wrap gap-2 lg:hidden">{aboutNavigation.map((item) => <button type="button" key={item.route.view} onClick={() => navigate(item.route)} className={'rounded-xl border px-3 py-2 text-xs font-semibold ' + (route.view === item.route.view ? 'bg-primary text-primary-foreground' : 'bg-card text-foreground')}>{item.label}</button>)}</div>}
 
-            {route.view === 'home' && <HomePage paintTotal={paintStats.total} products={products} workshop={workshop} config={config} navigate={navigate} />}
-            {isPaintView && <PaintBrowser paints={paints} resultCount={paintResultCount} visibleCount={paintCatalogTotal} brands={brands} filters={filters} setFilters={setFilters} filterOptions={filterOptions} filtersOpen={filtersOpen} setFiltersOpen={setFiltersOpen} activeFilterCount={activeFilterCount} manufacturerSheetOnly={manufacturerSheetOnly} setManufacturerSheetOnly={setManufacturerSheetOnly} realResultOnly={realResultOnly} setRealResultOnly={setRealResultOnly} clearFilters={clearFilters} config={config} onOpen={setSelectedPaint} onLoadMore={() => void loadMorePaints()} />}
-            {route.view === 'marketProducts' && <MarketProducts products={products} config={config} navigate={navigate} />}
-            {route.view === 'workshop' && <WorkshopAdmin workshop={workshop} products={products} workshopItems={workshopItems} config={config} navigate={navigate} />}
+            {route.view === 'home' && <HomePage dashboard={dashboard} config={config} navigate={navigate} />}
+            {isPaintView && <PaintBrowser paints={paints} resultCount={paintResultCount} visibleCount={paintCatalogTotal} brands={brands} offset={paintOffset} pageSize={PAINT_PAGE_SIZE} filters={filters} setFilters={changeFilters} filterOptions={filterOptions} filtersOpen={filtersOpen} setFiltersOpen={setFiltersOpen} activeFilterCount={activeFilterCount} manufacturerSheetOnly={manufacturerSheetOnly} setManufacturerSheetOnly={changeManufacturerSheetOnly} realResultOnly={realResultOnly} setRealResultOnly={changeRealResultOnly} clearFilters={clearFilters} config={config} onOpen={setSelectedPaint} onPage={setPaintOffset} />}
+            {route.view === 'marketProducts' && <MarketProducts products={productSummaries} ownedProductIds={new Set(workshop.paintingProjects.map((project) => project.productId))} config={config} navigate={navigate} />}
+            {route.view === 'workshop' && <WorkshopAdmin workshop={workshop} config={config} navigate={navigate} />}
             {route.view === 'shopping' && <ShoppingPage items={shoppingItems} onToggle={setShoppingStatus} config={config} />}
-            {route.view === 'about' && <AboutPage about={aboutData} documentation={documentation} config={config} onOpenInfo={() => setAboutDialogOpen(true)} />}
-            {route.view === 'product' && activeProduct && <ProductPage product={activeProduct} activeItem={activeCatalogItem} paintingProject={activePaintingProject} workshopItems={workshopItems} preview={importPreview} importing={importing} config={config} navigate={navigate} onImport={importProduct} workshopMode={Boolean(route.paintingProjectId)} paints={workshopPaints} />}
-            {route.view === 'product' && !activeProduct && <EmptyState title={config.errors.productNotFound} description={config.errors.requestFailed} />}
+            {(route.view === 'aboutUser' || route.view === 'aboutAdmin') && <DocumentationPage documentation={documentation} config={config} />}
+            {route.view === 'aboutApi' && <ApiDocumentationPage config={config} />}
+            {route.view === 'aboutVersion' && <VersionPage about={aboutData} config={config} />}
+            {route.view === 'product' && activeProduct && <ProductPage product={activeProduct} activeItem={activeCatalogItem} paintingProject={activePaintingProject} workshopItems={workshopItems} preview={importPreview} importing={importing} config={config} navigate={navigate} onImport={importProduct} workshopMode={Boolean(route.paintingProjectId)} />}
+            {route.view === 'product' && loadingProduct && <p className="mt-8 text-sm text-muted-foreground">{config.errors.loading}</p>}
+            {route.view === 'product' && !loadingProduct && !activeProduct && <EmptyState title={config.errors.productNotFound} description={config.errors.requestFailed} />}
             {route.view === 'item' && workshopItemDetail && <WorkshopItemPage item={workshopItemDetail} paintingProject={workshop.paintingProjects.find((project) => project.projectId === workshopItemDetail.paintingProjectId)} config={config} navigate={navigate} saving={savingItem} onTransition={transitionItemStage} onComment={addItemComment} onPhoto={addItemPhoto} />}
           </div>
         </main>
       </div>
 
       <nav aria-label={config.navigation.mobileAriaLabel} className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-7 border-t bg-card/95 px-1 py-1.5 backdrop-blur-xl lg:hidden">
-        {navigation.map((item) => <button type="button" key={item.route.view} onClick={() => navigate(item.route)} className={'grid min-w-0 place-items-center gap-1 rounded-xl py-1.5 text-[9px] ' + (route.view === item.route.view ? 'bg-primary text-primary-foreground' : 'text-muted-foreground')}><span>{item.icon}</span><span className="w-full truncate px-0.5">{item.label}</span></button>)}
+        {mobileNavigation.map((item) => <button type="button" key={item.route.view} onClick={() => navigate(item.route)} className={'grid min-w-0 place-items-center gap-1 rounded-xl py-1.5 text-[9px] ' + (route.view === item.route.view || (route.view.startsWith('about') && item.route.view === 'aboutUser') ? 'bg-primary text-primary-foreground' : 'text-muted-foreground')}><span>{item.icon}</span><span className="w-full truncate px-0.5">{item.label}</span></button>)}
       </nav>
 
       {selectedPaint && <PaintDetail paint={selectedPaint} config={config} onClose={() => setSelectedPaint(null)} />}
-      {aboutDialogOpen && aboutData && <ApplicationInfoDialog about={aboutData} config={config} onClose={() => setAboutDialogOpen(false)} />}
     </div>
   );
 }
 
-function HomePage({ paintTotal, products, workshop, config, navigate }: {
-  paintTotal: number; products: PaintableProduct[]; workshop: WorkshopOverview; config: SiteConfig; navigate: (route: Route) => void;
+function HomePage({ dashboard, config, navigate }: {
+  dashboard: Dashboard; config: SiteConfig; navigate: (route: Route) => void;
 }) {
   const services: Array<[Route, ReactNode, { title: string; description: string; action: string }]> = [
     [{ view: 'marketPaints' }, <Droplets key="paint" size={20} />, config.home.marketPaints],
@@ -448,16 +561,16 @@ function HomePage({ paintTotal, products, workshop, config, navigate }: {
     [{ view: 'shopping' }, <ShoppingBasket key="shopping" size={20} />, config.home.shopping],
   ];
   return <>
-    <div className="mt-8 grid gap-3 sm:grid-cols-3"><Metric icon={<Droplets size={20} />} value={paintTotal} label={config.market.paintsMetric} /><Metric icon={<PackageOpen size={20} />} value={products.length} label={config.navigation.marketPaintableProducts} /><Metric icon={<Grid2X2 size={20} />} value={workshop.itemCount} label={config.workshop.items} /></div>
+    <div className="mt-8 grid gap-3 sm:grid-cols-3"><Metric icon={<Droplets size={20} />} value={dashboard.paintStats.total} label={config.market.paintsMetric} /><Metric icon={<PackageOpen size={20} />} value={dashboard.paintableProductCount} label={config.navigation.marketPaintableProducts} /><Metric icon={<Grid2X2 size={20} />} value={dashboard.workshop.itemCount} label={config.workshop.items} /></div>
     <section className="mt-10"><h2 className="text-xl font-semibold">{config.home.servicesTitle}</h2><p className="mt-2 text-sm text-muted-foreground">{config.home.servicesDescription}</p><div className="mt-5 grid gap-4 md:grid-cols-2">{services.map(([route, icon, service]) => <button type="button" key={route.view} onClick={() => navigate(route)} className="group rounded-[24px] border bg-card p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg"><span className="grid size-10 place-items-center rounded-2xl bg-primary/8 text-primary">{icon}</span><h3 className="mt-4 font-semibold">{service.title}</h3><p className="mt-2 text-xs leading-5 text-muted-foreground">{service.description}</p><span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-primary">{service.action}<ChevronRight size={14} /></span></button>)}</div></section>
   </>;
 }
 
-function PaintBrowser({ paints, resultCount, visibleCount, brands, filters, setFilters, filterOptions, filtersOpen, setFiltersOpen, activeFilterCount, manufacturerSheetOnly, setManufacturerSheetOnly, realResultOnly, setRealResultOnly, clearFilters, config, onOpen, onLoadMore }: {
-  paints: Paint[]; resultCount: number; visibleCount: number; brands: number; filters: PaintFilters; setFilters: (filters: PaintFilters) => void; filterOptions: FilterOptions;
+function PaintBrowser({ paints, resultCount, visibleCount, brands, offset, pageSize, filters, setFilters, filterOptions, filtersOpen, setFiltersOpen, activeFilterCount, manufacturerSheetOnly, setManufacturerSheetOnly, realResultOnly, setRealResultOnly, clearFilters, config, onOpen, onPage }: {
+  paints: Paint[]; resultCount: number; visibleCount: number; brands: number; offset: number; pageSize: number; filters: PaintFilters; setFilters: (filters: PaintFilters) => void; filterOptions: FilterOptions;
   filtersOpen: boolean; setFiltersOpen: (value: boolean) => void; activeFilterCount: number;
   manufacturerSheetOnly: boolean; setManufacturerSheetOnly: (value: boolean) => void; realResultOnly: boolean; setRealResultOnly: (value: boolean) => void;
-  clearFilters: () => void; config: SiteConfig; onOpen: (paint: Paint) => void; onLoadMore: () => void;
+  clearFilters: () => void; config: SiteConfig; onOpen: (paint: Paint) => void; onPage: (offset: number) => void;
 }) {
   const setFilter = (key: PaintFilterKey, value: string) => setFilters({ ...filters, [key]: value });
   const facets: Array<[PaintFilterKey, string, string, keyof FilterOptions]> = [
@@ -477,22 +590,20 @@ function PaintBrowser({ paints, resultCount, visibleCount, brands, filters, setF
     <div className="mt-7 grid gap-3 sm:grid-cols-3"><Metric icon={<Droplets size={19} />} value={visibleCount} label={config.market.paintsMetric} /><Metric icon={<Sparkles size={19} />} value={brands} label={config.market.brandsMetric} /><Metric icon={<ListChecks size={19} />} value={resultCount} label={config.collection.resultsTitle} /></div>
     <section className="mt-6 rounded-[24px] border bg-card p-4 sm:p-5"><div className="flex items-center justify-between gap-3"><button type="button" onClick={() => setFiltersOpen(!filtersOpen)} className="inline-flex items-center gap-2 text-sm font-semibold"><ListFilter size={17} />{config.collection.filters}{activeFilterCount > 0 && <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] text-primary-foreground">{activeFilterCount}</span>}</button>{activeFilterCount > 0 && <button type="button" onClick={clearFilters} className="text-xs font-semibold text-primary">{config.collection.resetFilters}</button>}</div>{filtersOpen && <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{facets.map(([key, label, allLabel, options]) => <FacetSelect key={key} label={label} allLabel={allLabel} value={filters[key]} options={filterOptions[options]} onChange={(value) => setFilter(key, value)} />)}<label className="need-chip"><input type="checkbox" checked={manufacturerSheetOnly} onChange={(event) => setManufacturerSheetOnly(event.target.checked)} />{config.collection.manufacturerSheetOnly}</label><label className="need-chip"><input type="checkbox" checked={realResultOnly} onChange={(event) => setRealResultOnly(event.target.checked)} />{config.collection.realResultOnly}</label></div>}</section>
     <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{paints.map((paint) => <PaintCard key={paint.id} paint={paint} config={config} onOpen={() => onOpen(paint)} />)}{resultCount === 0 && <div className="col-span-full"><EmptyState title={config.collection.emptyTitle} description={config.collection.emptyHint} /></div>}</div>
-    {paints.length < resultCount && <div className="mt-6 text-center"><button type="button" onClick={onLoadMore} className="rounded-xl border bg-card px-5 py-3 text-sm font-semibold text-primary">{config.collection.loadMore} ({paints.length} / {resultCount})</button></div>}
+    {resultCount > pageSize && <div className="mt-6 flex items-center justify-center gap-3"><button type="button" disabled={offset === 0} onClick={() => onPage(Math.max(0, offset - pageSize))} className="inline-flex size-11 items-center justify-center rounded-xl border bg-card text-primary disabled:opacity-35"><ChevronLeft size={17} /></button><span className="text-xs font-semibold text-muted-foreground">{offset + 1}–{Math.min(offset + paints.length, resultCount)} / {resultCount}</span><button type="button" disabled={offset + paints.length >= resultCount} onClick={() => onPage(offset + pageSize)} className="inline-flex size-11 items-center justify-center rounded-xl border bg-card text-primary disabled:opacity-35"><ChevronRight size={17} /></button></div>}
   </>;
 }
 
-function MarketProducts({ products, config, navigate }: { products: PaintableProduct[]; config: SiteConfig; navigate: (route: Route) => void }) {
-  return <div className="mt-8 grid gap-5 lg:grid-cols-2">{products.map((product) => <article key={product.id} className="rounded-[26px] border bg-card p-6 shadow-sm"><div className="flex items-start justify-between gap-4"><div><p className="eyebrow">{formatMetadata(product.productType)}</p><h2 className="mt-2 text-xl font-semibold">{product.name}</h2><p className="mt-1 text-xs text-muted-foreground">{product.line}</p></div>{product.inWorkshop && <span className="rounded-full bg-[#e5f4ec] px-3 py-1 text-[10px] font-semibold text-[#207650]">{config.market.inWorkshop}</span>}</div><p className="mt-4 text-sm leading-6 text-muted-foreground">{product.scope}</p><div className="mt-5 grid grid-cols-2 gap-2 text-xs"><div className="rounded-xl bg-secondary p-3"><strong className="block text-base">{product.items.length}</strong>{config.market.catalogItems}</div><div className="rounded-xl bg-secondary p-3"><strong className="block text-base">{product.expectedPaintableCount}</strong>{config.market.paintableItems}</div></div><button type="button" onClick={() => navigate({ view: 'product', productId: product.id })} className="mt-5 inline-flex h-10 items-center gap-2 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground"><BookOpen size={15} />{config.market.viewProduct}</button></article>)}</div>;
+function MarketProducts({ products, ownedProductIds, config, navigate }: { products: PaintableProductSummary[]; ownedProductIds: Set<string>; config: SiteConfig; navigate: (route: Route) => void }) {
+  return <div className="mt-8 grid gap-5 lg:grid-cols-2">{products.map((product) => <article key={product.id} className="rounded-[26px] border bg-card p-6 shadow-sm"><div className="flex items-start justify-between gap-4"><div><p className="eyebrow">{formatMetadata(product.productType)}</p><h2 className="mt-2 text-xl font-semibold">{product.name}</h2><p className="mt-1 text-xs text-muted-foreground">{product.line}</p></div>{ownedProductIds.has(product.id) && <span className="rounded-full bg-[#e5f4ec] px-3 py-1 text-[10px] font-semibold text-[#207650]">{config.market.inWorkshop}</span>}</div><p className="mt-4 text-sm leading-6 text-muted-foreground">{product.scope}</p><div className="mt-5 grid grid-cols-2 gap-2 text-xs"><div className="rounded-xl bg-secondary p-3"><strong className="block text-base">{product.catalogItemCount}</strong>{config.market.catalogItems}</div><div className="rounded-xl bg-secondary p-3"><strong className="block text-base">{product.expectedPaintableCount}</strong>{config.market.paintableItems}</div></div><button type="button" onClick={() => navigate({ view: 'product', productId: product.id })} className="mt-5 inline-flex h-10 items-center gap-2 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground"><BookOpen size={15} />{config.market.viewProduct}</button></article>)}</div>;
 }
 
-function WorkshopAdmin({ workshop, products, workshopItems, config, navigate }: { workshop: WorkshopOverview; products: PaintableProduct[]; workshopItems: WorkshopItem[]; config: SiteConfig; navigate: (route: Route) => void }) {
+function WorkshopAdmin({ workshop, config, navigate }: { workshop: WorkshopOverview; config: SiteConfig; navigate: (route: Route) => void }) {
   if (workshop.paintingProjects.length === 0) return <div className="mt-8"><EmptyState title={config.workshop.emptyTitle} description={config.workshop.emptyDescription} /></div>;
   return <>
     <div className="mt-7 grid gap-3 sm:grid-cols-4"><Metric icon={<PackageOpen size={19} />} value={workshop.projectCount} label={config.workshop.projects} /><Metric icon={<Grid2X2 size={19} />} value={workshop.itemCount} label={config.workshop.items} /><Metric icon={<Check size={19} />} value={workshop.completedItemCount} label={config.workshop.completed} /><Metric icon={<Sparkles size={19} />} value={`${workshop.progressPercentage}%`} label={config.workshop.progress} /></div>
     <section className="mt-8 space-y-4">{workshop.paintingProjects.map((summary) => {
-      const product = products.find((entry) => entry.id === summary.productId);
-      const physical = workshopItems.filter((item) => item.paintingProjectId === summary.projectId);
-      return <article key={summary.projectId} className="rounded-[26px] border bg-card p-5 shadow-sm sm:p-6"><div className="flex flex-col gap-5 lg:flex-row lg:items-center"><div className="min-w-0 flex-1"><p className="eyebrow">{product?.line ?? summary.productId}</p><h2 className="mt-2 text-xl font-semibold">{summary.name}</h2><div className="mt-4 h-2.5 overflow-hidden rounded-full bg-secondary"><div className="h-full rounded-full bg-primary transition-all" style={{ width: `${summary.progressPercentage}%` }} /></div><p className="mt-2 text-xs text-muted-foreground">{summary.progressPercentage}% · {summary.completedCount} {config.workshop.completed} · {summary.inProgressCount} {config.workshop.inProgress} · {summary.pendingCount} {config.workshop.pending}</p></div><div className="grid grid-cols-2 gap-2 text-xs sm:grid-cols-4 lg:w-[420px]"><SummaryCell value={summary.itemCount} label={config.workshop.items} /><SummaryCell value={physical.length} label={config.market.paintableItems} /><SummaryCell value={summary.missingPaintCount} label={config.workshop.missingPaints} /><SummaryCell value={summary.pendingPaintSlotCount} label={config.workshop.pendingPaintSlots} /></div></div><div className="mt-5 flex flex-wrap items-center gap-4">{summary.missingPaints.length > 0 ? <div className="flex flex-wrap gap-2">{summary.missingPaints.map((paint) => <span key={paint.id} className="rounded-full bg-[#ffe5df] px-3 py-1.5 text-[11px] font-semibold text-[#a6402c]">{paint.brand} · {paint.name}</span>)}</div> : <p className="inline-flex items-center gap-2 text-xs font-semibold text-[#207650]"><Check size={14} />{config.workshop.noMissingPaints}</p>}<button type="button" onClick={() => navigate({ view: 'product', productId: summary.productId, paintingProjectId: summary.projectId })} className="inline-flex items-center gap-1 text-xs font-semibold text-primary">{config.workshop.manageProduct}<ChevronRight size={14} /></button></div></article>;
+      return <article key={summary.projectId} className="rounded-[26px] border bg-card p-5 shadow-sm sm:p-6"><div className="flex flex-col gap-5 lg:flex-row lg:items-center"><div className="min-w-0 flex-1"><p className="eyebrow">{summary.productId}</p><h2 className="mt-2 text-xl font-semibold">{summary.name}</h2><div className="mt-4 h-2.5 overflow-hidden rounded-full bg-secondary"><div className="h-full rounded-full bg-primary transition-all" style={{ width: `${summary.progressPercentage}%` }} /></div><p className="mt-2 text-xs text-muted-foreground">{summary.progressPercentage}% · {summary.completedCount} {config.workshop.completed} · {summary.inProgressCount} {config.workshop.inProgress} · {summary.pendingCount} {config.workshop.pending}</p></div><div className="grid grid-cols-2 gap-2 text-xs sm:grid-cols-4 lg:w-[420px]"><SummaryCell value={summary.itemCount} label={config.workshop.items} /><SummaryCell value={summary.requiredPaintCount} label={config.productDetail.requiredPaints} /><SummaryCell value={summary.missingPaintCount} label={config.workshop.missingPaints} /><SummaryCell value={summary.pendingPaintSlotCount} label={config.workshop.pendingPaintSlots} /></div></div><div className="mt-5 flex flex-wrap items-center gap-4">{summary.missingPaints.length > 0 ? <div className="flex flex-wrap gap-2">{summary.missingPaints.map((paint) => <span key={paint.id} className="rounded-full bg-[#ffe5df] px-3 py-1.5 text-[11px] font-semibold text-[#a6402c]">{paint.brand} · {paint.name}</span>)}</div> : <p className="inline-flex items-center gap-2 text-xs font-semibold text-[#207650]"><Check size={14} />{config.workshop.noMissingPaints}</p>}<button type="button" onClick={() => navigate({ view: 'product', productId: summary.productId, paintingProjectId: summary.projectId })} className="inline-flex items-center gap-1 text-xs font-semibold text-primary">{config.workshop.manageProduct}<ChevronRight size={14} /></button></div></article>;
     })}</section>
     <section className="mt-10"><h2 className="text-lg font-semibold">{config.workshop.recentActivity}</h2><div className="mt-4 divide-y overflow-hidden rounded-[22px] border bg-card">{workshop.recentActivity.map((event) => <div key={event.eventId} className="flex min-w-0 items-center gap-3 px-4 py-3"><span className="size-2 flex-none rounded-full bg-primary" /><span className="min-w-0 flex-1 truncate text-xs font-semibold">{config.workshop.eventLabels[event.eventType] ?? event.eventType}</span><time className="flex-none text-[10px] text-muted-foreground">{new Date(event.occurredAt).toLocaleDateString('fr-FR')}</time></div>)}</div></section>
   </>;
@@ -502,17 +613,17 @@ function SummaryCell({ value, label }: { value: number; label: string }) {
   return <div className="rounded-xl bg-secondary p-3"><strong className="block text-base">{value}</strong><span className="text-[10px] text-muted-foreground">{label}</span></div>;
 }
 
-function ProductPage({ product, activeItem, paintingProject, workshopItems, preview, importing, config, navigate, onImport, workshopMode, paints }: {
+function ProductPage({ product, activeItem, paintingProject, workshopItems, preview, importing, config, navigate, onImport, workshopMode }: {
   product: PaintableProduct; activeItem?: PaintableCatalogItem; paintingProject?: PaintingProjectSummary; workshopItems: WorkshopItem[];
   preview: PaintableProductImportPreview | null; importing: boolean; config: SiteConfig; navigate: (route: Route) => void;
-  onImport: (id: string) => void; workshopMode: boolean; paints: Paint[];
+  onImport: (id: string) => void; workshopMode: boolean;
 }) {
   const physicalItems = workshopItems.filter((item) => item.paintingProjectId === paintingProject?.projectId);
-  const ownedPaintIds = new Set(paints.filter((paint) => paint.quantity > 0).map((paint) => paint.id));
+  const missingPaintIds = new Set(preview?.missingPaints.map((paint) => paint.id) ?? []);
   const itemStates = activeItem ? physicalItems.filter((item) => item.catalogItemId === activeItem.id) : [];
   return <>
     <button type="button" onClick={() => navigate({ view: workshopMode ? 'workshop' : 'marketProducts' })} className="mt-6 inline-flex items-center gap-1 text-xs font-semibold text-primary"><ChevronLeft size={14} />{config.productDetail.back}</button>
-    <div className="mt-6 grid gap-4 sm:grid-cols-3"><Metric icon={<PackageOpen size={19} />} value={product.expectedPaintableCount} label={config.market.paintableItems} /><Metric icon={<ListChecks size={19} />} value={product.items.length} label={config.market.catalogItems} /><Metric icon={<BookOpen size={19} />} value={product.items.filter((item) => 'id' in item.marketGuide).length} label={config.productDetail.paintingSheets} /></div>
+    <div className="mt-6 grid gap-4 sm:grid-cols-3"><Metric icon={<PackageOpen size={19} />} value={product.expectedPaintableCount} label={config.market.paintableItems} /><Metric icon={<ListChecks size={19} />} value={product.items.length} label={config.market.catalogItems} /><Metric icon={<BookOpen size={19} />} value={product.items.filter((item) => Boolean(item.marketGuide?.id)).length} label={config.productDetail.paintingSheets} /></div>
     {product.edition.note && <div className="mt-6 rounded-2xl border border-primary/15 bg-primary/5 p-4 text-xs leading-5 text-muted-foreground">{product.edition.note} {product.edition.url && <a href={product.edition.url} target="_blank" rel="noreferrer" className="ml-1 font-semibold text-primary"><ExternalLink className="inline size-3" /> {config.market.source}</a>}</div>}
 
     {!workshopMode && <ImportPanel product={product} preview={preview} importing={importing} config={config} navigate={navigate} onImport={onImport} />}
@@ -528,7 +639,7 @@ function ProductPage({ product, activeItem, paintingProject, workshopItems, prev
         <ReferenceImages item={activeItem} config={config} />
         {workshopMode && <PhysicalProgress items={itemStates} config={config} navigate={navigate} />}
         <section className="mt-7"><h3 className="flex items-center gap-2 text-sm font-semibold"><Droplets size={16} className="text-primary" />{config.productDetail.paintGuide}</h3><div className="mt-4 grid min-w-0 gap-3 sm:grid-cols-2">{activeItem.paints.map((paint) => {
-          const status = paint.pendingImport ? config.productDetail.paintPending : paint.paintId && ownedPaintIds.has(paint.paintId) ? config.productDetail.paintAvailable : config.productDetail.paintMissing;
+          const status = paint.pendingImport ? config.productDetail.paintPending : paint.paintId && !missingPaintIds.has(paint.paintId) ? config.productDetail.paintAvailable : config.productDetail.paintMissing;
           const okay = status === config.productDetail.paintAvailable;
           return <div key={paint.slotId} className="flex min-w-0 items-center gap-3 rounded-2xl border bg-background/60 p-3"><span className={'size-10 flex-none rounded-xl border ' + (!validColor(paint.colorHex) ? 'unknown-color' : '')} style={swatchStyle(paint.colorHex)} /><span className="min-w-0 flex-1"><strong className="block truncate text-sm">{paint.name}</strong><span className="block truncate text-[11px] text-muted-foreground">{paint.brand} · {paint.role}</span></span><span className={'max-w-[42%] break-words rounded-full px-2 py-1 text-center text-[9px] font-semibold ' + (okay ? 'bg-[#e5f4ec] text-[#207650]' : 'bg-[#ffe5df] text-[#a6402c]')}>{status}</span></div>;
         })}</div></section>
@@ -540,7 +651,7 @@ function ProductPage({ product, activeItem, paintingProject, workshopItems, prev
 }
 
 function ImportPanel({ product, preview, importing, config, navigate, onImport }: { product: PaintableProduct; preview: PaintableProductImportPreview | null; importing: boolean; config: SiteConfig; navigate: (route: Route) => void; onImport: (id: string) => void }) {
-  return <section className="mt-6 rounded-[24px] border bg-card p-5 shadow-sm"><div className="flex flex-col gap-5 md:flex-row md:items-center"><div className="min-w-0 flex-1"><p className="eyebrow">{config.productDetail.importPreview}</p><p className="mt-2 text-sm leading-6 text-muted-foreground">{config.productDetail.importDescription}</p>{preview && <div className="mt-4 grid grid-cols-3 gap-2"><SummaryCell value={preview.requiredPaintCount} label={config.productDetail.requiredPaints} /><SummaryCell value={preview.missingPaintCount} label={config.productDetail.missingPaints} /><SummaryCell value={preview.pendingPaintSlotCount} label={config.productDetail.pendingSlots} /></div>}</div><div className="flex-none">{preview?.alreadyImported || product.inWorkshop ? <><p className="mb-3 max-w-xs text-xs font-semibold text-[#207650]">{config.productDetail.alreadyImported}</p><button type="button" onClick={() => navigate({ view: 'workshop' })} className="inline-flex h-11 items-center gap-2 rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground"><FolderCog size={16} />{config.productDetail.openWorkshop}</button></> : <button type="button" disabled={!preview || importing} onClick={() => onImport(product.id)} className="inline-flex h-11 items-center gap-2 rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground disabled:opacity-50"><PackageOpen size={16} />{importing ? config.productDetail.importing : config.productDetail.importAction}</button>}</div></div>{preview && preview.missingPaints.length > 0 && <div className="mt-4 flex flex-wrap gap-2">{preview.missingPaints.map((paint) => <span key={paint.id} className="rounded-full bg-[#ffe5df] px-3 py-1.5 text-[11px] font-semibold text-[#a6402c]">{paint.brand} · {paint.name}</span>)}</div>}</section>;
+  return <section className="mt-6 rounded-[24px] border bg-card p-5 shadow-sm"><div className="flex flex-col gap-5 md:flex-row md:items-center"><div className="min-w-0 flex-1"><p className="eyebrow">{config.productDetail.importPreview}</p><p className="mt-2 text-sm leading-6 text-muted-foreground">{config.productDetail.importDescription}</p>{preview && <div className="mt-4 grid grid-cols-3 gap-2"><SummaryCell value={preview.requiredPaintCount} label={config.productDetail.requiredPaints} /><SummaryCell value={preview.missingPaintCount} label={config.productDetail.missingPaints} /><SummaryCell value={preview.pendingPaintSlotCount} label={config.productDetail.pendingSlots} /></div>}</div><div className="flex-none">{preview?.alreadyImported ? <><p className="mb-3 max-w-xs text-xs font-semibold text-[#207650]">{config.productDetail.alreadyImported}</p><button type="button" onClick={() => navigate({ view: 'workshop' })} className="inline-flex h-11 items-center gap-2 rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground"><FolderCog size={16} />{config.productDetail.openWorkshop}</button></> : <button type="button" disabled={!preview || importing} onClick={() => onImport(product.id)} className="inline-flex h-11 items-center gap-2 rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground disabled:opacity-50"><PackageOpen size={16} />{importing ? config.productDetail.importing : config.productDetail.importAction}</button>}</div></div>{preview && preview.missingPaints.length > 0 && <div className="mt-4 flex flex-wrap gap-2">{preview.missingPaints.map((paint) => <span key={paint.id} className="rounded-full bg-[#ffe5df] px-3 py-1.5 text-[11px] font-semibold text-[#a6402c]">{paint.brand} · {paint.name}</span>)}</div>}</section>;
 }
 
 function ReferenceImages({ item, config }: { item: PaintableCatalogItem; config: SiteConfig }) {
@@ -593,18 +704,18 @@ function ShoppingPage({ items, onToggle, config }: { items: ShoppingItem[]; onTo
   return <div className="mt-8 space-y-8">{required.length > 0 && <section><h2 className="text-lg font-semibold">{config.shopping.requiredTitle}</h2><p className="mt-1 text-xs text-muted-foreground">{config.shopping.derivedHint}</p>{rows(required)}</section>}{planned.length > 0 && <section><h2 className="text-lg font-semibold">{config.shopping.plannedTitle}</h2><p className="mt-1 text-xs text-muted-foreground">{config.shopping.plannedHint}</p>{rows(planned)}</section>}</div>;
 }
 
-function AboutPage({ about, documentation, config, onOpenInfo }: {
-  about: AboutData | null; documentation: DocumentationData | null; config: SiteConfig; onOpenInfo: () => void;
-}) {
+function DocumentationPage({ documentation, config }: { documentation: DocumentationData | null; config: SiteConfig }) {
   if (!documentation) return <p className="mt-8 text-sm text-muted-foreground">{config.about.loading}</p>;
-  const userDocuments = documentation.documents.filter((document) => document.audience === 'user');
-  const administratorDocuments = documentation.documents.filter((document) => document.audience === 'administrator');
-  const renderDocuments = (documents: DocumentationData['documents']) => <div className="mt-4 grid gap-4">{documents.map((document) => <article key={document.id} className="rounded-[24px] border bg-card p-5 shadow-sm sm:p-7"><h3 className="text-lg font-semibold">{config.about.documentTitles[document.id] ?? document.id}</h3><MarkdownDocument markdown={document.markdown} /></article>)}</div>;
-  return <div className="mt-8 space-y-10">
-    <button type="button" disabled={!about} onClick={onOpenInfo} className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground disabled:opacity-50"><Info size={16} />{config.about.versionAction}</button>
-    <section><h2 className="text-xl font-semibold">{config.about.userTitle}</h2>{renderDocuments(userDocuments)}</section>
-    <section><h2 className="text-xl font-semibold">{config.about.administratorTitle}</h2>{renderDocuments(administratorDocuments)}</section>
-  </div>;
+  return <div className="mt-8 grid gap-4">{documentation.documents.map((document) => <article key={document.id} className="rounded-[24px] border bg-card p-5 shadow-sm sm:p-7"><h2 className="text-lg font-semibold">{config.about.documentTitles[document.id] ?? document.id}</h2><MarkdownDocument markdown={document.markdown} /></article>)}</div>;
+}
+
+function VersionPage({ about, config }: { about: AboutData | null; config: SiteConfig }) {
+  if (!about) return <p className="mt-8 text-sm text-muted-foreground">{config.about.loading}</p>;
+  return <dl className="mt-8 grid max-w-2xl gap-4 sm:grid-cols-2"><div className="rounded-[24px] border bg-card p-6 shadow-sm"><dt className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">{config.about.versionLabel}</dt><dd className="mt-2 text-xl font-semibold">{about.version}</dd></div><div className="rounded-[24px] border bg-card p-6 shadow-sm"><dt className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">{config.about.authorLabel}</dt><dd className="mt-2 text-xl font-semibold">{about.author}</dd></div></dl>;
+}
+
+function ApiDocumentationPage({ config }: { config: SiteConfig }) {
+  return <section className="mt-8 overflow-hidden rounded-[24px] border bg-card shadow-sm"><div className="flex items-center justify-between gap-4 border-b px-5 py-4"><p className="text-sm text-muted-foreground">{config.about.apiDescription}</p><a className="inline-flex items-center gap-2 text-xs font-semibold text-primary" href="/swagger-ui/index.html" target="_blank" rel="noreferrer">OpenAPI <ExternalLink size={14} /></a></div><iframe className="h-[72vh] w-full bg-white" title={config.about.apiTitle} src="/swagger-ui/index.html" /></section>;
 }
 
 function MarkdownDocument({ markdown }: { markdown: string }) {
@@ -619,17 +730,6 @@ function MarkdownDocument({ markdown }: { markdown: string }) {
     if (lines.every((line) => line.startsWith('- '))) return <ul key={index} className="list-disc space-y-1 pl-5">{lines.map((line) => <li key={line}>{line.slice(2)}</li>)}</ul>;
     return <p key={index}>{lines.join(' ')}</p>;
   })}</div>;
-}
-
-function ApplicationInfoDialog({ about, config, onClose }: { about: AboutData; config: SiteConfig; onClose: () => void }) {
-  const closeButton = useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    closeButton.current?.focus();
-    const onKeyDown = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [onClose]);
-  return <div role="presentation" className="fixed inset-0 z-50 grid place-items-center bg-black/45 p-4 backdrop-blur-sm" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}><dialog open aria-labelledby="application-info-title" className="m-0 w-full max-w-md rounded-[26px] bg-card p-6 text-foreground shadow-2xl"><div className="flex items-start justify-between gap-4"><div><p className="eyebrow">{about.name}</p><h2 id="application-info-title" className="mt-2 text-xl font-semibold">{config.about.versionTitle}</h2></div><button ref={closeButton} type="button" onClick={onClose} aria-label={config.about.close} className="grid size-10 place-items-center rounded-xl border"><X size={18} /></button></div><dl className="mt-6 grid gap-3"><div className="rounded-xl bg-secondary p-4"><dt className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">{config.about.versionLabel}</dt><dd className="mt-1 font-semibold">{about.version}</dd></div><div className="rounded-xl bg-secondary p-4"><dt className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">{config.about.authorLabel}</dt><dd className="mt-1 font-semibold">{about.author}</dd></div></dl></dialog></div>;
 }
 
 function PaintDetail({ paint, config, onClose }: { paint: Paint; config: SiteConfig; onClose: () => void }) {

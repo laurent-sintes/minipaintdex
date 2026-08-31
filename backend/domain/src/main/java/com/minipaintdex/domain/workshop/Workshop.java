@@ -1,23 +1,70 @@
 package com.minipaintdex.domain.workshop;
 
-import com.minipaintdex.domain.workflow.DomainException;
+import com.minipaintdex.domain.event.DomainEvent;
+import com.minipaintdex.domain.event.EventSourcedAggregateRoot;
+import com.minipaintdex.domain.shared.DomainException;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 /** Aggregate root representing the owner's durable workshop and its painting projects. */
-public record Workshop(String id, List<String> paintingProjectIds, Instant updatedAt) {
+public final class Workshop extends EventSourcedAggregateRoot {
     public static final String DEFAULT_ID = "my-workshop";
 
-    public Workshop {
-        if (id == null || id.isBlank()) throw new DomainException("invalid_workshop", "Workshop id is required.");
-        paintingProjectIds = paintingProjectIds == null ? List.of() : List.copyOf(paintingProjectIds);
-        if (paintingProjectIds.stream().distinct().count() != paintingProjectIds.size()) {
-            throw new DomainException("invalid_workshop", "Duplicate painting project in workshop.");
+    private String id;
+    private String name;
+    private final List<String> paintingProjectIds = new ArrayList<>();
+    private Instant updatedAt;
+
+    private Workshop() {}
+
+    public static Workshop create(String id, String name, Instant occurredAt) {
+        var workshop = new Workshop();
+        workshop.raise(new WorkshopCreated(id, name, occurredAt));
+        return workshop;
+    }
+
+    public static Workshop rehydrate(List<? extends WorkshopEvent> history) {
+        var workshop = new Workshop();
+        history.forEach(workshop::replay);
+        return workshop;
+    }
+
+    public void registerPaintingProject(String paintingProjectId, Instant occurredAt) {
+        if (paintingProjectIds.contains(paintingProjectId)) {
+            throw new DomainException("painting_project_already_registered",
+                    "Painting project is already registered in the workshop: " + paintingProjectId);
+        }
+        raise(new PaintingProjectRegistered(id, paintingProjectId, occurredAt));
+    }
+
+    @Override
+    protected void apply(DomainEvent event) {
+        switch (event) {
+            case WorkshopCreated created -> {
+                id = created.workshopId();
+                name = created.name();
+                updatedAt = created.occurredAt();
+            }
+            case PaintingProjectRegistered registered -> {
+                paintingProjectIds.add(registered.paintingProjectId());
+                updatedAt = registered.occurredAt();
+            }
+            default -> throw unsupported(event);
         }
     }
 
+    @Override public String id() { return id; }
+    public String name() { return name; }
+    public List<String> paintingProjectIds() { return List.copyOf(paintingProjectIds); }
+    public Instant updatedAt() { return updatedAt; }
+
     public boolean containsPaintingProject(String paintingProjectId) {
         return paintingProjectIds.contains(paintingProjectId);
+    }
+
+    private DomainException unsupported(DomainEvent event) {
+        return new DomainException("invalid_workshop_event", "Unsupported workshop event: " + event.eventType());
     }
 }

@@ -47,6 +47,22 @@ SITE (supporting configuration, file-versioned)
 
 ### Market bounded context
 
+- The Java package boundary mirrors the bounded context: market domain types live below
+  `com.minipaintdex.domain.market`; workshop types live below `com.minipaintdex.domain.workshop`.
+  Do not create generic `domain.product` or `domain.paint` packages that hide context ownership.
+- `MARKET` is the shared kernel of reference knowledge. Its published, stable contracts are the
+  only market types that `WORKSHOP` may consume. The dependency is deliberately asymmetric:
+  `WORKSHOP -> MARKET contracts` is allowed; `MARKET -> WORKSHOP` is forbidden in domain,
+  application, adapters and tests. A cross-context read model must be composed outside the market
+  package and must never make workshop state part of market truth.
+- Keep market input ports pure. Import previews, owned-paint reconciliation and any other result
+  involving inventory, projects or progress are workshop use cases, even when their URL links back
+  to a market identifier. Market services must not receive a workshop repository, port, aggregate,
+  event or view. They read through the dedicated `MarketCatalogReader` and `MarketCatalogSnapshot`;
+  injecting the cross-context `SnapshotRepository` or `DataSnapshot` into a Market service is forbidden.
+- Enforce the direction with ArchUnit. Any new market package or class must pass a rule prohibiting
+  dependencies on `..workshop..`; do not bypass the rule through a universal service or an
+  untyped `Map` facade.
 - `MarketPaint` and `PaintableProduct` have different identities, metadata, search behavior, and lifecycles.
 - A `PaintableProduct` owns its `CatalogItem` entities. Each catalog item has a stable ID, `product_id`, English `kind`, and positive market quantity.
 - The sum of catalog-item quantities must equal `expected_paintable_count`; invalid products must fail loading or change-set validation.
@@ -74,7 +90,11 @@ SITE (supporting configuration, file-versioned)
 | `WorkshopRecipe` | plans | `CatalogItem` | owner lifecycle independent of market guide |
 | recipe assignment | attaches | `WorkshopItem` | two copies may use different recipes |
 
-Market product views and workshop views are distinct projections. A market view may overlay an `inWorkshop` badge, but it must not expose workshop progress as market truth. A workshop view joins IDs at read time to calculate physical counts, workflow progress, missing owned paints, activity, and guide coverage.
+Market product views and workshop views are distinct projections. Market responses never contain
+`inWorkshop`, owned quantity, personal progress, or any other workshop-derived field. When the UI
+needs a badge or a joined presentation, it composes separate Market and Workshop responses, or calls
+a Workshop use case that consumes a published Market interface. A workshop view joins IDs at read
+time to calculate physical counts, workflow progress, missing owned paints, activity, and guide coverage.
 
 ## Target repository layout
 
@@ -89,6 +109,7 @@ backend/
   domain/                 # Pure Java entities, value objects, events, workflow rules
   application/            # Commands, queries, handlers, ports, DTO contracts
   adapter-file/           # YAML/JSONL outbound repositories
+  adapter-spring-events/  # Spring Events bus, asynchronous dispatch and lifecycle adapter
   bootstrap/              # Shared validated Spring configuration and bean wiring
   server/                 # Spring Boot and Spring MVC REST adapter
   cli/                    # Picocli adapter using the same application services
@@ -115,7 +136,7 @@ datasets/                 # Portable named datasets, never active application st
 
 docs/
   user/                   # User documentation embedded in the application
-  admin/                  # DDD, REST and skill documentation
+  admin/                  # DDD, REST/OpenAPI, refactoring and skill documentation
 
 config/
   application.yaml       # Canonical Spring Boot technical defaults
@@ -129,6 +150,7 @@ data/
   workshop/
   ledger/
     events/
+    publications/         # Durable pending/failed event-bus publications
 
 media/
   workshop/
@@ -144,7 +166,7 @@ All domain reads and writes go through the local REST server. The server is the 
 
 - validating commands and workflow transitions;
 - invoking application services;
-- appending domain events;
+- publishing aggregate-emitted domain event batches through the application event bus;
 - building and serving projections;
 - reading market and site repositories;
 - storing and serving media;
@@ -208,9 +230,101 @@ Examples:
 | Read activity | `GET /api/v1/activity` | `minipaintdex activity list` |
 | Rebuild projections | maintenance REST resource | `minipaintdex projections rebuild` |
 
-The frontend and CLI send business intent, not arbitrary events. For example, a stage-transition command is validated by the application service, which then emits the corresponding domain event.
+The frontend and CLI send business intent, not arbitrary events. For example, the application handler validates a stage-transition command at its boundary, loads the target aggregate and invokes its business method; the aggregate alone emits the corresponding domain event.
 
 When the REST server is running, mutation commands from the CLI should use it so there is one writer. An explicitly offline maintenance mode may invoke application handlers in process only after acquiring an exclusive storage lock.
+
+### Application services and ports
+
+The application layer is the single transport-independent pivot for REST and CLI, but it must not become one universal service class. Define cohesive input-port interfaces by bounded context and capability, with one typed command or query and one typed result per use case. REST controllers and Picocli commands depend on those input ports, never on a concrete all-purpose facade. An optional facade may compose use cases for bootstrap purposes, but it must not own business rules or untyped presentation mapping.
+
+The concrete Spring topology exposes four cohesive application services: `SiteApplicationService`, `MarketCatalogApplicationService`, `WorkshopApplicationService` and `AdministrationApplicationService`. REST controllers inject only the port they serve; Picocli subcommands select the same capability-specific ports. The shared coordination kernel is not an input port and must never be injected into REST or CLI. When a rule becomes local to one capability, move it from the coordination kernel into that application service instead of growing the kernel.
+
+Use interfaces where they express an architectural boundary, substitutable policy, input port or output port. Do not create one-to-one interfaces for every concrete class. Every public port interface must have Javadoc that specifies observable behavior, validation, ordering, idempotency, concurrency, consistency, failure and resource-lifetime guarantees. Implementation Javadoc and comments are reserved for non-obvious hotspots such as locking, atomic replacement, asynchronous shutdown, cache publication, retries, back-pressure or recovery; do not paraphrase straightforward code.
+
+Application contracts use domain types or dedicated immutable Java records. Do not expose `Map<String, Object>`, filesystem documents, Spring types, Jackson nodes or transport response objects across application boundaries. Export formatting, HAL links, HTTP errors, CLI rendering and YAML/JSON serialization belong to adapters.
+
+Versioned bulk imports that must retain an extensible file schema use the immutable, serialization-neutral `StructuredDocument` algebra at the application boundary. Only input adapters translate JSON/YAML trees into it, and application validation must translate it to the relevant typed model before mutation. Do not use it as a shortcut for ordinary query results or aggregate state.
+
+## Domain aggregates and events
+
+Only an aggregate root may emit a domain event. Application handlers load or rehydrate an aggregate, invoke a business method, collect the events raised by that aggregate and publish them. Handlers, controllers, projectors, repositories and serialization code must never manufacture a domain event to bypass aggregate behavior.
+
+Domain events are immutable, strongly typed Java records, equivalent in intent to Kotlin data classes. Each business event is colocated in the same package as the aggregate root that emits it and is named in English past tense. A common `domain.event` package may contain only framework-independent base abstractions such as `DomainEvent`, `EventEnvelope`, identifiers and metadata. It must not become a registry of unrelated business events.
+
+Use one aggregate-local sealed event family where useful. The common cross-aggregate `DomainEvent` abstraction remains framework independent and does not carry Jackson, Spring Data, Spring Modulith or messaging annotations. Event payloads and aggregate state must not use `Map<String, Object>`. Keep delivery metadata such as event ID, recorded time, correlation, causation, actor and publication identity in a typed envelope so aggregate methods only create domain facts they genuinely know.
+
+Event-sourced aggregates decide and apply:
+
+```text
+command -> AggregateRoot business method -> typed domain event -> aggregate apply(event)
+ledger history -> aggregate apply(event) -> rehydrated state
+```
+
+Projectors only fold committed events into read models. They do not validate commands or decide whether a transition is allowed. Aggregate methods enforce invariants and expose allowed business actions; REST assemblers may translate those capabilities into hypermedia links without putting HTTP concepts in the domain.
+
+Every event-sourced aggregate carries a version. Appending a batch uses expected versions or an equivalent application unit-of-work guard so invariant checks and persistence cannot race. Pending accepted publications must participate in the effective write state until they reach the ledger; a second command must never validate against state that ignores an earlier accepted event.
+
+Domain events, application events and integration notifications are distinct:
+
+- a domain event is a business fact emitted by an aggregate root;
+- an application event reports an internal application or infrastructure occurrence and is not persisted as domain history unless the domain explicitly requires it;
+- a committed-event notification is emitted only after durable ledger acknowledgement and may drive projections, SSE or future integrations;
+- an external event is translated by an adapter into an application command before it reaches the domain.
+
+## Event bus, asynchronous ledger and shutdown
+
+The application defines a framework-independent `EventBus` publish/subscribe port and typed `EventSubscriber` contract. Aggregate roots never inject or call the bus themselves. The initial topology has exactly one critical domain-event subscriber, the ledger, but subscriber cardinality is bootstrap configuration rather than an interface limitation.
+
+```text
+REST or CLI
+    -> application handler
+    -> AggregateRoot
+    -> EventBus.publish(EventBatch)
+    -> durable publication store
+    -> asynchronous LedgerSubscriber
+    -> committed-event notification
+    -> projections and SSE invalidation
+```
+
+`EventBatch` is the atomic unit produced by one command. It preserves event order and carries typed correlation and idempotency metadata. The local Spring adapter uses Spring Framework application events as its in-process pub/sub foundation behind the application port. Spring stays out of `domain` and `application`. Do not make the global Spring event multicaster asynchronous; use a dedicated, bounded, single-consumer executor or dispatcher for domain batches so unrelated Spring lifecycle events are unaffected and global ledger order remains deterministic.
+
+Asynchronous ledger ingestion must not acknowledge a command after placing its only copy in volatile memory. Before `EventBus.publish` reports acceptance, store the batch in a durable file-backed publication store with explicit `pending`, `processing`, `completed` and `failed` states. Publication and consumption are idempotent. On startup, recover unfinished publications before write readiness becomes healthy. The ledger consumes and appends a complete batch atomically, acknowledges it, then triggers committed-event notifications. In a future database adapter this store becomes an outbox; in a future distributed topology the event-bus adapter may map to AMQP with publisher confirmation without changing application or domain code. Spring Modulith event externalization or Spring Integration AMQP adapters are infrastructure options, not domain dependencies.
+
+Asynchronous command endpoints return an accepted publication receipt rather than pretending that a lagging projection has already changed. REST uses `202 Accepted` plus a status resource and hypermedia link where ingestion is not complete. CLI exposes equivalent JSON semantics and may offer an explicit wait option. The frontend observes committed notifications or publication status, then refetches the authoritative REST resource.
+
+The delivered local topology uses `adapter-spring-events`, `ApplicationEventPublisher`, a durable file publication store under `data/ledger/publications`, and one ordered ledger worker. Keep `eventing.worker-count` equal to `1` while the authoritative ledger is one global JSONL sequence. CLI mutations expose the global `--wait` and ISO-8601 `--wait-timeout` options; waiting is explicit and never changes the durable-accept semantics of the command itself.
+
+The Spring event-bus adapter participates in coordinated shutdown through `SmartLifecycle` or an equivalent Spring lifecycle component. Shutdown order is mandatory:
+
+1. the web server stops accepting new requests and in-flight commands finish publishing;
+2. the event bus rejects new publications;
+3. the bounded dispatcher drains queued and in-flight publications;
+4. the ledger flushes and acknowledges completed batches;
+5. any unfinished durable publication remains recoverable;
+6. persistence and caches close only after the event-bus stop callback completes.
+
+Configure queue capacity, worker count, publication retry policy, recovery, back-pressure and shutdown timeout with validated Spring Boot properties. Keep the ledger worker count at one while a global ordered file ledger is used. Configure Spring Boot graceful shutdown and `spring.lifecycle.timeout-per-shutdown-phase`; never rely only on executor destruction defaults. Readiness is degraded while publication recovery is incomplete or the ledger consumer is unable to make progress.
+
+## REST API architecture
+
+REST is an inbound adapter over application input ports. Split controllers and representation assemblers by bounded context or cohesive resource family. Use typed request and response records, Jakarta validation at the boundary, framework-independent validation in application/domain, and RFC 9457 `ProblemDetail` responses. A REST adapter must not import an outbound adapter exception or concrete repository type.
+
+Use Spring HATEOAS in the REST adapter for aggregate and resource links. Links are derived from identifiers, relationships and allowed actions returned by the domain/application model; domain objects never contain URLs or Spring HATEOAS types. Provide `self`, parent/aggregate, related-resource and available-transition links, plus `first`, `previous`, `next` and `last` for pageable resources. Do not add links that advertise a command forbidden by the current aggregate state.
+
+All large collection GET endpoints are pageable by default. The HTTP adapter accepts conventional `page`, `size` and `sort` parameters, applies configurable Spring Boot default and maximum sizes, and translates them to framework-independent application `PageQuery` and `PageResult` records. Never return an entire large catalog merely because paging parameters were omitted. Facets remain separate resources and must apply the same filters consistently.
+
+Bulk reference transfer is a separate streaming representation, not a paging bypass on the ordinary collection resource. Use Spring MVC HTTP streaming with `application/x-ndjson` for reference scans and exports. Stream incrementally with bounded memory, explicit ordering, cancellation on client disconnect and configured async timeouts. Do not introduce WebFlux solely for these endpoints, and do not make the React UI retain the full streamed catalog.
+
+Expose one-way server-to-browser committed notifications with Server-Sent Events and Spring MVC `SseEmitter`. SSE carries sanitized integration/read-model invalidation records, not raw uncommitted domain payloads. Provide stable event IDs, `Last-Event-ID` resume, heartbeat, bounded replay or a clear resynchronization signal, topic filtering where useful, and cleanup on timeout/disconnect. The React client invalidates and refetches REST resources instead of building a second event-sourced domain cache.
+
+Emit one SSE invalidation per committed `EventBatch`, not one browser invalidation per contained domain event. A bulk project import may contain hundreds of aggregate events and must trigger one coherent refetch rather than a request storm. The notification may list sanitized event and aggregate identifiers but never raw payloads.
+
+Generate an OpenAPI 3 contract from the typed Spring MVC API with a Spring Boot 4 compatible springdoc integration. Expose JSON, YAML and an interactive local UI. Add a dedicated “REST API” page in the `ABOUT` navigation next to administrator documentation, with links to the interactive documentation and raw specifications; do not use a popup. Validate the generated contract in Maven and keep operation IDs, schemas, pagination, HAL links, problem details, streaming media types and SSE endpoints documented.
+
+Prefer standard Spring facilities where they express infrastructure concerns: validated `@ConfigurationProperties`, dependency injection, Spring MVC, Actuator liveness/readiness with custom persistence and event-pipeline health contributors, graceful shutdown, managed executors and application events. Keep those facilities at adapter/bootstrap boundaries. Framework convenience must not leak into the domain model or replace aggregate invariants.
+
+The file module may share one internal storage engine to preserve a single cross-process lock and atomic cache generation, but Spring and application code receive cohesive `SnapshotRepository`, catalog-writer, ledger, media and lifecycle adapters from `FilePersistenceAdapters`. Never inject the internal multipurpose engine outside its adapter package.
 
 ## Market catalogs
 
@@ -232,7 +346,7 @@ Maintain complete paint ranges by brand and range where sources permit. A paint 
 
 Do not use a display name alone as identity. Prefer a manufacturer reference when available and otherwise derive a stable canonical ID from brand, range, and product. Never silently delete products during refresh; mark missing products as discontinued or unavailable until verified.
 
-The market paint browser must support normal filters including brand, range, type, color, finish, medium, opacity, volume, manufacturer reference, lifecycle status, and other catalog metadata. It may overlay workshop ownership as a computed badge or filter without copying market fields into workshop data.
+The market paint browser must support normal filters including brand, range, type, color, finish, medium, opacity, volume, manufacturer reference, lifecycle status, and other catalog metadata. Ownership badges and owned-only filters belong to Workshop endpoints or to a UI composition of separate responses; Market services must never read the Workshop inventory to produce them.
 
 The paint-brand refresh skill must accept a brand name or `all`, where `all` is resolved dynamically from the brands already present in the market catalog. It may accept range, current/all scope, removal, and dry-run options. It must resolve aliases, prefer official sources, normalize identifiers, retain provenance and verification dates, compare every refreshed product with the local record, report additions and field-level updates, and handle missing products explicitly. Missing products are retired by default. Deletion requires verified complete source coverage, an explicit removal option, and application validation; owned paints and paints referenced by market guides or workshop recipes cannot be deleted. A dry run must not mutate canonical catalogs. Skills must use REST or CLI application interfaces for writes once those interfaces exist.
 
@@ -338,6 +452,8 @@ workflow:
 
 Workshop activity is event-driven. Maintain a global, append-only application ledger as the source of truth for workshop history and the activity-board journal. Store events in English, preferably as JSON Lines split into manageable time partitions such as `data/ledger/events/2026-08.jsonl`.
 
+Only batches acknowledged by the ledger are committed history. The durable publication store is a recoverable asynchronous inbox, not a second editable ledger. Projectors and public committed-event streams consume acknowledged ledger events. Aggregate command handling must nevertheless include earlier accepted pending events in its effective version and state so asynchronous ingestion cannot weaken invariants.
+
 Market catalogs and site configuration are not event-sourced. Only workshop operations and other genuine application activity belong in the ledger.
 
 Every event envelope must include:
@@ -408,6 +524,7 @@ MY WORKSHOP
 ABOUT
   User documentation
   Administrator documentation
+  REST API
   Version and author
 ```
 
@@ -415,7 +532,20 @@ The actual user-facing French labels and other project-independent UI strings mu
 
 The shopping read model separates derived missing paints (`required`) from explicit personal purchase intentions (`planned`). `data/workshop/shopping.yaml` stores only stable market paint IDs when a reference exists plus personal intent such as reason and priority. Required rows are projected from active painting projects, market guides, and workshop ownership. Checked state is activity in the ledger, not ephemeral React state.
 
-Large market catalogs must be queried through paginated REST resources with separate facets. The SPA bootstrap carries summaries, owned-paint overlays, products, and workshop views; it must not embed the full market paint catalog or render thousands of cards at once.
+Large market catalogs must be queried through paginated REST resources with separate facets. The SPA startup payload contains only site configuration and small dashboard counters. Product details, workshop views, shopping rows, documentation and paint pages are loaded from REST when their route is displayed. Never embed full catalogs or workshop collections in a bootstrap payload.
+
+## React user experience
+
+Keep the interaction model uniform across the SPA:
+
+- React owns transient presentation state such as the active route, filters, dialog selection and form input. Spring REST resources remain the source of truth for domain state.
+- Retain only data needed by the current view. A paginated catalog keeps one page, not every page already visited; leaving a heavy view releases its detail/list state. Do not create a second domain cache in React, browser storage or global module variables.
+- Abort obsolete requests when a route, filter or search changes. Reload the affected REST resource after a successful command; optimistic updates are acceptable only for a small reversible control and must still converge on the service.
+- Give every durable page a stable deep link and support browser back/forward navigation. Page-scale content such as documentation and application information belongs on pages, not in popups. Reserve dialogs for focused, temporary tasks or details.
+- Use consistent loading, empty, error and disabled states. Never label a resource “not found” merely because its request is still pending.
+- Desktop navigation groups are first-class visual hierarchy. `MARKET`, `MY WORKSHOP` and `ABOUT` use the same compact high-contrast section label with a subtle background and accent marker; child destinations remain visually dominant and keyboard accessible.
+- Every desktop destination must remain reachable on small screens, either directly in mobile navigation or through a visible local sub-navigation.
+- User-facing labels independent of market/workshop data come from `data/site`; components must not duplicate them.
 
 ## Media and provenance
 
@@ -426,6 +556,14 @@ For internet images and manufacturer assets, retain source URLs, attribution, an
 ## Storage and future database migration
 
 All persistence must be accessed through outbound repository ports. The initial adapters use files. Future database adapters must be replaceable without changing domain entities, application handlers, REST contracts, CLI semantics, or the frontend.
+
+Each persistence adapter has an explicit initialization lifecycle. File persistence validates and loads its configured repositories before serving application reads; a future database adapter uses the same phase for connectivity, schema/migration checks and optional reference warm-up. Publish validated immutable, versioned caches atomically only after a complete load succeeds.
+
+The file-backed event publication store initializes before command handling, recovers unfinished batches and feeds the single asynchronous ledger subscriber. The application does not become write-ready until pending publications are either committed or safely scheduled for ordered recovery. A planned shutdown drains the pipeline; an unplanned restart resumes from durable publication state without duplicating committed events.
+
+Persistence remains the source of truth. All writes acquire the repository transaction/critical section, reconcile external changes, persist atomically, then publish the new cache generation. A scheduled sentinel compares cheap metadata first and reloads only when storage changed. An invalid external change keeps the last valid generation available for reads, marks readiness as degraded and rejects writes until storage is valid again. Expose constant-time liveness and synchronization/event-pipeline readiness through Spring Boot Actuator health groups and typed health contributors rather than application-service maps; liveness must not load persistence.
+
+Size JVM memory explicitly in versioned launchers: Maven uses `.mvn/jvm.config`; `scripts/minipaintdex.ps1` applies separate server and CLI profiles. Keep task-specific environment overrides documented and never hide heap sizing in unrelated Spring properties.
 
 Stable IDs act as foreign keys across market catalogs, workshop membership, physical items, recipes, events, projections, and media metadata. Avoid denormalized copies of market facts in workshop records. YAML is the canonical format for reference/configuration files; CSV may exist only as generated import/export material, not as a second manually maintained source of truth.
 
@@ -445,12 +583,15 @@ Keep deterministic transformations in `tools/minipaintdex-data`. Human or agent 
 - Treat a user message containing only `Go` (or equivalent approval) as authorization to implement the refactor or change currently under discussion. It does not authorize a Git commit or push.
 - Keep Git publication under the user's control. Create a commit only when the user explicitly asks for a commit in the current request, and push only when the user explicitly asks for a push in the current request. Never carry commit or push authorization forward from an older request after additional work has been requested.
 - Keep schemas versioned and validate all persisted files.
-- Validate event payloads by event type before appending.
+- Validate each typed event record and envelope before publication, and verify codec round trips for every aggregate-local event family.
 - Make event writes idempotent and safe against partial writes.
 - Enforce idempotency inside the same cross-process critical section as the append. Related YAML replacements must be staged and rolled back as one repository operation; all file-backed mutations share the repository write lock.
 - Preserve existing user data and unrelated worktree changes.
 - Add domain-handler tests plus REST and CLI adapter contract tests.
 - Keep REST and CLI behaviors aligned for every application use case.
-- Run `mvnw verify` before committing. It must include backend tests and the pnpm frontend checks.
+- Optimize verification from cheap to expensive. During a refactor iteration, run the smallest affected module compile/test and focused architecture or contract tests first; do not repeatedly run the full multi-technology build after every mechanical edit.
+- At stable phase boundaries, run affected-module tests with required upstream modules and only the integration tests relevant to that phase.
+- Defer deep, high-cost controls until the complete refactor is integrated: the root `mvnw verify`, full Java/Python/frontend suites, executable-JAR smoke tests, OpenAPI validation, REST/CLI parity, concurrent aggregate commands, event publication recovery, queue back-pressure, SSE reconnection, streaming disconnect/memory behavior, and graceful shutdown with a non-empty event pipeline.
+- Run the complete root `mvnw verify` and the deep final controls before committing. The root lifecycle must include backend tests and pnpm frontend checks.
 - Use the repository `mini-paint-dex-project` skill for build, server and explicitly requested Git delivery.
 - Use `administer-minipaintdex-data` for photo imports, paintable-product imports, brand refreshes and dataset workflows.

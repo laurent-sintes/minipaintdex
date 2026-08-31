@@ -1,31 +1,83 @@
 package com.minipaintdex.domain.workshop;
 
-import com.minipaintdex.domain.workflow.DomainException;
+import com.minipaintdex.domain.event.DomainEvent;
+import com.minipaintdex.domain.event.EventSourcedAggregateRoot;
+import com.minipaintdex.domain.shared.DomainException;
 
 import java.time.Instant;
-import java.util.Objects;
+import java.util.List;
 
 /** Aggregate root for the owner's intent and progress when painting one market product. */
-public record PaintingProject(
-        String id,
-        String paintableProductId,
-        String name,
-        PaintingProjectStatus status,
-        Instant createdAt,
-        Instant updatedAt) {
+public final class PaintingProject extends EventSourcedAggregateRoot {
+    private String id;
+    private String workshopId;
+    private String paintableProductId;
+    private String name;
+    private int paintableItemCount;
+    private PaintingProjectStatus status;
+    private Instant createdAt;
+    private Instant updatedAt;
 
-    public PaintingProject {
-        if (id == null || id.isBlank()) {
-            throw new DomainException("invalid_painting_project", "Painting project id is required.");
-        }
-        if (paintableProductId == null || paintableProductId.isBlank()) {
-            throw new DomainException("invalid_painting_project", "Paintable product id is required.");
-        }
-        if (name == null || name.isBlank()) {
-            throw new DomainException("invalid_painting_project", "Painting project name is required.");
-        }
-        status = Objects.requireNonNull(status, "status");
-        createdAt = Objects.requireNonNull(createdAt, "createdAt");
-        updatedAt = Objects.requireNonNull(updatedAt, "updatedAt");
+    private PaintingProject() {}
+
+    public static PaintingProject create(
+            String id, String workshopId, String paintableProductId, String name,
+            int paintableItemCount, Instant occurredAt) {
+        var project = new PaintingProject();
+        project.raise(new PaintingProjectCreated(
+                id, workshopId, paintableProductId, name, paintableItemCount, occurredAt));
+        return project;
     }
+
+    public static PaintingProject rehydrate(List<? extends PaintingProjectEvent> history) {
+        var project = new PaintingProject();
+        history.forEach(project::replay);
+        return project;
+    }
+
+    public void changeStatus(PaintingProjectStatus target, Instant occurredAt) {
+        if (target == status) return;
+        var allowed = switch (status) {
+            case PLANNED -> target == PaintingProjectStatus.ACTIVE || target == PaintingProjectStatus.ARCHIVED;
+            case ACTIVE -> target == PaintingProjectStatus.COMPLETED || target == PaintingProjectStatus.ARCHIVED;
+            case COMPLETED -> target == PaintingProjectStatus.ACTIVE || target == PaintingProjectStatus.ARCHIVED;
+            case ARCHIVED -> false;
+        };
+        if (!allowed) {
+            throw new DomainException("invalid_painting_project_transition",
+                    "Cannot change painting project from " + status.id() + " to " + target.id() + ".");
+        }
+        raise(new PaintingProjectStatusChanged(id, target, occurredAt));
+    }
+
+    @Override
+    protected void apply(DomainEvent event) {
+        switch (event) {
+            case PaintingProjectCreated created -> {
+                id = created.paintingProjectId();
+                workshopId = created.workshopId();
+                paintableProductId = created.paintableProductId();
+                name = created.name();
+                paintableItemCount = created.paintableItemCount();
+                status = PaintingProjectStatus.PLANNED;
+                createdAt = created.occurredAt();
+                updatedAt = created.occurredAt();
+            }
+            case PaintingProjectStatusChanged changed -> {
+                status = changed.status();
+                updatedAt = changed.occurredAt();
+            }
+            default -> throw new DomainException("invalid_painting_project_event",
+                    "Unsupported painting project event: " + event.eventType());
+        }
+    }
+
+    @Override public String id() { return id; }
+    public String workshopId() { return workshopId; }
+    public String paintableProductId() { return paintableProductId; }
+    public String name() { return name; }
+    public int paintableItemCount() { return paintableItemCount; }
+    public PaintingProjectStatus status() { return status; }
+    public Instant createdAt() { return createdAt; }
+    public Instant updatedAt() { return updatedAt; }
 }

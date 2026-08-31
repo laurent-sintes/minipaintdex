@@ -1,31 +1,23 @@
 package com.minipaintdex.domain.workshop;
 
 import com.minipaintdex.domain.event.DomainEvent;
+import com.minipaintdex.domain.event.EventEnvelope;
 
-import java.time.Instant;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public final class WorkshopProjector {
     private WorkshopProjector() {}
 
-    public static Workshop project(List<DomainEvent> events) {
-        var paintingProjectIds = new LinkedHashSet<String>();
-        Instant updatedAt = null;
-        for (var event : events) {
-            if ("workshop.created".equals(event.eventType()) && Workshop.DEFAULT_ID.equals(event.aggregateId())) {
-                updatedAt = event.recordedAt();
-            }
-            if ("painting_project.created".equals(event.eventType())
-                    && Workshop.DEFAULT_ID.equals(text(event.payload().get("workshop_id")))) {
-                paintingProjectIds.add(event.aggregateId());
-                updatedAt = event.recordedAt();
+    public static Workshop project(List<? extends DomainEvent> events) {
+        var history = new ArrayList<WorkshopEvent>();
+        for (var candidate : events) {
+            var event = candidate instanceof EventEnvelope envelope ? envelope.event() : candidate;
+            if (event instanceof WorkshopEvent workshopEvent
+                    && Workshop.DEFAULT_ID.equals(workshopEvent.aggregateId())) {
+                history.add(workshopEvent);
             }
         }
-        return new Workshop(Workshop.DEFAULT_ID, List.copyOf(paintingProjectIds), updatedAt);
-    }
-
-    private static String text(Object value) {
-        return value == null ? "" : String.valueOf(value);
+        return Workshop.rehydrate(history);
     }
 }

@@ -53,6 +53,11 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+/data/.write.lock
+/data/ledger/events/*.jsonl
+/data/ledger/publications/*.json
+!/data/ledger/events/.gitkeep
+!/data/ledger/publications/.gitkeep
 
 # local Node launcher used by the Codex bundled runtime
 /node.cmd

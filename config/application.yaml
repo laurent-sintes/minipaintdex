@@ -3,10 +3,29 @@ server:
   port: 8080
   error:
     include-message: never
+  shutdown: graceful
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: readinessState,persistence,eventPipeline
 
 spring:
   application:
     name: minipaintdex
+  data:
+    web:
+      pageable:
+        default-page-size: 60
+        max-page-size: 200
   servlet:
     multipart:
       max-file-size: 10MB
@@ -16,6 +35,8 @@ spring:
       cache:
         cachecontrol:
           max-age: 1h
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
 
 minipaintdex:
   root: "${MINIPAINTDEX_ROOT:${user.dir}}"
@@ -30,7 +51,16 @@ minipaintdex:
     market-paintable-products-directory: data/market/paintable-products
     painting-guides-directory: data/market/painting-guides
     ledger-directory: data/ledger/events
+    event-publications-directory: data/ledger/publications
     media-directory: media
+    sentinel-enabled: true
+    sentinel-interval: 5s
+  eventing:
+    worker-count: 1
+    queue-capacity: 512
+    max-attempts: 5
+    retry-delay: 250ms
+    shutdown-timeout: 25s
   paint-matching:
     candidate-limit: 5
     behavioral-types:
@@ -72,3 +102,7 @@ minipaintdex:
     allowed-origins:
       - http://127.0.0.1:5173
       - http://localhost:5173
+    sse-replay-capacity: 256
+    sse-queue-capacity: 512
+    sse-connection-timeout: 30m
+    sse-heartbeat: 15s

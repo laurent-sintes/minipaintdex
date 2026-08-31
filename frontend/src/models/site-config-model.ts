@@ -5,7 +5,8 @@ export type SiteConfig = {
   navigation: {
     ariaLabel: string; mobileAriaLabel: string; home: string; marketSection: string;
     marketPaints: string; marketPaintableProducts: string; workshopSection: string;
-    workshopPaints: string; workshopAdmin: string; shopping: string; about: string;
+    workshopPaints: string; workshopAdmin: string; shopping: string; aboutSection: string;
+    userDocumentation: string; adminDocumentation: string; restApi: string; version: string;
   };
   header: { searchPlaceholder: string; searchShortPlaceholder: string; searchAriaLabel: string; workshopPrefix: string };
   home: {
@@ -31,7 +32,7 @@ export type SiteConfig = {
   };
   about: {
     eyebrow: string; title: string; description: string; userTitle: string; administratorTitle: string;
-    versionAction: string; versionTitle: string; versionLabel: string; authorLabel: string; close: string;
+    apiTitle: string; apiDescription: string; versionTitle: string; versionDescription: string; versionLabel: string; authorLabel: string;
     loading: string; documentTitles: Record<string, string>;
   };
   productDetail: {
@@ -67,7 +68,7 @@ export type SiteConfig = {
     noProductVisual: string; realResultSource: string; referenceLabel: string; volumeLabel: string;
     instructionsReviewRequired: string;
   };
-  errors: { productNotFound: string; catalogItemNotFound: string; paintNotFound: string; requestFailed: string };
+  errors: { loading: string; productNotFound: string; catalogItemNotFound: string; paintNotFound: string; requestFailed: string };
 };
 
 type ServiceLabel = { title: string; description: string; action: string };

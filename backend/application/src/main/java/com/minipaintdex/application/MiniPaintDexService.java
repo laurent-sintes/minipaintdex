@@ -1,5 +1,6 @@
 package com.minipaintdex.application;
 
+import com.minipaintdex.application.document.StructuredDocument;
 import com.minipaintdex.application.command.AddWorkshopItemCommand;
 import com.minipaintdex.application.command.AddWorkshopItemCommentCommand;
 import com.minipaintdex.application.command.AddWorkshopItemPhotoCommand;
@@ -10,28 +11,49 @@ import com.minipaintdex.application.command.CreateWorkshopRecipeCommand;
 import com.minipaintdex.application.command.CreatePaintingProjectCommand;
 import com.minipaintdex.application.command.TransitionStageCommand;
 import com.minipaintdex.application.command.TransitionWorkshopRecipeCommand;
+import com.minipaintdex.application.command.TransitionPaintingProjectCommand;
 import com.minipaintdex.application.command.SetShoppingItemStatusCommand;
 import com.minipaintdex.application.command.ReplaceWorkshopPaintInventoryCommand;
 import com.minipaintdex.application.port.DataSnapshot;
 import com.minipaintdex.application.port.EventLedger;
+import com.minipaintdex.application.port.EventBus;
+import com.minipaintdex.application.event.EventBatch;
+import com.minipaintdex.application.event.EventPublicationStatus;
+import com.minipaintdex.application.event.PublicationReceipt;
 import com.minipaintdex.application.port.MarketPaintCatalogWriter;
+import com.minipaintdex.application.port.MarketCatalogSnapshot;
 import com.minipaintdex.application.port.PaintableProductCatalogWriter;
 import com.minipaintdex.application.port.SnapshotRepository;
 import com.minipaintdex.application.port.WorkshopPaintInventoryWriter;
 import com.minipaintdex.application.port.WorkshopMediaStorage;
-import com.minipaintdex.application.query.SearchMarketPaintsQuery;
 import com.minipaintdex.application.result.ApplyMarketPaintChangeSetResult;
 import com.minipaintdex.application.result.ApplyMarketPaintableProductChangeSetResult;
 import com.minipaintdex.application.result.CreatePaintingProjectResult;
 import com.minipaintdex.application.result.ReplaceWorkshopPaintInventoryResult;
+import com.minipaintdex.application.view.MarketPaintView;
+import com.minipaintdex.application.view.DashboardView;
+import com.minipaintdex.application.view.MissingPaintView;
+import com.minipaintdex.application.view.PaintableProductSummaryView;
+import com.minipaintdex.application.view.PaintableProductView;
+import com.minipaintdex.application.view.PaintingProjectView;
+import com.minipaintdex.application.view.ProductImportPreviewView;
+import com.minipaintdex.application.view.RebuildProjectionResult;
+import com.minipaintdex.application.view.ShoppingItemView;
+import com.minipaintdex.application.view.WorkshopItemView;
+import com.minipaintdex.application.view.WorkshopOverviewView;
+import com.minipaintdex.application.view.WorkshopRecipeView;
+import com.minipaintdex.application.view.GuideReconciliationView;
+import com.minipaintdex.application.view.MarketPaintingGuideView;
+import com.minipaintdex.application.view.SiteConfigurationView;
 import com.minipaintdex.domain.event.Actor;
-import com.minipaintdex.domain.event.DomainEvent;
-import com.minipaintdex.domain.paint.PaintMatchEngine;
-import com.minipaintdex.domain.product.PaintableProduct;
-import com.minipaintdex.domain.workflow.DomainException;
-import com.minipaintdex.domain.workflow.StageAction;
-import com.minipaintdex.domain.workflow.WorkflowStage;
-import com.minipaintdex.domain.workflow.WorkflowStageStatus;
+import com.minipaintdex.domain.event.AggregateRoot;
+import com.minipaintdex.domain.event.EventEnvelope;
+import com.minipaintdex.domain.market.paint.PaintMatchEngine;
+import com.minipaintdex.domain.market.product.PaintableProduct;
+import com.minipaintdex.domain.shared.DomainException;
+import com.minipaintdex.domain.workshop.StageAction;
+import com.minipaintdex.domain.workshop.WorkflowStage;
+import com.minipaintdex.domain.workshop.WorkflowStageStatus;
 import com.minipaintdex.domain.workshop.WorkshopItemProjector;
 import com.minipaintdex.domain.workshop.WorkshopItemState;
 import com.minipaintdex.domain.workshop.PaintingProjectProjector;
@@ -41,6 +63,18 @@ import com.minipaintdex.domain.workshop.WorkshopRecipeState;
 import com.minipaintdex.domain.workshop.WorkshopRecipeStatus;
 import com.minipaintdex.domain.workshop.Workshop;
 import com.minipaintdex.domain.workshop.WorkshopProjector;
+import com.minipaintdex.domain.workshop.PaintingProjectStatus;
+import com.minipaintdex.domain.workshop.PaintingProjectEvent;
+import com.minipaintdex.domain.workshop.RecipeSolution;
+import com.minipaintdex.domain.workshop.ShoppingItem;
+import com.minipaintdex.domain.workshop.ShoppingItemEvent;
+import com.minipaintdex.domain.workshop.ShoppingItemStatusChanged;
+import com.minipaintdex.domain.workshop.WorkshopEvent;
+import com.minipaintdex.domain.workshop.WorkshopItem;
+import com.minipaintdex.domain.workshop.WorkshopItemEvent;
+import com.minipaintdex.domain.workshop.WorkshopRecipe;
+import com.minipaintdex.domain.workshop.WorkshopRecipeEvent;
+import com.minipaintdex.domain.workshop.WorkshopRecipeCreated;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -54,6 +88,11 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Application composition retained while use cases are exposed through segregated input ports.
+ * Mutating methods serialize the local load-decide-durable-accept window so a later command sees
+ * every earlier accepted event; the ledger additionally enforces aggregate versions under its file lock.
+ */
 public final class MiniPaintDexService {
     private static final Set<String> TECHNICAL_PAINT_TYPES = Set.of(
             "technical_effect", "primer", "wash_shade", "ink", "auxiliary");
@@ -61,17 +100,18 @@ public final class MiniPaintDexService {
             "single_paint", "mixture", "layer_stack", "technique");
     private final PaintMatchEngine paintMatchEngine;
     private final SnapshotRepository snapshots;
-    private final EventLedger ledger;
+    private final EventBus eventBus;
     private final MarketPaintCatalogWriter marketPaints;
     private final WorkshopPaintInventoryWriter workshopPaints;
     private final PaintableProductCatalogWriter paintableProducts;
     private final WorkshopMediaStorage mediaStorage;
     private final MarketPaintQueryService paintQueries;
     private final WorkshopMediaPolicy mediaPolicy;
+    private final DomainEventEnvelopeFactory envelopeFactory = new DomainEventEnvelopeFactory();
 
     public MiniPaintDexService(
             SnapshotRepository snapshots,
-            EventLedger ledger,
+            EventBus eventBus,
             MarketPaintCatalogWriter marketPaints,
             WorkshopPaintInventoryWriter workshopPaints,
             PaintableProductCatalogWriter paintableProducts,
@@ -79,69 +119,45 @@ public final class MiniPaintDexService {
             WorkshopMediaPolicy mediaPolicy,
             PaintMatchEngine paintMatchEngine) {
         this.snapshots = Objects.requireNonNull(snapshots);
-        this.ledger = Objects.requireNonNull(ledger);
+        this.eventBus = Objects.requireNonNull(eventBus);
         this.marketPaints = Objects.requireNonNull(marketPaints);
         this.workshopPaints = Objects.requireNonNull(workshopPaints);
         this.paintableProducts = Objects.requireNonNull(paintableProducts);
         this.mediaStorage = Objects.requireNonNull(mediaStorage);
         this.mediaPolicy = Objects.requireNonNull(mediaPolicy);
-        this.paintQueries = new MarketPaintQueryService(snapshots);
+        this.paintQueries = new MarketPaintQueryService(() -> marketCatalog(this.snapshots.load()));
         this.paintMatchEngine = Objects.requireNonNull(paintMatchEngine);
     }
 
-    public Map<String, Object> bootstrap() {
-        return project(snapshots.load());
+    public SiteConfigurationView siteConfiguration() {
+        return new SiteConfigurationView(configurationSection(documentMap(snapshots.load().site()), true));
     }
 
-    public Map<String, Object> bootstrap(boolean includeMarketPaints) {
-        var result = new LinkedHashMap<>(project(snapshots.load()));
-        if (!includeMarketPaints) result.put("paints", List.of());
-        return java.util.Collections.unmodifiableMap(result);
-    }
-
-    public Map<String, Object> siteConfiguration() {
-        return map(camelize(snapshots.load().site()));
-    }
-
-    public Map<String, Object> health() {
+    public DashboardView dashboard() {
         var snapshot = snapshots.load();
-        return Map.of(
-                "status", "ok",
-                "service", "minipaintdex",
-                "storage", "files",
-                "marketPaints", snapshot.marketPaints().size(),
-                "events", snapshot.events().size());
+        var items = WorkshopItemProjector.project(snapshot.events());
+        var projects = PaintingProjectProjector.project(snapshot.events());
+        var ownedPaintIds = documentMaps(snapshot.paintInventory()).stream()
+                .filter(entry -> number(entry.get("quantity")) > 0)
+                .map(entry -> text(entry.get("paint_id"))).collect(Collectors.toSet());
+        var completedItems = items.stream().filter(WorkshopItemState::completed).count();
+        return new DashboardView(
+                new DashboardView.PaintStats(
+                        snapshot.marketPaints().size(), ownedPaintIds.size(),
+                        documentMaps(snapshot.marketPaints()).stream().map(paint -> text(paint.get("brand")))
+                                .filter(MiniPaintDexService::present).distinct().count()),
+                snapshot.paintableProducts().size(),
+                new DashboardView.WorkshopStats(
+                        projects.size(), items.size(), completedItems,
+                        items.isEmpty() ? 0 : Math.round(completedItems * 100f / items.size())));
     }
 
-    public List<Map<String, Object>> searchMarketPaints(SearchMarketPaintsQuery filters) {
-        return paintQueries.search(filters);
-    }
-
-    public Map<String, Object> searchMarketPaintPage(
-            SearchMarketPaintsQuery filters,
-            boolean ownedOnly,
-            boolean manufacturerSheetOnly,
-            boolean realResultOnly,
-            int offset,
-            int limit) {
-        return paintQueries.page(filters, ownedOnly, manufacturerSheetOnly, realResultOnly, offset, limit);
-    }
-
-    public Map<String, Object> marketPaintFacets(boolean ownedOnly) {
-        return paintQueries.facets(ownedOnly);
-    }
-
-    public Map<String, Object> getMarketPaint(String id) {
-        return searchMarketPaints(SearchMarketPaintsQuery.empty()).stream().filter(paint -> id.equals(paint.get("id"))).findFirst()
-                .orElseThrow(() -> new DomainException("not_found", "Paint not found: " + id));
-    }
-
-    public ApplyMarketPaintChangeSetResult applyMarketPaintChangeSet(ApplyMarketPaintChangeSetCommand command) {
+    public synchronized ApplyMarketPaintChangeSetResult applyMarketPaintChangeSet(ApplyMarketPaintChangeSetCommand command) {
         if (command.schemaVersion() != 1) throw new DomainException("invalid_input", "schemaVersion must be 1.");
         if (!"market_paints".equals(command.kind())) throw new DomainException("invalid_input", "kind must be market_paints.");
         if (command.operations().isEmpty()) throw new DomainException("invalid_input", "At least one operation is required.");
         var snapshot = snapshots.load();
-        var current = snapshot.marketPaints();
+        var current = documentMaps(snapshot.marketPaints());
         var byId = new LinkedHashMap<String, Map<String, Object>>();
         current.forEach(paint -> byId.put(text(paint.get("id")), paint));
         var added = 0;
@@ -151,25 +167,26 @@ public final class MiniPaintDexService {
         var unchanged = 0;
         var inventoryChanged = 0;
         var quantities = new LinkedHashMap<String, Integer>();
-        snapshot.paintInventory().forEach(entry -> quantities.merge(
+        documentMaps(snapshot.paintInventory()).forEach(entry -> quantities.merge(
                 text(entry.get("paint_id")), number(entry.get("quantity")), Integer::sum));
         var referencedPaintIds = referencedPaintIds(snapshot);
         for (var operation : command.operations()) {
-            var id = text(operation.record().get("id"));
+            var record = documentMap(operation.record());
+            var id = text(record.get("id"));
             require(id, "record.id");
             if ("upsert".equals(operation.action())) {
-                validateMarketPaint(operation.record());
-                var previous = byId.put(id, new LinkedHashMap<>(operation.record()));
+                validateMarketPaint(record);
+                var previous = byId.put(id, new LinkedHashMap<>(record));
                 if (previous == null) added++;
-                else if (previous.equals(operation.record())) unchanged++;
+                else if (previous.equals(record)) unchanged++;
                 else updated++;
             } else if ("retire".equals(operation.action())) {
                 var previous = byId.get(id);
                 if (previous == null) throw new DomainException("not_found", "Paint not found: " + id);
                 var replacement = new LinkedHashMap<>(previous);
-                replacement.put("lifecycle_status", defaultText(text(operation.record().get("lifecycle_status")), "discontinued"));
-                if (present(text(operation.record().get("verified_at")))) replacement.put("verified_at", operation.record().get("verified_at"));
-                if (present(text(operation.record().get("removal_reason")))) replacement.put("removal_reason", operation.record().get("removal_reason"));
+                replacement.put("lifecycle_status", defaultText(text(record.get("lifecycle_status")), "discontinued"));
+                if (present(text(record.get("verified_at")))) replacement.put("verified_at", record.get("verified_at"));
+                if (present(text(record.get("removal_reason")))) replacement.put("removal_reason", record.get("removal_reason"));
                 if (previous.equals(replacement)) unchanged++;
                 else {
                     byId.put(id, replacement);
@@ -202,16 +219,17 @@ public final class MiniPaintDexService {
                 .toList();
         if (!command.dryRun()) {
             if (inventoryChanged > 0) {
-                marketPaints.replaceMarketPaintsAndWorkshopInventory(result, inventory, workshopPaints);
+                marketPaints.replaceMarketPaintsAndWorkshopInventory(
+                        structuredDocuments(result), structuredDocuments(inventory), workshopPaints);
             } else {
-                marketPaints.replaceMarketPaints(result);
+                marketPaints.replaceMarketPaints(structuredDocuments(result));
             }
         }
         return new ApplyMarketPaintChangeSetResult(
                 added, updated, retired, deleted, unchanged, inventoryChanged, result.size(), !command.dryRun());
     }
 
-    public ReplaceWorkshopPaintInventoryResult replaceWorkshopPaintInventory(
+    public synchronized ReplaceWorkshopPaintInventoryResult replaceWorkshopPaintInventory(
             ReplaceWorkshopPaintInventoryCommand command) {
         if (command.schemaVersion() != 1) {
             throw new DomainException("invalid_input", "schemaVersion must be 1.");
@@ -219,7 +237,7 @@ public final class MiniPaintDexService {
         if (!"workshop_paints".equals(command.kind())) {
             throw new DomainException("invalid_input", "kind must be workshop_paints.");
         }
-        var marketIds = snapshots.load().marketPaints().stream()
+        var marketIds = documentMaps(snapshots.load().marketPaints()).stream()
                 .map(paint -> text(paint.get("id"))).collect(Collectors.toSet());
         var inventory = new LinkedHashMap<String, Integer>();
         for (var entry : command.paints()) {
@@ -238,18 +256,21 @@ public final class MiniPaintDexService {
                 .sorted(Map.Entry.comparingByKey())
                 .map(entry -> Map.<String, Object>of("paint_id", entry.getKey(), "quantity", entry.getValue()))
                 .toList();
-        if (!command.dryRun()) workshopPaints.replaceWorkshopPaints(normalized);
+        if (!command.dryRun()) workshopPaints.replaceWorkshopPaints(structuredDocuments(normalized));
         return new ReplaceWorkshopPaintInventoryResult(
                 normalized.size(), inventory.values().stream().mapToInt(Integer::intValue).sum(), !command.dryRun());
     }
 
-    public ApplyMarketPaintableProductChangeSetResult applyMarketPaintableProductChangeSet(ApplyMarketPaintableProductChangeSetCommand command) {
+    public synchronized ApplyMarketPaintableProductChangeSetResult applyMarketPaintableProductChangeSet(ApplyMarketPaintableProductChangeSetCommand command) {
         if (command.schemaVersion() != 1) throw new DomainException("invalid_input", "schemaVersion must be 1.");
         if (!"market_product".equals(command.kind())) throw new DomainException("invalid_input", "kind must be market_product.");
-        var product = product(command.product());
+        var productDocument = documentMap(command.product());
+        var guideDocuments = command.paintingGuides().stream().map(MiniPaintDexService::documentMap).toList();
+        var product = product(productDocument);
         var catalogItemIds = product.catalogItems().stream().map(PaintableProduct.CatalogItem::id).collect(Collectors.toSet());
-        var marketPaintIds = snapshots.load().marketPaints().stream().map(paint -> text(paint.get("id"))).collect(Collectors.toSet());
-        for (var guide : command.paintingGuides()) {
+        var marketPaintIds = documentMaps(snapshots.load().marketPaints()).stream()
+                .map(paint -> text(paint.get("id"))).collect(Collectors.toSet());
+        for (var guide : guideDocuments) {
             var guideId = text(guide.get("id"));
             require(guideId, "painting_guides.id");
             var catalogItemId = text(guide.get("catalog_item_id"));
@@ -270,61 +291,54 @@ public final class MiniPaintDexService {
             }
         }
         if (!command.dryRun()) {
-            paintableProducts.replaceProduct(product.id(), command.product(), command.paintingGuides());
+            paintableProducts.replaceProduct(
+                    product.id(), structuredDocument(productDocument), structuredDocuments(guideDocuments));
         }
         return new ApplyMarketPaintableProductChangeSetResult(
-                product.id(), product.catalogItems().size(), command.paintingGuides().size(), !command.dryRun());
+                product.id(), product.catalogItems().size(), guideDocuments.size(), !command.dryRun());
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Map<String, Object>> listMarketPaintableProducts() {
-        return (List<Map<String, Object>>) bootstrap().get("marketPaintableProducts");
+    public WorkshopOverviewView workshopOverview() {
+        var snapshot = snapshots.load();
+        var items = WorkshopItemProjector.project(snapshot.events());
+        return workshopView(snapshot, paintableProductSummaries(snapshot), items);
     }
 
-    public Map<String, Object> getMarketPaintableProduct(String productId) {
-        return listMarketPaintableProducts().stream().filter(product -> productId.equals(product.get("id"))).findFirst()
-                .orElseThrow(() -> new DomainException("not_found", "Paintable product not found: " + productId));
+    public List<PaintingProjectView> listPaintingProjects() {
+        return workshopOverview().paintingProjects();
     }
 
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> workshopOverview() {
-        return (Map<String, Object>) bootstrap().get("workshop");
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<Map<String, Object>> listPaintingProjects() {
-        return (List<Map<String, Object>>) workshopOverview().get("paintingProjects");
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<Map<String, Object>> listWorkshopItems(String paintingProjectId) {
-        var items = (List<Map<String, Object>>) bootstrap().get("workshopItems");
+    public List<WorkshopItemView> listWorkshopItems(String paintingProjectId) {
+        var items = WorkshopItemProjector.project(snapshots.load().events()).stream()
+                .map(this::workshopItemView).toList();
         if (!present(paintingProjectId)) return items;
-        return items.stream().filter(item -> paintingProjectId.equals(item.get("paintingProjectId"))).toList();
+        return items.stream().filter(item -> paintingProjectId.equals(item.paintingProjectId())).toList();
     }
 
-    public Map<String, Object> getWorkshopItem(String itemId) {
+    public List<ShoppingItemView> listShoppingItems() {
+        return shoppingViews(snapshots.load());
+    }
+
+    public WorkshopItemView.Detail getWorkshopItem(String itemId) {
         require(itemId, "itemId");
         var snapshot = snapshots.load();
         var item = WorkshopItemProjector.project(snapshot.events()).stream()
                 .filter(candidate -> itemId.equals(candidate.id())).findFirst()
                 .orElseThrow(() -> new DomainException("not_found", "Workshop item not found: " + itemId));
-        var result = new LinkedHashMap<>(workshopItemView(item));
-        result.put("activity", snapshot.events().stream()
+        return new WorkshopItemView.Detail(workshopItemView(item), snapshot.events().stream()
                 .filter(event -> itemId.equals(event.aggregateId()))
-                .sorted(Comparator.comparing(DomainEvent::recordedAt).reversed()).toList());
-        return java.util.Collections.unmodifiableMap(result);
+                .sorted(Comparator.comparing(EventEnvelope::recordedAt).reversed()).toList());
     }
 
-    public Map<String, Object> previewProductImport(String productId) {
+    public ProductImportPreviewView previewProductImport(String productId) {
         var snapshot = snapshots.load();
         var product = findProduct(snapshot, productId);
         return importPreview(snapshot, product);
     }
 
-    private Map<String, Object> importPreview(DataSnapshot snapshot, PaintableProduct product) {
+    private ProductImportPreviewView importPreview(DataSnapshot snapshot, PaintableProduct product) {
         var catalogIds = product.catalogItems().stream().map(PaintableProduct.CatalogItem::id).collect(Collectors.toSet());
-        var guides = snapshot.marketPaintingGuides().stream()
+        var guides = documentMaps(snapshot.marketPaintingGuides()).stream()
                 .filter(guide -> catalogIds.contains(text(guide.get("catalog_item_id")))).toList();
         var requiredPaintIds = new java.util.LinkedHashSet<String>();
         var pendingSlots = 0;
@@ -335,36 +349,24 @@ public final class MiniPaintDexService {
                 else if (Boolean.TRUE.equals(slot.get("pending_import"))) pendingSlots++;
             }
         }
-        var ownedPaintIds = snapshot.paintInventory().stream()
+        var ownedPaintIds = documentMaps(snapshot.paintInventory()).stream()
                 .filter(entry -> number(entry.get("quantity")) > 0)
                 .map(entry -> text(entry.get("paint_id"))).collect(Collectors.toSet());
-        var paintsById = snapshot.marketPaints().stream()
+        var paintsById = documentMaps(snapshot.marketPaints()).stream()
                 .collect(Collectors.toMap(paint -> text(paint.get("id")), Function.identity()));
         var missingPaints = requiredPaintIds.stream().filter(id -> !ownedPaintIds.contains(id)).map(id -> {
             var paint = paintsById.getOrDefault(id, Map.of());
-            return Map.<String, Object>of(
-                    "id", id,
-                    "name", text(paint.get("name")),
-                    "brand", text(paint.get("brand")),
-                    "reference", text(paint.get("reference")));
+            return new MissingPaintView(
+                    id, text(paint.get("name")), text(paint.get("brand")), text(paint.get("reference")));
         }).toList();
         var paintingProjects = PaintingProjectProjector.project(snapshot.events());
-        var result = new LinkedHashMap<String, Object>();
-        result.put("productId", product.id());
-        result.put("productName", product.name());
-        result.put("catalogItemCount", product.catalogItems().size());
-        result.put("paintableItemCount", product.expectedPaintableCount());
-        result.put("paintingGuideCount", guides.size());
-        result.put("requiredPaintCount", requiredPaintIds.size());
-        result.put("missingPaintCount", missingPaints.size());
-        result.put("missingPaints", missingPaints);
-        result.put("pendingPaintSlotCount", pendingSlots);
-        result.put("alreadyImported", paintingProjects.stream()
-                .anyMatch(project -> product.id().equals(project.paintableProductId())));
-        return Map.copyOf(result);
+        return new ProductImportPreviewView(
+                product.id(), product.name(), product.catalogItems().size(), product.expectedPaintableCount(),
+                guides.size(), requiredPaintIds.size(), missingPaints.size(), missingPaints, pendingSlots,
+                paintingProjects.stream().anyMatch(project -> product.id().equals(project.paintableProductId())));
     }
 
-    public CreatePaintingProjectResult createPaintingProject(CreatePaintingProjectCommand command) {
+    public synchronized CreatePaintingProjectResult createPaintingProject(CreatePaintingProjectCommand command) {
         require(command.paintableProductId(), "paintableProductId");
         var snapshot = snapshots.load();
         var product = findProduct(snapshot, command.paintableProductId());
@@ -380,7 +382,7 @@ public final class MiniPaintDexService {
                         .equals(item.paintingProjectId())).count();
         if (existingProject != null) {
             return new CreatePaintingProjectResult(
-                    Workshop.DEFAULT_ID, existingProject.id(), product.id(), 0, existingForProduct, true, false);
+                    Workshop.DEFAULT_ID, existingProject.id(), product.id(), 0, existingForProduct, true, false, null);
         }
 
         var occurredAt = command.occurredAt() == null ? Instant.now() : command.occurredAt();
@@ -388,16 +390,22 @@ public final class MiniPaintDexService {
         var correlationId = defaultText(command.correlationId(), Ulid.next(recordedAt));
         var actor = new Actor("user", defaultText(command.actorId(), "owner"));
         var baseKey = defaultText(command.idempotencyKey(), "create-painting-project:" + paintingProjectId);
-        var events = new ArrayList<DomainEvent>();
-        if (snapshot.events().stream().noneMatch(event -> "workshop".equals(event.aggregateType()))) {
-            events.add(new DomainEvent(Ulid.next(recordedAt), 1, "workshop.created", occurredAt, recordedAt,
-                    "workshop", Workshop.DEFAULT_ID, null, actor, correlationId, null,
-                    baseKey + ":workshop", Map.of("name", "My workshop")));
+        var events = new ArrayList<EventEnvelope>();
+        var workshop = workshopAggregate(snapshot);
+        if (workshop.id() == null) {
+            workshop = Workshop.create(Workshop.DEFAULT_ID, "My workshop", occurredAt);
+            events.addAll(envelopeFactory.envelop(
+                    workshop, actor, correlationId, null, baseKey + ":workshop", recordedAt));
         }
-        events.add(new DomainEvent(Ulid.next(recordedAt), 1, "painting_project.created", occurredAt, recordedAt,
-                "painting_project", paintingProjectId, paintingProjectId, actor, correlationId, null, baseKey,
-                Map.of("workshop_id", Workshop.DEFAULT_ID, "paintable_product_id", product.id(), "name", paintingProjectName,
-                        "paintable_item_count", product.expectedPaintableCount())));
+        var paintingProject = PaintingProject.create(
+                paintingProjectId, Workshop.DEFAULT_ID, product.id(), paintingProjectName,
+                product.expectedPaintableCount(), occurredAt);
+        paintingProject.changeStatus(PaintingProjectStatus.ACTIVE, occurredAt);
+        events.addAll(envelopeFactory.envelop(
+                paintingProject, actor, correlationId, null, baseKey, recordedAt));
+        workshop.registerPaintingProject(paintingProjectId, occurredAt);
+        events.addAll(envelopeFactory.envelop(
+                workshop, actor, correlationId, null, baseKey + ":register", recordedAt));
 
         var existingIds = existingItems.stream().map(WorkshopItemState::id).collect(Collectors.toSet());
         var added = 0;
@@ -408,85 +416,83 @@ public final class MiniPaintDexService {
                 var displayName = catalogItem.quantity() == 1
                         ? catalogItem.name()
                         : catalogItem.name() + " #" + ordinal;
-                events.add(new DomainEvent(Ulid.next(recordedAt), 1, "workshop_item.added", occurredAt, recordedAt,
-                        "workshop_item", itemId, paintingProjectId, actor, correlationId, null, baseKey + ":" + itemId,
-                        Map.of("catalog_item_id", catalogItem.id(), "painting_project_id", paintingProjectId,
-                                "display_name", displayName, "ordinal", ordinal)));
+                var workshopItem = WorkshopItem.create(
+                        itemId, catalogItem.id(), paintingProjectId, displayName, ordinal, occurredAt);
+                events.addAll(envelopeFactory.envelop(
+                        workshopItem, actor, correlationId, null, baseKey + ":" + itemId, recordedAt));
                 added++;
             }
         }
-        ledger.appendAll(events);
+        var publication = publish(events, correlationId, baseKey);
         return new CreatePaintingProjectResult(
-                Workshop.DEFAULT_ID, paintingProjectId, product.id(), added, existingForProduct, false, true);
+                Workshop.DEFAULT_ID, paintingProjectId, product.id(), added, existingForProduct, false, true, publication);
     }
 
-    public List<Map<String, Object>> listMarketPaintingGuides(String catalogItemId) {
-        return snapshots.load().marketPaintingGuides().stream()
-                .filter(guide -> !present(catalogItemId) || catalogItemId.equals(text(guide.get("catalog_item_id"))))
-                .map(guide -> map(camelize(guide)))
-                .sorted(Comparator.comparing(guide -> text(guide.get("id"))))
-                .toList();
+    public synchronized PublicationReceipt transitionPaintingProject(TransitionPaintingProjectCommand command) {
+        require(command.paintingProjectId(), "paintingProjectId");
+        require(command.targetStatus(), "targetStatus");
+        var snapshot = snapshots.load();
+        var duplicate = idempotent(snapshot, command.idempotencyKey());
+        if (duplicate != null) return existingReceipt(duplicate);
+        var project = paintingProjectAggregate(snapshot, command.paintingProjectId());
+        project.changeStatus(PaintingProjectStatus.fromId(command.targetStatus()),
+                command.occurredAt() == null ? Instant.now() : command.occurredAt());
+        return publish(project,
+                new Actor("user", defaultText(command.actorId(), "owner")),
+                command.correlationId(), command.idempotencyKey());
     }
 
-    public Map<String, Object> reconcileMarketPaintingGuide(String guideId) {
+    public GuideReconciliationView reconcileMarketPaintingGuide(String guideId) {
         require(guideId, "guideId");
         var snapshot = snapshots.load();
-        var guide = snapshot.marketPaintingGuides().stream()
+        var guide = documentMaps(snapshot.marketPaintingGuides()).stream()
                 .filter(candidate -> guideId.equals(text(candidate.get("id"))))
                 .findFirst().orElseThrow(() -> new DomainException("not_found", "Market painting guide not found: " + guideId));
-        var paintsById = snapshot.marketPaints().stream()
+        var paintsById = documentMaps(snapshot.marketPaints()).stream()
                 .collect(Collectors.toMap(paint -> text(paint.get("id")), Function.identity()));
-        var ownedIds = snapshot.paintInventory().stream()
+        var ownedIds = documentMaps(snapshot.paintInventory()).stream()
                 .filter(entry -> number(entry.get("quantity")) > 0)
                 .map(entry -> text(entry.get("paint_id"))).collect(Collectors.toSet());
         var ownedProfiles = ownedIds.stream().map(paintsById::get).filter(Objects::nonNull)
                 .map(this::paintProfile).toList();
+        var paintViewsById = paintQueries.views(marketCatalog(snapshot)).stream()
+                .collect(Collectors.toMap(MarketPaintView::id, Function.identity()));
         var slots = listOfMaps(guide.get("slots")).stream().map(slot -> {
             var sourcePaintId = text(slot.get("market_paint_id"));
             var sourcePaint = paintsById.get(sourcePaintId);
-            var candidates = sourcePaint == null ? List.<Map<String, Object>>of() : paintMatchEngine
+            var candidates = sourcePaint == null ? List.<GuideReconciliationView.PaintMatchView>of() : paintMatchEngine
                     .rank(paintProfile(sourcePaint), ownedProfiles).stream()
-                    .map(match -> {
-                        var view = new LinkedHashMap<String, Object>();
-                        view.put("paint", map(camelize(paintsById.get(match.candidatePaintId()))));
-                        view.put("score", match.score());
-                        view.put("deltaE2000", match.deltaE2000());
-                        view.put("requiresManualReview", match.requiresManualReview());
-                        view.put("strategy", match.strategy());
-                        view.put("dimensions", Map.of(
-                                "color", match.colorScore(), "functionalType", match.functionalTypeScore(),
-                                "behavior", match.behaviorScore(), "finish", match.finishScore(),
-                                "opacity", match.opacityScore(), "medium", match.mediumScore()));
-                        view.put("reasons", match.reasons());
-                        return Map.copyOf(view);
-                    }).toList();
-            var result = new LinkedHashMap<String, Object>();
-            result.put("slot", map(camelize(slot)));
-            if (sourcePaint != null) result.put("sourcePaint", map(camelize(sourcePaint)));
-            result.put("candidates", candidates);
-            result.put("requiresManualReview", sourcePaint != null
-                    && paintMatchEngine.requiresManualReview(paintProfile(sourcePaint)));
-            return Map.copyOf(result);
+                    .map(match -> new GuideReconciliationView.PaintMatchView(
+                            paintViewsById.get(match.candidatePaintId()), match.score(), match.deltaE2000(),
+                            match.requiresManualReview(), match.strategy(),
+                            new GuideReconciliationView.DimensionsView(
+                                    match.colorScore(), match.functionalTypeScore(), match.behaviorScore(),
+                                    match.finishScore(), match.opacityScore(), match.mediumScore()),
+                            match.reasons()))
+                    .toList();
+            return new GuideReconciliationView.SlotReconciliationView(
+                    marketPaintingGuideSlotView(slot), paintViewsById.get(sourcePaintId), candidates,
+                    sourcePaint != null && paintMatchEngine.requiresManualReview(paintProfile(sourcePaint)));
         }).toList();
-        return Map.of("guide", map(camelize(guide)), "slots", slots, "ownedPaintCount", ownedProfiles.size());
+        return new GuideReconciliationView(marketPaintingGuideView(guide), slots, ownedProfiles.size());
     }
 
-    public List<Map<String, Object>> listWorkshopRecipes(String catalogItemId) {
+    public List<WorkshopRecipeView> listWorkshopRecipes(String catalogItemId) {
         return WorkshopRecipeProjector.project(snapshots.load().events()).stream()
                 .filter(recipe -> !present(catalogItemId) || catalogItemId.equals(recipe.catalogItemId()))
                 .map(this::workshopRecipeView)
-                .sorted(Comparator.comparing(recipe -> text(recipe.get("id"))))
+                .sorted(Comparator.comparing(WorkshopRecipeView::id))
                 .toList();
     }
 
-    public DomainEvent createWorkshopRecipe(CreateWorkshopRecipeCommand command) {
+    public synchronized PublicationReceipt createWorkshopRecipe(CreateWorkshopRecipeCommand command) {
         require(command.catalogItemId(), "catalogItemId");
         require(command.displayName(), "displayName");
         if (command.version() < 1) throw new DomainException("invalid_input", "version must be positive.");
         if (command.solutions().isEmpty()) throw new DomainException("invalid_input", "At least one recipe solution is required.");
         var snapshot = snapshots.load();
         var duplicate = idempotent(snapshot, command.idempotencyKey());
-        if (duplicate != null) return duplicate;
+        if (duplicate != null) return existingReceipt(duplicate);
         var productId = paintableProductIdForCatalogItem(snapshot, command.catalogItemId());
         var paintingProject = PaintingProjectProjector.project(snapshot.events()).stream()
                 .filter(project -> productId.equals(project.paintableProductId())).findFirst().orElse(null);
@@ -502,7 +508,7 @@ public final class MiniPaintDexService {
         }
         Map<String, Object> guide = Map.of();
         if (present(command.basedOnGuideId())) {
-            guide = snapshot.marketPaintingGuides().stream()
+            guide = documentMaps(snapshot.marketPaintingGuides()).stream()
                     .filter(candidate -> command.basedOnGuideId().equals(text(candidate.get("id"))))
                     .findFirst().orElseThrow(() -> new DomainException("not_found", "Market painting guide not found: " + command.basedOnGuideId()));
             if (!command.catalogItemId().equals(text(guide.get("catalog_item_id")))) {
@@ -517,49 +523,52 @@ public final class MiniPaintDexService {
             }
         }
         validateRecipeSolutions(command.solutions(), guide, snapshot);
-        var payload = new LinkedHashMap<String, Object>();
-        payload.put("catalog_item_id", command.catalogItemId());
-        payload.put("display_name", command.displayName());
-        payload.put("version", command.version());
-        payload.put("solutions", command.solutions());
-        payload.put("painting_project_id", paintingProject.id());
-        if (present(command.basedOnGuideId())) payload.put("based_on_guide_id", command.basedOnGuideId());
-        if (present(command.supersedesRecipeId())) payload.put("supersedes_recipe_id", command.supersedesRecipeId());
-        var event = new DomainEvent(Ulid.next(occurredAt), 1, "workshop_recipe.created", occurredAt, Instant.now(),
-                "workshop_recipe", recipeId, paintingProject.id(), new Actor("user", defaultText(command.actorId(), "owner")),
-                defaultText(command.correlationId(), Ulid.next(Instant.now())), null, command.idempotencyKey(), payload);
-        return ledger.append(event);
+        var recipe = WorkshopRecipe.create(
+                recipeId, paintingProject.id(), command.catalogItemId(), command.basedOnGuideId(),
+                command.supersedesRecipeId(), command.displayName(), command.version(), command.solutions(), occurredAt);
+        return publish(recipe,
+                new Actor("user", defaultText(command.actorId(), "owner")),
+                command.correlationId(), command.idempotencyKey());
     }
 
-    public DomainEvent transitionWorkshopRecipe(TransitionWorkshopRecipeCommand command) {
+    public synchronized PublicationReceipt transitionWorkshopRecipe(TransitionWorkshopRecipeCommand command) {
         require(command.recipeId(), "recipeId");
         require(command.action(), "action");
         var snapshot = snapshots.load();
         var duplicate = idempotent(snapshot, command.idempotencyKey());
-        if (duplicate != null) return duplicate;
-        var recipe = WorkshopRecipeProjector.project(snapshot.events()).stream()
+        if (duplicate != null) return existingReceipt(duplicate);
+        var recipeState = WorkshopRecipeProjector.project(snapshot.events()).stream()
                 .filter(candidate -> command.recipeId().equals(candidate.id())).findFirst()
                 .orElseThrow(() -> new DomainException("not_found", "Workshop recipe not found: " + command.recipeId()));
-        WorkshopRecipeProjector.assertTransition(recipe.status(), command.action());
+        var recipe = workshopRecipeAggregate(snapshot, recipeState.id());
         var occurredAt = command.occurredAt() == null ? Instant.now() : command.occurredAt();
-        var payload = new LinkedHashMap<String, Object>();
-        if (present(command.comment())) payload.put("comment", command.comment());
-        var paintingProject = paintingProjectForProduct(
-                snapshot, paintableProductIdForCatalogItem(snapshot, recipe.catalogItemId()));
-        payload.put("painting_project_id", paintingProject.id());
-        var event = new DomainEvent(Ulid.next(occurredAt), 1, WorkshopRecipeProjector.eventType(command.action()),
-                occurredAt, Instant.now(), "workshop_recipe", recipe.id(), paintingProject.id(),
+        switch (command.action()) {
+            case "validate" -> recipe.validate(occurredAt);
+            case "activate" -> recipe.activate(occurredAt);
+            case "supersede" -> {
+                var successorId = requiredText(command.successorRecipeId(), "successorRecipeId");
+                var successor = WorkshopRecipeProjector.project(snapshot.events()).stream()
+                        .filter(candidate -> successorId.equals(candidate.id())).findFirst()
+                        .orElseThrow(() -> new DomainException("not_found", "Successor recipe not found: " + successorId));
+                if (!recipe.id().equals(successor.supersedesRecipeId())) {
+                    throw new DomainException("conflict", "The successor recipe must reference the recipe it supersedes.");
+                }
+                recipe.supersede(successorId, occurredAt);
+            }
+            case "archive" -> recipe.archive(command.reason(), occurredAt);
+            default -> throw new DomainException("invalid_input", "Unknown workshop recipe action: " + command.action());
+        }
+        return publish(recipe,
                 new Actor("user", defaultText(command.actorId(), "owner")),
-                defaultText(command.correlationId(), Ulid.next(Instant.now())), null, command.idempotencyKey(), payload);
-        return ledger.append(event);
+                command.correlationId(), command.idempotencyKey());
     }
 
-    public DomainEvent assignWorkshopRecipe(AssignWorkshopRecipeCommand command) {
+    public synchronized PublicationReceipt assignWorkshopRecipe(AssignWorkshopRecipeCommand command) {
         require(command.itemId(), "itemId");
         require(command.recipeId(), "recipeId");
         var snapshot = snapshots.load();
         var duplicate = idempotent(snapshot, command.idempotencyKey());
-        if (duplicate != null) return duplicate;
+        if (duplicate != null) return existingReceipt(duplicate);
         var item = WorkshopItemProjector.project(snapshot.events()).stream()
                 .filter(candidate -> command.itemId().equals(candidate.id())).findFirst()
                 .orElseThrow(() -> new DomainException("not_found", "Workshop item not found: " + command.itemId()));
@@ -572,16 +581,15 @@ public final class MiniPaintDexService {
         if (!item.catalogItemId().equals(recipe.catalogItemId())) {
             throw new DomainException("conflict", "Workshop item and recipe must target the same catalog item.");
         }
+        var workshopItem = workshopItemAggregate(snapshot, item.id());
         var occurredAt = command.occurredAt() == null ? Instant.now() : command.occurredAt();
-        var event = new DomainEvent(Ulid.next(occurredAt), 1, "recipe.assigned", occurredAt, Instant.now(),
-                "workshop_item", item.id(), item.paintingProjectId(), new Actor("user", defaultText(command.actorId(), "owner")),
-                defaultText(command.correlationId(), Ulid.next(Instant.now())), null, command.idempotencyKey(),
-                Map.of("recipe_id", recipe.id(), "recipe_version", recipe.version(),
-                        "painting_project_id", item.paintingProjectId()));
-        return ledger.append(event);
+        workshopItem.assignRecipe(recipe.id(), recipe.version(), occurredAt);
+        return publish(workshopItem,
+                new Actor("user", defaultText(command.actorId(), "owner")),
+                command.correlationId(), command.idempotencyKey());
     }
 
-    public List<DomainEvent> listActivity(String paintingProjectId) {
+    public List<EventEnvelope> listActivity(String paintingProjectId) {
         var snapshot = snapshots.load();
         var itemIds = WorkshopItemProjector.project(snapshot.events()).stream()
                 .filter(item -> !present(paintingProjectId) || paintingProjectId.equals(item.paintingProjectId()))
@@ -589,13 +597,12 @@ public final class MiniPaintDexService {
         return snapshot.events().stream()
                 .filter(event -> !present(paintingProjectId)
                         || paintingProjectId.equals(event.projectId())
-                        || paintingProjectId.equals(text(event.payload().get("painting_project_id")))
                         || itemIds.contains(event.aggregateId()))
-                .sorted(Comparator.comparing(DomainEvent::recordedAt).reversed())
+                .sorted(Comparator.comparing(EventEnvelope::recordedAt).reversed())
                 .toList();
     }
 
-    public DomainEvent addWorkshopItem(AddWorkshopItemCommand command) {
+    public synchronized PublicationReceipt addWorkshopItem(AddWorkshopItemCommand command) {
         require(command.catalogItemId(), "catalogItemId");
         require(command.paintingProjectId(), "paintingProjectId");
         require(command.displayName(), "displayName");
@@ -607,61 +614,55 @@ public final class MiniPaintDexService {
         }
         product.catalogItem(command.catalogItemId());
         var duplicate = idempotent(snapshot, command.idempotencyKey());
-        if (duplicate != null) return duplicate;
+        if (duplicate != null) return existingReceipt(duplicate);
         var occurredAt = command.occurredAt() == null ? Instant.now() : command.occurredAt();
         var itemId = present(command.itemId()) ? command.itemId() : "ws-" + command.catalogItemId() + "-" + Ulid.next(occurredAt).toLowerCase(Locale.ROOT);
         if (snapshot.events().stream().anyMatch(event -> itemId.equals(event.aggregateId()) && "workshop_item.added".equals(event.eventType()))) {
             throw new DomainException("conflict", "Workshop item already exists: " + itemId);
         }
-        var event = new DomainEvent(Ulid.next(occurredAt), 1, "workshop_item.added", occurredAt, Instant.now(),
-                "workshop_item", itemId, paintingProject.id(), new Actor("user", defaultText(command.actorId(), "owner")),
-                defaultText(command.correlationId(), Ulid.next(Instant.now())), null, command.idempotencyKey(),
-                Map.of("catalog_item_id", command.catalogItemId(), "painting_project_id", paintingProject.id(),
-                        "display_name", command.displayName()));
-        return ledger.append(event);
+        var item = WorkshopItem.create(
+                itemId, command.catalogItemId(), paintingProject.id(), command.displayName(), 0, occurredAt);
+        return publish(item,
+                new Actor("user", defaultText(command.actorId(), "owner")),
+                command.correlationId(), command.idempotencyKey());
     }
 
-    public DomainEvent transitionStage(TransitionStageCommand command) {
+    public synchronized PublicationReceipt transitionStage(TransitionStageCommand command) {
         require(command.itemId(), "itemId");
         var stage = WorkflowStage.fromId(command.stage());
         var action = StageAction.fromId(command.action());
         var snapshot = snapshots.load();
         var duplicate = idempotent(snapshot, command.idempotencyKey());
-        if (duplicate != null) return duplicate;
+        if (duplicate != null) return existingReceipt(duplicate);
         var item = WorkshopItemProjector.project(snapshot.events()).stream().filter(candidate -> command.itemId().equals(candidate.id())).findFirst()
                 .orElseThrow(() -> new DomainException("not_found", "Workshop item not found: " + command.itemId()));
-        WorkshopItemProjector.assertTransition(item.workflow(), stage, action);
+        var workshopItem = workshopItemAggregate(snapshot, item.id());
         var occurredAt = command.occurredAt() == null ? Instant.now() : command.occurredAt();
-        var payload = new LinkedHashMap<String, Object>();
-        payload.put("stage", stage.id());
-        payload.put("painting_project_id", item.paintingProjectId());
-        if (present(command.comment())) payload.put("comment", command.comment());
-        if (present(command.reason())) payload.put("reason", command.reason());
-        var event = new DomainEvent(Ulid.next(occurredAt), 1, action.eventType(), occurredAt, Instant.now(),
-                "workshop_item", item.id(), item.paintingProjectId(), new Actor("user", defaultText(command.actorId(), "owner")),
-                defaultText(command.correlationId(), Ulid.next(Instant.now())), null, command.idempotencyKey(), payload);
-        return ledger.append(event);
+        var note = action == StageAction.SKIP ? command.reason() : command.comment();
+        workshopItem.transition(stage, action, note, occurredAt);
+        return publish(workshopItem,
+                new Actor("user", defaultText(command.actorId(), "owner")),
+                command.correlationId(), command.idempotencyKey());
     }
 
-    public DomainEvent addWorkshopItemComment(AddWorkshopItemCommentCommand command) {
+    public synchronized PublicationReceipt addWorkshopItemComment(AddWorkshopItemCommentCommand command) {
         require(command.itemId(), "itemId");
         require(command.comment(), "comment");
         var snapshot = snapshots.load();
         var duplicate = idempotent(snapshot, command.idempotencyKey());
-        if (duplicate != null) return duplicate;
+        if (duplicate != null) return existingReceipt(duplicate);
         var item = WorkshopItemProjector.project(snapshot.events()).stream()
                 .filter(candidate -> command.itemId().equals(candidate.id())).findFirst()
                 .orElseThrow(() -> new DomainException("not_found", "Workshop item not found: " + command.itemId()));
-        var occurredAt = command.occurredAt() == null ? Instant.now() : command.occurredAt();
-        var event = new DomainEvent(Ulid.next(occurredAt), 1, "workshop_item.comment_added",
-                occurredAt, Instant.now(), "workshop_item", item.id(), item.paintingProjectId(),
+        var workshopItem = workshopItemAggregate(snapshot, item.id());
+        workshopItem.addComment(command.comment().trim(),
+                command.occurredAt() == null ? Instant.now() : command.occurredAt());
+        return publish(workshopItem,
                 new Actor("user", defaultText(command.actorId(), "owner")),
-                defaultText(command.correlationId(), Ulid.next(Instant.now())), null, command.idempotencyKey(),
-                Map.of("comment", command.comment().trim(), "painting_project_id", item.paintingProjectId()));
-        return ledger.append(event);
+                command.correlationId(), command.idempotencyKey());
     }
 
-    public DomainEvent addWorkshopItemPhoto(AddWorkshopItemPhotoCommand command) {
+    public synchronized PublicationReceipt addWorkshopItemPhoto(AddWorkshopItemPhotoCommand command) {
         require(command.itemId(), "itemId");
         require(command.originalFilename(), "originalFilename");
         var contentType = defaultText(command.contentType(), "").toLowerCase(Locale.ROOT);
@@ -674,7 +675,7 @@ public final class MiniPaintDexService {
         }
         var snapshot = snapshots.load();
         var duplicate = idempotent(snapshot, command.idempotencyKey());
-        if (duplicate != null) return duplicate;
+        if (duplicate != null) return existingReceipt(duplicate);
         var item = WorkshopItemProjector.project(snapshot.events()).stream()
                 .filter(candidate -> command.itemId().equals(candidate.id())).findFirst()
                 .orElseThrow(() -> new DomainException("not_found", "Workshop item not found: " + command.itemId()));
@@ -682,171 +683,121 @@ public final class MiniPaintDexService {
         var occurredAt = command.occurredAt() == null ? Instant.now() : command.occurredAt();
         var mediaId = "media-" + Ulid.next(occurredAt).toLowerCase(Locale.ROOT);
         var stored = mediaStorage.store(item.id(), mediaId, command.originalFilename(), contentType, content);
-        var payload = new LinkedHashMap<String, Object>();
-        payload.put("media_id", stored.id());
-        payload.put("url", stored.publicPath());
-        payload.put("storage_path", stored.storagePath());
-        payload.put("original_filename", stored.originalFilename());
-        payload.put("content_type", stored.contentType());
-        payload.put("size", stored.size());
-        payload.put("sha256", stored.sha256());
-        payload.put("painting_project_id", item.paintingProjectId());
-        if (present(command.stage())) payload.put("stage", command.stage());
-        if (present(command.caption())) payload.put("caption", command.caption().trim());
-        var event = new DomainEvent(Ulid.next(Instant.now()), 1, "workshop_item.photo_added",
-                occurredAt, Instant.now(), "workshop_item", item.id(), item.paintingProjectId(),
-                new Actor("user", defaultText(command.actorId(), "owner")),
-                defaultText(command.correlationId(), Ulid.next(Instant.now())), null, command.idempotencyKey(), payload);
+        var workshopItem = workshopItemAggregate(snapshot, item.id());
+        workshopItem.addPhoto(
+                stored.id(), stored.publicPath(), command.stage(), command.caption(), stored.originalFilename(),
+                stored.contentType(), stored.size(), stored.sha256(), occurredAt);
         try {
-            return ledger.append(event);
+            return publish(workshopItem,
+                    new Actor("user", defaultText(command.actorId(), "owner")),
+                    command.correlationId(), command.idempotencyKey());
         } catch (RuntimeException failure) {
             mediaStorage.delete(stored);
             throw failure;
         }
     }
 
-    public DomainEvent setShoppingItemStatus(SetShoppingItemStatusCommand command) {
+    public synchronized PublicationReceipt setShoppingItemStatus(SetShoppingItemStatusCommand command) {
         require(command.itemId(), "itemId");
         var snapshot = snapshots.load();
         var duplicate = idempotent(snapshot, command.idempotencyKey());
-        if (duplicate != null) return duplicate;
-        var known = shoppingViews(snapshot).stream().anyMatch(item -> command.itemId().equals(item.get("id")));
+        if (duplicate != null) return existingReceipt(duplicate);
+        var known = shoppingViews(snapshot).stream().anyMatch(item -> command.itemId().equals(item.id()));
         if (!known) throw new DomainException("not_found", "Shopping item not found: " + command.itemId());
         var occurredAt = command.occurredAt() == null ? Instant.now() : command.occurredAt();
-        var event = new DomainEvent(Ulid.next(occurredAt), 1, "shopping_item.status_changed",
-                occurredAt, Instant.now(), "shopping_item", command.itemId(), null,
+        var itemHistory = snapshot.events().stream()
+                .filter(event -> command.itemId().equals(event.aggregateId()))
+                .map(EventEnvelope::event)
+                .filter(ShoppingItemEvent.class::isInstance)
+                .map(ShoppingItemEvent.class::cast)
+                .toList();
+        var currentChecked = itemHistory.stream()
+                .filter(ShoppingItemStatusChanged.class::isInstance)
+                .map(ShoppingItemStatusChanged.class::cast)
+                .reduce((left, right) -> right)
+                .map(ShoppingItemStatusChanged::checked)
+                .orElse(false);
+        var shoppingItem = ShoppingItem.current(command.itemId(), currentChecked, itemHistory);
+        shoppingItem.setChecked(command.checked(), occurredAt);
+        if (shoppingItem.pendingEvents().isEmpty()) {
+            return snapshot.events().stream()
+                    .filter(event -> command.itemId().equals(event.aggregateId()))
+                    .reduce((left, right) -> right)
+                    .map(MiniPaintDexService::existingReceipt)
+                    .orElseThrow(() -> new DomainException("no_change", "Shopping item status is already current."));
+        }
+        return publish(shoppingItem,
                 new Actor("user", defaultText(command.actorId(), "owner")),
-                defaultText(command.correlationId(), Ulid.next(Instant.now())), null, command.idempotencyKey(),
-                Map.of("checked", command.checked()));
-        return ledger.append(event);
+                command.correlationId(), command.idempotencyKey());
     }
 
-    public Map<String, Object> rebuildProjections() {
+    public synchronized RebuildProjectionResult rebuildProjections() {
         var snapshot = snapshots.load();
-        var view = project(snapshot);
-        var result = new LinkedHashMap<String, Object>();
-        result.put("status", "rebuilt");
-        result.put("storage", "in_memory");
-        result.put("eventCount", snapshot.events().size());
-        result.put("rebuiltAt", Instant.now());
-        result.putAll(Map.of(
-                "paints", size(view.get("paints")),
-                "marketPaintableProducts", size(view.get("marketPaintableProducts")),
-                "paintingProjects", size(((Map<?, ?>) view.get("workshop")).get("paintingProjects")),
-                "workshopItems", size(view.get("workshopItems")),
-                "marketPaintingGuides", size(view.get("marketPaintingGuides")),
-                "workshopRecipes", size(view.get("workshopRecipes"))));
-        return Map.copyOf(result);
+        return new RebuildProjectionResult(
+                "rebuilt", "in_memory", snapshot.events().size(), Instant.now(),
+                paintQueries.views(marketCatalog(snapshot)).size(), snapshot.paintableProducts().size(),
+                PaintingProjectProjector.project(snapshot.events()).size(),
+                WorkshopItemProjector.project(snapshot.events()).size(),
+                snapshot.marketPaintingGuides().size(), WorkshopRecipeProjector.project(snapshot.events()).size());
     }
 
-    public String exportPaints(String format) {
-        var paints = searchMarketPaints(SearchMarketPaintsQuery.empty());
-        if ("csv".equals(format)) {
-            var rows = new ArrayList<String>();
-            rows.add("id,brand,range,reference,name,color_hex,color_family,finish,medium,volume_ml,quantity");
-            for (var paint : paints) rows.add(List.of("id", "brand", "range", "reference", "name", "colorHex", "colorFamily", "finish", "medium", "volumeMl", "quantity").stream().map(key -> csv(paint.get(key))).collect(Collectors.joining(",")));
-            return String.join("\n", rows) + "\n";
-        }
-        if ("yaml".equals(format)) {
-            var output = new StringBuilder("paints:\n");
-            for (var paint : paints) {
-                output.append("  - id: ").append(quoted(paint.get("id"))).append('\n');
-                output.append("    brand: ").append(quoted(paint.get("brand"))).append('\n');
-                output.append("    range: ").append(quoted(paint.get("range"))).append('\n');
-                output.append("    reference: ").append(quoted(paint.get("reference"))).append('\n');
-                output.append("    name: ").append(quoted(paint.get("name"))).append('\n');
-                output.append("    quantity: ").append(number(paint.get("quantity"))).append('\n');
-            }
-            return output.toString();
-        }
-        throw new DomainException("not_found", "Unknown export format: " + format);
+    private List<MarketPaintView> paintViews(DataSnapshot snapshot) {
+        return paintQueries.views(marketCatalog(snapshot));
     }
 
-    private Map<String, Object> project(DataSnapshot snapshot) {
-        var items = WorkshopItemProjector.project(snapshot.events());
-        var workshopRecipes = WorkshopRecipeProjector.project(snapshot.events());
-        var paints = paintViews(snapshot);
-        var marketProducts = paintableProductViews(snapshot, paints);
-        var result = new LinkedHashMap<String, Object>();
-        result.put("paints", paints);
-        result.put("paintStats", Map.of(
-                "total", paints.size(),
-                "owned", paints.stream().filter(paint -> number(paint.get("quantity")) > 0).count(),
-                "brands", paints.stream().map(paint -> text(paint.get("brand"))).filter(MiniPaintDexService::present).distinct().count()));
-        result.put("workshopPaints", paints.stream().filter(paint -> number(paint.get("quantity")) > 0).toList());
-        result.put("marketPaintableProducts", marketProducts);
-        result.put("workshop", workshopView(snapshot, marketProducts, items));
-        result.put("workshopItems", items.stream().map(this::workshopItemView).toList());
-        result.put("marketPaintingGuides", snapshot.marketPaintingGuides().stream().map(MiniPaintDexService::camelize).toList());
-        result.put("workshopRecipes", workshopRecipes.stream().map(this::workshopRecipeView).toList());
-        result.put("shoppingSeed", shoppingViews(snapshot));
-        result.put("config", camelize(snapshot.site()));
-        return result;
-    }
-
-    private List<Map<String, Object>> paintViews(DataSnapshot snapshot) {
-        return paintQueries.views(snapshot);
-    }
-
-    private List<Map<String, Object>> paintableProductViews(DataSnapshot snapshot, List<Map<String, Object>> paints) {
-        var guides = snapshot.marketPaintingGuides().stream().collect(Collectors.toMap(
+    private List<PaintableProductView> paintableProductViews(DataSnapshot snapshot, List<MarketPaintView> paints) {
+        var guides = documentMaps(snapshot.marketPaintingGuides()).stream().collect(Collectors.toMap(
                 entry -> text(entry.get("catalog_item_id")), Function.identity(),
                 (left, right) -> number(left.get("version")) >= number(right.get("version")) ? left : right));
-        var paintsById = paints.stream().collect(Collectors.toMap(entry -> text(entry.get("id")), Function.identity()));
-        var paintingProjects = PaintingProjectProjector.project(snapshot.events());
+        var paintsById = paints.stream().collect(Collectors.toMap(MarketPaintView::id, Function.identity()));
         return snapshot.paintableProducts().stream().map(product -> {
             var productItems = product.catalogItems().stream().map(item -> {
                 var catalogItemId = item.id();
                 var guide = guides.getOrDefault(catalogItemId, Map.of());
-                Map<String, Object> view = new LinkedHashMap<>();
-                view.put("id", catalogItemId);
-                view.put("productId", product.id());
-                view.put("name", item.name());
-                view.put("kind", item.kind());
-                view.put("quantity", item.quantity());
-                view.put("description", item.description());
-                view.put("assemblyRequired", item.assemblyRequired());
-                view.put("referenceImages", item.referenceImages().stream().map(this::imageView).toList());
-                view.put("paints", listOfMaps(guide.get("slots")).stream().map(slot -> guideSlotView(slot, paintsById)).toList());
-                view.put("preparation", listOfMaps(guide.get("preparation")).stream().map(this::stepView).toList());
-                view.put("painting", listOfMaps(guide.get("painting")).stream().map(this::stepView).toList());
-                view.put("marketGuide", guide.isEmpty() ? Map.of() : Map.of(
-                        "id", text(guide.get("id")), "version", number(guide.get("version")),
-                        "knowledgeStatus", text(guide.get("knowledge_status")),
-                        "sources", listOfMaps(guide.get("sources")).stream().map(this::sourceView).toList()));
-                view.put("sources", item.sources().stream().map(this::sourceView).toList());
-                return view;
+                var marketGuide = guide.isEmpty()
+                        ? null
+                        : new PaintableProductView.MarketGuideView(
+                                text(guide.get("id")), number(guide.get("version")),
+                                text(guide.get("knowledge_status")),
+                                listOfMaps(guide.get("sources")).stream().map(this::sourceView).toList());
+                return new PaintableProductView.CatalogItemView(
+                        catalogItemId, product.id(), item.name(), item.kind(), item.quantity(), item.description(),
+                        item.assemblyRequired(), item.referenceImages().stream().map(this::imageView).toList(),
+                        listOfMaps(guide.get("slots")).stream().map(slot -> guideSlotView(slot, paintsById)).toList(),
+                        listOfMaps(guide.get("preparation")).stream().map(this::stepView).toList(),
+                        listOfMaps(guide.get("painting")).stream().map(this::stepView).toList(),
+                        marketGuide, item.sources().stream().map(this::sourceView).toList());
             }).toList();
-            Map<String, Object> view = new LinkedHashMap<>();
-            view.put("schemaVersion", product.schemaVersion());
-            view.put("id", product.id());
-            view.put("name", product.name());
-            view.put("line", product.line());
-            view.put("productType", product.productType());
-            view.put("scope", product.scope());
-            view.put("expectedPaintableCount", product.expectedPaintableCount());
-            view.put("edition", Map.of("note", product.edition().note(), "url", product.edition().url()));
-            view.put("sources", product.sources().stream().map(this::sourceView).toList());
-            view.put("items", productItems);
-            view.put("inWorkshop", paintingProjects.stream()
-                    .anyMatch(project -> product.id().equals(project.paintableProductId())));
-            return view;
-        }).sorted(Comparator.comparing(entry -> text(entry.get("name")), String.CASE_INSENSITIVE_ORDER)).toList();
+            return new PaintableProductView(
+                    product.schemaVersion(), product.id(), product.name(), product.line(), product.productType(),
+                    product.scope(), product.expectedPaintableCount(),
+                    new PaintableProductView.EditionView(product.edition().note(), product.edition().url()),
+                    product.sources().stream().map(this::sourceView).toList(), productItems);
+        }).sorted(Comparator.comparing(PaintableProductView::name, String.CASE_INSENSITIVE_ORDER)).toList();
     }
 
-    private Map<String, Object> workshopView(
+    private List<PaintableProductSummaryView> paintableProductSummaries(DataSnapshot snapshot) {
+        return snapshot.paintableProducts().stream().map(product -> new PaintableProductSummaryView(
+                        product.id(), product.name(), product.line(), product.productType(), product.scope(),
+                        product.catalogItems().size(), product.expectedPaintableCount()))
+                .sorted(Comparator.comparing(PaintableProductSummaryView::name, String.CASE_INSENSITIVE_ORDER))
+                .toList();
+    }
+
+    private WorkshopOverviewView workshopView(
             DataSnapshot snapshot,
-            List<Map<String, Object>> marketProducts,
+            List<PaintableProductSummaryView> marketProducts,
             List<WorkshopItemState> workshopItems) {
         var workshop = WorkshopProjector.project(snapshot.events());
         var paintingProjects = PaintingProjectProjector.project(snapshot.events());
         var marketById = marketProducts.stream().collect(Collectors.toMap(
-                product -> text(product.get("id")), Function.identity()));
+                PaintableProductSummaryView::id, Function.identity()));
         var projects = paintingProjects.stream().map(project -> {
             var market = marketById.get(project.paintableProductId());
-            if (market == null) return Map.<String, Object>of(
-                    "projectId", project.id(), "productId", project.paintableProductId(),
-                    "name", project.name(), "status", project.status().id(), "orphaned", true);
+            if (market == null) return new PaintingProjectView(
+                    project.id(), project.paintableProductId(), project.name(), project.status().id(),
+                    project.createdAt(), project.updatedAt(), project.createdAt(),
+                    0, 0, 0, 0, 0, 0, 0, List.of(), 0, true);
             var items = workshopItems.stream()
                     .filter(item -> project.id().equals(item.paintingProjectId())).toList();
             var completed = (int) items.stream().filter(WorkshopItemState::completed).count();
@@ -857,71 +808,50 @@ public final class MiniPaintDexService {
                     .filter(status -> status == WorkflowStageStatus.COMPLETED || status == WorkflowStageStatus.SKIPPED).count()).sum();
             var progress = stageUnits == 0 ? 0 : Math.round((finishedStages * 100f) / stageUnits);
             var preview = importPreview(snapshot, findProduct(snapshot, project.paintableProductId()));
-            var view = new LinkedHashMap<String, Object>();
-            view.put("projectId", project.id());
-            view.put("productId", project.paintableProductId());
-            view.put("name", market.get("name"));
-            view.put("status", project.status().id());
-            view.put("createdAt", project.createdAt());
-            view.put("updatedAt", project.updatedAt());
-            view.put("importedAt", project.createdAt());
-            view.put("itemCount", items.size());
-            view.put("completedCount", completed);
-            view.put("inProgressCount", inProgress);
-            view.put("pendingCount", items.size() - completed - inProgress);
-            view.put("progressPercentage", progress);
-            view.put("missingPaintCount", preview.get("missingPaintCount"));
-            view.put("missingPaints", preview.get("missingPaints"));
-            view.put("requiredPaintCount", preview.get("requiredPaintCount"));
-            view.put("pendingPaintSlotCount", preview.get("pendingPaintSlotCount"));
-            return Map.copyOf(view);
+            return new PaintingProjectView(
+                    project.id(), project.paintableProductId(), market.name(), project.status().id(),
+                    project.createdAt(), project.updatedAt(), project.createdAt(), items.size(), completed,
+                    inProgress, items.size() - completed - inProgress, progress, preview.requiredPaintCount(),
+                    preview.missingPaintCount(), preview.missingPaints(), preview.pendingPaintSlotCount(), false);
         }).toList();
         var completedItems = (int) workshopItems.stream().filter(WorkshopItemState::completed).count();
-        var result = new LinkedHashMap<String, Object>();
-        result.put("id", workshop.id());
-        result.put("paintingProjects", projects);
-        result.put("projectCount", projects.size());
-        result.put("itemCount", workshopItems.size());
-        result.put("completedItemCount", completedItems);
-        result.put("progressPercentage", workshopItems.isEmpty() ? 0 : Math.round(completedItems * 100f / workshopItems.size()));
-        result.put("recentActivity", snapshot.events().stream()
-                .sorted(Comparator.comparing(DomainEvent::recordedAt).reversed()).limit(12).toList());
-        return Map.copyOf(result);
+        return new WorkshopOverviewView(
+                defaultText(workshop.id(), Workshop.DEFAULT_ID), projects, projects.size(), workshopItems.size(),
+                completedItems,
+                workshopItems.isEmpty() ? 0 : Math.round(completedItems * 100f / workshopItems.size()),
+                snapshot.events().stream().sorted(Comparator.comparing(EventEnvelope::recordedAt).reversed())
+                        .limit(12).toList());
     }
 
-    private Map<String, Object> guideSlotView(Map<String, Object> slot, Map<String, Map<String, Object>> paintsById) {
+    private PaintableProductView.GuidePaintView guideSlotView(
+            Map<String, Object> slot, Map<String, MarketPaintView> paintsById) {
         var paint = paintsById.get(text(slot.get("market_paint_id")));
         var requested = map(slot.get("requested_paint"));
-        var view = new LinkedHashMap<String, Object>();
-        view.put("slotId", text(slot.get("id")));
-        if (paint != null) view.put("paintId", paint.get("id"));
-        view.put("brand", paint == null ? text(requested.get("brand")) : paint.get("brand"));
-        view.put("name", paint == null ? text(requested.get("name")) : paint.get("name"));
-        view.put("role", text(slot.get("role")));
-        view.put("colorHex", paint == null ? text(requested.get("color_hex")) : paint.get("colorHex"));
-        if (Boolean.TRUE.equals(slot.get("pending_import"))) view.put("pendingImport", true);
-        return view;
+        return new PaintableProductView.GuidePaintView(
+                text(slot.get("id")), paint == null ? "" : paint.id(),
+                paint == null ? text(requested.get("brand")) : paint.brand(),
+                paint == null ? text(requested.get("name")) : paint.name(),
+                text(slot.get("role")),
+                paint == null ? text(requested.get("color_hex")) : paint.colorHex(),
+                Boolean.TRUE.equals(slot.get("pending_import")));
     }
 
-    private Map<String, Object> workshopItemView(WorkshopItemState item) {
-        var workflow = new LinkedHashMap<String, Object>();
-        for (var stage : WorkflowStage.values()) workflow.put(stage.id(), item.workflow().get(stage).id());
-        var view = new LinkedHashMap<String, Object>();
-        view.put("id", item.id());
-        view.put("catalogItemId", item.catalogItemId());
-        view.put("paintingProjectId", item.paintingProjectId());
-        view.put("displayName", item.displayName());
-        view.put("workflow", workflow);
-        view.put("currentStage", item.currentStage() == null ? null : item.currentStage().id());
-        view.put("completed", item.completed());
-        view.put("recipeId", defaultText(item.recipeId(), ""));
-        view.put("recipeVersion", item.recipeVersion());
-        view.put("updatedAt", item.updatedAt());
-        return view;
+    private WorkshopItemView workshopItemView(WorkshopItemState item) {
+        var workflow = new WorkshopItemView.WorkflowView(
+                item.workflow().get(WorkflowStage.PREPARATION).id(),
+                item.workflow().get(WorkflowStage.PRIMING).id(),
+                item.workflow().get(WorkflowStage.PRE_HIGHLIGHT).id(),
+                item.workflow().get(WorkflowStage.PAINTING).id(),
+                item.workflow().get(WorkflowStage.FINISHING).id(),
+                item.workflow().get(WorkflowStage.BASING).id());
+        return new WorkshopItemView(
+                item.id(), item.catalogItemId(), item.paintingProjectId(), item.displayName(), workflow,
+                item.currentStage() == null ? null : item.currentStage().id(), item.completed(),
+                defaultText(item.recipeId(), ""), item.recipeVersion(), item.updatedAt());
     }
 
-    private List<Map<String, Object>> shoppingViews(DataSnapshot snapshot) {
-        var paintsById = snapshot.marketPaints().stream().collect(Collectors.toMap(
+    private List<ShoppingItemView> shoppingViews(DataSnapshot snapshot) {
+        var paintsById = documentMaps(snapshot.marketPaints()).stream().collect(Collectors.toMap(
                 paint -> text(paint.get("id")), Function.identity(), (left, right) -> left));
         var productsById = snapshot.paintableProducts().stream().collect(Collectors.toMap(
                 PaintableProduct::id, PaintableProduct::name));
@@ -931,108 +861,104 @@ public final class MiniPaintDexService {
             var product = snapshot.paintableProducts().stream()
                     .filter(candidate -> paintingProject.paintableProductId().equals(candidate.id())).findFirst().orElse(null);
             if (product == null) continue;
-            for (var missing : listOfMaps(importPreview(snapshot, product).get("missingPaints"))) {
-                requiredByPaint.computeIfAbsent(text(missing.get("id")), ignored -> new java.util.LinkedHashSet<>())
+            for (var missing : importPreview(snapshot, product).missingPaints()) {
+                requiredByPaint.computeIfAbsent(missing.id(), ignored -> new java.util.LinkedHashSet<>())
                         .add(product.id());
             }
         }
-        var result = new ArrayList<Map<String, Object>>();
+        var result = new ArrayList<ShoppingItemView>();
         var checkedById = new LinkedHashMap<String, Boolean>();
         snapshot.events().stream().filter(event -> "shopping_item.status_changed".equals(event.eventType()))
-                .sorted(Comparator.comparing(DomainEvent::recordedAt).thenComparing(DomainEvent::eventId))
-                .forEach(event -> checkedById.put(event.aggregateId(), Boolean.TRUE.equals(event.payload().get("checked"))));
+                .sorted(Comparator.comparing(EventEnvelope::recordedAt).thenComparing(EventEnvelope::eventId))
+                .map(EventEnvelope::event)
+                .filter(ShoppingItemStatusChanged.class::isInstance)
+                .map(ShoppingItemStatusChanged.class::cast)
+                .forEach(event -> checkedById.put(event.aggregateId(), event.checked()));
         var plannedPaintIds = new java.util.HashSet<String>();
-        for (var entry : snapshot.shopping()) {
+        for (var entry : documentMaps(snapshot.shopping())) {
             var paintId = text(entry.get("market_paint_id"));
             var paint = paintsById.get(paintId);
             var sourceProducts = requiredByPaint.getOrDefault(paintId, new java.util.LinkedHashSet<>());
-            var view = new LinkedHashMap<String, Object>();
-            view.put("id", text(entry.get("id")));
-            view.put("kind", sourceProducts.isEmpty() ? "planned" : "required");
-            view.put("planned", true);
-            view.put("marketPaintId", paintId);
-            view.put("brand", paint == null ? text(entry.get("brand")) : text(paint.get("brand")));
-            view.put("name", paint == null ? text(entry.get("name")) : text(paint.get("name")));
-            view.put("reference", paint == null ? text(entry.get("reference")) : text(paint.get("reference")));
-            view.put("colorHex", paint == null ? text(entry.get("color_hex")) : text(map(paint.get("color")).get("hex")));
-            view.put("reason", text(entry.get("reason")));
-            view.put("priority", defaultText(text(entry.get("priority")), "low"));
-            view.put("sourceProductIds", List.copyOf(sourceProducts));
-            view.put("sourceProductNames", sourceProducts.stream().map(id -> productsById.getOrDefault(id, id)).toList());
-            view.put("checked", checkedById.getOrDefault(text(entry.get("id")), false));
-            result.add(Map.copyOf(view));
+            result.add(new ShoppingItemView(
+                    text(entry.get("id")),
+                    paint == null ? text(entry.get("brand")) : text(paint.get("brand")),
+                    paint == null ? text(entry.get("name")) : text(paint.get("name")),
+                    paint == null ? text(entry.get("reference")) : text(paint.get("reference")),
+                    paint == null ? text(entry.get("color_hex")) : text(map(paint.get("color")).get("hex")),
+                    text(entry.get("reason")), defaultText(text(entry.get("priority")), "low"),
+                    sourceProducts.isEmpty() ? "planned" : "required", true, paintId,
+                    List.copyOf(sourceProducts),
+                    sourceProducts.stream().map(id -> productsById.getOrDefault(id, id)).toList(),
+                    checkedById.getOrDefault(text(entry.get("id")), false)));
             if (present(paintId)) plannedPaintIds.add(paintId);
         }
         requiredByPaint.forEach((paintId, sourceProducts) -> {
             if (plannedPaintIds.contains(paintId)) return;
             var paint = paintsById.getOrDefault(paintId, Map.of());
-            var view = new LinkedHashMap<String, Object>();
-            view.put("id", "required-" + paintId);
-            view.put("kind", "required");
-            view.put("planned", false);
-            view.put("marketPaintId", paintId);
-            view.put("brand", text(paint.get("brand")));
-            view.put("name", text(paint.get("name")));
-            view.put("reference", text(paint.get("reference")));
-            view.put("colorHex", text(map(paint.get("color")).get("hex")));
-            view.put("reason", "");
-            view.put("priority", "high");
-            view.put("sourceProductIds", List.copyOf(sourceProducts));
-            view.put("sourceProductNames", sourceProducts.stream().map(id -> productsById.getOrDefault(id, id)).toList());
-            view.put("checked", checkedById.getOrDefault("required-" + paintId, false));
-            result.add(Map.copyOf(view));
+            result.add(new ShoppingItemView(
+                    "required-" + paintId, text(paint.get("brand")), text(paint.get("name")),
+                    text(paint.get("reference")), text(map(paint.get("color")).get("hex")), "", "high",
+                    "required", false, paintId, List.copyOf(sourceProducts),
+                    sourceProducts.stream().map(id -> productsById.getOrDefault(id, id)).toList(),
+                    checkedById.getOrDefault("required-" + paintId, false)));
         });
         return List.copyOf(result);
     }
 
-    private Map<String, Object> sourceView(Map<String, Object> source) {
-        return Map.of("kind", text(source.get("kind")), "label", text(source.get("label")), "url", text(source.get("url")));
+    private PaintableProductView.SourceView sourceView(Map<String, Object> source) {
+        return new PaintableProductView.SourceView(
+                text(source.get("kind")), text(source.get("label")), text(source.get("url")));
     }
 
-    private Map<String, Object> sourceView(PaintableProduct.Source source) {
-        return Map.of("kind", source.kind(), "label", source.label(), "url", source.url());
+    private MarketPaintingGuideView marketPaintingGuideView(Map<String, Object> guide) {
+        return new MarketPaintingGuideView(
+                text(guide.get("id")), text(guide.get("catalog_item_id")), number(guide.get("version")),
+                text(guide.get("knowledge_status")),
+                listOfMaps(guide.get("sources")).stream().map(this::sourceView).toList(),
+                listOfMaps(guide.get("slots")).stream().map(this::marketPaintingGuideSlotView).toList(),
+                listOfMaps(guide.get("preparation")).stream().map(this::stepView).toList(),
+                listOfMaps(guide.get("painting")).stream().map(this::stepView).toList());
     }
 
-    private Map<String, Object> imageView(Map<String, Object> image) {
-        var view = new LinkedHashMap<String, Object>();
-        view.put("url", text(image.get("url")));
-        view.put("pageUrl", text(image.get("page_url")));
-        view.put("credit", text(image.get("credit")));
-        if (present(text(image.get("license")))) view.put("license", text(image.get("license")));
-        return view;
+    private MarketPaintingGuideView.SlotView marketPaintingGuideSlotView(Map<String, Object> slot) {
+        var requested = map(slot.get("requested_paint"));
+        return new MarketPaintingGuideView.SlotView(
+                text(slot.get("id")), text(slot.get("role")), text(slot.get("market_paint_id")),
+                Boolean.TRUE.equals(slot.get("pending_import")),
+                new MarketPaintingGuideView.RequestedPaintView(
+                        text(requested.get("brand")), text(requested.get("name")),
+                        text(requested.get("color_hex"))));
     }
 
-    private Map<String, Object> imageView(PaintableProduct.ReferenceImage image) {
-        var view = new LinkedHashMap<String, Object>();
-        view.put("url", image.url());
-        view.put("pageUrl", image.pageUrl());
-        view.put("credit", image.credit());
-        if (present(image.license())) view.put("license", image.license());
-        return view;
+    private PaintableProductView.SourceView sourceView(PaintableProduct.Source source) {
+        return new PaintableProductView.SourceView(source.kind(), source.label(), source.url());
     }
 
-    private Map<String, Object> stepView(Map<String, Object> step) {
-        return Map.of("title", text(step.get("title")), "detail", text(step.get("detail")));
+    private PaintableProductView.ReferenceImageView imageView(PaintableProduct.ReferenceImage image) {
+        return new PaintableProductView.ReferenceImageView(
+                image.url(), image.pageUrl(), image.credit(), image.license());
     }
 
-    private Map<String, Object> workshopRecipeView(WorkshopRecipeState recipe) {
-        var view = new LinkedHashMap<String, Object>();
-        view.put("id", recipe.id());
-        view.put("catalogItemId", recipe.catalogItemId());
-        view.put("basedOnGuideId", defaultText(recipe.basedOnGuideId(), ""));
-        view.put("supersedesRecipeId", defaultText(recipe.supersedesRecipeId(), ""));
-        view.put("displayName", recipe.displayName());
-        view.put("version", recipe.version());
-        view.put("status", recipe.status().id());
-        view.put("solutions", camelize(recipe.solutions()));
-        view.put("updatedAt", recipe.updatedAt());
-        return view;
+    private PaintableProductView.GuideStepView stepView(Map<String, Object> step) {
+        return new PaintableProductView.GuideStepView(text(step.get("title")), text(step.get("detail")));
+    }
+
+    private WorkshopRecipeView workshopRecipeView(WorkshopRecipeState recipe) {
+        return new WorkshopRecipeView(
+                recipe.id(), recipe.catalogItemId(), defaultText(recipe.basedOnGuideId(), ""),
+                defaultText(recipe.supersedesRecipeId(), ""), recipe.displayName(), recipe.version(),
+                recipe.status().id(), recipe.solutions(), recipe.updatedAt());
     }
 
     private static PaintableProduct findProduct(DataSnapshot snapshot, String productId) {
         require(productId, "productId");
         return snapshot.paintableProducts().stream().filter(product -> productId.equals(product.id())).findFirst()
                 .orElseThrow(() -> new DomainException("not_found", "Paintable product not found: " + productId));
+    }
+
+    private static MarketCatalogSnapshot marketCatalog(DataSnapshot snapshot) {
+        return new MarketCatalogSnapshot(
+                snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides());
     }
 
     private static PaintingProject paintingProject(DataSnapshot snapshot, String paintingProjectId) {
@@ -1086,12 +1012,16 @@ public final class MiniPaintDexService {
 
     private static Set<String> referencedPaintIds(DataSnapshot snapshot) {
         var result = new java.util.LinkedHashSet<String>();
-        snapshot.marketPaintingGuides().forEach(guide -> listOfMaps(guide.get("slots")).forEach(slot -> {
+        documentMaps(snapshot.marketPaintingGuides()).forEach(guide -> listOfMaps(guide.get("slots")).forEach(slot -> {
             var paintId = text(slot.get("market_paint_id"));
             if (present(paintId)) result.add(paintId);
         }));
-        snapshot.events().stream().filter(event -> "workshop_recipe.created".equals(event.eventType()))
-                .forEach(event -> collectPaintIds(event.payload().get("solutions"), result));
+        snapshot.events().stream().map(EventEnvelope::event)
+                .filter(WorkshopRecipeCreated.class::isInstance)
+                .map(WorkshopRecipeCreated.class::cast)
+                .flatMap(event -> event.solutions().stream())
+                .flatMap(solution -> solution.referencedPaintIds().stream())
+                .forEach(result::add);
         return Set.copyOf(result);
     }
 
@@ -1115,41 +1045,91 @@ public final class MiniPaintDexService {
         throw new DomainException("not_found", "Catalog item not found: " + catalogItemId);
     }
 
+    private Workshop workshopAggregate(DataSnapshot snapshot) {
+        var history = snapshot.events().stream()
+                .filter(event -> Workshop.DEFAULT_ID.equals(event.aggregateId()))
+                .map(EventEnvelope::event)
+                .filter(WorkshopEvent.class::isInstance)
+                .map(WorkshopEvent.class::cast)
+                .toList();
+        return Workshop.rehydrate(history);
+    }
+
+    private WorkshopItem workshopItemAggregate(DataSnapshot snapshot, String workshopItemId) {
+        var history = snapshot.events().stream()
+                .filter(event -> workshopItemId.equals(event.aggregateId()))
+                .map(EventEnvelope::event)
+                .filter(WorkshopItemEvent.class::isInstance)
+                .map(WorkshopItemEvent.class::cast)
+                .toList();
+        if (history.isEmpty()) {
+            throw new DomainException("not_found", "Workshop item not found: " + workshopItemId);
+        }
+        return WorkshopItem.rehydrate(history);
+    }
+
+    private PaintingProject paintingProjectAggregate(DataSnapshot snapshot, String paintingProjectId) {
+        var history = snapshot.events().stream()
+                .filter(event -> paintingProjectId.equals(event.aggregateId()))
+                .map(EventEnvelope::event)
+                .filter(PaintingProjectEvent.class::isInstance)
+                .map(PaintingProjectEvent.class::cast)
+                .toList();
+        if (history.isEmpty()) {
+            throw new DomainException("not_found", "Painting project not found: " + paintingProjectId);
+        }
+        return PaintingProject.rehydrate(history);
+    }
+
+    private WorkshopRecipe workshopRecipeAggregate(DataSnapshot snapshot, String recipeId) {
+        var history = snapshot.events().stream()
+                .filter(event -> recipeId.equals(event.aggregateId()))
+                .map(EventEnvelope::event)
+                .filter(WorkshopRecipeEvent.class::isInstance)
+                .map(WorkshopRecipeEvent.class::cast)
+                .toList();
+        if (history.isEmpty()) {
+            throw new DomainException("not_found", "Workshop recipe not found: " + recipeId);
+        }
+        return WorkshopRecipe.rehydrate(history);
+    }
+
+    private PublicationReceipt publish(
+            AggregateRoot aggregate, Actor actor, String requestedCorrelationId, String idempotencyKey) {
+        var recordedAt = Instant.now();
+        var correlationId = defaultText(requestedCorrelationId, Ulid.next(recordedAt));
+        var envelopes = envelopeFactory.envelop(
+                aggregate, actor, correlationId, null, idempotencyKey, recordedAt);
+        if (envelopes.isEmpty()) {
+            throw new DomainException("no_change", "The command did not produce a domain event.");
+        }
+        return publish(envelopes, correlationId, idempotencyKey);
+    }
+
+    private PublicationReceipt publish(
+            List<EventEnvelope> envelopes, String correlationId, String idempotencyKey) {
+        var acceptedAt = Instant.now();
+        var batch = new EventBatch(
+                Ulid.next(acceptedAt), correlationId, idempotencyKey, acceptedAt, envelopes);
+        return eventBus.publish(batch);
+    }
+
     private static void validateRecipeSolutions(
-            List<Map<String, Object>> solutions, Map<String, Object> guide, DataSnapshot snapshot) {
-        var ownedPaintIds = snapshot.paintInventory().stream()
+            List<RecipeSolution> solutions, Map<String, Object> guide, DataSnapshot snapshot) {
+        var ownedPaintIds = documentMaps(snapshot.paintInventory()).stream()
                 .filter(entry -> number(entry.get("quantity")) > 0)
                 .map(entry -> text(entry.get("paint_id"))).collect(Collectors.toSet());
         var guideSlotIds = listOfMaps(guide.get("slots")).stream()
                 .map(slot -> text(slot.get("id"))).collect(Collectors.toSet());
         var usedSlots = new java.util.HashSet<String>();
         for (var solution : solutions) {
-            var type = text(solution.get("type"));
-            if (!RECIPE_SOLUTION_TYPES.contains(type)) {
-                throw new DomainException("invalid_input", "Unknown recipe solution type: " + type);
-            }
-            var slotId = text(solution.get("guide_slot_id"));
+            var slotId = defaultText(solution.guideSlotId(), "");
             if (!guide.isEmpty()) {
                 require(slotId, "solutions.guide_slot_id");
                 if (!guideSlotIds.contains(slotId)) throw new DomainException("invalid_input", "Unknown market guide slot: " + slotId);
                 if (!usedSlots.add(slotId)) throw new DomainException("invalid_input", "A market guide slot can only have one workshop solution: " + slotId);
             }
-            var paintIds = new java.util.LinkedHashSet<String>();
-            if ("single_paint".equals(type)) {
-                require(text(solution.get("paint_id")), "solutions.paint_id");
-                paintIds.add(text(solution.get("paint_id")));
-            } else {
-                listOfMaps(solution.get("components")).forEach(component -> {
-                    var paintId = text(component.get("paint_id"));
-                    if (present(paintId)) paintIds.add(paintId);
-                });
-                if (("mixture".equals(type) || "layer_stack".equals(type)) && paintIds.isEmpty()) {
-                    throw new DomainException("invalid_input", type + " requires paint components.");
-                }
-                if ("technique".equals(type) && !present(text(solution.get("instructions")))) {
-                    throw new DomainException("invalid_input", "A technique solution requires instructions.");
-                }
-            }
+            var paintIds = solution.referencedPaintIds();
             var missing = paintIds.stream().filter(id -> !ownedPaintIds.contains(id)).toList();
             if (!missing.isEmpty()) {
                 throw new DomainException("conflict", "Workshop recipe can only use owned paints: " + String.join(", ", missing));
@@ -1157,9 +1137,20 @@ public final class MiniPaintDexService {
         }
     }
 
-    private DomainEvent idempotent(DataSnapshot snapshot, String key) {
+    private EventEnvelope idempotent(DataSnapshot snapshot, String key) {
         if (!present(key)) return null;
         return snapshot.events().stream().filter(event -> key.equals(event.idempotencyKey())).findFirst().orElse(null);
+    }
+
+    private static PublicationReceipt existingReceipt(EventEnvelope envelope) {
+        return new PublicationReceipt(
+                envelope.eventId(), EventPublicationStatus.COMPLETED,
+                envelope.recordedAt(), envelope.correlationId());
+    }
+
+    private static String requiredText(String value, String field) {
+        require(value, field);
+        return value.trim();
     }
 
     private static Object camelize(Object value) {
@@ -1170,6 +1161,76 @@ public final class MiniPaintDexService {
             return result;
         }
         return value;
+    }
+
+    private static SiteConfigurationView.Section configurationSection(
+            Map<String, Object> values, boolean normalizeKeys) {
+        return new SiteConfigurationView.Section(values.entrySet().stream()
+                .map(entry -> {
+                    var key = normalizeKeys ? camelKey(entry.getKey()) : entry.getKey();
+                    var normalizeChildren = normalizeKeys && !Set.of(
+                            "workflow", "kind_labels", "event_labels", "document_titles").contains(entry.getKey());
+                    return new SiteConfigurationView.Entry(
+                            key, configurationValue(entry.getValue(), normalizeChildren));
+                })
+                .toList());
+    }
+
+    private static SiteConfigurationView.Value configurationValue(Object value, boolean normalizeKeys) {
+        if (value instanceof Map<?, ?> values) return configurationSection(map(values), normalizeKeys);
+        if (value instanceof List<?> values) {
+            return new SiteConfigurationView.ListValue(values.stream()
+                    .map(entry -> configurationValue(entry, normalizeKeys)).toList());
+        }
+        if (value instanceof Number number) return new SiteConfigurationView.NumberValue(number);
+        if (value instanceof Boolean bool) return new SiteConfigurationView.BooleanValue(bool);
+        return new SiteConfigurationView.TextValue(text(value));
+    }
+
+    private static Map<String, Object> documentMap(StructuredDocument document) {
+        var result = new LinkedHashMap<String, Object>();
+        document.fields().forEach(field -> result.put(field.name(), documentValue(field.value())));
+        return result;
+    }
+
+    private static List<Map<String, Object>> documentMaps(List<StructuredDocument> documents) {
+        return documents.stream().map(MiniPaintDexService::documentMap).toList();
+    }
+
+    private static List<StructuredDocument> structuredDocuments(List<Map<String, Object>> documents) {
+        return documents.stream().map(MiniPaintDexService::structuredDocument).toList();
+    }
+
+    private static StructuredDocument structuredDocument(Map<String, Object> document) {
+        return new StructuredDocument(document.entrySet().stream()
+                .map(entry -> new StructuredDocument.Field(entry.getKey(), structuredValue(entry.getValue())))
+                .toList());
+    }
+
+    private static StructuredDocument.Value structuredValue(Object value) {
+        if (value == null) return new StructuredDocument.NullValue();
+        if (value instanceof Map<?, ?> nested) {
+            return new StructuredDocument.ObjectValue(structuredDocument(map(nested)));
+        }
+        if (value instanceof List<?> list) {
+            return new StructuredDocument.ArrayValue(list.stream()
+                    .map(MiniPaintDexService::structuredValue).toList());
+        }
+        if (value instanceof Number number) return new StructuredDocument.NumberValue(number);
+        if (value instanceof Boolean bool) return new StructuredDocument.BooleanValue(bool);
+        return new StructuredDocument.Text(String.valueOf(value));
+    }
+
+    private static Object documentValue(StructuredDocument.Value value) {
+        return switch (value) {
+            case StructuredDocument.Text text -> text.value();
+            case StructuredDocument.NumberValue number -> number.value();
+            case StructuredDocument.BooleanValue bool -> bool.value();
+            case StructuredDocument.NullValue ignored -> null;
+            case StructuredDocument.ArrayValue array -> array.values().stream()
+                    .map(MiniPaintDexService::documentValue).toList();
+            case StructuredDocument.ObjectValue object -> documentMap(object.value());
+        };
     }
 
     private static String camelKey(String value) {
@@ -1240,12 +1301,4 @@ public final class MiniPaintDexService {
         if (!present(value)) throw new DomainException("invalid_input", field + " is required.");
     }
 
-    private static String csv(Object value) {
-        var text = text(value);
-        return text.matches(".*[,\"\\r\\n].*") ? "\"" + text.replace("\"", "\"\"") + "\"" : text;
-    }
-
-    private static String quoted(Object value) {
-        return "\"" + text(value).replace("\\", "\\\\").replace("\"", "\\\"") + "\"";
-    }
 }

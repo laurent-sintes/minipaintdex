@@ -1,41 +1,36 @@
 package com.minipaintdex.domain.workshop;
 
-import com.minipaintdex.domain.event.Actor;
-import com.minipaintdex.domain.event.DomainEvent;
-import com.minipaintdex.domain.workflow.DomainException;
+import com.minipaintdex.domain.shared.DomainException;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class WorkshopRecipeProjectorTest {
+    private static final Instant AT = Instant.parse("2026-08-30T10:00:00Z");
+
     @Test
-    void projectsTheIndependentRecipeLifecycle() {
-        var created = event("workshop_recipe.created", Map.of(
-                "catalog_item_id", "game-hero", "display_name", "My hero", "version", 1, "solutions", List.of()));
-        var validated = event("workshop_recipe.validated", Map.of());
-        var activated = event("workshop_recipe.activated", Map.of());
+    void aggregateOwnsAndProjectsTheRecipeLifecycle() {
+        var recipe = WorkshopRecipe.create(
+                "recipe-1", "paint-game", "game-hero", null, null, "My hero", 1,
+                List.of(new RecipeSolution(RecipeSolutionType.SINGLE_PAINT, null, "paint-1", List.of(), null)), AT);
+        recipe.validate(AT.plusSeconds(1));
+        recipe.activate(AT.plusSeconds(2));
 
-        var state = WorkshopRecipeProjector.project(List.of(created, validated, activated)).getFirst();
-
+        var state = WorkshopRecipeProjector.project(recipe.releaseEvents()).getFirst();
         assertEquals(WorkshopRecipeStatus.ACTIVE, state.status());
         assertEquals("game-hero", state.catalogItemId());
         assertEquals(1, state.version());
     }
 
     @Test
-    void rejectsSkippingLifecycleValidation() {
-        assertThrows(DomainException.class, () -> WorkshopRecipeProjector.assertTransition(
-                WorkshopRecipeStatus.DRAFT, "activate"));
-    }
-
-    private static DomainEvent event(String type, Map<String, Object> payload) {
-        var instant = Instant.parse("2026-08-30T10:00:00Z");
-        return new DomainEvent(type + "-id", 1, type, instant, instant, "workshop_recipe", "recipe-1", "game",
-                new Actor("user", "owner"), "correlation", null, null, payload);
+    void aggregateRejectsActivationBeforeValidation() {
+        var recipe = WorkshopRecipe.create(
+                "recipe-1", "paint-game", "game-hero", null, null, "My hero", 1,
+                List.of(new RecipeSolution(RecipeSolutionType.SINGLE_PAINT, null, "paint-1", List.of(), null)), AT);
+        assertThrows(DomainException.class, () -> recipe.activate(AT));
     }
 }

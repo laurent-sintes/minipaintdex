@@ -1,96 +1,122 @@
 schema_version: 1
 paints:
-  - paint_id: prince-august-classic-uniforme-luftwaffe
-    quantity: 1
-  - paint_id: prince-august-classic-vert-allemand-wwii
-    quantity: 1
-  - paint_id: the-army-painter-speedpaint-blood-red
-    quantity: 1
-  - paint_id: the-army-painter-speedpaint-crusader-skin
-    quantity: 1
-  - paint_id: the-army-painter-speedpaint-fire-giant-orange
-    quantity: 1
-  - paint_id: the-army-painter-speedpaint-hardened-leather
-    quantity: 1
-  - paint_id: the-army-painter-speedpaint-highlord-blue
-    quantity: 1
-  - paint_id: the-army-painter-speedpaint-hive-dweller-purple
-    quantity: 1
-  - paint_id: the-army-painter-speedpaint-orc-skin
-    quantity: 1
-  - paint_id: the-army-painter-speedpaint-pallid-bone
-    quantity: 1
-  - paint_id: the-army-painter-speedpaint-zealot-yellow
-    quantity: 1
-  - paint_id: vallejo-game-color-hexed-lichen
-    quantity: 1
-  - paint_id: vallejo-game-color-metallic-chainmail
-    quantity: 1
-  - paint_id: vallejo-game-color-metallic-dark-gunmetal
-    quantity: 1
-  - paint_id: vallejo-game-color-metallic-silver
-    quantity: 1
-  - paint_id: vallejo-model-color-yellow-ochre
-    quantity: 1
-  - paint_id: vallejo-true-metallic-metal-aged-metal-base
-    quantity: 1
-  - paint_id: vallejo-xpress-color-fairy-skin
-    quantity: 1
-  - paint_id: vallejo-xpress-color-khaki-drill
-    quantity: 1
-  - paint_id: vallejo-xpress-color-lizard-green
-    quantity: 1
-  - paint_id: vallejo-xpress-color-mummy-white
-    quantity: 1
-  - paint_id: vallejo-xpress-color-space-grey
-    quantity: 1
-  - paint_id: vallejo-xpress-color-intense-viking-grey
-    quantity: 1
-  - paint_id: cit-contrast-aggaros-dunes
-    quantity: 1
-  - paint_id: warhammer-colour-contrast-apothecary-white
-    quantity: 1
-  - paint_id: cit-contrast-briar-queen-chill
-    quantity: 1
-  - paint_id: warhammer-colour-contrast-creed-camo
-    quantity: 1
-  - paint_id: cit-contrast-cygor-brown
-    quantity: 1
-  - paint_id: cit-contrast-darkoath-flesh
-    quantity: 2
-  - paint_id: cit-contrast-gore-grunta-fur
-    quantity: 1
-  - paint_id: warhammer-colour-contrast-gryph-charger-grey
-    quantity: 1
-  - paint_id: cit-contrast-guilliman-flesh
-    quantity: 1
-  - paint_id: warhammer-colour-contrast-gutrippa-flesh
-    quantity: 1
-  - paint_id: cit-contrast-imperial-fist
-    quantity: 1
-  - paint_id: cit-contrast-ironjawz-yellow
-    quantity: 1
-  - paint_id: cit-contrast-kroxigor-scales
-    quantity: 1
-  - paint_id: cit-contrast-leviadon-blue
-    quantity: 1
-  - paint_id: warhammer-colour-contrast-mantis-warriors-green
-    quantity: 1
-  - paint_id: warhammer-colour-contrast-militarum-green
-    quantity: 1
-  - paint_id: cit-contrast-nazdreg-yellow
-    quantity: 1
-  - paint_id: warhammer-colour-contrast-ork-flesh
-    quantity: 1
-  - paint_id: warhammer-colour-contrast-plaguebearer-flesh
-    quantity: 1
-  - paint_id: cit-contrast-pylar-glacier
-    quantity: 1
-  - paint_id: warhammer-colour-contrast-snakebite-leather
-    quantity: 1
-  - paint_id: cit-contrast-talassar-blue
-    quantity: 1
-  - paint_id: cit-contrast-terradon-turquoise
-    quantity: 1
-  - paint_id: cit-contrast-wyldwood
-    quantity: 1
+- paint_id: cit-contrast-aggaros-dunes
+  quantity: 1
+- paint_id: cit-contrast-briar-queen-chill
+  quantity: 1
+- paint_id: cit-contrast-cygor-brown
+  quantity: 1
+- paint_id: cit-contrast-darkoath-flesh
+  quantity: 2
+- paint_id: cit-contrast-gore-grunta-fur
+  quantity: 1
+- paint_id: cit-contrast-guilliman-flesh
+  quantity: 1
+- paint_id: cit-contrast-imperial-fist
+  quantity: 1
+- paint_id: cit-contrast-ironjawz-yellow
+  quantity: 1
+- paint_id: cit-contrast-kroxigor-scales
+  quantity: 1
+- paint_id: cit-contrast-leviadon-blue
+  quantity: 1
+- paint_id: cit-contrast-nazdreg-yellow
+  quantity: 1
+- paint_id: cit-contrast-pylar-glacier
+  quantity: 1
+- paint_id: cit-contrast-talassar-blue
+  quantity: 1
+- paint_id: cit-contrast-terradon-turquoise
+  quantity: 1
+- paint_id: cit-contrast-wyldwood
+  quantity: 1
+- paint_id: prince-august-classic-uniforme-luftwaffe
+  quantity: 1
+- paint_id: prince-august-classic-vert-allemand-wwii
+  quantity: 1
+- paint_id: the-army-painter-speedpaint-blood-red
+  quantity: 1
+- paint_id: the-army-painter-speedpaint-crusader-skin
+  quantity: 1
+- paint_id: the-army-painter-speedpaint-fire-giant-orange
+  quantity: 1
+- paint_id: the-army-painter-speedpaint-hardened-leather
+  quantity: 1
+- paint_id: the-army-painter-speedpaint-highlord-blue
+  quantity: 1
+- paint_id: the-army-painter-speedpaint-hive-dweller-purple
+  quantity: 1
+- paint_id: the-army-painter-speedpaint-orc-skin
+  quantity: 1
+- paint_id: the-army-painter-speedpaint-pallid-bone
+  quantity: 1
+- paint_id: the-army-painter-speedpaint-wp2002p
+  quantity: 1
+- paint_id: the-army-painter-speedpaint-zealot-yellow
+  quantity: 1
+- paint_id: vallejo-game-color-hexed-lichen
+  quantity: 1
+- paint_id: vallejo-game-color-metallic-chainmail
+  quantity: 1
+- paint_id: vallejo-game-color-metallic-dark-gunmetal
+  quantity: 1
+- paint_id: vallejo-game-color-metallic-silver
+  quantity: 1
+- paint_id: vallejo-model-color-70-886
+  quantity: 1
+- paint_id: vallejo-model-color-yellow-ochre
+  quantity: 1
+- paint_id: vallejo-true-metallic-metal-aged-metal-base
+  quantity: 1
+- paint_id: vallejo-xpress-color-fairy-skin
+  quantity: 1
+- paint_id: vallejo-xpress-color-intense-viking-grey
+  quantity: 1
+- paint_id: vallejo-xpress-color-khaki-drill
+  quantity: 1
+- paint_id: vallejo-xpress-color-lizard-green
+  quantity: 1
+- paint_id: vallejo-xpress-color-mummy-white
+  quantity: 1
+- paint_id: vallejo-xpress-color-space-grey
+  quantity: 1
+- paint_id: warhammer-colour-base-abaddon-black
+  quantity: 1
+- paint_id: warhammer-colour-contrast-apothecary-white
+  quantity: 1
+- paint_id: warhammer-colour-contrast-creed-camo
+  quantity: 1
+- paint_id: warhammer-colour-contrast-fyreslayer-flesh
+  quantity: 1
+- paint_id: warhammer-colour-contrast-gryph-charger-grey
+  quantity: 1
+- paint_id: warhammer-colour-contrast-gutrippa-flesh
+  quantity: 1
+- paint_id: warhammer-colour-contrast-mantis-warriors-green
+  quantity: 1
+- paint_id: warhammer-colour-contrast-militarum-green
+  quantity: 1
+- paint_id: warhammer-colour-contrast-nighthaunt-gloom
+  quantity: 1
+- paint_id: warhammer-colour-contrast-ork-flesh
+  quantity: 1
+- paint_id: warhammer-colour-contrast-plaguebearer-flesh
+  quantity: 1
+- paint_id: warhammer-colour-contrast-ratling-grime
+  quantity: 1
+- paint_id: warhammer-colour-contrast-snakebite-leather
+  quantity: 1
+- paint_id: warhammer-colour-layer-genestealer-purple
+  quantity: 1
+- paint_id: warhammer-colour-layer-skavenblight-dinge
+  quantity: 1
+- paint_id: warhammer-colour-layer-skrag-brown
+  quantity: 1
+- paint_id: warhammer-colour-layer-white-scar
+  quantity: 2
+- paint_id: warhammer-colour-shade-nuln-oil
+  quantity: 1
+- paint_id: warhammer-colour-shade-seraphim-sepia
+  quantity: 1
+- paint_id: warhammer-colour-technical-tesseract-glow
+  quantity: 1

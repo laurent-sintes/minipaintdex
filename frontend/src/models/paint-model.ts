@@ -29,7 +29,7 @@ export type Paint = ManufacturerInfo & {
   medium: string;
   opacity: string;
   lifecycleStatus: string;
-  quantity: number;
+  quantity?: number;
   status: string;
   warnings: string;
   tags: string[];

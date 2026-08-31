@@ -1,31 +1,28 @@
 package com.minipaintdex.domain.workshop;
 
-import com.minipaintdex.domain.event.Actor;
-import com.minipaintdex.domain.event.DomainEvent;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
-import java.util.List;
-import java.util.Map;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class WorkshopProjectorTest {
     @Test
-    void projectsPaintingProjectMembership() {
-        var now = Instant.parse("2026-08-30T10:00:00Z");
-        var workshopCreated = new DomainEvent("01KTESTWORKSHOP000000000000", 1, "workshop.created", now, now,
-                "workshop", "my-workshop", null, new Actor("user", "owner"), "current", null, null,
-                Map.of("name", "My workshop"));
-        var projectCreated = new DomainEvent("01KTESTPROJECT0000000000000", 1, "painting_project.created", now, now,
-                "painting_project", "paint-game", "paint-game", new Actor("user", "owner"), "current", null, null,
-                Map.of("workshop_id", "my-workshop", "paintable_product_id", "game", "name", "Paint Game"));
+    void membershipIsEmittedByTheWorkshopAggregate() {
+        var at = Instant.parse("2026-08-30T10:00:00Z");
+        var workshop = Workshop.create("my-workshop", "My workshop", at);
+        var project = PaintingProject.create("paint-game", "my-workshop", "game", "Paint Game", 1, at);
+        project.changeStatus(PaintingProjectStatus.ACTIVE, at);
+        workshop.registerPaintingProject(project.id(), at);
+        var events = new ArrayList<>(workshop.releaseEvents());
+        events.addAll(project.releaseEvents());
 
-        var workshop = WorkshopProjector.project(List.of(workshopCreated, projectCreated));
-        var projects = PaintingProjectProjector.project(List.of(workshopCreated, projectCreated));
-
-        assertTrue(workshop.containsPaintingProject("paint-game"));
-        assertEquals("game", projects.getFirst().paintableProductId());
+        var projectedWorkshop = WorkshopProjector.project(events);
+        var projectedProject = PaintingProjectProjector.project(events).getFirst();
+        assertTrue(projectedWorkshop.containsPaintingProject("paint-game"));
+        assertEquals("game", projectedProject.paintableProductId());
+        assertEquals(PaintingProjectStatus.ACTIVE, projectedProject.status());
     }
 }

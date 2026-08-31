@@ -4,12 +4,14 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 
@@ -19,6 +21,7 @@ public record MiniPaintDexProperties(
         @NotNull Path root,
         @Valid @NotNull Application application,
         @Valid @NotNull Storage storage,
+        @Valid @NotNull Eventing eventing,
         @Valid @NotNull PaintMatching paintMatching,
         @Valid @NotNull Media media,
         @Valid @NotNull Web web) {
@@ -33,7 +36,17 @@ public record MiniPaintDexProperties(
             @NotNull Path marketPaintableProductsDirectory,
             @NotNull Path paintingGuidesDirectory,
             @NotNull Path ledgerDirectory,
-            @NotNull Path mediaDirectory) {}
+            @NotNull Path eventPublicationsDirectory,
+            @NotNull Path mediaDirectory,
+            boolean sentinelEnabled,
+            @NotNull Duration sentinelInterval) {}
+
+    public record Eventing(
+            @Min(1) @Max(1) int workerCount,
+            @Min(1) int queueCapacity,
+            @Min(1) int maxAttempts,
+            @NotNull Duration retryDelay,
+            @NotNull Duration shutdownTimeout) {}
 
     public record PaintMatching(
             @Min(1) int candidateLimit,
@@ -61,5 +74,10 @@ public record MiniPaintDexProperties(
 
     public record Media(@Min(1) long maxUploadBytes, @NotEmpty Set<String> allowedContentTypes) {}
 
-    public record Web(@NotEmpty List<String> allowedOrigins) {}
+    public record Web(
+            @NotEmpty List<String> allowedOrigins,
+            @Min(1) int sseReplayCapacity,
+            @Min(1) int sseQueueCapacity,
+            @NotNull Duration sseConnectionTimeout,
+            @NotNull Duration sseHeartbeat) {}
 }

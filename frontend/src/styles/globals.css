@@ -122,6 +122,29 @@ a {
   box-shadow: 0 8px 24px color-mix(in oklab, var(--primary) 18%, transparent);
 }
 
+.nav-section-label {
+  position: relative;
+  margin: 1.15rem 0 0.45rem;
+  border-radius: 10px;
+  background: var(--secondary);
+  padding: 0.55rem 0.75rem 0.55rem 1rem;
+  color: var(--secondary-foreground);
+  font-size: 0.67rem;
+  font-weight: 750;
+  letter-spacing: 0.13em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.nav-section-label::before {
+  position: absolute;
+  inset: 0.42rem auto 0.42rem 0.38rem;
+  width: 3px;
+  border-radius: 999px;
+  background: var(--primary);
+  content: '';
+}
+
 .eyebrow {
   color: var(--primary);
   font-size: 0.7rem;

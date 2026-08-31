@@ -1,8 +1,11 @@
 package com.minipaintdex.application.port;
 
-import java.util.List;
-import java.util.Map;
+import com.minipaintdex.application.document.StructuredDocument;
 
+import java.util.List;
+
+/** Atomic mutation boundary for the owner's paint identifiers and quantities. */
 public interface WorkshopPaintInventoryWriter {
-    void replaceWorkshopPaints(List<Map<String, Object>> paints);
+    /** Replaces the complete validated inventory or preserves the preceding generation on failure. */
+    void replaceWorkshopPaints(List<StructuredDocument> paints);
 }

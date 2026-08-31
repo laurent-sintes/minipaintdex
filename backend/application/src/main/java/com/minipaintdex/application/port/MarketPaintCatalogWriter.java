@@ -1,14 +1,18 @@
 package com.minipaintdex.application.port;
 
+import com.minipaintdex.application.document.StructuredDocument;
+
 import java.util.List;
-import java.util.Map;
 
+/** Atomic mutation boundary for the market paint reference catalog. */
 public interface MarketPaintCatalogWriter {
-    void replaceMarketPaints(List<Map<String, Object>> paints);
+    /** Replaces the validated catalog as one persistence generation or leaves the old generation intact. */
+    void replaceMarketPaints(List<StructuredDocument> paints);
 
+    /** Replaces catalog and inventory together when the adapter supports an atomic multi-document batch. */
     default void replaceMarketPaintsAndWorkshopInventory(
-            List<Map<String, Object>> paints,
-            List<Map<String, Object>> inventory,
+            List<StructuredDocument> paints,
+            List<StructuredDocument> inventory,
             WorkshopPaintInventoryWriter inventoryWriter) {
         replaceMarketPaints(paints);
         inventoryWriter.replaceWorkshopPaints(inventory);

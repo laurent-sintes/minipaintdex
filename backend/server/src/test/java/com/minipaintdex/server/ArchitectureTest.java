@@ -1,0 +1,92 @@
+package com.minipaintdex.server;
+
+import com.tngtech.archunit.core.importer.ImportOption;
+import com.tngtech.archunit.core.domain.JavaClass;
+import com.tngtech.archunit.junit.AnalyzeClasses;
+import com.tngtech.archunit.junit.ArchTest;
+import com.tngtech.archunit.lang.ArchCondition;
+import com.tngtech.archunit.lang.ArchRule;
+import com.tngtech.archunit.lang.ConditionEvents;
+import com.tngtech.archunit.lang.SimpleConditionEvent;
+
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
+
+@AnalyzeClasses(packages = "com.minipaintdex", importOptions = ImportOption.DoNotIncludeTests.class)
+class ArchitectureTest {
+    @ArchTest
+    static final ArchRule market_never_depends_on_workshop = noClasses()
+            .that().resideInAnyPackage("..market..")
+            .should().dependOnClassesThat().resideInAnyPackage("..workshop..");
+
+    @ArchTest
+    static final ArchRule market_application_does_not_bypass_the_boundary = noClasses()
+            .that().resideInAPackage("com.minipaintdex.application..")
+            .and().haveSimpleNameStartingWith("Market")
+            .should().dependOnClassesThat().resideInAnyPackage("..workshop..");
+
+    @ArchTest
+    static final ArchRule market_catalog_does_not_use_the_cross_context_kernel = noClasses()
+            .that().haveSimpleName("MarketCatalogApplicationService")
+            .should().dependOnClassesThat().haveSimpleName("MiniPaintDexService");
+
+    @ArchTest
+    static final ArchRule market_application_does_not_use_the_global_snapshot_repository = noClasses()
+            .that().resideInAPackage("com.minipaintdex.application..")
+            .and().haveSimpleNameStartingWith("Market")
+            .should().dependOnClassesThat().haveSimpleName("SnapshotRepository");
+
+    @ArchTest
+    static final ArchRule market_application_does_not_use_the_cross_context_snapshot = noClasses()
+            .that().resideInAPackage("com.minipaintdex.application..")
+            .and().haveSimpleNameStartingWith("Market")
+            .should().dependOnClassesThat().haveSimpleName("DataSnapshot");
+
+    @ArchTest
+    static final ArchRule workshop_only_consumes_market_interfaces = com.tngtech.archunit.lang.syntax.ArchRuleDefinition
+            .classes().that().resideInAnyPackage("..workshop..")
+            .should(new ArchCondition<>("depend on MARKET only through interfaces") {
+                @Override
+                public void check(JavaClass item, ConditionEvents events) {
+                    item.getDirectDependenciesFromSelf().stream()
+                            .filter(dependency -> dependency.getTargetClass().getPackageName().contains(".market."))
+                            .filter(dependency -> !dependency.getTargetClass().isInterface())
+                            .forEach(dependency -> events.add(SimpleConditionEvent.violated(
+                                    item, dependency.getDescription())));
+                }
+            });
+
+    @ArchTest
+    static final ArchRule domain_is_framework_independent = noClasses()
+            .that().resideInAPackage("com.minipaintdex.domain..")
+            .should().dependOnClassesThat().resideInAnyPackage(
+                    "org.springframework..", "tools.jackson..", "com.fasterxml.jackson..", "picocli..",
+                    "com.minipaintdex.application..", "com.minipaintdex.adapter..", "com.minipaintdex.server..");
+
+    @ArchTest
+    static final ArchRule application_only_depends_inward = noClasses()
+            .that().resideInAPackage("com.minipaintdex.application..")
+            .should().dependOnClassesThat().resideInAnyPackage(
+                    "org.springframework..", "tools.jackson..", "com.fasterxml.jackson..", "picocli..",
+                    "com.minipaintdex.adapter..", "com.minipaintdex.bootstrap..", "com.minipaintdex.server..");
+
+    @ArchTest
+    static final ArchRule rest_does_not_depend_on_file_adapter = noClasses()
+            .that().resideInAPackage("com.minipaintdex.server..")
+            .should().dependOnClassesThat().resideInAPackage("com.minipaintdex.adapter.file..");
+
+    @ArchTest
+    static final ArchRule input_adapters_do_not_depend_on_service_implementation = noClasses()
+            .that().resideInAnyPackage("com.minipaintdex.server.api..", "com.minipaintdex.cli..")
+            .should().dependOnClassesThat().resideInAPackage("com.minipaintdex.application");
+
+    @ArchTest
+    static final ArchRule application_boundaries_are_typed = noClasses()
+            .that().resideInAnyPackage(
+                    "com.minipaintdex.application.usecase..",
+                    "com.minipaintdex.application.command..",
+                    "com.minipaintdex.application.result..",
+                    "com.minipaintdex.application.view..",
+                    "com.minipaintdex.application.document..",
+                    "com.minipaintdex.application.port..")
+            .should().dependOnClassesThat().haveFullyQualifiedName("java.util.Map");
+}

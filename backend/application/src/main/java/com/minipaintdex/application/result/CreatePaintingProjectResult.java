@@ -1,5 +1,7 @@
 package com.minipaintdex.application.result;
 
+import com.minipaintdex.application.event.PublicationReceipt;
+
 public record CreatePaintingProjectResult(
         String workshopId,
         String paintingProjectId,
@@ -7,5 +9,6 @@ public record CreatePaintingProjectResult(
         int workshopItemsAdded,
         int workshopItemsExisting,
         boolean alreadyExists,
-        boolean applied) {
+        boolean applied,
+        PublicationReceipt publication) {
 }

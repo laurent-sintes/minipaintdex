@@ -18,8 +18,11 @@ test('distinguishes a painting project from its market reference', () => {
   assert.equal(appRoutePath(route), '/workshop/painting-projects/paint-reichbusters/products/reichbusters-reloaded');
 });
 
-test('round-trips the about page', () => {
-  assert.equal(appRoutePath(parseAppRoute('/about')), '/about');
+test('routes each about page independently', () => {
+  assert.equal(appRoutePath(parseAppRoute('/about/user')), '/about/user');
+  assert.equal(appRoutePath(parseAppRoute('/about/admin')), '/about/admin');
+  assert.equal(appRoutePath(parseAppRoute('/about/api')), '/about/api');
+  assert.equal(appRoutePath(parseAppRoute('/about/version')), '/about/version');
 });
 
 test('round-trips a physical workshop item URL', () => {

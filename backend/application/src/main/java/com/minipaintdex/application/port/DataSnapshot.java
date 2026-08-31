@@ -1,17 +1,17 @@
 package com.minipaintdex.application.port;
 
-import com.minipaintdex.domain.event.DomainEvent;
-import com.minipaintdex.domain.product.PaintableProduct;
+import com.minipaintdex.application.document.StructuredDocument;
+import com.minipaintdex.domain.event.EventEnvelope;
+import com.minipaintdex.domain.market.product.PaintableProduct;
 
 import java.util.List;
-import java.util.Map;
 
 public record DataSnapshot(
-        Map<String, Object> site,
-        List<Map<String, Object>> marketPaints,
-        List<Map<String, Object>> paintInventory,
+        StructuredDocument site,
+        List<StructuredDocument> marketPaints,
+        List<StructuredDocument> paintInventory,
         List<PaintableProduct> paintableProducts,
-        List<Map<String, Object>> marketPaintingGuides,
-        List<Map<String, Object>> shopping,
-        List<DomainEvent> events) {
+        List<StructuredDocument> marketPaintingGuides,
+        List<StructuredDocument> shopping,
+        List<EventEnvelope> events) {
 }

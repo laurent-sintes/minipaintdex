@@ -1,8 +1,14 @@
 package com.minipaintdex.application.port;
 
-import java.util.List;
-import java.util.Map;
+import com.minipaintdex.application.document.StructuredDocument;
 
+import java.util.List;
+
+/** Atomic mutation boundary for one market paintable product and its guides. */
 public interface PaintableProductCatalogWriter {
-    void replaceProduct(String productId, Map<String, Object> product, List<Map<String, Object>> paintingGuides);
+    /** Replaces product and guide documents together; partial replacement is forbidden. */
+    void replaceProduct(
+            String productId,
+            StructuredDocument product,
+            List<StructuredDocument> paintingGuides);
 }

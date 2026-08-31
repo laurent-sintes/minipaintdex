@@ -44,7 +44,7 @@ export type PaintableCatalogItem = {
     version: number;
     knowledgeStatus: 'documented' | 'observed' | 'inferred';
     sources: PaintableProductSource[];
-  } | Record<string, never>;
+  } | null;
 };
 
 export type WorkshopRecipe = {
@@ -70,7 +70,22 @@ export type PaintableProduct = {
   expectedPaintableCount: number;
   sources: PaintableProductSource[];
   items: PaintableCatalogItem[];
-  inWorkshop: boolean;
+};
+
+export type PaintableProductSummary = {
+  id: string;
+  name: string;
+  line: string;
+  productType: string;
+  scope: string;
+  catalogItemCount: number;
+  expectedPaintableCount: number;
+};
+
+export type Dashboard = {
+  paintStats: { total: number; owned: number; brands: number };
+  paintableProductCount: number;
+  workshop: Pick<WorkshopOverview, 'projectCount' | 'itemCount' | 'completedItemCount' | 'progressPercentage'>;
 };
 
 export type PaintingProjectSummary = {

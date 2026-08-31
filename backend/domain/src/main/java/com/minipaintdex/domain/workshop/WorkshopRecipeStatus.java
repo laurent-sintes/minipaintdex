@@ -1,6 +1,6 @@
 package com.minipaintdex.domain.workshop;
 
-import com.minipaintdex.domain.workflow.DomainException;
+import com.minipaintdex.domain.shared.DomainException;
 
 public enum WorkshopRecipeStatus {
     DRAFT("draft"),

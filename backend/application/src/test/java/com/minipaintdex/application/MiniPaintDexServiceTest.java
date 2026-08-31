@@ -1,234 +1,243 @@
 package com.minipaintdex.application;
 
-import com.minipaintdex.application.command.AddWorkshopItemCommand;
 import com.minipaintdex.application.command.AddWorkshopItemCommentCommand;
 import com.minipaintdex.application.command.AddWorkshopItemPhotoCommand;
 import com.minipaintdex.application.command.ApplyMarketPaintChangeSetCommand;
-import com.minipaintdex.application.command.ApplyMarketPaintableProductChangeSetCommand;
 import com.minipaintdex.application.command.AssignWorkshopRecipeCommand;
-import com.minipaintdex.application.command.CreateWorkshopRecipeCommand;
 import com.minipaintdex.application.command.CreatePaintingProjectCommand;
-import com.minipaintdex.application.command.TransitionWorkshopRecipeCommand;
+import com.minipaintdex.application.command.CreateWorkshopRecipeCommand;
 import com.minipaintdex.application.command.SetShoppingItemStatusCommand;
+import com.minipaintdex.application.command.TransitionWorkshopRecipeCommand;
+import com.minipaintdex.application.document.StructuredDocument;
+import com.minipaintdex.application.command.TransitionPaintingProjectCommand;
+import com.minipaintdex.application.event.EventBatch;
+import com.minipaintdex.application.event.EventBusState;
+import com.minipaintdex.application.event.EventPublication;
+import com.minipaintdex.application.event.EventPublicationStatus;
+import com.minipaintdex.application.event.PublicationReceipt;
+import com.minipaintdex.application.query.PageQuery;
 import com.minipaintdex.application.port.DataSnapshot;
-import com.minipaintdex.application.port.EventLedger;
+import com.minipaintdex.application.port.EventBus;
 import com.minipaintdex.application.port.MarketPaintCatalogWriter;
+import com.minipaintdex.application.port.MarketCatalogSnapshot;
 import com.minipaintdex.application.port.PaintableProductCatalogWriter;
+import com.minipaintdex.application.port.PersistenceLifecycle;
 import com.minipaintdex.application.port.SnapshotRepository;
-import com.minipaintdex.application.port.WorkshopPaintInventoryWriter;
 import com.minipaintdex.application.port.WorkshopMediaStorage;
+import com.minipaintdex.application.port.WorkshopPaintInventoryWriter;
 import com.minipaintdex.application.query.SearchMarketPaintsQuery;
 import com.minipaintdex.domain.event.Actor;
 import com.minipaintdex.domain.event.DomainEvent;
-import com.minipaintdex.domain.paint.PaintMatchEngine;
-import com.minipaintdex.domain.paint.PaintMatchingPolicy;
-import com.minipaintdex.domain.product.PaintableProduct;
-import com.minipaintdex.domain.workflow.DomainException;
+import com.minipaintdex.domain.event.EventEnvelope;
+import com.minipaintdex.domain.market.paint.PaintMatchEngine;
+import com.minipaintdex.domain.market.paint.PaintMatchingPolicy;
+import com.minipaintdex.domain.market.product.PaintableProduct;
+import com.minipaintdex.domain.workshop.PaintingProjectCreated;
+import com.minipaintdex.domain.workshop.PaintingProjectRegistered;
+import com.minipaintdex.domain.workshop.PaintingProjectStatus;
+import com.minipaintdex.domain.workshop.PaintingProjectStatusChanged;
+import com.minipaintdex.domain.workshop.RecipeSolution;
+import com.minipaintdex.domain.workshop.RecipeSolutionType;
+import com.minipaintdex.domain.workshop.WorkshopCreated;
+import com.minipaintdex.domain.workshop.WorkshopItemAdded;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.Executors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MiniPaintDexServiceTest {
+    private static final Instant AT = Instant.parse("2026-08-30T10:00:00Z");
+
     @Test
     void searchesEverySupportedMarketFacet() {
-        var result = service(repository()).searchMarketPaints(new SearchMarketPaintsQuery(
+        var result = marketService(repository()).searchMarketPaints(new SearchMarketPaintsQuery(
                 "white", "Warhammer Colour", "Contrast", "one_coat_contrast", "White",
                 "matt", "water acrylic", "transparent", "18", "29-34", "current",
                 "Games Workshop", "cold"));
         assertEquals(1, result.size());
-        assertEquals("Apothecary White", result.getFirst().get("name"));
+        assertEquals("Apothecary White", result.getFirst().name());
     }
 
     @Test
-    void rejectsAnItemOutsideTheImportedPaintableProductCatalog() {
+    void createsACompletePaintingProjectAsOneAtomicPublication() {
         var repository = repository();
-        repository.snapshot = snapshot(List.of(workshopImported()));
-        var exception = assertThrows(DomainException.class, () -> service(repository).addWorkshopItem(
-                new AddWorkshopItemCommand("ws-2", "unknown", "game", "Unknown", null, null, null, "key")));
-        assertEquals("not_found", exception.code());
-        assertTrue(repository.appended.isEmpty());
+        var result = service(repository).createPaintingProject(new CreatePaintingProjectCommand(
+                "game", "paint-game", "Paint Game", "owner", AT, "import", "import-game"));
+
+        assertTrue(result.applied());
+        assertEquals(1, result.workshopItemsAdded());
+        assertEquals(1, repository.batches.size());
+        assertEquals(List.of(
+                        "workshop.created", "painting_project.created", "painting_project.status_changed",
+                        "workshop.painting_project_registered", "workshop_item.added"),
+                repository.batches.getFirst().events().stream().map(EventEnvelope::eventType).toList());
+        assertEquals(PaintingProjectStatus.ACTIVE.id(),
+                service(repository).listPaintingProjects().getFirst().status());
     }
 
     @Test
-    void returnsTheExistingEventForAnIdempotentMutation() {
-        var repository = repository();
-        var existing = itemAdded("ws-1", "key");
-        repository.snapshot = snapshot(List.of(workshopImported(), existing));
-        var result = service(repository).addWorkshopItem(
-                new AddWorkshopItemCommand("ws-1", "game-hero", "game", "Hero", null, null, null, "key"));
-        assertEquals(existing, result);
-        assertTrue(repository.appended.isEmpty());
+    void changesPaintingProjectLifecycleThroughItsAggregate() {
+        var repository = repositoryWithImportedItem();
+        var service = service(repository);
+
+        service.transitionPaintingProject(new TransitionPaintingProjectCommand(
+                "paint-game", "completed", "owner", AT, "project-lifecycle", "project-complete"));
+
+        assertEquals(PaintingProjectStatus.COMPLETED.id(),
+                service.listPaintingProjects().getFirst().status());
+        assertEquals("painting_project.status_changed",
+                repository.batches.getFirst().events().getFirst().eventType());
+    }
+
+    @Test
+    void createsValidatesActivatesAndAssignsATypedRecipe() {
+        var repository = repositoryWithImportedItem();
+        repository.snapshot = new DataSnapshot(
+                document(Map.of()), repository.snapshot.marketPaints(),
+                documents(List.of(Map.of("paint_id", "warhammer-colour-contrast-apothecary-white", "quantity", 1))),
+                repository.snapshot.paintableProducts(), List.of(), List.of(), repository.snapshot.events());
+        var service = service(repository);
+        var solution = new RecipeSolution(
+                RecipeSolutionType.SINGLE_PAINT, null,
+                "warhammer-colour-contrast-apothecary-white", List.of(), null);
+
+        service.createWorkshopRecipe(new CreateWorkshopRecipeCommand(
+                "recipe-1", "game-hero", null, null, "My hero", 1, List.of(solution),
+                "owner", AT, "recipe-flow", "recipe-create"));
+        service.transitionWorkshopRecipe(new TransitionWorkshopRecipeCommand(
+                "recipe-1", "validate", null, null, "owner", AT, "recipe-flow", "recipe-validate"));
+        service.transitionWorkshopRecipe(new TransitionWorkshopRecipeCommand(
+                "recipe-1", "activate", null, null, "owner", AT, "recipe-flow", "recipe-activate"));
+        service.assignWorkshopRecipe(new AssignWorkshopRecipeCommand(
+                "ws-game-hero-001", "recipe-1", "owner", AT, "recipe-flow", "recipe-assign"));
+
+        assertEquals("recipe-1", service.listWorkshopItems("paint-game").getFirst().recipeId());
     }
 
     @Test
     void previewsThenAppliesAMarketPaintChangeSet() {
         var repository = repository();
         var service = service(repository);
-        var operation = new ApplyMarketPaintChangeSetCommand.Operation("upsert", paint("new-paint", "New Paint"), 2, false);
+        var operation = new ApplyMarketPaintChangeSetCommand.Operation(
+                "upsert", document(paint("new-paint", "New Paint")), 2, false);
         var preview = service.applyMarketPaintChangeSet(
                 new ApplyMarketPaintChangeSetCommand(1, "market_paints", List.of(operation), true));
         assertFalse(preview.applied());
-        assertEquals(1, preview.added());
         assertTrue(repository.replaced.isEmpty());
 
         var applied = service.applyMarketPaintChangeSet(
                 new ApplyMarketPaintChangeSetCommand(1, "market_paints", List.of(operation), false));
         assertTrue(applied.applied());
-        assertEquals(2, repository.inventory.getFirst().get("quantity"));
+        assertEquals(2, documentMap(repository.inventory.getFirst()).get("quantity"));
     }
 
     @Test
-    void validatesAMarketPaintableProductWithoutImportingIt() {
-        var repository = repository();
-        var result = service(repository).applyMarketPaintableProductChangeSet(
-                new ApplyMarketPaintableProductChangeSetCommand(
-                        1, "market_product", productMap("new-product"), List.of(), true, "owner", "catalog-import"));
-        assertFalse(result.applied());
-        assertEquals(1, result.catalogItems());
-        assertEquals(0, repository.productsWritten);
-        assertTrue(repository.appended.isEmpty());
-    }
-
-    @Test
-    void createsAPaintingProjectAsOneAtomicWorkshopBatch() {
-        var repository = repository();
+    void recordsCommentsAndPhotosOnThePhysicalItem() {
+        var repository = repositoryWithImportedItem();
         var service = service(repository);
-        var preview = service.previewProductImport("game");
-        assertEquals(false, preview.get("alreadyImported"));
-        assertEquals(1, preview.get("paintableItemCount"));
-
-        var imported = service.createPaintingProject(new CreatePaintingProjectCommand(
-                "game", "paint-game", "Paint Game", "owner",
-                Instant.parse("2026-08-30T10:00:00Z"), "import", "import-game"));
-        assertTrue(imported.applied());
-        assertEquals(1, imported.workshopItemsAdded());
-        assertEquals(1, repository.batches);
-        assertEquals(List.of("workshop.created", "painting_project.created", "workshop_item.added"),
-                repository.appended.stream().map(DomainEvent::eventType).toList());
-
-        var repeated = service.createPaintingProject(new CreatePaintingProjectCommand(
-                "game", "another-project", "Duplicate", "owner", null, null, "another-key"));
-        assertTrue(repeated.alreadyExists());
-        assertFalse(repeated.applied());
-        assertEquals(1, repository.batches);
-    }
-
-    @Test
-    void reconcilesAgainstOwnedPaintsAndFlagsBehavioralProducts() {
-        var repository = repository();
-        var alternative = paint("owned-alternative", "Owned Alternative");
-        var guide = Map.<String, Object>of(
-                "id", "game-hero-guide", "version", 1, "knowledge_status", "documented",
-                "catalog_item_id", "game-hero",
-                "slots", List.of(Map.of("id", "game-hero-guide-slot-01", "market_paint_id", "warhammer-colour-contrast-apothecary-white")));
-        repository.snapshot = new DataSnapshot(
-                Map.of(), List.of(paint("warhammer-colour-contrast-apothecary-white", "Apothecary White"), alternative),
-                List.of(Map.of("paint_id", "owned-alternative", "quantity", 1)), List.of(product()),
-                List.of(guide), List.of(), List.of());
-        var result = service(repository).reconcileMarketPaintingGuide("game-hero-guide");
-        @SuppressWarnings("unchecked") var slots = (List<Map<String, Object>>) result.get("slots");
-        @SuppressWarnings("unchecked") var candidates = (List<Map<String, Object>>) slots.getFirst().get("candidates");
-        assertEquals("owned-alternative", ((Map<?, ?>) candidates.getFirst().get("paint")).get("id"));
-        assertEquals(true, candidates.getFirst().get("requiresManualReview"));
-    }
-
-    @Test
-    void createsValidatesActivatesAndAssignsAPersonalRecipe() {
-        var repository = repository();
-        repository.snapshot = new DataSnapshot(
-                Map.of(), repository.snapshot.marketPaints(),
-                List.of(Map.of("paint_id", "warhammer-colour-contrast-apothecary-white", "quantity", 1)),
-                List.of(product()), List.of(), List.of(), List.of(workshopImported(), itemAdded("ws-1", "item-key")));
-        var service = service(repository);
-        var solution = Map.<String, Object>of(
-                "type", "single_paint", "paint_id", "warhammer-colour-contrast-apothecary-white");
-        var created = service.createWorkshopRecipe(new CreateWorkshopRecipeCommand(
-                "recipe-1", "game-hero", null, null, "My hero", 1, List.of(solution),
-                "owner", null, "recipe-flow", "recipe-create"));
-        service.transitionWorkshopRecipe(new TransitionWorkshopRecipeCommand(
-                "recipe-1", "validate", null, "owner", null, "recipe-flow", "recipe-validate"));
-        service.transitionWorkshopRecipe(new TransitionWorkshopRecipeCommand(
-                "recipe-1", "activate", null, "owner", null, "recipe-flow", "recipe-activate"));
-        var assigned = service.assignWorkshopRecipe(new AssignWorkshopRecipeCommand(
-                "ws-1", "recipe-1", "owner", null, "recipe-flow", "recipe-assign"));
-        assertEquals("workshop_recipe.created", created.eventType());
-        assertEquals("recipe.assigned", assigned.eventType());
-        assertEquals("recipe-1", service.listWorkshopItems("game").getFirst().get("recipeId"));
-    }
-
-    @Test
-    void preservesDottedDomainIdentifiersWhileCamelizingSiteConfiguration() {
-        var repository = repository();
-        repository.snapshot = new DataSnapshot(
-                Map.of("workshop", Map.of("event_labels", Map.of("workshop_item.added", "Élément ajouté"))),
-                repository.snapshot.marketPaints(), repository.snapshot.paintInventory(),
-                repository.snapshot.paintableProducts(), repository.snapshot.marketPaintingGuides(),
-                repository.snapshot.shopping(), repository.snapshot.events());
-
-        var bootstrap = service(repository).bootstrap();
-        var config = map(bootstrap.get("config"));
-        var workshop = map(config.get("workshop"));
-        var eventLabels = map(workshop.get("eventLabels"));
-
-        assertEquals("Élément ajouté", eventLabels.get("workshop_item.added"));
-    }
-
-    @Test
-    void recordsCommentsAndPhotosOnThePhysicalWorkshopItem() {
-        var repository = repository();
-        repository.snapshot = snapshot(List.of(workshopImported(), itemAdded("ws-1", "item-key")));
-        var service = service(repository);
-
         service.addWorkshopItemComment(new AddWorkshopItemCommentCommand(
-                "ws-1", "Ready for priming", "owner", null, "journal", "comment-1"));
+                "ws-game-hero-001", "Ready", "owner", AT, "journal", "comment-1"));
         service.addWorkshopItemPhoto(new AddWorkshopItemPhotoCommand(
-                "ws-1", "progress.png", "image/png", new byte[]{1, 2, 3}, "preparation", "Cleaned",
-                "owner", null, "journal", "photo-1"));
+                "ws-game-hero-001", "progress.png", "image/png", new byte[]{1, 2, 3},
+                "preparation", "Cleaned", "owner", AT, "journal", "photo-1"));
 
-        var detail = service.getWorkshopItem("ws-1");
-        @SuppressWarnings("unchecked") var activity = (List<DomainEvent>) detail.get("activity");
+        var activity = service.getWorkshopItem("ws-game-hero-001").activity();
         assertEquals(List.of("workshop_item.photo_added", "workshop_item.comment_added", "workshop_item.added"),
-                activity.stream().map(DomainEvent::eventType).toList());
+                activity.stream().map(EventEnvelope::eventType).limit(3).toList());
         assertEquals(1, repository.mediaStored);
     }
 
     @Test
-    void persistsShoppingCompletionInTheLedgerProjection() {
+    void serializesConcurrentCommandsOnTheEffectiveAggregateState() throws Exception {
+        var repository = repositoryWithImportedItem();
+        var service = service(repository);
+        try (var executor = Executors.newFixedThreadPool(2)) {
+            var first = executor.submit(() -> service.addWorkshopItemComment(new AddWorkshopItemCommentCommand(
+                    "ws-game-hero-001", "First", "owner", AT, "concurrent", "comment-a")));
+            var second = executor.submit(() -> service.addWorkshopItemComment(new AddWorkshopItemCommentCommand(
+                    "ws-game-hero-001", "Second", "owner", AT, "concurrent", "comment-b")));
+            first.get();
+            second.get();
+        }
+
+        var versions = repository.batches.stream()
+                .flatMap(batch -> batch.events().stream())
+                .map(EventEnvelope::aggregateVersion).sorted().toList();
+        assertEquals(List.of(2L, 3L), versions);
+    }
+
+    @Test
+    void persistsShoppingCompletionThroughTheEventBus() {
         var repository = repository();
         repository.snapshot = new DataSnapshot(
-                Map.of(), repository.snapshot.marketPaints(), List.of(), List.of(product()), List.of(),
-                List.of(Map.of("id", "buy-1", "market_paint_id", "warhammer-colour-contrast-apothecary-white",
-                        "reason", "Plan", "priority", "high")), List.of());
+                document(Map.of()), repository.snapshot.marketPaints(), List.of(), List.of(product()), List.of(),
+                documents(List.of(Map.of("id", "buy-1", "market_paint_id", "warhammer-colour-contrast-apothecary-white"))),
+                List.of());
         var service = service(repository);
+        service.setShoppingItemStatus(new SetShoppingItemStatusCommand(
+                "buy-1", true, "owner", AT, "shopping", "buy-1-done"));
 
-        service.setShoppingItemStatus(new SetShoppingItemStatusCommand("buy-1", true, "owner", null, "shopping", "buy-1-done"));
-
-        @SuppressWarnings("unchecked") var shopping = (List<Map<String, Object>>) service.bootstrap(false).get("shoppingSeed");
-        assertEquals(true, shopping.getFirst().get("checked"));
+        assertEquals(true, service.listShoppingItems().getFirst().checked());
     }
 
     @Test
     void paginatesMarketPaintSearches() {
         var repository = repository();
-        repository.snapshot = new DataSnapshot(Map.of(), List.of(paint("paint-1", "A"), paint("paint-2", "B")),
+        repository.snapshot = new DataSnapshot(
+                document(Map.of()), documents(List.of(paint("paint-1", "A"), paint("paint-2", "B"))),
                 List.of(), List.of(product()), List.of(), List.of(), List.of());
-
-        var page = service(repository).searchMarketPaintPage(SearchMarketPaintsQuery.empty(), false, false, false, 1, 1);
-
-        assertEquals(2, page.get("total"));
-        assertEquals(1, ((List<?>) page.get("paints")).size());
+        var page = marketService(repository).searchMarketPaintPage(
+                SearchMarketPaintsQuery.empty(), false, false, new PageQuery(1, 1, List.of()));
+        assertEquals(2, page.totalElements());
+        assertEquals(1, page.content().size());
     }
 
-    private static FakeRepository repository() { return new FakeRepository(snapshot(List.of())); }
+    private static FakeRepository repository() {
+        return new FakeRepository(new DataSnapshot(
+                document(Map.of()), documents(List.of(paint("warhammer-colour-contrast-apothecary-white", "Apothecary White"))),
+                List.of(), List.of(product()), List.of(), List.of(), List.of()));
+    }
+
+    private static MarketCatalogApplicationService marketService(FakeRepository repository) {
+        return new MarketCatalogApplicationService(() -> {
+            var snapshot = repository.load();
+            return new MarketCatalogSnapshot(
+                    snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides());
+        });
+    }
+
+    private static FakeRepository repositoryWithImportedItem() {
+        var repository = repository();
+        repository.snapshot = new DataSnapshot(
+                document(Map.of()), repository.snapshot.marketPaints(), List.of(), List.of(product()), List.of(), List.of(),
+                List.of(
+                        envelope("workshop", 1, "workshop", new WorkshopCreated("my-workshop", "My workshop", AT)),
+                        envelope("project", 1, "project", new PaintingProjectCreated(
+                                "paint-game", "my-workshop", "game", "Paint Game", 1, AT)),
+                        envelope("project-active", 2, "project-active", new PaintingProjectStatusChanged(
+                                "paint-game", PaintingProjectStatus.ACTIVE, AT)),
+                        envelope("workshop-register", 2, "register", new PaintingProjectRegistered(
+                                "my-workshop", "paint-game", AT)),
+                        envelope("item", 1, "item", new WorkshopItemAdded(
+                                "ws-game-hero-001", "game-hero", "paint-game", "Hero", 1, AT))));
+        return repository;
+    }
+
+    private static EventEnvelope envelope(String id, long version, String key, DomainEvent event) {
+        return new EventEnvelope(id, 1, version, AT, new Actor("user", "owner"),
+                "correlation", null, key, event);
+    }
 
     private static MiniPaintDexService service(FakeRepository repository) {
         var policy = new PaintMatchingPolicy(
@@ -236,15 +245,10 @@ class MiniPaintDexServiceTest {
                 2.5, 20, 25, 50, 50, 80, 75,
                 new PaintMatchingPolicy.Weights(.65, .15, 0, .08, .07, .05),
                 new PaintMatchingPolicy.Weights(.15, .35, .30, .10, .10, 0));
-        return new MiniPaintDexService(repository, repository, repository, repository, repository, repository,
+        return new MiniPaintDexService(
+                repository, repository, repository, repository, repository, repository,
                 new WorkshopMediaPolicy(10 * 1024 * 1024, Set.of("image/jpeg", "image/png", "image/webp")),
                 new PaintMatchEngine(policy));
-    }
-
-    private static DataSnapshot snapshot(List<DomainEvent> events) {
-        return new DataSnapshot(Map.of(),
-                List.of(paint("warhammer-colour-contrast-apothecary-white", "Apothecary White")),
-                List.of(), List.of(product()), List.of(), List.of(), events);
     }
 
     private static PaintableProduct product() {
@@ -252,16 +256,6 @@ class MiniPaintDexServiceTest {
                 new PaintableProduct.Edition("", ""), List.of(),
                 List.of(new PaintableProduct.CatalogItem(
                         "game-hero", "game", "Hero", "hero", 1, "", false, List.of(), List.of())));
-    }
-
-    private static Map<String, Object> productMap(String id) {
-        return Map.ofEntries(
-                Map.entry("schema_version", 1), Map.entry("id", id), Map.entry("name", "New Product"),
-                Map.entry("line", "New line"), Map.entry("product_type", "board_game"),
-                Map.entry("scope", "full set"), Map.entry("expected_paintable_count", 1),
-                Map.entry("edition", Map.of()), Map.entry("sources", List.of()),
-                Map.entry("catalog_items", List.of(Map.of(
-                        "id", id + "-hero", "product_id", id, "name", "Hero", "kind", "hero", "quantity", 1))));
     }
 
     private static Map<String, Object> paint(String id, String name) {
@@ -274,58 +268,86 @@ class MiniPaintDexServiceTest {
                 Map.entry("lifecycle_status", "current"), Map.entry("tags", List.of("cold")));
     }
 
-    @SuppressWarnings("unchecked")
-    private static Map<String, Object> map(Object value) {
-        return (Map<String, Object>) value;
+    private static StructuredDocument document(Map<String, Object> values) {
+        return new StructuredDocument(values.entrySet().stream()
+                .map(entry -> new StructuredDocument.Field(entry.getKey(), documentValue(entry.getValue())))
+                .toList());
     }
 
-    private static DomainEvent workshopImported() {
-        var instant = Instant.parse("2026-08-30T10:00:00Z");
-        return new DomainEvent("01KTESTWORKSHOP000000000000", 1, "painting_project.created", instant, instant,
-                "painting_project", "game", "game", new Actor("user", "owner"), "correlation", null,
-                "painting-project", Map.of("workshop_id", "my-workshop", "paintable_product_id", "game", "name", "Paint Game"));
+    private static List<StructuredDocument> documents(List<Map<String, Object>> values) {
+        return values.stream().map(MiniPaintDexServiceTest::document).toList();
     }
 
-    private static DomainEvent itemAdded(String id, String idempotencyKey) {
-        var instant = Instant.parse("2026-08-30T10:00:01Z");
-        return new DomainEvent("01KTESTEVENT00000000000000", 1, "workshop_item.added", instant, instant,
-                "workshop_item", id, null, new Actor("user", "owner"), "correlation", null,
-                idempotencyKey, Map.of("catalog_item_id", "game-hero", "painting_project_id", "game", "display_name", "Hero"));
+    private static Map<String, Object> documentMap(StructuredDocument document) {
+        var result = new LinkedHashMap<String, Object>();
+        document.fields().forEach(field -> result.put(field.name(), plainValue(field.value())));
+        return result;
     }
 
-    private static final class FakeRepository implements SnapshotRepository, EventLedger, MarketPaintCatalogWriter,
-            WorkshopPaintInventoryWriter, PaintableProductCatalogWriter, WorkshopMediaStorage {
+    private static Object plainValue(StructuredDocument.Value value) {
+        return switch (value) {
+            case StructuredDocument.Text text -> text.value();
+            case StructuredDocument.NumberValue number -> number.value();
+            case StructuredDocument.BooleanValue bool -> bool.value();
+            case StructuredDocument.NullValue ignored -> null;
+            case StructuredDocument.ArrayValue array -> array.values().stream()
+                    .map(MiniPaintDexServiceTest::plainValue).toList();
+            case StructuredDocument.ObjectValue object -> documentMap(object.value());
+        };
+    }
+
+    private static StructuredDocument.Value documentValue(Object value) {
+        if (value == null) return new StructuredDocument.NullValue();
+        if (value instanceof Map<?, ?> values) {
+            var normalized = new LinkedHashMap<String, Object>();
+            values.forEach((key, entry) -> normalized.put(String.valueOf(key), entry));
+            return new StructuredDocument.ObjectValue(document(normalized));
+        }
+        if (value instanceof List<?> values) {
+            return new StructuredDocument.ArrayValue(values.stream()
+                    .map(MiniPaintDexServiceTest::documentValue).toList());
+        }
+        if (value instanceof Number number) return new StructuredDocument.NumberValue(number);
+        if (value instanceof Boolean bool) return new StructuredDocument.BooleanValue(bool);
+        return new StructuredDocument.Text(String.valueOf(value));
+    }
+
+    private static final class FakeRepository implements SnapshotRepository, EventBus, MarketPaintCatalogWriter,
+            WorkshopPaintInventoryWriter, PaintableProductCatalogWriter, WorkshopMediaStorage, PersistenceLifecycle {
         private DataSnapshot snapshot;
-        private final List<DomainEvent> appended = new ArrayList<>();
-        private List<Map<String, Object>> replaced = List.of();
-        private List<Map<String, Object>> inventory = List.of();
-        private int productsWritten;
-        private int batches;
+        private final List<EventBatch> batches = new ArrayList<>();
+        private final Map<String, EventPublication> publications = new LinkedHashMap<>();
+        private List<StructuredDocument> replaced = List.of();
+        private List<StructuredDocument> inventory = List.of();
         private int mediaStored;
 
         private FakeRepository(DataSnapshot snapshot) { this.snapshot = snapshot; }
-        public DataSnapshot load() { return snapshot; }
-        public List<DomainEvent> appendAll(List<DomainEvent> events) {
-            batches++;
-            var existingByKey = snapshot.events().stream().filter(event -> event.idempotencyKey() != null)
-                    .collect(java.util.stream.Collectors.toMap(DomainEvent::idempotencyKey, event -> event, (left, right) -> left));
-            if (events.stream().allMatch(event -> event.idempotencyKey() != null && existingByKey.containsKey(event.idempotencyKey()))) {
-                return events.stream().map(event -> existingByKey.get(event.idempotencyKey())).toList();
-            }
-            appended.addAll(events);
-            var all = new ArrayList<>(snapshot.events());
-            all.addAll(events);
+        @Override public DataSnapshot load() { return snapshot; }
+        @Override public PublicationReceipt publish(EventBatch batch) {
+            batches.add(batch);
+            var events = new ArrayList<>(snapshot.events());
+            events.addAll(batch.events());
             snapshot = new DataSnapshot(snapshot.site(), snapshot.marketPaints(), snapshot.paintInventory(),
-                    snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.shopping(), List.copyOf(all));
-            return List.copyOf(events);
+                    snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.shopping(), List.copyOf(events));
+            var publication = new EventPublication(
+                    batch.batchId(), EventPublicationStatus.COMPLETED, batch, batch.acceptedAt(), batch.acceptedAt(), 1, null);
+            publications.put(batch.batchId(), publication);
+            return new PublicationReceipt(batch.batchId(), publication.status(), batch.acceptedAt(), batch.correlationId());
         }
-        public void replaceMarketPaints(List<Map<String, Object>> paints) { replaced = List.copyOf(paints); }
-        public void replaceWorkshopPaints(List<Map<String, Object>> paints) { inventory = List.copyOf(paints); }
-        public void replaceProduct(String productId, Map<String, Object> product, List<Map<String, Object>> paintingGuides) { productsWritten++; }
-        public StoredMedia store(String itemId, String mediaId, String originalFilename, String contentType, byte[] content) {
+        @Override public Optional<EventPublication> publication(String publicationId) { return Optional.ofNullable(publications.get(publicationId)); }
+        @Override public EventPublication await(String publicationId, Duration timeout) { return publications.get(publicationId); }
+        @Override public EventBusState state() { return new EventBusState(true, true, 0); }
+        @Override public InitializationReport initialize() { return new InitializationReport(status(), snapshot.marketPaints().size(), snapshot.paintableProducts().size(), snapshot.events().size()); }
+        @Override public RefreshResult refreshIfChanged() { return new RefreshResult(false, status()); }
+        @Override public PersistenceStatus status() { return new PersistenceStatus("ready", "test", 1, "fixture", AT, AT, AT, null); }
+        @Override public void replaceMarketPaints(List<StructuredDocument> paints) { replaced = List.copyOf(paints); }
+        @Override public void replaceWorkshopPaints(List<StructuredDocument> paints) { inventory = List.copyOf(paints); }
+        @Override public void replaceProduct(
+                String productId, StructuredDocument product, List<StructuredDocument> guides) { }
+        @Override public StoredMedia store(String itemId, String mediaId, String filename, String contentType, byte[] content) {
             mediaStored++;
-            return new StoredMedia(mediaId, "/media/workshop/" + itemId + "/" + mediaId + ".jpg", "workshop/" + itemId + "/" + mediaId + ".jpg", originalFilename, contentType, content.length, "hash");
+            return new StoredMedia(mediaId, "/media/" + mediaId, "workshop/" + mediaId, filename, contentType, content.length, "hash");
         }
-        public void delete(StoredMedia media) { }
+        @Override public void delete(StoredMedia media) { }
     }
 }

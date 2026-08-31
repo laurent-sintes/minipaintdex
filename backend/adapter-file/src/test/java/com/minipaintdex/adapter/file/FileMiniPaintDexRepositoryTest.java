@@ -1,7 +1,9 @@
 package com.minipaintdex.adapter.file;
 
+import com.minipaintdex.application.document.StructuredDocument;
 import com.minipaintdex.domain.event.Actor;
-import com.minipaintdex.domain.event.DomainEvent;
+import com.minipaintdex.domain.event.EventEnvelope;
+import com.minipaintdex.domain.workshop.WorkshopItemCommentAdded;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -16,6 +18,8 @@ import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FileMiniPaintDexRepositoryTest {
@@ -26,6 +30,7 @@ class FileMiniPaintDexRepositoryTest {
     void loadsAnIsolatedFileRepository() throws IOException {
         createFixture();
         var repository = new FileMiniPaintDexRepository(layout());
+        repository.initialize();
 
         var snapshot = repository.load();
 
@@ -40,6 +45,7 @@ class FileMiniPaintDexRepositoryTest {
     void supportsConcurrentSnapshotReads() throws Exception {
         createFixture();
         var repository = new FileMiniPaintDexRepository(layout());
+        repository.initialize();
         List<Callable<Integer>> reads = IntStream.range(0, 32)
                 .mapToObj(ignored -> (Callable<Integer>) () -> repository.load().marketPaints().size())
                 .toList();
@@ -53,17 +59,18 @@ class FileMiniPaintDexRepositoryTest {
     void atomicallyReplacesTheMarketPaintCatalog() throws IOException {
         createFixture();
         var repository = new FileMiniPaintDexRepository(layout());
+        repository.initialize();
 
-        repository.replaceMarketPaints(List.of(Map.of(
+        repository.replaceMarketPaints(List.of(document(Map.of(
                 "id", "new-paint",
                 "brand", "Brand",
                 "manufacturer", "Maker",
                 "range", "Range",
                 "functional_type", "opaque_standard",
-                "name", "New Paint")));
+                "name", "New Paint"))));
 
         var snapshot = repository.load();
-        assertEquals("new-paint", snapshot.marketPaints().getFirst().get("id"));
+        assertEquals("new-paint", text(snapshot.marketPaints().getFirst(), "id"));
         assertTrue(Files.readString(root.resolve("data/market/paints/catalog.yaml")).contains("schema_version: 1"));
     }
 
@@ -71,29 +78,95 @@ class FileMiniPaintDexRepositoryTest {
     void enforcesLedgerIdempotencyInsideTheRepositoryLock() throws IOException {
         createFixture();
         var repository = new FileMiniPaintDexRepository(layout());
+        repository.initialize();
         var now = Instant.parse("2026-08-30T11:00:00Z");
-        var event = new DomainEvent("01KTESTCOMMENT000000000000", 1, "workshop_item.comment_added", now, now,
-                "workshop_item", "ws-1", null, new Actor("user", "owner"), "correlation", null,
-                "same-command", Map.of("comment", "Note"));
+        var event = new EventEnvelope(
+                "01KTESTCOMMENT000000000000", 1, 2, now,
+                new Actor("user", "owner"), "correlation", null, "same-command",
+                new WorkshopItemCommentAdded("ws-1", "paint-game", "Note", now));
 
         repository.append(event);
-        var duplicate = repository.append(new DomainEvent("01KTESTCOMMENT000000000001", 1,
-                "workshop_item.comment_added", now, now, "workshop_item", "ws-1", null,
-                new Actor("user", "owner"), "other-correlation", null, "same-command", Map.of("comment", "Note")));
+        var duplicate = repository.append(new EventEnvelope(
+                "01KTESTCOMMENT000000000001", 1, 2, now,
+                new Actor("user", "owner"), "other-correlation", null, "same-command",
+                new WorkshopItemCommentAdded("ws-1", "paint-game", "Note", now)));
 
         assertEquals(event.eventId(), duplicate.eventId());
         assertEquals(2, repository.load().events().size());
     }
 
     @Test
+    void rejectsAStaleAggregateVersionInsideTheRepositoryLock() throws IOException {
+        createFixture();
+        var repository = new FileMiniPaintDexRepository(layout());
+        repository.initialize();
+        var now = Instant.parse("2026-08-30T11:00:00Z");
+        var stale = new EventEnvelope(
+                "01KTESTSTALE00000000000000", 1, 3, now,
+                new Actor("user", "owner"), "correlation", null, "stale-command",
+                new WorkshopItemCommentAdded("ws-1", "paint-game", "Note", now));
+
+        assertThrows(FileStorageException.class, () -> repository.append(stale));
+        assertEquals(1, repository.load().events().size());
+    }
+
+    @Test
     void storesWorkshopMediaUnderTheConfiguredMediaRoot() throws IOException {
         createFixture();
         var repository = new FileMiniPaintDexRepository(layout());
+        repository.initialize();
 
         var media = repository.store("ws-1", "media-1", "photo.png", "image/png", new byte[]{1, 2, 3});
 
         assertEquals("/media/workshop/ws-1/media-1.png", media.publicPath());
         assertTrue(Files.exists(root.resolve("media/workshop/ws-1/media-1.png")));
+    }
+
+    @Test
+    void refreshesCachesOnlyAfterAValidExternalChange() throws IOException {
+        createFixture();
+        var repository = new FileMiniPaintDexRepository(layout());
+        repository.initialize();
+        write("data/market/paints/catalog.yaml", """
+                schema_version: 1
+                paints:
+                  - id: refreshed-paint
+                    brand: Brand
+                    manufacturer: Maker
+                    range: Range
+                    functional_type: opaque_standard
+                    name: Refreshed Paint
+                """);
+
+        assertEquals("paint", text(repository.load().marketPaints().getFirst(), "id"));
+        var refresh = repository.refreshIfChanged();
+
+        assertTrue(refresh.changed());
+        assertEquals("ready", refresh.status().state());
+        assertEquals("refreshed-paint", text(repository.load().marketPaints().getFirst(), "id"));
+    }
+
+    @Test
+    void retainsTheLastValidGenerationAndRejectsWritesWhenExternalDataIsInvalid() throws IOException {
+        createFixture();
+        var repository = new FileMiniPaintDexRepository(layout());
+        repository.initialize();
+        write("data/market/paints/catalog.yaml", """
+                schema_version: 1
+                paints:
+                  - id: invalid-paint
+                    brand: Brand
+                    range: Range
+                    functional_type: opaque_standard
+                    name: Invalid Paint
+                """);
+
+        var refresh = repository.refreshIfChanged();
+
+        assertFalse(refresh.changed());
+        assertEquals("degraded", refresh.status().state());
+        assertEquals("paint", text(repository.load().marketPaints().getFirst(), "id"));
+        assertThrows(FileStorageException.class, () -> repository.replaceWorkshopPaints(List.of()));
     }
 
     private void createFixture() throws IOException {
@@ -136,6 +209,20 @@ class FileMiniPaintDexRepositoryTest {
                 """);
     }
 
+    private static StructuredDocument document(Map<String, Object> values) {
+        return new StructuredDocument(values.entrySet().stream()
+                .map(entry -> new StructuredDocument.Field(
+                        entry.getKey(), new StructuredDocument.Text(String.valueOf(entry.getValue()))))
+                .toList());
+    }
+
+    private static String text(StructuredDocument document, String fieldName) {
+        return document.fields().stream().filter(field -> fieldName.equals(field.name()))
+                .map(StructuredDocument.Field::value)
+                .map(value -> value instanceof StructuredDocument.Text text ? text.value() : String.valueOf(value))
+                .findFirst().orElse("");
+    }
+
     private FileRepositoryLayout layout() {
         return new FileRepositoryLayout(
                 root.resolve("data/site/fr.yaml"),
@@ -145,6 +232,7 @@ class FileMiniPaintDexRepositoryTest {
                 root.resolve("data/market/paintable-products"),
                 root.resolve("data/market/painting-guides"),
                 root.resolve("data/ledger/events"),
+                root.resolve("data/ledger/publications"),
                 root.resolve("media"));
     }
 

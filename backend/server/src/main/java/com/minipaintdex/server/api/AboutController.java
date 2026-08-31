@@ -6,12 +6,12 @@ import org.springframework.boot.info.BuildProperties;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -33,20 +33,21 @@ class AboutController {
     }
 
     @GetMapping("/about")
-    Map<String, Object> about() {
-        return Map.of(
-                "name", properties.application().name(),
-                "version", buildProperties == null ? "development" : buildProperties.getVersion(),
-                "author", properties.application().author());
+    AboutResponse about() {
+        return new AboutResponse(
+                properties.application().name(),
+                buildProperties == null ? "development" : buildProperties.getVersion(),
+                properties.application().author());
     }
 
     @GetMapping("/documentation")
-    Map<String, Object> documentation() {
-        var documents = DOCUMENTS.stream().map(document -> Map.of(
-                "id", document.id(),
-                "audience", document.audience(),
-                "markdown", read(document.classpath()))).toList();
-        return Map.of("documents", documents);
+    DocumentationResponse documentation(@RequestParam(required = false) String audience) {
+        var documents = DOCUMENTS.stream()
+                .filter(document -> audience == null || audience.isBlank() || audience.equals(document.audience()))
+                .map(document -> new DocumentationEntry(
+                        document.id(), document.audience(), read(document.classpath())))
+                .toList();
+        return new DocumentationResponse(documents);
     }
 
     private static String read(String classpath) {
@@ -58,4 +59,7 @@ class AboutController {
     }
 
     private record DocumentResource(String id, String audience, String classpath) {}
+    record AboutResponse(String name, String version, String author) {}
+    record DocumentationEntry(String id, String audience, String markdown) {}
+    record DocumentationResponse(List<DocumentationEntry> documents) {}
 }

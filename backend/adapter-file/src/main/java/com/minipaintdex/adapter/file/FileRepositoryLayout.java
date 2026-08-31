@@ -11,6 +11,7 @@ public record FileRepositoryLayout(
         Path marketPaintableProductsDirectory,
         Path paintingGuidesDirectory,
         Path ledgerDirectory,
+        Path eventPublicationsDirectory,
         Path mediaDirectory) {
 
     public FileRepositoryLayout {
@@ -21,6 +22,7 @@ public record FileRepositoryLayout(
         marketPaintableProductsDirectory = normalized(marketPaintableProductsDirectory);
         paintingGuidesDirectory = normalized(paintingGuidesDirectory);
         ledgerDirectory = normalized(ledgerDirectory);
+        eventPublicationsDirectory = normalized(eventPublicationsDirectory);
         mediaDirectory = normalized(mediaDirectory);
     }
 

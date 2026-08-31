@@ -5,7 +5,8 @@ import java.time.Instant;
 public record TransitionWorkshopRecipeCommand(
         String recipeId,
         String action,
-        String comment,
+        String successorRecipeId,
+        String reason,
         String actorId,
         Instant occurredAt,
         String correlationId,

@@ -2,7 +2,8 @@ package com.minipaintdex.application.command;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
+
+import com.minipaintdex.domain.workshop.RecipeSolution;
 
 public record CreateWorkshopRecipeCommand(
         String recipeId,
@@ -11,7 +12,7 @@ public record CreateWorkshopRecipeCommand(
         String supersedesRecipeId,
         String displayName,
         int version,
-        List<Map<String, Object>> solutions,
+        List<RecipeSolution> solutions,
         String actorId,
         Instant occurredAt,
         String correlationId,

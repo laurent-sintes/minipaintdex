@@ -52,4 +52,12 @@ class AboutControllerTest {
                 .andExpect(jsonPath("$.documents[0].markdown").isNotEmpty())
                 .andExpect(jsonPath("$.documents[1].audience").value("administrator"));
     }
+
+    @Test
+    void filtersDocumentationForTheRequestedPage() throws Exception {
+        mvc.perform(get("/api/v1/documentation").queryParam("audience", "user"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.documents.length()").value(1))
+                .andExpect(jsonPath("$.documents[0].audience").value("user"));
+    }
 }

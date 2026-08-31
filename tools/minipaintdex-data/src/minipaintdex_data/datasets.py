@@ -220,7 +220,10 @@ def create_dataset(
             raise ValueError("; ".join(errors))
         if target.exists():
             shutil.rmtree(target)
-        temporary.replace(target)
+        # Moving a directory with os.replace can fail with WinError 5 on some
+        # Windows filesystems even when the destination does not exist.
+        # shutil.move keeps the atomic rename fast path and has a copy fallback.
+        shutil.move(str(temporary), str(target))
         return target
     except Exception:
         shutil.rmtree(temporary, ignore_errors=True)

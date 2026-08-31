@@ -1,7 +1,8 @@
 package com.minipaintdex.application.command;
 
+import com.minipaintdex.application.document.StructuredDocument;
+
 import java.util.List;
-import java.util.Map;
 
 public record ApplyMarketPaintChangeSetCommand(
         int schemaVersion,
@@ -15,11 +16,11 @@ public record ApplyMarketPaintChangeSetCommand(
 
     public record Operation(
             String action,
-            Map<String, Object> record,
+            StructuredDocument record,
             int workshopQuantityDelta,
             boolean confirmedRemoval) {
         public Operation {
-            record = record == null ? Map.of() : Map.copyOf(record);
+            record = record == null ? new StructuredDocument(List.of()) : record;
         }
     }
 }

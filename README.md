@@ -55,9 +55,10 @@ La CLI réutilise exactement les mêmes services applicatifs que l’API REST.
 .\scripts\minipaintdex.ps1 cli --root . --format json market paints search --brand "Warhammer Colour"
 .\scripts\minipaintdex.ps1 cli --root . --format json market paints apply --input imports/runs/paint-refresh/changeset.json --dry-run
 .\scripts\minipaintdex.ps1 cli --root . --format json market paintable-products apply --input imports/runs/product-import/changeset.json --dry-run
-.\scripts\minipaintdex.ps1 cli --root . --format json market paintable-products preview-import --product reichbusters-reloaded
+.\scripts\minipaintdex.ps1 cli --root . --format json workshop painting-projects preview-import --product reichbusters-reloaded
 .\scripts\minipaintdex.ps1 cli --root . --format json workshop painting-projects create --product reichbusters-reloaded --project-id paint-reichbusters
-.\scripts\minipaintdex.ps1 cli --root . --format json market guides reconcile --guide reichbusters-reloaded-red-hawk-guide
+.\scripts\minipaintdex.ps1 cli --root . --format json --wait workshop painting-projects transition --project paint-reichbusters --status completed
+.\scripts\minipaintdex.ps1 cli --root . --format json workshop recipes reconcile-guide --guide reichbusters-reloaded-red-hawk-guide
 .\scripts\minipaintdex.ps1 cli --root . --format json workshop items list --project paint-reichbusters
 .\scripts\minipaintdex.ps1 cli --root . --format json datasets import --input datasets/workshop/painting-projects/reichbusters
 .\scripts\minipaintdex.ps1 cli --root . --format json workshop recipes list --catalog-item reichbusters-reloaded-red-hawk
@@ -83,6 +84,8 @@ Push-Location .\frontend
 
 Vite sert alors le SPA sur `http://127.0.0.1:5173` et transmet `/api` et `/media` à Spring Boot sur le port `8080`.
 
+Le SPA ne conserve pas de copie générale du domaine : son démarrage charge uniquement la configuration du site et les compteurs du tableau de bord. Les pages de peintures, produits, atelier, achats et documentation interrogent ensuite les ressources REST à la demande. Une recherche de peintures ne garde qu’une page de 60 résultats en mémoire.
+
 ## Architecture
 
 Le backend est un monolithe modulaire Maven :
@@ -90,6 +93,7 @@ Le backend est un monolithe modulaire Maven :
 - `backend/domain` : agrégats `PaintableProduct`, `Workshop`, `PaintingProject`, objets physiques, recettes, workflow et événements ;
 - `backend/application` : cas d’usage indépendants des transports et du stockage ;
 - `backend/adapter-file` : lecture YAML et journal JSONL append-only ;
+- `backend/adapter-spring-events` : EventBus Spring, outbox durable, retries et arrêt gracieux ;
 - `backend/bootstrap` : configuration Spring typée et assemblage commun des dépendances ;
 - `backend/server` : adaptateur REST Spring MVC et hébergement du SPA ;
 - `backend/cli` : adaptateur Picocli des mêmes cas d’usage ;
@@ -99,6 +103,12 @@ Le backend est un monolithe modulaire Maven :
 - `docs` : documentation utilisateur et administrateur embarquée dans le JAR.
 
 Le navigateur n’écrit jamais dans `data`. Toute mutation passe par un service applicatif exposé en REST et en CLI. Les activités de l’atelier et de la liste d’achats produisent des événements dans le ledger global ; les référentiels de marché restent des fichiers versionnés appliqués par change set.
+
+Le domaine matérialise deux contextes bornés : `MARKET` sous `com.minipaintdex.domain.market` et
+`WORKSHOP` sous `com.minipaintdex.domain.workshop`. Market publie le shared kernel de références ;
+Workshop peut consommer ses interfaces stables, jamais l’inverse. Les quantités possédées,
+l’avancement et les badges d’appartenance sont donc composés par Workshop ou par le frontend à
+partir de réponses séparées, et ne contaminent pas les modèles du catalogue Market.
 
 Le modèle DDD canonique, ses invariants, les décisions détaillées et les règles destinées aux agents sont consignés dans `AGENTS.md`.
 
@@ -120,6 +130,17 @@ Les propriétés sont validées au démarrage. Chaque jeu de poids du matcher do
 
 Spring résout ces valeurs et construit des objets Java typés. Le domaine et les services applicatifs restent indépendants de Spring ; l’adaptateur fichier ne contient plus de chemins relatifs codés en dur.
 
+Au démarrage, l’adaptateur initialise des caches versionnés après validation complète des fichiers. Une sentinelle vérifie périodiquement leur synchronisation ; une modification externe invalide laisse la dernière génération valide en lecture et dégrade `/actuator/health/readiness` jusqu’à correction. La liveness standard est `/actuator/health/liveness`.
+
+Les tailles de heap sont explicites : Maven utilise `.mvn/jvm.config`, le serveur démarre par défaut avec `-Xms128m -Xmx512m` et la CLI avec `-Xms32m -Xmx192m`. Les profils d’exécution peuvent être ajustés sans modifier le script :
+
+```powershell
+$env:MINIPAINTDEX_SERVER_XMS = '256m'
+$env:MINIPAINTDEX_SERVER_XMX = '1g'
+$env:MINIPAINTDEX_CLI_XMS = '64m'
+$env:MINIPAINTDEX_CLI_XMX = '256m'
+```
+
 ## Référentiels
 
 Le cœur des données et les noms de champs restent en anglais pour éviter les ambiguïtés d’encodage :
@@ -134,7 +155,9 @@ data/
   workshop/
     paints.yaml          identifiants et quantités possédés
     shopping.yaml        intentions d’achat personnelles par identifiant de peinture
-  ledger/events/         journal métier global JSONL append-only
+  ledger/
+    events/              journal métier global JSONL append-only
+    publications/        outbox durable des lots événementiels asynchrones
 ```
 
 Un `PaintableProduct` est l’agrégat du marché pour une boîte, une extension ou une gamme contenant des éléments à peindre. Ses quantités décrivent le contenu théorique. `Workshop` est le contexte personnel durable. Un `PaintingProject` porte l’intention de peindre un produit et crée un `WorkshopItem` par exemplaire physique. Un guide de peinture du marché contient la palette et la méthode publiées ou inférées à partir d’une référence traçable. Une recette d’atelier est un autre agrégat : elle versionne les substitutions, mélanges, couches et techniques réellement choisies par le propriétaire, puis peut être affectée à un objet physique précis. Son cycle `draft → validated → active → superseded/archived` est conservé dans le ledger.
@@ -149,7 +172,7 @@ Cette séparation contient l’impact d’un futur passage en base de données d
 
 La base de l’API est `/api/v1`. Les principaux services couvrent :
 
-- santé et bootstrap léger du SPA ;
+- santé, configuration localisée et dashboard léger du SPA ;
 - recherche du marché par texte, type, couleur, marque, gamme, fini, volume et tags ;
 - recherche complémentaire paginée, facettes séparées, fabricant, médium, opacité, cycle de vie et référence ;
 - simulation et application de change sets de peintures et de produits à peindre ;
@@ -162,6 +185,8 @@ La base de l’API est `/api/v1`. Les principaux services couvrent :
 - lecture du ledger et reconstruction des projections ;
 - exports CSV et YAML.
 - métadonnées de version, auteur et documentation embarquée dans « À propos ».
+
+Les recherches volumineuses utilisent `page`, `size` et `sort`; un flux séparé `/api/v1/market/paints/stream` fournit du NDJSON. Les commandes d’agrégat répondent `202 Accepted` avec une ressource de publication durable. Le flux `/api/v1/events` notifie le navigateur une seule fois par lot committé afin qu’il relise les ressources REST concernées. OpenAPI est disponible via `/swagger-ui.html`, `/v3/api-docs` et `/v3/api-docs.yaml`.
 
 ## Outils de données et skills
 

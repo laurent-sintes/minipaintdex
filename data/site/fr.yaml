@@ -21,7 +21,11 @@ navigation:
   workshop_paints: Mes peintures
   workshop_admin: Administration
   shopping: Achats
-  about: À propos
+  about_section: À propos
+  user_documentation: Documentation utilisateur
+  admin_documentation: Documentation administrateur
+  rest_api: API REST
+  version: Version
 header:
   search_placeholder: Rechercher une teinte, une marque, un usage…
   search_short_placeholder: Rechercher…
@@ -130,11 +134,12 @@ about:
   description: Documentation utilisateur et administrateur embarquée avec cette version de l’application.
   user_title: Documentation utilisateur
   administrator_title: Documentation administrateur
-  version_action: Version et auteur
+  api_title: API REST
+  api_description: Explorez le contrat OpenAPI et testez les services locaux de Mini Paint Dex.
   version_title: Informations sur l’application
+  version_description: Consultez la version de Mini Paint Dex et son auteur.
   version_label: Version
   author_label: Auteur
-  close: Fermer
   loading: Chargement de la documentation…
   document_titles:
     user-guide: Guide utilisateur
@@ -250,6 +255,7 @@ paint_detail:
   reference_label: Réf.
   volume_label: Volume
 errors:
+  loading: Chargement…
   product_not_found: Produit à peindre introuvable
   catalog_item_not_found: Élément du produit introuvable
   paint_not_found: Peinture introuvable

@@ -1,4 +1,4 @@
-export type AppView = 'home' | 'marketPaints' | 'marketProducts' | 'workshopPaints' | 'workshop' | 'shopping' | 'product' | 'item' | 'about';
+export type AppView = 'home' | 'marketPaints' | 'marketProducts' | 'workshopPaints' | 'workshop' | 'shopping' | 'product' | 'item' | 'aboutUser' | 'aboutAdmin' | 'aboutApi' | 'aboutVersion';
 
 export type AppRoute = {
   view: AppView;
@@ -22,7 +22,10 @@ export function parseAppRoute(pathname: string): AppRoute {
   }
   if (parts[0] === 'workshop') return { view: 'workshop' };
   if (parts[0] === 'shopping') return { view: 'shopping' };
-  if (parts[0] === 'about') return { view: 'about' };
+  if (parts[0] === 'about' && parts[1] === 'admin') return { view: 'aboutAdmin' };
+  if (parts[0] === 'about' && parts[1] === 'api') return { view: 'aboutApi' };
+  if (parts[0] === 'about' && parts[1] === 'version') return { view: 'aboutVersion' };
+  if (parts[0] === 'about') return { view: 'aboutUser' };
   return { view: 'home' };
 }
 
@@ -33,7 +36,10 @@ export function appRoutePath(route: AppRoute) {
   if (route.view === 'workshopPaints') return '/workshop/paints';
   if (route.view === 'workshop') return '/workshop';
   if (route.view === 'shopping') return '/shopping';
-  if (route.view === 'about') return '/about';
+  if (route.view === 'aboutUser') return '/about/user';
+  if (route.view === 'aboutAdmin') return '/about/admin';
+  if (route.view === 'aboutApi') return '/about/api';
+  if (route.view === 'aboutVersion') return '/about/version';
   if (route.view === 'item') return `/workshop/items/${route.itemId ?? ''}`;
   if (route.paintingProjectId) {
     const item = route.catalogItemId ? `/items/${route.catalogItemId}` : '';

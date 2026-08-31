@@ -1,8 +1,5 @@
 package com.minipaintdex.domain.workshop;
 
-import com.minipaintdex.domain.workflow.WorkflowStage;
-import com.minipaintdex.domain.workflow.WorkflowStageStatus;
-
 import java.time.Instant;
 import java.util.Collections;
 import java.util.EnumMap;

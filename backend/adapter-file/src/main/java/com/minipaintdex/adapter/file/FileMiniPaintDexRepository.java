@@ -1,15 +1,16 @@
 package com.minipaintdex.adapter.file;
 
+import com.minipaintdex.application.document.StructuredDocument;
 import com.minipaintdex.application.port.DataSnapshot;
 import com.minipaintdex.application.port.EventLedger;
 import com.minipaintdex.application.port.MarketPaintCatalogWriter;
 import com.minipaintdex.application.port.PaintableProductCatalogWriter;
+import com.minipaintdex.application.port.PersistenceLifecycle;
 import com.minipaintdex.application.port.SnapshotRepository;
 import com.minipaintdex.application.port.WorkshopPaintInventoryWriter;
 import com.minipaintdex.application.port.WorkshopMediaStorage;
-import com.minipaintdex.domain.event.Actor;
-import com.minipaintdex.domain.event.DomainEvent;
-import com.minipaintdex.domain.product.PaintableProduct;
+import com.minipaintdex.domain.event.EventEnvelope;
+import com.minipaintdex.domain.market.product.PaintableProduct;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import tools.jackson.core.type.TypeReference;
@@ -26,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
@@ -38,19 +40,37 @@ import java.util.List;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Supplier;
 
-public final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedger, MarketPaintCatalogWriter, WorkshopPaintInventoryWriter, PaintableProductCatalogWriter, WorkshopMediaStorage {
+final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedger, MarketPaintCatalogWriter,
+        WorkshopPaintInventoryWriter, PaintableProductCatalogWriter, WorkshopMediaStorage, PersistenceLifecycle {
     private static final DateTimeFormatter MONTH = DateTimeFormatter.ofPattern("yyyy-MM").withZone(ZoneOffset.UTC);
     private static final TypeReference<Map<String, Object>> MAP_TYPE = new TypeReference<>() {};
 
     private final FileRepositoryLayout layout;
     private final JsonMapper json = JsonMapper.builder().build();
+    private final DomainEventCodec eventCodec = new DomainEventCodec();
     private final Object writeMutex = new Object();
+    private final ReentrantReadWriteLock stateLock = new ReentrantReadWriteLock();
     private final Path writeLockPath;
+    private final AtomicVersionedCache<StructuredDocument> siteCache = new AtomicVersionedCache<>("site configuration");
+    private final AtomicVersionedCache<List<StructuredDocument>> marketPaintCache = new AtomicVersionedCache<>("market paints");
+    private final AtomicVersionedCache<List<StructuredDocument>> workshopPaintCache = new AtomicVersionedCache<>("workshop paints");
+    private final AtomicVersionedCache<List<PaintableProduct>> paintableProductCache = new AtomicVersionedCache<>("paintable products");
+    private final AtomicVersionedCache<List<StructuredDocument>> paintingGuideCache = new AtomicVersionedCache<>("painting guides");
+    private final AtomicVersionedCache<List<StructuredDocument>> shoppingCache = new AtomicVersionedCache<>("shopping list");
+    private final AtomicVersionedCache<List<EventEnvelope>> eventCache = new AtomicVersionedCache<>("event ledger");
+    private final AtomicReference<PersistenceStatus> persistenceStatus = new AtomicReference<>(new PersistenceStatus(
+            "uninitialized", "files", 0, "", null, null, null, "Persistence has not been initialized."));
+    private long generation;
+    private String persistedMetadataFingerprint = "";
 
-    public FileMiniPaintDexRepository(FileRepositoryLayout layout) {
-        this.layout = java.util.Objects.requireNonNull(layout);
+    FileMiniPaintDexRepository(FileRepositoryLayout layout) {
+        this.layout = Objects.requireNonNull(layout);
         this.writeLockPath = commonAncestor(
                 layout.marketPaintCatalog(), layout.workshopPaintInventory(), layout.marketPaintableProductsDirectory(),
                 layout.paintingGuidesDirectory(), layout.ledgerDirectory()).resolve(".write.lock");
@@ -58,6 +78,51 @@ public final class FileMiniPaintDexRepository implements SnapshotRepository, Eve
 
     @Override
     public DataSnapshot load() {
+        var read = stateLock.readLock();
+        read.lock();
+        try {
+            return cachedSnapshot();
+        } finally {
+            read.unlock();
+        }
+    }
+
+    @Override
+    public InitializationReport initialize() {
+        try {
+            return withExclusiveStorageLock(() -> {
+                var now = Instant.now();
+                persistenceStatus.set(new PersistenceStatus(
+                        "initializing", "files", generation, "", null, now, null, "Loading file repositories."));
+                var loaded = loadStableSnapshot();
+                validateSnapshot(loaded.snapshot());
+                publish(loaded.snapshot(), loaded.metadataFingerprint(), loaded.contentFingerprint(), now);
+                return new InitializationReport(
+                        persistenceStatus.get(), loaded.snapshot().marketPaints().size(),
+                        loaded.snapshot().paintableProducts().size(), loaded.snapshot().events().size());
+            });
+        } catch (RuntimeException exception) {
+            markDegraded("Persistence initialization failed: " + exception.getMessage());
+            throw exception;
+        }
+    }
+
+    @Override
+    public RefreshResult refreshIfChanged() {
+        try {
+            return withExclusiveStorageLock(this::refreshIfChangedLocked);
+        } catch (RuntimeException exception) {
+            markDegraded("Persistence refresh failed: " + exception.getMessage());
+            return new RefreshResult(false, persistenceStatus.get());
+        }
+    }
+
+    @Override
+    public PersistenceStatus status() {
+        return persistenceStatus.get();
+    }
+
+    private DataSnapshot loadFromDisk() {
         var paints = yaml(layout.marketPaintCatalog());
         var inventory = yaml(layout.workshopPaintInventory());
         var shopping = yaml(layout.shoppingList());
@@ -65,27 +130,28 @@ public final class FileMiniPaintDexRepository implements SnapshotRepository, Eve
         var guideDocuments = yamlDocuments(layout.paintingGuidesDirectory());
         var guides = guideDocuments.stream().flatMap(document -> listOfMaps(document.get("painting_guides")).stream()).toList();
         return new DataSnapshot(
-                yaml(layout.siteConfiguration()),
-                listOfMaps(paints.get("paints")),
-                listOfMaps(inventory.get("paints")),
+                structuredDocument(yaml(layout.siteConfiguration())),
+                structuredDocuments(listOfMaps(paints.get("paints"))),
+                structuredDocuments(listOfMaps(inventory.get("paints"))),
                 products,
-                guides,
-                listOfMaps(shopping.get("items")),
+                structuredDocuments(guides),
+                structuredDocuments(listOfMaps(shopping.get("items"))),
                 readEvents(layout.ledgerDirectory()));
     }
 
     @Override
-    public List<DomainEvent> appendAll(List<DomainEvent> events) {
+    public List<EventEnvelope> appendAll(List<EventEnvelope> events) {
         if (events.isEmpty()) return List.of();
         var month = MONTH.format(events.getFirst().recordedAt());
         if (events.stream().anyMatch(event -> !month.equals(MONTH.format(event.recordedAt())))) {
             throw new FileStorageException("An atomic event batch must target one ledger month.", null);
         }
         return withWriteLock(() -> {
-            var existing = readEvents(layout.ledgerDirectory());
+            var currentSnapshot = cachedSnapshot();
+            var existing = currentSnapshot.events();
             var existingByKey = existing.stream().filter(event -> event.idempotencyKey() != null)
-                    .collect(java.util.stream.Collectors.toMap(DomainEvent::idempotencyKey, event -> event, (left, right) -> left));
-            var incomingKeys = events.stream().map(DomainEvent::idempotencyKey).filter(java.util.Objects::nonNull).toList();
+                    .collect(java.util.stream.Collectors.toMap(EventEnvelope::idempotencyKey, event -> event, (left, right) -> left));
+            var incomingKeys = events.stream().map(EventEnvelope::idempotencyKey).filter(java.util.Objects::nonNull).toList();
             if (new HashSet<>(incomingKeys).size() != incomingKeys.size()) {
                 throw new FileStorageException("An atomic event batch contains duplicate idempotency keys.", null);
             }
@@ -97,16 +163,24 @@ public final class FileMiniPaintDexRepository implements SnapshotRepository, Eve
                 }
                 throw new FileStorageException("A partial idempotency collision would split an atomic event batch.", null);
             }
+            assertAggregateVersions(existing, events);
             var path = layout.ledgerDirectory().resolve(month + ".jsonl");
             try {
                 Files.createDirectories(path.getParent());
                 var output = new StringBuilder();
-                for (var event : events) output.append(json.writeValueAsString(toMap(event))).append(System.lineSeparator());
+                for (var event : events) output.append(json.writeValueAsString(eventCodec.encode(event))).append(System.lineSeparator());
                 var bytes = output.toString().getBytes(StandardCharsets.UTF_8);
                 try (var channel = FileChannel.open(path, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND)) {
-                channel.write(ByteBuffer.wrap(bytes));
-                channel.force(true);
+                    channel.write(ByteBuffer.wrap(bytes));
+                    channel.force(true);
                 }
+                var updatedEvents = new ArrayList<>(existing);
+                updatedEvents.addAll(events);
+                updatedEvents.sort(Comparator.comparing(EventEnvelope::recordedAt).thenComparing(EventEnvelope::eventId));
+                publishAfterWrite(new DataSnapshot(
+                        currentSnapshot.site(), currentSnapshot.marketPaints(), currentSnapshot.paintInventory(),
+                        currentSnapshot.paintableProducts(), currentSnapshot.marketPaintingGuides(),
+                        currentSnapshot.shopping(), List.copyOf(updatedEvents)), "Event ledger updated.");
                 return List.copyOf(events);
             } catch (IOException exception) {
                 throw new FileStorageException("Unable to append event to " + path, exception);
@@ -114,49 +188,85 @@ public final class FileMiniPaintDexRepository implements SnapshotRepository, Eve
         });
     }
 
-    @Override
-    public void replaceMarketPaints(List<Map<String, Object>> paints) {
-        var document = new LinkedHashMap<String, Object>();
-        document.put("schema_version", 1);
-        document.put("paints", paints);
-        withWriteLock(() -> replaceYamlBatch(Map.of(layout.marketPaintCatalog(), document)));
+    private static void assertAggregateVersions(
+            List<EventEnvelope> existing, List<EventEnvelope> incoming) {
+        var versions = new LinkedHashMap<String, Long>();
+        existing.forEach(event -> versions.merge(
+                aggregateKey(event), event.aggregateVersion(), Math::max));
+        for (var event : incoming) {
+            var key = aggregateKey(event);
+            var expected = versions.getOrDefault(key, 0L) + 1;
+            if (event.aggregateVersion() != expected) {
+                throw new FileStorageException(
+                        "Concurrent aggregate update for " + key + ": expected version "
+                                + expected + " but received " + event.aggregateVersion() + ".", null);
+            }
+            versions.put(key, event.aggregateVersion());
+        }
+    }
+
+    private static String aggregateKey(EventEnvelope event) {
+        return event.aggregateType() + ":" + event.aggregateId();
     }
 
     @Override
-    public void replaceWorkshopPaints(List<Map<String, Object>> paints) {
+    public void replaceMarketPaints(List<StructuredDocument> paints) {
         var document = new LinkedHashMap<String, Object>();
         document.put("schema_version", 1);
-        document.put("paints", paints);
-        withWriteLock(() -> replaceYamlBatch(Map.of(layout.workshopPaintInventory(), document)));
+        document.put("paints", documentMaps(paints));
+        withWriteLock(() -> {
+            replaceYamlBatch(Map.of(layout.marketPaintCatalog(), document));
+            reloadAfterWrite("Market paint catalogue updated.");
+        });
+    }
+
+    @Override
+    public void replaceWorkshopPaints(List<StructuredDocument> paints) {
+        var document = new LinkedHashMap<String, Object>();
+        document.put("schema_version", 1);
+        document.put("paints", documentMaps(paints));
+        withWriteLock(() -> {
+            replaceYamlBatch(Map.of(layout.workshopPaintInventory(), document));
+            reloadAfterWrite("Workshop paint inventory updated.");
+        });
     }
 
     @Override
     public void replaceMarketPaintsAndWorkshopInventory(
-            List<Map<String, Object>> paints,
-            List<Map<String, Object>> inventory,
+            List<StructuredDocument> paints,
+            List<StructuredDocument> inventory,
             WorkshopPaintInventoryWriter ignored) {
         var catalog = new LinkedHashMap<String, Object>();
         catalog.put("schema_version", 1);
-        catalog.put("paints", paints);
+        catalog.put("paints", documentMaps(paints));
         var workshop = new LinkedHashMap<String, Object>();
         workshop.put("schema_version", 1);
-        workshop.put("paints", inventory);
+        workshop.put("paints", documentMaps(inventory));
         var documents = new LinkedHashMap<Path, Map<String, Object>>();
         documents.put(layout.marketPaintCatalog(), catalog);
         documents.put(layout.workshopPaintInventory(), workshop);
-        withWriteLock(() -> replaceYamlBatch(documents));
+        withWriteLock(() -> {
+            replaceYamlBatch(documents);
+            reloadAfterWrite("Market paints and workshop inventory updated.");
+        });
     }
 
     @Override
-    public void replaceProduct(String productId, Map<String, Object> product, List<Map<String, Object>> paintingGuides) {
+    public void replaceProduct(
+            String productId,
+            StructuredDocument product,
+            List<StructuredDocument> paintingGuides) {
         var guideDocument = new LinkedHashMap<String, Object>();
         guideDocument.put("schema_version", 1);
         guideDocument.put("product_id", productId);
-        guideDocument.put("painting_guides", paintingGuides);
+        guideDocument.put("painting_guides", documentMaps(paintingGuides));
         var documents = new LinkedHashMap<Path, Map<String, Object>>();
-        documents.put(layout.marketPaintableProductsDirectory().resolve(productId + ".yaml"), product);
+        documents.put(layout.marketPaintableProductsDirectory().resolve(productId + ".yaml"), documentMap(product));
         documents.put(layout.paintingGuidesDirectory().resolve(productId + ".yaml"), guideDocument);
-        withWriteLock(() -> replaceYamlBatch(documents));
+        withWriteLock(() -> {
+            replaceYamlBatch(documents);
+            reloadAfterWrite("Paintable product and painting guides updated.");
+        });
     }
 
     @Override
@@ -261,8 +371,10 @@ public final class FileMiniPaintDexRepository implements SnapshotRepository, Eve
         }
     }
 
-    private <T> T withWriteLock(Supplier<T> operation) {
+    private <T> T withExclusiveStorageLock(Supplier<T> operation) {
         synchronized (writeMutex) {
+            var write = stateLock.writeLock();
+            write.lock();
             try {
                 Files.createDirectories(writeLockPath.getParent());
                 try (var channel = FileChannel.open(writeLockPath, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
@@ -271,13 +383,212 @@ public final class FileMiniPaintDexRepository implements SnapshotRepository, Eve
                 }
             } catch (IOException exception) {
                 throw new FileStorageException("Unable to acquire the repository write lock " + writeLockPath, exception);
+            } finally {
+                write.unlock();
             }
         }
+    }
+
+    private <T> T withWriteLock(Supplier<T> operation) {
+        return withExclusiveStorageLock(() -> {
+            ensureInitialized();
+            try {
+                refreshIfChangedLocked();
+            } catch (RuntimeException exception) {
+                markDegraded("Persistence changed before write and could not be refreshed: " + exception.getMessage());
+                throw exception;
+            }
+            return operation.get();
+        });
     }
 
     private void withWriteLock(Runnable operation) {
         withWriteLock(() -> { operation.run(); return null; });
     }
+
+    private RefreshResult refreshIfChangedLocked() {
+        ensureInitialized();
+        var now = Instant.now();
+        var currentMetadata = metadataFingerprint(persistenceFiles());
+        if (currentMetadata.equals(persistedMetadataFingerprint)) {
+            var previous = persistenceStatus.get();
+            var ready = new PersistenceStatus(
+                    "ready", "files", previous.generation(), previous.fingerprint(), previous.initializedAt(),
+                    now, previous.lastSynchronizedAt(), "Persistence is synchronized with the in-memory caches.");
+            persistenceStatus.set(ready);
+            return new RefreshResult(false, ready);
+        }
+        var loaded = loadStableSnapshot();
+        validateSnapshot(loaded.snapshot());
+        publish(loaded.snapshot(), loaded.metadataFingerprint(), loaded.contentFingerprint(), now);
+        return new RefreshResult(true, persistenceStatus.get());
+    }
+
+    private void reloadAfterWrite(String detail) {
+        var loaded = loadStableSnapshot();
+        validateSnapshot(loaded.snapshot());
+        publish(loaded.snapshot(), loaded.metadataFingerprint(), loaded.contentFingerprint(), Instant.now(), detail);
+    }
+
+    private void publishAfterWrite(DataSnapshot snapshot, String detail) {
+        validateSnapshot(snapshot);
+        var paths = persistenceFiles();
+        publish(snapshot, metadataFingerprint(paths), contentFingerprint(paths), Instant.now(), detail);
+    }
+
+    private LoadedSnapshot loadStableSnapshot() {
+        var beforePaths = persistenceFiles();
+        var before = metadataFingerprint(beforePaths);
+        var snapshot = loadFromDisk();
+        var afterPaths = persistenceFiles();
+        var after = metadataFingerprint(afterPaths);
+        if (!before.equals(after)) {
+            throw new FileStorageException("Persistence changed while a snapshot was being loaded.", null);
+        }
+        return new LoadedSnapshot(snapshot, after, contentFingerprint(afterPaths));
+    }
+
+    private void publish(DataSnapshot snapshot, String metadataFingerprint, String contentFingerprint, Instant now) {
+        publish(snapshot, metadataFingerprint, contentFingerprint, now, "Persistence initialized and synchronized.");
+    }
+
+    private void publish(
+            DataSnapshot snapshot,
+            String metadataFingerprint,
+            String contentFingerprint,
+            Instant now,
+            String detail) {
+        generation++;
+        siteCache.publish(generation, snapshot.site());
+        marketPaintCache.publish(generation, List.copyOf(snapshot.marketPaints()));
+        workshopPaintCache.publish(generation, List.copyOf(snapshot.paintInventory()));
+        paintableProductCache.publish(generation, List.copyOf(snapshot.paintableProducts()));
+        paintingGuideCache.publish(generation, List.copyOf(snapshot.marketPaintingGuides()));
+        shoppingCache.publish(generation, List.copyOf(snapshot.shopping()));
+        eventCache.publish(generation, List.copyOf(snapshot.events()));
+        persistedMetadataFingerprint = metadataFingerprint;
+        var previous = persistenceStatus.get();
+        var initializedAt = previous.initializedAt() == null ? now : previous.initializedAt();
+        persistenceStatus.set(new PersistenceStatus(
+                "ready", "files", generation, contentFingerprint, initializedAt, now, now, detail));
+    }
+
+    private DataSnapshot cachedSnapshot() {
+        return new DataSnapshot(
+                siteCache.current().value(),
+                marketPaintCache.current().value(),
+                workshopPaintCache.current().value(),
+                paintableProductCache.current().value(),
+                paintingGuideCache.current().value(),
+                shoppingCache.current().value(),
+                eventCache.current().value());
+    }
+
+    private void validateSnapshot(DataSnapshot snapshot) {
+        var marketIds = new HashSet<String>();
+        for (var paintDocument : snapshot.marketPaints()) {
+            var paint = documentMap(paintDocument);
+            var id = text(paint.get("id"));
+            if (id.isBlank()) throw new FileStorageException("Market paint id is required.", null);
+            if (!marketIds.add(id)) throw new FileStorageException("Duplicate market paint id: " + id, null);
+            for (var field : List.of("brand", "manufacturer", "range", "functional_type", "name")) {
+                if (text(paint.get(field)).isBlank()) {
+                    throw new FileStorageException("Market paint " + id + " is missing " + field + ".", null);
+                }
+            }
+        }
+        var ownedIds = new HashSet<String>();
+        for (var inventoryDocument : snapshot.paintInventory()) {
+            var entry = documentMap(inventoryDocument);
+            var id = text(entry.get("paint_id"));
+            if (!marketIds.contains(id)) {
+                throw new FileStorageException("Workshop inventory references unknown market paint: " + id, null);
+            }
+            if (!ownedIds.add(id)) throw new FileStorageException("Duplicate workshop paint: " + id, null);
+            if (number(entry.get("quantity")) < 0) {
+                throw new FileStorageException("Workshop paint quantity cannot be negative: " + id, null);
+            }
+        }
+    }
+
+    private void ensureInitialized() {
+        if (generation == 0) throw new FileStorageException("Persistence has not been initialized.", null);
+    }
+
+    private void markDegraded(String detail) {
+        var now = Instant.now();
+        var previous = persistenceStatus.get();
+        persistenceStatus.set(new PersistenceStatus(
+                "degraded", "files", previous.generation(), previous.fingerprint(), previous.initializedAt(),
+                now, previous.lastSynchronizedAt(), detail));
+    }
+
+    private List<Path> persistenceFiles() {
+        var required = List.of(
+                layout.siteConfiguration(), layout.marketPaintCatalog(),
+                layout.workshopPaintInventory(), layout.shoppingList());
+        for (var path : required) {
+            if (!Files.isRegularFile(path)) throw new FileStorageException("Required persistence file is missing: " + path, null);
+        }
+        var paths = new ArrayList<Path>(required);
+        paths.addAll(files(layout.marketPaintableProductsDirectory(), ".yaml"));
+        paths.addAll(files(layout.paintingGuidesDirectory(), ".yaml"));
+        paths.addAll(files(layout.ledgerDirectory(), ".jsonl"));
+        return paths.stream().map(path -> path.toAbsolutePath().normalize()).distinct()
+                .sorted(Comparator.comparing(Path::toString)).toList();
+    }
+
+    private String metadataFingerprint(List<Path> paths) {
+        try {
+            var digest = MessageDigest.getInstance("SHA-256");
+            for (var path : paths) {
+                var attributes = Files.readAttributes(path, BasicFileAttributes.class);
+                updateDigest(digest, path.toString());
+                updateDigest(digest, Long.toString(attributes.size()));
+                updateDigest(digest, Long.toString(attributes.lastModifiedTime().toMillis()));
+                updateDigest(digest, String.valueOf(attributes.fileKey()));
+            }
+            return java.util.HexFormat.of().formatHex(digest.digest());
+        } catch (IOException | NoSuchAlgorithmException exception) {
+            throw new FileStorageException("Unable to fingerprint persistence metadata.", exception);
+        }
+    }
+
+    private String contentFingerprint(List<Path> paths) {
+        try {
+            var digest = MessageDigest.getInstance("SHA-256");
+            var buffer = new byte[64 * 1024];
+            for (var path : paths) {
+                updateDigest(digest, path.toString());
+                try (var input = Files.newInputStream(path)) {
+                    for (var read = input.read(buffer); read >= 0; read = input.read(buffer)) {
+                        if (read > 0) digest.update(buffer, 0, read);
+                    }
+                }
+            }
+            return java.util.HexFormat.of().formatHex(digest.digest());
+        } catch (IOException | NoSuchAlgorithmException exception) {
+            throw new FileStorageException("Unable to fingerprint persistence content.", exception);
+        }
+    }
+
+    private static void updateDigest(MessageDigest digest, String value) {
+        digest.update(value.getBytes(StandardCharsets.UTF_8));
+        digest.update((byte) 0);
+    }
+
+    private static Map<String, Object> immutableMap(Map<String, Object> value) {
+        return Collections.unmodifiableMap(new LinkedHashMap<>(value));
+    }
+
+    private static List<Map<String, Object>> immutableMaps(List<Map<String, Object>> values) {
+        return values.stream().map(FileMiniPaintDexRepository::immutableMap).toList();
+    }
+
+    private record LoadedSnapshot(
+            DataSnapshot snapshot,
+            String metadataFingerprint,
+            String contentFingerprint) {}
 
     private static void atomicReplace(Path source, Path target) throws IOException {
         try {
@@ -317,18 +628,18 @@ public final class FileMiniPaintDexRepository implements SnapshotRepository, Eve
         return result;
     }
 
-    private List<DomainEvent> readEvents(Path directory) {
-        var events = new ArrayList<DomainEvent>();
+    private List<EventEnvelope> readEvents(Path directory) {
+        var events = new ArrayList<EventEnvelope>();
         for (var path : files(directory, ".jsonl")) {
             try {
                 for (var line : Files.readAllLines(path, StandardCharsets.UTF_8)) {
-                    if (!line.isBlank()) events.add(event(json.readValue(line, MAP_TYPE)));
+                    if (!line.isBlank()) events.add(eventCodec.decode(json.readValue(line, MAP_TYPE)));
                 }
             } catch (IOException exception) {
                 throw new FileStorageException("Unable to read ledger " + path, exception);
             }
         }
-        events.sort(Comparator.comparing(DomainEvent::recordedAt).thenComparing(DomainEvent::eventId));
+        events.sort(Comparator.comparing(EventEnvelope::recordedAt).thenComparing(EventEnvelope::eventId));
         return List.copyOf(events);
     }
 
@@ -338,7 +649,7 @@ public final class FileMiniPaintDexRepository implements SnapshotRepository, Eve
 
     private Map<String, Object> yaml(Path path) {
         try (Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-            // SnakeYAML parsers are stateful and not thread-safe. REST bootstrap and
+            // SnakeYAML parsers are stateful and not thread-safe. Concurrent REST reads and
             // facet requests are intentionally concurrent, so each document gets
             // its own parser instance.
             var result = createYaml().<Object>load(reader);
@@ -357,32 +668,50 @@ public final class FileMiniPaintDexRepository implements SnapshotRepository, Eve
         }
     }
 
-    private DomainEvent event(Map<String, Object> entry) {
-        var actor = map(entry.get("actor"));
-        return new DomainEvent(
-                text(entry.get("event_id")), number(entry.get("schema_version")), text(entry.get("event_type")),
-                Instant.parse(text(entry.get("occurred_at"))), Instant.parse(text(entry.get("recorded_at"))),
-                text(entry.get("aggregate_type")), text(entry.get("aggregate_id")), nullable(entry.get("project_id")),
-                new Actor(text(actor.get("type")), text(actor.get("id"))), text(entry.get("correlation_id")),
-                nullable(entry.get("causation_id")), nullable(entry.get("idempotency_key")), map(entry.get("payload")));
+    private static List<StructuredDocument> structuredDocuments(List<Map<String, Object>> values) {
+        return values.stream().map(FileMiniPaintDexRepository::structuredDocument).toList();
     }
 
-    private Map<String, Object> toMap(DomainEvent event) {
+    private static StructuredDocument structuredDocument(Map<String, Object> value) {
+        return new StructuredDocument(value.entrySet().stream()
+                .map(entry -> new StructuredDocument.Field(entry.getKey(), structuredValue(entry.getValue())))
+                .toList());
+    }
+
+    private static StructuredDocument.Value structuredValue(Object value) {
+        if (value == null) return new StructuredDocument.NullValue();
+        if (value instanceof Map<?, ?> nested) {
+            return new StructuredDocument.ObjectValue(structuredDocument(map(nested)));
+        }
+        if (value instanceof List<?> list) {
+            return new StructuredDocument.ArrayValue(list.stream()
+                    .map(FileMiniPaintDexRepository::structuredValue).toList());
+        }
+        if (value instanceof Number number) return new StructuredDocument.NumberValue(number);
+        if (value instanceof Boolean bool) return new StructuredDocument.BooleanValue(bool);
+        return new StructuredDocument.Text(String.valueOf(value));
+    }
+
+    private static List<Map<String, Object>> documentMaps(List<StructuredDocument> documents) {
+        return documents.stream().map(FileMiniPaintDexRepository::documentMap).toList();
+    }
+
+    private static Map<String, Object> documentMap(StructuredDocument document) {
         var result = new LinkedHashMap<String, Object>();
-        result.put("event_id", event.eventId());
-        result.put("schema_version", event.schemaVersion());
-        result.put("event_type", event.eventType());
-        result.put("occurred_at", event.occurredAt().toString());
-        result.put("recorded_at", event.recordedAt().toString());
-        result.put("aggregate_type", event.aggregateType());
-        result.put("aggregate_id", event.aggregateId());
-        if (event.projectId() != null) result.put("project_id", event.projectId());
-        result.put("actor", Map.of("type", event.actor().type(), "id", event.actor().id()));
-        result.put("correlation_id", event.correlationId());
-        if (event.causationId() != null) result.put("causation_id", event.causationId());
-        if (event.idempotencyKey() != null) result.put("idempotency_key", event.idempotencyKey());
-        result.put("payload", event.payload());
+        document.fields().forEach(field -> result.put(field.name(), documentValue(field.value())));
         return result;
+    }
+
+    private static Object documentValue(StructuredDocument.Value value) {
+        return switch (value) {
+            case StructuredDocument.Text text -> text.value();
+            case StructuredDocument.NumberValue number -> number.value();
+            case StructuredDocument.BooleanValue bool -> bool.value();
+            case StructuredDocument.NullValue ignored -> null;
+            case StructuredDocument.ArrayValue array -> array.values().stream()
+                    .map(FileMiniPaintDexRepository::documentValue).toList();
+            case StructuredDocument.ObjectValue object -> documentMap(object.value());
+        };
     }
 
     @SuppressWarnings("unchecked")

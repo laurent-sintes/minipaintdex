@@ -35,6 +35,24 @@ $mavenWrapper = Join-Path $projectRoot 'mvnw.cmd'
 $serverJar = Join-Path $projectRoot 'backend\server\target\minipaintdex-server-0.2.0-SNAPSHOT.jar'
 $cliJar = Join-Path $projectRoot 'backend\cli\target\minipaintdex-cli-0.2.0-SNAPSHOT.jar'
 
+function Get-JvmMemoryOptions(
+    [string]$Profile,
+    [string]$DefaultInitial,
+    [string]$DefaultMaximum
+) {
+    $prefix = "MINIPAINTDEX_$($Profile.ToUpperInvariant())"
+    $initial = [Environment]::GetEnvironmentVariable("${prefix}_XMS")
+    $maximum = [Environment]::GetEnvironmentVariable("${prefix}_XMX")
+    if (-not $initial) { $initial = $DefaultInitial }
+    if (-not $maximum) { $maximum = $DefaultMaximum }
+    foreach ($value in @($initial, $maximum)) {
+        if ($value -notmatch '^\d+[kKmMgG]$') {
+            throw "Invalid JVM memory size '$value'. Use a value such as 128m or 1g."
+        }
+    }
+    return @("-Xms$initial", "-Xmx$maximum", '-XX:+ExitOnOutOfMemoryError')
+}
+
 function Invoke-Build {
     & $mavenWrapper "-Dmaven.repo.local=$mavenRepository" clean verify
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
@@ -57,12 +75,14 @@ try {
             if (-not $hasConfiguredRoot) {
                 $serverArguments = @("--minipaintdex.root=$projectRoot") + $serverArguments
             }
-            & $java -jar $serverJar @serverArguments
+            $serverJvmOptions = Get-JvmMemoryOptions 'server' '128m' '512m'
+            & $java @serverJvmOptions -jar $serverJar @serverArguments
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
         }
         'cli' {
             if (-not (Test-Path -LiteralPath $cliJar)) { Invoke-Build }
-            & $java -jar $cliJar @Arguments
+            $cliJvmOptions = Get-JvmMemoryOptions 'cli' '32m' '192m'
+            & $java @cliJvmOptions -jar $cliJar @Arguments
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
         }
     }
