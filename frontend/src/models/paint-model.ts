@@ -6,7 +6,7 @@ export type ManufacturerInfo = {
   colorFamily: string;
   manufacturerDescription: string;
   recommendedUses: string[];
-  usageInstructions: { summary: string; steps: string[]; tips: string[] };
+  usageInstructions: { summary: string; steps: string[]; tips: string[]; instructionStatus: string; reviewRequired: boolean };
   manufacturerVerifiedAt: string;
   resultImage: string;
   resultImageCredit: string;
@@ -46,4 +46,10 @@ export type ShoppingItem = {
   colorHex: string;
   reason: string;
   priority: 'high' | 'medium' | 'low';
+  kind: 'required' | 'planned';
+  planned: boolean;
+  marketPaintId: string;
+  sourceProductIds: string[];
+  sourceProductNames: string[];
+  checked: boolean;
 };

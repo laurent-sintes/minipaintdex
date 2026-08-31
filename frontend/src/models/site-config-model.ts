@@ -5,7 +5,7 @@ export type SiteConfig = {
   navigation: {
     ariaLabel: string; mobileAriaLabel: string; home: string; marketSection: string;
     marketPaints: string; marketPaintableProducts: string; workshopSection: string;
-    workshopPaints: string; workshopAdmin: string; shopping: string;
+    workshopPaints: string; workshopAdmin: string; shopping: string; about: string;
   };
   header: { searchPlaceholder: string; searchShortPlaceholder: string; searchAriaLabel: string; workshopPrefix: string };
   home: {
@@ -21,10 +21,18 @@ export type SiteConfig = {
     kindLabels: Record<string, string>;
   };
   workshop: {
-    title: string; description: string; products: string; items: string; completed: string;
+    title: string; description: string; projects: string; items: string; completed: string;
     inProgress: string; pending: string; progress: string; missingPaints: string;
     noMissingPaints: string; pendingPaintSlots: string; recentActivity: string; manageProduct: string;
     emptyTitle: string; emptyDescription: string; eventLabels: Record<string, string>;
+    itemDetail: string; backToProduct: string; startStage: string; completeStage: string; reopenStage: string;
+    addComment: string; commentPlaceholder: string; noActivity: string; saving: string;
+    addPhoto: string; photoCaption: string; noPhotos: string;
+  };
+  about: {
+    eyebrow: string; title: string; description: string; userTitle: string; administratorTitle: string;
+    versionAction: string; versionTitle: string; versionLabel: string; authorLabel: string; close: string;
+    loading: string; documentTitles: Record<string, string>;
   };
   productDetail: {
     back: string; reference: string; contents: string; paintingSheets: string; sources: string;
@@ -44,11 +52,12 @@ export type SiteConfig = {
     opacityFilter: string; allOpacities: string; lifecycleFilter: string; allLifecycles: string;
     volumeFilter: string; allVolumes: string; tagFilter: string; allTags: string;
     manufacturerSheetOnly: string; realResultOnly: string; resetFilters: string; activeFilters: string;
-    removeFilter: string; noActiveFilter: string;
+    removeFilter: string; noActiveFilter: string; loadMore: string;
   };
   shopping: {
     title: string; description: string; ready: string; remainingSuffix: string;
     priorities: { high: string; medium: string; low: string };
+    requiredTitle: string; plannedTitle: string; requiredBy: string; derivedHint: string; plannedHint: string;
   };
   paintDetail: {
     sheet: string; close: string; colorFamily: string; toQualify: string; manufacturerFeatures: string;
@@ -56,6 +65,7 @@ export type SiteConfig = {
     usageTips: string; openSheet: string; openManufacturerSheet: string; verifiedOn: string;
     productVisual: string; appliedResult: string; digitalPreview: string; digitalPreviewHelp: string;
     noProductVisual: string; realResultSource: string; referenceLabel: string; volumeLabel: string;
+    instructionsReviewRequired: string;
   };
   errors: { productNotFound: string; catalogItemNotFound: string; paintNotFound: string; requestFailed: string };
 };

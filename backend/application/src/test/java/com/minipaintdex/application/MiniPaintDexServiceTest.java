@@ -1,18 +1,22 @@
 package com.minipaintdex.application;
 
 import com.minipaintdex.application.command.AddWorkshopItemCommand;
+import com.minipaintdex.application.command.AddWorkshopItemCommentCommand;
+import com.minipaintdex.application.command.AddWorkshopItemPhotoCommand;
 import com.minipaintdex.application.command.ApplyMarketPaintChangeSetCommand;
 import com.minipaintdex.application.command.ApplyMarketPaintableProductChangeSetCommand;
 import com.minipaintdex.application.command.AssignWorkshopRecipeCommand;
 import com.minipaintdex.application.command.CreateWorkshopRecipeCommand;
-import com.minipaintdex.application.command.ImportPaintableProductToWorkshopCommand;
+import com.minipaintdex.application.command.CreatePaintingProjectCommand;
 import com.minipaintdex.application.command.TransitionWorkshopRecipeCommand;
+import com.minipaintdex.application.command.SetShoppingItemStatusCommand;
 import com.minipaintdex.application.port.DataSnapshot;
 import com.minipaintdex.application.port.EventLedger;
 import com.minipaintdex.application.port.MarketPaintCatalogWriter;
 import com.minipaintdex.application.port.PaintableProductCatalogWriter;
 import com.minipaintdex.application.port.SnapshotRepository;
 import com.minipaintdex.application.port.WorkshopPaintInventoryWriter;
+import com.minipaintdex.application.port.WorkshopMediaStorage;
 import com.minipaintdex.application.query.SearchMarketPaintsQuery;
 import com.minipaintdex.domain.event.Actor;
 import com.minipaintdex.domain.event.DomainEvent;
@@ -95,24 +99,25 @@ class MiniPaintDexServiceTest {
     }
 
     @Test
-    void importsAPaintableProductAsOneAtomicWorkshopBatch() {
+    void createsAPaintingProjectAsOneAtomicWorkshopBatch() {
         var repository = repository();
         var service = service(repository);
         var preview = service.previewProductImport("game");
         assertEquals(false, preview.get("alreadyImported"));
         assertEquals(1, preview.get("paintableItemCount"));
 
-        var imported = service.importPaintableProductToWorkshop(new ImportPaintableProductToWorkshopCommand(
-                "game", "owner", Instant.parse("2026-08-30T10:00:00Z"), "import", "import-game"));
+        var imported = service.createPaintingProject(new CreatePaintingProjectCommand(
+                "game", "paint-game", "Paint Game", "owner",
+                Instant.parse("2026-08-30T10:00:00Z"), "import", "import-game"));
         assertTrue(imported.applied());
         assertEquals(1, imported.workshopItemsAdded());
         assertEquals(1, repository.batches);
-        assertEquals(List.of("workshop.created", "workshop.product_imported", "workshop_item.added"),
+        assertEquals(List.of("workshop.created", "painting_project.created", "workshop_item.added"),
                 repository.appended.stream().map(DomainEvent::eventType).toList());
 
-        var repeated = service.importPaintableProductToWorkshop(new ImportPaintableProductToWorkshopCommand(
-                "game", "owner", null, null, "another-key"));
-        assertTrue(repeated.alreadyImported());
+        var repeated = service.createPaintingProject(new CreatePaintingProjectCommand(
+                "game", "another-project", "Duplicate", "owner", null, null, "another-key"));
+        assertTrue(repeated.alreadyExists());
         assertFalse(repeated.applied());
         assertEquals(1, repository.batches);
     }
@@ -177,6 +182,52 @@ class MiniPaintDexServiceTest {
         assertEquals("Élément ajouté", eventLabels.get("workshop_item.added"));
     }
 
+    @Test
+    void recordsCommentsAndPhotosOnThePhysicalWorkshopItem() {
+        var repository = repository();
+        repository.snapshot = snapshot(List.of(workshopImported(), itemAdded("ws-1", "item-key")));
+        var service = service(repository);
+
+        service.addWorkshopItemComment(new AddWorkshopItemCommentCommand(
+                "ws-1", "Ready for priming", "owner", null, "journal", "comment-1"));
+        service.addWorkshopItemPhoto(new AddWorkshopItemPhotoCommand(
+                "ws-1", "progress.png", "image/png", new byte[]{1, 2, 3}, "preparation", "Cleaned",
+                "owner", null, "journal", "photo-1"));
+
+        var detail = service.getWorkshopItem("ws-1");
+        @SuppressWarnings("unchecked") var activity = (List<DomainEvent>) detail.get("activity");
+        assertEquals(List.of("workshop_item.photo_added", "workshop_item.comment_added", "workshop_item.added"),
+                activity.stream().map(DomainEvent::eventType).toList());
+        assertEquals(1, repository.mediaStored);
+    }
+
+    @Test
+    void persistsShoppingCompletionInTheLedgerProjection() {
+        var repository = repository();
+        repository.snapshot = new DataSnapshot(
+                Map.of(), repository.snapshot.marketPaints(), List.of(), List.of(product()), List.of(),
+                List.of(Map.of("id", "buy-1", "market_paint_id", "warhammer-colour-contrast-apothecary-white",
+                        "reason", "Plan", "priority", "high")), List.of());
+        var service = service(repository);
+
+        service.setShoppingItemStatus(new SetShoppingItemStatusCommand("buy-1", true, "owner", null, "shopping", "buy-1-done"));
+
+        @SuppressWarnings("unchecked") var shopping = (List<Map<String, Object>>) service.bootstrap(false).get("shoppingSeed");
+        assertEquals(true, shopping.getFirst().get("checked"));
+    }
+
+    @Test
+    void paginatesMarketPaintSearches() {
+        var repository = repository();
+        repository.snapshot = new DataSnapshot(Map.of(), List.of(paint("paint-1", "A"), paint("paint-2", "B")),
+                List.of(), List.of(product()), List.of(), List.of(), List.of());
+
+        var page = service(repository).searchMarketPaintPage(SearchMarketPaintsQuery.empty(), false, false, false, 1, 1);
+
+        assertEquals(2, page.get("total"));
+        assertEquals(1, ((List<?>) page.get("paints")).size());
+    }
+
     private static FakeRepository repository() { return new FakeRepository(snapshot(List.of())); }
 
     private static MiniPaintDexService service(FakeRepository repository) {
@@ -185,7 +236,9 @@ class MiniPaintDexServiceTest {
                 2.5, 20, 25, 50, 50, 80, 75,
                 new PaintMatchingPolicy.Weights(.65, .15, 0, .08, .07, .05),
                 new PaintMatchingPolicy.Weights(.15, .35, .30, .10, .10, 0));
-        return new MiniPaintDexService(repository, repository, repository, repository, repository, new PaintMatchEngine(policy));
+        return new MiniPaintDexService(repository, repository, repository, repository, repository, repository,
+                new WorkshopMediaPolicy(10 * 1024 * 1024, Set.of("image/jpeg", "image/png", "image/webp")),
+                new PaintMatchEngine(policy));
     }
 
     private static DataSnapshot snapshot(List<DomainEvent> events) {
@@ -228,40 +281,51 @@ class MiniPaintDexServiceTest {
 
     private static DomainEvent workshopImported() {
         var instant = Instant.parse("2026-08-30T10:00:00Z");
-        return new DomainEvent("01KTESTWORKSHOP000000000000", 1, "workshop.product_imported", instant, instant,
-                "workshop", "my-workshop", null, new Actor("user", "owner"), "correlation", null,
-                "workshop-import", Map.of("product_id", "game"));
+        return new DomainEvent("01KTESTWORKSHOP000000000000", 1, "painting_project.created", instant, instant,
+                "painting_project", "game", "game", new Actor("user", "owner"), "correlation", null,
+                "painting-project", Map.of("workshop_id", "my-workshop", "paintable_product_id", "game", "name", "Paint Game"));
     }
 
     private static DomainEvent itemAdded(String id, String idempotencyKey) {
         var instant = Instant.parse("2026-08-30T10:00:01Z");
         return new DomainEvent("01KTESTEVENT00000000000000", 1, "workshop_item.added", instant, instant,
                 "workshop_item", id, null, new Actor("user", "owner"), "correlation", null,
-                idempotencyKey, Map.of("catalog_item_id", "game-hero", "workshop_product_id", "game", "display_name", "Hero"));
+                idempotencyKey, Map.of("catalog_item_id", "game-hero", "painting_project_id", "game", "display_name", "Hero"));
     }
 
     private static final class FakeRepository implements SnapshotRepository, EventLedger, MarketPaintCatalogWriter,
-            WorkshopPaintInventoryWriter, PaintableProductCatalogWriter {
+            WorkshopPaintInventoryWriter, PaintableProductCatalogWriter, WorkshopMediaStorage {
         private DataSnapshot snapshot;
         private final List<DomainEvent> appended = new ArrayList<>();
         private List<Map<String, Object>> replaced = List.of();
         private List<Map<String, Object>> inventory = List.of();
         private int productsWritten;
         private int batches;
+        private int mediaStored;
 
         private FakeRepository(DataSnapshot snapshot) { this.snapshot = snapshot; }
         public DataSnapshot load() { return snapshot; }
-        public void append(DomainEvent event) { appendAll(List.of(event)); }
-        public void appendAll(List<DomainEvent> events) {
+        public List<DomainEvent> appendAll(List<DomainEvent> events) {
             batches++;
+            var existingByKey = snapshot.events().stream().filter(event -> event.idempotencyKey() != null)
+                    .collect(java.util.stream.Collectors.toMap(DomainEvent::idempotencyKey, event -> event, (left, right) -> left));
+            if (events.stream().allMatch(event -> event.idempotencyKey() != null && existingByKey.containsKey(event.idempotencyKey()))) {
+                return events.stream().map(event -> existingByKey.get(event.idempotencyKey())).toList();
+            }
             appended.addAll(events);
             var all = new ArrayList<>(snapshot.events());
             all.addAll(events);
             snapshot = new DataSnapshot(snapshot.site(), snapshot.marketPaints(), snapshot.paintInventory(),
                     snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.shopping(), List.copyOf(all));
+            return List.copyOf(events);
         }
         public void replaceMarketPaints(List<Map<String, Object>> paints) { replaced = List.copyOf(paints); }
         public void replaceWorkshopPaints(List<Map<String, Object>> paints) { inventory = List.copyOf(paints); }
         public void replaceProduct(String productId, Map<String, Object> product, List<Map<String, Object>> paintingGuides) { productsWritten++; }
+        public StoredMedia store(String itemId, String mediaId, String originalFilename, String contentType, byte[] content) {
+            mediaStored++;
+            return new StoredMedia(mediaId, "/media/workshop/" + itemId + "/" + mediaId + ".jpg", "workshop/" + itemId + "/" + mediaId + ".jpg", originalFilename, contentType, content.length, "hash");
+        }
+        public void delete(StoredMedia media) { }
     }
 }

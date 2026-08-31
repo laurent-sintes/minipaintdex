@@ -1,10 +1,7 @@
 schema_version: 1
 items:
   - id: buy-1
-    brand: The Army Painter
-    name: Matt Black Colour Primer
-    reference: ""
-    color_hex: "#242526"
+    market_paint_id: the-army-painter-colour-primer-cp3001s
     reason: Sous-couche noire du projet Reichbusters
     priority: high
   - id: buy-2
@@ -15,9 +12,6 @@ items:
     reason: Ombres des armes, armures et uniformes
     priority: high
   - id: buy-3
-    brand: Vallejo
-    name: Dead White
-    reference: "72.001"
-    color_hex: "#f2f1e8"
+    market_paint_id: vallejo-game-color-72-001
     reason: Zénithal au pinceau et cœur des lueurs Vril
     priority: medium

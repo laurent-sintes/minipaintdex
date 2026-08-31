@@ -2,13 +2,17 @@ package com.minipaintdex.server.api;
 
 import com.minipaintdex.application.MiniPaintDexService;
 import com.minipaintdex.application.command.AddWorkshopItemCommand;
+import com.minipaintdex.application.command.AddWorkshopItemCommentCommand;
+import com.minipaintdex.application.command.AddWorkshopItemPhotoCommand;
 import com.minipaintdex.application.command.ApplyMarketPaintChangeSetCommand;
 import com.minipaintdex.application.command.ApplyMarketPaintableProductChangeSetCommand;
 import com.minipaintdex.application.command.AssignWorkshopRecipeCommand;
 import com.minipaintdex.application.command.CreateWorkshopRecipeCommand;
-import com.minipaintdex.application.command.ImportPaintableProductToWorkshopCommand;
+import com.minipaintdex.application.command.CreatePaintingProjectCommand;
 import com.minipaintdex.application.command.TransitionStageCommand;
 import com.minipaintdex.application.command.TransitionWorkshopRecipeCommand;
+import com.minipaintdex.application.command.SetShoppingItemStatusCommand;
+import com.minipaintdex.application.command.ReplaceWorkshopPaintInventoryCommand;
 import com.minipaintdex.application.query.SearchMarketPaintsQuery;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
@@ -23,9 +27,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -42,17 +49,17 @@ class MiniPaintDexController {
 
     @GetMapping("/health")
     Map<String, Object> health() {
-        return Map.of("status", "ok", "service", "minipaintdex", "storage", "files");
+        return service.health();
     }
 
     @GetMapping("/bootstrap")
-    Map<String, Object> bootstrap() {
-        return service.bootstrap();
+    Map<String, Object> bootstrap(@RequestParam(defaultValue = "true") boolean includeMarketPaints) {
+        return service.bootstrap(includeMarketPaints);
     }
 
     @GetMapping("/site/config")
     Object siteConfig() {
-        return service.bootstrap().get("config");
+        return service.siteConfiguration();
     }
 
     @GetMapping("/market/paints")
@@ -69,9 +76,24 @@ class MiniPaintDexController {
             @RequestParam(required = false) String reference,
             @RequestParam(required = false) String lifecycle,
             @RequestParam(required = false) String manufacturer,
-            @RequestParam(required = false) String tag) {
-        return Map.of("paints", service.searchMarketPaints(new SearchMarketPaintsQuery(
-                query, brand, range, type, color, finish, medium, opacity, volume, reference, lifecycle, manufacturer, tag)));
+            @RequestParam(required = false) String tag,
+            @RequestParam(defaultValue = "false") boolean ownedOnly,
+            @RequestParam(defaultValue = "false") boolean manufacturerSheetOnly,
+            @RequestParam(defaultValue = "false") boolean realResultOnly,
+            @RequestParam(required = false) Integer offset,
+            @RequestParam(required = false) Integer limit) {
+        var filters = new SearchMarketPaintsQuery(
+                query, brand, range, type, color, finish, medium, opacity, volume, reference, lifecycle, manufacturer, tag);
+        if (offset != null || limit != null) {
+            return service.searchMarketPaintPage(filters, ownedOnly, manufacturerSheetOnly, realResultOnly,
+                    offset == null ? 0 : offset, limit == null ? 60 : limit);
+        }
+        return Map.of("paints", service.searchMarketPaints(filters));
+    }
+
+    @GetMapping("/market/paints/facets")
+    Map<String, Object> paintFacets(@RequestParam(defaultValue = "false") boolean ownedOnly) {
+        return service.marketPaintFacets(ownedOnly);
     }
 
     @PostMapping("/market/paint-changesets")
@@ -134,25 +156,38 @@ class MiniPaintDexController {
         return Map.of("workshop", service.workshopOverview());
     }
 
-    @GetMapping("/workshop/paintable-products")
-    Map<String, Object> workshopPaintableProducts() {
-        return Map.of("paintableProducts", service.listWorkshopProducts());
+    @PostMapping("/workshop/paint-inventory-imports")
+    Map<String, Object> replaceWorkshopPaintInventory(
+            @Valid @RequestBody ReplaceWorkshopPaintInventoryRequest request,
+            @RequestParam(defaultValue = "true") boolean dryRun) {
+        var entries = request.paints().stream()
+                .map(entry -> new ReplaceWorkshopPaintInventoryCommand.Entry(entry.paintId(), entry.quantity()))
+                .toList();
+        return Map.of("result", service.replaceWorkshopPaintInventory(
+                new ReplaceWorkshopPaintInventoryCommand(
+                        request.schemaVersion(), request.kind(), entries, dryRun)));
     }
 
-    @PostMapping("/workshop/paintable-products")
-    ResponseEntity<Map<String, Object>> importPaintableProduct(
-            @Valid @RequestBody ImportPaintableProductRequest request,
+    @GetMapping("/workshop/painting-projects")
+    Map<String, Object> paintingProjects() {
+        return Map.of("paintingProjects", service.listPaintingProjects());
+    }
+
+    @PostMapping("/workshop/painting-projects")
+    ResponseEntity<Map<String, Object>> createPaintingProject(
+            @Valid @RequestBody CreatePaintingProjectRequest request,
             @RequestHeader(value = "Idempotency-Key", required = false) String idempotencyKey,
             @RequestHeader(value = "X-Correlation-Id", required = false) String correlationId) {
-        var result = service.importPaintableProductToWorkshop(new ImportPaintableProductToWorkshopCommand(
-                request.productId(), request.actorId(), request.occurredAt(), correlationId, idempotencyKey));
+        var result = service.createPaintingProject(new CreatePaintingProjectCommand(
+                request.paintableProductId(), request.paintingProjectId(), request.name(),
+                request.actorId(), request.occurredAt(), correlationId, idempotencyKey));
         return ResponseEntity.status(result.applied() ? HttpStatus.CREATED : HttpStatus.OK)
                 .body(Map.of("result", result));
     }
 
     @GetMapping("/workshop/items")
-    Map<String, Object> workshopItems(@RequestParam(required = false) String productId) {
-        return Map.of("items", service.listWorkshopItems(productId));
+    Map<String, Object> workshopItems(@RequestParam(required = false) String paintingProjectId) {
+        return Map.of("items", service.listWorkshopItems(paintingProjectId));
     }
 
     @PostMapping("/workshop/items")
@@ -161,8 +196,40 @@ class MiniPaintDexController {
             @RequestHeader(value = "Idempotency-Key", required = false) String idempotencyKey,
             @RequestHeader(value = "X-Correlation-Id", required = false) String correlationId) {
         var event = service.addWorkshopItem(new AddWorkshopItemCommand(
-                request.itemId(), request.catalogItemId(), request.workshopProductId(), request.displayName(),
+                request.itemId(), request.catalogItemId(), request.paintingProjectId(), request.displayName(),
                 request.actorId(), request.occurredAt(), correlationId, idempotencyKey));
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("event", event));
+    }
+
+    @GetMapping("/workshop/items/{itemId}")
+    Map<String, Object> workshopItem(@PathVariable String itemId) {
+        return Map.of("item", service.getWorkshopItem(itemId));
+    }
+
+    @PostMapping("/workshop/items/{itemId}/comments")
+    ResponseEntity<Map<String, Object>> addWorkshopItemComment(
+            @PathVariable String itemId,
+            @Valid @RequestBody AddWorkshopItemCommentRequest request,
+            @RequestHeader(value = "Idempotency-Key", required = false) String idempotencyKey,
+            @RequestHeader(value = "X-Correlation-Id", required = false) String correlationId) {
+        var event = service.addWorkshopItemComment(new AddWorkshopItemCommentCommand(
+                itemId, request.comment(), request.actorId(), request.occurredAt(), correlationId, idempotencyKey));
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("event", event));
+    }
+
+    @PostMapping(value = "/workshop/items/{itemId}/photos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    ResponseEntity<Map<String, Object>> addWorkshopItemPhoto(
+            @PathVariable String itemId,
+            @RequestPart("file") MultipartFile file,
+            @RequestParam(required = false) String stage,
+            @RequestParam(required = false) String caption,
+            @RequestParam(required = false) String actorId,
+            @RequestParam(required = false) Instant occurredAt,
+            @RequestHeader(value = "Idempotency-Key", required = false) String idempotencyKey,
+            @RequestHeader(value = "X-Correlation-Id", required = false) String correlationId) throws IOException {
+        var event = service.addWorkshopItemPhoto(new AddWorkshopItemPhotoCommand(
+                itemId, file.getOriginalFilename(), file.getContentType(), file.getBytes(), stage, caption,
+                actorId, occurredAt, correlationId, idempotencyKey));
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("event", event));
     }
 
@@ -222,6 +289,17 @@ class MiniPaintDexController {
         return Map.of("events", service.listActivity(productId));
     }
 
+    @PostMapping("/shopping/items/{itemId}/status")
+    ResponseEntity<Map<String, Object>> setShoppingItemStatus(
+            @PathVariable String itemId,
+            @Valid @RequestBody SetShoppingItemStatusRequest request,
+            @RequestHeader(value = "Idempotency-Key", required = false) String idempotencyKey,
+            @RequestHeader(value = "X-Correlation-Id", required = false) String correlationId) {
+        var event = service.setShoppingItemStatus(new SetShoppingItemStatusCommand(
+                itemId, request.checked(), request.actorId(), request.occurredAt(), correlationId, idempotencyKey));
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("event", event));
+    }
+
     @PostMapping("/projections/rebuild")
     Map<String, Object> rebuildProjections() {
         return Map.of("projection", service.rebuildProjections());
@@ -236,9 +314,22 @@ class MiniPaintDexController {
                 .body(service.exportPaints(format));
     }
 
-    record AddWorkshopItemRequest(String itemId, @NotBlank String catalogItemId, @NotBlank String workshopProductId, @NotBlank String displayName, String actorId, Instant occurredAt) {}
-    record ImportPaintableProductRequest(@NotBlank String productId, String actorId, Instant occurredAt) {}
+    record AddWorkshopItemRequest(String itemId, @NotBlank String catalogItemId, @NotBlank String paintingProjectId, @NotBlank String displayName, String actorId, Instant occurredAt) {}
+    record CreatePaintingProjectRequest(
+            @NotBlank String paintableProductId,
+            String paintingProjectId,
+            String name,
+            String actorId,
+            Instant occurredAt) {}
+    record ReplaceWorkshopPaintInventoryRequest(
+            @JsonProperty("schema_version") int schemaVersion,
+            @NotBlank String kind,
+            @Valid List<WorkshopPaintEntryRequest> paints) {}
+    record WorkshopPaintEntryRequest(
+            @JsonProperty("paint_id") @NotBlank String paintId,
+            int quantity) {}
     record TransitionStageRequest(@NotBlank String stage, @NotBlank String action, String comment, String reason, String actorId, Instant occurredAt) {}
+    record AddWorkshopItemCommentRequest(@NotBlank String comment, String actorId, Instant occurredAt) {}
     record CreateWorkshopRecipeRequest(
             @JsonProperty("recipe_id") String recipeId,
             @JsonProperty("catalog_item_id") @NotBlank String catalogItemId,
@@ -255,6 +346,7 @@ class MiniPaintDexController {
     }
     record TransitionWorkshopRecipeRequest(@NotBlank String action, String comment, @JsonProperty("actor_id") String actorId, @JsonProperty("occurred_at") Instant occurredAt) {}
     record AssignWorkshopRecipeRequest(@JsonProperty("recipe_id") @NotBlank String recipeId, @JsonProperty("actor_id") String actorId, @JsonProperty("occurred_at") Instant occurredAt) {}
+    record SetShoppingItemStatusRequest(boolean checked, String actorId, Instant occurredAt) {}
     record ApplyPaintChangeSetRequest(
             @JsonProperty("schema_version") int schemaVersion,
             @NotBlank String kind,

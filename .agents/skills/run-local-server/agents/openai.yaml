@@ -1,4 +1,0 @@
-interface:
-  display_name: "Serveur local MiniPaintDex"
-  short_description: "Demarre et verifie le serveur local"
-  default_prompt: "Use $run-local-server to build and start the current MiniPaintDex application locally."

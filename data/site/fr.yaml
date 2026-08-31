@@ -21,6 +21,7 @@ navigation:
   workshop_paints: Mes peintures
   workshop_admin: Administration
   shopping: Achats
+  about: À propos
 header:
   search_placeholder: Rechercher une teinte, une marque, un usage…
   search_short_placeholder: Rechercher…
@@ -59,6 +60,10 @@ workflow:
   painting: Peinture
   finishing: Finitions et éclaircissements
   basing: Socle
+  pending: À faire
+  in_progress: En cours
+  completed: Terminée
+  skipped: Ignorée
 market:
   paints_title: Peintures du marché
   paints_description: Explorez le référentiel global des marques et des gammes, indépendamment de votre stock.
@@ -81,7 +86,7 @@ market:
 workshop:
   title: Administration de mon atelier
   description: Pilotez les produits que vous possédez et l’avancement de chaque élément physique.
-  products: produits possédés
+  projects: projets de peinture
   items: éléments physiques
   completed: terminés
   in_progress: en cours
@@ -94,10 +99,21 @@ workshop:
   manage_product: Voir le suivi
   empty_title: Votre atelier ne contient encore aucun produit
   empty_description: Ouvrez un produit du marché pour prévisualiser puis confirmer son import.
+  item_detail: Suivi de la figurine
+  back_to_product: Retour au produit
+  start_stage: Démarrer
+  complete_stage: Terminer
+  reopen_stage: Rouvrir
+  add_comment: Ajouter au journal
+  comment_placeholder: Note, observation ou prochaine action…
+  no_activity: Aucun événement enregistré.
+  saving: Enregistrement…
+  add_photo: Ajouter une photo
+  photo_caption: Légende de la photo (facultatif)
+  no_photos: Aucune photo d’avancement.
   event_labels:
-    project.created: Produit historique ajouté
     workshop.created: Atelier créé
-    workshop.product_imported: Produit importé
+    painting_project.created: Projet de peinture créé
     workshop_item.added: Élément physique ajouté
     workflow.stage.started: Étape démarrée
     workflow.stage.completed: Étape terminée
@@ -105,6 +121,26 @@ workshop:
     workflow.stage.reopened: Étape rouverte
     workshop_recipe.created: Plan de peinture créé
     recipe.assigned: Plan de peinture affecté
+    workshop_item.comment_added: Commentaire ajouté
+    workshop_item.photo_added: Photo d’avancement ajoutée
+    shopping_item.status_changed: État d’un achat modifié
+about:
+  eyebrow: Mini Paint Dex
+  title: À propos
+  description: Documentation utilisateur et administrateur embarquée avec cette version de l’application.
+  user_title: Documentation utilisateur
+  administrator_title: Documentation administrateur
+  version_action: Version et auteur
+  version_title: Informations sur l’application
+  version_label: Version
+  author_label: Auteur
+  close: Fermer
+  loading: Chargement de la documentation…
+  document_titles:
+    user-guide: Guide utilisateur
+    ddd-model: Modèle DDD
+    rest-api: Services REST
+    skills: Usage des skills
 product_detail:
   back: Retour aux produits
   reference: Référentiel du marché
@@ -174,11 +210,17 @@ collection:
   active_filters: Filtres actifs
   remove_filter: Retirer le filtre
   no_active_filter: Aucun filtre actif
+  load_more: Afficher plus
 shopping:
   title: Ce qu’il me manque
   description: Une liste courte, motivée par les figurines que vous préparez.
   ready: Prêt pour le magasin
   remaining_suffix: encore à trouver.
+  required_title: Besoins calculés
+  planned_title: Achats planifiés
+  required_by: Requise par
+  derived_hint: Calculé depuis les fiches de peinture des produits présents dans l’atelier.
+  planned_hint: Liste personnelle indépendante des besoins calculés.
   export: Exporter la liste
   priorities:
     high: Haute
@@ -193,6 +235,7 @@ paint_detail:
   no_manufacturer_description: Aucune description fabricant enregistrée.
   recommended_uses: Usages conseillés
   usage_instructions: Mode d’emploi
+  instructions_review_required: Instructions génériques ou historiques à vérifier sur la fiche fabricant
   usage_steps: Étapes
   usage_tips: Conseils et précautions
   open_sheet: Ouvrir la fiche

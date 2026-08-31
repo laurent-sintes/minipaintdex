@@ -8,22 +8,24 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class WorkshopProjectorTest {
     @Test
-    void projectsCurrentAndLegacyProductImports() {
+    void projectsPaintingProjectMembership() {
         var now = Instant.parse("2026-08-30T10:00:00Z");
-        var current = new DomainEvent("01KTESTCURRENT000000000000", 1, "workshop.product_imported", now, now,
+        var workshopCreated = new DomainEvent("01KTESTWORKSHOP000000000000", 1, "workshop.created", now, now,
                 "workshop", "my-workshop", null, new Actor("user", "owner"), "current", null, null,
-                Map.of("product_id", "current-product"));
-        var legacy = new DomainEvent("01KTESTLEGACY0000000000000", 1, "project.created", now, now,
-                "project", "legacy-product", "legacy-product", new Actor("migration", "legacy"), "legacy", null, null,
-                Map.of("market_game_id", "legacy-product"));
+                Map.of("name", "My workshop"));
+        var projectCreated = new DomainEvent("01KTESTPROJECT0000000000000", 1, "painting_project.created", now, now,
+                "painting_project", "paint-game", "paint-game", new Actor("user", "owner"), "current", null, null,
+                Map.of("workshop_id", "my-workshop", "paintable_product_id", "game", "name", "Paint Game"));
 
-        var workshop = WorkshopProjector.project(List.of(current, legacy));
+        var workshop = WorkshopProjector.project(List.of(workshopCreated, projectCreated));
+        var projects = PaintingProjectProjector.project(List.of(workshopCreated, projectCreated));
 
-        assertTrue(workshop.containsProduct("current-product"));
-        assertTrue(workshop.containsProduct("legacy-product"));
+        assertTrue(workshop.containsPaintingProject("paint-game"));
+        assertEquals("game", projects.getFirst().paintableProductId());
     }
 }

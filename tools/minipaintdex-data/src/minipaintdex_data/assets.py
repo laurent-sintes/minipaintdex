@@ -15,7 +15,8 @@ PUBLIC_PATH = re.compile(
 
 def audit_assets(root: Path) -> dict[str, Any]:
     root = root.resolve()
-    public = root / "public"
+    frontend_public = root / "frontend" / "public"
+    public = frontend_public if frontend_public.is_dir() else root / "public"
     data = root / "data"
     references: set[str] = set()
     for path in sorted(data.rglob("*")):

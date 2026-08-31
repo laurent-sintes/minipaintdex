@@ -34,6 +34,8 @@
     <node.version>v24.11.1</node.version>
     <pnpm.version>11.19.0</pnpm.version>
     <frontend.skip>false</frontend.skip>
+    <python.executable>python</python.executable>
+    <data-tools.skip>false</data-tools.skip>
   </properties>
 
   <dependencyManagement>
@@ -106,6 +108,35 @@
             <phase>verify</phase>
             <goals><goal>pnpm</goal></goals>
             <configuration><arguments>run check:web</arguments></configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.5.0</version>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <id>data-tools-test</id>
+            <phase>test</phase>
+            <goals><goal>exec</goal></goals>
+            <configuration>
+              <skip>${data-tools.skip}</skip>
+              <executable>${python.executable}</executable>
+              <workingDirectory>${maven.multiModuleProjectDirectory}</workingDirectory>
+              <environmentVariables>
+                <PYTHONPATH>${maven.multiModuleProjectDirectory}/tools/minipaintdex-data/src</PYTHONPATH>
+              </environmentVariables>
+              <arguments>
+                <argument>-m</argument>
+                <argument>unittest</argument>
+                <argument>discover</argument>
+                <argument>-s</argument>
+                <argument>${maven.multiModuleProjectDirectory}/tools/minipaintdex-data/tests</argument>
+                <argument>-v</argument>
+              </arguments>
+            </configuration>
           </execution>
         </executions>
       </plugin>

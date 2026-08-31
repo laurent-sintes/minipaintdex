@@ -31,8 +31,11 @@ public final class PaintMatchEngine {
     public Match compare(Paint source, Paint candidate) {
         var behavioral = policy.isBehavioral(source.functionalType());
         var reasons = new ArrayList<String>();
-        var deltaE = deltaE2000(lab(source.hex()), lab(candidate.hex()));
-        var colorScore = clamp(PERFECT_SCORE - deltaE * policy.colorDistanceFactor());
+        var colorsComparable = validHex(source.hex()) && validHex(candidate.hex());
+        var deltaE = colorsComparable ? deltaE2000(lab(source.hex()), lab(candidate.hex())) : -1.0;
+        var colorScore = colorsComparable
+                ? clamp(PERFECT_SCORE - deltaE * policy.colorDistanceFactor())
+                : policy.missingMetadataScore();
         var typeScore = equals(source.functionalType(), candidate.functionalType())
                 ? PERFECT_SCORE : policy.functionalTypeMismatchScore();
         var finishScore = comparableScore(source.finish(), candidate.finish());
@@ -40,7 +43,8 @@ public final class PaintMatchEngine {
         var mediumScore = comparableScore(source.medium(), candidate.medium());
         var behaviorScore = tagOverlap(source.behaviorTags(), candidate.behaviorTags());
 
-        if (colorScore >= policy.closeColorThreshold()) reasons.add("close_color");
+        if (colorsComparable && colorScore >= policy.closeColorThreshold()) reasons.add("close_color");
+        if (!colorsComparable) reasons.add("color_metadata_missing");
         if (typeScore == PERFECT_SCORE) reasons.add("same_functional_type");
         if (finishScore == PERFECT_SCORE) reasons.add("same_finish");
         if (behaviorScore >= policy.similarBehaviorThreshold()) reasons.add("similar_application_behavior");
@@ -87,7 +91,6 @@ public final class PaintMatchEngine {
     }
 
     private static double[] lab(String hex) {
-        if (hex == null || !hex.matches("#[0-9a-fA-F]{6}")) return new double[]{50, 0, 0};
         var r = Integer.parseInt(hex.substring(1, 3), 16) / 255.0;
         var g = Integer.parseInt(hex.substring(3, 5), 16) / 255.0;
         var b = Integer.parseInt(hex.substring(5, 7), 16) / 255.0;
@@ -99,6 +102,10 @@ public final class PaintMatchEngine {
         var z = (r * .0193 + g * .1192 + b * .9505) / 1.08883;
         x = xyz(x); y = xyz(y); z = xyz(z);
         return new double[]{116 * y - 16, 500 * (x - y), 200 * (y - z)};
+    }
+
+    private static boolean validHex(String value) {
+        return value != null && value.matches("#[0-9a-fA-F]{6}");
     }
 
     private static double xyz(double value) {

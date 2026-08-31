@@ -40,7 +40,7 @@ Les tests backend seuls se lancent avec :
 .\scripts\minipaintdex.ps1 test
 ```
 
-Le build complet exécute également les tests du frontend et les validations des référentiels. Les outils de données Python ont leur propre suite :
+Le build complet exécute également les tests du frontend, les validations des référentiels et la suite des outils de données Python. Cette dernière reste lançable isolément :
 
 ```powershell
 .\scripts\test-data-tools.ps1
@@ -56,9 +56,10 @@ La CLI réutilise exactement les mêmes services applicatifs que l’API REST.
 .\scripts\minipaintdex.ps1 cli --root . --format json market paints apply --input imports/runs/paint-refresh/changeset.json --dry-run
 .\scripts\minipaintdex.ps1 cli --root . --format json market paintable-products apply --input imports/runs/product-import/changeset.json --dry-run
 .\scripts\minipaintdex.ps1 cli --root . --format json market paintable-products preview-import --product reichbusters-reloaded
-.\scripts\minipaintdex.ps1 cli --root . --format json workshop paintable-products import --product reichbusters-reloaded
+.\scripts\minipaintdex.ps1 cli --root . --format json workshop painting-projects create --product reichbusters-reloaded --project-id paint-reichbusters
 .\scripts\minipaintdex.ps1 cli --root . --format json market guides reconcile --guide reichbusters-reloaded-red-hawk-guide
-.\scripts\minipaintdex.ps1 cli --root . --format json workshop items list --product reichbusters-reloaded
+.\scripts\minipaintdex.ps1 cli --root . --format json workshop items list --project paint-reichbusters
+.\scripts\minipaintdex.ps1 cli --root . --format json datasets import --input datasets/workshop/painting-projects/reichbusters
 .\scripts\minipaintdex.ps1 cli --root . --format json workshop recipes list --catalog-item reichbusters-reloaded-red-hawk
 .\scripts\minipaintdex.ps1 cli --root . --format json activity list
 ```
@@ -86,7 +87,7 @@ Vite sert alors le SPA sur `http://127.0.0.1:5173` et transmet `/api` et `/media
 
 Le backend est un monolithe modulaire Maven :
 
-- `backend/domain` : agrégats `PaintableProduct`, `Workshop`, objets physiques, recettes, workflow et événements ;
+- `backend/domain` : agrégats `PaintableProduct`, `Workshop`, `PaintingProject`, objets physiques, recettes, workflow et événements ;
 - `backend/application` : cas d’usage indépendants des transports et du stockage ;
 - `backend/adapter-file` : lecture YAML et journal JSONL append-only ;
 - `backend/bootstrap` : configuration Spring typée et assemblage commun des dépendances ;
@@ -94,8 +95,10 @@ Le backend est un monolithe modulaire Maven :
 - `backend/cli` : adaptateur Picocli des mêmes cas d’usage ;
 - `frontend` : package React/Vite autonome, avec ses sources, ses assets et sa configuration ;
 - `tools/minipaintdex-data` : traitements déterministes partagés par les skills d’import et de rafraîchissement.
+- `datasets` : paquets portables nommés, distincts du stockage actif ;
+- `docs` : documentation utilisateur et administrateur embarquée dans le JAR.
 
-Le navigateur n’écrit jamais dans `data`. Toute mutation passe par un service applicatif, exposé en REST et en CLI, puis produit un événement dans le ledger global.
+Le navigateur n’écrit jamais dans `data`. Toute mutation passe par un service applicatif exposé en REST et en CLI. Les activités de l’atelier et de la liste d’achats produisent des événements dans le ledger global ; les référentiels de marché restent des fichiers versionnés appliqués par change set.
 
 Le modèle DDD canonique, ses invariants, les décisions détaillées et les règles destinées aux agents sont consignés dans `AGENTS.md`.
 
@@ -130,33 +133,35 @@ data/
     painting-guides/     guides publics sourcés et versionnés
   workshop/
     paints.yaml          identifiants et quantités possédés
-    shopping.yaml        achats envisagés
+    shopping.yaml        intentions d’achat personnelles par identifiant de peinture
   ledger/events/         journal métier global JSONL append-only
 ```
 
-Un `PaintableProduct` est l’agrégat du marché pour une boîte, une extension ou une gamme contenant des éléments à peindre. Ses quantités décrivent le contenu théorique. `Workshop` est un agrégat distinct : son import référence le produit puis crée un `WorkshopItem` par exemplaire physique. Un guide de peinture du marché contient la palette et la méthode publiées ou inférées à partir d’une référence traçable. Une recette d’atelier est un autre agrégat : elle versionne les substitutions, mélanges, couches et techniques réellement choisies par le propriétaire, puis peut être affectée à un objet physique précis. Son cycle `draft → validated → active → superseded/archived` est conservé dans le ledger.
+Un `PaintableProduct` est l’agrégat du marché pour une boîte, une extension ou une gamme contenant des éléments à peindre. Ses quantités décrivent le contenu théorique. `Workshop` est le contexte personnel durable. Un `PaintingProject` porte l’intention de peindre un produit et crée un `WorkshopItem` par exemplaire physique. Un guide de peinture du marché contient la palette et la méthode publiées ou inférées à partir d’une référence traçable. Une recette d’atelier est un autre agrégat : elle versionne les substitutions, mélanges, couches et techniques réellement choisies par le propriétaire, puis peut être affectée à un objet physique précis. Son cycle `draft → validated → active → superseded/archived` est conservé dans le ledger.
 
 Le rapprochement d’un guide avec l’atelier ne compare que les peintures possédées. Les peintures opaques sont classées principalement par distance CIEDE2000. Les gammes comportementales (Contrast, Speedpaint, lavis, encres et effets techniques) combinent type et profil d’application et exigent toujours une validation manuelle. Tous les paramètres de classement sont injectés depuis la configuration Spring Boot.
 
-L’import actuel contient 47 peintures possédées, 59 types d’éléments Reichbusters Reloaded et 198 objets physiques suivis individuellement. Le workflow d’un objet couvre `preparation`, `priming`, `pre_highlight`, `painting`, `finishing` et `basing`.
+Le référentiel Reichbusters Reloaded contient 59 types d’éléments et 198 objets potentiels. Le ledger initial est volontairement vide : créer un `PaintingProject` instancie les objets physiques. Le workflow couvre `preparation`, `priming`, `pre_highlight`, `painting`, `finishing` et `basing`.
 
-Cette séparation permet de remplacer plus tard l’adaptateur fichier par une base de données sans modifier le domaine, les cas d’usage, l’API ou le SPA.
+Cette séparation contient l’impact d’un futur passage en base de données derrière les ports. L’adaptateur de persistance, les migrations et certains mappings devront évoluer, tandis que le domaine, les intentions des cas d’usage et les contrats publics stables resteront protégés.
 
 ## API REST
 
 La base de l’API est `/api/v1`. Les principaux services couvrent :
 
-- santé et bootstrap du SPA ;
+- santé et bootstrap léger du SPA ;
 - recherche du marché par texte, type, couleur, marque, gamme, fini, volume et tags ;
-- recherche complémentaire par fabricant, médium, opacité, cycle de vie et référence ;
+- recherche complémentaire paginée, facettes séparées, fabricant, médium, opacité, cycle de vie et référence ;
 - simulation et application de change sets de peintures et de produits à peindre ;
-- consultation d’un `PaintableProduct`, prévisualisation de ses peintures manquantes et import idempotent dans `Workshop` ;
+- consultation d’un `PaintableProduct`, prévisualisation de ses peintures manquantes et création idempotente d’un `PaintingProject` ;
 - consultation des guides de peinture du marché et rapprochement avec le stock possédé ;
-- administration de l’atelier, progression des produits possédés et consultation des objets physiques ;
+- administration de l’atelier, progression des projets et consultation des objets physiques ;
 - création, transition et consultation des recettes d’atelier, puis affectation à un objet physique ;
-- ajout d’un objet et transitions du workflow ;
+- ajout d’un objet, transitions ordonnées du workflow, commentaires et photos d’avancement ;
+- liste d’achats séparant besoins calculés et achats planifiés, avec état persistant dans le ledger ;
 - lecture du ledger et reconstruction des projections ;
 - exports CSV et YAML.
+- métadonnées de version, auteur et documentation embarquée dans « À propos ».
 
 ## Outils de données et skills
 
@@ -167,17 +172,15 @@ python -m pip install -e ".\tools\minipaintdex-data[images]"
 python .\tools\minipaintdex-data\mpdx_data.py --help
 ```
 
-Le rafraîchissement accepte une marque canonique ou `all`. Dans ce dernier cas, la liste est déduite du catalogue local. Il compare les références existantes, propose les ajouts et mises à jour, et transforme une disparition vérifiée en retrait par défaut. Une suppression doit être explicitement demandée et reste refusée si la peinture est possédée, citée par un guide du marché ou utilisée par une recette d’atelier. Toute peinture technique doit fournir un résumé et des étapes d’utilisation.
+Le rafraîchissement accepte une marque canonique ou `all`. Dans ce dernier cas, les providers officiels enregistrés sont exécutés sans liste dupliquée dans le skill ; une marque locale sans provider est signalée. Il compare les références existantes, propose les ajouts et mises à jour, et transforme une disparition vérifiée en retrait par défaut. Une suppression doit être explicitement demandée et reste refusée si la peinture est possédée, citée par un guide du marché ou utilisée par une recette d’atelier. Toute peinture technique doit fournir un résumé et des étapes d’utilisation ; une trame générique porte un statut explicite de révision.
 
-Les skills dans `.agents/skills` automatisent les opérations persistantes :
+Les skills dans `.agents/skills` sont rationalisés autour de deux points d’entrée :
 
-- `import-miniature-paints` identifie et fusionne les pots photographiés ;
-- `import-paintable-product` importe une boîte, une extension ou une gamme et ses références traçables, puis la rattache séparément à l’atelier si demandé ;
-- `refresh-paint-brands` rafraîchit une marque ou toutes les marques connues, avec comparaison complète et simulation ;
-- `run-local-server` construit, démarre et vérifie l’application locale self-contained ;
-- `commit` crée un commit Git atomique ;
-- `push` vérifie et pousse la branche courante.
+- `mini-paint-dex-project` pilote le développement, le build, le serveur local et les opérations Git explicitement demandées ;
+- `administer-minipaintdex-data` orchestre l’import photo, les produits à peindre, le rafraîchissement des marques et les datasets.
 
 Les imports et rafraîchissements produisent un change set, puis utilisent le service REST local ou son adaptateur CLI. Ils n’écrivent jamais directement dans `data`. Les skills Git ne s’exécutent que sur une demande explicite de commit ou de push ; le mot « Go » n’accorde pas cette autorisation.
+
+Les datasets sont documentés dans `datasets/README.md`. Leur création et leur validation sont déterministes côté Python ; leur import passe par `minipaintdex datasets import`, en simulation par défaut et avec `--apply` pour écrire.
 
 Toute image enregistrée doit conserver sa source, son crédit et sa licence. Un aperçu numérique de couleur ne doit pas être présenté comme un rendu réel peint.

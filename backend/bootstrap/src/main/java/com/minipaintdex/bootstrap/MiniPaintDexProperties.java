@@ -17,9 +17,13 @@ import java.util.Set;
 @ConfigurationProperties("minipaintdex")
 public record MiniPaintDexProperties(
         @NotNull Path root,
+        @Valid @NotNull Application application,
         @Valid @NotNull Storage storage,
         @Valid @NotNull PaintMatching paintMatching,
+        @Valid @NotNull Media media,
         @Valid @NotNull Web web) {
+
+    public record Application(@NotEmpty String name, @NotEmpty String author) {}
 
     public record Storage(
             @NotNull Path siteConfiguration,
@@ -54,6 +58,8 @@ public record MiniPaintDexProperties(
             @DecimalMin("0") double finish,
             @DecimalMin("0") double opacity,
             @DecimalMin("0") double medium) {}
+
+    public record Media(@Min(1) long maxUploadBytes, @NotEmpty Set<String> allowedContentTypes) {}
 
     public record Web(@NotEmpty List<String> allowedOrigins) {}
 }

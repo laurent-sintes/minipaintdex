@@ -8,6 +8,8 @@ import type { SiteConfig } from '@/models/site-config-model';
 
 type BootstrapResponse = {
   paints: Paint[];
+  workshopPaints: Paint[];
+  paintStats: { total: number; owned: number; brands: number };
   marketPaintableProducts: PaintableProduct[];
   workshop: WorkshopOverview;
   workshopItems: WorkshopItem[];
@@ -15,18 +17,30 @@ type BootstrapResponse = {
   config: SiteConfig;
 };
 
+type PaintPage = { paints: Paint[]; total: number; offset: number; limit: number };
+type Facets = Record<'types' | 'colors' | 'brands' | 'manufacturers' | 'ranges' | 'finishes' | 'mediums' | 'opacities' | 'lifecycles' | 'volumes' | 'tags', { value: string; count: number }[]>;
+type FacetResponse = { total: number; facets: Facets };
+
 export function PaintAppLoader() {
   const [data, setData] = useState<BootstrapResponse | null>(null);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch('/api/v1/bootstrap', { signal: controller.signal, headers: { accept: 'application/json' } })
-      .then((response) => {
-        if (!response.ok) throw new Error(`Bootstrap failed with ${response.status}`);
-        return response.json() as Promise<BootstrapResponse>;
+    Promise.all([
+      fetch('/api/v1/bootstrap?includeMarketPaints=false', { signal: controller.signal, headers: { accept: 'application/json' } }),
+      fetch('/api/v1/market/paints?offset=0&limit=60', { signal: controller.signal, headers: { accept: 'application/json' } }),
+      fetch('/api/v1/market/paints/facets', { signal: controller.signal, headers: { accept: 'application/json' } }),
+    ])
+      .then(async ([bootstrap, paints, facets]) => {
+        if (!bootstrap.ok || !paints.ok || !facets.ok) throw new Error('Initial application load failed');
+        return {
+          bootstrap: await bootstrap.json() as BootstrapResponse,
+          paintPage: await paints.json() as PaintPage,
+          facetResponse: await facets.json() as FacetResponse,
+        };
       })
-      .then(setData)
+      .then(({ bootstrap, paintPage, facetResponse }) => setData({ ...bootstrap, paints: paintPage.paints, initialPaintTotal: paintPage.total, initialPaintFacets: facetResponse.facets } as BootstrapResponse & { initialPaintTotal: number; initialPaintFacets: Facets }))
       .catch((reason) => {
         if (reason instanceof DOMException && reason.name === 'AbortError') return;
         setError(true);
@@ -49,5 +63,6 @@ export function PaintAppLoader() {
     return <main className="grid min-h-screen place-items-center bg-background"><output className="size-8 animate-spin rounded-full border-2 border-primary border-t-transparent" aria-label="Chargement" /></main>;
   }
 
-  return <PaintApp initialPaints={data.paints} initialProducts={data.marketPaintableProducts} initialWorkshop={data.workshop} initialWorkshopItems={data.workshopItems} shoppingSeed={data.shoppingSeed} config={data.config} />;
+  const initial = data as BootstrapResponse & { initialPaintTotal: number; initialPaintFacets: Facets };
+  return <PaintApp initialPaints={initial.paints} initialWorkshopPaints={initial.workshopPaints} initialPaintStats={initial.paintStats} initialPaintTotal={initial.initialPaintTotal} initialPaintFacets={initial.initialPaintFacets} initialProducts={initial.marketPaintableProducts} initialWorkshop={initial.workshop} initialWorkshopItems={initial.workshopItems} shoppingSeed={initial.shoppingSeed} config={initial.config} />;
 }

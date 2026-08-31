@@ -7,6 +7,10 @@ server:
 spring:
   application:
     name: minipaintdex
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 11MB
   web:
     resources:
       cache:
@@ -15,6 +19,9 @@ spring:
 
 minipaintdex:
   root: "${MINIPAINTDEX_ROOT:${user.dir}}"
+  application:
+    name: Mini Paint Dex
+    author: Laurent Sintès
   storage:
     site-configuration: data/site/fr.yaml
     market-paint-catalog: data/market/paints/catalog.yaml
@@ -55,6 +62,12 @@ minipaintdex:
       finish: 0.10
       opacity: 0.10
       medium: 0.00
+  media:
+    max-upload-bytes: 10485760
+    allowed-content-types:
+      - image/jpeg
+      - image/png
+      - image/webp
   web:
     allowed-origins:
       - http://127.0.0.1:5173

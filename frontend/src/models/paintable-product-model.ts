@@ -73,9 +73,13 @@ export type PaintableProduct = {
   inWorkshop: boolean;
 };
 
-export type WorkshopProductSummary = {
+export type PaintingProjectSummary = {
+  projectId: string;
   productId: string;
   name: string;
+  status: 'planned' | 'active' | 'completed' | 'archived';
+  createdAt: string;
+  updatedAt: string;
   importedAt: string;
   itemCount: number;
   completedCount: number;
@@ -91,8 +95,8 @@ export type WorkshopProductSummary = {
 
 export type WorkshopOverview = {
   id: string;
-  products: WorkshopProductSummary[];
-  productCount: number;
+  paintingProjects: PaintingProjectSummary[];
+  projectCount: number;
   itemCount: number;
   completedItemCount: number;
   progressPercentage: number;
@@ -102,7 +106,7 @@ export type WorkshopOverview = {
 export type WorkshopItem = {
   id: string;
   catalogItemId: string;
-  workshopProductId: string;
+  paintingProjectId: string;
   displayName: string;
   workflow: Record<string, 'pending' | 'in_progress' | 'completed' | 'skipped'>;
   currentStage: string | null;
@@ -110,6 +114,10 @@ export type WorkshopItem = {
   recipeId: string;
   recipeVersion: number;
   updatedAt: string;
+};
+
+export type WorkshopItemDetail = WorkshopItem & {
+  activity: DomainEvent[];
 };
 
 export type DomainEvent = {

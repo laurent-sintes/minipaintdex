@@ -44,6 +44,19 @@ class PaintMatchEngineTest {
                 () -> new PaintMatchingPolicy.Weights(.60, .20, 0, .10, .05, .01));
     }
 
+    @Test
+    void treatsUnknownColorsAsMissingMetadataInsteadOfNeutralGray() {
+        var source = paint("source", "", "opaque_standard", Set.of());
+        var candidate = paint("candidate", "#777777", "opaque_standard", Set.of());
+
+        var match = engine.compare(source, candidate);
+
+        assertEquals(-1.0, match.deltaE2000());
+        assertEquals(50.0, match.colorScore());
+        assertTrue(match.reasons().contains("color_metadata_missing"));
+        assertFalse(match.reasons().contains("close_color"));
+    }
+
     private static PaintMatchEngine.Paint paint(String id, String hex, String type, Set<String> behavior) {
         return new PaintMatchEngine.Paint(id, hex, type, "matt", "opaque", "water acrylic", behavior);
     }

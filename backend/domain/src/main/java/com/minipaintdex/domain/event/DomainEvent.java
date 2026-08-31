@@ -34,8 +34,15 @@ public record DomainEvent(
         if (actor == null) throw new DomainException("invalid_event", "actor is required");
         require(correlationId, "correlation_id");
         payload = payload == null ? Map.of() : Map.copyOf(payload);
-        if ("workshop_item.added".equals(eventType)) require(payload.get("catalog_item_id"), "payload.catalog_item_id");
-        if ("workshop.product_imported".equals(eventType)) require(payload.get("product_id"), "payload.product_id");
+        if ("painting_project.created".equals(eventType)) {
+            require(payload.get("workshop_id"), "payload.workshop_id");
+            require(payload.get("paintable_product_id"), "payload.paintable_product_id");
+            require(payload.get("name"), "payload.name");
+        }
+        if ("workshop_item.added".equals(eventType)) {
+            require(payload.get("catalog_item_id"), "payload.catalog_item_id");
+            require(payload.get("painting_project_id"), "payload.painting_project_id");
+        }
         if (eventType.startsWith("workflow.stage.")) require(payload.get("stage"), "payload.stage");
         if ("workflow.stage.skipped".equals(eventType)) require(payload.get("reason"), "payload.reason");
         if ("workshop_recipe.created".equals(eventType)) {
@@ -47,6 +54,13 @@ public record DomainEvent(
             require(payload.get("recipe_id"), "payload.recipe_id");
             require(payload.get("recipe_version"), "payload.recipe_version");
         }
+        if ("workshop_item.comment_added".equals(eventType)) require(payload.get("comment"), "payload.comment");
+        if ("workshop_item.photo_added".equals(eventType)) {
+            require(payload.get("media_id"), "payload.media_id");
+            require(payload.get("url"), "payload.url");
+            require(payload.get("sha256"), "payload.sha256");
+        }
+        if ("shopping_item.status_changed".equals(eventType)) require(payload.get("checked"), "payload.checked");
     }
 
     private static void require(Object value, String field) {

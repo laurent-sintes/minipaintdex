@@ -14,7 +14,7 @@ The application distinguishes three bounded contexts:
 
 - `site`: application configuration and localized UI labels;
 - `market`: public reference catalogs for paints and paintable products;
-- `workshop`: the owner's inventory, imported paintable products, physical items, recipes, progress, photos, and activity.
+- `workshop`: the owner's inventory, painting projects, physical items, recipes, progress, photos, and activity.
 
 Use English for directory names, schema keys, identifiers, event names, source code, API contracts, and other core data. French belongs in localized site configuration and user-facing text only. Use lowercase ASCII kebab-case for stable domain identifiers.
 
@@ -34,7 +34,8 @@ MARKET (reference knowledge, file-versioned)
 
 WORKSHOP (owner state, event-sourced)
   Workshop                            aggregate root for the owner's whole workshop
-    └── WorkshopProduct               membership referencing one PaintableProduct ID
+    └── paintingProjectIds            references PaintingProject aggregate IDs
+  PaintingProject                     aggregate root for the intent to paint one PaintableProduct
   WorkshopItem                        aggregate root for one physical miniature/scenery copy
   WorkshopRecipe                     versioned aggregate root for one personal painting plan
 
@@ -54,12 +55,12 @@ SITE (supporting configuration, file-versioned)
 
 ### Workshop bounded context
 
-- `Workshop` is an aggregate root with stable ID `my-workshop`. It records which `PaintableProduct` references were imported, without copying their market facts.
-- `WorkshopProduct` is a membership inside `Workshop`, identified by the referenced `PaintableProduct` ID and import date. It is not a market product copy and not a painting project.
-- Importing a paintable product is an idempotent application command. The command uses catalog quantities to append one `workshop.product_imported` event and one `workshop_item.added` event per missing physical copy in one atomic ledger batch.
-- Every physical copy is a separate `WorkshopItem` aggregate root with its own workflow, recipe assignment, future photos, notes, and history. It references both a `catalog_item_id` and a `workshop_product_id`.
+- `Workshop` is an aggregate root with stable ID `my-workshop`. It is the durable owner context and references its `PaintingProject` aggregate IDs.
+- `PaintingProject` is the aggregate root for the owner's intent to paint one `PaintableProduct`. It has its own ID, name and lifecycle `planned -> active -> completed -> archived`. It references market facts by `paintable_product_id` and never copies them.
+- Creating a painting project is an idempotent application command. It uses catalog quantities to append one `painting_project.created` event and one `workshop_item.added` event per physical copy in one atomic ledger batch.
+- Every physical copy is a separate `WorkshopItem` aggregate root with its own workflow, recipe assignment, photos, notes, and history. It references both a `catalog_item_id` and a `painting_project_id`.
 - `WorkshopRecipe` has an independent lifecycle. It may be inspired by a market guide, but the owner's substitutions, mixtures, layers, and techniques belong only to the workshop.
-- The term `Project` is reserved for a possible future planning concept. New workshop events and contracts must not misuse `project_id` to mean paintable-product ownership.
+- Use `PaintingProject` in the core and technical contracts, and the French label “Projet” in the UI. Never use the ambiguous bare Java type `Project`.
 
 ### Relationships and read models
 
@@ -67,21 +68,19 @@ SITE (supporting configuration, file-versioned)
 | --- | --- | --- | --- |
 | `CatalogItem` | belongs to | `PaintableProduct` | same `product_id`, no cross-product child |
 | `MarketPaintingGuide` | documents | `CatalogItem` | versioned, sourced market knowledge |
-| `WorkshopProduct` | references | `PaintableProduct` | ID only; market facts stay in market |
+| `PaintingProject` | references | `PaintableProduct` | `paintable_product_id`; market facts stay in market |
 | `WorkshopItem` | instance of | `CatalogItem` | one aggregate per physical copy |
-| `WorkshopItem` | grouped by | `WorkshopProduct` | `workshop_product_id`, not `project_id` |
+| `WorkshopItem` | grouped by | `PaintingProject` | `painting_project_id` |
 | `WorkshopRecipe` | plans | `CatalogItem` | owner lifecycle independent of market guide |
 | recipe assignment | attaches | `WorkshopItem` | two copies may use different recipes |
 
 Market product views and workshop views are distinct projections. A market view may overlay an `inWorkshop` badge, but it must not expose workshop progress as market truth. A workshop view joins IDs at read time to calculate physical counts, workflow progress, missing owned paints, activity, and guide coverage.
 
-### Legacy compatibility
-
-The existing ledger is immutable. `project.created`, its `market_game_id`, and legacy `project_id` values on `workshop_item.added` remain readable compatibility inputs. Projectors translate them to `Workshop` membership and `workshop_product_id` semantics. Never rewrite these historical lines, and never emit the legacy shape for new commands.
-
 ## Target repository layout
 
-The target architecture is a modular Spring Boot application with a React/Vite frontend. Java 25 is the target language level. Maven is the root build and dependency-management tool; use the checked-in Maven Wrapper. pnpm remains the frontend package manager pinned in `frontend/package.json`, but the root Maven lifecycle must orchestrate the frontend validation and build so `mvnw verify` validates the whole product.
+The target architecture is a modular Spring Boot application with a React/Vite frontend. Java 25 is the target language level. Maven is the root build and dependency-management tool; use the checked-in Maven Wrapper. pnpm remains the frontend package manager pinned in `frontend/package.json`, but the root Maven lifecycle must orchestrate the frontend validation and build as well as the deterministic Python data-tool tests so `mvnw verify` validates the whole product.
+
+Maven is the single build and test entry point for every technology in the repository. The root `verify` lifecycle must compile, validate and test the Java/Spring backend, the TypeScript/React frontend and the Python data tools. Technology-specific commands may accelerate a local iteration, but they never replace the final Maven verification and no project technology may maintain an independent release build outside that lifecycle.
 
 MiniPaintDex follows the self-contained system pattern. The production deliverable is one executable Spring Boot JAR containing the REST API and the compiled SPA. Spring Boot serves `index.html`, frontend assets, media, and the client-side route fallback. The separate Vite server exists only for development and proxies API requests to Spring Boot.
 
@@ -106,6 +105,18 @@ frontend/
 tools/
   minipaintdex-data/      # Deterministic Python import and validation tools
 
+datasets/                 # Portable named datasets, never active application storage
+  market/
+    paint-brands/
+    paintable-products/
+  workshop/
+    paints/
+    painting-projects/
+
+docs/
+  user/                   # User documentation embedded in the application
+  admin/                  # DDD, REST and skill documentation
+
 config/
   application.yaml       # Canonical Spring Boot technical defaults
 
@@ -123,7 +134,7 @@ media/
   workshop/
 ```
 
-Migrate toward this layout incrementally. Do not break working routes or discard existing data merely to reach the target structure. Add adapters or compatibility readers during migration and remove legacy paths only after validation.
+Do not add compatibility aliases or duplicate API vocabularies during this early construction phase unless the user explicitly asks for backward compatibility. Prefer one clear current model and reset disposable local seed data when authorized.
 
 ## Browser and server boundary
 
@@ -189,7 +200,9 @@ Examples:
 | --- | --- | --- |
 | Search market paints | `GET /api/v1/market/paints` | `minipaintdex market paints search` |
 | Refresh a paint brand | `POST /api/v1/market/paint-refreshes` | `minipaintdex market paints refresh` |
+| Create a painting project | `POST /api/v1/workshop/painting-projects` | `minipaintdex workshop painting-projects create` |
 | Add a workshop item | `POST /api/v1/workshop/items` | `minipaintdex workshop items add` |
+| Import a dataset | category-specific REST command | `minipaintdex datasets import` |
 | Transition a workflow stage | `POST /api/v1/workshop/items/{id}/stage-transitions` | `minipaintdex workshop stage transition` |
 | Attach a photo | `POST /api/v1/workshop/items/{id}/photos` | `minipaintdex workshop photos add` |
 | Read activity | `GET /api/v1/activity` | `minipaintdex activity list` |
@@ -224,6 +237,10 @@ The market paint browser must support normal filters including brand, range, typ
 The paint-brand refresh skill must accept a brand name or `all`, where `all` is resolved dynamically from the brands already present in the market catalog. It may accept range, current/all scope, removal, and dry-run options. It must resolve aliases, prefer official sources, normalize identifiers, retain provenance and verification dates, compare every refreshed product with the local record, report additions and field-level updates, and handle missing products explicitly. Missing products are retired by default. Deletion requires verified complete source coverage, an explicit removal option, and application validation; owned paints and paints referenced by market guides or workshop recipes cannot be deleted. A dry run must not mutate canonical catalogs. Skills must use REST or CLI application interfaces for writes once those interfaces exist.
 
 Paints with functional types `technical_effect`, `primer`, `wash_shade`, `ink`, or `auxiliary` must include structured `usage_instructions` with an explanatory summary, actionable steps, and useful tips or precautions. These instructions are market product knowledge and are displayed dynamically by the paint sheet.
+
+Never fabricate a representative grey for an unknown color. An absent or invalid `color.hex` remains missing metadata in APIs, rendering, and reconciliation. The matcher uses its configured missing-metadata score, emits an explicit reason, and never reports a CIEDE2000 distance or `close_color` reason for an unknown color.
+
+Technical instructions must distinguish sourced product/range guidance from reusable generic templates through `instruction_status` and `review_required`. A generic template can help an operator but must remain visibly marked for review and must not be presented as manufacturer-specific instructions.
 
 ### Paintable products and catalog items
 
@@ -277,12 +294,12 @@ Allow workshop-specific fields only when they describe the owned stock, such as 
 
 Every physical miniature, vehicle, scenery piece, or other paintable component owned by the user is a first-class `workshop_item`. Do not model ownership only as a catalog ID plus a quantity or a painted boolean.
 
-Each physical item has its own stable ID and references one market catalog item. It can independently hold a display name, workshop-product membership, recipe assignment, progress, notes, photos, and history. Multiple copies of one market item therefore produce multiple workshop items.
+Each physical item has its own stable ID and references one market catalog item and one painting project. It can independently hold a display name, recipe assignment, progress, notes, photos, and history. Multiple copies of one market item therefore produce multiple workshop items.
 
 ```yaml
 id: ws-reichbusters-soldier-001
 catalog_item_id: reichbusters-soldier
-workshop_product_id: reichbusters-reloaded
+painting_project_id: paint-reichbusters
 display_name: Soldier 1
 ```
 
@@ -300,6 +317,8 @@ The canonical workflow uses English stage identifiers:
 6. `basing`: base treatment.
 
 Keep `finishing` and `basing` distinct in the domain even if the French UI groups them under “Finitions / Socle”. A stage state is one of `pending`, `in_progress`, `completed`, or `skipped`. Optional stages may be skipped with an explicit event and reason.
+
+The workflow is ordered. Starting, completing, or skipping a stage requires every preceding stage to be `completed` or `skipped`. Reopening a completed or skipped stage remains possible and is recorded as a corrective event; bulk historical imports that need to bypass ordering must use an explicit, audited backfill use case rather than weakening normal transition rules.
 
 Do not persist a single painted/unpainted boolean as the source of truth. Current stage, completion, project percentages, and aggregate counts are projections derived from the item's event history.
 
@@ -328,7 +347,7 @@ Every event envelope must include:
 - past-tense `event_type`;
 - `occurred_at` and `recorded_at` UTC timestamps;
 - `aggregate_type` and `aggregate_id`;
-- optional `project_id`, reserved for a future genuine planning project and omitted from current paintable-product imports;
+- optional `project_id`, containing the genuine `PaintingProject` aggregate ID for project-scoped activity;
 - actor information;
 - correlation and causation identifiers when applicable;
 - a typed payload.
@@ -337,9 +356,11 @@ Representative event types include:
 
 ```text
 workshop.created
-workshop.product_imported
+painting_project.created
 workshop_item.added
 workshop_item.named
+workshop_item.comment_added
+workshop_item.photo_added
 workflow.stage.started
 workflow.stage.completed
 workflow.stage.skipped
@@ -351,10 +372,7 @@ workshop_recipe.activated
 workshop_recipe.superseded
 workshop_recipe.archived
 paint.used
-photo.added
-photo.caption.updated
-photo.removed
-comment.added
+shopping_item.status_changed
 milestone.reached
 ```
 
@@ -365,7 +383,7 @@ Events are immutable. Never edit or delete an existing event to correct history.
 Build read models from the ledger for:
 
 - each workshop item's current workflow state;
-- paintable-product progress and counts;
+- painting-project progress and counts;
 - chronological workshop activity;
 - Kanban views by workflow stage;
 - recent photos and per-item galleries;
@@ -386,9 +404,18 @@ MY WORKSHOP
   My paints
   Workshop administration
   Shopping list
+
+ABOUT
+  User documentation
+  Administrator documentation
+  Version and author
 ```
 
 The actual user-facing French labels and other project-independent UI strings must come from `data/site` localization/configuration files rather than being hard-coded in components. Domain-dependent names continue to come from market or workshop data.
+
+The shopping read model separates derived missing paints (`required`) from explicit personal purchase intentions (`planned`). `data/workshop/shopping.yaml` stores only stable market paint IDs when a reference exists plus personal intent such as reason and priority. Required rows are projected from active painting projects, market guides, and workshop ownership. Checked state is activity in the ledger, not ephemeral React state.
+
+Large market catalogs must be queried through paginated REST resources with separate facets. The SPA bootstrap carries summaries, owned-paint overlays, products, and workshop views; it must not embed the full market paint catalog or render thousands of cards at once.
 
 ## Media and provenance
 
@@ -402,15 +429,28 @@ All persistence must be accessed through outbound repository ports. The initial 
 
 Stable IDs act as foreign keys across market catalogs, workshop membership, physical items, recipes, events, projections, and media metadata. Avoid denormalized copies of market facts in workshop records. YAML is the canonical format for reference/configuration files; CSV may exist only as generated import/export material, not as a second manually maintained source of truth.
 
+## Portable datasets and deterministic administration
+
+`data/` is active application storage. `datasets/` is a separate portable exchange area with the canonical categories `market.paint-brand`, `market.paintable-product`, `workshop.paints`, and `workshop.painting-project`.
+
+Each named dataset contains a versioned `dataset.yaml` manifest and a checksummed `payload/change-set.json`. Python may read application references and create or validate datasets, but only Java application use cases may import them. `minipaintdex datasets import` performs a dry run by default and requires `--apply` to mutate storage. Importing `workshop.paints` replaces the inventory; market and painting-project imports merge through their domain commands.
+
+Keep deterministic transformations in `tools/minipaintdex-data`. Human or agent reasoning identifies images, products, sources and ambiguity; Python performs hashing, normalization, comparison, packaging and validation. Do not encode visual identification or unverified web judgments in deterministic scripts.
+
 ## Validation and delivery
 
+- Never bypass or weaken the execution sandbox. Keep generated files and test fixtures inside the repository `target/` directories rather than the system temporary directory when the environment restricts it.
+- When an in-scope operation legitimately needs access outside the writable workspace, such as updating `.git`, downloading dependencies, or controlling an external process, request the narrowest explicit elevation and explain the exact action. Do not invent shell workarounds to evade approval.
+- A sandbox-related failure must be retried with a workspace-local path or an explicit approved elevation. Record only portable repository behavior here; never encode machine-specific unrestricted paths or permissions.
 - Treat a user message containing only `Go` (or equivalent approval) as authorization to implement the refactor or change currently under discussion. It does not authorize a Git commit or push.
 - Keep Git publication under the user's control. Create a commit only when the user explicitly asks for a commit in the current request, and push only when the user explicitly asks for a push in the current request. Never carry commit or push authorization forward from an older request after additional work has been requested.
 - Keep schemas versioned and validate all persisted files.
 - Validate event payloads by event type before appending.
 - Make event writes idempotent and safe against partial writes.
+- Enforce idempotency inside the same cross-process critical section as the append. Related YAML replacements must be staged and rolled back as one repository operation; all file-backed mutations share the repository write lock.
 - Preserve existing user data and unrelated worktree changes.
 - Add domain-handler tests plus REST and CLI adapter contract tests.
 - Keep REST and CLI behaviors aligned for every application use case.
 - Run `mvnw verify` before committing. It must include backend tests and the pnpm frontend checks.
-- Use the repository `commit` and `push` skills when the user asks for those operations.
+- Use the repository `mini-paint-dex-project` skill for build, server and explicitly requested Git delivery.
+- Use `administer-minipaintdex-data` for photo imports, paintable-product imports, brand refreshes and dataset workflows.

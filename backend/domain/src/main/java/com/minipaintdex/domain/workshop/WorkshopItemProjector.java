@@ -19,10 +19,10 @@ public final class WorkshopItemProjector {
         var states = new LinkedHashMap<String, WorkshopItemState>();
         for (var event : events) {
             if ("workshop_item.added".equals(event.eventType())) {
-                var workshopProductId = text(event.payload().get("workshop_product_id"));
-                if (workshopProductId.isBlank()) workshopProductId = event.projectId();
+                var paintingProjectId = text(event.payload().get("painting_project_id"));
+                if (paintingProjectId.isBlank()) paintingProjectId = event.projectId();
                 states.put(event.aggregateId(), new WorkshopItemState(
-                        event.aggregateId(), text(event.payload().get("catalog_item_id")), workshopProductId,
+                        event.aggregateId(), text(event.payload().get("catalog_item_id")), paintingProjectId,
                         text(event.payload().getOrDefault("display_name", event.aggregateId())),
                         WorkshopItemState.emptyWorkflow(), null, false, null, 0, event.recordedAt()));
                 continue;
@@ -31,7 +31,7 @@ public final class WorkshopItemProjector {
                 var current = states.get(event.aggregateId());
                 if (current == null) continue;
                 states.put(current.id(), new WorkshopItemState(
-                        current.id(), current.catalogItemId(), current.workshopProductId(), current.displayName(),
+                        current.id(), current.catalogItemId(), current.paintingProjectId(), current.displayName(),
                         current.workflow(), current.currentStage(), current.completed(),
                         text(event.payload().get("recipe_id")), number(event.payload().get("recipe_version")), event.recordedAt()));
                 continue;
@@ -45,7 +45,7 @@ public final class WorkshopItemProjector {
             var nextStage = first(workflow, WorkflowStageStatus.IN_PROGRESS);
             if (nextStage == null) nextStage = first(workflow, WorkflowStageStatus.PENDING);
             var completed = workflow.values().stream().allMatch(status -> status == WorkflowStageStatus.COMPLETED || status == WorkflowStageStatus.SKIPPED);
-            states.put(current.id(), new WorkshopItemState(current.id(), current.catalogItemId(), current.workshopProductId(), current.displayName(), workflow, nextStage, completed, current.recipeId(), current.recipeVersion(), event.recordedAt()));
+            states.put(current.id(), new WorkshopItemState(current.id(), current.catalogItemId(), current.paintingProjectId(), current.displayName(), workflow, nextStage, completed, current.recipeId(), current.recipeVersion(), event.recordedAt()));
         }
         return new ArrayList<>(states.values());
     }
@@ -57,6 +57,23 @@ public final class WorkshopItemProjector {
             case REOPEN -> current == WorkflowStageStatus.COMPLETED || current == WorkflowStageStatus.SKIPPED;
         };
         if (!allowed) throw new DomainException("invalid_transition", "Cannot " + action.id() + " a stage currently marked " + current.id() + ".");
+    }
+
+    public static void assertTransition(
+            Map<WorkflowStage, WorkflowStageStatus> workflow,
+            WorkflowStage stage,
+            StageAction action) {
+        assertTransition(workflow.get(stage), action);
+        if (action == StageAction.REOPEN) return;
+        for (var previous : WorkflowStage.values()) {
+            if (previous == stage) break;
+            var status = workflow.get(previous);
+            if (status != WorkflowStageStatus.COMPLETED && status != WorkflowStageStatus.SKIPPED) {
+                throw new DomainException("invalid_transition",
+                        "Cannot " + action.id() + " stage " + stage.id()
+                                + " before stage " + previous.id() + " is completed or skipped.");
+            }
+        }
     }
 
     private static WorkflowStage first(Map<WorkflowStage, WorkflowStageStatus> workflow, WorkflowStageStatus status) {

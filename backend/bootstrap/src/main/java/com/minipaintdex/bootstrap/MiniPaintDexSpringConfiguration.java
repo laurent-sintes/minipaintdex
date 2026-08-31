@@ -3,6 +3,7 @@ package com.minipaintdex.bootstrap;
 import com.minipaintdex.adapter.file.FileMiniPaintDexRepository;
 import com.minipaintdex.adapter.file.FileRepositoryLayout;
 import com.minipaintdex.application.MiniPaintDexService;
+import com.minipaintdex.application.WorkshopMediaPolicy;
 import com.minipaintdex.domain.paint.PaintMatchEngine;
 import com.minipaintdex.domain.paint.PaintMatchingPolicy;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -53,9 +54,17 @@ public class MiniPaintDexSpringConfiguration {
     }
 
     @Bean
-    MiniPaintDexService miniPaintDexService(FileMiniPaintDexRepository repository, PaintMatchEngine paintMatchEngine) {
+    WorkshopMediaPolicy workshopMediaPolicy(MiniPaintDexProperties properties) {
+        return new WorkshopMediaPolicy(properties.media().maxUploadBytes(), properties.media().allowedContentTypes());
+    }
+
+    @Bean
+    MiniPaintDexService miniPaintDexService(
+            FileMiniPaintDexRepository repository,
+            WorkshopMediaPolicy mediaPolicy,
+            PaintMatchEngine paintMatchEngine) {
         return new MiniPaintDexService(
-                repository, repository, repository, repository, repository, paintMatchEngine);
+                repository, repository, repository, repository, repository, repository, mediaPolicy, paintMatchEngine);
     }
 
     private static PaintMatchingPolicy.Weights weights(MiniPaintDexProperties.Weights weights) {

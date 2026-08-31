@@ -9,11 +9,12 @@ const warnings = [];
 const kebabId = /^[a-z0-9]+(?:-[a-z0-9]+)*$/u;
 const workflowStages = new Set(['preparation', 'priming', 'pre_highlight', 'painting', 'finishing', 'basing']);
 const eventTypes = new Set([
-  'project.created', 'workshop.created', 'workshop.product_imported', 'workshop_item.added', 'workshop_item.named',
+  'workshop.created', 'painting_project.created', 'workshop_item.added', 'workshop_item.named',
   'workflow.stage.started', 'workflow.stage.completed', 'workflow.stage.skipped', 'workflow.stage.reopened',
   'workshop_recipe.created', 'workshop_recipe.validated', 'workshop_recipe.activated',
   'workshop_recipe.superseded', 'workshop_recipe.archived', 'recipe.assigned',
   'paint.used', 'photo.added', 'photo.caption.updated', 'photo.removed',
+  'workshop_item.comment_added', 'workshop_item.photo_added', 'shopping_item.status_changed',
   'comment.added', 'milestone.reached',
 ]);
 const technicalPaintTypes = new Set(['technical_effect', 'primer', 'wash_shade', 'ink', 'auxiliary']);
@@ -161,11 +162,11 @@ for (const path of guideFiles) {
 const jsonlFiles = (await readdir(join(projectRoot, 'data/ledger/events')))
   .filter((name) => name.endsWith('.jsonl'))
   .map((name) => join('data/ledger/events', name).replaceAll('\\', '/'));
-if (!jsonlFiles.length) errors.push('data/ledger/events: at least one JSONL ledger is required');
 const eventIds = new Set();
 const workshopItemIds = new Set();
 const workshopRecipeIds = new Set();
 const workshopItemsByProduct = new Map();
+const paintingProjectsById = new Map();
 let eventCount = 0;
 for (const path of jsonlFiles) {
   const lines = (await readFile(join(projectRoot, path), 'utf8')).split(/\r?\n/u).filter(Boolean);
@@ -188,9 +189,17 @@ for (const path of jsonlFiles) {
     requireValue(event?.actor?.id, location, 'actor.id required');
     if (event?.event_id && eventIds.has(event.event_id)) errors.push(`${location}: duplicate event_id ${event.event_id}`);
     if (event?.event_id) eventIds.add(event.event_id);
+    if (event?.event_type === 'painting_project.created') {
+      requireValue(event?.payload?.workshop_id, location, 'payload.workshop_id required');
+      requireValue(event?.payload?.paintable_product_id, location, 'payload.paintable_product_id required');
+      requireValue(event?.payload?.name, location, 'payload.name required');
+      if (event?.aggregate_id) paintingProjectsById.set(event.aggregate_id, event.payload.paintable_product_id);
+    }
     if (event?.event_type === 'workshop_item.added') {
-      const productId = event?.payload?.workshop_product_id ?? event?.project_id;
-      requireValue(productId, location, 'payload.workshop_product_id required for current workshop_item.added events; legacy project_id is accepted');
+      const paintingProjectId = event?.payload?.painting_project_id;
+      requireValue(paintingProjectId, location, 'payload.painting_project_id required');
+      const productId = paintingProjectsById.get(paintingProjectId);
+      requireValue(productId, location, 'painting_project_id must reference an earlier painting_project.created event');
       requireValue(event?.payload?.catalog_item_id, location, 'payload.catalog_item_id required');
       if (event?.payload?.catalog_item_id && !catalogItemsById.has(event.payload.catalog_item_id)) errors.push(`${location}: unknown catalog item ${event.payload.catalog_item_id}`);
       if (workshopItemIds.has(event.aggregate_id)) errors.push(`${location}: duplicate workshop item ${event.aggregate_id}`);

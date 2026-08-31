@@ -1,13 +1,19 @@
 package com.minipaintdex.adapter.file;
 
+import com.minipaintdex.domain.event.Actor;
+import com.minipaintdex.domain.event.DomainEvent;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -31,6 +37,19 @@ class FileMiniPaintDexRepositoryTest {
     }
 
     @Test
+    void supportsConcurrentSnapshotReads() throws Exception {
+        createFixture();
+        var repository = new FileMiniPaintDexRepository(layout());
+        List<Callable<Integer>> reads = IntStream.range(0, 32)
+                .mapToObj(ignored -> (Callable<Integer>) () -> repository.load().marketPaints().size())
+                .toList();
+
+        try (var executor = Executors.newFixedThreadPool(8)) {
+            for (var result : executor.invokeAll(reads)) assertEquals(1, result.get());
+        }
+    }
+
+    @Test
     void atomicallyReplacesTheMarketPaintCatalog() throws IOException {
         createFixture();
         var repository = new FileMiniPaintDexRepository(layout());
@@ -46,6 +65,35 @@ class FileMiniPaintDexRepositoryTest {
         var snapshot = repository.load();
         assertEquals("new-paint", snapshot.marketPaints().getFirst().get("id"));
         assertTrue(Files.readString(root.resolve("data/market/paints/catalog.yaml")).contains("schema_version: 1"));
+    }
+
+    @Test
+    void enforcesLedgerIdempotencyInsideTheRepositoryLock() throws IOException {
+        createFixture();
+        var repository = new FileMiniPaintDexRepository(layout());
+        var now = Instant.parse("2026-08-30T11:00:00Z");
+        var event = new DomainEvent("01KTESTCOMMENT000000000000", 1, "workshop_item.comment_added", now, now,
+                "workshop_item", "ws-1", null, new Actor("user", "owner"), "correlation", null,
+                "same-command", Map.of("comment", "Note"));
+
+        repository.append(event);
+        var duplicate = repository.append(new DomainEvent("01KTESTCOMMENT000000000001", 1,
+                "workshop_item.comment_added", now, now, "workshop_item", "ws-1", null,
+                new Actor("user", "owner"), "other-correlation", null, "same-command", Map.of("comment", "Note")));
+
+        assertEquals(event.eventId(), duplicate.eventId());
+        assertEquals(2, repository.load().events().size());
+    }
+
+    @Test
+    void storesWorkshopMediaUnderTheConfiguredMediaRoot() throws IOException {
+        createFixture();
+        var repository = new FileMiniPaintDexRepository(layout());
+
+        var media = repository.store("ws-1", "media-1", "photo.png", "image/png", new byte[]{1, 2, 3});
+
+        assertEquals("/media/workshop/ws-1/media-1.png", media.publicPath());
+        assertTrue(Files.exists(root.resolve("media/workshop/ws-1/media-1.png")));
     }
 
     private void createFixture() throws IOException {
@@ -84,7 +132,7 @@ class FileMiniPaintDexRepositoryTest {
                     catalog_item_id: game-hero
                 """);
         write("data/ledger/events/2026-08.jsonl", """
-                {"event_id":"01KTESTEVENT00000000000000","schema_version":1,"event_type":"workshop_item.added","occurred_at":"2026-08-30T10:00:00Z","recorded_at":"2026-08-30T10:00:00Z","aggregate_type":"workshop_item","aggregate_id":"ws-1","project_id":"game","actor":{"type":"user","id":"owner"},"correlation_id":"correlation","payload":{"catalog_item_id":"game-hero","display_name":"Hero"}}
+                {"event_id":"01KTESTEVENT00000000000000","schema_version":1,"event_type":"workshop_item.added","occurred_at":"2026-08-30T10:00:00Z","recorded_at":"2026-08-30T10:00:00Z","aggregate_type":"workshop_item","aggregate_id":"ws-1","project_id":"paint-game","actor":{"type":"user","id":"owner"},"correlation_id":"correlation","payload":{"catalog_item_id":"game-hero","painting_project_id":"paint-game","display_name":"Hero"}}
                 """);
     }
 

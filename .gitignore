@@ -37,6 +37,7 @@ yarn-error.log*
 
 # local paint import sources
 /imports/archive/
+/imports/runs/
 /imports/photo-manifest.json
 /imports/photos/*
 !/imports/photos/README.md

@@ -12,8 +12,18 @@ test('round-trips a direct market paintable-product item URL', () => {
   assert.equal(appRoutePath(route), '/market/paintable-products/reichbusters-reloaded/items/red-hawk');
 });
 
-test('distinguishes a workshop product from the market reference', () => {
-  const route = parseAppRoute('/workshop/paintable-products/reichbusters-reloaded');
-  assert.equal(route.workshopProduct, true);
-  assert.equal(appRoutePath(route), '/workshop/paintable-products/reichbusters-reloaded');
+test('distinguishes a painting project from its market reference', () => {
+  const route = parseAppRoute('/workshop/painting-projects/paint-reichbusters/products/reichbusters-reloaded');
+  assert.deepEqual(route, { view: 'product', paintingProjectId: 'paint-reichbusters', productId: 'reichbusters-reloaded', catalogItemId: undefined });
+  assert.equal(appRoutePath(route), '/workshop/painting-projects/paint-reichbusters/products/reichbusters-reloaded');
+});
+
+test('round-trips the about page', () => {
+  assert.equal(appRoutePath(parseAppRoute('/about')), '/about');
+});
+
+test('round-trips a physical workshop item URL', () => {
+  const route = parseAppRoute('/workshop/items/ws-red-hawk-1');
+  assert.deepEqual(route, { view: 'item', itemId: 'ws-red-hawk-1' });
+  assert.equal(appRoutePath(route), '/workshop/items/ws-red-hawk-1');
 });

@@ -10,6 +10,8 @@ from pathlib import Path
 from . import paint_import
 from .assets import audit_assets
 from .changesets import build_paint_changeset, load_json, validate_changeset, write_json
+from .datasets import CATEGORY_PATHS, create_dataset, inspect_dataset, validate_dataset
+from .official_refresh import collect_official_refresh
 from .refresh import build_refresh_changeset, read_catalog
 
 
@@ -43,11 +45,38 @@ def build_parser() -> argparse.ArgumentParser:
     refresh.add_argument("--remove-missing", action="store_true", help="Propose explicit deletions instead of retirement")
     refresh.add_argument("--output", required=True)
 
+    catalog = subcommands.add_parser("catalog", help="Collect verified manufacturer catalogue data")
+    catalog_commands = catalog.add_subparsers(dest="catalog_command", required=True)
+    collect = catalog_commands.add_parser("collect-official-paints", help="Collect one or every registered official paint catalogue")
+    collect.add_argument("--catalog", default="data/market/paints/catalog.yaml")
+    collect.add_argument("--vallejo-pdf", required=True, help="Downloaded official Vallejo catalogue PDF")
+    collect.add_argument("--verified-at")
+    collect.add_argument("--brand", action="append", default=[], help="Canonical brand name; repeat it or use 'all' (default)")
+    collect.add_argument("--output", required=True)
+
     assets = subcommands.add_parser("assets", help="Audit local public media")
     assets_commands = assets.add_subparsers(dest="assets_command", required=True)
     audit = assets_commands.add_parser("audit", help="Report missing and orphaned public media")
     audit.add_argument("--root", default=".")
     audit.add_argument("--output")
+
+    dataset = subcommands.add_parser("dataset", help="Create or validate portable application datasets")
+    dataset_commands = dataset.add_subparsers(dest="dataset_command", required=True)
+    create = dataset_commands.add_parser("create", help="Create a named dataset from application references")
+    create.add_argument("--root", default=".", help="MiniPaintDex application root")
+    create.add_argument("--datasets-root", default="datasets")
+    create.add_argument("--category", required=True, choices=tuple(CATEGORY_PATHS))
+    create.add_argument("--name", required=True)
+    create.add_argument("--brand")
+    create.add_argument("--product")
+    create.add_argument("--project-id")
+    create.add_argument("--project-name")
+    create.add_argument("--replace", action="store_true")
+    validate_dataset_parser = dataset_commands.add_parser("validate", help="Validate manifest, payload and checksum")
+    validate_dataset_parser.add_argument("input")
+    validate_dataset_parser.add_argument("--format", choices=("human", "json"), default="human")
+    inspect = dataset_commands.add_parser("inspect", help="Display a dataset manifest and validation result")
+    inspect.add_argument("input")
     return parser
 
 
@@ -90,8 +119,34 @@ def main(argv: list[str] | None = None) -> int:
             for warning in changeset["refresh"]["warnings"]:
                 print(f"WARNING {warning}")
             return 0
+        if args.command == "catalog" and args.catalog_command == "collect-official-paints":
+            payload = collect_official_refresh(
+                Path(args.catalog), Path(args.vallejo_pdf), verified_at=args.verified_at,
+                brands=args.brand or ["all"],
+            )
+            write_json(Path(args.output), payload)
+            print(f"Verified catalogue written to {args.output} ({len(payload['paints'])} paint(s)).")
+            return 0
         if args.command == "assets" and args.assets_command == "audit":
             _write_result(audit_assets(Path(args.root)), args.output)
+            return 0
+        if args.command == "dataset" and args.dataset_command == "create":
+            target = create_dataset(
+                Path(args.root), Path(args.datasets_root), args.category, args.name,
+                brand=args.brand, product_id=args.product, project_id=args.project_id,
+                project_name=args.project_name, replace=args.replace,
+            )
+            print(target.as_posix())
+            return 0
+        if args.command == "dataset" and args.dataset_command == "validate":
+            errors = validate_dataset(Path(args.input))
+            if args.format == "json":
+                print(json.dumps({"valid": not errors, "errors": errors}, ensure_ascii=False, sort_keys=True))
+            else:
+                print("Valid dataset." if not errors else "\n".join(f"ERROR {error}" for error in errors))
+            return 1 if errors else 0
+        if args.command == "dataset" and args.dataset_command == "inspect":
+            _write_result(inspect_dataset(Path(args.input)), None)
             return 0
         return 2
     except (OSError, ValueError, json.JSONDecodeError) as error:
