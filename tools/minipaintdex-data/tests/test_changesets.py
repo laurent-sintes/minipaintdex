@@ -4,11 +4,21 @@ from pathlib import Path
 
 from minipaintdex_data.assets import audit_assets
 from minipaintdex_data.changesets import (
-    build_paint_changeset, build_paint_model_migration_changeset, validate_changeset,
+    build_paint_changeset, validate_changeset,
 )
+from minipaintdex_data.paint_identity import market_paint_id
 
 
 class ChangeSetTests(unittest.TestCase):
+    def test_generates_brand_code_reference_identities(self):
+        self.assertEqual(market_paint_id("Prince August", "P951"), "pau-p951")
+        self.assertEqual(market_paint_id("The Army Painter", "WP2007P"), "tap-wp2007p")
+        self.assertEqual(market_paint_id("Vallejo", "72.483"), "val-72-483")
+        self.assertEqual(
+            market_paint_id("Warhammer Colour", "PROD4190213-99189958145"),
+            "cit-prod4190213-99189958145",
+        )
+
     def test_builds_canonical_market_paint_operation(self):
         changeset = build_paint_changeset(
             {
@@ -44,28 +54,23 @@ class ChangeSetTests(unittest.TestCase):
         self.assertIn("enrichment", observations)
         self.assertEqual(changeset["operations"][0]["workshop_quantity_delta"], 2)
 
-    def test_migration_preserves_source_specific_information(self):
-        source = {
-            "paints": [{
-                "id": "cit-contrast-example", "brand": "Warhammer Colour",
-                "manufacturer": "Games Workshop", "range": "Contrast", "name": "Example",
-                "functional_type": "one_coat_contrast", "finish": "transparent",
-                "vendor_application_note": {"label": "Contrast", "layers": 1},
-            }]
-        }
-        changeset = build_paint_model_migration_changeset(source, source="catalog.yaml")
-        record = changeset["operations"][0]["record"]
-        self.assertEqual(record["vendor_application_note"], {"label": "Contrast", "layers": 1})
-        observations = {item["name"]: item["value"] for item in record["source_observation"]["fields"]}
-        self.assertEqual(observations["functional_type"], "one_coat_contrast")
-        self.assertEqual(observations["vendor_application_note"], {"label": "Contrast", "layers": 1})
-        self.assertEqual(record["mapping_report"]["unmapped_fields"], ["vendor_application_note"])
+    def test_manual_pot_photo_is_classified_as_owned_photo(self):
+        changeset = build_paint_changeset({"paints": [{
+            "brand_canonical": "Vallejo", "manufacturer": "Acrylicos Vallejo",
+            "range_canonical": "Model Color", "reference": "70.001", "name": "White",
+            "local_image": "/media/market/paints/vallejo/val-70-001.webp",
+        }]}, source="imports/manual-photo.json", verified_at="2026-09-01", include_workshop=False)
+
+        image = changeset["operations"][0]["record"]["manufacturer_image"]
+        self.assertEqual(image["image_quality"], "owned_photo")
+        self.assertEqual(image["quality_verified_at"], "2026-09-01")
 
     def test_rejects_duplicate_paint_ids(self):
         operation = {
             "action": "upsert",
             "workshop_quantity_delta": 0,
             "record": {
+                "schema_version": 1,
                 "id": "paint-id",
                 "brand": "Brand",
                 "manufacturer": "Maker",
@@ -85,6 +90,43 @@ class ChangeSetTests(unittest.TestCase):
         )
         self.assertIn("duplicate paint id: paint-id", errors)
 
+    def test_rejects_non_v1_paint_records(self):
+        changeset = build_paint_changeset({"paints": [{
+            "brand_canonical": "Vallejo", "manufacturer": "Acrylicos Vallejo",
+            "range_canonical": "Model Color", "reference": "70.001", "name": "White",
+        }]}, source="test", include_workshop=False)
+        changeset["operations"][0]["record"]["schema_version"] = 2
+
+        self.assertIn("operations[0].record.schema_version must be 1", validate_changeset(changeset))
+
+    def test_rejects_untraceable_retailer_photo(self):
+        changeset = build_paint_changeset({"paints": [{
+            "brand_canonical": "Vallejo", "manufacturer": "Acrylicos Vallejo",
+            "range_canonical": "Model Color", "reference": "70.001", "name": "White",
+        }]}, source="test", include_workshop=False)
+        changeset["operations"][0]["record"]["manufacturer_image"] = {
+            "source_url": "https://retailer.test/paint.webp",
+            "image_quality": "retailer_photo",
+            "quality_verified_at": "2026-09-01",
+        }
+
+        errors = validate_changeset(changeset)
+
+        self.assertIn("operations[0].record.manufacturer_image.credit is required for retailer_photo", errors)
+        self.assertIn("operations[0].record.manufacturer_image.reference_url is required for retailer_photo", errors)
+
+    def test_rejects_incomplete_source_snapshot(self):
+        changeset = build_paint_changeset({"paints": [{
+            "brand_canonical": "Vallejo", "manufacturer": "Acrylicos Vallejo",
+            "range_canonical": "Model Color", "reference": "70.001", "name": "White",
+        }]}, source="test", include_workshop=False)
+        changeset["operations"][0]["record"]["source_snapshots"] = [{"provider": "official", "url": "", "payload": []}]
+
+        errors = validate_changeset(changeset)
+
+        self.assertIn("operations[0].record.source_snapshots[0].url must use HTTPS", errors)
+        self.assertIn("operations[0].record.source_snapshots[0].payload must be an object", errors)
+
     def test_asset_audit_reports_missing_and_orphaned_files(self):
         root = Path(__file__).parent / "fixtures" / "assets-repository"
         report = audit_assets(root)
@@ -96,7 +138,8 @@ class ChangeSetTests(unittest.TestCase):
             "schema_version": 1,
             "kind": "market_product",
             "product": {
-                "id": "game", "name": "Game", "line": "Game", "product_type": "board_game", "scope": "core",
+                "schema_version": 1, "id": "game", "name": "Game", "line": "Game",
+                "product_type": "board_game", "scope": "core",
                 "expected_paintable_count": 1,
                 "catalog_items": [{"id": "game-hero", "product_id": "game", "name": "Hero", "kind": "hero", "quantity": 1}],
             },

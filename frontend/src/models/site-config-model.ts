@@ -33,7 +33,9 @@ export type SiteConfig = {
   about: {
     eyebrow: string; title: string; description: string; userTitle: string; administratorTitle: string;
     paintModelTitle: string; paintModelDescription: string; modelVersion: string; filterFields: string;
-    vocabularies: string; openPaintSchema: string;
+    vocabularies: string; openPaintSchema: string; qualityTitle: string; qualityDescription: string;
+    missingColorHex: string; missingColorFamily: string; unknownFinish: string; unknownCoverage: string;
+    technicalReviewRequired: string; sourcedImagesWithoutLicense: string; realResultImages: string; imageQualityBreakdown: string;
     apiTitle: string; apiDescription: string; versionTitle: string; versionDescription: string; versionLabel: string; authorLabel: string;
     loading: string; documentTitles: Record<string, string>;
   };
@@ -57,7 +59,10 @@ export type SiteConfig = {
     opacityFilter: string; allOpacities: string; lifecycleFilter: string; allLifecycles: string;
     volumeFilter: string; allVolumes: string; tagFilter: string; allTags: string;
     manufacturerSheetOnly: string; realResultOnly: string; resetFilters: string; activeFilters: string;
-    removeFilter: string; noActiveFilter: string; loadMore: string;
+    removeFilter: string; noActiveFilter: string; loadMore: string; sort: string; displayedMetric: string;
+    sortNameAscending: string; sortNameDescending: string; sortBrandAscending: string; sortBrandDescending: string;
+    sortRangeAscending: string; sortRangeDescending: string; sortReferenceAscending: string; sortReferenceDescending: string;
+    sortVerifiedNewest: string; sortVerifiedOldest: string; valueLabels: Record<string, string>;
   };
   shopping: {
     title: string; description: string; ready: string; remainingSuffix: string;
@@ -71,6 +76,7 @@ export type SiteConfig = {
     productVisual: string; appliedResult: string; digitalPreview: string; digitalPreviewHelp: string;
     noProductVisual: string; realResultSource: string; referenceLabel: string; volumeLabel: string;
     instructionsReviewRequired: string;
+    imageQuality: string; imageQualityLabels: Record<string, string>;
   };
   errors: { loading: string; productNotFound: string; catalogItemNotFound: string; paintNotFound: string; requestFailed: string };
 };

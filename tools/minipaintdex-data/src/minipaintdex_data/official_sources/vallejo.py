@@ -6,6 +6,7 @@ import re
 from pathlib import Path
 from typing import Any, Iterable
 
+from ..paint_identity import market_paint_id
 from .common import base_record, classify, existing_indexes, merge_existing, slug, source_snapshot
 
 
@@ -61,7 +62,7 @@ def collect(catalog: dict[str, Any], pdf_path: Path) -> list[dict[str, Any]]:
             for reference_code, name in parse_lines(text.splitlines(), prefix=prefix):
                 functional_type = classify(name, default_type)
                 record = base_record(
-                    identifier=f"vallejo-{slug(range_name)}-{slug(reference_code)}", brand="Vallejo",
+                    identifier=market_paint_id("Vallejo", reference_code), brand="Vallejo",
                     manufacturer="Acrylicos Vallejo", range_name=range_name, functional_type=functional_type,
                     reference_code=reference_code, name=name, page=CATALOG_URL, volume_ml=volume,
                     finish=finish, opacity=opacity,

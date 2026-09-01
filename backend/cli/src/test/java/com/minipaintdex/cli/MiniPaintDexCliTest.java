@@ -75,4 +75,14 @@ class MiniPaintDexCliTest {
 
         assertEquals(List.of("--root", ".", "health"), List.of(arguments));
     }
+
+    @Test
+    void nestedMarketCommandsExposeHelpWithoutRequiringBusinessArguments() {
+        var command = new CommandLine(new MiniPaintDexCli(
+                mock(MarketCatalogUseCases.class), mock(WorkshopUseCases.class),
+                mock(AdministrationUseCases.class), mock(EventBus.class), mock(PersistenceLifecycle.class)));
+
+        assertEquals(0, command.execute("market", "paints", "apply", "--help"));
+        assertEquals(0, command.execute("market", "paintable-products", "apply", "--help"));
+    }
 }

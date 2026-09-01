@@ -141,6 +141,16 @@ about:
   filter_fields: Filtres publiés par l’API
   vocabularies: Vocabulaires contrôlés
   open_paint_schema: Ouvrir le JSON Schema
+  quality_title: Qualité du référentiel
+  quality_description: Indicateurs calculés sur les caractéristiques standard et la provenance des visuels.
+  missing_color_hex: couleurs numériques manquantes
+  missing_color_family: familles de couleur manquantes
+  unknown_finish: finitions à qualifier
+  unknown_coverage: couvrances à qualifier
+  technical_review_required: fiches techniques à revoir
+  sourced_images_without_license: visuels sourcés sans licence renseignée
+  real_result_images: rendus réels disponibles
+  image_quality_breakdown: Répartition de la qualité des visuels
   api_title: API REST
   api_description: Explorez le contrat OpenAPI et testez les services locaux de Mini Paint Dex.
   version_title: Informations sur l’application
@@ -225,6 +235,82 @@ collection:
   all_tags: Toutes les propriétés
   manufacturer_sheet_only: Avec fiche fabricant
   real_result_only: Avec exemple de rendu réel
+  sort: Trier par
+  displayed_metric: affichées sur cette page
+  sort_name_ascending: Nom, de A à Z
+  sort_name_descending: Nom, de Z à A
+  sort_brand_ascending: Marque, de A à Z
+  sort_brand_descending: Marque, de Z à A
+  sort_range_ascending: Gamme, de A à Z
+  sort_range_descending: Gamme, de Z à A
+  sort_reference_ascending: Référence croissante
+  sort_reference_descending: Référence décroissante
+  sort_verified_newest: Vérification la plus récente
+  sort_verified_oldest: Vérification la plus ancienne
+  value_labels:
+    color_paint: Peinture de couleur
+    primer: Sous-couche
+    wash: Lavis
+    ink: Encre
+    varnish: Vernis
+    medium: Médium
+    auxiliary: Auxiliaire
+    technical_effect: Effet technique
+    pigment: Pigment
+    brush: Pinceau
+    airbrush: Aérographe
+    spray: Bombe
+    marker: Marqueur
+    conventional_layering: Peinture par couches
+    one_coat_shading: Monocouche ombrante
+    washing: Lavis
+    priming: Sous-couche
+    effect_application: Application d’effet
+    unknown: À qualifier
+    opaque: Opaque
+    semi_opaque: Semi-opaque
+    translucent: Translucide
+    transparent: Transparent
+    matte: Mat
+    satin: Satiné
+    gloss: Brillant
+    metallic: Métallique
+    fluorescent: Fluorescent
+    pearlescent: Nacré
+    light: Claire
+    dark: Foncée
+    any: Indifférente
+    water_based_acrylic: Acrylique à l’eau
+    acrylic: Acrylique
+    alcohol_based: À base d’alcool
+    oil: Huile
+    enamel: Émail
+    active: Disponible
+    discontinued: Arrêtée
+    retired: Retirée
+    unavailable: Indisponible
+    Beige: Beige
+    Black: Noir
+    Blue: Bleu
+    Brown: Brun
+    Copper: Cuivre
+    Gold: Or
+    Green: Vert
+    Grey: Gris
+    Orange: Orange
+    Pink: Rose
+    Purple: Violet
+    Red: Rouge
+    Silver: Argent
+    Skin: Carnation
+    White: Blanc
+    Yellow: Jaune
+    official_photo: Photo officielle
+    retailer_photo: Photo de revendeur
+    owned_photo: Photo personnelle du pot
+    generic_visual: Visuel générique
+    color_swatch: Rectangle de couleur
+    none: Pas de photo
   reset_filters: Tout effacer
   active_filters: Filtres actifs
   remove_filter: Retirer le filtre
@@ -268,6 +354,14 @@ paint_detail:
   real_result_source: Voir un exemple réel sourcé
   reference_label: Réf.
   volume_label: Volume
+  image_quality: Qualité du visuel
+  image_quality_labels:
+    official_photo: Photo officielle
+    retailer_photo: Photo de revendeur
+    owned_photo: Photo personnelle du pot
+    generic_visual: Visuel générique
+    color_swatch: Rectangle de couleur
+    none: Pas de photo
 errors:
   loading: Chargement…
   product_not_found: Produit à peindre introuvable

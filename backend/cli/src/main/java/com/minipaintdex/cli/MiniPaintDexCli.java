@@ -325,7 +325,8 @@ public final class MiniPaintDexCli implements Runnable {
                 .filter(Map.class::isInstance)
                 .map(value -> (Map<?, ?>) value)
                 .map(value -> new ApplyMarketPaintChangeSetCommand.Operation(
-                        String.valueOf(value.get("action")), document(stringMap(value.get("record"))),
+                        String.valueOf(value.get("action")), nullable(value.get("previous_id")),
+                        document(stringMap(value.get("record"))),
                         value.get("workshop_quantity_delta") == null ? 0 : number(value.get("workshop_quantity_delta")),
                         Boolean.TRUE.equals(value.get("confirmed_removal"))))
                 .toList();
@@ -442,17 +443,20 @@ public final class MiniPaintDexCli implements Runnable {
         public Integer call() { root.output(root.health()); return 0; }
     }
 
-    @Command(name = "market", subcommands = {Market.Paints.class, Market.PaintableProducts.class, Market.Guides.class})
+    @Command(name = "market", mixinStandardHelpOptions = true,
+            subcommands = {Market.Paints.class, Market.PaintableProducts.class, Market.Guides.class})
     static final class Market implements Runnable {
         @ParentCommand MiniPaintDexCli root;
         public void run() { CommandLine.usage(this, System.out); }
 
-        @Command(name = "paints", subcommands = {Paints.Search.class, Paints.Model.class, Paints.Apply.class})
+        @Command(name = "paints", mixinStandardHelpOptions = true,
+                subcommands = {Paints.Search.class, Paints.Model.class, Paints.Apply.class})
         static final class Paints implements Runnable {
             @ParentCommand Market parent;
             public void run() { CommandLine.usage(this, System.out); }
 
-            @Command(name = "search", description = "Search the market paint catalog")
+            @Command(name = "search", mixinStandardHelpOptions = true,
+                    description = "Search the market paint catalog")
             static final class Search implements Callable<Integer> {
                 @ParentCommand Paints parent;
                 @Option(names = "--query") String query;
@@ -477,7 +481,8 @@ public final class MiniPaintDexCli implements Runnable {
                 }
             }
 
-            @Command(name = "model", description = "Show the canonical market-paint metadata model")
+            @Command(name = "model", mixinStandardHelpOptions = true,
+                    description = "Show the canonical market-paint metadata model")
             static final class Model implements Callable<Integer> {
                 @ParentCommand Paints parent;
                 public Integer call() {
@@ -487,13 +492,15 @@ public final class MiniPaintDexCli implements Runnable {
                 }
             }
 
-            @Command(name = "apply", description = "Validate and apply a market-paint change set")
+            @Command(name = "apply", mixinStandardHelpOptions = true,
+                    description = "Validate a market-paint change set; mutate only with --apply")
             static final class Apply implements Callable<Integer> {
                 @ParentCommand Paints parent;
                 @Option(names = "--input", required = true) Path input;
-                @Option(names = "--dry-run") boolean dryRun;
+                @Option(names = "--apply", description = "Apply the validated change set") boolean apply;
                 public Integer call() throws Exception {
                     var root = parent.parent.root;
+                    var dryRun = !apply;
                     var command = root.readPaintChangeSet(input, dryRun);
                     var payload = root.json.readValue(Files.readString(input), MAP_TYPE);
                     root.output(root.mutateJson("/api/v1/market/paint-changesets?dryRun=" + dryRun, payload, null, null,
@@ -503,7 +510,7 @@ public final class MiniPaintDexCli implements Runnable {
             }
         }
 
-        @Command(name = "paintable-products", subcommands = {
+        @Command(name = "paintable-products", mixinStandardHelpOptions = true, subcommands = {
                 PaintableProducts.ListProducts.class, PaintableProducts.Show.class,
                 PaintableProducts.Apply.class})
         static final class PaintableProducts implements Runnable {
@@ -520,13 +527,15 @@ public final class MiniPaintDexCli implements Runnable {
                 @Option(names = "--product", required = true) String product;
                 public Integer call() { var root = parent.parent.root; root.output(Map.of("paintableProduct", root.market().getMarketPaintableProduct(product))); return 0; }
             }
-            @Command(name = "apply", description = "Validate and apply a paintable-product change set")
+            @Command(name = "apply", mixinStandardHelpOptions = true,
+                    description = "Validate a paintable-product change set; mutate only with --apply")
             static final class Apply implements Callable<Integer> {
                 @ParentCommand PaintableProducts parent;
                 @Option(names = "--input", required = true) Path input;
-                @Option(names = "--dry-run") boolean dryRun;
+                @Option(names = "--apply", description = "Apply the validated change set") boolean apply;
                 public Integer call() throws Exception {
                     var root = parent.parent.root;
+                    var dryRun = !apply;
                     var command = root.readPaintableProductChangeSet(input, dryRun);
                     var payload = root.json.readValue(Files.readString(input), MAP_TYPE);
                     root.output(root.mutateJson("/api/v1/market/paintable-product-changesets?dryRun=" + dryRun, payload, null, null,

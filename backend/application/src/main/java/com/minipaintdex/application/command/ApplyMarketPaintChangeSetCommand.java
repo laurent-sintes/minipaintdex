@@ -16,6 +16,7 @@ public record ApplyMarketPaintChangeSetCommand(
 
     public record Operation(
             String action,
+            String previousId,
             StructuredDocument record,
             int workshopQuantityDelta,
             boolean confirmedRemoval) {

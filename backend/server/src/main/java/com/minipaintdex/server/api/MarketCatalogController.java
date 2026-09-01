@@ -6,7 +6,9 @@ import com.minipaintdex.application.query.SortOrder;
 import com.minipaintdex.application.usecase.MarketCatalogUseCases;
 import com.minipaintdex.application.view.MarketPaintView;
 import com.minipaintdex.application.view.PaintFacetsView;
+import com.minipaintdex.application.view.PaintCatalogQualityView;
 import org.springframework.data.domain.Pageable;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
@@ -50,7 +52,7 @@ final class MarketCatalogController {
             @RequestParam(required = false) String lifecycle,
             @RequestParam(defaultValue = "false") boolean manufacturerSheetOnly,
             @RequestParam(defaultValue = "false") boolean realResultOnly,
-            Pageable pageable) {
+            @ParameterObject Pageable pageable) {
         var filters = new SearchMarketPaintsQuery(
                 query, brand, range, role, applicationMethod, applicationSystem,
                 color, finish, medium, coverage, effect, undercoat, lifecycle);
@@ -63,8 +65,10 @@ final class MarketCatalogController {
         var response = new PaintPageResponse(
                 result.content(), result.totalElements(), result.page(), result.size(), result.totalPages());
         var model = EntityModel.of(response, pageLink(result.page(), result.size()).withSelfRel());
+        model.add(pageLink(0, result.size()).withRel("first"));
         if (result.hasPrevious()) model.add(pageLink(result.page() - 1, result.size()).withRel("prev"));
         if (result.hasNext()) model.add(pageLink(result.page() + 1, result.size()).withRel("next"));
+        model.add(pageLink(Math.max(0, result.totalPages() - 1), result.size()).withRel("last"));
         model.add(Link.of("/api/v1/market/paints/stream").withRel("stream"));
         return model;
     }
@@ -83,17 +87,25 @@ final class MarketCatalogController {
             @RequestParam(required = false) String coverage,
             @RequestParam(required = false) String effect,
             @RequestParam(required = false) String undercoat,
-            @RequestParam(required = false) String lifecycle) {
+            @RequestParam(required = false) String lifecycle,
+            @RequestParam(defaultValue = "false") boolean manufacturerSheetOnly,
+            @RequestParam(defaultValue = "false") boolean realResultOnly) {
         return market.marketPaintFacets(new SearchMarketPaintsQuery(
                 query, brand, range, role, applicationMethod, applicationSystem,
-                color, finish, medium, coverage, effect, undercoat, lifecycle));
+                color, finish, medium, coverage, effect, undercoat, lifecycle),
+                manufacturerSheetOnly, realResultOnly);
     }
 
     @GetMapping(value = "/market/paint-model", produces = "application/schema+json")
-    ResponseEntity<Map<String, Object>> paintModel() {
+    ResponseEntity<PaintModelSchemaResponse> paintModel() {
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/schema+json"))
                 .body(schema(market.marketPaintModel()));
+    }
+
+    @GetMapping("/market/paints/quality")
+    PaintCatalogQualityView paintQuality() {
+        return market.marketPaintQuality();
     }
 
     @GetMapping("/market/paints/{paintId}")
@@ -143,7 +155,7 @@ final class MarketCatalogController {
         return Link.of(uri);
     }
 
-    private static Map<String, Object> schema(com.minipaintdex.application.view.PaintModelView model) {
+    private static PaintModelSchemaResponse schema(com.minipaintdex.application.view.PaintModelView model) {
         var vocabularies = new LinkedHashMap<String, List<String>>();
         model.vocabularies().forEach(vocabulary -> vocabularies.put(vocabulary.id(), vocabulary.values()));
         var filterById = new LinkedHashMap<String, com.minipaintdex.application.view.PaintModelView.Filter>();
@@ -168,9 +180,13 @@ final class MarketCatalogController {
 
         var properties = new LinkedHashMap<String, Object>();
         properties.put("schema_version", Map.of("type", "integer", "const", model.modelVersion()));
-        properties.put("id", Map.of("type", "string", "pattern", "^[a-z0-9]+(?:-[a-z0-9]+)*$"));
+        properties.put("id", Map.of(
+                "type", "string",
+                "pattern", "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+                "description", "Stable brand-code and normalized manufacturer-reference identity."));
         properties.put("brand", stringFilter(filterById.get("brand")));
         properties.put("manufacturer", Map.of("type", "string", "minLength", 1));
+        properties.put("brand_aliases", stringArrayProperty());
         properties.put("range", stringFilter(filterById.get("range")));
         properties.put("reference", Map.of("type", "string"));
         properties.put("name", Map.of("type", "string", "minLength", 1));
@@ -181,22 +197,123 @@ final class MarketCatalogController {
                 "properties", profileProperties));
         properties.put("color", Map.of(
                 "type", "object",
+                "additionalProperties", false,
                 "properties", Map.of("family", stringFilter(filterById.get("color")),
                         "hex", Map.of("type", "string", "pattern", "^#[0-9a-fA-F]{6}$"))));
         properties.put("lifecycle_status", stringFilter(filterById.get("lifecycle")));
+        properties.put("data_status", Map.of("type", "string", "minLength", 1));
+        properties.put("warnings", stringArrayProperty());
+        properties.put("tags", stringArrayProperty());
+        properties.put("notes", Map.of("type", "string"));
+        properties.put("manufacturer_page", uriProperty());
+        properties.put("manufacturer_image", imageProperty(vocabularies));
+        properties.put("volume_ml", Map.of("type", "integer", "minimum", 0));
+        properties.put("recommended_uses", stringArrayProperty());
+        properties.put("usage_instructions", usageInstructionsProperty());
+        properties.put("verified_at", Map.of("type", "string", "format", "date"));
+        properties.put("result_image", imageProperty(vocabularies));
+        properties.put("confidence", Map.of("type", "number", "minimum", 0, "maximum", 1));
+        properties.put("deduplication_key", Map.of("type", "string"));
+        properties.put("provenance", sourceEvidenceProperty());
+        properties.put("mapping_report", mappingReportProperty());
+        properties.put("source_observation", sourceObservationProperty());
+        properties.put("source_snapshots", sourceSnapshotsProperty());
+        properties.put("observed_brand", Map.of("type", "string"));
+        properties.put("observed_range", Map.of("type", "string"));
 
-        var result = new LinkedHashMap<String, Object>();
-        result.put("$schema", model.jsonSchemaDraft());
-        result.put("$id", "urn:minipaintdex:schema:market-paint:" + model.modelVersion());
-        result.put("title", "Mini Paint Dex canonical market paint");
-        result.put("type", "object");
-        result.put("additionalProperties", true);
-        result.put("required", List.of("schema_version", "id", "brand", "manufacturer", "range", "name", "profile"));
-        result.put("properties", properties);
-        result.put("x-model-version", model.modelVersion());
-        result.put("x-filters", model.filters());
-        result.put("x-vocabularies", vocabularies);
-        return result;
+        return new PaintModelSchemaResponse(
+                model.jsonSchemaDraft(),
+                "urn:minipaintdex:schema:market-paint:" + model.modelVersion(),
+                "Mini Paint Dex canonical market paint",
+                "object",
+                false,
+                List.of("schema_version", "id", "brand", "manufacturer", "range", "name", "profile", "data_status"),
+                properties,
+                model.modelVersion(),
+                model.filters(),
+                model.sortOptions(),
+                vocabularies,
+                Map.of(
+                        "official_photo", 1, "retailer_photo", 2, "owned_photo", 3,
+                        "generic_visual", 4, "color_swatch", 5, "none", 6));
+    }
+
+    private static Map<String, Object> imageProperty(Map<String, List<String>> vocabularies) {
+        var properties = new LinkedHashMap<String, Object>();
+        properties.put("path", Map.of("type", "string"));
+        properties.put("source_url", uriProperty());
+        properties.put("credit", Map.of("type", "string"));
+        properties.put("license", Map.of("type", "string"));
+        properties.put("reference_url", uriProperty());
+        properties.put("image_quality", Map.of(
+                "type", "string", "enum", vocabularies.get("image-quality"),
+                "description", "Source quality; lower x-quality-rank is better."));
+        properties.put("quality_verified_at", Map.of("type", "string", "format", "date"));
+        return Map.of("type", "object", "additionalProperties", false, "properties", properties);
+    }
+
+    private static Map<String, Object> usageInstructionsProperty() {
+        return Map.of(
+                "type", "object", "additionalProperties", false,
+                "properties", Map.of(
+                        "summary", Map.of("type", "string"),
+                        "steps", stringArrayProperty(),
+                        "tips", stringArrayProperty(),
+                        "instruction_status", Map.of("type", "string"),
+                        "review_required", Map.of("type", "boolean")));
+    }
+
+    private static Map<String, Object> mappingReportProperty() {
+        return Map.of(
+                "type", "object", "additionalProperties", false,
+                "properties", Map.of(
+                        "mapping", Map.of("type", "string"),
+                        "mapping_version", Map.of("type", "integer", "const", 1),
+                        "mapped_fields", stringArrayProperty(),
+                        "unmapped_fields", stringArrayProperty(),
+                        "ignored_fields", stringArrayProperty()));
+    }
+
+    private static Map<String, Object> sourceObservationProperty() {
+        return Map.of(
+                "type", "object", "additionalProperties", false,
+                "properties", Map.of(
+                        "adapter", Map.of("type", "string"),
+                        "fields", Map.of(
+                                "type", "array",
+                                "items", Map.of(
+                                        "type", "object", "additionalProperties", false,
+                                        "required", List.of("name", "value"),
+                                        "properties", Map.of(
+                                                "name", Map.of("type", "string"),
+                                                "value", Map.of())))));
+    }
+
+    private static Map<String, Object> sourceSnapshotsProperty() {
+        return Map.of(
+                "type", "array",
+                "items", Map.of(
+                        "type", "object", "additionalProperties", false,
+                        "required", List.of("provider", "url", "payload"),
+                        "properties", Map.of(
+                                "provider", Map.of("type", "string", "minLength", 1),
+                                "url", uriProperty(),
+                                "payload", Map.of())));
+    }
+
+    private static Map<String, Object> sourceEvidenceProperty() {
+        return Map.of(
+                "type", "object",
+                "description", "Extensible source evidence excluded from canonical search.",
+                "additionalProperties", true);
+    }
+
+    private static Map<String, Object> stringArrayProperty() {
+        return Map.of("type", "array", "uniqueItems", true, "items", Map.of("type", "string"));
+    }
+
+    private static Map<String, Object> uriProperty() {
+        return Map.of("type", "string", "format", "uri");
     }
 
     private static Map<String, Object> stringFilter(

@@ -28,12 +28,24 @@ ni son `DataSnapshot` transverse. Cette restriction est contrôlée automatiquem
 Le catalogue physique est découpé par marque dans `data/market/paints/<brand>.yaml`. L’adaptateur
 fichier fusionne ces documents dans un seul snapshot logique et les remplace sous le même verrou.
 Les correspondances de vocabulaire sont isolées dans `tools/minipaintdex-data/mappings/<brand>.yaml`.
+Chaque mapping déclare aussi un `brand_code` technique immuable. L'identité initiale d'une peinture
+est `<brand-code>-<référence-fabricant-normalisée>` : par exemple `pau-p951`, `tap-wp2007p`,
+`val-72-483` ou `cit-prod4190213-99189958145`. La référence source reste conservée sans perte dans
+`reference`; la gamme et le nom, susceptibles d'évoluer, ne participent pas à l'identité. Une fois
+créé, l'ID est conservé par les refreshs et tout changement de référence exige une réconciliation explicite.
 Le profil canonique alimente seul la recherche et les filtres. Chaque peinture rafraîchie conserve
 en parallèle un `source_snapshots` horodaté avec le fournisseur, l’URL et la charge source collectée :
 les attributs propres à une marque restent donc auditables sans polluer le modèle standard. Un attribut
 ne rejoint `MarketPaintProfile` que s’il décrit un comportement stable et comparable entre marques.
 Les horodatages fabriqués à l'heure de lecture par un fournisseur sont exclus explicitement ; les faits
 commerciaux, la provenance et les vraies dates de mise à jour restent conservés.
+
+Les images suivent une politique commune à toutes les marques. `manufacturer_image` conserve sa
+qualité de provenance et sa date de vérification : `official_photo` (1), `retailer_photo` (2),
+`owned_photo` (3), `generic_visual` (4), `color_swatch` (5) ou `none` (6). Un rafraîchissement
+conserve toujours la meilleure qualité connue. Une photo officielle peut être remise en concurrence
+après 365 jours. Le score visuel technique et ses motifs restent dans l’audit d’import : ils aident à
+détecter aplats, damiers et images pauvres sans remplacer la provenance métier.
 
 ## Bounded context Workshop
 

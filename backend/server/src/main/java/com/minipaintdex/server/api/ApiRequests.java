@@ -99,6 +99,7 @@ record ApplyPaintChangeSetRequest(
 
 record PaintOperationRequest(
         @NotBlank String action,
+        @JsonProperty("previous_id") String previousId,
         Map<String, Object> record,
         @JsonProperty("workshop_quantity_delta") Integer workshopQuantityDelta,
         @JsonProperty("confirmed_removal") Boolean confirmedRemoval) {}

@@ -127,13 +127,20 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
     }
 
     private DataSnapshot loadFromDisk() {
-        var paints = yamlDocuments(layout.marketPaintCatalogDirectory()).stream()
+        var paintCatalogs = yamlDocuments(layout.marketPaintCatalogDirectory());
+        paintCatalogs.forEach(document -> requireSchemaVersion(document, "market paint catalog"));
+        var paints = paintCatalogs.stream()
                 .flatMap(document -> listOfMaps(document.get("paints")).stream())
                 .toList();
         var inventory = yaml(layout.workshopPaintInventory());
         var shopping = yaml(layout.shoppingList());
-        var products = yamlDocuments(layout.marketPaintableProductsDirectory()).stream().map(this::product).toList();
+        requireSchemaVersion(inventory, "workshop paint inventory");
+        requireSchemaVersion(shopping, "shopping list");
+        var productDocuments = yamlDocuments(layout.marketPaintableProductsDirectory());
+        productDocuments.forEach(document -> requireSchemaVersion(document, "paintable product"));
+        var products = productDocuments.stream().map(this::product).toList();
         var guideDocuments = yamlDocuments(layout.paintingGuidesDirectory());
+        guideDocuments.forEach(document -> requireSchemaVersion(document, "painting guide catalog"));
         var guides = guideDocuments.stream().flatMap(document -> listOfMaps(document.get("painting_guides")).stream()).toList();
         return new DataSnapshot(
                 structuredDocument(yaml(layout.siteConfiguration())),
@@ -220,7 +227,7 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
     public void replaceMarketPaints(List<StructuredDocument> paints) {
         withWriteLock(() -> {
             var paintDocuments = paintCatalogDocuments(paints);
-            replaceYamlBatch(paintDocuments);
+            replaceYamlBatch(changedPaintCatalogDocuments(paintDocuments));
             removeStalePaintCatalogs(paintDocuments.keySet());
             reloadAfterWrite("Market paint catalogue updated.");
         });
@@ -245,14 +252,39 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
         var workshop = new LinkedHashMap<String, Object>();
         workshop.put("schema_version", 1);
         workshop.put("paints", documentMaps(inventory));
-        var documents = new LinkedHashMap<Path, Map<String, Object>>();
-        var paintDocuments = paintCatalogDocuments(paints);
-        documents.putAll(paintDocuments);
-        documents.put(layout.workshopPaintInventory(), workshop);
         withWriteLock(() -> {
+            var documents = new LinkedHashMap<Path, Map<String, Object>>();
+            var paintDocuments = paintCatalogDocuments(paints);
+            documents.putAll(changedPaintCatalogDocuments(paintDocuments));
+            documents.put(layout.workshopPaintInventory(), workshop);
             replaceYamlBatch(documents);
             removeStalePaintCatalogs(paintDocuments.keySet());
             reloadAfterWrite("Market paints and workshop inventory updated.");
+        });
+    }
+
+    @Override
+    public void replaceMarketPaintIdentities(
+            List<StructuredDocument> paints,
+            List<StructuredDocument> inventory,
+            List<StructuredDocument> paintingGuides,
+            List<StructuredDocument> shopping) {
+        var workshop = new LinkedHashMap<String, Object>();
+        workshop.put("schema_version", 1);
+        workshop.put("paints", documentMaps(inventory));
+        var shoppingDocument = new LinkedHashMap<String, Object>();
+        shoppingDocument.put("schema_version", 1);
+        shoppingDocument.put("items", documentMaps(shopping));
+        withWriteLock(() -> {
+            var documents = new LinkedHashMap<Path, Map<String, Object>>();
+            var paintDocuments = paintCatalogDocuments(paints);
+            documents.putAll(changedPaintCatalogDocuments(paintDocuments));
+            documents.put(layout.workshopPaintInventory(), workshop);
+            documents.put(layout.shoppingList(), shoppingDocument);
+            documents.putAll(paintingGuideDocuments(paintingGuides));
+            replaceYamlBatch(documents);
+            removeStalePaintCatalogs(paintDocuments.keySet());
+            reloadAfterWrite("Market paint identities and references updated.");
         });
     }
 
@@ -325,9 +357,8 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
                         text(image.get("url")), text(image.get("page_url")), text(image.get("credit")), text(image.get("license")))).toList(),
                 listOfMaps(item.get("sources")).stream().map(this::source).toList())).toList();
         return new PaintableProduct(
-                number(document.getOrDefault("schema_version", 1)), productId, text(document.get("name")),
-                defaultText(text(document.get("line")), text(document.get("game"))),
-                defaultText(text(document.get("product_type")), "board_game"), text(document.get("scope")),
+                number(document.get("schema_version")), productId, text(document.get("name")),
+                text(document.get("line")), text(document.get("product_type")), text(document.get("scope")),
                 number(document.get("expected_paintable_count")),
                 new PaintableProduct.Edition(text(edition.get("note")), text(edition.get("url"))), sources, items);
     }
@@ -387,12 +418,48 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
         byBrand.forEach((brand, records) -> {
             records.sort(Comparator.comparing(record -> text(record.get("id"))));
             var document = new LinkedHashMap<String, Object>();
-            document.put("schema_version", 2);
+            document.put("schema_version", 1);
             document.put("brand", brand);
             document.put("paints", records);
             documents.put(layout.marketPaintCatalogDirectory().resolve(slug(brand) + ".yaml"), document);
         });
         return documents;
+    }
+
+    private Map<Path, Map<String, Object>> paintingGuideDocuments(List<StructuredDocument> guides) {
+        var productByCatalogItem = new java.util.HashMap<String, String>();
+        paintableProductCache.current().value().forEach(product -> product.catalogItems().forEach(
+                item -> productByCatalogItem.put(item.id(), product.id())));
+        var byProduct = new java.util.TreeMap<String, List<Map<String, Object>>>();
+        for (var guide : documentMaps(guides)) {
+            var catalogItemId = text(guide.get("catalog_item_id"));
+            var productId = productByCatalogItem.get(catalogItemId);
+            if (productId == null) {
+                throw new FileStorageException(
+                        "Painting guide references an unknown catalog item: " + catalogItemId, null);
+            }
+            byProduct.computeIfAbsent(productId, ignored -> new ArrayList<>()).add(guide);
+        }
+        var documents = new LinkedHashMap<Path, Map<String, Object>>();
+        byProduct.forEach((productId, records) -> {
+            records.sort(Comparator.comparing(record -> text(record.get("id"))));
+            var document = new LinkedHashMap<String, Object>();
+            document.put("schema_version", 1);
+            document.put("product_id", productId);
+            document.put("painting_guides", records);
+            documents.put(layout.paintingGuidesDirectory().resolve(productId + ".yaml"), document);
+        });
+        return documents;
+    }
+
+    private Map<Path, Map<String, Object>> changedPaintCatalogDocuments(
+            Map<Path, Map<String, Object>> desiredDocuments) {
+        var currentDocuments = paintCatalogDocuments(marketPaintCache.current().value());
+        var changed = new LinkedHashMap<Path, Map<String, Object>>();
+        desiredDocuments.forEach((path, document) -> {
+            if (!document.equals(currentDocuments.get(path))) changed.put(path, document);
+        });
+        return changed;
     }
 
     private void removeStalePaintCatalogs(java.util.Set<Path> catalogPaths) {
@@ -756,6 +823,12 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
         try { return Integer.parseInt(text(value)); } catch (NumberFormatException ignored) { return 0; }
     }
 
+    private static void requireSchemaVersion(Map<String, Object> document, String owner) {
+        if (number(document.get("schema_version")) != 1) {
+            throw new FileStorageException(owner + " schema_version must be 1.", null);
+        }
+    }
+
     private static String defaultText(String value, String fallback) {
         return value == null || value.isBlank() ? fallback : value;
     }
@@ -767,9 +840,8 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
         options.setIndent(2);
         options.setIndicatorIndent(0);
         var loaderOptions = new LoaderOptions();
-        // Older catalog generations may contain one shared empty-list anchor per
-        // document. Accept them once so the next atomic write can normalize the
-        // structure to independent collections without YAML aliases.
+        // The paintable-product catalog intentionally shares repeated source lists
+        // through YAML anchors, so its complete document needs a higher alias limit.
         loaderOptions.setMaxAliasesForCollections(100_000);
         loaderOptions.setCodePointLimit(64 * 1024 * 1024);
         return new Yaml(loaderOptions, options);

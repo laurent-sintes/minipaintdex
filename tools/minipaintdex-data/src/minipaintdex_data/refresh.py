@@ -21,12 +21,19 @@ def read_catalog(path: Path) -> dict[str, Any]:
     for source in paths:
         with source.open("r", encoding="utf-8-sig") as handle:
             value = yaml.safe_load(handle)
-        if not isinstance(value, dict) or not isinstance(value.get("paints"), list):
+        if (
+            not isinstance(value, dict)
+            or value.get("schema_version") != 1
+            or not isinstance(value.get("paints"), list)
+        ):
             raise ValueError(f"Invalid paint catalog: {source}")
-        paints.extend(paint for paint in value["paints"] if isinstance(paint, dict))
+        for paint in value["paints"]:
+            if not isinstance(paint, dict) or paint.get("schema_version") != 1:
+                raise ValueError(f"Paint records in {source} must use schema_version 1")
+            paints.append(paint)
     if not paths:
         raise ValueError(f"No paint brand catalog found in: {path}")
-    return {"schema_version": 2, "paints": paints}
+    return {"schema_version": 1, "paints": paints}
 
 
 def _casefold(value: Any) -> str:

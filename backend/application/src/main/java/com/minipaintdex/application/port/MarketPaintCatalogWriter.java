@@ -14,4 +14,14 @@ public interface MarketPaintCatalogWriter {
             List<StructuredDocument> paints,
             List<StructuredDocument> inventory,
             WorkshopPaintInventoryWriter inventoryWriter);
+
+    /**
+     * Rekeys paints and every mutable file-backed reference as one persistence generation.
+     * Implementations must leave the previous generation intact when any replacement fails.
+     */
+    void replaceMarketPaintIdentities(
+            List<StructuredDocument> paints,
+            List<StructuredDocument> inventory,
+            List<StructuredDocument> paintingGuides,
+            List<StructuredDocument> shopping);
 }

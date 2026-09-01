@@ -6,6 +6,7 @@ import com.minipaintdex.application.command.ReplaceWorkshopPaintInventoryCommand
 import com.minipaintdex.application.document.StructuredDocument;
 import com.minipaintdex.application.validation.StructuredDocuments;
 import com.minipaintdex.application.port.MarketPaintCatalogWriter;
+import com.minipaintdex.application.port.DataSnapshot;
 import com.minipaintdex.application.port.PaintableProductCatalogWriter;
 import com.minipaintdex.application.port.SnapshotRepository;
 import com.minipaintdex.application.port.WorkshopPaintInventoryWriter;
@@ -14,6 +15,7 @@ import com.minipaintdex.application.result.ApplyMarketPaintableProductChangeSetR
 import com.minipaintdex.application.result.ReplaceWorkshopPaintInventoryResult;
 import com.minipaintdex.application.usecase.AdministrationUseCases;
 import com.minipaintdex.application.validation.MarketCatalogFactory;
+import com.minipaintdex.application.validation.DataSnapshotValidator;
 import com.minipaintdex.application.view.RebuildProjectionResult;
 import com.minipaintdex.domain.event.EventEnvelope;
 import com.minipaintdex.domain.market.guide.MarketPaintingGuide;
@@ -70,8 +72,10 @@ public final class AdministrationApplicationService implements AdministrationUse
         var quantities = inventory(snapshot.paintInventory());
         var referencedPaintIds = referencedPaintIds(currentCatalog.paintingGuides(), snapshot.events());
         var operatedIds = new HashSet<String>();
+        var identityMigrations = new LinkedHashMap<String, String>();
         var added = 0;
         var updated = 0;
+        var rekeyed = 0;
         var retired = 0;
         var deleted = 0;
         var unchanged = 0;
@@ -89,6 +93,24 @@ public final class AdministrationApplicationService implements AdministrationUse
                     if (previous == null) added++;
                     else if (previous.equals(replacement)) unchanged++;
                     else updated++;
+                }
+                case "rekey" -> {
+                    var previousId = required(operation.previousId(), "operation.previousId");
+                    if (previousId.equals(id)) throw invalid("A paint rekey must change its id: " + id);
+                    if (identityMigrations.putIfAbsent(previousId, id) != null) {
+                        throw invalid("Only one rekey is allowed per previous paint id: " + previousId);
+                    }
+                    if (byId.containsKey(id)) throw conflict("Rekey target already exists: " + id);
+                    if (byId.remove(previousId) == null) throw notFound("Paint not found: " + previousId);
+                    byId.put(id, new LinkedHashMap<>(record));
+                    var ownedQuantity = quantities.remove(previousId);
+                    if (ownedQuantity != null) {
+                        if (quantities.putIfAbsent(id, ownedQuantity) != null) {
+                            throw conflict("Workshop inventory already contains rekey target: " + id);
+                        }
+                        inventoryChanged++;
+                    }
+                    rekeyed++;
                 }
                 case "retire" -> {
                     var previous = byId.get(id);
@@ -120,6 +142,9 @@ public final class AdministrationApplicationService implements AdministrationUse
             if (operation.workshopQuantityDelta() < 0) {
                 throw invalid("workshopQuantityDelta cannot be negative.");
             }
+            if ("rekey".equals(operation.action()) && operation.workshopQuantityDelta() != 0) {
+                throw invalid("A paint rekey cannot change workshop quantity.");
+            }
             if (operation.workshopQuantityDelta() > 0 && !"delete".equals(operation.action())) {
                 quantities.compute(id, (ignored, quantity) -> Math.addExact(
                         quantity == null ? 0 : quantity, operation.workshopQuantityDelta()));
@@ -131,10 +156,24 @@ public final class AdministrationApplicationService implements AdministrationUse
                 .sorted(Comparator.comparing(paint -> StructuredDocuments.text(paint.get("id"))))
                 .map(Map::copyOf).toList();
         var resultDocuments = StructuredDocuments.fromMaps(result);
-        MarketCatalogFactory.create(resultDocuments, snapshot.paintableProducts(), snapshot.marketPaintingGuides());
         var normalizedInventory = inventoryDocuments(quantities);
+        var rewrittenGuides = rewritePaintReferences(snapshot.marketPaintingGuides(), identityMigrations);
+        var rewrittenShopping = rewritePaintReferences(snapshot.shopping(), identityMigrations);
+        if (!identityMigrations.isEmpty()) {
+            var immutableReferences = referencedPaintIds(List.of(), snapshot.events());
+            var blocked = identityMigrations.keySet().stream().filter(immutableReferences::contains).sorted().toList();
+            if (!blocked.isEmpty()) {
+                throw conflict("Immutable workshop events reference paint ids that cannot be rekeyed: " + blocked);
+            }
+        }
+        DataSnapshotValidator.validate(new DataSnapshot(
+                snapshot.site(), resultDocuments, normalizedInventory, snapshot.paintableProducts(),
+                rewrittenGuides, rewrittenShopping, snapshot.events()));
         if (!command.dryRun()) {
-            if (inventoryChanged > 0) {
+            if (!identityMigrations.isEmpty()) {
+                marketPaints.replaceMarketPaintIdentities(
+                        resultDocuments, normalizedInventory, rewrittenGuides, rewrittenShopping);
+            } else if (inventoryChanged > 0) {
                 marketPaints.replaceMarketPaintsAndWorkshopInventory(
                         resultDocuments, normalizedInventory, workshopPaints);
             } else {
@@ -142,7 +181,8 @@ public final class AdministrationApplicationService implements AdministrationUse
             }
         }
         return new ApplyMarketPaintChangeSetResult(
-                added, updated, retired, deleted, unchanged, inventoryChanged, result.size(), !command.dryRun());
+                added, updated, rekeyed, retired, deleted, unchanged,
+                inventoryChanged, result.size(), !command.dryRun());
     }
 
     @Override
@@ -228,6 +268,40 @@ public final class AdministrationApplicationService implements AdministrationUse
                 .sorted(Map.Entry.comparingByKey())
                 .map(entry -> Map.<String, Object>of("paint_id", entry.getKey(), "quantity", entry.getValue()))
                 .toList());
+    }
+
+    private static List<StructuredDocument> rewritePaintReferences(
+            List<StructuredDocument> documents,
+            Map<String, String> identities) {
+        if (identities.isEmpty()) return documents;
+        return StructuredDocuments.fromMaps(StructuredDocuments.toMaps(documents).stream()
+                .map(document -> rewritePaintReferences(document, identities)).toList());
+    }
+
+    private static Map<String, Object> rewritePaintReferences(
+            Map<String, Object> source,
+            Map<String, String> identities) {
+        var result = new LinkedHashMap<String, Object>();
+        source.forEach((key, value) -> {
+            if (("paint_id".equals(key) || "market_paint_id".equals(key)) && value instanceof String id) {
+                result.put(key, identities.getOrDefault(id, id));
+            } else {
+                result.put(key, rewritePaintReferenceValue(value, identities));
+            }
+        });
+        return result;
+    }
+
+    private static Object rewritePaintReferenceValue(Object value, Map<String, String> identities) {
+        if (value instanceof Map<?, ?> values) {
+            var normalized = new LinkedHashMap<String, Object>();
+            values.forEach((key, entry) -> normalized.put(String.valueOf(key), entry));
+            return rewritePaintReferences(normalized, identities);
+        }
+        if (value instanceof List<?> values) {
+            return values.stream().map(entry -> rewritePaintReferenceValue(entry, identities)).toList();
+        }
+        return value;
     }
 
     private static Set<String> referencedPaintIds(

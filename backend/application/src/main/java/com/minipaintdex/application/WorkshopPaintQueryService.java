@@ -35,10 +35,7 @@ final class WorkshopPaintQueryService {
             boolean realResultOnly,
             PageQuery page) {
         var quantities = quantities();
-        var filtered = market.searchMarketPaints(filters).stream()
-                .filter(paint -> quantities.getOrDefault(paint.id(), 0) > 0)
-                .filter(paint -> !manufacturerSheetOnly || present(paint.manufacturerUrl()))
-                .filter(paint -> !realResultOnly || present(paint.resultImage()) || present(paint.resultReferenceUrl()))
+        var filtered = filtered(filters, manufacturerSheetOnly, realResultOnly, quantities)
                 .map(paint -> new WorkshopPaintView(paint, quantities.get(paint.id())))
                 .sorted(comparator(page.sort()))
                 .toList();
@@ -47,12 +44,22 @@ final class WorkshopPaintQueryService {
         return new PageResult<>(filtered.subList(from, to), page.page(), page.size(), filtered.size());
     }
 
-    PaintFacetsView facets(SearchMarketPaintsQuery filters) {
+    PaintFacetsView facets(
+            SearchMarketPaintsQuery filters, boolean manufacturerSheetOnly, boolean realResultOnly) {
         var quantities = quantities();
-        var paints = market.searchMarketPaints(filters).stream()
-                .filter(paint -> quantities.getOrDefault(paint.id(), 0) > 0)
-                .toList();
+        var paints = filtered(filters, manufacturerSheetOnly, realResultOnly, quantities).toList();
         return MarketPaintQueryService.facets(paints);
+    }
+
+    private java.util.stream.Stream<MarketPaintView> filtered(
+            SearchMarketPaintsQuery filters,
+            boolean manufacturerSheetOnly,
+            boolean realResultOnly,
+            Map<String, Integer> quantities) {
+        return market.searchMarketPaints(filters).stream()
+                .filter(paint -> quantities.getOrDefault(paint.id(), 0) > 0)
+                .filter(paint -> !manufacturerSheetOnly || present(paint.manufacturerUrl()))
+                .filter(paint -> !realResultOnly || present(paint.resultImage()));
     }
 
     private Map<String, Integer> quantities() {
@@ -70,7 +77,7 @@ final class WorkshopPaintQueryService {
         var effective = orders.isEmpty() ? List.of(new SortOrder("name", SortOrder.Direction.ASCENDING)) : orders;
         Comparator<WorkshopPaintView> comparator = null;
         for (var order : effective) {
-            if (!java.util.Set.of("name", "brand", "range", "reference", "role", "colorFamily")
+            if (!java.util.Set.of("name", "brand", "range", "reference", "role", "colorFamily", "verifiedAt")
                     .contains(order.property())) {
                 throw new DomainException("invalid_input", "Unsupported paint sort property: " + order.property());
             }
@@ -90,6 +97,7 @@ final class WorkshopPaintQueryService {
             case "reference" -> value.reference();
             case "role" -> value.profile().roles().getFirst();
             case "colorFamily" -> value.colorFamily();
+            case "verifiedAt" -> value.manufacturerVerifiedAt();
             default -> throw new IllegalArgumentException("Unsupported paint sort property: " + property);
         };
     }

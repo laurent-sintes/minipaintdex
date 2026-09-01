@@ -19,7 +19,7 @@ public record EventEnvelope(
 
     public EventEnvelope {
         require(eventId, "event_id");
-        if (schemaVersion < 1) throw invalid("schema_version must be positive.");
+        if (schemaVersion != 1) throw invalid("schema_version must be 1.");
         if (aggregateVersion < 1) throw invalid("aggregate_version must be positive.");
         recordedAt = Objects.requireNonNull(recordedAt, "recordedAt");
         actor = Objects.requireNonNull(actor, "actor");

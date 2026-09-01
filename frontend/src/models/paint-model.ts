@@ -3,6 +3,9 @@ export type ManufacturerInfo = {
   manufacturerImage: string;
   manufacturerImageSource: string;
   manufacturerImageCredit: string;
+  manufacturerImageQuality: 'official_photo' | 'retailer_photo' | 'owned_photo' | 'generic_visual' | 'color_swatch' | 'none';
+  manufacturerImageQualityRank: number;
+  manufacturerImageQualityVerifiedAt: string;
   volumeMl: number;
   colorFamily: string;
   manufacturerDescription: string;
@@ -51,9 +54,17 @@ export type PaintProfile = {
 export type PaintModelFilter = {
   id: string;
   queryParameter: string;
-  facetId: string;
+  facetId?: string;
   labelKey: string;
   vocabularyId?: string;
+  control: 'select' | 'toggle';
+  order: number;
+};
+
+export type PaintSortOption = {
+  id: string;
+  queryValue: string;
+  labelKey: string;
   order: number;
 };
 
@@ -63,13 +74,27 @@ export type PaintModelSchema = {
   title: string;
   'x-model-version': number;
   'x-filters': PaintModelFilter[];
+  'x-sort-options': PaintSortOption[];
   'x-vocabularies': Record<string, string[]>;
+  'x-image-quality-ranks': Record<string, number>;
   properties: Record<string, unknown>;
 };
 
 export type PaintFacets = {
   total: number;
   facets: Array<{ id: string; values: Array<{ value: string; count: number }> }>;
+};
+
+export type PaintCatalogQuality = {
+  total: number;
+  missingColorHex: number;
+  missingColorFamily: number;
+  unknownFinish: number;
+  unknownCoverage: number;
+  technicalReviewRequired: number;
+  sourcedImagesWithoutLicense: number;
+  realResultImages: number;
+  imageQualities: Array<{ quality: string; count: number }>;
 };
 
 export type ShoppingItem = {

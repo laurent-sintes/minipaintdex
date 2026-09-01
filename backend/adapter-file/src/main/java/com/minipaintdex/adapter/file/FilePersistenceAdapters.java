@@ -54,6 +54,15 @@ public final class FilePersistenceAdapters {
                     WorkshopPaintInventoryWriter inventoryWriter) {
                 engine.replaceMarketPaintsAndWorkshopInventory(paints, inventory, inventoryWriter);
             }
+
+            @Override
+            public void replaceMarketPaintIdentities(
+                    List<StructuredDocument> paints,
+                    List<StructuredDocument> inventory,
+                    List<StructuredDocument> paintingGuides,
+                    List<StructuredDocument> shopping) {
+                engine.replaceMarketPaintIdentities(paints, inventory, paintingGuides, shopping);
+            }
         };
     }
 

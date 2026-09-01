@@ -32,7 +32,7 @@ public record MarketPaint(
         ImageReference resultImage) {
 
     public MarketPaint {
-        if (schemaVersion < 1) throw invalid("schemaVersion must be positive.");
+        if (schemaVersion != 1) throw invalid("schemaVersion must be 1.");
         id = stableId(id, "id");
         brand = required(brand, "brand");
         manufacturer = required(manufacturer, "manufacturer");
@@ -71,15 +71,38 @@ public record MarketPaint(
             URI sourceUrl,
             String credit,
             String license,
-            URI referenceUrl) {
+            URI referenceUrl,
+            MarketPaintImageQuality imageQuality,
+            LocalDate qualityVerifiedAt) {
         public ImageReference {
             path = optional(path);
             credit = optional(credit);
             license = optional(license);
+            imageQuality = imageQuality == null ? MarketPaintImageQuality.NONE : imageQuality;
+            if (sourceUrl != null && !"https".equalsIgnoreCase(sourceUrl.getScheme())) {
+                throw invalid("image sourceUrl must use HTTPS.");
+            }
+            if (referenceUrl != null && !"https".equalsIgnoreCase(referenceUrl.getScheme())) {
+                throw invalid("image referenceUrl must use HTTPS.");
+            }
+            var sourcedVisual = imageQuality == MarketPaintImageQuality.OFFICIAL_PHOTO
+                    || imageQuality == MarketPaintImageQuality.RETAILER_PHOTO
+                    || imageQuality == MarketPaintImageQuality.OWNED_PHOTO
+                    || imageQuality == MarketPaintImageQuality.GENERIC_VISUAL;
+            if (sourcedVisual && path == null && sourceUrl == null) {
+                throw invalid("image path or sourceUrl is required for " + imageQuality.id() + ".");
+            }
+            if (imageQuality != MarketPaintImageQuality.NONE && qualityVerifiedAt == null) {
+                throw invalid("image qualityVerifiedAt is required for " + imageQuality.id() + ".");
+            }
+            if (imageQuality == MarketPaintImageQuality.RETAILER_PHOTO
+                    && (credit == null || referenceUrl == null)) {
+                throw invalid("retailer photos require a credit and referenceUrl.");
+            }
         }
 
         public static ImageReference empty() {
-            return new ImageReference(null, null, null, null, null);
+            return new ImageReference(null, null, null, null, null, MarketPaintImageQuality.NONE, null);
         }
     }
 

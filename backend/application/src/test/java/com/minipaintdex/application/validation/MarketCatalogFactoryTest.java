@@ -46,6 +46,16 @@ class MarketCatalogFactoryTest {
     }
 
     @Test
+    void rejectsAPaintWithoutTheCurrentSchemaVersion() {
+        var missingVersion = new java.util.LinkedHashMap<>(paint("paint"));
+        missingVersion.remove("schema_version");
+
+        assertThrows(DomainException.class, () -> MarketCatalogFactory.create(
+                List.of(StructuredDocuments.fromMap(missingVersion)), List.of(product()),
+                List.of(StructuredDocuments.fromMap(guide("paint")))));
+    }
+
+    @Test
     void rejectsWorkshopReferencesOutsideTheValidatedMarketGeneration() {
         var snapshot = new DataSnapshot(
                 new StructuredDocument(List.of()), List.of(StructuredDocuments.fromMap(paint("paint"))),
@@ -68,7 +78,8 @@ class MarketCatalogFactoryTest {
 
     private static Map<String, Object> paint(String id) {
         return Map.ofEntries(
-                Map.entry("id", id), Map.entry("brand", "Brand"), Map.entry("manufacturer", "Maker"),
+                Map.entry("schema_version", 1), Map.entry("id", id),
+                Map.entry("brand", "Brand"), Map.entry("manufacturer", "Maker"),
                 Map.entry("range", "Range"), Map.entry("profile", Map.of(
                         "roles", List.of("color_paint"), "application_methods", List.of("brush"),
                         "application_system", "one_coat_shading", "coverage", "transparent",

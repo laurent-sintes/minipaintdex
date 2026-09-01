@@ -22,3 +22,20 @@ export function metadataOptions(values: string[]) {
 export function sameMetadata(left: string, right: string) {
   return normalizeSearch(left) === normalizeSearch(right);
 }
+
+export function paintPageSearchParams(
+  query: string, filters: Record<string, string>, sort: string, page: number, size: number,
+) {
+  const params = paintFacetSearchParams(query, filters);
+  params.set('page', String(page));
+  params.set('size', String(size));
+  if (sort) params.set('sort', sort);
+  return params;
+}
+
+export function paintFacetSearchParams(query: string, filters: Record<string, string>) {
+  const params = new URLSearchParams();
+  if (query.trim()) params.set('query', query.trim());
+  Object.entries(filters).forEach(([key, value]) => { if (value) params.set(key, value); });
+  return params;
+}

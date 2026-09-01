@@ -5,6 +5,7 @@ import com.minipaintdex.application.port.MarketCatalogSnapshot;
 import com.minipaintdex.domain.market.guide.MarketPaintingGuide;
 import com.minipaintdex.domain.market.paint.MarketPaint;
 import com.minipaintdex.domain.market.paint.MarketPaintLifecycle;
+import com.minipaintdex.domain.market.paint.MarketPaintImageQuality;
 import com.minipaintdex.domain.market.paint.MarketPaintProfile;
 import com.minipaintdex.domain.market.product.PaintableProduct;
 import com.minipaintdex.domain.shared.DomainException;
@@ -46,7 +47,7 @@ public final class MarketCatalogFactory {
                         text(image.get("license")))).toList(),
                 maps(item.get("sources")).stream().map(MarketCatalogFactory::productSource).toList())).toList();
         return new PaintableProduct(
-                number(value.get("schema_version"), 1, "product.schema_version"),
+                number(value.get("schema_version"), null, "product.schema_version"),
                 text(value.get("id")), text(value.get("name")), text(value.get("line")),
                 text(value.get("product_type")), text(value.get("scope")),
                 number(value.get("expected_paintable_count"), null, "product.expected_paintable_count"),
@@ -65,7 +66,7 @@ public final class MarketCatalogFactory {
         var undercoat = map(profile.get("undercoat"));
         var usage = map(value.get("usage_instructions"));
         return new MarketPaint(
-                number(value.get("schema_version"), 1, "paint.schema_version"),
+                number(value.get("schema_version"), null, "paint.schema_version"),
                 text(value.get("id")), text(value.get("brand")), text(value.get("manufacturer")),
                 strings(value.get("brand_aliases")), text(value.get("range")),
                 new MarketPaintProfile(
@@ -101,7 +102,9 @@ public final class MarketCatalogFactory {
         return new MarketPaint.ImageReference(
                 text(value.get("path")), uri(value.get("source_url"), field + ".source_url"),
                 text(value.get("credit")), text(value.get("license")),
-                uri(value.get("reference_url"), field + ".reference_url"));
+                uri(value.get("reference_url"), field + ".reference_url"),
+                MarketPaintImageQuality.fromId(text(value.get("image_quality"))),
+                date(value.get("quality_verified_at"), field + ".quality_verified_at"));
     }
 
     private static MarketPaintingGuide guide(StructuredDocument document) {

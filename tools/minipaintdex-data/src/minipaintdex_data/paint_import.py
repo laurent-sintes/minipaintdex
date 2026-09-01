@@ -19,6 +19,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
+from .paint_identity import market_paint_deduplication_key, market_paint_id
+
 
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".heic", ".heif", ".webp", ".tif", ".tiff"}
 FUNCTIONAL_CLASSES = {
@@ -184,8 +186,9 @@ def normalize_reference(value: Any) -> str:
 
 def dedupe_key(brand: Any, range_name: Any, reference: Any, name: Any) -> str:
     ref = normalize_reference(reference)
-    identity = f"ref:{ref}" if ref else f"name:{slug(name)}"
-    return f"{slug(brand)}|{slug(range_name)}|{identity}"
+    if ref:
+        return market_paint_deduplication_key(brand, ref)
+    return f"{slug(brand)}|{slug(range_name)}|name:{slug(name)}"
 
 
 def looks_like_vallejo_reference(reference: Any) -> bool:
@@ -435,7 +438,10 @@ def candidate_to_row(record: dict[str, Any]) -> dict[str, str]:
     name = plain(record.get("name") or record.get("name_observed"))
     brand = plain(record.get("brand_canonical"))
     range_name = plain(record.get("range_canonical"))
-    identifier = plain(record.get("id")) or slug(f"{brand}-{range_name}-{name}")
+    reference = normalize_reference(record.get("reference"))
+    identifier = plain(record.get("id")) or (
+        market_paint_id(brand, reference) if reference else slug(f"{brand}-{range_name}-{name}")
+    )
     return {
         "id": identifier,
         "marque_observee": plain(record.get("brand_observed")),
@@ -445,7 +451,7 @@ def candidate_to_row(record: dict[str, Any]) -> dict[str, str]:
         "gamme_observee": plain(record.get("range_observed")),
         "gamme_canonique": range_name,
         "classe_fonctionnelle": plain(record.get("functional_class")),
-        "reference": normalize_reference(record.get("reference")),
+        "reference": reference,
         "nom": name,
         "quantite": str(as_int(record.get("quantity"), 1)),
         "confiance": plain(record.get("confidence")),

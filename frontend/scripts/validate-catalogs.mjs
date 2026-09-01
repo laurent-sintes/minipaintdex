@@ -26,6 +26,7 @@ const finishes = new Set(['matte', 'satin', 'gloss', 'unknown']);
 const effects = new Set(['metallic', 'fluorescent', 'pearlescent']);
 const undercoats = new Set(['light', 'dark', 'any', 'unknown']);
 const mediums = new Set(['water_based_acrylic', 'acrylic', 'alcohol_based', 'oil', 'enamel', 'unknown']);
+const imageQualities = new Set(['official_photo', 'retailer_photo', 'owned_photo', 'generic_visual', 'color_swatch', 'none']);
 
 function requireValue(value, location, message) {
   if (value === undefined || value === null || value === '') errors.push(`${location}: ${message}`);
@@ -58,6 +59,7 @@ for (const [location, value] of [
   [`${sitePath}:market.kind_labels`, site?.market?.kind_labels],
   [`${sitePath}:workshop.event_labels`, site?.workshop?.event_labels],
   [`${sitePath}:shopping.priorities`, site?.shopping?.priorities],
+  [`${sitePath}:collection.value_labels`, site?.collection?.value_labels],
 ]) {
   if (!value || typeof value !== 'object') errors.push(`${location}: required localized labels`);
 }
@@ -68,12 +70,13 @@ const marketPaints = [];
 const marketPaintIds = new Set();
 for (const paintCatalogPath of paintCatalogPaths) {
   const paintCatalog = await readYaml(paintCatalogPath);
-  if (paintCatalog?.schema_version !== 2) errors.push(`${paintCatalogPath}: schema_version must be 2`);
+  if (paintCatalog?.schema_version !== 1) errors.push(`${paintCatalogPath}: schema_version must be 1`);
   requireValue(paintCatalog?.brand, paintCatalogPath, 'brand required');
   const brandPaints = requireArray(paintCatalog?.paints, `${paintCatalogPath}:paints`);
   marketPaints.push(...brandPaints);
   for (const [index, paint] of brandPaints.entries()) {
     const location = `${paintCatalogPath}:paints[${index}]`;
+    if (paint?.schema_version !== 1) errors.push(`${location}: schema_version must be 1`);
     for (const field of ['id', 'brand', 'manufacturer', 'range', 'profile', 'name', 'data_status', 'lifecycle_status']) requireValue(paint?.[field], location, `${field} required`);
     if (paint?.brand !== paintCatalog?.brand) errors.push(`${location}: brand must match file brand ${paintCatalog?.brand}`);
     if (paint?.id && !kebabId.test(paint.id)) errors.push(`${location}: id must be lowercase kebab-case`);
@@ -97,6 +100,26 @@ for (const paintCatalogPath of paintCatalogPaths) {
       requireArray(paint?.usage_instructions?.tips, `${location}:usage_instructions.tips`);
     }
     if (paint?.color?.hex && !/^#[0-9a-f]{6}$/i.test(paint.color.hex)) errors.push(`${location}: color.hex must be a six-digit hexadecimal color`);
+    const image = paint?.manufacturer_image;
+    if (!image || typeof image !== 'object') errors.push(`${location}: manufacturer_image must be an object`);
+    else {
+      const quality = image.image_quality ?? 'none';
+      if (!imageQualities.has(quality)) errors.push(`${location}: unsupported manufacturer_image.image_quality ${quality}`);
+      if (quality !== 'none') requireValue(image.quality_verified_at, location, `manufacturer_image.quality_verified_at required for ${quality}`);
+      if (['official_photo', 'retailer_photo', 'owned_photo', 'generic_visual'].includes(quality) && !image.path && !image.source_url) errors.push(`${location}: manufacturer_image requires a path or source_url for ${quality}`);
+      if (quality === 'retailer_photo') {
+        requireValue(image.credit, location, 'manufacturer_image.credit required for retailer_photo');
+        requireValue(image.reference_url, location, 'manufacturer_image.reference_url required for retailer_photo');
+      }
+      for (const field of ['source_url', 'reference_url']) if (image[field] && !String(image[field]).startsWith('https://')) errors.push(`${location}: manufacturer_image.${field} must use HTTPS`);
+    }
+    if (paint?.mapping_report && paint.mapping_report.mapping_version !== 1) errors.push(`${location}: mapping_report.mapping_version must be 1`);
+    for (const [snapshotIndex, snapshot] of requireArray(paint?.source_snapshots, `${location}:source_snapshots`).entries()) {
+      const snapshotLocation = `${location}:source_snapshots[${snapshotIndex}]`;
+      requireValue(snapshot?.provider, snapshotLocation, 'provider required');
+      if (!String(snapshot?.url ?? '').startsWith('https://')) errors.push(`${snapshotLocation}: url must use HTTPS`);
+      if (!snapshot?.payload || typeof snapshot.payload !== 'object' || Array.isArray(snapshot.payload)) errors.push(`${snapshotLocation}: payload must be an object`);
+    }
     if (paint?.id && marketPaintIds.has(paint.id)) errors.push(`${location}: duplicate id ${paint.id}`);
     if (paint?.id) marketPaintIds.add(paint.id);
   }

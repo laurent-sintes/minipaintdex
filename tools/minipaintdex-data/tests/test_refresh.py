@@ -5,6 +5,7 @@ from minipaintdex_data.refresh import build_refresh_changeset
 
 def paint(identifier: str, brand: str, name: str = "Paint") -> dict:
     return {
+        "schema_version": 1,
         "id": identifier,
         "brand": brand,
         "manufacturer": brand,

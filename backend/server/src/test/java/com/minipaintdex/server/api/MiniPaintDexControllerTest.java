@@ -105,8 +105,15 @@ class MiniPaintDexControllerTest {
         mvc.perform(get("/api/v1/market/paint-model"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$['$schema']").value("https://json-schema.org/draft/2020-12/schema"))
-                .andExpect(jsonPath("$['x-model-version']").value(2))
+                .andExpect(jsonPath("$['x-model-version']").value(1))
+                .andExpect(jsonPath("$['x-image-quality-ranks'].official_photo").value(1))
+                .andExpect(jsonPath("$.additionalProperties").value(false))
+                .andExpect(jsonPath("$.properties.source_snapshots.type").value("array"))
+                .andExpect(jsonPath("$.properties.usage_instructions.type").value("object"))
+                .andExpect(jsonPath("$.properties.manufacturer_image.properties.image_quality.enum[5]").value("none"))
                 .andExpect(jsonPath("$['x-filters'][0].queryParameter").value("role"))
+                .andExpect(jsonPath("$['x-filters'][12].control").value("toggle"))
+                .andExpect(jsonPath("$['x-sort-options'][0].queryValue").value("name,asc"))
                 .andExpect(jsonPath("$['x-vocabularies']['paint-role'][1]").value("primer"));
     }
 
@@ -126,10 +133,9 @@ class MiniPaintDexControllerTest {
     @Test
     void exposesPaintChangeSetDryRuns() throws Exception {
         when(administration.applyMarketPaintChangeSet(any())).thenReturn(
-                new ApplyMarketPaintChangeSetResult(1, 0, 0, 0, 0, 1, 48, false));
+                new ApplyMarketPaintChangeSetResult(1, 0, 0, 0, 0, 0, 1, 48, false));
 
         mvc.perform(post("/api/v1/market/paint-changesets")
-                        .queryParam("dryRun", "true")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -249,7 +255,7 @@ class MiniPaintDexControllerTest {
                         List.of("color_paint"), List.of("brush"), "conventional_layering",
                         "opaque", "matte", List.of(), "any", false, "acrylic"),
                 "", name, "#000000", "current", "confirmed", "", List.of(),
-                "", "", "", "", "", "", "", 18, "Black", "", List.of(),
+                "", "", "", "", "", "", "", "none", 6, "", 18, "Black", "", List.of(),
                 new MarketPaintView.UsageInstructions("", List.of(), List.of(), "", false),
                 "", "", "", "", "", "");
     }

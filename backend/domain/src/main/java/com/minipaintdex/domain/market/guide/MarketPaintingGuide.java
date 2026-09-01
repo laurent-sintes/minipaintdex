@@ -21,7 +21,7 @@ public record MarketPaintingGuide(
         List<Step> painting) {
 
     public MarketPaintingGuide {
-        if (schemaVersion < 1) throw invalid("schemaVersion must be positive.");
+        if (schemaVersion != 1) throw invalid("schemaVersion must be 1.");
         id = stableId(id, "id");
         if (version < 1) throw invalid("version must be positive.");
         if (knowledgeStatus == null) throw invalid("knowledgeStatus is required.");

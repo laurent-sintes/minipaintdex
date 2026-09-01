@@ -8,6 +8,7 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any, Iterable
 
+from ..paint_identity import market_paint_id
 from .common import base_record, classify, existing_indexes, fetch_text, merge_existing, plain, reference, slug, source_snapshot
 
 
@@ -87,7 +88,7 @@ def collect(catalog: dict[str, Any], _: Path) -> list[dict[str, Any]]:
         image = str((product.get("images") or [{}])[0].get("src", ""))
         page = f"https://thearmypainter.com/products/{product.get('handle')}"
         record = base_record(
-            identifier=f"the-army-painter-{slug(range_name)}-{slug(reference_code)}", brand="The Army Painter",
+            identifier=market_paint_id("The Army Painter", reference_code), brand="The Army Painter",
             manufacturer="The Army Painter", range_name=range_name, functional_type=functional_type,
             reference_code=reference_code, name=name, page=page, image=image, volume_ml=volume,
             finish=finish, opacity=opacity, summary=plain(str(product.get("body_html", "")))[:500],

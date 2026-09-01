@@ -3,6 +3,7 @@ mapping:
   id: prince-august
   version: 1
 brand: Prince August
+brand_code: pau
 default_profile:
   roles: [color_paint]
   application_methods: [brush]

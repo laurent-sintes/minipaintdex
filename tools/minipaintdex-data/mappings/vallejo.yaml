@@ -3,6 +3,7 @@ mapping:
   id: vallejo
   version: 1
 brand: Vallejo
+brand_code: val
 default_profile:
   roles: [color_paint]
   application_methods: [brush]

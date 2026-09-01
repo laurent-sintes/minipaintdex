@@ -53,8 +53,9 @@ La CLI réutilise exactement les mêmes services applicatifs que l’API REST.
 ```powershell
 .\scripts\minipaintdex.ps1 cli --root . --format json health
 .\scripts\minipaintdex.ps1 cli --root . --format json market paints search --brand "Warhammer Colour"
-.\scripts\minipaintdex.ps1 cli --root . --format json market paints apply --input imports/runs/paint-refresh/changeset.json --dry-run
-.\scripts\minipaintdex.ps1 cli --root . --format json market paintable-products apply --input imports/runs/product-import/changeset.json --dry-run
+.\scripts\minipaintdex.ps1 cli --root . --format json market paints apply --input imports/runs/paint-refresh/changeset.json
+.\scripts\minipaintdex.ps1 cli --root . --format json market paintable-products apply --input imports/runs/product-import/changeset.json
+# Ajouter --apply uniquement après validation de la simulation.
 .\scripts\minipaintdex.ps1 cli --root . --format json workshop painting-projects preview-import --product reichbusters-reloaded
 .\scripts\minipaintdex.ps1 cli --root . --format json workshop painting-projects create --product reichbusters-reloaded --project-id paint-reichbusters
 .\scripts\minipaintdex.ps1 cli --root . --format json --wait workshop painting-projects transition --project paint-reichbusters --status completed

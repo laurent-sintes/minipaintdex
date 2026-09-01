@@ -3,6 +3,7 @@ mapping:
   id: the-army-painter
   version: 1
 brand: The Army Painter
+brand_code: tap
 default_profile:
   roles: [color_paint]
   application_methods: [brush]

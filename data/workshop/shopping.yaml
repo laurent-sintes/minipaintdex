@@ -1,17 +1,17 @@
 schema_version: 1
 items:
-  - id: buy-1
-    market_paint_id: the-army-painter-colour-primer-cp3001s
-    reason: Sous-couche noire du projet Reichbusters
-    priority: high
-  - id: buy-2
-    brand: Warhammer Colour
-    name: Nuln Oil
-    reference: ""
-    color_hex: "#2d2e2e"
-    reason: Ombres des armes, armures et uniformes
-    priority: high
-  - id: buy-3
-    market_paint_id: vallejo-game-color-72-001
-    reason: Zénithal au pinceau et cœur des lueurs Vril
-    priority: medium
+- id: buy-1
+  market_paint_id: tap-cp3001s
+  reason: Sous-couche noire du projet Reichbusters
+  priority: high
+- id: buy-2
+  brand: Warhammer Colour
+  name: Nuln Oil
+  reference: ''
+  color_hex: '#2d2e2e'
+  reason: Ombres des armes, armures et uniformes
+  priority: high
+- id: buy-3
+  market_paint_id: val-72-001
+  reason: Zénithal au pinceau et cœur des lueurs Vril
+  priority: medium

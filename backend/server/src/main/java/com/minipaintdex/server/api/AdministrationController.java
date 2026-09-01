@@ -29,10 +29,10 @@ final class AdministrationController {
     @PostMapping("/market/paint-changesets")
     ResultResponse<ApplyMarketPaintChangeSetResult> applyPaintChangeSet(
             @Valid @RequestBody ApplyPaintChangeSetRequest request,
-            @RequestParam(defaultValue = "false") boolean dryRun) {
+            @RequestParam(defaultValue = "true") boolean dryRun) {
         var operations = request.operations().stream()
                 .map(operation -> new ApplyMarketPaintChangeSetCommand.Operation(
-                        operation.action(), document(operation.record()),
+                        operation.action(), operation.previousId(), document(operation.record()),
                         operation.workshopQuantityDelta() == null ? 0 : operation.workshopQuantityDelta(),
                         Boolean.TRUE.equals(operation.confirmedRemoval())))
                 .toList();
@@ -43,7 +43,7 @@ final class AdministrationController {
     @PostMapping("/market/paintable-product-changesets")
     ResultResponse<ApplyMarketPaintableProductChangeSetResult> applyPaintableProductChangeSet(
             @Valid @RequestBody ApplyPaintableProductChangeSetRequest request,
-            @RequestParam(defaultValue = "false") boolean dryRun) {
+            @RequestParam(defaultValue = "true") boolean dryRun) {
         return new ResultResponse<>(administration.applyMarketPaintableProductChangeSet(
                 new ApplyMarketPaintableProductChangeSetCommand(
                         request.schemaVersion(), request.kind(), document(request.product()),

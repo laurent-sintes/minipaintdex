@@ -11,6 +11,8 @@ from datetime import date
 from typing import Any
 from urllib.request import Request, urlopen
 
+from ..paint_identity import market_paint_deduplication_key
+from ..image_quality import normalize_image_quality, prefer_image
 from ..paint_model import canonical_profile, source_observation
 
 
@@ -145,7 +147,7 @@ def base_record(
     finish: str = "", opacity: str = "", medium: str = "acrylic", summary: str = "",
 ) -> dict[str, Any]:
     record = {
-        "schema_version": 2,
+        "schema_version": 1,
         "id": identifier,
         "observed_brand": "",
         "brand": brand,
@@ -169,12 +171,17 @@ def base_record(
         "recommended_uses": [],
         "usage_instructions": usage(functional_type, name, summary),
         "manufacturer_page": page,
-        "manufacturer_image": {"path": "", "source_url": image, "credit": f"Official {manufacturer} catalogue" if image else ""},
+        "manufacturer_image": {
+            "path": "", "source_url": image,
+            "credit": f"Official {manufacturer} catalogue" if image else "",
+            "image_quality": "official_photo" if image else "none",
+            "quality_verified_at": date.today().isoformat() if image else "",
+        },
         "result_image": {"path": "", "source_url": "", "credit": "", "license": "", "reference_url": ""},
         "provenance": {"photo": "", "hashes": []},
         "verified_at": date.today().isoformat(),
         "notes": "",
-        "deduplication_key": f"{slug(brand)}|{slug(range_name)}|ref:{reference_code}",
+        "deduplication_key": market_paint_deduplication_key(brand, reference_code),
     }
     record["profile"], record["mapping_report"] = canonical_profile(record)
     record["source_observation"] = source_observation(record)
@@ -198,15 +205,20 @@ def merge_existing(record: dict[str, Any], by_reference: dict[tuple[str, str], d
 
 
 def merge_previous(record: dict[str, Any], previous: dict[str, Any]) -> dict[str, Any]:
+    record = normalize_image_quality(record)
+    previous = normalize_image_quality(previous)
     merged = deepcopy(previous)
     for key in ("schema_version", "brand", "manufacturer", "range", "profile", "reference", "name", "confidence", "data_status", "lifecycle_status", "volume_ml", "manufacturer_page", "verified_at", "deduplication_key"):
         if record.get(key) not in (None, "", 0, []):
             merged[key] = record[key]
-    for key in ("color", "manufacturer_image"):
+    for key in ("color",):
         target = merged.setdefault(key, {})
         for item_key, value in record.get(key, {}).items():
             if value not in (None, "", 0, []):
                 target[item_key] = value
+    merged["manufacturer_image"] = prefer_image(
+        previous.get("manufacturer_image", {}), record.get("manufacturer_image", {}),
+    )
     if record.get("usage_instructions", {}).get("summary"):
         merged["usage_instructions"] = record["usage_instructions"]
     if record.get("source_snapshots"):

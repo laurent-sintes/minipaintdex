@@ -25,7 +25,7 @@ public record PaintableProduct(
         List<CatalogItem> catalogItems) {
 
     public PaintableProduct {
-        if (schemaVersion < 1) throw invalid("schemaVersion must be positive.");
+        if (schemaVersion != 1) throw invalid("schemaVersion must be 1.");
         requireId(id, "product id");
         require(name, "product name");
         require(line, "product line");

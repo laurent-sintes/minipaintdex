@@ -161,6 +161,13 @@ media/
 
 Do not add compatibility aliases or duplicate API vocabularies during this early construction phase unless the user explicitly asks for backward compatibility. Prefer one clear current model and reset disposable local seed data when authorized.
 
+Until the first release, every MiniPaintDex contract owned by the application uses version `1`:
+file schemas, change sets, datasets, event envelopes, REST routes and published model metadata. Evolve
+that version in place instead of incrementing it. Do not add version negotiation, compatibility readers,
+legacy aliases or migration commands unless the user explicitly authorizes a new version. Business
+versions such as aggregate versions, painting-guide revisions and recipe revisions are not schema
+versions and continue to evolve according to their domain rules.
+
 ## Browser and server boundary
 
 The HTML/JavaScript frontend must never read from or write to `data/` or `media/` directly. It must not know filesystem paths.
@@ -349,7 +356,14 @@ Maintain complete paint ranges by brand and range where sources permit. Store on
 - image provenance, credit, and usage status;
 - last verification date.
 
-Do not use a display name alone as identity. Prefer a manufacturer reference when available and otherwise derive a stable canonical ID from brand, range, and product. Never silently delete products during refresh; mark missing products as discontinued or unavailable until verified.
+Do not use a display name or range as paint identity. Every brand mapping declares one immutable,
+globally unique lowercase ASCII `brand_code`. At first import, a paint ID is generated as
+`<brand-code>-<normalized-manufacturer-reference>` and is never recomputed afterward. Preserve the
+manufacturer's original spelling in `reference`; normalization only affects the derived ID. A refresh
+must match an existing brand/reference identity and retain its ID. A manufacturer reference change
+requires explicit reconciliation. When no manufacturer reference exists, use an explicitly sourced
+stable product identifier or a reviewed `id_override`, never a mutable display name. Never silently
+delete products during refresh; mark missing products as discontinued or unavailable until verified.
 
 Brand adapters map their source vocabulary to the canonical profile through one versioned YAML mapping per brand. A record retains source observations and a mapping report; migration or refresh must never silently discard an unmapped source field. Canonical profile fields use controlled English kebab-case identifiers, while source labels remain traceable metadata.
 
@@ -357,7 +371,9 @@ Each refreshed record also retains a semantically lossless `source_snapshots` en
 
 Official collectors are independent brand adapters under `tools/minipaintdex-data/src/minipaintdex_data/official_sources`; the orchestrator owns only provider registration, cross-provider validation and audit assembly. Each adapter has a minimum absolute volume and a ratio guard against the existing catalog. A suspicious source drop must fail collection before a change set can be built.
 
-Manufacturer image URLs remain sourced catalog facts. Validated local copies are generated under `media/market/paints/<brand>/<paint-id>.(webp|svg)` and are not versioned. Image caching accepts only configured official HTTPS hosts, validates redirects, byte size, raster dimensions and readable content, retries transient failures with bounded backoff, and sanitizes SVGs before publication. Python may write this media cache and emit a market-paint change set; only the Java application use case may persist the resulting catalog paths. The web client uses the local path first and the official source URL as a resilient fallback.
+Manufacturer image URLs remain sourced catalog facts. Every `manufacturer_image` records one canonical `image_quality` and its `quality_verified_at` date. The ordered cross-brand quality vocabulary is: `official_photo` (1), `retailer_photo` (2), `owned_photo` (3), `generic_visual` (4), `color_swatch` (5), and `none` (6). The rank is derived from the vocabulary and is never persisted separately. Refresh and merge operations may improve an image or retain the current one, but must never downgrade it. An official photo may be challenged again once its quality verification is at least 365 days old. A deterministic dry-run planner reports every candidate and reason without mutating the catalog.
+
+Validated local copies are generated under `media/market/paints/<brand>/<paint-id>.(webp|svg)` and are not versioned. Image caching validates source provenance, redirects, byte size, raster dimensions, readable content, flat-colour dominance, checkerboard backgrounds and minimum visual detail; it retries transient failures with bounded backoff and sanitizes SVGs before publication. Official images use configured manufacturer HTTPS hosts. Retailer images require an HTTPS product page, explicit credit and traceable source provenance. A colour swatch or rejected artwork remains preserved in `source_snapshots` but is never presented as a product photo. Python may write this media cache and emit a market-paint change set; only the Java application use case may persist the resulting catalog paths. The web client uses the local path first and the qualified source URL as a resilient fallback.
 
 When an official catalog page is protected from direct HTTP collection but remains normally accessible in an interactive browser, the operator may export an exact manifest of observed product reference, product page and largest rendered image URL. The deterministic image-source importer validates the brand hosts and exact catalog references. Official references absent from the current catalog are reported as unmatched and never silently discarded or invented.
 
@@ -413,7 +429,7 @@ Workshop paint inventory references market paint IDs rather than duplicating pro
 ```yaml
 schema_version: 1
 paints:
-  - paint_id: citadel-contrast-apothecary-white
+  - paint_id: cit-29-34
     quantity: 1
 ```
 

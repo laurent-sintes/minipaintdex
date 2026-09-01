@@ -2,10 +2,10 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from minipaintdex_data.official_refresh import ProviderSpec, _validate_collection
+from minipaintdex_data.official_refresh import ProviderSpec, _validate_collection, collect_official_refresh
 from minipaintdex_data.official_sources.army_painter import stable_payload
 from minipaintdex_data.official_sources.common import classify, merge_previous, usage
-from minipaintdex_data.official_sources.prince_august import parse_cards
+from minipaintdex_data.official_sources.prince_august import parse_cards, parse_packshot
 from minipaintdex_data.official_sources.vallejo import parse_lines
 from minipaintdex_data.official_sources.warhammer import collect as collect_warhammer
 
@@ -27,6 +27,17 @@ class OfficialRefreshTest(unittest.TestCase):
                 "image": "https://example.test/P830.jpg",
                 "description": "Peinture acrylique mate.",
             }],
+        )
+
+    def test_selects_prince_august_packshot_instead_of_colour_swatch(self):
+        page = """
+        <a href="https://www.prince-august.net/wp-content/uploads/2019/06/PMP951_0000.png"></a>
+        <a href="https://www.prince-august.net/wp-content/uploads/2019/05/P951-1.jpg"></a>
+        """
+
+        self.assertEqual(
+            parse_packshot(page, "P951", "https://www.prince-august.net/peintures/classic/1-blanc"),
+            "https://www.prince-august.net/wp-content/uploads/2019/06/PMP951_0000.png",
         )
 
     def test_parses_vallejo_reference_and_english_name(self):
@@ -93,6 +104,48 @@ class OfficialRefreshTest(unittest.TestCase):
         self.assertEqual(merged["source_observation"], previous["source_observation"])
         self.assertEqual(merged["mapping_report"], previous["mapping_report"])
 
+    def test_merge_never_downgrades_an_owned_photo(self):
+        previous = {
+            "id": "paint", "brand": "Vallejo", "reference": "70.001", "name": "Paint",
+            "manufacturer_image": {
+                "path": "/media/owned.webp", "image_quality": "owned_photo",
+                "quality_verified_at": "2026-08-30",
+            },
+        }
+        incoming = {
+            "id": "paint", "brand": "Vallejo", "reference": "70.001", "name": "Paint",
+            "manufacturer_image": {
+                "reference_url": "https://example.test/generic", "image_quality": "generic_visual",
+                "quality_verified_at": "2026-09-01",
+            },
+        }
+
+        merged = merge_previous(incoming, previous)
+
+        self.assertEqual(merged["manufacturer_image"]["image_quality"], "owned_photo")
+        self.assertEqual(merged["manufacturer_image"]["path"], "/media/owned.webp")
+
+    def test_merge_upgrades_a_retailer_photo_with_an_official_photo(self):
+        previous = {
+            "id": "paint", "brand": "Vallejo", "reference": "70.001", "name": "Paint",
+            "manufacturer_image": {
+                "source_url": "https://retailer.test/paint.jpg", "image_quality": "retailer_photo",
+                "quality_verified_at": "2026-08-30",
+            },
+        }
+        incoming = {
+            "id": "paint", "brand": "Vallejo", "reference": "70.001", "name": "Paint",
+            "manufacturer_image": {
+                "source_url": "https://acrylicosvallejo.com/paint.jpg", "image_quality": "official_photo",
+                "quality_verified_at": "2026-09-01",
+            },
+        }
+
+        merged = merge_previous(incoming, previous)
+
+        self.assertEqual(merged["manufacturer_image"]["image_quality"], "official_photo")
+        self.assertIn("acrylicosvallejo.com", merged["manufacturer_image"]["source_url"])
+
     @patch("minipaintdex_data.official_sources.warhammer._hits")
     def test_collects_complete_warhammer_store_records_and_preserves_existing_id(self, hits):
         hits.return_value = [{
@@ -111,7 +164,8 @@ class OfficialRefreshTest(unittest.TestCase):
         self.assertEqual(len(records), 1)
         self.assertEqual(records[0]["id"], "cit-contrast-aggaros-dunes")
         self.assertEqual(records[0]["reference"], "PROD-TEST-123")
-        self.assertEqual(records[0]["manufacturer_image"]["source_url"], "https://www.warhammer.com/image.svg")
+        self.assertEqual(records[0]["manufacturer_image"]["source_url"], "")
+        self.assertIn("colour swatch", records[0]["warnings"][0])
         self.assertEqual(records[0]["profile"]["application_system"], "one_coat_shading")
         self.assertEqual(records[0]["source_snapshots"][0]["provider"], "warhammer_store_search")
         self.assertEqual(records[0]["source_snapshots"][0]["payload"]["sku"], "prod-test-123")
@@ -122,6 +176,10 @@ class OfficialRefreshTest(unittest.TestCase):
 
         with self.assertRaisesRegex(ValueError, "below 80%"):
             _validate_collection(spec, paints, 100)
+
+    def test_vallejo_pdf_is_required_only_when_vallejo_is_selected(self):
+        with self.assertRaisesRegex(ValueError, "--vallejo-pdf"):
+            collect_official_refresh(Path("unused"), None, brands=["Vallejo"])
 
 
 if __name__ == "__main__":

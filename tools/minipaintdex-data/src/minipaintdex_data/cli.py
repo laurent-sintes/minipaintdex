@@ -11,14 +11,14 @@ from . import paint_import
 from .assets import audit_assets
 from .changesets import (
     build_paint_changeset,
-    build_paint_model_migration_changeset,
     load_json,
     validate_changeset,
     write_json,
 )
 from .datasets import CATEGORY_PATHS, create_dataset, inspect_dataset, validate_dataset
 from .official_refresh import collect_official_refresh
-from .paint_images import build_image_cache_changeset, build_image_source_changeset
+from .image_quality import plan_image_rechallenge
+from .paint_images import build_image_cache_changeset, build_image_source_changeset, rekey_cached_paint_images
 from .refresh import build_refresh_changeset, read_catalog
 
 
@@ -52,20 +52,28 @@ def build_parser() -> argparse.ArgumentParser:
     refresh.add_argument("--remove-missing", action="store_true", help="Propose explicit deletions instead of retirement")
     refresh.add_argument("--audit-log", help="Write the structured refresh audit as JSON")
     refresh.add_argument("--output", required=True)
-    migrate = changeset_commands.add_parser("migrate-paint-model", help="Build a lossless canonical paint-model migration")
-    migrate.add_argument("--catalog", default="data/market/paints")
-    migrate.add_argument("--retain-legacy-fields", action="store_true")
-    migrate.add_argument("--output", required=True)
 
     catalog = subcommands.add_parser("catalog", help="Collect verified manufacturer catalogue data")
     catalog_commands = catalog.add_subparsers(dest="catalog_command", required=True)
     collect = catalog_commands.add_parser("collect-official-paints", help="Collect one or every registered official paint catalogue")
     collect.add_argument("--catalog", default="data/market/paints")
-    collect.add_argument("--vallejo-pdf", required=True, help="Downloaded official Vallejo catalogue PDF")
+    collect.add_argument("--vallejo-pdf", help="Downloaded official Vallejo catalogue PDF; required only for Vallejo")
     collect.add_argument("--verified-at")
     collect.add_argument("--brand", action="append", default=[], help="Canonical brand name; repeat it or use 'all' (default)")
     collect.add_argument("--audit-log", help="Write the structured collection audit as JSON")
     collect.add_argument("--output", required=True)
+    refresh_official = catalog_commands.add_parser(
+        "refresh-official-paints",
+        help="Collect, compare and audit one official brand refresh without applying it",
+    )
+    refresh_official.add_argument("--catalog", default="data/market/paints")
+    refresh_official.add_argument("--vallejo-pdf", help="Downloaded official Vallejo catalogue PDF; required only for Vallejo")
+    refresh_official.add_argument("--verified-at")
+    refresh_official.add_argument("--brand", default="all", help="Canonical brand name or 'all'")
+    refresh_official.add_argument("--remove-missing", action="store_true")
+    refresh_official.add_argument("--collected-output", help="Optionally retain the collected provider payload")
+    refresh_official.add_argument("--audit-log", required=True)
+    refresh_official.add_argument("--output", required=True, help="Dry-run market-paint change set")
 
     assets = subcommands.add_parser("assets", help="Audit local public media")
     assets_commands = assets.add_subparsers(dest="assets_command", required=True)
@@ -78,6 +86,14 @@ def build_parser() -> argparse.ArgumentParser:
         "cache-paint-images", help="Download and validate official paint packshots into the local media cache"
     )
     cache_images.add_argument("--catalog", default="data/market/paints")
+    cache_images.add_argument(
+        "--source-manifest",
+        help="Validate and stage remote image sources before caching; only successfully cached records are emitted",
+    )
+    cache_images.add_argument(
+        "--source-changeset",
+        help="Stage a validated market-paint source change set before caching its remote images",
+    )
     cache_images.add_argument("--media-root", default="media")
     cache_images.add_argument("--brand", action="append", default=[], help="Canonical brand; repeat or use 'all'")
     cache_images.add_argument("--min-width", type=int, default=300)
@@ -102,6 +118,20 @@ def build_parser() -> argparse.ArgumentParser:
     )
     import_image_sources.add_argument("--verified-at")
     import_image_sources.add_argument("--output", required=True)
+    rekey_images = assets_commands.add_parser(
+        "rekey-paint-images", help="Move cached paint images after an explicit identity reconciliation"
+    )
+    rekey_images.add_argument("--changeset", required=True)
+    rekey_images.add_argument("--media-root", default="media")
+    rekey_images.add_argument("--output")
+    plan_images = assets_commands.add_parser(
+        "plan-paint-image-refresh", help="Estimate paint images that should be challenged without changing data"
+    )
+    plan_images.add_argument("--catalog", default="data/market/paints")
+    plan_images.add_argument("--brand", action="append", default=[], help="Canonical brand; repeat or use 'all'")
+    plan_images.add_argument("--as-of", help="ISO-8601 date used for a deterministic estimate")
+    plan_images.add_argument("--official-max-age-days", type=int, default=365)
+    plan_images.add_argument("--output")
 
     dataset = subcommands.add_parser("dataset", help="Create or validate portable application datasets")
     dataset_commands = dataset.add_subparsers(dest="dataset_command", required=True)
@@ -177,17 +207,9 @@ def main(argv: list[str] | None = None) -> int:
             for warning in changeset["refresh"]["warnings"]:
                 print(f"WARNING {warning}")
             return 0
-        if args.command == "changeset" and args.changeset_command == "migrate-paint-model":
-            changeset = build_paint_model_migration_changeset(
-                read_catalog(Path(args.catalog)), source=Path(args.catalog).as_posix(),
-                retain_legacy_fields=args.retain_legacy_fields,
-            )
-            write_json(Path(args.output), changeset)
-            print(f"Migration change set written to {args.output} ({len(changeset['operations'])} operation(s)).")
-            return 0
         if args.command == "catalog" and args.catalog_command == "collect-official-paints":
             payload = collect_official_refresh(
-                Path(args.catalog), Path(args.vallejo_pdf), verified_at=args.verified_at,
+                Path(args.catalog), Path(args.vallejo_pdf) if args.vallejo_pdf else None, verified_at=args.verified_at,
                 brands=args.brand or ["all"],
             )
             write_json(Path(args.output), payload)
@@ -211,6 +233,47 @@ def main(argv: list[str] | None = None) -> int:
                     f"images_missing={images['missing']}"
                 )
             return 0
+        if args.command == "catalog" and args.catalog_command == "refresh-official-paints":
+            selected_brands = [args.brand]
+            payload = collect_official_refresh(
+                Path(args.catalog), Path(args.vallejo_pdf) if args.vallejo_pdf else None,
+                verified_at=args.verified_at, brands=selected_brands,
+            )
+            changeset = build_refresh_changeset(
+                read_catalog(Path(args.catalog)), payload, brand=args.brand,
+                verified_at=args.verified_at, remove_missing=args.remove_missing,
+            )
+            errors = validate_changeset(changeset, allow_empty=True)
+            if errors:
+                raise ValueError("Invalid generated refresh change set: " + "; ".join(errors))
+            write_json(Path(args.output), changeset)
+            if args.collected_output:
+                write_json(Path(args.collected_output), payload)
+            verification_date = changeset["refresh"]["verified_at"]
+            image_plan = plan_image_rechallenge(
+                {"paints": payload["paints"]}, brands=selected_brands,
+                as_of=verification_date,
+            )
+            write_json(Path(args.audit_log), {
+                "schema_version": 1,
+                "kind": "official_paint_refresh_audit",
+                "generated_at": verification_date,
+                "brand": args.brand,
+                "collection": payload["audit"],
+                "comparison": changeset["refresh"]["audit"],
+                "warnings": changeset["refresh"]["warnings"],
+                "image_rechallenge": image_plan,
+            })
+            print(
+                f"Official refresh prepared: paints={len(payload['paints'])} "
+                f"operations={len(changeset['operations'])} "
+                f"images_to_rechallenge={image_plan['candidate_count']}"
+            )
+            print(
+                f"Next: minipaintdex market paints apply --input {args.output} "
+                "(dry-run by default; add --apply only after audit)."
+            )
+            return 0
         if args.command == "assets" and args.assets_command == "audit":
             if args.min_width <= 0 or args.min_height <= 0:
                 raise ValueError("Minimum image dimensions must be positive.")
@@ -220,8 +283,32 @@ def main(argv: list[str] | None = None) -> int:
             )
             return 0
         if args.command == "assets" and args.assets_command == "cache-paint-images":
+            catalog = read_catalog(Path(args.catalog))
+            if args.source_manifest and args.source_changeset:
+                raise ValueError("Use either --source-manifest or --source-changeset, not both.")
+            if args.source_manifest:
+                source_changeset = build_image_source_changeset(
+                    catalog, load_json(Path(args.source_manifest)), verified_at=args.verified_at,
+                )
+            elif args.source_changeset:
+                source_changeset = load_json(Path(args.source_changeset))
+                errors = validate_changeset(source_changeset, allow_empty=True)
+                if errors or source_changeset.get("kind") != "market_paints":
+                    raise ValueError("Invalid market-paint source change set: " + "; ".join(errors))
+            else:
+                source_changeset = None
+            if source_changeset is not None:
+                staged = {
+                    operation["record"]["id"]: operation["record"]
+                    for operation in source_changeset["operations"]
+                    if operation.get("action") == "upsert"
+                }
+                catalog = {
+                    **catalog,
+                    "paints": [staged.get(paint.get("id"), paint) for paint in catalog["paints"]],
+                }
             changeset, report = build_image_cache_changeset(
-                read_catalog(Path(args.catalog)), Path(args.media_root),
+                catalog, Path(args.media_root),
                 brands=args.brand or ["all"], min_width=args.min_width, min_height=args.min_height,
                 max_edge=args.max_edge, max_bytes=args.max_bytes, overwrite=args.overwrite,
                 limit=args.limit, workers=args.workers, verified_at=args.verified_at,
@@ -248,6 +335,26 @@ def main(argv: list[str] | None = None) -> int:
                 f"Paint image source change set written to {args.output} "
                 f"({len(changeset['operations'])} operation(s), {len(unmatched)} unmatched reference(s))."
             )
+            return 0
+        if args.command == "assets" and args.assets_command == "rekey-paint-images":
+            report = rekey_cached_paint_images(load_json(Path(args.changeset)), Path(args.media_root))
+            _write_result(report, args.output)
+            if args.output:
+                print(
+                    f"Paint image cache rekeyed: moved={report['moved_count']} missing={report['missing_count']}"
+                )
+            return 0
+        if args.command == "assets" and args.assets_command == "plan-paint-image-refresh":
+            report = plan_image_rechallenge(
+                read_catalog(Path(args.catalog)), brands=args.brand or ["all"], as_of=args.as_of,
+                official_max_age_days=args.official_max_age_days,
+            )
+            _write_result(report, args.output)
+            if args.output:
+                print(
+                    f"Paint image refresh estimate: inspected={report['inspected_count']} "
+                    f"candidates={report['candidate_count']}"
+                )
             return 0
         if args.command == "dataset" and args.dataset_command == "create":
             target = create_dataset(

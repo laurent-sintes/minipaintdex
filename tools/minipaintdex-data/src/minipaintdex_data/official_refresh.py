@@ -83,12 +83,11 @@ def _validate_collection(spec: ProviderSpec, paints: list[dict[str, Any]], known
 
 def collect_official_refresh(
     catalog_path: Path,
-    vallejo_pdf: Path,
+    vallejo_pdf: Path | None,
     *,
     verified_at: str | None = None,
     brands: Iterable[str] | None = None,
 ) -> dict[str, Any]:
-    catalog = read_catalog(catalog_path)
     verification_date = verified_at or date.today().isoformat()
     requested = list(brands or OFFICIAL_PROVIDERS)
     if any(brand.casefold() == "all" for brand in requested):
@@ -98,6 +97,9 @@ def collect_official_refresh(
     if unknown:
         raise ValueError(f"No official catalogue provider is registered for: {', '.join(unknown)}")
     selected = list(dict.fromkeys(canonical[brand.casefold()] for brand in requested))
+    if "Vallejo" in selected and vallejo_pdf is None:
+        raise ValueError("--vallejo-pdf is required when the Vallejo provider is selected.")
+    catalog = read_catalog(catalog_path)
     paints: list[dict[str, Any]] = []
     audit: list[dict[str, Any]] = []
     existing_counts = {
@@ -106,7 +108,7 @@ def collect_official_refresh(
     }
     for brand in selected:
         spec = OFFICIAL_PROVIDERS[brand]
-        collected = spec.collect(catalog, vallejo_pdf)
+        collected = spec.collect(catalog, vallejo_pdf or Path())
         _validate_collection(spec, collected, existing_counts[brand])
         paints.extend(collected)
         audit.append({

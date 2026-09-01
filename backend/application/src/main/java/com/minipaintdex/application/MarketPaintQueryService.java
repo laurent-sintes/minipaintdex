@@ -10,6 +10,8 @@ import com.minipaintdex.application.view.MarketPaintView;
 import com.minipaintdex.application.view.PaintFacetValue;
 import com.minipaintdex.application.view.PaintFacetView;
 import com.minipaintdex.application.view.PaintFacetsView;
+import com.minipaintdex.application.view.PaintCatalogQualityView;
+import com.minipaintdex.application.view.PaintCatalogQualityView;
 import com.minipaintdex.domain.market.paint.MarketPaint;
 import com.minipaintdex.domain.shared.DomainException;
 
@@ -66,18 +68,43 @@ final class MarketPaintQueryService {
             boolean manufacturerSheetOnly,
             boolean realResultOnly,
             PageQuery page) {
-        var filtered = search(filters).stream()
-                .filter(paint -> !manufacturerSheetOnly || present(paint.manufacturerUrl()))
-                .filter(paint -> !realResultOnly || present(paint.resultImage())
-                        || present(paint.resultReferenceUrl()))
+        var filtered = filtered(filters, manufacturerSheetOnly, realResultOnly)
                 .sorted(comparator(page.sort())).toList();
         var from = Math.min(page.offset(), filtered.size());
         var to = Math.min(from + page.size(), filtered.size());
         return new PageResult<>(filtered.subList(from, to), page.page(), page.size(), filtered.size());
     }
 
-    PaintFacetsView facets(SearchMarketPaintsQuery filters) {
-        return facets(search(filters));
+    PaintFacetsView facets(
+            SearchMarketPaintsQuery filters, boolean manufacturerSheetOnly, boolean realResultOnly) {
+        return facets(filtered(filters, manufacturerSheetOnly, realResultOnly).toList());
+    }
+
+    PaintCatalogQualityView quality() {
+        var paints = catalogs.load().paints();
+        var qualityCounts = new java.util.TreeMap<String, Integer>();
+        paints.forEach(paint -> qualityCounts.merge(paint.manufacturerImage().imageQuality().id(), 1, Integer::sum));
+        return new PaintCatalogQualityView(
+                paints.size(),
+                (int) paints.stream().filter(paint -> !present(paint.color().hex())).count(),
+                (int) paints.stream().filter(paint -> !present(paint.color().family())).count(),
+                (int) paints.stream().filter(paint -> "unknown".equals(paint.profile().finish().id())).count(),
+                (int) paints.stream().filter(paint -> "unknown".equals(paint.profile().coverage().id())).count(),
+                (int) paints.stream().filter(paint -> paint.profile().requiresUsageInstructions()
+                        && paint.usageInstructions().reviewRequired()).count(),
+                (int) paints.stream().filter(paint -> paint.manufacturerImage().imageQuality().rank() <= 4
+                        && !present(paint.manufacturerImage().license())).count(),
+                (int) paints.stream().filter(paint -> present(image(paint.resultImage()))).count(),
+                qualityCounts.entrySet().stream()
+                        .map(entry -> new PaintCatalogQualityView.ImageQualityCount(entry.getKey(), entry.getValue()))
+                        .toList());
+    }
+
+    private Stream<MarketPaintView> filtered(
+            SearchMarketPaintsQuery filters, boolean manufacturerSheetOnly, boolean realResultOnly) {
+        return stream(filters)
+                .filter(paint -> !manufacturerSheetOnly || present(paint.manufacturerUrl()))
+                .filter(paint -> !realResultOnly || present(paint.resultImage()));
     }
 
     static PaintFacetsView facets(List<MarketPaintView> paints) {
@@ -118,7 +145,10 @@ final class MarketPaintQueryService {
                 verifiedAt.isBlank() ? "" : verifiedAt + "T00:00:00.000Z",
                 verifiedAt.isBlank() ? "" : verifiedAt + "T00:00:00.000Z",
                 uri(paint.manufacturerPage()), image(paint.manufacturerImage()), uri(paint.manufacturerImage().sourceUrl()),
-                string(paint.manufacturerImage().credit()), paint.volumeMl(), string(paint.color().family()),
+                string(paint.manufacturerImage().credit()), paint.manufacturerImage().imageQuality().id(),
+                paint.manufacturerImage().imageQuality().rank(),
+                paint.manufacturerImage().qualityVerifiedAt() == null ? "" : paint.manufacturerImage().qualityVerifiedAt().toString(),
+                paint.volumeMl(), string(paint.color().family()),
                 string(paint.notes()), paint.recommendedUses(),
                 new MarketPaintView.UsageInstructions(
                         string(usage.summary()), usage.steps(), usage.tips(),
@@ -134,7 +164,7 @@ final class MarketPaintQueryService {
         var effective = orders.isEmpty() ? List.of(new SortOrder("name", SortOrder.Direction.ASCENDING)) : orders;
         Comparator<MarketPaintView> comparator = null;
         for (var order : effective) {
-            if (!java.util.Set.of("name", "brand", "range", "reference", "role", "colorFamily")
+            if (!java.util.Set.of("name", "brand", "range", "reference", "role", "colorFamily", "verifiedAt")
                     .contains(order.property())) {
                 throw new DomainException("invalid_input", "Unsupported paint sort property: " + order.property());
             }
@@ -165,6 +195,7 @@ final class MarketPaintQueryService {
             case "reference" -> value.reference();
             case "role" -> value.profile().roles().getFirst();
             case "colorFamily" -> value.colorFamily();
+            case "verifiedAt" -> value.manufacturerVerifiedAt();
             default -> throw new IllegalArgumentException("Unsupported paint sort property: " + property);
         };
     }

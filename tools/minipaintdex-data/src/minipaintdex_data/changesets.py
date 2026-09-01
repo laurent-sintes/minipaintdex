@@ -8,6 +8,8 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
+from .paint_identity import market_paint_deduplication_key, market_paint_id
+from .image_quality import IMAGE_QUALITY_RANKS
 from .paint_model import canonical_profile, source_observation, validate_profile
 
 
@@ -70,16 +72,25 @@ def _quantity(value: Any) -> int:
 def canonical_paint(record: dict[str, Any], *, verified_at: str | None = None) -> dict[str, Any]:
     """Convert one normalized/enriched observation to the canonical market schema."""
     enrichment = record.get("enrichment") if isinstance(record.get("enrichment"), dict) else {}
-    identifier = _text(record.get("id"))
+    brand = _text(record.get("brand_canonical") or record.get("brand"))
+    manufacturer_reference = _text(record.get("reference"))
+    identifier = _text(record.get("id")) or market_paint_id(brand, manufacturer_reference)
     color_hex = _text(_first(record, enrichment, "color_hex", "couleur_hex"))
     color_family = _text(_first(record, enrichment, "color_family", "famille_couleur"))
     existing_manufacturer_image = record.get("manufacturer_image") if isinstance(record.get("manufacturer_image"), dict) else {}
+    verification_date = verified_at or _text(_first(record, enrichment, "verified_on", "verified_at")) or date.today().isoformat()
+    local_image = _text(_first(record, enrichment, "local_image", default=existing_manufacturer_image.get("path", "")))
+    image_quality = _text(existing_manufacturer_image.get("image_quality")) or ("owned_photo" if local_image else "none")
     manufacturer_image = {
-        "path": _text(_first(record, enrichment, "local_image", default=existing_manufacturer_image.get("path", ""))),
+        "path": local_image,
         "source_url": _text(_first(record, enrichment, "image_source_url")),
         "credit": _text(_first(record, enrichment, "image_credit")),
         "license": _text(existing_manufacturer_image.get("license")),
         "reference_url": _text(existing_manufacturer_image.get("reference_url")),
+        "image_quality": image_quality,
+        "quality_verified_at": _text(existing_manufacturer_image.get("quality_verified_at")) or (
+            verification_date if image_quality != "none" else ""
+        ),
     }
     result_image = {
         "path": _text(_first(record, enrichment, "result_image")),
@@ -91,16 +102,16 @@ def canonical_paint(record: dict[str, Any], *, verified_at: str | None = None) -
     source_hash = _text(record.get("source_hash"))
     profile, mapping_report = canonical_profile(record)
     paint: dict[str, Any] = {
-        "schema_version": 2,
+        "schema_version": 1,
         "id": identifier,
         "observed_brand": _text(record.get("brand_observed")),
-        "brand": _text(record.get("brand_canonical") or record.get("brand")),
+        "brand": brand,
         "brand_aliases": _values(record.get("brand_aliases")),
         "manufacturer": _text(record.get("manufacturer")),
         "observed_range": _text(record.get("range_observed")),
         "range": _text(record.get("range_canonical") or record.get("range")),
         "profile": profile,
-        "reference": _text(record.get("reference")),
+        "reference": manufacturer_reference,
         "name": _text(record.get("name") or record.get("name_observed")),
         "confidence": record.get("confidence", 0),
         "data_status": _status(record.get("status")),
@@ -123,46 +134,13 @@ def canonical_paint(record: dict[str, Any], *, verified_at: str | None = None) -
             "photo": _text(record.get("source_photo")),
             "hashes": [source_hash] if source_hash else [],
         },
-        "verified_at": verified_at or _text(_first(record, enrichment, "verified_on", "verified_at")) or date.today().isoformat(),
+        "verified_at": verification_date,
         "notes": _text(_first(record, enrichment, "notes")),
         "deduplication_key": _text(record.get("dedupe_key")),
         "source_observation": source_observation(record),
         "mapping_report": mapping_report,
     }
     return paint
-
-
-def build_paint_model_migration_changeset(
-    catalog: dict[str, Any], *, source: str, retain_legacy_fields: bool = False,
-) -> dict[str, Any]:
-    """Build lossless v1 -> v2 paint upserts without rewriting unrelated source fields."""
-    paints = catalog.get("paints")
-    if not isinstance(paints, list):
-        raise ValueError("The paint catalog must contain a paints list.")
-    operations: list[dict[str, Any]] = []
-    for original in paints:
-        if not isinstance(original, dict):
-            raise ValueError("Every paint catalog entry must be an object.")
-        migrated = dict(original)
-        profile, report = canonical_profile(original)
-        migrated["schema_version"] = 2
-        migrated["profile"] = profile
-        migrated["source_observation"] = source_observation(original)
-        migrated["mapping_report"] = report
-        if not retain_legacy_fields:
-            for field in ("functional_type", "finish", "medium", "opacity", "behavior_tags"):
-                migrated.pop(field, None)
-        operations.append({"action": "upsert", "record": migrated, "workshop_quantity_delta": 0})
-    changeset = {
-        "schema_version": 1,
-        "kind": "market_paints",
-        "source": {"path": source, "generated_at": date.today().isoformat(), "migration": "paint-model-v2"},
-        "operations": operations,
-    }
-    errors = validate_changeset(changeset)
-    if errors:
-        raise ValueError("Invalid paint-model migration change set: " + "; ".join(errors))
-    return changeset
 
 
 def build_paint_changeset(
@@ -213,8 +191,8 @@ def validate_changeset(changeset: Any, *, allow_empty: bool = False) -> list[str
         seen: set[str] = set()
         for index, operation in enumerate(operations):
             location = f"operations[{index}]"
-            if not isinstance(operation, dict) or operation.get("action") not in {"upsert", "retire", "delete"}:
-                errors.append(f"{location}.action must be upsert, retire or delete")
+            if not isinstance(operation, dict) or operation.get("action") not in {"upsert", "retire", "delete", "rekey"}:
+                errors.append(f"{location}.action must be upsert, retire, delete or rekey")
                 continue
             quantity_delta = operation.get("workshop_quantity_delta", 0)
             if not isinstance(quantity_delta, int) or quantity_delta < 0:
@@ -223,7 +201,9 @@ def validate_changeset(changeset: Any, *, allow_empty: bool = False) -> list[str
             if not isinstance(record, dict):
                 errors.append(f"{location}.record must be an object")
                 continue
-            required_fields = PAINT_REQUIRED_FIELDS if operation.get("action") == "upsert" else ("id",)
+            required_fields = PAINT_REQUIRED_FIELDS if operation.get("action") in {"upsert", "rekey"} else ("id",)
+            if operation.get("action") in {"upsert", "rekey"} and record.get("schema_version") != 1:
+                errors.append(f"{location}.record.schema_version must be 1")
             for field in required_fields:
                 if field == "profile":
                     if not isinstance(record.get(field), dict):
@@ -233,16 +213,24 @@ def validate_changeset(changeset: Any, *, allow_empty: bool = False) -> list[str
                     errors.append(f"{location}.record.{field} is required")
             if operation.get("action") == "delete" and operation.get("confirmed_removal") is not True:
                 errors.append(f"{location}.confirmed_removal must be true for deletion")
+            if operation.get("action") == "rekey":
+                previous_id = _text(operation.get("previous_id"))
+                if not previous_id:
+                    errors.append(f"{location}.previous_id is required for rekey")
+                elif not ID_PATTERN.fullmatch(previous_id):
+                    errors.append(f"{location}.previous_id must be lowercase kebab-case")
+                elif previous_id == _text(record.get("id")):
+                    errors.append(f"{location}.previous_id must differ from record.id")
             if operation.get("action") != "upsert" and quantity_delta != 0:
                 errors.append(f"{location}.workshop_quantity_delta must be zero unless action is upsert")
             profile = record.get("profile")
-            if operation.get("action") == "upsert" and isinstance(profile, dict):
+            if operation.get("action") in {"upsert", "rekey"} and isinstance(profile, dict):
                 try:
                     validate_profile(profile, f"{location}.record.profile")
                 except ValueError as error:
                     errors.append(str(error))
             roles = set(profile.get("roles", [])) if isinstance(profile, dict) else set()
-            if operation.get("action") == "upsert" and roles.intersection(INSTRUCTION_ROLES):
+            if operation.get("action") in {"upsert", "rekey"} and roles.intersection(INSTRUCTION_ROLES):
                 instructions = record.get("usage_instructions")
                 if not isinstance(instructions, dict) or not _text(instructions.get("summary")):
                     errors.append(f"{location}.record.usage_instructions.summary is required for technical paint")
@@ -251,6 +239,22 @@ def validate_changeset(changeset: Any, *, allow_empty: bool = False) -> list[str
             identifier = _text(record.get("id"))
             if identifier and not ID_PATTERN.fullmatch(identifier):
                 errors.append(f"{location}.record.id must be lowercase kebab-case")
+            if operation.get("action") in {"upsert", "rekey"} and identifier:
+                try:
+                    expected_id = market_paint_id(record.get("brand"), record.get("reference"))
+                except ValueError:
+                    expected_id = identifier
+                if identifier != expected_id:
+                    errors.append(f"{location}.record.id must be {expected_id} for its brand and reference")
+                _validate_image_reference(
+                    record.get("manufacturer_image"), f"{location}.record.manufacturer_image", errors,
+                    product_visual=True,
+                )
+                _validate_image_reference(
+                    record.get("result_image"), f"{location}.record.result_image", errors,
+                    product_visual=False,
+                )
+                _validate_source_evidence(record, location, errors)
             if identifier in seen:
                 errors.append(f"duplicate paint id: {identifier}")
             seen.add(identifier)
@@ -259,6 +263,8 @@ def validate_changeset(changeset: Any, *, allow_empty: bool = False) -> list[str
         if not isinstance(product, dict):
             errors.append("product must be an object")
             return errors
+        if product.get("schema_version") != 1:
+            errors.append("product.schema_version must be 1")
         for field in ("id", "name", "line", "product_type", "scope", "catalog_items"):
             if product.get(field) in (None, "", []):
                 errors.append(f"product.{field} is required")
@@ -331,3 +337,59 @@ def validate_changeset(changeset: Any, *, allow_empty: bool = False) -> list[str
         if "workshop_items" in changeset:
             errors.append("workshop_items do not belong to a market_product change set")
     return errors
+
+
+def _validate_image_reference(
+    image: Any, location: str, errors: list[str], *, product_visual: bool,
+) -> None:
+    if image is None:
+        return
+    if not isinstance(image, dict):
+        errors.append(f"{location} must be an object")
+        return
+    for field in ("source_url", "reference_url"):
+        value = _text(image.get(field))
+        if value and not value.startswith("https://"):
+            errors.append(f"{location}.{field} must use HTTPS")
+    if not product_visual:
+        return
+    quality = _text(image.get("image_quality")) or "none"
+    if quality not in IMAGE_QUALITY_RANKS:
+        errors.append(f"{location}.image_quality is unsupported: {quality}")
+        return
+    has_visual = bool(_text(image.get("path")) or _text(image.get("source_url")))
+    if quality in {"official_photo", "retailer_photo", "owned_photo", "generic_visual"} and not has_visual:
+        errors.append(f"{location} requires a path or source_url for {quality}")
+    if quality != "none" and not _text(image.get("quality_verified_at")):
+        errors.append(f"{location}.quality_verified_at is required for {quality}")
+    if quality == "retailer_photo":
+        if not _text(image.get("credit")):
+            errors.append(f"{location}.credit is required for retailer_photo")
+        if not _text(image.get("reference_url")):
+            errors.append(f"{location}.reference_url is required for retailer_photo")
+
+
+def _validate_source_evidence(record: dict[str, Any], location: str, errors: list[str]) -> None:
+    snapshots = record.get("source_snapshots")
+    if snapshots is not None:
+        if not isinstance(snapshots, list):
+            errors.append(f"{location}.record.source_snapshots must be a list")
+        else:
+            for index, snapshot in enumerate(snapshots):
+                current = f"{location}.record.source_snapshots[{index}]"
+                if not isinstance(snapshot, dict):
+                    errors.append(f"{current} must be an object")
+                    continue
+                if not _text(snapshot.get("provider")):
+                    errors.append(f"{current}.provider is required")
+                url = _text(snapshot.get("url"))
+                if not url.startswith("https://"):
+                    errors.append(f"{current}.url must use HTTPS")
+                if not isinstance(snapshot.get("payload"), dict):
+                    errors.append(f"{current}.payload must be an object")
+    report = record.get("mapping_report")
+    if report is not None:
+        if not isinstance(report, dict):
+            errors.append(f"{location}.record.mapping_report must be an object")
+        elif report.get("mapping_version") != 1:
+            errors.append(f"{location}.record.mapping_report.mapping_version must be 1")

@@ -81,7 +81,7 @@ try {
         }
         'cli' {
             if (-not (Test-Path -LiteralPath $cliJar)) { Invoke-Build }
-            $cliJvmOptions = Get-JvmMemoryOptions 'cli' '32m' '192m'
+            $cliJvmOptions = Get-JvmMemoryOptions 'cli' '64m' '512m'
             & $java @cliJvmOptions -jar $cliJar @Arguments
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
         }

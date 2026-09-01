@@ -21,14 +21,14 @@ class DatasetTests(unittest.TestCase):
         self.datasets = self.root / "datasets"
         self._yaml(
             "data/market/paints/brand-a.yaml",
-            {"schema_version": 2, "brand": "Brand A", "paints": [
-                {"id": "brand-a-red", "brand": "Brand A", "name": "Red"},
+            {"schema_version": 1, "brand": "Brand A", "paints": [
+                {"schema_version": 1, "id": "brand-a-red", "brand": "Brand A", "name": "Red"},
             ]},
         )
         self._yaml(
             "data/market/paints/brand-b.yaml",
-            {"schema_version": 2, "brand": "Brand B", "paints": [
-                {"id": "brand-b-blue", "brand": "Brand B", "name": "Blue"},
+            {"schema_version": 1, "brand": "Brand B", "paints": [
+                {"schema_version": 1, "id": "brand-b-blue", "brand": "Brand B", "name": "Blue"},
             ]},
         )
         self._yaml(

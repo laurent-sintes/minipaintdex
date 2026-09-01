@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { formatMetadata, metadataOptions, normalizeSearch, sameMetadata } from './paint-search.ts';
+import { formatMetadata, metadataOptions, normalizeSearch, paintFacetSearchParams, paintPageSearchParams, sameMetadata } from './paint-search.ts';
 
 describe('paint search helpers', () => {
   it('normalizes accents and case for tolerant searches', () => {
@@ -20,5 +20,15 @@ describe('paint search helpers', () => {
 
   it('formats core identifiers only for presentation', () => {
     assert.equal(formatMetadata('one_coat-contrast'), 'One coat contrast');
+  });
+
+  it('keeps published toggle filters consistent between pages and facets', () => {
+    const filters = { role: 'wash', realResultOnly: 'true', manufacturerSheetOnly: '' };
+
+    assert.equal(paintFacetSearchParams(' ink ', filters).toString(), 'query=ink&role=wash&realResultOnly=true');
+    assert.equal(
+      paintPageSearchParams(' ink ', filters, 'verifiedAt,desc', 2, 60).toString(),
+      'query=ink&role=wash&realResultOnly=true&page=2&size=60&sort=verifiedAt%2Cdesc',
+    );
   });
 });

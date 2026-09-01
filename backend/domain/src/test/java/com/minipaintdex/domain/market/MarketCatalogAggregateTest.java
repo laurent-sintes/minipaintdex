@@ -8,6 +8,9 @@ import com.minipaintdex.domain.shared.DomainException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.net.URI;
+import java.time.LocalDate;
+import com.minipaintdex.domain.market.paint.MarketPaintImageQuality;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -37,12 +40,25 @@ class MarketCatalogAggregateTest {
     }
 
     @Test
+    void rejectsAnyPaintSchemaOtherThanOne() {
+        assertThrows(DomainException.class, () -> paint(
+                2, MarketPaintProfile.Role.COLOR_PAINT, MarketPaint.UsageInstructions.empty(), List.of()));
+    }
+
+    @Test
     void rejectsDuplicateGuideSlots() {
         var slot = new MarketPaintingGuide.Slot(
                 "base", "Base coat", "brand-range-paint", false,
                 MarketPaintingGuide.RequestedPaint.empty());
 
         assertThrows(DomainException.class, () -> guide(List.of("source-1"), List.of(slot, slot)));
+    }
+
+    @Test
+    void rejectsRetailerPhotosWithoutTraceableCreditAndProductPage() {
+        assertThrows(DomainException.class, () -> new MarketPaint.ImageReference(
+                null, URI.create("https://retailer.test/paint.webp"), null, null, null,
+                MarketPaintImageQuality.RETAILER_PHOTO, LocalDate.parse("2026-09-01")));
     }
 
     private static MarketPaint paint(
@@ -52,8 +68,14 @@ class MarketCatalogAggregateTest {
 
     private static MarketPaint paint(
             MarketPaintProfile.Role role, MarketPaint.UsageInstructions instructions, List<String> tags) {
+        return paint(1, role, instructions, tags);
+    }
+
+    private static MarketPaint paint(
+            int schemaVersion, MarketPaintProfile.Role role,
+            MarketPaint.UsageInstructions instructions, List<String> tags) {
         return new MarketPaint(
-                2, "brand-range-paint", "Brand", "Maker", List.of(), "Range",
+                schemaVersion, "brand-range-paint", "Brand", "Maker", List.of(), "Range",
                 new MarketPaintProfile(
                         List.of(role), List.of(MarketPaintProfile.ApplicationMethod.BRUSH),
                         MarketPaintProfile.ApplicationSystem.CONVENTIONAL_LAYERING,

@@ -23,7 +23,8 @@ Les contrôles de santé ne sont pas des cas d’usage métier :
 - `GET /site/config` et `/dashboard` : configuration localisée et compteurs légers du SPA ;
 - `GET /market/paints?page=0&size=60&sort=name,asc` : recherche paginée ; taille maximale 200 ;
 - `GET /market/paints/facets` : facettes du catalogue ;
-- `GET /market/paint-model` : JSON Schema du modèle standard, vocabulaires contrôlés et définition des filtres génériques ;
+- `GET /market/paint-model` : JSON Schema v1 complet du modèle standard, vocabulaires contrôlés, filtres et tris génériques ;
+- `GET /market/paints/quality` : indicateurs de complétude des champs standard, des fiches techniques et des visuels ;
 - `GET /market/paints/stream` : transfert incrémental `application/x-ndjson`, distinct de la pagination ;
 - `GET /market/paintable-products` et `/{id}` : catalogue et détail d’un produit à peindre ;
 - `GET /workshop/paints?page=0&size=60` et `/workshop/paints/facets` : références Market possédées,
@@ -43,7 +44,7 @@ Les représentations des agrégats exposent des liens HATEOAS `self`, parent, co
 
 ## Commandes
 
-- `POST /market/paint-changesets` : simuler ou appliquer un change set de peintures ;
+- `POST /market/paint-changesets` : simuler par défaut un change set de peintures ; l'application exige `dryRun=false` explicitement ;
 - `POST /market/paintable-product-changesets` : simuler ou appliquer un produit et ses guides ;
 - `POST /workshop/paint-inventory-imports` : simuler ou remplacer l’inventaire personnel ;
 - `POST /workshop/painting-projects` : créer un projet et ses éléments physiques ;

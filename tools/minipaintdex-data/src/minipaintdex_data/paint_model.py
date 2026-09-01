@@ -5,12 +5,14 @@ from __future__ import annotations
 from copy import deepcopy
 from functools import lru_cache
 from pathlib import Path
+import re
 from typing import Any
 
 import yaml
 
 
 DEFAULT_MAPPING_DIRECTORY = Path(__file__).resolve().parents[2] / "mappings"
+BRAND_CODE_PATTERN = re.compile(r"^[a-z][a-z0-9]{2,4}$")
 
 ROLE_VALUES = {
     "color_paint", "primer", "wash", "ink", "varnish", "medium", "auxiliary",
@@ -45,6 +47,7 @@ KNOWN_INPUT_FIELDS = {
 def load_mappings(directory: str | Path = DEFAULT_MAPPING_DIRECTORY) -> dict[str, dict[str, Any]]:
     root = Path(directory)
     result: dict[str, dict[str, Any]] = {}
+    brand_codes: set[str] = set()
     for path in sorted(root.glob("*.yaml")):
         with path.open("r", encoding="utf-8-sig") as handle:
             mapping = yaml.safe_load(handle)
@@ -53,6 +56,12 @@ def load_mappings(directory: str | Path = DEFAULT_MAPPING_DIRECTORY) -> dict[str
         brand = str(mapping.get("brand", "")).strip()
         if not brand:
             raise ValueError(f"Paint mapping has no brand: {path}")
+        brand_code = str(mapping.get("brand_code", "")).strip()
+        if not BRAND_CODE_PATTERN.fullmatch(brand_code):
+            raise ValueError(f"Paint mapping has an invalid brand_code: {path}")
+        if brand_code in brand_codes:
+            raise ValueError(f"Paint mapping brand_code must be unique: {brand_code}")
+        brand_codes.add(brand_code)
         validate_profile(mapping.get("default_profile"), f"{path}: default_profile")
         result[brand.casefold()] = mapping
     return result
@@ -110,7 +119,7 @@ def source_observation(record: dict[str, Any]) -> dict[str, Any]:
         value = record.get(key)
         if value not in (None, "", []):
             fields.append({"name": key, "value": deepcopy(value)})
-    return {"adapter": "legacy_catalog_v1", "fields": fields} if fields else {}
+    return {"adapter": "brand_mapping", "fields": fields} if fields else {}
 
 
 def _unmapped_input_fields(record: dict[str, Any]) -> list[str]:

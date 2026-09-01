@@ -8,6 +8,8 @@ from typing import Any
 
 import yaml
 
+from .paint_images import MAX_DOMINANT_COLOR_RATIO, raster_is_flat_artwork
+
 
 PUBLIC_PATH = re.compile(
     r"(?<![A-Za-z0-9_:/.-])(?P<path>/[A-Za-z0-9_./-]+\.(?:png|jpe?g|webp|svg))",
@@ -65,6 +67,7 @@ def audit_assets(root: Path, *, min_width: int = 300, min_height: int = 300) -> 
             else public / public_path.lstrip("/")
         )
     too_small: list[dict[str, Any]] = []
+    flat_artwork: list[dict[str, Any]] = []
     unreadable: list[str] = []
     dimensions: dict[str, tuple[int, int]] = {}
     try:
@@ -80,12 +83,22 @@ def audit_assets(root: Path, *, min_width: int = 300, min_height: int = 300) -> 
             try:
                 with Image.open(path) as image:
                     width, height = image.size
+                    is_flat, dominant_color_ratio, quantized_color_count = raster_is_flat_artwork(
+                        image, max_dominant_color_ratio=MAX_DOMINANT_COLOR_RATIO,
+                    )
                 dimensions[public_path] = (width, height)
                 if width < min_width or height < min_height:
                     too_small.append({"path": public_path, "width": width, "height": height})
+                elif is_flat:
+                    flat_artwork.append({
+                        "path": public_path,
+                        "dominant_color_ratio": round(dominant_color_ratio, 4),
+                        "quantized_color_count": quantized_color_count,
+                    })
             except (OSError, UnidentifiedImageError):
                 unreadable.append(public_path)
     paint_image_records: list[dict[str, Any]] = []
+    flat_paths = {item["path"] for item in flat_artwork}
     paints_root = data / "market" / "paints"
     for catalog_path in sorted(paints_root.glob("*.yaml")) if paints_root.is_dir() else []:
         value = documents.get(catalog_path)
@@ -98,7 +111,12 @@ def audit_assets(root: Path, *, min_width: int = 300, min_height: int = 300) -> 
             source_url = str(result_image.get("source_url") or manufacturer_image.get("source_url") or "")
             width, height = dimensions.get(display_path, (None, None))
             if display_path and display_path in files:
-                status = "too_small" if width is not None and (width < min_width or height < min_height) else "local"
+                if width is not None and (width < min_width or height < min_height):
+                    status = "too_small"
+                elif display_path in flat_paths:
+                    status = "flat_artwork"
+                else:
+                    status = "local"
             elif display_path:
                 status = "broken_local_reference"
             elif source_url:
@@ -123,6 +141,7 @@ def audit_assets(root: Path, *, min_width: int = 300, min_height: int = 300) -> 
         "orphaned": sorted(files - references - allowed_unreferenced),
         "minimum_dimensions": {"width": min_width, "height": min_height},
         "too_small": too_small,
+        "flat_artwork": flat_artwork,
         "unreadable": unreadable,
         "paint_images": {
             "records": len(paint_image_records),

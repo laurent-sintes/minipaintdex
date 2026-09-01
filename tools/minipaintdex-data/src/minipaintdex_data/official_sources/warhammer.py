@@ -3,11 +3,14 @@
 from __future__ import annotations
 
 import re
+from datetime import date
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlencode
 
+from ..paint_identity import market_paint_id
 from .common import base_record, classify, color_family, existing_indexes, fetch_json, merge_previous, reference, slug, source_snapshot
+from ..image_quality import prefer_image
 
 
 RANGE_URL = "https://paint.warhammer.com/the-paint-range/"
@@ -74,17 +77,13 @@ def collect(catalog: dict[str, Any], _: Path) -> list[dict[str, Any]]:
             continue
         color_range = str(hit.get("paintColourRange", "")).strip()
         functional_type, volume, finish, opacity = _metadata(paint_type, color_range, name)
-        images = hit.get("images") or []
-        image = str(images[0]) if isinstance(images, list) and images else ""
-        if image.startswith("/"):
-            image = STORE_URL + image
         product_slug = str(hit.get("slug", "")).strip()
         record = base_record(
-            identifier=f"cit-{slug(paint_type)}-{slug(reference_code)}", brand="Warhammer Colour",
+            identifier=market_paint_id("Warhammer Colour", reference_code), brand="Warhammer Colour",
             manufacturer="Games Workshop", range_name=paint_type, functional_type=functional_type,
             reference_code=reference_code, name=name,
             page=f"{STORE_URL}/en-GB/shop/{product_slug}" if product_slug else RANGE_URL,
-            image=image, volume_ml=volume, finish=finish, opacity=opacity,
+            image="", volume_ml=volume, finish=finish, opacity=opacity,
             summary=str(hit.get("description", "")).strip(" ."),
         )
         record["source_snapshots"] = source_snapshot(
@@ -100,5 +99,13 @@ def collect(catalog: dict[str, Any], _: Path) -> list[dict[str, Any]]:
             record["id"] = previous["id"]
             record["deduplication_key"] = previous.get("deduplication_key", record["deduplication_key"])
             record = merge_previous(record, previous)
+        record["manufacturer_image"] = prefer_image(record.get("manufacturer_image", {}), {
+            "path": "", "source_url": "", "credit": "Official Games Workshop colour swatch",
+            "license": "", "reference_url": record["manufacturer_page"],
+            "image_quality": "color_swatch", "quality_verified_at": date.today().isoformat(),
+        })
+        record["warnings"] = sorted(
+            set(record.get("warnings", [])) | {"Official store artwork is a colour swatch, not a product packshot."}
+        )
         records.append(record)
     return records

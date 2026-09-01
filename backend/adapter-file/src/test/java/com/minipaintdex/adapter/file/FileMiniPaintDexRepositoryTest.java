@@ -11,8 +11,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -57,13 +58,21 @@ class FileMiniPaintDexRepositoryTest {
     }
 
     @Test
+    void rejectsCatalogEnvelopeVersionsOtherThanOne() throws IOException {
+        createFixture();
+        write("data/market/paints/brand.yaml", "schema_version: 2\nbrand: Brand\npaints: []\n");
+
+        assertThrows(FileStorageException.class, () -> new FileMiniPaintDexRepository(layout()).initialize());
+    }
+
+    @Test
     void atomicallyReplacesTheMarketPaintCatalog() throws IOException {
         createFixture();
         var repository = new FileMiniPaintDexRepository(layout());
         repository.initialize();
 
         repository.replaceMarketPaints(List.of(document(Map.of(
-                "id", "paint",
+                "schema_version", 1, "id", "paint",
                 "brand", "Brand",
                 "manufacturer", "Maker",
                 "range", "Range",
@@ -78,9 +87,57 @@ class FileMiniPaintDexRepositoryTest {
         var snapshot = repository.load();
         assertEquals("New Paint", text(snapshot.marketPaints().getFirst(), "name"));
         var stored = Files.readString(root.resolve("data/market/paints/brand.yaml"));
-        assertTrue(stored.contains("schema_version: 2"));
+        assertTrue(stored.contains("schema_version: 1"));
         assertTrue(stored.contains("brand: Brand"));
         assertFalse(stored.contains("&id"));
+    }
+
+    @Test
+    void rewritesOnlyTheMarketPaintBrandThatChanged() throws IOException {
+        createFixture();
+        write("data/market/paints/other-brand.yaml", """
+                schema_version: 1
+                brand: Other Brand
+                paints:
+                  - schema_version: 1
+                    name: Other Paint
+                    profile:
+                      medium: acrylic
+                      undercoat: {pre_highlighted_surface_recommended: false, tone: any}
+                      effects: []
+                      finish: matte
+                      coverage: opaque
+                      application_system: conventional_layering
+                      application_methods: [brush]
+                      roles: [color_paint]
+                    range: Other Range
+                    manufacturer: Other Maker
+                    brand: Other Brand
+                    id: other-paint
+                """);
+        var repository = new FileMiniPaintDexRepository(layout());
+        repository.initialize();
+        var otherBrandPath = root.resolve("data/market/paints/other-brand.yaml");
+        var otherBrandBefore = Files.readString(otherBrandPath);
+        var paints = new ArrayList<>(repository.load().marketPaints());
+        paints.removeIf(paint -> "paint".equals(text(paint, "id")));
+        paints.add(document(Map.of(
+                "schema_version", 1, "id", "paint", "brand", "Brand", "manufacturer", "Maker", "range", "Range",
+                "profile", Map.of(
+                        "roles", List.of("color_paint"), "application_methods", List.of("brush"),
+                        "application_system", "conventional_layering", "coverage", "opaque",
+                        "finish", "matte", "effects", List.of(),
+                        "undercoat", Map.of("tone", "any", "pre_highlighted_surface_recommended", false),
+                        "medium", "acrylic"),
+                "name", "Updated Paint")));
+
+        repository.replaceMarketPaints(paints);
+
+        assertEquals(otherBrandBefore, Files.readString(otherBrandPath));
+        assertEquals("Updated Paint", repository.load().marketPaints().stream()
+                .filter(paint -> "paint".equals(text(paint, "id")))
+                .map(paint -> text(paint, "name"))
+                .findFirst().orElseThrow());
     }
 
     @Test
@@ -137,10 +194,11 @@ class FileMiniPaintDexRepositoryTest {
         var repository = new FileMiniPaintDexRepository(layout());
         repository.initialize();
         write("data/market/paints/brand.yaml", """
-                schema_version: 2
+                schema_version: 1
                 brand: Brand
                 paints:
-                  - id: paint
+                  - schema_version: 1
+                    id: paint
                     brand: Brand
                     manufacturer: Maker
                     range: Range
@@ -170,10 +228,11 @@ class FileMiniPaintDexRepositoryTest {
         var repository = new FileMiniPaintDexRepository(layout());
         repository.initialize();
         write("data/market/paints/brand.yaml", """
-                schema_version: 2
+                schema_version: 1
                 brand: Brand
                 paints:
-                  - id: invalid-paint
+                  - schema_version: 1
+                    id: invalid-paint
                     brand: Brand
                     range: Range
                     profile:
@@ -199,10 +258,11 @@ class FileMiniPaintDexRepositoryTest {
     private void createFixture() throws IOException {
         write("data/site/fr.yaml", "metadata: {}\n");
         write("data/market/paints/brand.yaml", """
-                schema_version: 2
+                schema_version: 1
                 brand: Brand
                 paints:
-                  - id: paint
+                  - schema_version: 1
+                    id: paint
                     brand: Brand
                     manufacturer: Maker
                     range: Range

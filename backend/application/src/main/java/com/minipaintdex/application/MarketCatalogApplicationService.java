@@ -8,6 +8,8 @@ import com.minipaintdex.application.usecase.MarketCatalogUseCases;
 import com.minipaintdex.application.view.MarketPaintView;
 import com.minipaintdex.application.view.MarketPaintingGuideView;
 import com.minipaintdex.application.view.PaintFacetsView;
+import com.minipaintdex.application.view.PaintCatalogQualityView;
+import com.minipaintdex.application.view.PaintCatalogQualityView;
 import com.minipaintdex.application.view.PaintModelView;
 import com.minipaintdex.application.view.PaintableProductSummaryView;
 import com.minipaintdex.application.view.PaintableProductView;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 import com.minipaintdex.domain.market.paint.MarketPaintLifecycle;
+import com.minipaintdex.domain.market.paint.MarketPaintImageQuality;
 import com.minipaintdex.domain.market.paint.MarketPaintProfile;
 
 /** Cohesive read service for the market knowledge bounded context. */
@@ -40,11 +43,12 @@ public final class MarketCatalogApplicationService implements MarketCatalogUseCa
             boolean realResultOnly, PageQuery page) {
         return paints.page(query, manufacturerSheetOnly, realResultOnly, page);
     }
-    @Override public PaintFacetsView marketPaintFacets(SearchMarketPaintsQuery filters) {
-        return paints.facets(filters);
+    @Override public PaintFacetsView marketPaintFacets(
+            SearchMarketPaintsQuery filters, boolean manufacturerSheetOnly, boolean realResultOnly) {
+        return paints.facets(filters, manufacturerSheetOnly, realResultOnly);
     }
     @Override public PaintModelView marketPaintModel() {
-        return new PaintModelView(2, "https://json-schema.org/draft/2020-12/schema", List.of(
+        return new PaintModelView(1, "https://json-schema.org/draft/2020-12/schema", List.of(
                 filter("role", "role", "roles", "collection.roleFilter", "paint-role", 1),
                 filter("applicationMethod", "applicationMethod", "applicationMethods", "collection.applicationMethodFilter", "application-method", 2),
                 filter("applicationSystem", "applicationSystem", "applicationSystems", "collection.applicationSystemFilter", "application-system", 3),
@@ -56,7 +60,20 @@ public final class MarketCatalogApplicationService implements MarketCatalogUseCa
                 filter("color", "color", "colors", "collection.colorFilter", null, 9),
                 filter("brand", "brand", "brands", "collection.brandFilter", null, 10),
                 filter("range", "range", "ranges", "collection.rangeFilter", null, 11),
-                filter("lifecycle", "lifecycle", "lifecycles", "collection.lifecycleFilter", "lifecycle", 12)),
+                filter("lifecycle", "lifecycle", "lifecycles", "collection.lifecycleFilter", "lifecycle", 12),
+                toggle("manufacturer-sheet", "manufacturerSheetOnly", "collection.manufacturerSheetOnly", 13),
+                toggle("real-result", "realResultOnly", "collection.realResultOnly", 14)),
+                List.of(
+                        sort("name-ascending", "name,asc", "collection.sortNameAscending", 1),
+                        sort("name-descending", "name,desc", "collection.sortNameDescending", 2),
+                        sort("brand-ascending", "brand,asc", "collection.sortBrandAscending", 3),
+                        sort("brand-descending", "brand,desc", "collection.sortBrandDescending", 4),
+                        sort("range-ascending", "range,asc", "collection.sortRangeAscending", 5),
+                        sort("range-descending", "range,desc", "collection.sortRangeDescending", 6),
+                        sort("reference-ascending", "reference,asc", "collection.sortReferenceAscending", 7),
+                        sort("reference-descending", "reference,desc", "collection.sortReferenceDescending", 8),
+                        sort("verified-newest", "verifiedAt,desc", "collection.sortVerifiedNewest", 9),
+                        sort("verified-oldest", "verifiedAt,asc", "collection.sortVerifiedOldest", 10)),
                 List.of(
                         vocabulary("paint-role", java.util.Arrays.stream(MarketPaintProfile.Role.values()).map(MarketPaintProfile.Role::id).toList()),
                         vocabulary("application-method", java.util.Arrays.stream(MarketPaintProfile.ApplicationMethod.values()).map(MarketPaintProfile.ApplicationMethod::id).toList()),
@@ -66,7 +83,11 @@ public final class MarketCatalogApplicationService implements MarketCatalogUseCa
                         vocabulary("effect", java.util.Arrays.stream(MarketPaintProfile.Effect.values()).map(MarketPaintProfile.Effect::id).toList()),
                         vocabulary("undercoat-tone", java.util.Arrays.stream(MarketPaintProfile.UndercoatTone.values()).map(MarketPaintProfile.UndercoatTone::id).toList()),
                         vocabulary("medium", java.util.Arrays.stream(MarketPaintProfile.Medium.values()).map(MarketPaintProfile.Medium::id).toList()),
-                        vocabulary("lifecycle", java.util.Arrays.stream(MarketPaintLifecycle.values()).map(MarketPaintLifecycle::id).toList())));
+                        vocabulary("lifecycle", java.util.Arrays.stream(MarketPaintLifecycle.values()).map(MarketPaintLifecycle::id).toList()),
+                        vocabulary("image-quality", java.util.Arrays.stream(MarketPaintImageQuality.values()).map(MarketPaintImageQuality::id).toList())));
+    }
+    @Override public PaintCatalogQualityView marketPaintQuality() {
+        return paints.quality();
     }
     @Override public MarketPaintView getMarketPaint(String id) {
         return paints.search(SearchMarketPaintsQuery.empty()).stream()
@@ -120,7 +141,17 @@ public final class MarketCatalogApplicationService implements MarketCatalogUseCa
 
     private static PaintModelView.Filter filter(
             String id, String parameter, String facet, String labelKey, String vocabulary, int order) {
-        return new PaintModelView.Filter(id, parameter, facet, labelKey, vocabulary, order);
+        return new PaintModelView.Filter(id, parameter, facet, labelKey, vocabulary, "select", order);
+    }
+
+    private static PaintModelView.Filter toggle(
+            String id, String parameter, String labelKey, int order) {
+        return new PaintModelView.Filter(id, parameter, null, labelKey, null, "toggle", order);
+    }
+
+    private static PaintModelView.SortOption sort(
+            String id, String queryValue, String labelKey, int order) {
+        return new PaintModelView.SortOption(id, queryValue, labelKey, order);
     }
 
     private static PaintModelView.Vocabulary vocabulary(String id, List<String> values) {

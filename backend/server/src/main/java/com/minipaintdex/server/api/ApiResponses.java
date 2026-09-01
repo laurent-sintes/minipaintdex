@@ -1,10 +1,12 @@
 package com.minipaintdex.server.api;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minipaintdex.application.event.PublicationReceipt;
 import com.minipaintdex.application.view.MarketPaintView;
 import com.minipaintdex.application.view.MarketPaintingGuideView;
 import com.minipaintdex.application.view.PaintableProductSummaryView;
 import com.minipaintdex.application.view.PaintableProductView;
+import com.minipaintdex.application.view.PaintModelView;
 import com.minipaintdex.application.view.PaintingProjectView;
 import com.minipaintdex.application.view.ProductImportPreviewView;
 import com.minipaintdex.application.view.RebuildProjectionResult;
@@ -18,9 +20,23 @@ import org.springframework.http.ResponseEntity;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 record PaintPageResponse(
         List<MarketPaintView> paints, long total, int page, int size, int totalPages) {}
+record PaintModelSchemaResponse(
+        @JsonProperty("$schema") String schema,
+        @JsonProperty("$id") String id,
+        String title,
+        String type,
+        boolean additionalProperties,
+        List<String> required,
+        Map<String, Object> properties,
+        @JsonProperty("x-model-version") int modelVersion,
+        @JsonProperty("x-filters") List<PaintModelView.Filter> filters,
+        @JsonProperty("x-sort-options") List<PaintModelView.SortOption> sortOptions,
+        @JsonProperty("x-vocabularies") Map<String, List<String>> vocabularies,
+        @JsonProperty("x-image-quality-ranks") Map<String, Integer> imageQualityRanks) {}
 record WorkshopPaintPageResponse(
         List<WorkshopPaintView> paints, long total, int page, int size, int totalPages) {}
 

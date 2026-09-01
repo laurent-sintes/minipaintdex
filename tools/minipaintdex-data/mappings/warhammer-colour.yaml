@@ -3,6 +3,7 @@ mapping:
   id: warhammer-colour
   version: 1
 brand: Warhammer Colour
+brand_code: cit
 default_profile:
   roles: [color_paint]
   application_methods: [brush]

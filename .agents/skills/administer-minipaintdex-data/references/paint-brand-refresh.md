@@ -9,16 +9,20 @@
 7. Écrire un journal structuré avec `--audit-log` pendant la collecte et la génération du change set. Vérifier les volumes par marque, la couverture, les champs modifiés et la provenance avant application.
 8. Valider, simuler avec le CLI Java, appliquer explicitement, puis exécuter les tests Python et le build.
 9. Rejouer la même collecte contre le catalogue appliqué : le change set doit contenir zéro opération.
-10. Auditer les visuels avec `assets audit --min-width 300 --min-height 300` et distinguer `local`, `remote_only`, `too_small` et `missing`.
+10. Estimer d'abord les visuels à rechallenger avec `assets plan-paint-image-refresh`; ce dry run sélectionne toutes les qualités 2 à 6 ainsi que les photos officielles dont `quality_verified_at` date d'au moins 365 jours. Auditer ensuite les visuels avec `assets audit --min-width 300 --min-height 300` et distinguer `local`, `remote_only`, `too_small`, `flat_artwork` et `missing`.
+11. Générer les nouvelles identités avec le `brand_code` déclaré dans le mapping et la référence fabricant normalisée. Ne jamais inclure la gamme ou le nom dans un nouvel ID et ne jamais recalculer l'ID d'une peinture déjà reconnue.
 
 ## Cache des images fabricant
 
 1. Les collecteurs de marque restent séparés sous `official_sources/`; ne pas remettre de logique fournisseur dans l'orchestrateur.
-2. Lancer `assets cache-paint-images` avec un journal et un change set de sortie. Le programme n'accepte que les hôtes HTTPS officiels configurés, contrôle les redirections, le poids, les dimensions et le contenu, puis produit du WebP ou conserve un SVG sanitisé.
-3. Valider et simuler le change set avec `minipaintdex market paints apply --dry-run`, puis l'appliquer par le même cas d'usage Java.
+2. Lancer `assets cache-paint-images` avec un journal et un change set de sortie. Le programme qualifie la provenance, contrôle les redirections, le poids, les dimensions, les aplats, les damiers et le niveau de détail, puis produit du WebP ou conserve un SVG sanitisé. Les manifestes revendeur doivent déclarer `image_quality: retailer_photo`, un crédit et des URL HTTPS traçables.
+3. Valider et simuler le change set avec `minipaintdex market paints apply --input <change-set>`, puis l'appliquer explicitement avec `--apply` par le même cas d'usage Java.
 4. Pour un site protégé comme Vallejo, observer les cartes produits dans le navigateur normal et exporter un manifeste exact `reference`, `name`, `page_url`, `image_url`. Ne pas contourner le challenge et ne pas déduire les URL.
 5. Transformer ce manifeste avec `assets import-paint-image-sources`. `--allow-unmatched` conserve dans le change set la liste des nouvelles références officielles absentes du catalogue au lieu de bloquer les correspondances exactes.
 6. Relancer le cache puis `assets audit`. Une image locale hors cache n'est conservée que lorsqu'aucune source officielle validée ne permet de la remplacer.
+7. Appliquer l'ordre canonique sans régression : `official_photo`, `retailer_photo`, `owned_photo`, `generic_visual`, `color_swatch`, `none`. Un nuancier, un aplat ou un damier reste une preuve dans `source_snapshots`, mais ne doit pas être présenté comme une photo produit.
 
 Ne jamais interpréter une erreur HTTP ou un catalogue incomplet comme une preuve de suppression.
 Pour Warhammer Colour, contrôler l'exhaustivité de l'index officiel de la boutique : le nombre de résultats annoncé doit être égal au nombre de fiches effectivement collectées et toute chute brutale de volume doit bloquer l'application.
+
+Le chemin opérateur recommandé est `catalog refresh-official-paints --brand <marque|all> --output <change-set> --audit-log <audit>`. Il orchestre la collecte, la comparaison, la validation et l'estimation des images à rechallenger sans écrire dans `data/`. Le change set obtenu est ensuite simulé par `minipaintdex market paints apply --input <change-set>` et appliqué uniquement avec `--apply` après lecture de l'audit.

@@ -19,6 +19,7 @@ import com.minipaintdex.application.view.GuideReconciliationView;
 import com.minipaintdex.application.view.PaintFacetsView;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.hateoas.EntityModel;
@@ -76,7 +77,7 @@ final class WorkshopController {
             @RequestParam(required = false) String lifecycle,
             @RequestParam(defaultValue = "false") boolean manufacturerSheetOnly,
             @RequestParam(defaultValue = "false") boolean realResultOnly,
-            Pageable pageable) {
+            @ParameterObject Pageable pageable) {
         var filters = new SearchMarketPaintsQuery(
                 query, brand, range, role, applicationMethod, applicationSystem,
                 color, finish, medium, coverage, effect, undercoat, lifecycle);
@@ -89,8 +90,10 @@ final class WorkshopController {
         var response = new WorkshopPaintPageResponse(
                 result.content(), result.totalElements(), result.page(), result.size(), result.totalPages());
         var model = EntityModel.of(response, pageLink(result.page(), result.size()).withSelfRel());
+        model.add(pageLink(0, result.size()).withRel("first"));
         if (result.hasPrevious()) model.add(pageLink(result.page() - 1, result.size()).withRel("prev"));
         if (result.hasNext()) model.add(pageLink(result.page() + 1, result.size()).withRel("next"));
+        model.add(pageLink(Math.max(0, result.totalPages() - 1), result.size()).withRel("last"));
         model.add(Link.of("/api/v1/market/paints").withRel("market-catalog"));
         return model;
     }
@@ -109,10 +112,13 @@ final class WorkshopController {
             @RequestParam(required = false) String coverage,
             @RequestParam(required = false) String effect,
             @RequestParam(required = false) String undercoat,
-            @RequestParam(required = false) String lifecycle) {
+            @RequestParam(required = false) String lifecycle,
+            @RequestParam(defaultValue = "false") boolean manufacturerSheetOnly,
+            @RequestParam(defaultValue = "false") boolean realResultOnly) {
         return workshop.workshopPaintFacets(new SearchMarketPaintsQuery(
                 query, brand, range, role, applicationMethod, applicationSystem,
-                color, finish, medium, coverage, effect, undercoat, lifecycle));
+                color, finish, medium, coverage, effect, undercoat, lifecycle),
+                manufacturerSheetOnly, realResultOnly);
     }
 
     @GetMapping("/workshop/painting-projects")
