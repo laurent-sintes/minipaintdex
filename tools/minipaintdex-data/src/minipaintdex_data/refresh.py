@@ -5,21 +5,28 @@ from __future__ import annotations
 from datetime import date
 from pathlib import Path
 from typing import Any
+from collections import Counter, defaultdict
 
 import yaml
 
 from .changesets import canonical_paint, validate_changeset
 
 
-TECHNICAL_TYPES = {"technical_effect", "primer", "wash_shade", "ink", "auxiliary"}
+INSTRUCTION_ROLES = {"technical_effect", "primer", "wash", "ink", "varnish", "medium", "auxiliary", "pigment"}
 
 
 def read_catalog(path: Path) -> dict[str, Any]:
-    with path.open("r", encoding="utf-8-sig") as handle:
-        value = yaml.safe_load(handle)
-    if not isinstance(value, dict) or not isinstance(value.get("paints"), list):
-        raise ValueError(f"Invalid paint catalog: {path}")
-    return value
+    paths = sorted(path.glob("*.yaml")) if path.is_dir() else [path]
+    paints: list[dict[str, Any]] = []
+    for source in paths:
+        with source.open("r", encoding="utf-8-sig") as handle:
+            value = yaml.safe_load(handle)
+        if not isinstance(value, dict) or not isinstance(value.get("paints"), list):
+            raise ValueError(f"Invalid paint catalog: {source}")
+        paints.extend(paint for paint in value["paints"] if isinstance(paint, dict))
+    if not paths:
+        raise ValueError(f"No paint brand catalog found in: {path}")
+    return {"schema_version": 2, "paints": paints}
 
 
 def _casefold(value: Any) -> str:
@@ -27,12 +34,13 @@ def _casefold(value: Any) -> str:
 
 
 def _canonical_record(record: dict[str, Any], verified_at: str) -> dict[str, Any]:
-    if record.get("functional_type") and record.get("brand") and record.get("id"):
+    if record.get("profile") and record.get("brand") and record.get("id"):
         result = dict(record)
         result["verified_at"] = verified_at
     else:
         result = canonical_paint(record, verified_at=verified_at)
-    if result.get("functional_type") in TECHNICAL_TYPES:
+    roles = set((result.get("profile") or {}).get("roles", []))
+    if roles.intersection(INSTRUCTION_ROLES):
         instructions = result.get("usage_instructions")
         if not isinstance(instructions, dict) or not instructions.get("summary") or not instructions.get("steps"):
             raise ValueError(f"Technical paint {result.get('id')} requires explicit usage_instructions.summary and steps.")
@@ -81,9 +89,15 @@ def build_refresh_changeset(
     }
 
     operations: list[dict[str, Any]] = []
+    changed_fields: Counter[str] = Counter()
     for identifier in sorted(incoming):
         record = incoming[identifier]
         if existing.get(identifier) != record:
+            previous = existing.get(identifier, {})
+            changed_fields.update(
+                key for key in set(previous) | set(record)
+                if previous.get(key) != record.get(key)
+            )
             operations.append({
                 "action": "upsert",
                 "record": record,
@@ -110,6 +124,23 @@ def build_refresh_changeset(
             "confirmed_removal": remove_missing,
         })
 
+    operations_by_brand: dict[str, Counter[str]] = defaultdict(Counter)
+    for operation in operations:
+        record = operation["record"]
+        identifier = record.get("id")
+        operation_brand = record.get("brand") or (existing.get(identifier, {}) if identifier else {}).get("brand") or "unknown"
+        operations_by_brand[str(operation_brand)][operation["action"]] += 1
+
+    audit = {
+        "existing_count": len(existing),
+        "incoming_count": len(incoming),
+        "operation_count": len(operations),
+        "operations_by_brand": {
+            name: dict(sorted(counts.items())) for name, counts in sorted(operations_by_brand.items())
+        },
+        "changed_top_level_fields": dict(sorted(changed_fields.items(), key=lambda item: (-item[1], item[0]))),
+        "providers": refreshed.get("audit", []),
+    }
     changeset = {
         "schema_version": 1,
         "kind": "market_paints",
@@ -119,6 +150,7 @@ def build_refresh_changeset(
             "known_brands": sorted(known_by_key.values()),
             "verified_at": verification_date,
             "warnings": warnings,
+            "audit": audit,
         },
         "operations": operations,
     }

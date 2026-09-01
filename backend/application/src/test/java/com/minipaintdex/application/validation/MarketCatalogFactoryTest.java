@@ -21,7 +21,7 @@ class MarketCatalogFactoryTest {
                 List.of(StructuredDocuments.fromMap(guide("paint"))));
 
         assertEquals("paint", snapshot.paints().getFirst().id());
-        assertEquals(List.of("smooth", "fast"), snapshot.paints().getFirst().behaviorTags());
+        assertEquals("one_coat_shading", snapshot.paints().getFirst().profile().applicationSystem().id());
         assertEquals("guide", snapshot.paintingGuides().getFirst().id());
     }
 
@@ -69,10 +69,14 @@ class MarketCatalogFactoryTest {
     private static Map<String, Object> paint(String id) {
         return Map.ofEntries(
                 Map.entry("id", id), Map.entry("brand", "Brand"), Map.entry("manufacturer", "Maker"),
-                Map.entry("range", "Range"), Map.entry("functional_type", "opaque_standard"),
+                Map.entry("range", "Range"), Map.entry("profile", Map.of(
+                        "roles", List.of("color_paint"), "application_methods", List.of("brush"),
+                        "application_system", "one_coat_shading", "coverage", "transparent",
+                        "finish", "matte", "effects", List.of(),
+                        "undercoat", Map.of("tone", "light", "pre_highlighted_surface_recommended", true),
+                        "medium", "acrylic")),
                 Map.entry("name", "Paint"), Map.entry("volume_ml", 18),
-                Map.entry("behavior_tags", List.of("smooth")),
-                Map.entry("application_profile", Map.of("speed", "fast")));
+                Map.entry("tags", List.of("smooth")));
     }
 
     private static PaintableProduct product() {

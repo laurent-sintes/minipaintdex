@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 
 public record PaintMatchingPolicy(
         int candidateLimit,
-        Set<String> behavioralTypes,
+        Set<String> behavioralSystems,
         double colorDistanceFactor,
-        double functionalTypeMismatchScore,
+        double roleMismatchScore,
         double metadataMismatchScore,
         double missingMetadataScore,
         double emptyBehaviorScore,
@@ -20,12 +20,12 @@ public record PaintMatchingPolicy(
 
     public PaintMatchingPolicy {
         if (candidateLimit < 1) throw new IllegalArgumentException("candidateLimit must be positive");
-        behavioralTypes = Objects.requireNonNull(behavioralTypes).stream()
+        behavioralSystems = Objects.requireNonNull(behavioralSystems).stream()
                 .map(value -> value.toLowerCase(Locale.ROOT))
                 .collect(Collectors.toUnmodifiableSet());
-        if (behavioralTypes.isEmpty()) throw new IllegalArgumentException("behavioralTypes must not be empty");
+        if (behavioralSystems.isEmpty()) throw new IllegalArgumentException("behavioralSystems must not be empty");
         if (colorDistanceFactor <= 0) throw new IllegalArgumentException("colorDistanceFactor must be positive");
-        validateScore("functionalTypeMismatchScore", functionalTypeMismatchScore);
+        validateScore("roleMismatchScore", roleMismatchScore);
         validateScore("metadataMismatchScore", metadataMismatchScore);
         validateScore("missingMetadataScore", missingMetadataScore);
         validateScore("emptyBehaviorScore", emptyBehaviorScore);
@@ -35,8 +35,9 @@ public record PaintMatchingPolicy(
         behavioral = Objects.requireNonNull(behavioral);
     }
 
-    public boolean isBehavioral(String functionalType) {
-        return functionalType != null && behavioralTypes.contains(functionalType.toLowerCase(Locale.ROOT));
+    public boolean isBehavioral(String applicationSystem) {
+        return applicationSystem != null
+                && behavioralSystems.contains(applicationSystem.toLowerCase(Locale.ROOT));
     }
 
     private static void validateScore(String name, double score) {
@@ -45,16 +46,16 @@ public record PaintMatchingPolicy(
 
     public record Weights(
             double color,
-            double functionalType,
+            double role,
             double behavior,
             double finish,
-            double opacity,
+            double coverage,
             double medium) {
         public Weights {
-            if (color < 0 || functionalType < 0 || behavior < 0 || finish < 0 || opacity < 0 || medium < 0) {
+            if (color < 0 || role < 0 || behavior < 0 || finish < 0 || coverage < 0 || medium < 0) {
                 throw new IllegalArgumentException("Paint matching weights must not be negative");
             }
-            var total = color + functionalType + behavior + finish + opacity + medium;
+            var total = color + role + behavior + finish + coverage + medium;
             if (Math.abs(total - 1.0) > 0.000_001) {
                 throw new IllegalArgumentException("Paint matching weights must sum to 1.0, got " + total);
             }
@@ -62,16 +63,16 @@ public record PaintMatchingPolicy(
 
         public double score(
                 double colorScore,
-                double functionalTypeScore,
+                double roleScore,
                 double behaviorScore,
                 double finishScore,
-                double opacityScore,
+                double coverageScore,
                 double mediumScore) {
             return color * colorScore
-                    + functionalType * functionalTypeScore
+                    + role * roleScore
                     + behavior * behaviorScore
                     + finish * finishScore
-                    + opacity * opacityScore
+                    + coverage * coverageScore
                     + medium * mediumScore;
         }
     }

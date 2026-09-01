@@ -1,0 +1,39 @@
+schema_version: 1
+mapping:
+  id: vallejo
+  version: 1
+brand: Vallejo
+default_profile:
+  roles: [color_paint]
+  application_methods: [brush]
+  application_system: conventional_layering
+  coverage: unknown
+  finish: unknown
+  effects: []
+  undercoat: {tone: any, pre_highlighted_surface_recommended: false}
+  medium: water_based_acrylic
+ranges:
+  Xpress Color:
+    application_system: one_coat_shading
+    coverage: transparent
+    undercoat: {tone: light, pre_highlighted_surface_recommended: true}
+  Model Air: {application_methods: [airbrush]}
+  Game Air: {application_methods: [airbrush]}
+  Mecha Color: {application_methods: [airbrush]}
+  Primers:
+    roles: [primer]
+    application_system: priming
+  Hobby Paint:
+    roles: [primer]
+    application_methods: [spray]
+    application_system: priming
+  Wash FX:
+    roles: [wash]
+    application_system: washing
+    coverage: transparent
+  Pigment FX:
+    roles: [pigment]
+    application_system: effect_application
+  Metal Color: {effects: [metallic]}
+  Liquid Metal: {effects: [metallic], medium: alcohol_based}
+  True Metallic Metal: {effects: [metallic]}

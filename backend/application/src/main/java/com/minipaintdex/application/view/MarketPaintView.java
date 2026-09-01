@@ -9,13 +9,10 @@ public record MarketPaintView(
         String manufacturer,
         List<String> brandAliases,
         String range,
-        String paintType,
+        Profile profile,
         String reference,
         String name,
         String colorHex,
-        String finish,
-        String medium,
-        String opacity,
         String lifecycleStatus,
         String status,
         String warnings,
@@ -25,6 +22,7 @@ public record MarketPaintView(
         String updatedAt,
         String manufacturerUrl,
         String manufacturerImage,
+        String manufacturerImageSource,
         String manufacturerImageCredit,
         int volumeMl,
         String colorFamily,
@@ -42,6 +40,24 @@ public record MarketPaintView(
         brandAliases = List.copyOf(brandAliases);
         tags = List.copyOf(tags);
         recommendedUses = List.copyOf(recommendedUses);
+    }
+
+    /** Brand-independent characteristics used by search, facets and matching. */
+    public record Profile(
+            List<String> roles,
+            List<String> applicationMethods,
+            String applicationSystem,
+            String coverage,
+            String finish,
+            List<String> effects,
+            String undercoatTone,
+            boolean preHighlightedSurfaceRecommended,
+            String medium) {
+        public Profile {
+            roles = List.copyOf(roles);
+            applicationMethods = List.copyOf(applicationMethods);
+            effects = List.copyOf(effects);
+        }
     }
 
     /** Explicit usage guidance, especially important for technical and behavior-driven paints. */

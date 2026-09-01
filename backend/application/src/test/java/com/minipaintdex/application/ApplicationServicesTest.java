@@ -65,9 +65,9 @@ class ApplicationServicesTest {
     @Test
     void searchesEverySupportedMarketFacet() {
         var result = marketService(repository()).searchMarketPaints(new SearchMarketPaintsQuery(
-                "white", "Warhammer Colour", "Contrast", "one_coat_contrast", "White",
-                "matt", "water acrylic", "transparent", "18", "29-34", "active",
-                "Games Workshop", "cold"));
+                "white", "Warhammer Colour", "Contrast", "color_paint", "brush",
+                "one_coat_shading", "White", "matte", "water_based_acrylic", "transparent",
+                null, "light", "active"));
         assertEquals(1, result.size());
         assertEquals("Apothecary White", result.getFirst().name());
     }
@@ -257,7 +257,7 @@ class ApplicationServicesTest {
 
     private static WorkshopApplicationService service(FakeRepository repository) {
         var policy = new PaintMatchingPolicy(
-                5, Set.of("one_coat_contrast", "technical_effect", "primer", "wash_shade", "ink", "auxiliary"),
+                5, Set.of("one_coat_shading", "washing", "priming", "effect_application"),
                 2.5, 20, 25, 50, 50, 80, 75,
                 new PaintMatchingPolicy.Weights(.65, .15, 0, .08, .07, .05),
                 new PaintMatchingPolicy.Weights(.15, .35, .30, .10, .10, 0));
@@ -281,9 +281,14 @@ class ApplicationServicesTest {
         return Map.ofEntries(
                 Map.entry("id", id), Map.entry("brand", "Warhammer Colour"), Map.entry("brand_aliases", List.of("Citadel")),
                 Map.entry("manufacturer", "Games Workshop"), Map.entry("range", "Contrast"),
-                Map.entry("functional_type", "one_coat_contrast"), Map.entry("reference", "29-34"), Map.entry("name", name),
-                Map.entry("color", Map.of("hex", "#D9DEDA", "family", "White")), Map.entry("finish", "matt"),
-                Map.entry("medium", "water acrylic"), Map.entry("opacity", "transparent"), Map.entry("volume_ml", 18),
+                Map.entry("profile", Map.of(
+                        "roles", List.of("color_paint"), "application_methods", List.of("brush"),
+                        "application_system", "one_coat_shading", "coverage", "transparent",
+                        "finish", "matte", "effects", List.of(),
+                        "undercoat", Map.of("tone", "light", "pre_highlighted_surface_recommended", true),
+                        "medium", "water_based_acrylic")),
+                Map.entry("reference", "29-34"), Map.entry("name", name),
+                Map.entry("color", Map.of("hex", "#D9DEDA", "family", "White")), Map.entry("volume_ml", 18),
                 Map.entry("lifecycle_status", "active"), Map.entry("tags", List.of("cold")));
     }
 

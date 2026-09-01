@@ -8,12 +8,14 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
+from .paint_model import canonical_profile, source_observation, validate_profile
+
 
 ID_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
-PAINT_REQUIRED_FIELDS = ("id", "brand", "manufacturer", "range", "functional_type", "name")
+PAINT_REQUIRED_FIELDS = ("id", "brand", "manufacturer", "range", "profile", "name")
 CHANGESET_KINDS = {"market_paints", "market_product"}
 PAINTABLE_KINDS = {"hero", "enemy", "scenery", "vehicle", "creature", "accessory"}
-TECHNICAL_TYPES = {"technical_effect", "primer", "wash_shade", "ink", "auxiliary"}
+INSTRUCTION_ROLES = {"technical_effect", "primer", "wash", "ink", "varnish", "medium", "auxiliary", "pigment"}
 
 
 def load_json(path: Path) -> Any:
@@ -71,10 +73,13 @@ def canonical_paint(record: dict[str, Any], *, verified_at: str | None = None) -
     identifier = _text(record.get("id"))
     color_hex = _text(_first(record, enrichment, "color_hex", "couleur_hex"))
     color_family = _text(_first(record, enrichment, "color_family", "famille_couleur"))
+    existing_manufacturer_image = record.get("manufacturer_image") if isinstance(record.get("manufacturer_image"), dict) else {}
     manufacturer_image = {
-        "path": _text(_first(record, enrichment, "local_image", "manufacturer_image")),
+        "path": _text(_first(record, enrichment, "local_image", default=existing_manufacturer_image.get("path", ""))),
         "source_url": _text(_first(record, enrichment, "image_source_url")),
         "credit": _text(_first(record, enrichment, "image_credit")),
+        "license": _text(existing_manufacturer_image.get("license")),
+        "reference_url": _text(existing_manufacturer_image.get("reference_url")),
     }
     result_image = {
         "path": _text(_first(record, enrichment, "result_image")),
@@ -84,7 +89,9 @@ def canonical_paint(record: dict[str, Any], *, verified_at: str | None = None) -
         "reference_url": _text(_first(record, enrichment, "result_reference_url")),
     }
     source_hash = _text(record.get("source_hash"))
+    profile, mapping_report = canonical_profile(record)
     paint: dict[str, Any] = {
+        "schema_version": 2,
         "id": identifier,
         "observed_brand": _text(record.get("brand_observed")),
         "brand": _text(record.get("brand_canonical") or record.get("brand")),
@@ -92,7 +99,7 @@ def canonical_paint(record: dict[str, Any], *, verified_at: str | None = None) -
         "manufacturer": _text(record.get("manufacturer")),
         "observed_range": _text(record.get("range_observed")),
         "range": _text(record.get("range_canonical") or record.get("range")),
-        "functional_type": _text(record.get("functional_class") or record.get("functional_type")),
+        "profile": profile,
         "reference": _text(record.get("reference")),
         "name": _text(record.get("name") or record.get("name_observed")),
         "confidence": record.get("confidence", 0),
@@ -100,9 +107,6 @@ def canonical_paint(record: dict[str, Any], *, verified_at: str | None = None) -
         "lifecycle_status": _text(_first(record, enrichment, "lifecycle_status", default="unknown")),
         "warnings": _values(record.get("warnings")),
         "color": {"hex": color_hex, "family": color_family},
-        "finish": _text(_first(record, enrichment, "finish", "fini")),
-        "medium": _text(_first(record, enrichment, "medium")),
-        "opacity": _text(_first(record, enrichment, "opacity")),
         "volume_ml": _first(record, enrichment, "volume_ml", default=0),
         "tags": _values(_first(record, enrichment, "tags", default=[])),
         "recommended_uses": _values(_first(record, enrichment, "recommended_uses", "usages_conseilles", default=[])),
@@ -122,8 +126,43 @@ def canonical_paint(record: dict[str, Any], *, verified_at: str | None = None) -
         "verified_at": verified_at or _text(_first(record, enrichment, "verified_on", "verified_at")) or date.today().isoformat(),
         "notes": _text(_first(record, enrichment, "notes")),
         "deduplication_key": _text(record.get("dedupe_key")),
+        "source_observation": source_observation(record),
+        "mapping_report": mapping_report,
     }
     return paint
+
+
+def build_paint_model_migration_changeset(
+    catalog: dict[str, Any], *, source: str, retain_legacy_fields: bool = False,
+) -> dict[str, Any]:
+    """Build lossless v1 -> v2 paint upserts without rewriting unrelated source fields."""
+    paints = catalog.get("paints")
+    if not isinstance(paints, list):
+        raise ValueError("The paint catalog must contain a paints list.")
+    operations: list[dict[str, Any]] = []
+    for original in paints:
+        if not isinstance(original, dict):
+            raise ValueError("Every paint catalog entry must be an object.")
+        migrated = dict(original)
+        profile, report = canonical_profile(original)
+        migrated["schema_version"] = 2
+        migrated["profile"] = profile
+        migrated["source_observation"] = source_observation(original)
+        migrated["mapping_report"] = report
+        if not retain_legacy_fields:
+            for field in ("functional_type", "finish", "medium", "opacity", "behavior_tags"):
+                migrated.pop(field, None)
+        operations.append({"action": "upsert", "record": migrated, "workshop_quantity_delta": 0})
+    changeset = {
+        "schema_version": 1,
+        "kind": "market_paints",
+        "source": {"path": source, "generated_at": date.today().isoformat(), "migration": "paint-model-v2"},
+        "operations": operations,
+    }
+    errors = validate_changeset(changeset)
+    if errors:
+        raise ValueError("Invalid paint-model migration change set: " + "; ".join(errors))
+    return changeset
 
 
 def build_paint_changeset(
@@ -186,13 +225,24 @@ def validate_changeset(changeset: Any, *, allow_empty: bool = False) -> list[str
                 continue
             required_fields = PAINT_REQUIRED_FIELDS if operation.get("action") == "upsert" else ("id",)
             for field in required_fields:
+                if field == "profile":
+                    if not isinstance(record.get(field), dict):
+                        errors.append(f"{location}.record.profile is required")
+                    continue
                 if not _text(record.get(field)):
                     errors.append(f"{location}.record.{field} is required")
             if operation.get("action") == "delete" and operation.get("confirmed_removal") is not True:
                 errors.append(f"{location}.confirmed_removal must be true for deletion")
             if operation.get("action") != "upsert" and quantity_delta != 0:
                 errors.append(f"{location}.workshop_quantity_delta must be zero unless action is upsert")
-            if operation.get("action") == "upsert" and record.get("functional_type") in TECHNICAL_TYPES:
+            profile = record.get("profile")
+            if operation.get("action") == "upsert" and isinstance(profile, dict):
+                try:
+                    validate_profile(profile, f"{location}.record.profile")
+                except ValueError as error:
+                    errors.append(str(error))
+            roles = set(profile.get("roles", [])) if isinstance(profile, dict) else set()
+            if operation.get("action") == "upsert" and roles.intersection(INSTRUCTION_ROLES):
                 instructions = record.get("usage_instructions")
                 if not isinstance(instructions, dict) or not _text(instructions.get("summary")):
                     errors.append(f"{location}.record.usage_instructions.summary is required for technical paint")

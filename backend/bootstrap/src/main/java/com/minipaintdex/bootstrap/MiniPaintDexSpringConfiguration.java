@@ -51,7 +51,7 @@ public class MiniPaintDexSpringConfiguration {
         var storage = properties.storage();
         return new FileRepositoryLayout(
                 resolve(root, storage.siteConfiguration()),
-                resolve(root, storage.marketPaintCatalog()),
+                resolve(root, storage.marketPaintCatalogDirectory()),
                 resolve(root, storage.workshopPaintInventory()),
                 resolve(root, storage.shoppingList()),
                 resolve(root, storage.marketPaintableProductsDirectory()),
@@ -147,9 +147,9 @@ public class MiniPaintDexSpringConfiguration {
         var scores = matching.scores();
         return new PaintMatchEngine(new PaintMatchingPolicy(
                 matching.candidateLimit(),
-                matching.behavioralTypes(),
+                matching.behavioralSystems(),
                 matching.colorDistanceFactor(),
-                scores.functionalTypeMismatch(),
+                scores.roleMismatch(),
                 scores.metadataMismatch(),
                 scores.missingMetadata(),
                 scores.emptyBehavior(),
@@ -221,8 +221,8 @@ public class MiniPaintDexSpringConfiguration {
 
     private static PaintMatchingPolicy.Weights weights(MiniPaintDexProperties.Weights weights) {
         return new PaintMatchingPolicy.Weights(
-                weights.color(), weights.functionalType(), weights.behavior(),
-                weights.finish(), weights.opacity(), weights.medium());
+                weights.color(), weights.role(), weights.behavior(),
+                weights.finish(), weights.coverage(), weights.medium());
     }
 
     private static Path resolve(Path root, Path configured) {

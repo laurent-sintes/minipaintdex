@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -66,12 +67,20 @@ class FileMiniPaintDexRepositoryTest {
                 "brand", "Brand",
                 "manufacturer", "Maker",
                 "range", "Range",
-                "functional_type", "opaque_standard",
+                "profile", Map.of(
+                        "roles", List.of("color_paint"), "application_methods", List.of("brush"),
+                        "application_system", "conventional_layering", "coverage", "opaque",
+                        "finish", "matte", "effects", List.of(),
+                        "undercoat", Map.of("tone", "any", "pre_highlighted_surface_recommended", false),
+                        "medium", "acrylic"),
                 "name", "New Paint"))));
 
         var snapshot = repository.load();
         assertEquals("New Paint", text(snapshot.marketPaints().getFirst(), "name"));
-        assertTrue(Files.readString(root.resolve("data/market/paints/catalog.yaml")).contains("schema_version: 1"));
+        var stored = Files.readString(root.resolve("data/market/paints/brand.yaml"));
+        assertTrue(stored.contains("schema_version: 2"));
+        assertTrue(stored.contains("brand: Brand"));
+        assertFalse(stored.contains("&id"));
     }
 
     @Test
@@ -127,14 +136,23 @@ class FileMiniPaintDexRepositoryTest {
         createFixture();
         var repository = new FileMiniPaintDexRepository(layout());
         repository.initialize();
-        write("data/market/paints/catalog.yaml", """
-                schema_version: 1
+        write("data/market/paints/brand.yaml", """
+                schema_version: 2
+                brand: Brand
                 paints:
                   - id: paint
                     brand: Brand
                     manufacturer: Maker
                     range: Range
-                    functional_type: opaque_standard
+                    profile: &profile
+                      roles: [color_paint]
+                      application_methods: [brush]
+                      application_system: conventional_layering
+                      coverage: opaque
+                      finish: matte
+                      effects: []
+                      undercoat: {tone: any, pre_highlighted_surface_recommended: false}
+                      medium: acrylic
                     name: Refreshed Paint
                 """);
 
@@ -151,13 +169,22 @@ class FileMiniPaintDexRepositoryTest {
         createFixture();
         var repository = new FileMiniPaintDexRepository(layout());
         repository.initialize();
-        write("data/market/paints/catalog.yaml", """
-                schema_version: 1
+        write("data/market/paints/brand.yaml", """
+                schema_version: 2
+                brand: Brand
                 paints:
                   - id: invalid-paint
                     brand: Brand
                     range: Range
-                    functional_type: opaque_standard
+                    profile:
+                      roles: [color_paint]
+                      application_methods: [brush]
+                      application_system: conventional_layering
+                      coverage: opaque
+                      finish: matte
+                      effects: []
+                      undercoat: {tone: any, pre_highlighted_surface_recommended: false}
+                      medium: acrylic
                     name: Invalid Paint
                 """);
 
@@ -171,14 +198,23 @@ class FileMiniPaintDexRepositoryTest {
 
     private void createFixture() throws IOException {
         write("data/site/fr.yaml", "metadata: {}\n");
-        write("data/market/paints/catalog.yaml", """
-                schema_version: 1
+        write("data/market/paints/brand.yaml", """
+                schema_version: 2
+                brand: Brand
                 paints:
                   - id: paint
                     brand: Brand
                     manufacturer: Maker
                     range: Range
-                    functional_type: opaque_standard
+                    profile:
+                      roles: [color_paint]
+                      application_methods: [brush]
+                      application_system: conventional_layering
+                      coverage: opaque
+                      finish: matte
+                      effects: []
+                      undercoat: {tone: any, pre_highlighted_surface_recommended: false}
+                      medium: acrylic
                     name: Paint
                 """);
         write("data/workshop/paints.yaml", "schema_version: 1\npaints: []\n");
@@ -225,8 +261,24 @@ class FileMiniPaintDexRepositoryTest {
     private static StructuredDocument document(Map<String, Object> values) {
         return new StructuredDocument(values.entrySet().stream()
                 .map(entry -> new StructuredDocument.Field(
-                        entry.getKey(), new StructuredDocument.Text(String.valueOf(entry.getValue()))))
+                        entry.getKey(), documentValue(entry.getValue())))
                 .toList());
+    }
+
+    private static StructuredDocument.Value documentValue(Object value) {
+        if (value instanceof Map<?, ?> values) {
+            var normalized = new LinkedHashMap<String, Object>();
+            values.forEach((key, entry) -> normalized.put(String.valueOf(key), entry));
+            return new StructuredDocument.ObjectValue(document(normalized));
+        }
+        if (value instanceof List<?> values) {
+            return new StructuredDocument.ArrayValue(values.stream()
+                    .map(FileMiniPaintDexRepositoryTest::documentValue).toList());
+        }
+        if (value instanceof Number number) return new StructuredDocument.NumberValue(number);
+        if (value instanceof Boolean bool) return new StructuredDocument.BooleanValue(bool);
+        if (value == null) return new StructuredDocument.NullValue();
+        return new StructuredDocument.Text(String.valueOf(value));
     }
 
     private static String text(StructuredDocument document, String fieldName) {
@@ -239,7 +291,7 @@ class FileMiniPaintDexRepositoryTest {
     private FileRepositoryLayout layout() {
         return new FileRepositoryLayout(
                 root.resolve("data/site/fr.yaml"),
-                root.resolve("data/market/paints/catalog.yaml"),
+                root.resolve("data/market/paints"),
                 root.resolve("data/workshop/paints.yaml"),
                 root.resolve("data/workshop/shopping.yaml"),
                 root.resolve("data/market/paintable-products"),

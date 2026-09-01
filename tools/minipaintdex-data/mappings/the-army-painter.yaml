@@ -1,0 +1,28 @@
+schema_version: 1
+mapping:
+  id: the-army-painter
+  version: 1
+brand: The Army Painter
+default_profile:
+  roles: [color_paint]
+  application_methods: [brush]
+  application_system: conventional_layering
+  coverage: unknown
+  finish: unknown
+  effects: []
+  undercoat: {tone: any, pre_highlighted_surface_recommended: false}
+  medium: acrylic
+ranges:
+  Speedpaint:
+    application_system: one_coat_shading
+    coverage: transparent
+    undercoat: {tone: light, pre_highlighted_surface_recommended: true}
+  Warpaints Air:
+    application_methods: [airbrush]
+  Warpaints Fanatic:
+    coverage: opaque
+  Colour Primer:
+    roles: [primer]
+    application_methods: [spray]
+    application_system: priming
+    coverage: opaque

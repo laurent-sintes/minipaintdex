@@ -8,7 +8,7 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import { useRef } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
-import type { Paint, ShoppingItem } from '@/models/paint-model';
+import type { Paint, PaintFacets, PaintModelSchema, ShoppingItem } from '@/models/paint-model';
 import type {
   Dashboard, PaintableCatalogItem, PaintableProduct, PaintableProductImportPreview, PaintableProductSummary,
   WorkshopItem, WorkshopItemDetail, WorkshopOverview, PaintingProjectSummary,
@@ -18,15 +18,12 @@ import { appRoutePath, parseAppRoute } from '@/utils/app-routing';
 import type { AppRoute as Route } from '@/utils/app-routing';
 import { formatMetadata } from '@/utils/paint-search';
 
-type PaintFilterKey = 'type' | 'color' | 'brand' | 'manufacturer' | 'range' | 'finish' | 'medium' | 'opacity' | 'lifecycle' | 'volume' | 'tag';
-type PaintFilters = Record<PaintFilterKey, string>;
-type FilterOptions = Record<'types' | 'colors' | 'brands' | 'manufacturers' | 'ranges' | 'finishes' | 'mediums' | 'opacities' | 'lifecycles' | 'volumes' | 'tags', { value: string; count: number }[]>;
+type PaintFilters = Record<string, string>;
+type FilterOptions = Record<string, { value: string; count: number }[]>;
 type AboutData = { name: string; version: string; author: string };
 type DocumentationData = { documents: Array<{ id: string; audience: 'user' | 'administrator'; markdown: string }> };
 
-const emptyPaintFilters: PaintFilters = {
-  type: '', color: '', brand: '', manufacturer: '', range: '', finish: '', medium: '', opacity: '', lifecycle: '', volume: '', tag: '',
-};
+const emptyPaintFilters: PaintFilters = {};
 const PAINT_PAGE_SIZE = 60;
 
 function isPaintRoute(route: Route) {
@@ -44,6 +41,14 @@ function swatchStyle(colorHex: string): CSSProperties | undefined {
 function workflowLabel(config: SiteConfig, coreId: string) {
   const configKey = coreId.replace(/_([a-z])/g, (_, letter: string) => letter.toUpperCase());
   return config.workflow[configKey] ?? config.workflow[coreId] ?? formatMetadata(coreId);
+}
+
+function configuredLabel(config: SiteConfig, labelKey: string) {
+  const [section, key] = labelKey.split('.');
+  const configKey = key?.replace(/_([a-z])/g, (_, letter: string) => letter.toUpperCase());
+  const values = (config as unknown as Record<string, Record<string, unknown>>)[section];
+  const label = values?.[configKey];
+  return typeof label === 'string' ? label : formatMetadata(key ?? labelKey);
 }
 
 function NavButton({ icon, label, active, badge, onClick }: {
@@ -74,6 +79,19 @@ function FacetSelect({ label, allLabel, value, options, onChange }: {
   );
 }
 
+function ResilientPaintImage({ primary, fallback, alt }: { primary: string; fallback: string; alt: string }) {
+  const [source, setSource] = useState(primary || fallback);
+  if (!source) return null;
+  return (
+    <img
+      src={source}
+      alt={alt}
+      className="h-full w-full object-contain"
+      onError={() => setSource((current) => fallback && current !== fallback ? fallback : '')}
+    />
+  );
+}
+
 function PaintCard({ paint, config, onOpen }: { paint: Paint; config: SiteConfig; onOpen: () => void }) {
   const image = paint.resultImage || paint.manufacturerImage;
   const hasColor = validColor(paint.colorHex);
@@ -81,7 +99,7 @@ function PaintCard({ paint, config, onOpen }: { paint: Paint; config: SiteConfig
     <button type="button" className="paint-card group w-full text-left" onClick={onOpen}>
       <div className={'paint-swatch ' + (!hasColor ? 'unknown-color' : '')} style={hasColor ? { background: `color-mix(in srgb, ${paint.colorHex} 14%, white)` } : undefined}>
         {image
-          ? <img src={image} alt={`${config.paintDetail.productVisual} ${paint.brand} ${paint.name}`} className="h-full w-full object-contain" />
+          ? <ResilientPaintImage key={`${image}|${paint.manufacturerImageSource}`} primary={image} fallback={paint.manufacturerImageSource} alt={`${config.paintDetail.productVisual} ${paint.brand} ${paint.name}`} />
           : hasColor ? <span className="absolute inset-0" style={{ background: paint.colorHex }} /> : <span className="absolute inset-0 grid place-items-center px-2 text-center text-[10px] font-semibold text-muted-foreground">{config.paintDetail.toQualify}</span>}
         <span className="absolute bottom-3 left-3 z-[1] rounded-full bg-black/35 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-white backdrop-blur-sm">{paint.reference || paint.range}</span>
       </div>
@@ -89,7 +107,7 @@ function PaintCard({ paint, config, onOpen }: { paint: Paint; config: SiteConfig
         <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">{paint.brand}</p>
         <h3 className="mt-0.5 truncate text-[15px] font-semibold tracking-tight">{paint.name}</h3>
         <div className="mt-3 flex flex-wrap gap-1.5">
-          <span className="rounded-full bg-secondary px-2.5 py-1 text-[11px] font-medium">{formatMetadata(paint.paintType)}</span>
+          <span className="rounded-full bg-secondary px-2.5 py-1 text-[11px] font-medium">{formatMetadata(paint.profile.roles[0] ?? paint.profile.applicationSystem)}</span>
           {(paint.quantity ?? 0) > 0 && <span className="rounded-full bg-primary/8 px-2.5 py-1 text-[11px] font-semibold text-primary">× {paint.quantity}</span>}
         </div>
         {paint.manufacturerUrl && <span className="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-primary"><BookOpen size={12} />{config.collection.manufacturerSheet}</span>}
@@ -106,17 +124,14 @@ function EmptyState({ title, description }: { title: string; description: string
   return <section className="rounded-[24px] border border-dashed bg-card/60 px-6 py-14 text-center"><PackageOpen className="mx-auto size-8 text-muted-foreground/60" /><h2 className="mt-3 text-sm font-semibold">{title}</h2><p className="mx-auto mt-2 max-w-lg text-xs leading-5 text-muted-foreground">{description}</p></section>;
 }
 
-const emptyFacets: FilterOptions = {
-  types: [], colors: [], brands: [], manufacturers: [], ranges: [], finishes: [], mediums: [],
-  opacities: [], lifecycles: [], volumes: [], tags: [],
-};
+const emptyFacets: FilterOptions = {};
 
 const emptyWorkshop: WorkshopOverview = {
   id: 'my-workshop', paintingProjects: [], projectCount: 0, itemCount: 0,
   completedItemCount: 0, progressPercentage: 0, recentActivity: [],
 };
 
-export function PaintApp({ initialDashboard, config }: { initialDashboard: Dashboard; config: SiteConfig }) {
+export function PaintApp({ initialDashboard, config, paintModel }: { initialDashboard: Dashboard; config: SiteConfig; paintModel: PaintModelSchema }) {
   const [route, setRoute] = useState<Route>(() => parseAppRoute(window.location.pathname));
   const [dashboard, setDashboard] = useState(initialDashboard);
   const [paints, setPaints] = useState<Paint[]>([]);
@@ -325,6 +340,14 @@ export function PaintApp({ initialDashboard, config }: { initialDashboard: Dashb
     return `${collection}?${params.toString()}`;
   }, [filters, manufacturerSheetOnly, query, realResultOnly, route.view]);
 
+  const paintFacetUrl = useCallback(() => {
+    const params = new URLSearchParams();
+    if (query.trim()) params.set('query', query.trim());
+    Object.entries(filters).forEach(([key, value]) => { if (value) params.set(key, value); });
+    const collection = route.view === 'workshopPaints' ? '/api/v1/workshop/paints/facets' : '/api/v1/market/paints/facets';
+    return params.size === 0 ? collection : `${collection}?${params.toString()}`;
+  }, [filters, query, route.view]);
+
   useEffect(() => {
     if (!isPaintView) return;
     const controller = new AbortController();
@@ -345,15 +368,17 @@ export function PaintApp({ initialDashboard, config }: { initialDashboard: Dashb
   useEffect(() => {
     if (!isPaintView) return;
     const controller = new AbortController();
-    const collection = route.view === 'workshopPaints' ? '/api/v1/workshop/paints/facets' : '/api/v1/market/paints/facets';
-    fetch(collection, { signal: controller.signal, headers: { accept: 'application/json' } })
-      .then((response) => { if (!response.ok) throw new Error(String(response.status)); return response.json() as Promise<FilterOptions & { total: number }>; })
-      .then((result) => { setFilterOptions(result); setPaintCatalogTotal(result.total); })
+    fetch(paintFacetUrl(), { signal: controller.signal, headers: { accept: 'application/json' } })
+      .then((response) => { if (!response.ok) throw new Error(String(response.status)); return response.json() as Promise<PaintFacets>; })
+      .then((result) => {
+        setFilterOptions(Object.fromEntries(result.facets.map((facet) => [facet.id, facet.values])));
+        setPaintCatalogTotal(result.total);
+      })
       .catch((reason) => { if (!(reason instanceof DOMException && reason.name === 'AbortError')) setNotice(config.errors.requestFailed); });
     return () => controller.abort();
-  }, [config.errors.requestFailed, isPaintView, route.view, serverRevision]);
+  }, [config.errors.requestFailed, isPaintView, paintFacetUrl, serverRevision]);
 
-  const brands = filterOptions.brands.length;
+  const brands = filterOptions.brands?.length ?? 0;
   const activeFilterCount = Object.values(filters).filter(Boolean).length + Number(manufacturerSheetOnly) + Number(realResultOnly);
   const title = route.view === 'home' ? config.home.title
     : route.view === 'marketPaints' ? config.market.paintsTitle
@@ -363,7 +388,8 @@ export function PaintApp({ initialDashboard, config }: { initialDashboard: Dashb
             : route.view === 'shopping' ? config.shopping.title
               : route.view === 'aboutUser' ? config.about.userTitle
               : route.view === 'aboutAdmin' ? config.about.administratorTitle
-                : route.view === 'aboutApi' ? config.about.apiTitle
+                : route.view === 'aboutPaintModel' ? config.about.paintModelTitle
+                  : route.view === 'aboutApi' ? config.about.apiTitle
                   : route.view === 'aboutVersion' ? config.about.versionTitle
               : route.view === 'item' ? workshopItemDetail?.displayName ?? config.workshop.itemDetail
                 : activeProduct?.name ?? config.errors.productNotFound;
@@ -374,7 +400,8 @@ export function PaintApp({ initialDashboard, config }: { initialDashboard: Dashb
           : route.view === 'workshop' ? config.workshop.description
             : route.view === 'shopping' ? config.shopping.description
               : route.view === 'aboutUser' || route.view === 'aboutAdmin' ? config.about.description
-                : route.view === 'aboutApi' ? config.about.apiDescription
+                : route.view === 'aboutPaintModel' ? config.about.paintModelDescription
+                  : route.view === 'aboutApi' ? config.about.apiDescription
                 : route.view === 'aboutVersion' ? config.about.versionDescription
               : route.view === 'item' ? config.workshop.itemDetail
                 : activeProduct?.scope ?? '';
@@ -483,6 +510,7 @@ export function PaintApp({ initialDashboard, config }: { initialDashboard: Dashb
   const aboutNavigation = [
     { route: { view: 'aboutUser' } as Route, icon: <BookOpen size={18} />, label: config.navigation.userDocumentation },
     { route: { view: 'aboutAdmin' } as Route, icon: <FolderCog size={18} />, label: config.navigation.adminDocumentation },
+    { route: { view: 'aboutPaintModel' } as Route, icon: <ListFilter size={18} />, label: config.navigation.paintModel },
     { route: { view: 'aboutApi' } as Route, icon: <ExternalLink size={18} />, label: config.navigation.restApi },
     { route: { view: 'aboutVersion' } as Route, icon: <Info size={18} />, label: config.navigation.version },
   ];
@@ -526,11 +554,12 @@ export function PaintApp({ initialDashboard, config }: { initialDashboard: Dashb
             {route.view.startsWith('about') && <div className="mt-6 flex flex-wrap gap-2 lg:hidden">{aboutNavigation.map((item) => <button type="button" key={item.route.view} onClick={() => navigate(item.route)} className={'rounded-xl border px-3 py-2 text-xs font-semibold ' + (route.view === item.route.view ? 'bg-primary text-primary-foreground' : 'bg-card text-foreground')}>{item.label}</button>)}</div>}
 
             {route.view === 'home' && <HomePage dashboard={dashboard} config={config} navigate={navigate} />}
-            {isPaintView && <PaintBrowser paints={paints} resultCount={paintResultCount} visibleCount={paintCatalogTotal} brands={brands} offset={paintOffset} pageSize={PAINT_PAGE_SIZE} filters={filters} setFilters={changeFilters} filterOptions={filterOptions} filtersOpen={filtersOpen} setFiltersOpen={setFiltersOpen} activeFilterCount={activeFilterCount} manufacturerSheetOnly={manufacturerSheetOnly} setManufacturerSheetOnly={changeManufacturerSheetOnly} realResultOnly={realResultOnly} setRealResultOnly={changeRealResultOnly} clearFilters={clearFilters} config={config} onOpen={setSelectedPaint} onPage={setPaintOffset} />}
+            {isPaintView && <PaintBrowser paints={paints} resultCount={paintResultCount} visibleCount={paintCatalogTotal} brands={brands} offset={paintOffset} pageSize={PAINT_PAGE_SIZE} filters={filters} setFilters={changeFilters} filterOptions={filterOptions} paintModel={paintModel} filtersOpen={filtersOpen} setFiltersOpen={setFiltersOpen} activeFilterCount={activeFilterCount} manufacturerSheetOnly={manufacturerSheetOnly} setManufacturerSheetOnly={changeManufacturerSheetOnly} realResultOnly={realResultOnly} setRealResultOnly={changeRealResultOnly} clearFilters={clearFilters} config={config} onOpen={setSelectedPaint} onPage={setPaintOffset} />}
             {route.view === 'marketProducts' && <MarketProducts products={productSummaries} ownedProductIds={new Set(workshop.paintingProjects.map((project) => project.productId))} config={config} navigate={navigate} />}
             {route.view === 'workshop' && <WorkshopAdmin workshop={workshop} config={config} navigate={navigate} />}
             {route.view === 'shopping' && <ShoppingPage items={shoppingItems} onToggle={setShoppingStatus} config={config} />}
             {(route.view === 'aboutUser' || route.view === 'aboutAdmin') && <DocumentationPage documentation={documentation} config={config} />}
+            {route.view === 'aboutPaintModel' && <PaintModelPage paintModel={paintModel} config={config} />}
             {route.view === 'aboutApi' && <ApiDocumentationPage config={config} />}
             {route.view === 'aboutVersion' && <VersionPage about={aboutData} config={config} />}
             {route.view === 'product' && activeProduct && <ProductPage product={activeProduct} activeItem={activeCatalogItem} paintingProject={activePaintingProject} workshopItems={workshopItems} preview={importPreview} importing={importing} config={config} navigate={navigate} onImport={importProduct} workshopMode={Boolean(route.paintingProjectId)} />}
@@ -566,29 +595,17 @@ function HomePage({ dashboard, config, navigate }: {
   </>;
 }
 
-function PaintBrowser({ paints, resultCount, visibleCount, brands, offset, pageSize, filters, setFilters, filterOptions, filtersOpen, setFiltersOpen, activeFilterCount, manufacturerSheetOnly, setManufacturerSheetOnly, realResultOnly, setRealResultOnly, clearFilters, config, onOpen, onPage }: {
-  paints: Paint[]; resultCount: number; visibleCount: number; brands: number; offset: number; pageSize: number; filters: PaintFilters; setFilters: (filters: PaintFilters) => void; filterOptions: FilterOptions;
+function PaintBrowser({ paints, resultCount, visibleCount, brands, offset, pageSize, filters, setFilters, filterOptions, paintModel, filtersOpen, setFiltersOpen, activeFilterCount, manufacturerSheetOnly, setManufacturerSheetOnly, realResultOnly, setRealResultOnly, clearFilters, config, onOpen, onPage }: {
+  paints: Paint[]; resultCount: number; visibleCount: number; brands: number; offset: number; pageSize: number; filters: PaintFilters; setFilters: (filters: PaintFilters) => void; filterOptions: FilterOptions; paintModel: PaintModelSchema;
   filtersOpen: boolean; setFiltersOpen: (value: boolean) => void; activeFilterCount: number;
   manufacturerSheetOnly: boolean; setManufacturerSheetOnly: (value: boolean) => void; realResultOnly: boolean; setRealResultOnly: (value: boolean) => void;
   clearFilters: () => void; config: SiteConfig; onOpen: (paint: Paint) => void; onPage: (offset: number) => void;
 }) {
-  const setFilter = (key: PaintFilterKey, value: string) => setFilters({ ...filters, [key]: value });
-  const facets: Array<[PaintFilterKey, string, string, keyof FilterOptions]> = [
-    ['type', config.collection.typeFilter, config.collection.allTypes, 'types'],
-    ['color', config.collection.colorFilter, config.collection.allColors, 'colors'],
-    ['brand', config.collection.brandFilter, config.collection.allBrands, 'brands'],
-    ['manufacturer', config.collection.manufacturerFilter, config.collection.allManufacturers, 'manufacturers'],
-    ['range', config.collection.rangeFilter, config.collection.allRanges, 'ranges'],
-    ['finish', config.collection.finishFilter, config.collection.allFinishes, 'finishes'],
-    ['medium', config.collection.mediumFilter, config.collection.allMediums, 'mediums'],
-    ['opacity', config.collection.opacityFilter, config.collection.allOpacities, 'opacities'],
-    ['lifecycle', config.collection.lifecycleFilter, config.collection.allLifecycles, 'lifecycles'],
-    ['volume', config.collection.volumeFilter, config.collection.allVolumes, 'volumes'],
-    ['tag', config.collection.tagFilter, config.collection.allTags, 'tags'],
-  ];
+  const setFilter = (key: string, value: string) => setFilters({ ...filters, [key]: value });
+  const facets = [...paintModel['x-filters']].sort((left, right) => left.order - right.order);
   return <>
     <div className="mt-7 grid gap-3 sm:grid-cols-3"><Metric icon={<Droplets size={19} />} value={visibleCount} label={config.market.paintsMetric} /><Metric icon={<Sparkles size={19} />} value={brands} label={config.market.brandsMetric} /><Metric icon={<ListChecks size={19} />} value={resultCount} label={config.collection.resultsTitle} /></div>
-    <section className="mt-6 rounded-[24px] border bg-card p-4 sm:p-5"><div className="flex items-center justify-between gap-3"><button type="button" onClick={() => setFiltersOpen(!filtersOpen)} className="inline-flex items-center gap-2 text-sm font-semibold"><ListFilter size={17} />{config.collection.filters}{activeFilterCount > 0 && <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] text-primary-foreground">{activeFilterCount}</span>}</button>{activeFilterCount > 0 && <button type="button" onClick={clearFilters} className="text-xs font-semibold text-primary">{config.collection.resetFilters}</button>}</div>{filtersOpen && <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{facets.map(([key, label, allLabel, options]) => <FacetSelect key={key} label={label} allLabel={allLabel} value={filters[key]} options={filterOptions[options]} onChange={(value) => setFilter(key, value)} />)}<label className="need-chip"><input type="checkbox" checked={manufacturerSheetOnly} onChange={(event) => setManufacturerSheetOnly(event.target.checked)} />{config.collection.manufacturerSheetOnly}</label><label className="need-chip"><input type="checkbox" checked={realResultOnly} onChange={(event) => setRealResultOnly(event.target.checked)} />{config.collection.realResultOnly}</label></div>}</section>
+    <section className="mt-6 rounded-[24px] border bg-card p-4 sm:p-5"><div className="flex items-center justify-between gap-3"><button type="button" onClick={() => setFiltersOpen(!filtersOpen)} className="inline-flex items-center gap-2 text-sm font-semibold"><ListFilter size={17} />{config.collection.filters}{activeFilterCount > 0 && <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] text-primary-foreground">{activeFilterCount}</span>}</button>{activeFilterCount > 0 && <button type="button" onClick={clearFilters} className="text-xs font-semibold text-primary">{config.collection.resetFilters}</button>}</div>{filtersOpen && <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{facets.map((facet) => <FacetSelect key={facet.id} label={configuredLabel(config, facet.labelKey)} allLabel={config.collection.allValues} value={filters[facet.queryParameter] ?? ''} options={filterOptions[facet.facetId] ?? []} onChange={(value) => setFilter(facet.queryParameter, value)} />)}<label className="need-chip"><input type="checkbox" checked={manufacturerSheetOnly} onChange={(event) => setManufacturerSheetOnly(event.target.checked)} />{config.collection.manufacturerSheetOnly}</label><label className="need-chip"><input type="checkbox" checked={realResultOnly} onChange={(event) => setRealResultOnly(event.target.checked)} />{config.collection.realResultOnly}</label></div>}</section>
     <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{paints.map((paint) => <PaintCard key={paint.id} paint={paint} config={config} onOpen={() => onOpen(paint)} />)}{resultCount === 0 && <div className="col-span-full"><EmptyState title={config.collection.emptyTitle} description={config.collection.emptyHint} /></div>}</div>
     {resultCount > pageSize && <div className="mt-6 flex items-center justify-center gap-3"><button type="button" disabled={offset === 0} onClick={() => onPage(Math.max(0, offset - pageSize))} className="inline-flex size-11 items-center justify-center rounded-xl border bg-card text-primary disabled:opacity-35"><ChevronLeft size={17} /></button><span className="text-xs font-semibold text-muted-foreground">{offset + 1}–{Math.min(offset + paints.length, resultCount)} / {resultCount}</span><button type="button" disabled={offset + paints.length >= resultCount} onClick={() => onPage(offset + pageSize)} className="inline-flex size-11 items-center justify-center rounded-xl border bg-card text-primary disabled:opacity-35"><ChevronRight size={17} /></button></div>}
   </>;
@@ -718,6 +735,18 @@ function ApiDocumentationPage({ config }: { config: SiteConfig }) {
   return <section className="mt-8 overflow-hidden rounded-[24px] border bg-card shadow-sm"><div className="flex items-center justify-between gap-4 border-b px-5 py-4"><p className="text-sm text-muted-foreground">{config.about.apiDescription}</p><a className="inline-flex items-center gap-2 text-xs font-semibold text-primary" href="/swagger-ui/index.html" target="_blank" rel="noreferrer">OpenAPI <ExternalLink size={14} /></a></div><iframe className="h-[72vh] w-full bg-white" title={config.about.apiTitle} src="/swagger-ui/index.html" /></section>;
 }
 
+function PaintModelPage({ paintModel, config }: { paintModel: PaintModelSchema; config: SiteConfig }) {
+  const filters = [...paintModel['x-filters']].sort((left, right) => left.order - right.order);
+  return <div className="mt-8 grid gap-5 lg:grid-cols-[1.4fr_1fr]">
+    <section className="rounded-[24px] border bg-card p-5 shadow-sm sm:p-7">
+      <div className="flex flex-wrap items-center justify-between gap-3"><div><p className="eyebrow">JSON Schema</p><h2 className="mt-2 text-lg font-semibold">{paintModel.title}</h2></div><span className="rounded-full bg-secondary px-3 py-1 text-xs font-semibold">{config.about.modelVersion} {paintModel['x-model-version']}</span></div>
+      <h3 className="mt-7 text-sm font-semibold">{config.about.filterFields}</h3>
+      <div className="mt-3 divide-y rounded-2xl border">{filters.map((filter) => <div key={filter.id} className="grid gap-1 px-4 py-3 sm:grid-cols-[1fr_1fr]"><strong className="text-xs">{configuredLabel(config, filter.labelKey)}</strong><code className="text-xs text-muted-foreground">{filter.queryParameter} · {filter.facetId}</code></div>)}</div>
+    </section>
+    <section className="rounded-[24px] border bg-card p-5 shadow-sm sm:p-7"><h2 className="text-lg font-semibold">{config.about.vocabularies}</h2><div className="mt-4 space-y-4">{Object.entries(paintModel['x-vocabularies']).map(([id, values]) => <div key={id}><code className="text-xs font-semibold">{id}</code><div className="mt-2 flex flex-wrap gap-1.5">{values.map((value) => <span key={value} className="rounded-full bg-secondary px-2.5 py-1 text-[10px]">{formatMetadata(value)}</span>)}</div></div>)}</div><a className="mt-6 inline-flex items-center gap-2 text-xs font-semibold text-primary" href="/api/v1/market/paint-model" target="_blank" rel="noreferrer">{config.about.openPaintSchema}<ExternalLink size={14} /></a></section>
+  </div>;
+}
+
 function MarkdownDocument({ markdown }: { markdown: string }) {
   const blocks = markdown.trim().split(/\n\s*\n/);
   return <div className="mt-5 space-y-4 text-sm leading-6 text-muted-foreground">{blocks.map((block, index) => {
@@ -753,15 +782,17 @@ function PaintDetail({ paint, config, onClose }: { paint: Paint; config: SiteCon
           <div>
             <div className={'aspect-square overflow-hidden rounded-[22px] border ' + (!hasColor ? 'unknown-color' : '')} style={hasColor ? { background: `color-mix(in srgb, ${paint.colorHex} 16%, white)` } : undefined}>
               {paint.resultImage || paint.manufacturerImage
-                ? <img src={paint.resultImage || paint.manufacturerImage} alt={`${config.paintDetail.productVisual} ${paint.name}`} className="h-full w-full object-contain" />
+                ? <ResilientPaintImage key={`${paint.resultImage || paint.manufacturerImage}|${paint.resultImageSource || paint.manufacturerImageSource}`} primary={paint.resultImage || paint.manufacturerImage} fallback={paint.resultImageSource || paint.manufacturerImageSource} alt={`${config.paintDetail.productVisual} ${paint.name}`} />
                 : hasColor ? <div className="h-full w-full" style={{ background: paint.colorHex }} />
                   : <div className="grid h-full place-items-center text-sm font-semibold text-muted-foreground">{config.paintDetail.toQualify}</div>}
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
               <SummaryText value={paint.reference} label={config.paintDetail.referenceLabel} />
               <SummaryText value={`${paint.volumeMl} ml`} label={config.paintDetail.volumeLabel} />
-              <SummaryText value={formatMetadata(paint.paintType)} label={config.collection.typeFilter} />
-              <SummaryText value={formatMetadata(paint.finish)} label={config.collection.finishFilter} />
+              <SummaryText value={paint.profile.roles.map(formatMetadata).join(', ')} label={config.collection.roleFilter} />
+              <SummaryText value={formatMetadata(paint.profile.applicationSystem)} label={config.collection.applicationSystemFilter} />
+              <SummaryText value={formatMetadata(paint.profile.coverage)} label={config.collection.coverageFilter} />
+              <SummaryText value={formatMetadata(paint.profile.finish)} label={config.collection.finishFilter} />
             </div>
           </div>
           <div className="min-w-0">

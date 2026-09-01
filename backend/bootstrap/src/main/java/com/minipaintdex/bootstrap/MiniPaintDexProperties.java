@@ -31,7 +31,7 @@ public record MiniPaintDexProperties(
 
     public record Storage(
             @NotNull Path siteConfiguration,
-            @NotNull Path marketPaintCatalog,
+            @NotNull Path marketPaintCatalogDirectory,
             @NotNull Path workshopPaintInventory,
             @NotNull Path shoppingList,
             @NotNull Path marketPaintableProductsDirectory,
@@ -66,14 +66,14 @@ public record MiniPaintDexProperties(
 
     public record PaintMatching(
             @Min(1) int candidateLimit,
-            @NotEmpty Set<String> behavioralTypes,
+            @NotEmpty Set<String> behavioralSystems,
             @DecimalMin(value = "0", inclusive = false) double colorDistanceFactor,
             @Valid @NotNull Scores scores,
             @Valid @NotNull Weights standard,
             @Valid @NotNull Weights behavioral) {}
 
     public record Scores(
-            @DecimalMin("0") @DecimalMax("100") double functionalTypeMismatch,
+            @DecimalMin("0") @DecimalMax("100") double roleMismatch,
             @DecimalMin("0") @DecimalMax("100") double metadataMismatch,
             @DecimalMin("0") @DecimalMax("100") double missingMetadata,
             @DecimalMin("0") @DecimalMax("100") double emptyBehavior,
@@ -82,10 +82,10 @@ public record MiniPaintDexProperties(
 
     public record Weights(
             @DecimalMin("0") double color,
-            @DecimalMin("0") double functionalType,
+            @DecimalMin("0") double role,
             @DecimalMin("0") double behavior,
             @DecimalMin("0") double finish,
-            @DecimalMin("0") double opacity,
+            @DecimalMin("0") double coverage,
             @DecimalMin("0") double medium) {}
 
     public record Media(@Min(1) long maxUploadBytes, @NotEmpty Set<String> allowedContentTypes) {}

@@ -447,7 +447,7 @@ public final class MiniPaintDexCli implements Runnable {
         @ParentCommand MiniPaintDexCli root;
         public void run() { CommandLine.usage(this, System.out); }
 
-        @Command(name = "paints", subcommands = {Paints.Search.class, Paints.Apply.class})
+        @Command(name = "paints", subcommands = {Paints.Search.class, Paints.Model.class, Paints.Apply.class})
         static final class Paints implements Runnable {
             @ParentCommand Market parent;
             public void run() { CommandLine.usage(this, System.out); }
@@ -458,21 +458,31 @@ public final class MiniPaintDexCli implements Runnable {
                 @Option(names = "--query") String query;
                 @Option(names = "--brand") String brand;
                 @Option(names = "--range") String range;
-                @Option(names = "--type") String type;
+                @Option(names = "--role") String role;
+                @Option(names = "--application-method") String applicationMethod;
+                @Option(names = "--application-system") String applicationSystem;
                 @Option(names = "--color") String color;
                 @Option(names = "--finish") String finish;
                 @Option(names = "--medium") String medium;
-                @Option(names = "--opacity") String opacity;
-                @Option(names = "--volume") String volume;
-                @Option(names = "--reference") String reference;
+                @Option(names = "--coverage") String coverage;
+                @Option(names = "--effect") String effect;
+                @Option(names = "--undercoat") String undercoat;
                 @Option(names = "--lifecycle") String lifecycle;
-                @Option(names = "--manufacturer") String manufacturer;
-                @Option(names = "--tag") String tag;
                 public Integer call() {
                     var root = parent.parent.root;
                     root.output(Map.of("paints", root.market().searchMarketPaints(new SearchMarketPaintsQuery(
-                            query, brand, range, type, color, finish, medium, opacity, volume,
-                            reference, lifecycle, manufacturer, tag))));
+                            query, brand, range, role, applicationMethod, applicationSystem, color,
+                            finish, medium, coverage, effect, undercoat, lifecycle))));
+                    return 0;
+                }
+            }
+
+            @Command(name = "model", description = "Show the canonical market-paint metadata model")
+            static final class Model implements Callable<Integer> {
+                @ParentCommand Paints parent;
+                public Integer call() {
+                    var root = parent.parent.root;
+                    root.output(Map.of("paintModel", root.market().marketPaintModel()));
                     return 0;
                 }
             }

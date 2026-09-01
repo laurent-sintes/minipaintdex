@@ -1,0 +1,16 @@
+schema_version: 1
+mapping:
+  id: prince-august
+  version: 1
+brand: Prince August
+default_profile:
+  roles: [color_paint]
+  application_methods: [brush]
+  application_system: conventional_layering
+  coverage: unknown
+  finish: unknown
+  effects: []
+  undercoat: {tone: any, pre_highlighted_surface_recommended: false}
+  medium: acrylic
+ranges:
+  CLASSIC: {coverage: opaque}

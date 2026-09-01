@@ -1,11 +1,11 @@
 # Taxonomie fonctionnelle
 
-Conserver deux axes distincts :
+Conserver le vocabulaire commercial observé séparément du profil standard :
 
 - `range_observed` / `range_canonical` : vocabulaire commercial de la marque ;
-- `functional_class` : rôle comparable entre marques.
+- `profile` : caractéristiques comparables entre marques.
 
-Une classe fonctionnelle facilite les recherches et les propositions de palette. Elle ne garantit jamais une teinte ou un comportement identique.
+Les anciennes classes fonctionnelles sont uniquement des entrées d’import traduites vers plusieurs axes : `roles`, `application_methods`, `application_system`, `coverage`, `finish`, `effects`, `undercoat` et `medium`. La table ci-dessous est portée dans les fichiers versionnés `tools/minipaintdex-data/mappings/<brand>.yaml`.
 
 | Classe fonctionnelle | Warhammer Colour | Vallejo | The Army Painter | Prince August |
 |---|---|---|---|---|
@@ -36,17 +36,18 @@ Ne pas décider uniquement à partir du site marchand ou du lieu d’achat.
 - Les gammes propres Prince August utilisent notamment des références `Pxxx`, `PGxxx`, `Gxxx`, `GAxxx` ou `PA-Air` selon les générations.
 - Une référence ressemblant à Vallejo sur un produit déclaré Prince August produit `manufacturer_candidate: Vallejo` et `needs_review: true`. Confirmer avec le logo du flacon et une source officielle.
 
-## Champs utiles au raisonnement de palette
+## Profil standard utile au raisonnement de palette
 
 Ne pas remplacer les propriétés techniques par la seule classe fonctionnelle. Conserver si connu :
 
-- `opacity`: opaque, semi-opaque, transparent ;
-- `finish`: mat, satiné, brillant, métallique ;
-- `application_method`: pinceau, aérographe, bombe, marqueur ;
-- `medium`: acrylique à l’eau, huile, émail, etc. ;
+- `profile.coverage`: `opaque`, `semi_opaque`, `translucent`, `transparent`, `unknown` ;
+- `profile.finish`: `matte`, `satin`, `gloss`, `unknown` ;
+- `profile.application_methods`: `brush`, `airbrush`, `spray`, `marker` ;
+- `profile.medium`: `water_based_acrylic`, `acrylic`, `alcohol_based`, `oil`, `enamel`, `unknown` ;
+- `profile.application_system`, `profile.effects` et `profile.undercoat` ;
 - `color_family` et `color_hex` ;
 - `recommended_uses` ;
-- `requires_light_primer` pour les peintures monocouche à contraste.
+- `profile.undercoat.pre_highlighted_surface_recommended` pour les peintures monocouche à contraste.
 
 Pour les produits dont le rendu dépend davantage du comportement que du RGB, utiliser aussi `application_profile` avec les propriétés connues et sourcées :
 
@@ -57,4 +58,4 @@ Pour les produits dont le rendu dépend davantage du comportement que du RGB, ut
 - `recommended_undercoat` ;
 - `effect_type`.
 
-Laisser une propriété absente plutôt que de l’inférer à partir du nom commercial. Ce profil aide à classer des candidats, jamais à déclarer automatiquement deux produits interchangeables.
+Les valeurs inconnues du profil standard utilisent `unknown` quand le vocabulaire le prévoit. Toute propriété source non mappée reste dans `source_observation` et apparaît dans `mapping_report.unmapped_fields`. Ce profil aide à classer des candidats, jamais à déclarer automatiquement deux produits interchangeables.

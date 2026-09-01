@@ -30,9 +30,9 @@ public record GuideReconciliationView(
 
     public record DimensionsView(
             double color,
-            double functionalType,
+            double role,
             double behavior,
             double finish,
-            double opacity,
+            double coverage,
             double medium) {}
 }

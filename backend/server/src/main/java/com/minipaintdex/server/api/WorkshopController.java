@@ -64,22 +64,22 @@ final class WorkshopController {
             @RequestParam(required = false) String query,
             @RequestParam(required = false) String brand,
             @RequestParam(required = false) String range,
-            @RequestParam(required = false) String type,
+            @RequestParam(required = false) String role,
+            @RequestParam(required = false) String applicationMethod,
+            @RequestParam(required = false) String applicationSystem,
             @RequestParam(required = false) String color,
             @RequestParam(required = false) String finish,
             @RequestParam(required = false) String medium,
-            @RequestParam(required = false) String opacity,
-            @RequestParam(required = false) String volume,
-            @RequestParam(required = false) String reference,
+            @RequestParam(required = false) String coverage,
+            @RequestParam(required = false) String effect,
+            @RequestParam(required = false) String undercoat,
             @RequestParam(required = false) String lifecycle,
-            @RequestParam(required = false) String manufacturer,
-            @RequestParam(required = false) String tag,
             @RequestParam(defaultValue = "false") boolean manufacturerSheetOnly,
             @RequestParam(defaultValue = "false") boolean realResultOnly,
             Pageable pageable) {
         var filters = new SearchMarketPaintsQuery(
-                query, brand, range, type, color, finish, medium, opacity, volume,
-                reference, lifecycle, manufacturer, tag);
+                query, brand, range, role, applicationMethod, applicationSystem,
+                color, finish, medium, coverage, effect, undercoat, lifecycle);
         var pageQuery = new PageQuery(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().stream()
                 .map(order -> new SortOrder(order.getProperty(), order.isAscending()
                         ? SortOrder.Direction.ASCENDING : SortOrder.Direction.DESCENDING))
@@ -96,8 +96,23 @@ final class WorkshopController {
     }
 
     @GetMapping("/workshop/paints/facets")
-    PaintFacetsView paintFacets() {
-        return workshop.workshopPaintFacets();
+    PaintFacetsView paintFacets(
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) String range,
+            @RequestParam(required = false) String role,
+            @RequestParam(required = false) String applicationMethod,
+            @RequestParam(required = false) String applicationSystem,
+            @RequestParam(required = false) String color,
+            @RequestParam(required = false) String finish,
+            @RequestParam(required = false) String medium,
+            @RequestParam(required = false) String coverage,
+            @RequestParam(required = false) String effect,
+            @RequestParam(required = false) String undercoat,
+            @RequestParam(required = false) String lifecycle) {
+        return workshop.workshopPaintFacets(new SearchMarketPaintsQuery(
+                query, brand, range, role, applicationMethod, applicationSystem,
+                color, finish, medium, coverage, effect, undercoat, lifecycle));
     }
 
     @GetMapping("/workshop/painting-projects")

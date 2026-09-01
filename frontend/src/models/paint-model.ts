@@ -1,6 +1,7 @@
 export type ManufacturerInfo = {
   manufacturerUrl: string;
   manufacturerImage: string;
+  manufacturerImageSource: string;
   manufacturerImageCredit: string;
   volumeMl: number;
   colorFamily: string;
@@ -21,13 +22,10 @@ export type Paint = ManufacturerInfo & {
   manufacturer: string;
   brandAliases: string[];
   range: string;
-  paintType: string;
+  profile: PaintProfile;
   reference: string;
   name: string;
   colorHex: string;
-  finish: string;
-  medium: string;
-  opacity: string;
   lifecycleStatus: string;
   quantity?: number;
   status: string;
@@ -36,6 +34,42 @@ export type Paint = ManufacturerInfo & {
   notes: string;
   createdAt: string;
   updatedAt: string;
+};
+
+export type PaintProfile = {
+  roles: string[];
+  applicationMethods: string[];
+  applicationSystem: string;
+  coverage: string;
+  finish: string;
+  effects: string[];
+  undercoatTone: string;
+  preHighlightRecommended: boolean;
+  medium: string;
+};
+
+export type PaintModelFilter = {
+  id: string;
+  queryParameter: string;
+  facetId: string;
+  labelKey: string;
+  vocabularyId?: string;
+  order: number;
+};
+
+export type PaintModelSchema = {
+  $schema: string;
+  $id: string;
+  title: string;
+  'x-model-version': number;
+  'x-filters': PaintModelFilter[];
+  'x-vocabularies': Record<string, string[]>;
+  properties: Record<string, unknown>;
+};
+
+export type PaintFacets = {
+  total: number;
+  facets: Array<{ id: string; values: Array<{ value: string; count: number }> }>;
 };
 
 export type ShoppingItem = {

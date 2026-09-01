@@ -4,18 +4,19 @@ public record SearchMarketPaintsQuery(
         String query,
         String brand,
         String range,
-        String type,
+        String role,
+        String applicationMethod,
+        String applicationSystem,
         String color,
         String finish,
         String medium,
-        String opacity,
-        String volume,
-        String reference,
-        String lifecycle,
-        String manufacturer,
-        String tag) {
+        String coverage,
+        String effect,
+        String undercoat,
+        String lifecycle) {
 
     public static SearchMarketPaintsQuery empty() {
-        return new SearchMarketPaintsQuery(null, null, null, null, null, null, null, null, null, null, null, null, null);
+        return new SearchMarketPaintsQuery(
+                null, null, null, null, null, null, null, null, null, null, null, null, null);
     }
 }

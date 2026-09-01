@@ -53,10 +53,24 @@ def _sha256(path: Path) -> str:
 
 
 def _catalog(root: Path) -> list[dict[str, Any]]:
-    paints = load_yaml(root / "data/market/paints/catalog.yaml").get("paints", [])
-    if not isinstance(paints, list):
-        raise ValueError("Market paint catalog must contain a paints list")
-    return [paint for paint in paints if isinstance(paint, dict)]
+    paints: list[dict[str, Any]] = []
+    for path in _catalog_paths(root):
+        entries = load_yaml(path).get("paints", [])
+        if not isinstance(entries, list):
+            raise ValueError(f"Market paint catalog must contain a paints list: {path}")
+        paints.extend(paint for paint in entries if isinstance(paint, dict))
+    return paints
+
+
+def _catalog_paths(root: Path) -> list[Path]:
+    paths = sorted((root / "data/market/paints").glob("*.yaml"))
+    if not paths:
+        raise ValueError("Market paint catalog directory contains no brand files")
+    return paths
+
+
+def _catalog_sources(root: Path) -> list[str]:
+    return [path.relative_to(root).as_posix() for path in _catalog_paths(root)]
 
 
 def _market_brand(root: Path, brand: str | None) -> tuple[dict[str, Any], list[str]]:
@@ -73,7 +87,7 @@ def _market_brand(root: Path, brand: str | None) -> tuple[dict[str, Any], list[s
             {"action": "upsert", "record": paint, "workshop_quantity_delta": 0}
             for paint in selected
         ],
-    }, ["data/market/paints/catalog.yaml"]
+    }, [path for path in _catalog_sources(root) if path.endswith(f"/{slug(brand)}.yaml")]
 
 
 def _market_product(root: Path, product_id: str | None) -> tuple[dict[str, Any], list[str]]:
@@ -118,7 +132,7 @@ def _workshop_paints(root: Path) -> tuple[dict[str, Any], list[str]]:
         "schema_version": 1,
         "kind": "workshop_paints",
         "paints": normalized,
-    }, ["data/workshop/paints.yaml", "data/market/paints/catalog.yaml"]
+    }, ["data/workshop/paints.yaml", *_catalog_sources(root)]
 
 
 def _workshop_project(

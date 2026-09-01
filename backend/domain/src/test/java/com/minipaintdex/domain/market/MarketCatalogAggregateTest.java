@@ -3,7 +3,7 @@ package com.minipaintdex.domain.market;
 import com.minipaintdex.domain.market.guide.MarketPaintingGuide;
 import com.minipaintdex.domain.market.paint.MarketPaint;
 import com.minipaintdex.domain.market.paint.MarketPaintLifecycle;
-import com.minipaintdex.domain.market.paint.MarketPaintType;
+import com.minipaintdex.domain.market.paint.MarketPaintProfile;
 import com.minipaintdex.domain.shared.DomainException;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,7 @@ class MarketCatalogAggregateTest {
     @Test
     void requiresInstructionsForBehavioralPaintTypes() {
         var failure = assertThrows(DomainException.class, () -> paint(
-                MarketPaintType.TECHNICAL_EFFECT, MarketPaint.UsageInstructions.empty()));
+                MarketPaintProfile.Role.TECHNICAL_EFFECT, MarketPaint.UsageInstructions.empty()));
 
         assertEquals("invalid_market_paint", failure.code());
     }
@@ -24,7 +24,7 @@ class MarketCatalogAggregateTest {
     @Test
     void normalizesColorsAndDefensivelyCopiesMetadata() {
         var tags = new java.util.ArrayList<>(List.of("cold"));
-        var paint = paint(MarketPaintType.OPAQUE_STANDARD, MarketPaint.UsageInstructions.empty(), tags);
+        var paint = paint(MarketPaintProfile.Role.COLOR_PAINT, MarketPaint.UsageInstructions.empty(), tags);
         tags.add("mutated");
 
         assertEquals("#aabbcc", paint.color().hex());
@@ -46,16 +46,22 @@ class MarketCatalogAggregateTest {
     }
 
     private static MarketPaint paint(
-            MarketPaintType type, MarketPaint.UsageInstructions instructions) {
-        return paint(type, instructions, List.of());
+            MarketPaintProfile.Role role, MarketPaint.UsageInstructions instructions) {
+        return paint(role, instructions, List.of());
     }
 
     private static MarketPaint paint(
-            MarketPaintType type, MarketPaint.UsageInstructions instructions, List<String> tags) {
+            MarketPaintProfile.Role role, MarketPaint.UsageInstructions instructions, List<String> tags) {
         return new MarketPaint(
-                1, "brand-range-paint", "Brand", "Maker", List.of(), "Range", type,
-                "001", "Paint", new MarketPaint.Color("Blue", "#AABBCC"), "matt", "acrylic",
-                "opaque", MarketPaintLifecycle.ACTIVE, "verified", List.of(), tags, List.of(), null,
+                2, "brand-range-paint", "Brand", "Maker", List.of(), "Range",
+                new MarketPaintProfile(
+                        List.of(role), List.of(MarketPaintProfile.ApplicationMethod.BRUSH),
+                        MarketPaintProfile.ApplicationSystem.CONVENTIONAL_LAYERING,
+                        MarketPaintProfile.Coverage.OPAQUE, MarketPaintProfile.Finish.MATTE, List.of(),
+                        new MarketPaintProfile.Undercoat(MarketPaintProfile.UndercoatTone.ANY, false),
+                        MarketPaintProfile.Medium.WATER_BASED_ACRYLIC),
+                "001", "Paint", new MarketPaint.Color("Blue", "#AABBCC"),
+                MarketPaintLifecycle.ACTIVE, "verified", List.of(), tags, null,
                 null, MarketPaint.ImageReference.empty(), 18, List.of(), instructions, null,
                 MarketPaint.ImageReference.empty());
     }

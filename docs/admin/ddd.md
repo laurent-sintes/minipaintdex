@@ -2,7 +2,7 @@
 
 ## Bounded context Market
 
-- `MarketPaint` représente une peinture commercialisée et ses métadonnées fabricant.
+- `MarketPaint` représente une peinture commercialisée et son `MarketPaintProfile` standard (rôles, méthode et système d’application, couvrance, fini, effets, sous-couche et liant). Les termes propres aux marques sont convertis par des mappings YAML versionnés sans supprimer les observations source.
 - `PaintableProduct` est l’aggregate root d’une boîte, gamme ou autre produit contenant des figurines ou décors à peindre.
 - `MarketPaintingGuide` conserve la connaissance sourcée d’un peintre ou d’une publication. Il ne décrit pas les choix personnels de l’atelier.
 
@@ -24,6 +24,16 @@ et refuse toute dépendance `MARKET -> WORKSHOP`.
 Le port `MarketCatalogReader` publie un `MarketCatalogSnapshot` limité aux peintures, produits à
 peindre et guides du contexte. Les services Market ne reçoivent ni le `SnapshotRepository` global,
 ni son `DataSnapshot` transverse. Cette restriction est contrôlée automatiquement par ArchUnit.
+
+Le catalogue physique est découpé par marque dans `data/market/paints/<brand>.yaml`. L’adaptateur
+fichier fusionne ces documents dans un seul snapshot logique et les remplace sous le même verrou.
+Les correspondances de vocabulaire sont isolées dans `tools/minipaintdex-data/mappings/<brand>.yaml`.
+Le profil canonique alimente seul la recherche et les filtres. Chaque peinture rafraîchie conserve
+en parallèle un `source_snapshots` horodaté avec le fournisseur, l’URL et la charge source collectée :
+les attributs propres à une marque restent donc auditables sans polluer le modèle standard. Un attribut
+ne rejoint `MarketPaintProfile` que s’il décrit un comportement stable et comparable entre marques.
+Les horodatages fabriqués à l'heure de lecture par un fournisseur sont exclus explicitement ; les faits
+commerciaux, la provenance et les vraies dates de mise à jour restent conservés.
 
 ## Bounded context Workshop
 

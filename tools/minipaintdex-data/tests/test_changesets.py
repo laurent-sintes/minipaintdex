@@ -3,7 +3,9 @@ import unittest
 from pathlib import Path
 
 from minipaintdex_data.assets import audit_assets
-from minipaintdex_data.changesets import build_paint_changeset, validate_changeset
+from minipaintdex_data.changesets import (
+    build_paint_changeset, build_paint_model_migration_changeset, validate_changeset,
+)
 
 
 class ChangeSetTests(unittest.TestCase):
@@ -35,7 +37,29 @@ class ChangeSetTests(unittest.TestCase):
         self.assertEqual(record["data_status"], "confirmed")
         self.assertEqual(record["color"]["hex"], "#D9DEDA")
         self.assertEqual(record["volume_ml"], 18)
+        self.assertEqual(record["profile"]["application_system"], "one_coat_shading")
+        self.assertNotIn("functional_type", record)
+        observations = {item["name"]: item["value"] for item in record["source_observation"]["fields"]}
+        self.assertEqual(observations["functional_class"], "one_coat_contrast")
+        self.assertIn("enrichment", observations)
         self.assertEqual(changeset["operations"][0]["workshop_quantity_delta"], 2)
+
+    def test_migration_preserves_source_specific_information(self):
+        source = {
+            "paints": [{
+                "id": "cit-contrast-example", "brand": "Warhammer Colour",
+                "manufacturer": "Games Workshop", "range": "Contrast", "name": "Example",
+                "functional_type": "one_coat_contrast", "finish": "transparent",
+                "vendor_application_note": {"label": "Contrast", "layers": 1},
+            }]
+        }
+        changeset = build_paint_model_migration_changeset(source, source="catalog.yaml")
+        record = changeset["operations"][0]["record"]
+        self.assertEqual(record["vendor_application_note"], {"label": "Contrast", "layers": 1})
+        observations = {item["name"]: item["value"] for item in record["source_observation"]["fields"]}
+        self.assertEqual(observations["functional_type"], "one_coat_contrast")
+        self.assertEqual(observations["vendor_application_note"], {"label": "Contrast", "layers": 1})
+        self.assertEqual(record["mapping_report"]["unmapped_fields"], ["vendor_application_note"])
 
     def test_rejects_duplicate_paint_ids(self):
         operation = {
@@ -46,7 +70,13 @@ class ChangeSetTests(unittest.TestCase):
                 "brand": "Brand",
                 "manufacturer": "Maker",
                 "range": "Range",
-                "functional_type": "opaque_standard",
+                "profile": {
+                    "roles": ["color_paint"], "application_methods": ["brush"],
+                    "application_system": "conventional_layering", "coverage": "opaque",
+                    "finish": "matte", "effects": [],
+                    "undercoat": {"tone": "any", "pre_highlighted_surface_recommended": False},
+                    "medium": "acrylic",
+                },
                 "name": "Paint",
             },
         }

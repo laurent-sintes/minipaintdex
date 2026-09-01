@@ -36,7 +36,7 @@ public interface WorkshopUseCases {
     PageResult<WorkshopPaintView> searchWorkshopPaintPage(SearchMarketPaintsQuery filters,
             boolean manufacturerSheetOnly, boolean realResultOnly, PageQuery page);
     /** Counts filter values for paints currently owned by the workshop. */
-    PaintFacetsView workshopPaintFacets();
+    PaintFacetsView workshopPaintFacets(SearchMarketPaintsQuery filters);
     /** Lists painting-project aggregate summaries in deterministic order. */
     List<PaintingProjectView> listPaintingProjects();
     /** Lists physical items, optionally scoped to one painting project. */

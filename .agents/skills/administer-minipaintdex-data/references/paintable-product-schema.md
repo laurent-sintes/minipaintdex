@@ -54,7 +54,7 @@ Le fichier JSON produit est un transport vers les services Java. Les quantités 
 - `kind` est un identifiant anglais parmi `hero`, `enemy`, `scenery`, `vehicle`, `creature` ou `accessory`.
 - `slots`, `preparation`, `painting`, `reference_images`, `sources` et `painting_guides` sont toujours des listes, même vides.
 - Une image affichée exige `url`, `page_url`, `credit` et une `license` autorisant sa réutilisation. Sans droit clair, enregistrer uniquement la page comme `source` externe.
-- Une peinture absente de `data/market/paints/catalog.yaml` porte `pending_import: true` avec un objet `requested_paint`.
+- Une peinture absente des catalogues `data/market/paints/<brand>.yaml` porte `pending_import: true` avec un objet `requested_paint`.
 - Chaque guide porte une `version`, un `knowledge_status` parmi `documented`, `observed`, `inferred`, et une provenance directe (`sources`) ou indirecte (`source_refs`).
 - Chaque `slot` a un identifiant stable. Il représente une intention visuelle ou technique du guide public, pas encore une peinture choisie dans l’atelier.
 - Les faits, sources et propositions de peinture ne doivent jamais être présentés comme équivalents. Une appartenance à l’atelier, un objet physique et une recette d’atelier n’appartiennent pas à ce change set.

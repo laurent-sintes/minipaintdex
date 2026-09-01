@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         properties = {
                 "minipaintdex.root=${user.dir}/../..",
                 "minipaintdex.paint-matching.standard.color=0.55",
-                "minipaintdex.paint-matching.standard.functional-type=0.25"
+                "minipaintdex.paint-matching.standard.role=0.25"
         })
 @AutoConfigureMockMvc
 class MiniPaintDexConfigurationTest {
@@ -52,9 +52,9 @@ class MiniPaintDexConfigurationTest {
     @Test
     void bindsTypedSpringPropertiesIntoInfrastructureAndDomainPolicies() {
         assertEquals(0.55, paintMatchEngine.policy().standard().color());
-        assertEquals(0.25, paintMatchEngine.policy().standard().functionalType());
+        assertEquals(0.25, paintMatchEngine.policy().standard().role());
         assertEquals(5, properties.paintMatching().candidateLimit());
-        assertTrue(properties.storage().marketPaintCatalog().endsWith("data/market/paints/catalog.yaml"));
+        assertTrue(properties.storage().marketPaintCatalogDirectory().endsWith("data/market/paints"));
         assertEquals("files", persistence.status().storage());
         assertEquals(1, properties.eventing().workerCount());
     }
@@ -101,6 +101,7 @@ class MiniPaintDexConfigurationTest {
 
         assertEquals(198, product.expectedPaintableCount());
         assertEquals(198, product.items().stream().mapToInt(item -> item.quantity()).sum());
-        assertTrue(market.marketPaintFacets().total() > 1_500);
+        assertTrue(market.marketPaintFacets(com.minipaintdex.application.query.SearchMarketPaintsQuery.empty())
+                .total() > 1_500);
     }
 }

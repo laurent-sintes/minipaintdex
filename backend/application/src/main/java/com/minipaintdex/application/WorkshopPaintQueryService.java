@@ -7,7 +7,6 @@ import com.minipaintdex.application.query.SortOrder;
 import com.minipaintdex.application.result.PageResult;
 import com.minipaintdex.application.usecase.MarketCatalogUseCases;
 import com.minipaintdex.application.view.MarketPaintView;
-import com.minipaintdex.application.view.PaintFacetValue;
 import com.minipaintdex.application.view.PaintFacetsView;
 import com.minipaintdex.application.view.WorkshopPaintView;
 import com.minipaintdex.application.validation.StructuredDocuments;
@@ -18,7 +17,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /** Workshop projection that enriches market references through the market query interface only. */
@@ -49,24 +47,12 @@ final class WorkshopPaintQueryService {
         return new PageResult<>(filtered.subList(from, to), page.page(), page.size(), filtered.size());
     }
 
-    PaintFacetsView facets() {
+    PaintFacetsView facets(SearchMarketPaintsQuery filters) {
         var quantities = quantities();
-        var paints = market.searchMarketPaints(SearchMarketPaintsQuery.empty()).stream()
+        var paints = market.searchMarketPaints(filters).stream()
                 .filter(paint -> quantities.getOrDefault(paint.id(), 0) > 0)
                 .toList();
-        return new PaintFacetsView(
-                paints.size(),
-                facet(paints, paint -> List.of(paint.paintType())),
-                facet(paints, paint -> List.of(paint.colorFamily())),
-                facet(paints, paint -> List.of(paint.brand())),
-                facet(paints, paint -> List.of(paint.manufacturer())),
-                facet(paints, paint -> List.of(paint.range())),
-                facet(paints, paint -> List.of(paint.finish())),
-                facet(paints, paint -> List.of(paint.medium())),
-                facet(paints, paint -> List.of(paint.opacity())),
-                facet(paints, paint -> List.of(paint.lifecycleStatus())),
-                facet(paints, paint -> paint.volumeMl() > 0 ? List.of(paint.volumeMl() + " ml") : List.of()),
-                facet(paints, MarketPaintView::tags));
+        return MarketPaintQueryService.facets(paints);
     }
 
     private Map<String, Integer> quantities() {
@@ -84,7 +70,7 @@ final class WorkshopPaintQueryService {
         var effective = orders.isEmpty() ? List.of(new SortOrder("name", SortOrder.Direction.ASCENDING)) : orders;
         Comparator<WorkshopPaintView> comparator = null;
         for (var order : effective) {
-            if (!java.util.Set.of("name", "brand", "range", "reference", "paintType", "colorFamily")
+            if (!java.util.Set.of("name", "brand", "range", "reference", "role", "colorFamily")
                     .contains(order.property())) {
                 throw new DomainException("invalid_input", "Unsupported paint sort property: " + order.property());
             }
@@ -96,22 +82,13 @@ final class WorkshopPaintQueryService {
         return comparator.thenComparing(value -> value.marketPaint().id(), String.CASE_INSENSITIVE_ORDER);
     }
 
-    private static List<PaintFacetValue> facet(
-            List<MarketPaintView> paints,
-            Function<MarketPaintView, List<String>> values) {
-        var counts = new java.util.TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
-        paints.forEach(paint -> values.apply(paint).stream().filter(WorkshopPaintQueryService::present)
-                .forEach(value -> counts.merge(value, 1, Integer::sum)));
-        return counts.entrySet().stream().map(entry -> new PaintFacetValue(entry.getKey(), entry.getValue())).toList();
-    }
-
     private static String sortableValue(MarketPaintView value, String property) {
         return switch (property) {
             case "name" -> value.name();
             case "brand" -> value.brand();
             case "range" -> value.range();
             case "reference" -> value.reference();
-            case "paintType" -> value.paintType();
+            case "role" -> value.profile().roles().getFirst();
             case "colorFamily" -> value.colorFamily();
             default -> throw new IllegalArgumentException("Unsupported paint sort property: " + property);
         };

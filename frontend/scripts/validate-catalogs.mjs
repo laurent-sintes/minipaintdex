@@ -17,7 +17,15 @@ const eventTypes = new Set([
   'workshop_item.comment_added', 'workshop_item.photo_added', 'shopping_item.status_changed',
   'comment.added', 'milestone.reached',
 ]);
-const technicalPaintTypes = new Set(['technical_effect', 'primer', 'wash_shade', 'ink', 'auxiliary']);
+const technicalPaintRoles = new Set(['technical_effect', 'primer', 'wash', 'ink', 'varnish', 'medium', 'auxiliary', 'pigment']);
+const paintRoles = new Set(['color_paint', ...technicalPaintRoles]);
+const applicationMethods = new Set(['brush', 'airbrush', 'spray', 'marker']);
+const applicationSystems = new Set(['conventional_layering', 'one_coat_shading', 'washing', 'priming', 'effect_application', 'unknown']);
+const coverages = new Set(['opaque', 'semi_opaque', 'translucent', 'transparent', 'unknown']);
+const finishes = new Set(['matte', 'satin', 'gloss', 'unknown']);
+const effects = new Set(['metallic', 'fluorescent', 'pearlescent']);
+const undercoats = new Set(['light', 'dark', 'any', 'unknown']);
+const mediums = new Set(['water_based_acrylic', 'acrylic', 'alcohol_based', 'oil', 'enamel', 'unknown']);
 
 function requireValue(value, location, message) {
   if (value === undefined || value === null || value === '') errors.push(`${location}: ${message}`);
@@ -54,24 +62,44 @@ for (const [location, value] of [
   if (!value || typeof value !== 'object') errors.push(`${location}: required localized labels`);
 }
 
-const paintCatalogPath = 'data/market/paints/catalog.yaml';
-const paintCatalog = await readYaml(paintCatalogPath);
-if (paintCatalog?.schema_version !== 1) errors.push(`${paintCatalogPath}: schema_version must be 1`);
-const marketPaints = requireArray(paintCatalog?.paints, `${paintCatalogPath}:paints`);
+const paintCatalogPaths = await yamlFiles('data/market/paints');
+if (!paintCatalogPaths.length) errors.push('data/market/paints: at least one brand catalog is required');
+const marketPaints = [];
 const marketPaintIds = new Set();
-for (const [index, paint] of marketPaints.entries()) {
-  const location = `${paintCatalogPath}:paints[${index}]`;
-  for (const field of ['id', 'brand', 'manufacturer', 'range', 'functional_type', 'name', 'data_status', 'lifecycle_status']) requireValue(paint?.[field], location, `${field} required`);
-  if (paint?.id && !kebabId.test(paint.id)) errors.push(`${location}: id must be lowercase kebab-case`);
-  if (paint?.data_status && !['confirmed', 'review', 'unknown'].includes(paint.data_status)) errors.push(`${location}: invalid data_status ${paint.data_status}`);
-  if (technicalPaintTypes.has(paint?.functional_type)) {
-    requireValue(paint?.usage_instructions?.summary, location, 'usage_instructions.summary required for technical paint');
-    if (requireArray(paint?.usage_instructions?.steps, `${location}:usage_instructions.steps`).length === 0) errors.push(`${location}: usage_instructions.steps must explain how to use a technical paint`);
-    requireArray(paint?.usage_instructions?.tips, `${location}:usage_instructions.tips`);
+for (const paintCatalogPath of paintCatalogPaths) {
+  const paintCatalog = await readYaml(paintCatalogPath);
+  if (paintCatalog?.schema_version !== 2) errors.push(`${paintCatalogPath}: schema_version must be 2`);
+  requireValue(paintCatalog?.brand, paintCatalogPath, 'brand required');
+  const brandPaints = requireArray(paintCatalog?.paints, `${paintCatalogPath}:paints`);
+  marketPaints.push(...brandPaints);
+  for (const [index, paint] of brandPaints.entries()) {
+    const location = `${paintCatalogPath}:paints[${index}]`;
+    for (const field of ['id', 'brand', 'manufacturer', 'range', 'profile', 'name', 'data_status', 'lifecycle_status']) requireValue(paint?.[field], location, `${field} required`);
+    if (paint?.brand !== paintCatalog?.brand) errors.push(`${location}: brand must match file brand ${paintCatalog?.brand}`);
+    if (paint?.id && !kebabId.test(paint.id)) errors.push(`${location}: id must be lowercase kebab-case`);
+    if (paint?.data_status && !['confirmed', 'review', 'unknown'].includes(paint.data_status)) errors.push(`${location}: invalid data_status ${paint.data_status}`);
+    const profile = paint?.profile ?? {};
+    const roles = requireArray(profile.roles, `${location}:profile.roles`);
+    const methods = requireArray(profile.application_methods, `${location}:profile.application_methods`);
+    const paintEffects = requireArray(profile.effects, `${location}:profile.effects`);
+    for (const role of roles) if (!paintRoles.has(role)) errors.push(`${location}: unsupported profile role ${role}`);
+    for (const method of methods) if (!applicationMethods.has(method)) errors.push(`${location}: unsupported application method ${method}`);
+    if (!applicationSystems.has(profile.application_system)) errors.push(`${location}: unsupported application system ${profile.application_system}`);
+    if (!coverages.has(profile.coverage)) errors.push(`${location}: unsupported coverage ${profile.coverage}`);
+    if (!finishes.has(profile.finish)) errors.push(`${location}: unsupported finish ${profile.finish}`);
+    for (const effect of paintEffects) if (!effects.has(effect)) errors.push(`${location}: unsupported effect ${effect}`);
+    if (!undercoats.has(profile.undercoat?.tone)) errors.push(`${location}: unsupported undercoat ${profile.undercoat?.tone}`);
+    if (typeof profile.undercoat?.pre_highlighted_surface_recommended !== 'boolean') errors.push(`${location}: profile.undercoat.pre_highlighted_surface_recommended must be boolean`);
+    if (!mediums.has(profile.medium)) errors.push(`${location}: unsupported medium ${profile.medium}`);
+    if (roles.some((role) => technicalPaintRoles.has(role))) {
+      requireValue(paint?.usage_instructions?.summary, location, 'usage_instructions.summary required for technical paint');
+      if (requireArray(paint?.usage_instructions?.steps, `${location}:usage_instructions.steps`).length === 0) errors.push(`${location}: usage_instructions.steps must explain how to use a technical paint`);
+      requireArray(paint?.usage_instructions?.tips, `${location}:usage_instructions.tips`);
+    }
+    if (paint?.color?.hex && !/^#[0-9a-f]{6}$/i.test(paint.color.hex)) errors.push(`${location}: color.hex must be a six-digit hexadecimal color`);
+    if (paint?.id && marketPaintIds.has(paint.id)) errors.push(`${location}: duplicate id ${paint.id}`);
+    if (paint?.id) marketPaintIds.add(paint.id);
   }
-  if (paint?.color?.hex && !/^#[0-9a-f]{6}$/i.test(paint.color.hex)) errors.push(`${location}: color.hex must be a six-digit hexadecimal color`);
-  if (paint?.id && marketPaintIds.has(paint.id)) errors.push(`${location}: duplicate id ${paint.id}`);
-  if (paint?.id) marketPaintIds.add(paint.id);
 }
 
 const productFiles = await yamlFiles('data/market/paintable-products');

@@ -55,6 +55,7 @@ class MiniPaintDexCliTest {
 
         assertTrue(command.getSubcommands().get("market").getSubcommands().containsKey("guides"));
         assertTrue(command.getSubcommands().get("market").getSubcommands().containsKey("paintable-products"));
+        assertTrue(command.getSubcommands().get("market").getSubcommands().get("paints").getSubcommands().containsKey("model"));
         assertTrue(command.getSubcommands().get("workshop").getSubcommands().containsKey("painting-projects"));
         assertTrue(command.getSubcommands().get("workshop").getSubcommands().get("painting-projects").getSubcommands().containsKey("preview-import"));
         assertTrue(command.getSubcommands().get("workshop").getSubcommands().get("painting-projects").getSubcommands().containsKey("create"));

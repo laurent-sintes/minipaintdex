@@ -13,7 +13,7 @@ Ne pas utiliser une fiche revendeur comme preuve d’une propriété qui contred
 
 ## Sources de départ par marque
 
-- Warhammer Colour : `warhammer.com`, `paint.warhammer.com`, `warhammer-community.com`.
+- Warhammer Colour : index de recherche public de la boutique `warhammer.com` pour l'exhaustivité et les fiches commerciales, puis `paint.warhammer.com` et `warhammer-community.com` pour les usages et conseils.
 - Vallejo : `acrylicosvallejo.com`, ses pages de gamme et catalogues PDF.
 - The Army Painter : `thearmypainter.com`, pages de gamme et pages produit.
 - Prince August : `prince-august.net`. Vérifier si la page présente une gamme propre Prince August ou une gamme Prince August–Vallejo.
@@ -26,6 +26,8 @@ Ne pas utiliser une fiche revendeur comme preuve d’une propriété qui contred
 4. Rechercher le nom exact, la gamme et la référence dans les résultats d’images. Choisir un packshot net et frontal provenant d’un revendeur identifiable.
 5. Télécharger une copie locale, vérifier visuellement le nom sur l’étiquette et enregistrer : URL du visuel, page source, hôte, date de vérification et mention `packshot distribué par revendeur`.
 6. Garder séparément `manufacturer_url` et `image_source_url`.
+
+Vallejo constitue un cas documenté : les pages de gamme peuvent être protégées par Cloudflare alors que les fichiers de `wp-content/uploads` restent lisibles. Utiliser le navigateur interactif pour observer les cartes produit et leur `srcset`, sélectionner la plus grande variante réellement publiée, puis faire valider le manifeste par `assets import-paint-image-sources`. Le téléchargement, le contrôle et la conversion restent confiés à `assets cache-paint-images`; ne jamais automatiser le challenge Cloudflare.
 
 ## Changement Citadel → Warhammer Colour
 
@@ -45,10 +47,11 @@ Une fiche enrichie doit permettre de répondre oui à ces questions :
 - La fonction commune est-elle distincte de la gamme commerciale ?
 - L’URL officielle et la provenance du visuel sont-elles séparées ?
 - Une incertitude visible est-elle conservée dans `warnings` et `status` ?
+- La charge source originale est-elle conservée dans `source_snapshots`, même lorsque le champ n'est pas promu dans le profil canonique ?
 
 ## Rendu appliqué
 
-Le packshot du pot et le rendu de la peinture sont deux visuels différents. Pour afficher un échantillon réellement peint, renseigner la fiche proposée pour `data/market/paints/catalog.yaml` :
+Le packshot du pot et le rendu de la peinture sont deux visuels différents. Pour afficher un échantillon réellement peint, renseigner la fiche proposée dans le catalogue `data/market/paints/<brand>.yaml` :
 
 - `result_image.path` : chemin d’une copie locale autorisée ;
 - `result_image.source_url` : page d’origine ;

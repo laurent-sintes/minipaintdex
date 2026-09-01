@@ -8,12 +8,15 @@ import com.minipaintdex.application.usecase.MarketCatalogUseCases;
 import com.minipaintdex.application.view.MarketPaintView;
 import com.minipaintdex.application.view.MarketPaintingGuideView;
 import com.minipaintdex.application.view.PaintFacetsView;
+import com.minipaintdex.application.view.PaintModelView;
 import com.minipaintdex.application.view.PaintableProductSummaryView;
 import com.minipaintdex.application.view.PaintableProductView;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
+import com.minipaintdex.domain.market.paint.MarketPaintLifecycle;
+import com.minipaintdex.domain.market.paint.MarketPaintProfile;
 
 /** Cohesive read service for the market knowledge bounded context. */
 public final class MarketCatalogApplicationService implements MarketCatalogUseCases {
@@ -37,8 +40,33 @@ public final class MarketCatalogApplicationService implements MarketCatalogUseCa
             boolean realResultOnly, PageQuery page) {
         return paints.page(query, manufacturerSheetOnly, realResultOnly, page);
     }
-    @Override public PaintFacetsView marketPaintFacets() {
-        return paints.facets();
+    @Override public PaintFacetsView marketPaintFacets(SearchMarketPaintsQuery filters) {
+        return paints.facets(filters);
+    }
+    @Override public PaintModelView marketPaintModel() {
+        return new PaintModelView(2, "https://json-schema.org/draft/2020-12/schema", List.of(
+                filter("role", "role", "roles", "collection.roleFilter", "paint-role", 1),
+                filter("applicationMethod", "applicationMethod", "applicationMethods", "collection.applicationMethodFilter", "application-method", 2),
+                filter("applicationSystem", "applicationSystem", "applicationSystems", "collection.applicationSystemFilter", "application-system", 3),
+                filter("coverage", "coverage", "coverages", "collection.coverageFilter", "coverage", 4),
+                filter("finish", "finish", "finishes", "collection.finishFilter", "finish", 5),
+                filter("effect", "effect", "effects", "collection.effectFilter", "effect", 6),
+                filter("undercoat", "undercoat", "undercoats", "collection.undercoatFilter", "undercoat-tone", 7),
+                filter("medium", "medium", "mediums", "collection.mediumFilter", "medium", 8),
+                filter("color", "color", "colors", "collection.colorFilter", null, 9),
+                filter("brand", "brand", "brands", "collection.brandFilter", null, 10),
+                filter("range", "range", "ranges", "collection.rangeFilter", null, 11),
+                filter("lifecycle", "lifecycle", "lifecycles", "collection.lifecycleFilter", "lifecycle", 12)),
+                List.of(
+                        vocabulary("paint-role", java.util.Arrays.stream(MarketPaintProfile.Role.values()).map(MarketPaintProfile.Role::id).toList()),
+                        vocabulary("application-method", java.util.Arrays.stream(MarketPaintProfile.ApplicationMethod.values()).map(MarketPaintProfile.ApplicationMethod::id).toList()),
+                        vocabulary("application-system", java.util.Arrays.stream(MarketPaintProfile.ApplicationSystem.values()).map(MarketPaintProfile.ApplicationSystem::id).toList()),
+                        vocabulary("coverage", java.util.Arrays.stream(MarketPaintProfile.Coverage.values()).map(MarketPaintProfile.Coverage::id).toList()),
+                        vocabulary("finish", java.util.Arrays.stream(MarketPaintProfile.Finish.values()).map(MarketPaintProfile.Finish::id).toList()),
+                        vocabulary("effect", java.util.Arrays.stream(MarketPaintProfile.Effect.values()).map(MarketPaintProfile.Effect::id).toList()),
+                        vocabulary("undercoat-tone", java.util.Arrays.stream(MarketPaintProfile.UndercoatTone.values()).map(MarketPaintProfile.UndercoatTone::id).toList()),
+                        vocabulary("medium", java.util.Arrays.stream(MarketPaintProfile.Medium.values()).map(MarketPaintProfile.Medium::id).toList()),
+                        vocabulary("lifecycle", java.util.Arrays.stream(MarketPaintLifecycle.values()).map(MarketPaintLifecycle::id).toList())));
     }
     @Override public MarketPaintView getMarketPaint(String id) {
         return paints.search(SearchMarketPaintsQuery.empty()).stream()
@@ -59,11 +87,16 @@ public final class MarketCatalogApplicationService implements MarketCatalogUseCa
         var results = paints.search(SearchMarketPaintsQuery.empty());
         if ("csv".equals(format)) {
             var rows = new java.util.ArrayList<String>();
-            rows.add("id,brand,range,reference,name,color_hex,color_family,finish,medium,volume_ml");
+            rows.add("id,brand,range,reference,name,color_hex,color_family,roles,application_methods,application_system,coverage,finish,effects,undercoat,medium,volume_ml");
             for (var paint : results) rows.add(java.util.stream.Stream.of(
                     csv(paint.id()), csv(paint.brand()), csv(paint.range()), csv(paint.reference()),
-                    csv(paint.name()), csv(paint.colorHex()), csv(paint.colorFamily()), csv(paint.finish()),
-                    csv(paint.medium()), csv(paint.volumeMl())).collect(java.util.stream.Collectors.joining(",")));
+                    csv(paint.name()), csv(paint.colorHex()), csv(paint.colorFamily()),
+                    csv(String.join("|", paint.profile().roles())),
+                    csv(String.join("|", paint.profile().applicationMethods())),
+                    csv(paint.profile().applicationSystem()), csv(paint.profile().coverage()),
+                    csv(paint.profile().finish()), csv(String.join("|", paint.profile().effects())),
+                    csv(paint.profile().undercoatTone()), csv(paint.profile().medium()), csv(paint.volumeMl()))
+                    .collect(java.util.stream.Collectors.joining(",")));
             return String.join("\n", rows) + "\n";
         }
         if ("yaml".equals(format)) {
@@ -83,6 +116,15 @@ public final class MarketCatalogApplicationService implements MarketCatalogUseCa
 
     private static String csv(Object value) {
         return "\"" + String.valueOf(value == null ? "" : value).replace("\"", "\"\"") + "\"";
+    }
+
+    private static PaintModelView.Filter filter(
+            String id, String parameter, String facet, String labelKey, String vocabulary, int order) {
+        return new PaintModelView.Filter(id, parameter, facet, labelKey, vocabulary, order);
+    }
+
+    private static PaintModelView.Vocabulary vocabulary(String id, List<String> values) {
+        return new PaintModelView.Vocabulary(id, values);
     }
 
     private static String quoted(String value) {

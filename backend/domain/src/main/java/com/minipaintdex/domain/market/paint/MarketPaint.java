@@ -14,18 +14,14 @@ public record MarketPaint(
         String manufacturer,
         List<String> brandAliases,
         String range,
-        MarketPaintType functionalType,
+        MarketPaintProfile profile,
         String reference,
         String name,
         Color color,
-        String finish,
-        String medium,
-        String opacity,
         MarketPaintLifecycle lifecycle,
         String dataStatus,
         List<String> warnings,
         List<String> tags,
-        List<String> behaviorTags,
         String notes,
         URI manufacturerPage,
         ImageReference manufacturerImage,
@@ -42,26 +38,22 @@ public record MarketPaint(
         manufacturer = required(manufacturer, "manufacturer");
         brandAliases = immutableStrings(brandAliases);
         range = required(range, "range");
-        if (functionalType == null) throw invalid("functionalType is required.");
+        if (profile == null) throw invalid("profile is required.");
         reference = optional(reference);
         name = required(name, "name");
         color = color == null ? new Color(null, null) : color;
-        finish = optional(finish);
-        medium = optional(medium);
-        opacity = optional(opacity);
         lifecycle = lifecycle == null ? MarketPaintLifecycle.UNKNOWN : lifecycle;
         dataStatus = required(dataStatus, "dataStatus");
         warnings = immutableStrings(warnings);
         tags = immutableStrings(tags);
-        behaviorTags = immutableStrings(behaviorTags);
         notes = optional(notes);
         manufacturerImage = manufacturerImage == null ? ImageReference.empty() : manufacturerImage;
         if (volumeMl < 0) throw invalid("volumeMl cannot be negative.");
         recommendedUses = immutableStrings(recommendedUses);
         usageInstructions = usageInstructions == null ? UsageInstructions.empty() : usageInstructions;
         resultImage = resultImage == null ? ImageReference.empty() : resultImage;
-        if (functionalType.requiresUsageInstructions() && !usageInstructions.complete()) {
-            throw invalid("Paint type " + functionalType.id() + " requires a summary and at least one usage step.");
+        if (profile.requiresUsageInstructions() && !usageInstructions.complete()) {
+            throw invalid("Paint roles " + profile.roleIds() + " require a summary and at least one usage step.");
         }
     }
 

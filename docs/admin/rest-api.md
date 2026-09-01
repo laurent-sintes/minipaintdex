@@ -23,6 +23,7 @@ Les contrôles de santé ne sont pas des cas d’usage métier :
 - `GET /site/config` et `/dashboard` : configuration localisée et compteurs légers du SPA ;
 - `GET /market/paints?page=0&size=60&sort=name,asc` : recherche paginée ; taille maximale 200 ;
 - `GET /market/paints/facets` : facettes du catalogue ;
+- `GET /market/paint-model` : JSON Schema du modèle standard, vocabulaires contrôlés et définition des filtres génériques ;
 - `GET /market/paints/stream` : transfert incrémental `application/x-ndjson`, distinct de la pagination ;
 - `GET /market/paintable-products` et `/{id}` : catalogue et détail d’un produit à peindre ;
 - `GET /workshop/paints?page=0&size=60` et `/workshop/paints/facets` : références Market possédées,

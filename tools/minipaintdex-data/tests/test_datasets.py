@@ -20,9 +20,14 @@ class DatasetTests(unittest.TestCase):
         self.root.mkdir(parents=True, exist_ok=True)
         self.datasets = self.root / "datasets"
         self._yaml(
-            "data/market/paints/catalog.yaml",
-            {"schema_version": 1, "paints": [
+            "data/market/paints/brand-a.yaml",
+            {"schema_version": 2, "brand": "Brand A", "paints": [
                 {"id": "brand-a-red", "brand": "Brand A", "name": "Red"},
+            ]},
+        )
+        self._yaml(
+            "data/market/paints/brand-b.yaml",
+            {"schema_version": 2, "brand": "Brand B", "paints": [
                 {"id": "brand-b-blue", "brand": "Brand B", "name": "Blue"},
             ]},
         )

@@ -24,6 +24,7 @@ navigation:
   about_section: À propos
   user_documentation: Documentation utilisateur
   admin_documentation: Documentation administrateur
+  paint_model: Modèle des peintures
   rest_api: API REST
   version: Version
 header:
@@ -134,6 +135,12 @@ about:
   description: Documentation utilisateur et administrateur embarquée avec cette version de l’application.
   user_title: Documentation utilisateur
   administrator_title: Documentation administrateur
+  paint_model_title: Modèle standard des peintures
+  paint_model_description: Consultez les axes normalisés utilisés pour importer, rechercher et filtrer toutes les marques.
+  model_version: Version du modèle
+  filter_fields: Filtres publiés par l’API
+  vocabularies: Vocabulaires contrôlés
+  open_paint_schema: Ouvrir le JSON Schema
   api_title: API REST
   api_description: Explorez le contrat OpenAPI et testez les services locaux de Mini Paint Dex.
   version_title: Informations sur l’application
@@ -192,6 +199,13 @@ collection:
   search_filter: Recherche
   type_filter: Type
   all_types: Tous les types
+  role_filter: Rôle
+  application_method_filter: Méthode d’application
+  application_system_filter: Système d’application
+  coverage_filter: Couvrance
+  effect_filter: Effet
+  undercoat_filter: Sous-couche recommandée
+  all_values: Toutes les valeurs
   color_filter: Couleur
   all_colors: Toutes les couleurs
   brand_filter: Marque

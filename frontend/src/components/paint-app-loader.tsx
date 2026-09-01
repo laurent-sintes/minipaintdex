@@ -3,9 +3,10 @@
 import { useEffect, useState } from 'react';
 import { PaintApp } from '@/components/paint-app';
 import type { Dashboard } from '@/models/paintable-product-model';
+import type { PaintModelSchema } from '@/models/paint-model';
 import type { SiteConfig } from '@/models/site-config-model';
 
-type InitialData = { config: SiteConfig; dashboard: Dashboard };
+type InitialData = { config: SiteConfig; dashboard: Dashboard; paintModel: PaintModelSchema };
 
 export function PaintAppLoader() {
   const [data, setData] = useState<InitialData | null>(null);
@@ -16,10 +17,15 @@ export function PaintAppLoader() {
     Promise.all([
       fetch('/api/v1/site/config', { signal: controller.signal, headers: { accept: 'application/json' } }),
       fetch('/api/v1/dashboard', { signal: controller.signal, headers: { accept: 'application/json' } }),
+      fetch('/api/v1/market/paint-model', { signal: controller.signal, headers: { accept: 'application/schema+json' } }),
     ])
-      .then(async ([config, dashboard]) => {
-        if (!config.ok || !dashboard.ok) throw new Error('Initial application load failed');
-        return { config: await config.json() as SiteConfig, dashboard: await dashboard.json() as Dashboard };
+      .then(async ([config, dashboard, paintModel]) => {
+        if (!config.ok || !dashboard.ok || !paintModel.ok) throw new Error('Initial application load failed');
+        return {
+          config: await config.json() as SiteConfig,
+          dashboard: await dashboard.json() as Dashboard,
+          paintModel: await paintModel.json() as PaintModelSchema,
+        };
       })
       .then(setData)
       .catch((reason) => {
@@ -44,5 +50,5 @@ export function PaintAppLoader() {
     return <main className="grid min-h-screen place-items-center bg-background"><output className="size-8 animate-spin rounded-full border-2 border-primary border-t-transparent" aria-label="Chargement" /></main>;
   }
 
-  return <PaintApp initialDashboard={data.dashboard} config={data.config} />;
+  return <PaintApp initialDashboard={data.dashboard} config={data.config} paintModel={data.paintModel} />;
 }

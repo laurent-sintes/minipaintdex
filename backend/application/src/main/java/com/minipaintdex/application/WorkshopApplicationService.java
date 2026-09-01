@@ -55,7 +55,9 @@ public final class WorkshopApplicationService implements WorkshopUseCases {
             boolean realResultOnly, PageQuery page) {
         return paintQueries.page(filters, manufacturerSheetOnly, realResultOnly, page);
     }
-    @Override public PaintFacetsView workshopPaintFacets() { return paintQueries.facets(); }
+    @Override public PaintFacetsView workshopPaintFacets(SearchMarketPaintsQuery filters) {
+        return paintQueries.facets(filters);
+    }
     @Override public List<PaintingProjectView> listPaintingProjects() { return queries.listPaintingProjects(); }
     @Override public List<WorkshopItemView> listWorkshopItems(String projectId) {
         return queries.listWorkshopItems(projectId);

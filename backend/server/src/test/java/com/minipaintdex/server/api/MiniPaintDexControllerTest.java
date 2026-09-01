@@ -1,6 +1,8 @@
 package com.minipaintdex.server.api;
 
 import com.minipaintdex.application.usecase.AdministrationUseCases;
+import com.minipaintdex.application.MarketCatalogApplicationService;
+import com.minipaintdex.application.port.MarketCatalogReader;
 import com.minipaintdex.application.usecase.MarketCatalogUseCases;
 import com.minipaintdex.application.usecase.SiteQueries;
 import com.minipaintdex.application.usecase.WorkshopUseCases;
@@ -76,23 +78,36 @@ class MiniPaintDexControllerTest {
                         .queryParam("page", "2")
                         .queryParam("size", "10")
                         .queryParam("sort", "brand,desc")
-                        .queryParam("finish", "matt")
-                        .queryParam("opacity", "transparent")
-                        .queryParam("manufacturer", "Games Workshop")
-                        .queryParam("tag", "cold"))
+                        .queryParam("finish", "matte")
+                        .queryParam("coverage", "transparent")
+                        .queryParam("applicationSystem", "one_coat_shading")
+                        .queryParam("effect", "metallic"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.paints[0].id").value("paint"));
 
         var query = ArgumentCaptor.forClass(SearchMarketPaintsQuery.class);
         var page = ArgumentCaptor.forClass(PageQuery.class);
         verify(market).searchMarketPaintPage(query.capture(), anyBoolean(), anyBoolean(), page.capture());
-        assertEquals("matt", query.getValue().finish());
-        assertEquals("transparent", query.getValue().opacity());
-        assertEquals("Games Workshop", query.getValue().manufacturer());
-        assertEquals("cold", query.getValue().tag());
+        assertEquals("matte", query.getValue().finish());
+        assertEquals("transparent", query.getValue().coverage());
+        assertEquals("one_coat_shading", query.getValue().applicationSystem());
+        assertEquals("metallic", query.getValue().effect());
         assertEquals(2, page.getValue().page());
         assertEquals(10, page.getValue().size());
         assertEquals("brand", page.getValue().sort().getFirst().property());
+    }
+
+    @Test
+    void publishesTheCanonicalPaintModelAsJsonSchema() throws Exception {
+        when(market.marketPaintModel()).thenReturn(
+                new MarketCatalogApplicationService(mock(MarketCatalogReader.class)).marketPaintModel());
+
+        mvc.perform(get("/api/v1/market/paint-model"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$['$schema']").value("https://json-schema.org/draft/2020-12/schema"))
+                .andExpect(jsonPath("$['x-model-version']").value(2))
+                .andExpect(jsonPath("$['x-filters'][0].queryParameter").value("role"))
+                .andExpect(jsonPath("$['x-vocabularies']['paint-role'][1]").value("primer"));
     }
 
     @Test
@@ -229,9 +244,12 @@ class MiniPaintDexControllerTest {
 
     static MarketPaintView paint(String id, String name) {
         return new MarketPaintView(
-                id, "Brand", "Manufacturer", List.of(), "Range", "standard", "", name,
-                "#000000", "matt", "acrylic", "opaque", "current", "confirmed", "",
-                List.of(), "", "", "", "", "", "", 18, "Black", "", List.of(),
+                id, "Brand", "Manufacturer", List.of(), "Range",
+                new MarketPaintView.Profile(
+                        List.of("color_paint"), List.of("brush"), "conventional_layering",
+                        "opaque", "matte", List.of(), "any", false, "acrylic"),
+                "", name, "#000000", "current", "confirmed", "", List.of(),
+                "", "", "", "", "", "", "", 18, "Black", "", List.of(),
                 new MarketPaintView.UsageInstructions("", List.of(), List.of(), "", false),
                 "", "", "", "", "", "");
     }

@@ -5,6 +5,7 @@ import com.minipaintdex.application.query.PageQuery;
 import com.minipaintdex.application.result.PageResult;
 import com.minipaintdex.application.view.MarketPaintView;
 import com.minipaintdex.application.view.PaintFacetsView;
+import com.minipaintdex.application.view.PaintModelView;
 import com.minipaintdex.application.view.PaintableProductSummaryView;
 import com.minipaintdex.application.view.PaintableProductView;
 import com.minipaintdex.application.view.MarketPaintingGuideView;
@@ -22,7 +23,9 @@ public interface MarketCatalogUseCases {
     PageResult<MarketPaintView> searchMarketPaintPage(SearchMarketPaintsQuery filters,
             boolean manufacturerSheetOnly, boolean realResultOnly, PageQuery page);
     /** Counts available filter values in the market catalog. */
-    PaintFacetsView marketPaintFacets();
+    PaintFacetsView marketPaintFacets(SearchMarketPaintsQuery filters);
+    /** Publishes the versioned canonical paint model and its supported search facets. */
+    PaintModelView marketPaintModel();
     /** Returns one market paint or raises a not-found application error. */
     MarketPaintView getMarketPaint(String id);
     /** Lists market products without materializing their complete detail views. */

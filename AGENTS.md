@@ -145,6 +145,7 @@ data/
   site/
   market/
     paints/
+      <brand>.yaml
     paintable-products/
     painting-guides/
   workshop/
@@ -153,6 +154,8 @@ data/
     publications/         # Durable pending/failed event-bus publications
 
 media/
+  market/
+    paints/                 # Generated validated manufacturer-image cache
   workshop/
 ```
 
@@ -334,13 +337,13 @@ Market catalogs contain reference data, not ownership state. They remain version
 
 ### Paints
 
-Maintain complete paint ranges by brand and range where sources permit. A paint catalog record should have a stable ID and may include:
+Maintain complete paint ranges by brand and range where sources permit. Store one schema-versioned YAML catalog per canonical brand under `data/market/paints/<brand>.yaml`; readers expose their union as one market catalog. A paint catalog record should have a stable ID and may include:
 
 - manufacturer and brand;
 - manufacturer reference;
-- range and functional type;
+- range and canonical `MarketPaintProfile`;
 - color family and color metadata;
-- finish, medium, opacity, volume, and other searchable properties;
+- roles, application methods and system, coverage, finish, effects, undercoat, medium, volume, and other searchable properties;
 - lifecycle status such as current or discontinued;
 - manufacturer page and traceable sources;
 - image provenance, credit, and usage status;
@@ -348,11 +351,21 @@ Maintain complete paint ranges by brand and range where sources permit. A paint 
 
 Do not use a display name alone as identity. Prefer a manufacturer reference when available and otherwise derive a stable canonical ID from brand, range, and product. Never silently delete products during refresh; mark missing products as discontinued or unavailable until verified.
 
-The market paint browser must support normal filters including brand, range, type, color, finish, medium, opacity, volume, manufacturer reference, lifecycle status, and other catalog metadata. Ownership badges and owned-only filters belong to Workshop endpoints or to a UI composition of separate responses; Market services must never read the Workshop inventory to produce them.
+Brand adapters map their source vocabulary to the canonical profile through one versioned YAML mapping per brand. A record retains source observations and a mapping report; migration or refresh must never silently discard an unmapped source field. Canonical profile fields use controlled English kebab-case identifiers, while source labels remain traceable metadata.
+
+Each refreshed record also retains a semantically lossless `source_snapshots` envelope containing the provider, source URL and collected source payload. Provider-generated request-time metadata with no source meaning may be removed explicitly so identical refreshes stay idempotent; commercial facts, provenance and real source update dates remain preserved. This envelope is import and audit evidence, not a competing domain model: it is excluded from market search, facets and generic React filters. A source-specific field is promoted to `MarketPaintProfile` only when it expresses stable, cross-brand paint behavior useful to application use cases; volatile commerce and provider fields remain in the snapshot.
+
+Official collectors are independent brand adapters under `tools/minipaintdex-data/src/minipaintdex_data/official_sources`; the orchestrator owns only provider registration, cross-provider validation and audit assembly. Each adapter has a minimum absolute volume and a ratio guard against the existing catalog. A suspicious source drop must fail collection before a change set can be built.
+
+Manufacturer image URLs remain sourced catalog facts. Validated local copies are generated under `media/market/paints/<brand>/<paint-id>.(webp|svg)` and are not versioned. Image caching accepts only configured official HTTPS hosts, validates redirects, byte size, raster dimensions and readable content, retries transient failures with bounded backoff, and sanitizes SVGs before publication. Python may write this media cache and emit a market-paint change set; only the Java application use case may persist the resulting catalog paths. The web client uses the local path first and the official source URL as a resilient fallback.
+
+When an official catalog page is protected from direct HTTP collection but remains normally accessible in an interactive browser, the operator may export an exact manifest of observed product reference, product page and largest rendered image URL. The deterministic image-source importer validates the brand hosts and exact catalog references. Official references absent from the current catalog are reported as unmatched and never silently discarded or invented.
+
+The market paint browser searches only canonical fields and supports API-published filters including brand, range, role, application method, application system, color, finish, medium, coverage, effect, undercoat, and lifecycle. `GET /api/v1/market/paint-model` publishes the JSON Schema, filter definitions, and controlled vocabularies used by the generic React filter UI. Ownership badges and owned-only filters belong to Workshop endpoints or to a UI composition of separate responses; Market services must never read the Workshop inventory to produce them.
 
 The paint-brand refresh skill must accept a brand name or `all`, where `all` is resolved dynamically from the brands already present in the market catalog. It may accept range, current/all scope, removal, and dry-run options. It must resolve aliases, prefer official sources, normalize identifiers, retain provenance and verification dates, compare every refreshed product with the local record, report additions and field-level updates, and handle missing products explicitly. Missing products are retired by default. Deletion requires verified complete source coverage, an explicit removal option, and application validation; owned paints and paints referenced by market guides or workshop recipes cannot be deleted. A dry run must not mutate canonical catalogs. Skills must use REST or CLI application interfaces for writes once those interfaces exist.
 
-Paints with functional types `technical_effect`, `primer`, `wash_shade`, `ink`, or `auxiliary` must include structured `usage_instructions` with an explanatory summary, actionable steps, and useful tips or precautions. These instructions are market product knowledge and are displayed dynamically by the paint sheet.
+Paints with roles `technical_effect`, `primer`, `wash`, `ink`, `varnish`, `medium`, `auxiliary`, or `pigment` must include structured `usage_instructions` with an explanatory summary, actionable steps, and useful tips or precautions. These instructions are market product knowledge and are displayed dynamically by the paint sheet.
 
 Never fabricate a representative grey for an unknown color. An absent or invalid `color.hex` remains missing metadata in APIs, rendering, and reconciliation. The matcher uses its configured missing-metadata score, emits an explicit reason, and never reports a CIEDE2000 distance or `close_color` reason for an unknown color.
 
@@ -389,7 +402,7 @@ All paint IDs used by a workshop recipe must exist in the owner's paint inventor
 
 Reconciliation is a read-only proposal from a market guide slot to paints owned in the workshop. It never mutates or auto-accepts a recipe. Matching weights, thresholds, behavioral paint types, candidate limits, and other tuning parameters must come from validated Spring Boot configuration at startup rather than numeric constants in the matcher.
 
-For ordinary opaque paints, rank candidates primarily with CIE Lab and CIEDE2000 color distance, then use functional type, finish, opacity, and medium. For behavioral products such as Contrast, Speedpaint, washes, inks, primers, auxiliaries, and technical effects, compare functional type plus structured application behavior such as transparency, pooling, pigment separation, reactivation, undercoat, finish, and effect type. RGB is only a minor signal for those products and every result requires manual review.
+For ordinary opaque paints, rank candidates primarily with CIE Lab and CIEDE2000 color distance, then use canonical role, finish, coverage, and medium. For behavioral products such as Contrast, Speedpaint, washes, inks, primers, auxiliaries, and technical effects, compare the canonical role and application system plus structured behavior such as coverage, undercoat, finish, and effects. RGB is only a minor signal for those products and every result requires manual review.
 
 The matcher may propose a single paint candidate, but the workshop solution may instead be a mixture, ordered layer stack, or technique. Persist only the user's explicit workshop choice through the recipe command.
 

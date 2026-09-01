@@ -5,7 +5,7 @@ import com.minipaintdex.application.port.MarketCatalogSnapshot;
 import com.minipaintdex.domain.market.guide.MarketPaintingGuide;
 import com.minipaintdex.domain.market.paint.MarketPaint;
 import com.minipaintdex.domain.market.paint.MarketPaintLifecycle;
-import com.minipaintdex.domain.market.paint.MarketPaintType;
+import com.minipaintdex.domain.market.paint.MarketPaintProfile;
 import com.minipaintdex.domain.market.product.PaintableProduct;
 import com.minipaintdex.domain.shared.DomainException;
 
@@ -61,18 +61,30 @@ public final class MarketCatalogFactory {
     private static MarketPaint paint(StructuredDocument document) {
         var value = map(document);
         var color = map(value.get("color"));
+        var profile = map(value.get("profile"));
+        var undercoat = map(profile.get("undercoat"));
         var usage = map(value.get("usage_instructions"));
         return new MarketPaint(
                 number(value.get("schema_version"), 1, "paint.schema_version"),
                 text(value.get("id")), text(value.get("brand")), text(value.get("manufacturer")),
                 strings(value.get("brand_aliases")), text(value.get("range")),
-                MarketPaintType.fromId(text(value.get("functional_type"))),
+                new MarketPaintProfile(
+                        strings(profile.get("roles")).stream().map(MarketPaintProfile.Role::fromId).toList(),
+                        strings(profile.get("application_methods")).stream()
+                                .map(MarketPaintProfile.ApplicationMethod::fromId).toList(),
+                        MarketPaintProfile.ApplicationSystem.fromId(text(profile.get("application_system"))),
+                        MarketPaintProfile.Coverage.fromId(text(profile.get("coverage"))),
+                        MarketPaintProfile.Finish.fromId(text(profile.get("finish"))),
+                        strings(profile.get("effects")).stream().map(MarketPaintProfile.Effect::fromId).toList(),
+                        new MarketPaintProfile.Undercoat(
+                                MarketPaintProfile.UndercoatTone.fromId(text(undercoat.get("tone"))),
+                                Boolean.TRUE.equals(undercoat.get("pre_highlighted_surface_recommended"))),
+                        MarketPaintProfile.Medium.fromId(text(profile.get("medium")))),
                 text(value.get("reference")), text(value.get("name")),
                 new MarketPaint.Color(text(color.get("family")), text(color.get("hex"))),
-                text(value.get("finish")), text(value.get("medium")), text(value.get("opacity")),
                 MarketPaintLifecycle.fromId(defaultText(text(value.get("lifecycle_status")), "unknown")),
                 defaultText(text(value.get("data_status")), "unreviewed"),
-                strings(value.get("warnings")), strings(value.get("tags")), behaviorTags(value),
+                strings(value.get("warnings")), strings(value.get("tags")),
                 text(value.get("notes")),
                 uri(value.get("manufacturer_page"), "paint.manufacturer_page"),
                 image(map(value.get("manufacturer_image")), "paint.manufacturer_image"),
@@ -83,18 +95,6 @@ public final class MarketCatalogFactory {
                         text(usage.get("instruction_status")), Boolean.TRUE.equals(usage.get("review_required"))),
                 date(value.get("verified_at"), "paint.verified_at"),
                 image(map(value.get("result_image")), "paint.result_image"));
-    }
-
-    private static List<String> behaviorTags(Map<String, Object> paint) {
-        var result = new java.util.LinkedHashSet<String>();
-        result.addAll(strings(paint.get("behavior_tags")));
-        var profile = map(paint.get("application_profile"));
-        profile.values().forEach(value -> {
-            if (value instanceof List<?> list) list.stream().map(MarketCatalogFactory::text)
-                    .filter(entry -> !entry.isBlank()).forEach(result::add);
-            else if (!text(value).isBlank()) result.add(text(value));
-        });
-        return List.copyOf(result);
     }
 
     private static MarketPaint.ImageReference image(Map<String, Object> value, String field) {

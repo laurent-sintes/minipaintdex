@@ -21,6 +21,7 @@ test('distinguishes a painting project from its market reference', () => {
 test('routes each about page independently', () => {
   assert.equal(appRoutePath(parseAppRoute('/about/user')), '/about/user');
   assert.equal(appRoutePath(parseAppRoute('/about/admin')), '/about/admin');
+  assert.equal(appRoutePath(parseAppRoute('/about/admin/paint-model')), '/about/admin/paint-model');
   assert.equal(appRoutePath(parseAppRoute('/about/api')), '/about/api');
   assert.equal(appRoutePath(parseAppRoute('/about/version')), '/about/version');
 });

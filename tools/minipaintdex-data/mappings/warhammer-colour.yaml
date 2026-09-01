@@ -1,0 +1,46 @@
+schema_version: 1
+mapping:
+  id: warhammer-colour
+  version: 1
+brand: Warhammer Colour
+default_profile:
+  roles: [color_paint]
+  application_methods: [brush]
+  application_system: conventional_layering
+  coverage: unknown
+  finish: unknown
+  effects: []
+  undercoat: {tone: any, pre_highlighted_surface_recommended: false}
+  medium: acrylic
+ranges:
+  Contrast:
+    application_system: one_coat_shading
+    coverage: transparent
+    undercoat: {tone: light, pre_highlighted_surface_recommended: true}
+  Base: {coverage: opaque}
+  BASE: {coverage: opaque}
+  Layer: {coverage: opaque}
+  LAYER: {coverage: opaque}
+  Shade:
+    roles: [wash]
+    application_system: washing
+    coverage: transparent
+  SHADE:
+    roles: [wash]
+    application_system: washing
+    coverage: transparent
+  Dry: {coverage: opaque}
+  Air:
+    application_methods: [airbrush]
+    coverage: opaque
+  Technical:
+    roles: [technical_effect]
+    application_system: effect_application
+  TECHNICAL:
+    roles: [technical_effect]
+    application_system: effect_application
+  Spray:
+    roles: [primer]
+    application_methods: [spray]
+    application_system: priming
+    coverage: opaque

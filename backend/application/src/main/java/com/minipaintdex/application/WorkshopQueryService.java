@@ -108,8 +108,8 @@ public final class WorkshopQueryService {
                     new GuideReconciliationView.PaintMatchView(
                             paintViewsById.get(match.candidatePaintId()), match.score(), match.deltaE2000(),
                             match.requiresManualReview(), match.strategy(), new GuideReconciliationView.DimensionsView(
-                            match.colorScore(), match.functionalTypeScore(), match.behaviorScore(),
-                            match.finishScore(), match.opacityScore(), match.mediumScore()), match.reasons())).toList();
+                            match.colorScore(), match.roleScore(), match.behaviorScore(),
+                            match.finishScore(), match.coverageScore(), match.mediumScore()), match.reasons())).toList();
             return new GuideReconciliationView.SlotReconciliationView(
                     guideSlot(slot), paintViewsById.get(slot.marketPaintId()), candidates,
                     source != null && paintMatchEngine.requiresManualReview(paintProfile(source)));
@@ -269,11 +269,11 @@ public final class WorkshopQueryService {
     }
 
     private PaintMatchEngine.Paint paintProfile(MarketPaint paint) {
-        var behavior = new java.util.LinkedHashSet<>(paint.behaviorTags());
-        behavior.addAll(paint.tags());
+        var profile = paint.profile();
         return new PaintMatchEngine.Paint(
-                paint.id(), text(paint.color().hex()), paint.functionalType().id(), text(paint.finish()),
-                text(paint.opacity()), text(paint.medium()), Set.copyOf(behavior));
+                paint.id(), text(paint.color().hex()), Set.copyOf(profile.roleIds()),
+                profile.applicationSystem().id(), profile.finish().id(), profile.coverage().id(),
+                profile.medium().id(), Set.copyOf(profile.effectIds()));
     }
 
     private static MarketPaintingGuideView guideView(MarketPaintingGuide guide) {

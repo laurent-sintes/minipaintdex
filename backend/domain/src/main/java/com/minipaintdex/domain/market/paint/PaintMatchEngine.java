@@ -29,37 +29,37 @@ public final class PaintMatchEngine {
     }
 
     public Match compare(Paint source, Paint candidate) {
-        var behavioral = policy.isBehavioral(source.functionalType());
+        var behavioral = policy.isBehavioral(source.applicationSystem());
         var reasons = new ArrayList<String>();
         var colorsComparable = validHex(source.hex()) && validHex(candidate.hex());
         var deltaE = colorsComparable ? deltaE2000(lab(source.hex()), lab(candidate.hex())) : -1.0;
         var colorScore = colorsComparable
                 ? clamp(PERFECT_SCORE - deltaE * policy.colorDistanceFactor())
                 : policy.missingMetadataScore();
-        var typeScore = equals(source.functionalType(), candidate.functionalType())
-                ? PERFECT_SCORE : policy.functionalTypeMismatchScore();
+        var roleScore = setOverlap(source.roles(), candidate.roles(), policy.roleMismatchScore());
         var finishScore = comparableScore(source.finish(), candidate.finish());
-        var opacityScore = comparableScore(source.opacity(), candidate.opacity());
+        var coverageScore = comparableScore(source.coverage(), candidate.coverage());
         var mediumScore = comparableScore(source.medium(), candidate.medium());
-        var behaviorScore = tagOverlap(source.behaviorTags(), candidate.behaviorTags());
+        var behaviorScore = behaviorScore(source, candidate);
 
         if (colorsComparable && colorScore >= policy.closeColorThreshold()) reasons.add("close_color");
         if (!colorsComparable) reasons.add("color_metadata_missing");
-        if (typeScore == PERFECT_SCORE) reasons.add("same_functional_type");
+        if (roleScore == PERFECT_SCORE) reasons.add("same_roles");
+        if (equals(source.applicationSystem(), candidate.applicationSystem())) reasons.add("same_application_system");
         if (finishScore == PERFECT_SCORE) reasons.add("same_finish");
         if (behaviorScore >= policy.similarBehaviorThreshold()) reasons.add("similar_application_behavior");
 
         var weights = behavioral ? policy.behavioral() : policy.standard();
-        var score = weights.score(colorScore, typeScore, behaviorScore, finishScore, opacityScore, mediumScore);
+        var score = weights.score(colorScore, roleScore, behaviorScore, finishScore, coverageScore, mediumScore);
         if (behavioral) reasons.add("manual_behavior_review_required");
         return new Match(candidate.id(), round(score), round(deltaE), behavioral,
                 behavioral ? "manual_technique_review" : "single_paint_candidate",
-                round(colorScore), round(typeScore), round(behaviorScore), round(finishScore),
-                round(opacityScore), round(mediumScore), List.copyOf(reasons));
+                round(colorScore), round(roleScore), round(behaviorScore), round(finishScore),
+                round(coverageScore), round(mediumScore), List.copyOf(reasons));
     }
 
     public boolean requiresManualReview(Paint paint) {
-        return paint != null && policy.isBehavioral(paint.functionalType());
+        return paint != null && policy.isBehavioral(paint.applicationSystem());
     }
 
     private double comparableScore(String left, String right) {
@@ -67,11 +67,19 @@ public final class PaintMatchEngine {
         return equals(left, right) ? PERFECT_SCORE : policy.metadataMismatchScore();
     }
 
-    private double tagOverlap(Set<String> left, Set<String> right) {
-        if (left.isEmpty() || right.isEmpty()) return policy.emptyBehaviorScore();
+    private double behaviorScore(Paint left, Paint right) {
+        var leftTokens = new java.util.LinkedHashSet<>(left.effects());
+        var rightTokens = new java.util.LinkedHashSet<>(right.effects());
+        if (!blank(left.applicationSystem())) leftTokens.add("system:" + left.applicationSystem().toLowerCase(Locale.ROOT));
+        if (!blank(right.applicationSystem())) rightTokens.add("system:" + right.applicationSystem().toLowerCase(Locale.ROOT));
+        return setOverlap(leftTokens, rightTokens, policy.emptyBehaviorScore());
+    }
+
+    private static double setOverlap(Set<String> left, Set<String> right, double emptyScore) {
+        if (left.isEmpty() || right.isEmpty()) return emptyScore;
         var common = left.stream().filter(right::contains).count();
         var union = left.size() + right.size() - common;
-        return union == 0 ? policy.emptyBehaviorScore() : PERFECT_SCORE * common / union;
+        return union == 0 ? emptyScore : PERFECT_SCORE * common / union;
     }
 
     private static boolean equals(String left, String right) {
@@ -154,16 +162,21 @@ public final class PaintMatchEngine {
     }
 
     public record Paint(
-            String id, String hex, String functionalType, String finish, String opacity, String medium,
-            Set<String> behaviorTags) {
+            String id, String hex, Set<String> roles, String applicationSystem, String finish,
+            String coverage, String medium, Set<String> effects) {
         public Paint {
-            behaviorTags = behaviorTags == null ? Set.of() : behaviorTags.stream()
+            roles = normalize(roles);
+            effects = normalize(effects);
+        }
+
+        private static Set<String> normalize(Set<String> values) {
+            return values == null ? Set.of() : values.stream()
                     .map(value -> value.toLowerCase(Locale.ROOT)).collect(java.util.stream.Collectors.toUnmodifiableSet());
         }
     }
 
     public record Match(
             String candidatePaintId, double score, double deltaE2000, boolean requiresManualReview,
-            String strategy, double colorScore, double functionalTypeScore, double behaviorScore,
-            double finishScore, double opacityScore, double mediumScore, List<String> reasons) {}
+            String strategy, double colorScore, double roleScore, double behaviorScore,
+            double finishScore, double coverageScore, double mediumScore, List<String> reasons) {}
 }

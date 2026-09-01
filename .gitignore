@@ -57,6 +57,8 @@ next-env.d.ts
 /data/ledger/events/*.jsonl
 /data/ledger/publications/*.json
 /data/ledger/publications/.publications.lock
+/media/market/paints/**
+!/media/market/paints/.gitkeep
 !/data/ledger/events/.gitkeep
 !/data/ledger/publications/.gitkeep
 

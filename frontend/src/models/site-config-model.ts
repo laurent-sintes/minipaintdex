@@ -6,7 +6,7 @@ export type SiteConfig = {
     ariaLabel: string; mobileAriaLabel: string; home: string; marketSection: string;
     marketPaints: string; marketPaintableProducts: string; workshopSection: string;
     workshopPaints: string; workshopAdmin: string; shopping: string; aboutSection: string;
-    userDocumentation: string; adminDocumentation: string; restApi: string; version: string;
+    userDocumentation: string; adminDocumentation: string; paintModel: string; restApi: string; version: string;
   };
   header: { searchPlaceholder: string; searchShortPlaceholder: string; searchAriaLabel: string; workshopPrefix: string };
   home: {
@@ -32,6 +32,8 @@ export type SiteConfig = {
   };
   about: {
     eyebrow: string; title: string; description: string; userTitle: string; administratorTitle: string;
+    paintModelTitle: string; paintModelDescription: string; modelVersion: string; filterFields: string;
+    vocabularies: string; openPaintSchema: string;
     apiTitle: string; apiDescription: string; versionTitle: string; versionDescription: string; versionLabel: string; authorLabel: string;
     loading: string; documentTitles: Record<string, string>;
   };
@@ -50,6 +52,8 @@ export type SiteConfig = {
     filterPanelDescription: string; filterAriaLabel: string; searchFilter: string; typeFilter: string;
     allTypes: string; colorFilter: string; allColors: string; brandFilter: string; rangeFilter: string;
     allRanges: string; finishFilter: string; allFinishes: string; mediumFilter: string; allMediums: string;
+    roleFilter: string; applicationMethodFilter: string; applicationSystemFilter: string; coverageFilter: string;
+    effectFilter: string; undercoatFilter: string; allValues: string;
     opacityFilter: string; allOpacities: string; lifecycleFilter: string; allLifecycles: string;
     volumeFilter: string; allVolumes: string; tagFilter: string; allTags: string;
     manufacturerSheetOnly: string; realResultOnly: string; resetFilters: string; activeFilters: string;

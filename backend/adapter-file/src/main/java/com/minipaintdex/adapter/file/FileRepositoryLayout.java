@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public record FileRepositoryLayout(
         Path siteConfiguration,
-        Path marketPaintCatalog,
+        Path marketPaintCatalogDirectory,
         Path workshopPaintInventory,
         Path shoppingList,
         Path marketPaintableProductsDirectory,
@@ -16,7 +16,7 @@ public record FileRepositoryLayout(
 
     public FileRepositoryLayout {
         siteConfiguration = normalized(siteConfiguration);
-        marketPaintCatalog = normalized(marketPaintCatalog);
+        marketPaintCatalogDirectory = normalized(marketPaintCatalogDirectory);
         workshopPaintInventory = normalized(workshopPaintInventory);
         shoppingList = normalized(shoppingList);
         marketPaintableProductsDirectory = normalized(marketPaintableProductsDirectory);
