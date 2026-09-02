@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "paintdex-community-colors",
+  "repository": "https://github.com/s10-steve/paintdex",
+  "revision": "f77970bad84e8b23337af24d204b741d51c67104",
+  "license": "MIT",
+  "license_file": "PAINTDEX-LICENSE.txt",
+  "copyright": "Copyright (c) 2026 Paintdex contributors",
+  "accuracy": "Approximate digital swatches derived from manufacturer and community sources; not physical paint measurements.",
+  "brands": {
+    "Warhammer Colour": {
+      "file": "citadel.json",
+      "sha256": "15decc4552ee658fb1bb9879c1e10441707258efd6e94afe73939652d825a504",
+      "match": "name-range"
+    },
+    "The Army Painter": {
+      "file": "army-painter.json",
+      "sha256": "805b06872d4f3b73998d76c6ebcb0980eb49a4405a07c0dc223f6a6e294ecdc9",
+      "match": "name-range",
+      "range_aliases": {
+        "Warpaints Fanatic": ["Warpaints Fanatic", "Warpaints Fanatic Wash"],
+        "Warpaints Air": ["Warpaints Air"],
+        "Speedpaint": ["Speedpaint Set 2.0", "Speedpaint Set"],
+        "Colour Primer": ["Warpaints Primer"]
+      }
+    },
+    "Vallejo": {
+      "file": "vallejo.json",
+      "sha256": "9ec2967408ffc5105f0fdc53e1d36e3bd5f1aa94391ef2655d2bdc17cd7335a0",
+      "match": "reference"
+    },
+    "Prince August": {
+      "file": "vallejo.json",
+      "sha256": "9ec2967408ffc5105f0fdc53e1d36e3bd5f1aa94391ef2655d2bdc17cd7335a0",
+      "match": "prince-august-model-color-reference",
+      "source_range": "Model Color"
+    }
+  }
+}

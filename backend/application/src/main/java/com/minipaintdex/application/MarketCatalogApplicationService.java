@@ -9,7 +9,6 @@ import com.minipaintdex.application.view.MarketPaintView;
 import com.minipaintdex.application.view.MarketPaintingGuideView;
 import com.minipaintdex.application.view.PaintFacetsView;
 import com.minipaintdex.application.view.PaintCatalogQualityView;
-import com.minipaintdex.application.view.PaintCatalogQualityView;
 import com.minipaintdex.application.view.PaintModelView;
 import com.minipaintdex.application.view.PaintableProductSummaryView;
 import com.minipaintdex.application.view.PaintableProductView;

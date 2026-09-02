@@ -19,6 +19,7 @@ from .datasets import CATEGORY_PATHS, create_dataset, inspect_dataset, validate_
 from .official_refresh import collect_official_refresh
 from .image_quality import plan_image_rechallenge
 from .paint_images import build_image_cache_changeset, build_image_source_changeset, rekey_cached_paint_images
+from .paint_colors import build_color_enrichment_changeset
 from .refresh import build_refresh_changeset, read_catalog
 
 
@@ -74,6 +75,17 @@ def build_parser() -> argparse.ArgumentParser:
     refresh_official.add_argument("--collected-output", help="Optionally retain the collected provider payload")
     refresh_official.add_argument("--audit-log", required=True)
     refresh_official.add_argument("--output", required=True, help="Dry-run market-paint change set")
+    enrich_colors = catalog_commands.add_parser(
+        "enrich-paint-colors",
+        help="Fill missing paint hex colours from a pinned external dataset without overwriting existing values",
+    )
+    enrich_colors.add_argument("--catalog", default="data/market/paints")
+    enrich_colors.add_argument("--manifest", required=True)
+    enrich_colors.add_argument("--source-root", required=True)
+    enrich_colors.add_argument("--brand", action="append", default=[], help="Canonical brand; repeat or use 'all'")
+    enrich_colors.add_argument("--as-of", help="ISO-8601 date used in the deterministic audit")
+    enrich_colors.add_argument("--audit-log", required=True)
+    enrich_colors.add_argument("--output", required=True, help="Market-paint change set to validate and apply with the Java CLI")
 
     assets = subcommands.add_parser("assets", help="Audit local public media")
     assets_commands = assets.add_subparsers(dest="assets_command", required=True)
@@ -273,6 +285,33 @@ def main(argv: list[str] | None = None) -> int:
                 f"operations={len(changeset['operations'])} "
                 f"images_to_rechallenge={image_plan['candidate_count']}"
             )
+            print(
+                f"Next: minipaintdex market paints apply --input {args.output} "
+                "(dry-run by default; add --apply only after audit)."
+            )
+            return 0
+        if args.command == "catalog" and args.catalog_command == "enrich-paint-colors":
+            changeset, audit = build_color_enrichment_changeset(
+                read_catalog(Path(args.catalog)),
+                manifest_path=Path(args.manifest),
+                source_root=Path(args.source_root),
+                brands=args.brand or ["all"],
+                as_of=args.as_of,
+            )
+            write_json(Path(args.output), changeset)
+            write_json(Path(args.audit_log), audit)
+            print(f"Colour enrichment change set written to {args.output} ({len(changeset['operations'])} operation(s)).")
+            for brand, values in audit["brands"].items():
+                print(
+                    f"COLOR brand={brand} eligible={values['eligible']} existing={values['existing_hex']} "
+                    f"enriched={values['enriched']} coverage_after={values['coverage_after']} "
+                    f"coverage_percent={values['eligible_coverage_percent_after']} "
+                    f"auxiliary={values['special_auxiliary']} "
+                    f"filter_coverage_after={values['filter_coverage_after']} "
+                    f"filter_coverage_percent={values['filter_coverage_percent_after']} "
+                    f"unmatched={values.get('unmatched', 0)} ambiguous={values.get('ambiguous', 0)} "
+                    f"conflicts={values.get('existing_conflicts', 0)}"
+                )
             print(
                 f"Next: minipaintdex market paints apply --input {args.output} "
                 "(dry-run by default; add --apply only after audit)."

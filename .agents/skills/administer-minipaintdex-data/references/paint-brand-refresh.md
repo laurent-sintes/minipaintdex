@@ -27,3 +27,12 @@ Ne jamais interpréter une erreur HTTP ou un catalogue incomplet comme une preuv
 Pour Warhammer Colour, contrôler l'exhaustivité de l'index officiel de la boutique : le nombre de résultats annoncé doit être égal au nombre de fiches effectivement collectées et toute chute brutale de volume doit bloquer l'application.
 
 Le chemin opérateur recommandé est `catalog refresh-official-paints --brand <marque|all> --output <change-set> --audit-log <audit>`. Il orchestre la collecte, la comparaison, la validation et l'estimation des images à rechallenger sans écrire dans `data/`. Le change set obtenu est ensuite simulé par `minipaintdex market paints apply --input <change-set>` et appliqué uniquement avec `--apply` après lecture de l'audit.
+
+## Enrichissement des couleurs
+
+1. Utiliser `catalog enrich-paint-colors` avec un manifeste version 1 qui épingle la révision complète et le SHA-256 de chaque fichier source. Conserver la licence de la source dans le dépôt.
+2. Accepter seulement les correspondances exactes prévues par marque : référence fabricant, référence Prince August transposée vers Model Color, ou nom et gamme canoniques. Une collision entre plusieurs couleurs reste ambiguë et n'est pas appliquée.
+3. Ne jamais remplacer un `color.hex` existant. Journaliser les désaccords et conserver la valeur courante jusqu'à revue explicite.
+4. Qualifier les couleurs numériques communautaires comme approximatives dans `source_snapshots`; elles servent au regroupement et au filtrage, pas à une mesure colorimétrique de la peinture sèche.
+5. Les produits exclusivement `varnish`, `medium` ou `auxiliary` reçoivent `color.family: auxiliary` et aucun `color.hex`. Cette teinte fonctionnelle est incluse dans la couverture du filtre.
+6. Valider, simuler puis appliquer le change set avec le CLI Java. Rejouer ensuite l'enrichissement : il doit produire zéro opération.

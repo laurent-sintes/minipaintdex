@@ -18,6 +18,7 @@ ROLE_VALUES = {
     "color_paint", "primer", "wash", "ink", "varnish", "medium", "auxiliary",
     "technical_effect", "pigment",
 }
+AUXILIARY_TONE_ROLES = {"varnish", "medium", "auxiliary"}
 APPLICATION_METHOD_VALUES = {"brush", "airbrush", "spray", "marker"}
 APPLICATION_SYSTEM_VALUES = {
     "conventional_layering", "one_coat_shading", "washing", "priming",
@@ -83,6 +84,15 @@ def validate_profile(profile: Any, location: str = "profile") -> None:
     _scalar(undercoat, "tone", UNDERCOAT_VALUES, f"{location}.undercoat", required=True)
     if not isinstance(undercoat.get("pre_highlighted_surface_recommended"), bool):
         raise ValueError(f"{location}.undercoat.pre_highlighted_surface_recommended must be boolean")
+
+
+def canonical_color_family(profile: dict[str, Any], observed_family: Any) -> str:
+    """Return the observed family, or the functional auxiliary tone when applicable."""
+    family = str(observed_family or "").strip()
+    roles = set(profile.get("roles", []))
+    if not family and roles and roles.issubset(AUXILIARY_TONE_ROLES):
+        return "auxiliary"
+    return family
 
 
 def canonical_profile(record: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:

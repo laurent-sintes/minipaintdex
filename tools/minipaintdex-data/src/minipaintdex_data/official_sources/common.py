@@ -13,7 +13,7 @@ from urllib.request import Request, urlopen
 
 from ..paint_identity import market_paint_deduplication_key
 from ..image_quality import normalize_image_quality, prefer_image, quality_limitation
-from ..paint_model import canonical_profile, source_observation
+from ..paint_model import canonical_color_family, canonical_profile, source_observation
 
 
 TECHNICAL_TYPES = {"technical_effect", "primer", "wash_shade", "ink", "varnish", "medium", "auxiliary", "pigment"}
@@ -162,7 +162,10 @@ def base_record(
         "data_status": "confirmed",
         "lifecycle_status": "active",
         "warnings": [],
-        "color": {"hex": "", "family": color_family(name)},
+        "color": {"hex": "", "family": canonical_color_family(
+            {"roles": ["auxiliary" if functional_type in {"auxiliary", "varnish", "medium"} else "color_paint"]},
+            "" if functional_type in {"auxiliary", "varnish", "medium"} else color_family(name),
+        )},
         "finish": finish,
         "medium": medium,
         "opacity": opacity,

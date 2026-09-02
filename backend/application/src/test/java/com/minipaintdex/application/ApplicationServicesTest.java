@@ -75,6 +75,23 @@ class ApplicationServicesTest {
     }
 
     @Test
+    void treatsAuxiliaryAsAFilterableSpecialToneWithoutRequiringAHexColor() {
+        var chromaticWithoutHex = new LinkedHashMap<>(paint("paint-red", "Red"));
+        chromaticWithoutHex.put("color", Map.of("hex", "", "family", "red"));
+        var repository = repository();
+        repository.snapshot = new DataSnapshot(
+                document(Map.of()), documents(List.of(chromaticWithoutHex, auxiliaryPaint())),
+                List.of(), List.of(product()), List.of(), List.of(), List.of());
+        var market = marketService(repository);
+
+        assertEquals(1, market.marketPaintQuality().missingColorHex());
+        var filtered = market.searchMarketPaints(new SearchMarketPaintsQuery(
+                null, null, null, null, null, null, "auxiliary",
+                null, null, null, null, null, null));
+        assertEquals(List.of("paint-auxiliary"), filtered.stream().map(MarketPaintView::id).toList());
+    }
+
+    @Test
     void createsACompletePaintingProjectAsOneAtomicPublication() {
         var repository = repository();
         var result = service(repository).createPaintingProject(new CreatePaintingProjectCommand(
@@ -373,6 +390,21 @@ class ApplicationServicesTest {
                                 "code", "historical-reason-not-recorded",
                                 "detail", "The precise historical reason was not recorded.",
                                 "observed_at", "2026-09-01"))));
+    }
+
+    private static Map<String, Object> auxiliaryPaint() {
+        var paint = new LinkedHashMap<>(paint("paint-auxiliary", "Airbrush thinner"));
+        paint.put("profile", Map.of(
+                "roles", List.of("auxiliary"), "application_methods", List.of("brush"),
+                "application_system", "effect_application", "coverage", "unknown",
+                "finish", "unknown", "effects", List.of(),
+                "undercoat", Map.of("tone", "any", "pre_highlighted_surface_recommended", false),
+                "medium", "water_based_acrylic"));
+        paint.put("color", Map.of("hex", "", "family", "auxiliary"));
+        paint.put("usage_instructions", Map.of(
+                "summary", "Auxiliary product.", "steps", List.of("Use as directed."),
+                "tips", List.of(), "review_required", false));
+        return paint;
     }
 
     private static StructuredDocument document(Map<String, Object> values) {

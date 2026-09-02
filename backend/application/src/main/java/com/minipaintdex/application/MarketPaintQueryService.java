@@ -11,7 +11,6 @@ import com.minipaintdex.application.view.PaintFacetValue;
 import com.minipaintdex.application.view.PaintFacetView;
 import com.minipaintdex.application.view.PaintFacetsView;
 import com.minipaintdex.application.view.PaintCatalogQualityView;
-import com.minipaintdex.application.view.PaintCatalogQualityView;
 import com.minipaintdex.domain.market.paint.MarketPaint;
 import com.minipaintdex.domain.shared.DomainException;
 
@@ -91,7 +90,8 @@ final class MarketPaintQueryService {
                         1, Integer::sum));
         return new PaintCatalogQualityView(
                 paints.size(),
-                (int) paints.stream().filter(paint -> !present(paint.color().hex())).count(),
+                (int) paints.stream().filter(paint -> !"auxiliary".equalsIgnoreCase(string(paint.color().family()))
+                        && !present(paint.color().hex())).count(),
                 (int) paints.stream().filter(paint -> !present(paint.color().family())).count(),
                 (int) paints.stream().filter(paint -> "unknown".equals(paint.profile().finish().id())).count(),
                 (int) paints.stream().filter(paint -> "unknown".equals(paint.profile().coverage().id())).count(),

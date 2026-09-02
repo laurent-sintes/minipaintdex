@@ -10,7 +10,7 @@ from typing import Any
 
 from .paint_identity import market_paint_deduplication_key, market_paint_id
 from .image_quality import IMAGE_QUALITY_LIMITATION_CODES, IMAGE_QUALITY_RANKS, quality_limitation
-from .paint_model import canonical_profile, source_observation, validate_profile
+from .paint_model import canonical_color_family, canonical_profile, source_observation, validate_profile
 
 
 ID_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -109,6 +109,7 @@ def canonical_paint(record: dict[str, Any], *, verified_at: str | None = None) -
     }
     source_hash = _text(record.get("source_hash"))
     profile, mapping_report = canonical_profile(record)
+    color_family = canonical_color_family(profile, color_family)
     paint: dict[str, Any] = {
         "schema_version": 1,
         "id": identifier,
