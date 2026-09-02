@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "id": "warhammer-official-gradient-colors",
+  "repository": "https://www.warhammer.com/",
+  "revision": "b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c",
+  "license": "Manufacturer-published product colour cards; extracted swatches retained as factual reference metadata.",
+  "copyright": "© Games Workshop Limited",
+  "accuracy": "Approximate digital swatches for hue filtering; gradients represent variable paint coverage, not dried-paint measurements.",
+  "brands": {
+    "Warhammer Colour": {
+      "file": "warhammer-official-gradient-colors.json",
+      "sha256": "b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c",
+      "match": "reference"
+    }
+  }
+}

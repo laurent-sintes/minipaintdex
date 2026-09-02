@@ -17,11 +17,24 @@
       "file": "army-painter.json",
       "sha256": "805b06872d4f3b73998d76c6ebcb0980eb49a4405a07c0dc223f6a6e294ecdc9",
       "match": "name-range",
+      "strip_name_prefixes": ["Colour Primer:"],
       "range_aliases": {
-        "Warpaints Fanatic": ["Warpaints Fanatic", "Warpaints Fanatic Wash"],
-        "Warpaints Air": ["Warpaints Air"],
-        "Speedpaint": ["Speedpaint Set 2.0", "Speedpaint Set"],
-        "Colour Primer": ["Warpaints Primer"]
+        "Warpaints Fanatic": ["Warpaints Fanatic", "Warpaints Fanatic Wash", "Warpaints Air"],
+        "Warpaints Air": ["Warpaints Air", "Warpaints Fanatic"],
+        "Speedpaint": ["Speedpaint Set 2.0"],
+        "Colour Primer": ["Warpaints Primer", "Warpaints Fanatic", "Warpaints Air"]
+      },
+      "name_aliases": {
+        "Bony Spikes": "Boney Spikes",
+        "Brethil Blush": "Brethil Flesh",
+        "Brigandine Brown": "Brigadine Brown",
+        "Matt Black Primer, 100 ml": "Matt Black",
+        "Matt Grey Primer, 100 ml": "Uniform Grey",
+        "Matt White Primer, 100 ml": "Matt White",
+        "Metallics: Bright Gold": "Bright Gold",
+        "Terrestrial Titan": "Terrestial Titan",
+        "Tiger's Eye Skin": "Tiger’s Eye Skin",
+        "Violent Vermilion": "Violent Vermillion"
       }
     },
     "Vallejo": {

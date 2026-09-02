@@ -120,6 +120,31 @@ class PaintColorEnrichmentTest(unittest.TestCase):
         )
         self.assertEqual("#9a7544", changeset["operations"][0]["record"]["color"]["hex"])
 
+    def test_uses_ordered_range_preference_and_reviewed_name_transforms(self):
+        changeset, audit = self.build(
+            paint("The Army Painter", "CP3019S", "Colour Primer: Alien Purple", "Colour Primer", role="primer"),
+            [
+                {"id": "fanatic", "name": "Alien Purple", "range": "Warpaints Fanatic", "hex": "#6154A3"},
+                {"id": "primer", "name": "Alien Purple", "range": "Warpaints Primer", "hex": "#492B79"},
+            ],
+            {
+                "match": "name-range",
+                "strip_name_prefixes": ["Colour Primer:"],
+                "range_aliases": {"Colour Primer": ["Warpaints Primer", "Warpaints Fanatic"]},
+            },
+        )
+        record = changeset["operations"][0]["record"]
+        self.assertEqual("#492b79", record["color"]["hex"])
+        self.assertEqual("name-range-stripped-prefix", record["source_snapshots"][-1]["payload"]["identity_match"])
+        self.assertEqual(1, audit["brands"]["The Army Painter"]["enriched"])
+
+        aliased, _ = self.build(
+            paint("The Army Painter", "WP3089P", "Bony Spikes", "Warpaints Fanatic"),
+            [{"id": "fanatic", "name": "Boney Spikes", "range": "Warpaints Fanatic", "hex": "#E6D4C1"}],
+            {"match": "name-range", "name_aliases": {"Bony Spikes": "Boney Spikes"}},
+        )
+        self.assertEqual("#e6d4c1", aliased["operations"][0]["record"]["color"]["hex"])
+
     def test_matches_vallejo_and_prince_august_by_reference(self):
         source = [{"id": "vallejo-70860", "name": "Medium Fleshtone", "range": "Model Color", "code": "70.860", "hex": "#C08060"}]
         vallejo, _ = self.build(
@@ -132,6 +157,32 @@ class PaintColorEnrichmentTest(unittest.TestCase):
         )
         self.assertEqual("#c08060", vallejo["operations"][0]["record"]["color"]["hex"])
         self.assertEqual("#c08060", prince["operations"][0]["record"]["color"]["hex"])
+
+    def test_preserves_official_chart_extraction_provenance(self):
+        changeset, _ = self.build(
+            paint("Vallejo", "77.101", "Sterling Silver", "True Metallic Metal"),
+            [{
+                "brand": "Vallejo", "reference": "77.101", "name": "Sterling Silver",
+                "range": "True Metallic Metal", "hex": "#EFF0EF",
+                "source_url": "https://example.test/catalog.pdf",
+                "source_sha256": "b" * 64,
+                "source_image_url": "https://example.test/paint.png",
+                "source_image_sha256": "c" * 64,
+                "source_equivalent": "Official equivalent paint",
+                "source_page": 76,
+                "extraction_method": "median-upper-left-metallic-swatch",
+                "accuracy": "Approximate digital swatch.",
+            }],
+            {"match": "reference"},
+        )
+        snapshot = changeset["operations"][0]["record"]["source_snapshots"][-1]
+        self.assertEqual("https://example.test/catalog.pdf", snapshot["url"])
+        self.assertEqual("b" * 64, snapshot["payload"]["source_document_sha256"])
+        self.assertEqual("https://example.test/paint.png", snapshot["payload"]["source_image_url"])
+        self.assertEqual("c" * 64, snapshot["payload"]["source_image_sha256"])
+        self.assertEqual("Official equivalent paint", snapshot["payload"]["source_equivalent"])
+        self.assertEqual(76, snapshot["payload"]["source_page"])
+        self.assertEqual("median-upper-left-metallic-swatch", snapshot["payload"]["extraction_method"])
 
     def test_preserves_an_existing_color_and_reports_a_conflict(self):
         changeset, audit = self.build(
@@ -173,6 +224,17 @@ class PaintColorEnrichmentTest(unittest.TestCase):
         self.assertEqual("", skipped["operations"][0]["record"]["color"]["hex"])
         self.assertEqual(1, skipped_audit["brands"]["Vallejo"]["special_auxiliary"])
         self.assertEqual(1, skipped_audit["brands"]["Vallejo"]["filter_coverage_after"])
+
+    def test_reclassifies_a_functional_product_mistaken_for_paint(self):
+        changeset, audit = self.build(
+            paint("Prince August", "P596", "Médium Glacis", "CLASSIC"),
+            [],
+            {"match": "reference"},
+        )
+        record = changeset["operations"][0]["record"]
+        self.assertEqual(["medium"], record["profile"]["roles"])
+        self.assertEqual({"family": "auxiliary", "hex": ""}, record["color"])
+        self.assertEqual(1, audit["brands"]["Prince August"]["reclassified_auxiliary"])
 
 
 if __name__ == "__main__":

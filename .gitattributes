@@ -1,0 +1,2 @@
+# Preserve checksummed source observations byte-for-byte across platforms.
+tools/minipaintdex-data/color-sources/*-colors.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

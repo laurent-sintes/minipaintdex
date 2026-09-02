@@ -69,6 +69,7 @@ class OfficialRefreshTest(unittest.TestCase):
         self.assertEqual(classify("Mahogany Ink", "opaque_standard"), "ink")
         self.assertEqual(classify("Gloss Varnish", "opaque_standard"), "varnish")
         self.assertEqual(classify("Xpress Medium", "one_coat_contrast"), "medium")
+        self.assertEqual(classify("Matt Base", "opaque_standard"), "medium")
 
     def test_army_painter_snapshot_ignores_shopify_request_timestamps(self):
         product = {

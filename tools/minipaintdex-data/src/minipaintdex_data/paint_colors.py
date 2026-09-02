@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 from .changesets import validate_changeset
+from .official_sources.common import classify, usage
 
 
 COLOR_BEARING_ROLES = {"color_paint", "primer", "wash", "ink", "technical_effect", "pigment"}
@@ -30,8 +31,8 @@ def _read_manifest(path: Path) -> dict[str, Any]:
     value = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(value, dict) or value.get("schema_version") != 1:
         raise ValueError(f"Invalid colour-source manifest: {path}")
-    if not re.fullmatch(r"[0-9a-f]{40}", str(value.get("revision", ""))):
-        raise ValueError("Colour-source manifest revision must be a full lowercase Git commit hash.")
+    if not re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", str(value.get("revision", ""))):
+        raise ValueError("Colour-source manifest revision must be a full lowercase Git commit or SHA-256 hash.")
     if not isinstance(value.get("brands"), dict) or not value["brands"]:
         raise ValueError("Colour-source manifest must declare brands.")
     return value
@@ -74,7 +75,12 @@ def _match(
     method = strategy
     if strategy == "reference":
         reference = _normalized(paint.get("reference"))
-        candidates = [record for record in records if _normalized(record.get("code")) == reference]
+        paint_brand = _normalized(paint.get("brand"))
+        candidates = [
+            record for record in records
+            if _normalized(record.get("code", record.get("reference"))) == reference
+            and (not record.get("brand") or _normalized(record.get("brand")) == paint_brand)
+        ]
     elif strategy == "prince-august-model-color-reference":
         match = re.fullmatch(r"p(\d{3})", _normalized(paint.get("reference")))
         if match:
@@ -88,12 +94,33 @@ def _match(
     elif strategy == "name-range":
         aliases = config.get("range_aliases", {})
         allowed_ranges = aliases.get(paint.get("range"), [paint.get("range")]) if isinstance(aliases, dict) else [paint.get("range")]
-        range_keys = {_normalized(value) for value in allowed_ranges}
-        name = _normalized(paint.get("name"))
-        candidates = [
-            record for record in records
-            if _normalized(record.get("name")) == name and _normalized(record.get("range")) in range_keys
-        ]
+        paint_name = str(paint.get("name", ""))
+        for prefix in config.get("strip_name_prefixes", []):
+            if paint_name.casefold().startswith(str(prefix).casefold()):
+                paint_name = paint_name[len(str(prefix)):].strip()
+                method += "-stripped-prefix"
+                break
+        names = [paint_name]
+        configured_aliases = config.get("name_aliases", {})
+        if isinstance(configured_aliases, dict):
+            alias = configured_aliases.get(paint_name, configured_aliases.get(str(paint.get("name", ""))))
+            if alias:
+                names = alias if isinstance(alias, list) else [alias]
+                method += "-reviewed-alias"
+        name_keys = {_normalized(value) for value in names}
+        # The configured order expresses source preference. This notably lets a
+        # current formula win over a legacy formula without merging both into
+        # an artificial ambiguity.
+        for allowed_range in allowed_ranges:
+            range_key = _normalized(allowed_range)
+            range_candidates = [
+                record for record in records
+                if _normalized(record.get("name")) in name_keys
+                and _normalized(record.get("range")) == range_key
+            ]
+            if range_candidates:
+                candidates = range_candidates
+                break
     else:
         raise ValueError(f"Unsupported colour-source match strategy: {strategy}")
     candidate, status = _single_color(candidates)
@@ -108,9 +135,34 @@ def _source_snapshot(
     repository = str(manifest["repository"]).removesuffix("/")
     record = {
         key: source[key]
-        for key in ("id", "name", "brand", "range", "type", "hex", "code", "discontinued", "metallic")
+        for key in (
+            "id", "name", "brand", "range", "type", "hex", "code", "reference",
+            "discontinued", "metallic", "source_image_url", "source_image_sha256",
+            "source_equivalent",
+        )
         if key in source
     }
+    source_url = str(source.get("source_url", ""))
+    if source_url:
+        return {
+            "provider": str(manifest["id"]),
+            "url": source_url,
+            "payload": {
+                "revision": revision,
+                "license": manifest.get("license", ""),
+                "copyright": manifest.get("copyright", ""),
+                "accuracy": source.get("accuracy", manifest.get("accuracy", "")),
+                "identity_match": method,
+                "identity_confidence": 1.0 if method in {"reference", "prince-august-model-color-reference"} else 0.95,
+                "source_document_sha256": source.get("source_sha256", ""),
+                "source_image_url": source.get("source_image_url", ""),
+                "source_image_sha256": source.get("source_image_sha256", ""),
+                "source_equivalent": source.get("source_equivalent", ""),
+                "source_page": source.get("source_page"),
+                "extraction_method": source.get("extraction_method", ""),
+                "source_record": record,
+            },
+        }
     return {
         "provider": str(manifest["id"]),
         "url": f"{repository}/blob/{revision}/data/paints/{filename}",
@@ -162,6 +214,24 @@ def build_color_enrichment_changeset(
         counter = counts[brand]
         counter["total"] += 1
         roles = set((paint.get("profile") or {}).get("roles", []))
+        inferred_functional_role = classify(str(paint.get("name", "")), "")
+        if roles.intersection(COLOR_BEARING_ROLES) and inferred_functional_role in AUXILIARY_TONE_ROLES:
+            updated = deepcopy(paint)
+            updated.setdefault("profile", {})["roles"] = [inferred_functional_role]
+            updated.setdefault("color", {})["family"] = AUXILIARY_TONE
+            updated["color"]["hex"] = ""
+            updated["usage_instructions"] = usage(inferred_functional_role, str(paint.get("name", "")))
+            operations.append({
+                "action": "upsert", "record": updated,
+                "workshop_quantity_delta": 0, "confirmed_removal": False,
+            })
+            counter["reclassified_auxiliary"] += 1
+            item_audit.append({
+                "paint_id": paint.get("id"), "brand": brand,
+                "status": "reclassified-auxiliary",
+                "previous_roles": sorted(roles), "role": inferred_functional_role,
+            })
+            continue
         if not roles.intersection(COLOR_BEARING_ROLES):
             if not roles or not roles.issubset(AUXILIARY_TONE_ROLES):
                 counter["unclassified_functional"] += 1
@@ -235,6 +305,7 @@ def build_color_enrichment_changeset(
     for brand, counter in counts.items():
         for key in (
             "total", "special_auxiliary", "classified_auxiliary", "unclassified_functional",
+            "reclassified_auxiliary",
             "auxiliary_family_conflicts", "eligible", "existing_hex",
             "existing_conflicts", "ambiguous", "unmatched", "enriched",
         ):
@@ -245,8 +316,10 @@ def build_color_enrichment_changeset(
         values["eligible_coverage_percent_after"] = round(
             100 * values["coverage_after"] / counter["eligible"], 1
         ) if counter["eligible"] else 100.0
-        values["filter_coverage_after"] = values["coverage_after"] + counter["special_auxiliary"]
-        filter_candidates = counter["eligible"] + counter["special_auxiliary"]
+        values["filter_coverage_after"] = (
+            values["coverage_after"] + counter["special_auxiliary"] + counter["reclassified_auxiliary"]
+        )
+        filter_candidates = counter["eligible"] + counter["special_auxiliary"] + counter["reclassified_auxiliary"]
         values["filter_coverage_percent_after"] = round(
             100 * values["filter_coverage_after"] / filter_candidates, 1
         ) if filter_candidates else 100.0

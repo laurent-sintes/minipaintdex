@@ -1,6 +1,6 @@
 ---
 name: administer-minipaintdex-data
-description: "Administrer les données Mini Paint Dex : importer des peintures par photo, importer un produit à peindre depuis Internet, rafraîchir une ou toutes les marques, créer et importer des datasets portables avec les scripts Python déterministes et le CLI Java."
+description: "Administrer les données Mini Paint Dex : importer des peintures par photo, importer un produit à peindre depuis Internet, créer et importer des datasets portables avec les scripts Python déterministes et le CLI Java. Pour scraper ou rafraîchir les peintures du marché, utiliser le skill scrape-market-paints."
 ---
 
 # Administrer les données Mini Paint Dex

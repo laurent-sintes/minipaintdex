@@ -36,3 +36,4 @@ Le chemin opérateur recommandé est `catalog refresh-official-paints --brand <m
 4. Qualifier les couleurs numériques communautaires comme approximatives dans `source_snapshots`; elles servent au regroupement et au filtrage, pas à une mesure colorimétrique de la peinture sèche.
 5. Les produits exclusivement `varnish`, `medium` ou `auxiliary` reçoivent `color.family: auxiliary` et aucun `color.hex`. Cette teinte fonctionnelle est incluse dans la couverture du filtre.
 6. Valider, simuler puis appliquer le change set avec le CLI Java. Rejouer ensuite l'enrichissement : il doit produire zéro opération.
+7. Rejouer les compléments officiels dans l'ordre documenté à l'étape 6 de [`rebuild-from-empty.md`](rebuild-from-empty.md). Leurs fichiers de teintes extraites sont versionnés et ne nécessitent pas le cache temporaire utilisé lors de l'exploration.

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "id": "army-painter-official-product-colors",
+  "repository": "https://thearmypainter.com/",
+  "revision": "22429b9eb9ffbaaacacc4eb8dea13f8d5c296cc2e7fde42a2de2820ae50bcb1d",
+  "license": "Manufacturer-published product pages and images; extracted swatches retained as factual reference metadata.",
+  "copyright": "© The Army Painter",
+  "accuracy": "Approximate digital swatches for hue filtering; not dried-paint measurements.",
+  "brands": {
+    "The Army Painter": {
+      "file": "army-painter-official-product-colors.json",
+      "sha256": "22429b9eb9ffbaaacacc4eb8dea13f8d5c296cc2e7fde42a2de2820ae50bcb1d",
+      "match": "reference"
+    }
+  }
+}

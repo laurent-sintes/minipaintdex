@@ -1,0 +1,90 @@
+[
+  {
+    "brand": "The Army Painter",
+    "reference": "GM3001P",
+    "name": "GameMaster Terrain Primer: Dungeon & Subterrain",
+    "range": "Colour Primer",
+    "hex": "#494840",
+    "source_url": "https://thearmypainter.com/products/gamemaster-gamemaster-terrain-primer-dungeon-subterrain-gm3001p",
+    "source_image_url": "https://cdn.shopify.com/s/files/1/0781/9850/5747/files/GM3001P_0.jpg?v=1750957882",
+    "source_image_sha256": "b98b03cd5268dcb1d011aceadb810a7ffcbe56c768e7b5600f9dbeee9350e8a4",
+    "source_equivalent": "100% Match to Hardened Carapace Warpaint",
+    "extraction_method": "median-official-product-label-swatch",
+    "accuracy": "Approximate official digital swatch for hue filtering; not a dried-paint measurement."
+  },
+  {
+    "brand": "The Army Painter",
+    "reference": "GM3002P",
+    "name": "GameMaster Terrain Primer: Ruins & Cliffs",
+    "range": "Colour Primer",
+    "hex": "#4a4a4b",
+    "source_url": "https://thearmypainter.com/products/gamemaster-gamemaster-terrain-primer-ruins-cliffs-gm3002p",
+    "source_image_url": "https://cdn.shopify.com/s/files/1/0781/9850/5747/files/GM3002P_0.jpg?v=1750957882",
+    "source_image_sha256": "ad94a7177e4635bf8c58d233bfa5ba8983588710e2cf9ab75842c60e06135ce1",
+    "extraction_method": "median-official-product-label-swatch",
+    "accuracy": "Approximate official digital swatch for hue filtering; not a dried-paint measurement."
+  },
+  {
+    "brand": "The Army Painter",
+    "reference": "GM3003P",
+    "name": "GameMaster Terrain Primer: Wilderness & Woodlands",
+    "range": "Colour Primer",
+    "hex": "#4e5042",
+    "source_url": "https://thearmypainter.com/products/gamemaster-gamemaster-terrain-primer-wilderness-woodlands-gm3003p",
+    "source_image_url": "https://cdn.shopify.com/s/files/1/0781/9850/5747/files/GM3003P_0.jpg?v=1750957882",
+    "source_image_sha256": "67365cdd0fe3d5bcf493a7a7960d03724e1461648b2bb0807e662282c0322af8",
+    "source_equivalent": "100% Match to Crypt Wraith Warpaint",
+    "extraction_method": "median-official-product-label-swatch",
+    "accuracy": "Approximate official digital swatch for hue filtering; not a dried-paint measurement."
+  },
+  {
+    "brand": "The Army Painter",
+    "reference": "GM3004P",
+    "name": "GameMaster Terrain Primer: Snow & Tundra",
+    "range": "Colour Primer",
+    "hex": "#c7d0df",
+    "source_url": "https://thearmypainter.com/products/gamemaster-gamemaster-terrain-primer-snow-tundra-gm3004p",
+    "source_image_url": "https://cdn.shopify.com/s/files/1/0781/9850/5747/files/GM3004P_0.jpg?v=1750957882",
+    "source_image_sha256": "bd43b4b79c0acc418816adb932ef876e976a652dfc041cef9afbeac3e1421cc0",
+    "source_equivalent": "100% Match to Gorgon Hide Warpaint",
+    "extraction_method": "median-official-product-label-swatch",
+    "accuracy": "Approximate official digital swatch for hue filtering; not a dried-paint measurement."
+  },
+  {
+    "brand": "The Army Painter",
+    "reference": "GM3005P",
+    "name": "GameMaster Terrain Primer: Desert & Arid Wastes",
+    "range": "Colour Primer",
+    "hex": "#cb9e3f",
+    "source_url": "https://thearmypainter.com/products/gamemaster-gamemaster-terrain-primer-desert-arid-wastes-gm3005p",
+    "source_image_url": "https://cdn.shopify.com/s/files/1/0781/9850/5747/files/GM3005P_0.jpg?v=1750957882",
+    "source_image_sha256": "a5884c37497d676a8904f641f1a25c45a6b32b8f5df1c1c0cb960fa697c2b7c6",
+    "source_equivalent": "100% Match to Warpaints Fanatic Desert Yellow",
+    "extraction_method": "median-official-product-label-swatch",
+    "accuracy": "Approximate official digital swatch for hue filtering; not a dried-paint measurement."
+  },
+  {
+    "brand": "The Army Painter",
+    "reference": "WP4006P",
+    "name": "John Blanche Masterclass: Bloodmoon Red",
+    "range": "Speedpaint",
+    "hex": "#a91913",
+    "source_url": "https://thearmypainter.com/products/masterclass-jb-bloodmoon-red-wp4006p",
+    "source_image_url": "https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP4006P_0.png?v=1753488998",
+    "source_image_sha256": "5a1a76258b88019bdf5d1e7c9b3eb85db9f70d0e9489fa8afd7d600db3a1ff60",
+    "extraction_method": "median-official-product-label-swatch",
+    "accuracy": "Approximate official digital swatch for hue filtering; not a dried-paint measurement."
+  },
+  {
+    "brand": "The Army Painter",
+    "reference": "WP4016P",
+    "name": "John Blanche Masterclass: Turnbull Turquoise",
+    "range": "Speedpaint",
+    "hex": "#263d40",
+    "source_url": "https://thearmypainter.com/products/masterclass-jb-turnbull-turquoise-wp4016p",
+    "source_image_url": "https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP4016P_0.png?v=1753488999",
+    "source_image_sha256": "6d3638edb9d6aae74d8804422483e5fd45a425eb330d52938297c9f7f5220e75",
+    "extraction_method": "median-official-product-label-swatch",
+    "accuracy": "Approximate official digital swatch for hue filtering; not a dried-paint measurement."
+  }
+]

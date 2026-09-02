@@ -1,0 +1,41 @@
+[
+  {
+    "brand": "Prince August",
+    "reference": "P733",
+    "name": "Orange Fluo",
+    "range": "CLASSIC",
+    "hex": "#f0531c",
+    "source_url": "https://acrylicosvallejo.com/wp-content/uploads/2021/09/CC070-Model_Color-Rev18-baja.pdf",
+    "source_sha256": "6043322d70b18f14e23fd641036f76e44674b605fe5272117533680660c1d519",
+    "source_page": 2,
+    "source_equivalent": "Vallejo Model Color 70.733 Fluorescent Orange, position 207",
+    "extraction_method": "median-official-pdf-swatch-fill",
+    "accuracy": "Approximate official digital swatch for hue filtering; not a dried-paint measurement."
+  },
+  {
+    "brand": "Prince August",
+    "reference": "P737",
+    "name": "Vert Fluo.",
+    "range": "CLASSIC",
+    "hex": "#91d451",
+    "source_url": "https://acrylicosvallejo.com/wp-content/uploads/2021/09/CC070-Model_Color-Rev18-baja.pdf",
+    "source_sha256": "6043322d70b18f14e23fd641036f76e44674b605fe5272117533680660c1d519",
+    "source_page": 2,
+    "source_equivalent": "Vallejo Model Color 70.737 Fluorescent Green, position 210",
+    "extraction_method": "median-official-pdf-swatch-fill",
+    "accuracy": "Approximate official digital swatch for hue filtering; not a dried-paint measurement."
+  },
+  {
+    "brand": "Prince August",
+    "reference": "P951",
+    "name": "Blanc",
+    "range": "CLASSIC",
+    "hex": "#ffffff",
+    "source_url": "https://acrylicosvallejo.com/wp-content/uploads/2021/09/CC070-Model_Color-Rev18-baja.pdf",
+    "source_sha256": "6043322d70b18f14e23fd641036f76e44674b605fe5272117533680660c1d519",
+    "source_page": 2,
+    "source_equivalent": "Vallejo Model Color 70.951 White, position 1",
+    "extraction_method": "median-official-pdf-swatch-fill",
+    "accuracy": "Approximate official digital swatch for hue filtering; not a dried-paint measurement."
+  }
+]

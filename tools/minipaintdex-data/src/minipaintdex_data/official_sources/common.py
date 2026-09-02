@@ -126,9 +126,13 @@ def classify(name: str, default: str) -> str:
     lowered = name.casefold()
     if re.search(r"\b(?:varnish|vernis|ardcoat|stormshield)\b", lowered):
         return "varnish"
-    if re.search(r"\b(?:medium|médium)(?:,?\s+\d+\s*ml)?$", lowered):
+    if re.search(r"\b(?:matt base|base mate)\b", lowered):
         return "medium"
-    if re.search(r"\b(?:thinner|cleaner|improver|softener|binder|retarder|diluant|stabilizer)\b", lowered):
+    if re.search(r"\b(?:medium|médium)(?:\s+(?:brillant|glacis|mat|métal|metal|à craqueler|a craqueler))?(?:,?\s+\d+\s*ml)?$", lowered):
+        return "medium"
+    if re.search(r"\b(?:thinner|cleaner|improver|softener|binder|retarder|retardateur|diluant|stabilizer)\b", lowered):
+        return "auxiliary"
+    if re.search(r"\b(?:liquid mask|masque liquide|plastic putty|mastic plastique)\b", lowered):
         return "auxiliary"
     if re.search(r"\b(?:primer|undercoat|imprim\w*)\b", lowered):
         return "primer"

@@ -1,44 +1,38 @@
 schema_version: 1
 brand: Prince August
 paints:
-- verified_at: '2026-09-01'
-  source_snapshots:
-  - payload:
-      description: Il sert à corriger les imperfections en les lissant et…
-      image: https://www.prince-august.net/wp-content/uploads/2019/05/P400-1.jpg
-      name: Mastic plastique
-      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/05/P400-1.jpg
-      reference: P400
-      url: https://www.prince-august.net/peintures/classic/199-mastic-plastique
-    provider: prince_august_product_card
-    url: https://www.prince-august.net/peintures/classic/199-mastic-plastique
+- brand: Prince August
+  brand_aliases: [
+    ]
+  color:
+    family: auxiliary
+    hex: ''
+  confidence: 1.0
+  data_status: confirmed
   deduplication_key: pau|ref:p400
   id: pau-p400
-  provenance:
-    hashes: [
+  lifecycle_status: active
+  manufacturer: Prince August
+  manufacturer_image:
+    credit: Official Prince August catalogue
+    image_quality: official_photo
+    path: /media/market/paints/prince-august/pau-p400.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://www.prince-august.net/wp-content/uploads/2019/05/P400-1.jpg
+  manufacturer_page: https://www.prince-august.net/peintures/classic/199-mastic-plastique
+  mapping_report:
+    ignored_fields: [
       ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: ''
-    hex: ''
-  data_status: confirmed
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Il sert à corriger les imperfections en les lissant et…
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+    mapped_fields: [
+      ]
+    mapping: prince-august
+    mapping_version: 1
+    unmapped_fields: [
+      ]
+  name: Mastic plastique
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
   profile:
     application_methods:
     - brush
@@ -49,31 +43,78 @@ paints:
     finish: unknown
     medium: acrylic
     roles:
-    - technical_effect
+    - auxiliary
     undercoat:
       pre_highlighted_surface_recommended: false
       tone: any
-  notes: ''
-  schema_version: 1
-  warnings:
-  - Official product packshot is missing.
-  observed_brand: ''
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: CLASSIC
   recommended_uses: [
     ]
-  observed_range: ''
-  lifecycle_status: active
-  name: Mastic plastique
-  manufacturer: Prince August
+  reference: P400
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: functional_type
+      value: technical_effect
+    - name: medium
+      value: acrylic
+  source_snapshots:
+  - payload:
+      description: Il sert à corriger les imperfections en les lissant et…
+      image: https://www.prince-august.net/wp-content/uploads/2019/05/P400-1.jpg
+      name: Mastic plastique
+      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/05/P400-1.jpg
+      reference: P400
+      url: https://www.prince-august.net/peintures/classic/199-mastic-plastique
+    provider: prince_august_product_card
+    url: https://www.prince-august.net/peintures/classic/199-mastic-plastique
+  tags:
+  - CLASSIC
+  usage_instructions:
+    instruction_status: generic_template
+    review_required: true
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Auxiliary product (Mastic plastique) used to modify, protect or support
+      the painting process.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  verified_at: '2026-09-01'
+  volume_ml: 17
+  warnings:
+  - Official product packshot is missing.
+- brand: Prince August
+  brand_aliases: [
+    ]
+  color:
+    family: auxiliary
+    hex: ''
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: pau|ref:p470
+  id: pau-p470
+  lifecycle_status: active
+  manufacturer: Prince August
   manufacturer_image:
     credit: Official Prince August catalogue
     image_quality: official_photo
-    path: /media/market/paints/prince-august/pau-p400.webp
+    path: /media/market/paints/prince-august/pau-p470.webp
     quality_verified_at: '2026-09-01'
-    source_url: https://www.prince-august.net/wp-content/uploads/2019/05/P400-1.jpg
-  reference: P400
-  manufacturer_page: https://www.prince-august.net/peintures/classic/199-mastic-plastique
-  brand: Prince August
+    source_url: https://www.prince-august.net/wp-content/uploads/2019/05/P470-1.jpg
+  manufacturer_page: https://www.prince-august.net/peintures/classic/190-medium-brillant
   mapping_report:
     ignored_fields: [
       ]
@@ -83,54 +124,10 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  brand_aliases: [
-    ]
-  tags:
-  - CLASSIC
-  source_observation:
-    adapter: brand_mapping
-    fields:
-    - name: functional_type
-      value: technical_effect
-    - name: medium
-      value: acrylic
-  range: CLASSIC
-  volume_ml: 17
-- verified_at: '2026-09-01'
-  source_snapshots:
-  - payload:
-      description: Il fera évoluer la viscosité de vos teintes et leur…
-      image: https://www.prince-august.net/wp-content/uploads/2019/05/P470-1.jpg
-      name: Médium Brillant
-      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/05/P470-1.jpg
-      reference: P470
-      url: https://www.prince-august.net/peintures/classic/190-medium-brillant
-    provider: prince_august_product_card
-    url: https://www.prince-august.net/peintures/classic/190-medium-brillant
-  deduplication_key: pau|ref:p470
-  id: pau-p470
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: ''
-    hex: ''
-  data_status: confirmed
-  usage_instructions:
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Il fera évoluer la viscosité de vos teintes et leur…
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  name: Médium Brillant
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
   profile:
     application_methods:
     - brush
@@ -141,44 +138,25 @@ paints:
     finish: matte
     medium: acrylic
     roles:
-    - color_paint
+    - medium
     undercoat:
       pre_highlighted_surface_recommended: false
       tone: any
-  notes: ''
-  schema_version: 1
-  warnings:
-  - Official product packshot is missing.
-  observed_brand: ''
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: CLASSIC
   recommended_uses: [
     ]
-  observed_range: ''
-  lifecycle_status: active
-  name: Médium Brillant
-  manufacturer: Prince August
-  confidence: 1.0
-  manufacturer_image:
-    credit: Official Prince August catalogue
-    image_quality: official_photo
-    path: /media/market/paints/prince-august/pau-p470.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://www.prince-august.net/wp-content/uploads/2019/05/P470-1.jpg
   reference: P470
-  manufacturer_page: https://www.prince-august.net/peintures/classic/190-medium-brillant
-  brand: Prince August
-  mapping_report:
-    ignored_fields: [
-      ]
-    mapped_fields: [
-      ]
-    mapping: prince-august
-    mapping_version: 1
-    unmapped_fields: [
-      ]
-  brand_aliases: [
-    ]
-  tags:
-  - CLASSIC
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -186,8 +164,33 @@ paints:
       value: auxiliary
     - name: medium
       value: acrylic
-  range: CLASSIC
+  source_snapshots:
+  - payload:
+      description: Il fera évoluer la viscosité de vos teintes et leur…
+      image: https://www.prince-august.net/wp-content/uploads/2019/05/P470-1.jpg
+      name: Médium Brillant
+      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/05/P470-1.jpg
+      reference: P470
+      url: https://www.prince-august.net/peintures/classic/190-medium-brillant
+    provider: prince_august_product_card
+    url: https://www.prince-august.net/peintures/classic/190-medium-brillant
+  tags:
+  - CLASSIC
+  usage_instructions:
+    instruction_status: generic_template
+    review_required: true
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Auxiliary product (Médium Brillant) used to modify, protect or support
+      the painting process.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  verified_at: '2026-09-01'
   volume_ml: 17
+  warnings:
+  - Official product packshot is missing.
 - brand: Prince August
   brand_aliases: [
     ]
@@ -377,41 +380,38 @@ paints:
   volume_ml: 17
   warnings:
   - Official product packshot is missing.
-- verified_at: '2026-09-01'
-  source_snapshots:
-  - payload:
-      description: Ce médium permet de métalliser toutes vos teintes acryliques. Vous…
-      image: https://www.prince-august.net/wp-content/uploads/2019/05/p521-1.jpg
-      name: Médium Métal
-      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/05/p521-1.jpg
-      reference: P521
-      url: https://www.prince-august.net/peintures/classic/191-medium-metal
-    provider: prince_august_product_card
-    url: https://www.prince-august.net/peintures/classic/191-medium-metal
+- brand: Prince August
+  brand_aliases: [
+    ]
+  color:
+    family: auxiliary
+    hex: ''
+  confidence: 1.0
+  data_status: confirmed
   deduplication_key: pau|ref:p521
   id: pau-p521
-  provenance:
-    hashes: [
+  lifecycle_status: active
+  manufacturer: Prince August
+  manufacturer_image:
+    credit: Official Prince August catalogue
+    image_quality: official_photo
+    path: /media/market/paints/prince-august/pau-p521.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://www.prince-august.net/wp-content/uploads/2019/05/p521-1.jpg
+  manufacturer_page: https://www.prince-august.net/peintures/classic/191-medium-metal
+  mapping_report:
+    ignored_fields: [
       ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: ''
-    hex: ''
-  data_status: confirmed
-  usage_instructions:
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Ce médium permet de métalliser toutes vos teintes acryliques. Vous…
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+    mapped_fields: [
+      ]
+    mapping: prince-august
+    mapping_version: 1
+    unmapped_fields: [
+      ]
+  name: Médium Métal
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
   profile:
     application_methods:
     - brush
@@ -422,44 +422,25 @@ paints:
     finish: matte
     medium: acrylic
     roles:
-    - color_paint
+    - medium
     undercoat:
       pre_highlighted_surface_recommended: false
       tone: any
-  notes: ''
-  schema_version: 1
-  warnings:
-  - Official product packshot is missing.
-  observed_brand: ''
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: CLASSIC
   recommended_uses: [
     ]
-  observed_range: ''
-  lifecycle_status: active
-  name: Médium Métal
-  manufacturer: Prince August
-  confidence: 1.0
-  manufacturer_image:
-    credit: Official Prince August catalogue
-    image_quality: official_photo
-    path: /media/market/paints/prince-august/pau-p521.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://www.prince-august.net/wp-content/uploads/2019/05/p521-1.jpg
   reference: P521
-  manufacturer_page: https://www.prince-august.net/peintures/classic/191-medium-metal
-  brand: Prince August
-  mapping_report:
-    ignored_fields: [
-      ]
-    mapped_fields: [
-      ]
-    mapping: prince-august
-    mapping_version: 1
-    unmapped_fields: [
-      ]
-  brand_aliases: [
-    ]
-  tags:
-  - CLASSIC
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -467,8 +448,33 @@ paints:
       value: auxiliary
     - name: medium
       value: acrylic
-  range: CLASSIC
+  source_snapshots:
+  - payload:
+      description: Ce médium permet de métalliser toutes vos teintes acryliques. Vous…
+      image: https://www.prince-august.net/wp-content/uploads/2019/05/p521-1.jpg
+      name: Médium Métal
+      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/05/p521-1.jpg
+      reference: P521
+      url: https://www.prince-august.net/peintures/classic/191-medium-metal
+    provider: prince_august_product_card
+    url: https://www.prince-august.net/peintures/classic/191-medium-metal
+  tags:
+  - CLASSIC
+  usage_instructions:
+    instruction_status: generic_template
+    review_required: true
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Auxiliary product (Médium Métal) used to modify, protect or support the
+      painting process.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  verified_at: '2026-09-01'
   volume_ml: 17
+  warnings:
+  - Official product packshot is missing.
 - brand: Prince August
   brand_aliases: [
     ]
@@ -563,44 +569,38 @@ paints:
   volume_ml: 17
   warnings:
   - Official product packshot is missing.
-- verified_at: '2026-09-01'
-  source_snapshots:
-  - payload:
-      description: Ce masque est spécialement conçu pour servir de cache afin…
-      image: https://www.prince-august.net/wp-content/uploads/2019/05/p523-1.jpg
-      name: Masque Liquide
-      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/05/p523-1.jpg
-      reference: P523
-      url: https://www.prince-august.net/peintures/classic/197-masque-liquide
-    provider: prince_august_product_card
-    url: https://www.prince-august.net/peintures/classic/197-masque-liquide
+- brand: Prince August
+  brand_aliases: [
+    ]
+  color:
+    family: auxiliary
+    hex: ''
+  confidence: 1.0
+  data_status: confirmed
   deduplication_key: pau|ref:p523
   id: pau-p523
-  provenance:
-    hashes: [
+  lifecycle_status: active
+  manufacturer: Prince August
+  manufacturer_image:
+    credit: Official Prince August catalogue
+    image_quality: official_photo
+    path: /media/market/paints/prince-august/pau-p523.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://www.prince-august.net/wp-content/uploads/2019/05/p523-1.jpg
+  manufacturer_page: https://www.prince-august.net/peintures/classic/197-masque-liquide
+  mapping_report:
+    ignored_fields: [
       ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: ''
-    hex: ''
-  data_status: confirmed
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Ce masque est spécialement conçu pour servir de cache afin…
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+    mapped_fields: [
+      ]
+    mapping: prince-august
+    mapping_version: 1
+    unmapped_fields: [
+      ]
+  name: Masque Liquide
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
   profile:
     application_methods:
     - brush
@@ -611,44 +611,25 @@ paints:
     finish: unknown
     medium: acrylic
     roles:
-    - technical_effect
+    - auxiliary
     undercoat:
       pre_highlighted_surface_recommended: false
       tone: any
-  notes: ''
-  schema_version: 1
-  warnings:
-  - Official product packshot is missing.
-  observed_brand: ''
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: CLASSIC
   recommended_uses: [
     ]
-  observed_range: ''
-  lifecycle_status: active
-  name: Masque Liquide
-  manufacturer: Prince August
-  confidence: 1.0
-  manufacturer_image:
-    credit: Official Prince August catalogue
-    image_quality: official_photo
-    path: /media/market/paints/prince-august/pau-p523.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://www.prince-august.net/wp-content/uploads/2019/05/p523-1.jpg
   reference: P523
-  manufacturer_page: https://www.prince-august.net/peintures/classic/197-masque-liquide
-  brand: Prince August
-  mapping_report:
-    ignored_fields: [
-      ]
-    mapped_fields: [
-      ]
-    mapping: prince-august
-    mapping_version: 1
-    unmapped_fields: [
-      ]
-  brand_aliases: [
-    ]
-  tags:
-  - CLASSIC
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -656,8 +637,33 @@ paints:
       value: technical_effect
     - name: medium
       value: acrylic
-  range: CLASSIC
+  source_snapshots:
+  - payload:
+      description: Ce masque est spécialement conçu pour servir de cache afin…
+      image: https://www.prince-august.net/wp-content/uploads/2019/05/p523-1.jpg
+      name: Masque Liquide
+      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/05/p523-1.jpg
+      reference: P523
+      url: https://www.prince-august.net/peintures/classic/197-masque-liquide
+    provider: prince_august_product_card
+    url: https://www.prince-august.net/peintures/classic/197-masque-liquide
+  tags:
+  - CLASSIC
+  usage_instructions:
+    instruction_status: generic_template
+    review_required: true
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Auxiliary product (Masque Liquide) used to modify, protect or support
+      the painting process.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  verified_at: '2026-09-01'
   volume_ml: 17
+  warnings:
+  - Official product packshot is missing.
 - brand: Prince August
   brand_aliases: [
     ]
@@ -752,7 +758,74 @@ paints:
   volume_ml: 17
   warnings:
   - Official product packshot is missing.
-- verified_at: '2026-09-01'
+- brand: Prince August
+  brand_aliases: [
+    ]
+  color:
+    family: auxiliary
+    hex: ''
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: pau|ref:p540
+  id: pau-p540
+  lifecycle_status: active
+  manufacturer: Prince August
+  manufacturer_image:
+    credit: Official Prince August catalogue
+    image_quality: official_photo
+    path: /media/market/paints/prince-august/pau-p540.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://www.prince-august.net/wp-content/uploads/2019/05/p540-1.jpg
+  manufacturer_page: https://www.prince-august.net/peintures/classic/189-medium-mat
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields: [
+      ]
+    mapping: prince-august
+    mapping_version: 1
+    unmapped_fields: [
+      ]
+  name: Médium Mat
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: conventional_layering
+    coverage: opaque
+    effects: [
+      ]
+    finish: matte
+    medium: acrylic
+    roles:
+    - medium
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: CLASSIC
+  recommended_uses: [
+    ]
+  reference: P540
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: functional_type
+      value: auxiliary
+    - name: medium
+      value: acrylic
   source_snapshots:
   - payload:
       description: Ce médium permet de matifier toutes vos peintures. Prince August…
@@ -763,30 +836,55 @@ paints:
       url: https://www.prince-august.net/peintures/classic/189-medium-mat
     provider: prince_august_product_card
     url: https://www.prince-august.net/peintures/classic/189-medium-mat
-  deduplication_key: pau|ref:p540
-  id: pau-p540
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: ''
-    hex: ''
-  data_status: confirmed
+  tags:
+  - CLASSIC
   usage_instructions:
+    instruction_status: generic_template
+    review_required: true
     steps:
     - Read the manufacturer directions and shake if required.
     - Use a controlled amount for the stated purpose.
     - Allow the product to dry or cure before the next operation.
-    summary: Ce médium permet de matifier toutes vos peintures. Prince August…
+    summary: Auxiliary product (Médium Mat) used to modify, protect or support the
+      painting process.
     tips:
     - Check compatibility on a test surface and follow label precautions.
+  verified_at: '2026-09-01'
+  volume_ml: 17
+  warnings:
+  - Official product packshot is missing.
+- brand: Prince August
+  brand_aliases: [
+    ]
+  color:
+    family: auxiliary
+    hex: ''
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: pau|ref:p596
+  id: pau-p596
+  lifecycle_status: active
+  manufacturer: Prince August
+  manufacturer_image:
+    credit: Official Prince August catalogue
+    image_quality: official_photo
+    path: /media/market/paints/prince-august/pau-p596.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://www.prince-august.net/wp-content/uploads/2019/05/p596-1.jpg
+  manufacturer_page: https://www.prince-august.net/peintures/classic/195-medium-glacis
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields: [
+      ]
+    mapping: prince-august
+    mapping_version: 1
+    unmapped_fields: [
+      ]
+  name: Médium Glacis
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
   profile:
     application_methods:
     - brush
@@ -797,44 +895,25 @@ paints:
     finish: matte
     medium: acrylic
     roles:
-    - color_paint
+    - medium
     undercoat:
       pre_highlighted_surface_recommended: false
       tone: any
-  notes: ''
-  schema_version: 1
-  warnings:
-  - Official product packshot is missing.
-  observed_brand: ''
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: CLASSIC
   recommended_uses: [
     ]
-  observed_range: ''
-  lifecycle_status: active
-  name: Médium Mat
-  manufacturer: Prince August
-  confidence: 1.0
-  manufacturer_image:
-    credit: Official Prince August catalogue
-    image_quality: official_photo
-    path: /media/market/paints/prince-august/pau-p540.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://www.prince-august.net/wp-content/uploads/2019/05/p540-1.jpg
-  reference: P540
-  manufacturer_page: https://www.prince-august.net/peintures/classic/189-medium-mat
-  brand: Prince August
-  mapping_report:
-    ignored_fields: [
-      ]
-    mapped_fields: [
-      ]
-    mapping: prince-august
-    mapping_version: 1
-    unmapped_fields: [
-      ]
-  brand_aliases: [
-    ]
-  tags:
-  - CLASSIC
+  reference: P596
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -842,9 +921,6 @@ paints:
       value: auxiliary
     - name: medium
       value: acrylic
-  range: CLASSIC
-  volume_ml: 17
-- verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       description: Il apporte de la légèreté, de la transparence et un…
@@ -855,155 +931,42 @@ paints:
       url: https://www.prince-august.net/peintures/classic/195-medium-glacis
     provider: prince_august_product_card
     url: https://www.prince-august.net/peintures/classic/195-medium-glacis
-  deduplication_key: pau|ref:p596
-  id: pau-p596
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: ''
-    hex: ''
-  data_status: confirmed
+  tags:
+  - CLASSIC
   usage_instructions:
+    instruction_status: generic_template
+    review_required: true
     steps:
     - Read the manufacturer directions and shake if required.
     - Use a controlled amount for the stated purpose.
     - Allow the product to dry or cure before the next operation.
-    summary: Il apporte de la légèreté, de la transparence et un…
+    summary: Auxiliary product (Médium Glacis) used to modify, protect or support
+      the painting process.
     tips:
     - Check compatibility on a test surface and follow label precautions.
-  profile:
-    application_methods:
-    - brush
-    application_system: conventional_layering
-    coverage: opaque
-    effects: [
-      ]
-    finish: matte
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: false
-      tone: any
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 17
   warnings:
   - Official product packshot is missing.
-  observed_brand: ''
-  recommended_uses: [
-    ]
-  observed_range: ''
-  lifecycle_status: active
-  name: Médium Glacis
-  manufacturer: Prince August
-  confidence: 1.0
-  manufacturer_image:
-    credit: Official Prince August catalogue
-    image_quality: official_photo
-    path: /media/market/paints/prince-august/pau-p596.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://www.prince-august.net/wp-content/uploads/2019/05/p596-1.jpg
-  reference: P596
-  manufacturer_page: https://www.prince-august.net/peintures/classic/195-medium-glacis
-  brand: Prince August
-  mapping_report:
-    ignored_fields: [
-      ]
-    mapped_fields: [
-      ]
-    mapping: prince-august
-    mapping_version: 1
-    unmapped_fields: [
-      ]
+- brand: Prince August
   brand_aliases: [
     ]
-  tags:
-  - CLASSIC
-  source_observation:
-    adapter: brand_mapping
-    fields:
-    - name: functional_type
-      value: auxiliary
-    - name: medium
-      value: acrylic
-  range: CLASSIC
-  volume_ml: 17
-- verified_at: '2026-09-01'
-  source_snapshots:
-  - payload:
-      description: Il va ralentir le séchage de votre peinture acrylique. Il…
-      image: https://www.prince-august.net/wp-content/uploads/2019/05/p597-1.jpg
-      name: Retardateur
-      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/05/p597-1.jpg
-      reference: P597
-      url: https://www.prince-august.net/peintures/classic/196-retardateur
-    provider: prince_august_product_card
-    url: https://www.prince-august.net/peintures/classic/196-retardateur
+  color:
+    family: auxiliary
+    hex: ''
+  confidence: 1.0
+  data_status: confirmed
   deduplication_key: pau|ref:p597
   id: pau-p597
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: ''
-    hex: ''
-  data_status: confirmed
-  usage_instructions:
-    steps: [
-      ]
-    summary: ''
-    tips: [
-      ]
-  profile:
-    application_methods:
-    - brush
-    application_system: conventional_layering
-    coverage: opaque
-    effects: [
-      ]
-    finish: matte
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: false
-      tone: any
-  notes: ''
-  schema_version: 1
-  warnings:
-  - Official product packshot is missing.
-  observed_brand: ''
-  recommended_uses: [
-    ]
-  observed_range: ''
   lifecycle_status: active
-  name: Retardateur
   manufacturer: Prince August
-  confidence: 1.0
   manufacturer_image:
     credit: Official Prince August catalogue
     image_quality: official_photo
     path: /media/market/paints/prince-august/pau-p597.webp
     quality_verified_at: '2026-09-01'
     source_url: https://www.prince-august.net/wp-content/uploads/2019/05/p597-1.jpg
-  reference: P597
   manufacturer_page: https://www.prince-august.net/peintures/classic/196-retardateur
-  brand: Prince August
   mapping_report:
     ignored_fields: [
       ]
@@ -1013,10 +976,39 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  brand_aliases: [
+  name: Retardateur
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: conventional_layering
+    coverage: opaque
+    effects: [
+      ]
+    finish: matte
+    medium: acrylic
+    roles:
+    - auxiliary
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: CLASSIC
+  recommended_uses: [
     ]
-  tags:
-  - CLASSIC
+  reference: P597
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -1028,43 +1020,65 @@ paints:
       value: acrylic
     - name: opacity
       value: opaque
-  range: CLASSIC
-  volume_ml: 17
-- verified_at: '2026-09-01'
   source_snapshots:
   - payload:
-      description: Il va vous permettre de créer des craquelures, des effets…
-      image: https://www.prince-august.net/wp-content/uploads/2019/05/p598-1.jpg
-      name: Médium à Craqueler
-      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/05/p598-1.jpg
-      reference: P598
-      url: https://www.prince-august.net/peintures/classic/198-medium-a-craqueler
+      description: Il va ralentir le séchage de votre peinture acrylique. Il…
+      image: https://www.prince-august.net/wp-content/uploads/2019/05/p597-1.jpg
+      name: Retardateur
+      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/05/p597-1.jpg
+      reference: P597
+      url: https://www.prince-august.net/peintures/classic/196-retardateur
     provider: prince_august_product_card
-    url: https://www.prince-august.net/peintures/classic/198-medium-a-craqueler
-  deduplication_key: pau|ref:p598
-  id: pau-p598
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: ''
-    hex: ''
-  data_status: confirmed
+    url: https://www.prince-august.net/peintures/classic/196-retardateur
+  tags:
+  - CLASSIC
   usage_instructions:
+    instruction_status: generic_template
+    review_required: true
     steps:
     - Read the manufacturer directions and shake if required.
     - Use a controlled amount for the stated purpose.
     - Allow the product to dry or cure before the next operation.
-    summary: Il va vous permettre de créer des craquelures, des effets…
+    summary: Auxiliary product (Retardateur) used to modify, protect or support the
+      painting process.
     tips:
     - Check compatibility on a test surface and follow label precautions.
+  verified_at: '2026-09-01'
+  volume_ml: 17
+  warnings:
+  - Official product packshot is missing.
+- brand: Prince August
+  brand_aliases: [
+    ]
+  color:
+    family: auxiliary
+    hex: ''
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: pau|ref:p598
+  id: pau-p598
+  lifecycle_status: active
+  manufacturer: Prince August
+  manufacturer_image:
+    credit: Official Prince August catalogue
+    image_quality: official_photo
+    path: /media/market/paints/prince-august/pau-p598.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://www.prince-august.net/wp-content/uploads/2019/05/p598-1.jpg
+  manufacturer_page: https://www.prince-august.net/peintures/classic/198-medium-a-craqueler
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields: [
+      ]
+    mapping: prince-august
+    mapping_version: 1
+    unmapped_fields: [
+      ]
+  name: Médium à Craqueler
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
   profile:
     application_methods:
     - brush
@@ -1075,44 +1089,25 @@ paints:
     finish: matte
     medium: acrylic
     roles:
-    - color_paint
+    - medium
     undercoat:
       pre_highlighted_surface_recommended: false
       tone: any
-  notes: ''
-  schema_version: 1
-  warnings:
-  - Official product packshot is missing.
-  observed_brand: ''
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: CLASSIC
   recommended_uses: [
     ]
-  observed_range: ''
-  lifecycle_status: active
-  name: Médium à Craqueler
-  manufacturer: Prince August
-  confidence: 1.0
-  manufacturer_image:
-    credit: Official Prince August catalogue
-    image_quality: official_photo
-    path: /media/market/paints/prince-august/pau-p598.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://www.prince-august.net/wp-content/uploads/2019/05/p598-1.jpg
   reference: P598
-  manufacturer_page: https://www.prince-august.net/peintures/classic/198-medium-a-craqueler
-  brand: Prince August
-  mapping_report:
-    ignored_fields: [
-      ]
-    mapped_fields: [
-      ]
-    mapping: prince-august
-    mapping_version: 1
-    unmapped_fields: [
-      ]
-  brand_aliases: [
-    ]
-  tags:
-  - CLASSIC
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -1120,8 +1115,33 @@ paints:
       value: auxiliary
     - name: medium
       value: acrylic
-  range: CLASSIC
+  source_snapshots:
+  - payload:
+      description: Il va vous permettre de créer des craquelures, des effets…
+      image: https://www.prince-august.net/wp-content/uploads/2019/05/p598-1.jpg
+      name: Médium à Craqueler
+      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/05/p598-1.jpg
+      reference: P598
+      url: https://www.prince-august.net/peintures/classic/198-medium-a-craqueler
+    provider: prince_august_product_card
+    url: https://www.prince-august.net/peintures/classic/198-medium-a-craqueler
+  tags:
+  - CLASSIC
+  usage_instructions:
+    instruction_status: generic_template
+    review_required: true
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Auxiliary product (Médium à Craqueler) used to modify, protect or support
+      the painting process.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  verified_at: '2026-09-01'
   volume_ml: 17
+  warnings:
+  - Official product packshot is missing.
 - brand: Prince August
   brand_aliases: [
     ]
@@ -1236,40 +1256,38 @@ paints:
   volume_ml: 17
   warnings: [
     ]
-- verified_at: '2026-09-01'
-  source_snapshots:
-  - payload:
-      description: Prince August Classic 210 teintes, vernis, médiums, mastic plastique,
-        masque…
-      image: https://www.prince-august.net/wp-content/uploads/2019/05/P733-1.jpg
-      name: Orange Fluo
-      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/06/PMP733_0000.png
-      reference: P733
-      url: https://www.prince-august.net/peintures/classic/207-orange-fluo
-    provider: prince_august_product_card
-    url: https://www.prince-august.net/peintures/classic/207-orange-fluo
-  deduplication_key: pau|ref:p733
-  id: pau-p733
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
+- brand: Prince August
+  brand_aliases: [
+    ]
   color:
     family: orange
-    hex: ''
+    hex: '#f0531c'
+  confidence: 1.0
   data_status: confirmed
-  usage_instructions:
-    steps: [
+  deduplication_key: pau|ref:p733
+  id: pau-p733
+  lifecycle_status: active
+  manufacturer: Prince August
+  manufacturer_image:
+    credit: Official Prince August catalogue
+    image_quality: official_photo
+    path: /media/market/paints/prince-august/pau-p733.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://www.prince-august.net/wp-content/uploads/2019/06/PMP733_0000.png
+  manufacturer_page: https://www.prince-august.net/peintures/classic/207-orange-fluo
+  mapping_report:
+    ignored_fields: [
       ]
-    summary: ''
-    tips: [
+    mapped_fields: [
       ]
+    mapping: prince-august
+    mapping_version: 1
+    unmapped_fields: [
+      ]
+  name: Orange Fluo
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
   profile:
     application_methods:
     - brush
@@ -1284,40 +1302,21 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: false
       tone: any
-  notes: ''
-  schema_version: 1
-  warnings: [
-    ]
-  observed_brand: ''
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: CLASSIC
   recommended_uses: [
     ]
-  observed_range: ''
-  lifecycle_status: active
-  name: Orange Fluo
-  manufacturer: Prince August
-  confidence: 1.0
-  manufacturer_image:
-    credit: Official Prince August catalogue
-    image_quality: official_photo
-    path: /media/market/paints/prince-august/pau-p733.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://www.prince-august.net/wp-content/uploads/2019/06/PMP733_0000.png
   reference: P733
-  manufacturer_page: https://www.prince-august.net/peintures/classic/207-orange-fluo
-  brand: Prince August
-  mapping_report:
-    ignored_fields: [
-      ]
-    mapped_fields: [
-      ]
-    mapping: prince-august
-    mapping_version: 1
-    unmapped_fields: [
-      ]
-  brand_aliases: [
-    ]
-  tags:
-  - CLASSIC
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -1329,8 +1328,54 @@ paints:
       value: acrylic
     - name: opacity
       value: opaque
-  range: CLASSIC
+  source_snapshots:
+  - payload:
+      description: Prince August Classic 210 teintes, vernis, médiums, mastic plastique,
+        masque…
+      image: https://www.prince-august.net/wp-content/uploads/2019/05/P733-1.jpg
+      name: Orange Fluo
+      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/06/PMP733_0000.png
+      reference: P733
+      url: https://www.prince-august.net/peintures/classic/207-orange-fluo
+    provider: prince_august_product_card
+    url: https://www.prince-august.net/peintures/classic/207-orange-fluo
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Acrylicos Vallejo
+      extraction_method: median-official-pdf-swatch-fill
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published catalogue; extracted swatches retained as factual
+        reference metadata.
+      revision: 6043322d70b18f14e23fd641036f76e44674b605fe5272117533680660c1d519
+      source_document_sha256: 6043322d70b18f14e23fd641036f76e44674b605fe5272117533680660c1d519
+      source_equivalent: Vallejo Model Color 70.733 Fluorescent Orange, position 207
+      source_image_sha256: ''
+      source_image_url: ''
+      source_page: 2
+      source_record:
+        brand: Prince August
+        hex: '#f0531c'
+        name: Orange Fluo
+        range: CLASSIC
+        reference: P733
+        source_equivalent: Vallejo Model Color 70.733 Fluorescent Orange, position
+          207
+    provider: prince-august-vallejo-model-color-rev18
+    url: https://acrylicosvallejo.com/wp-content/uploads/2021/09/CC070-Model_Color-Rev18-baja.pdf
+  tags:
+  - CLASSIC
+  usage_instructions:
+    steps: [
+      ]
+    summary: ''
+    tips: [
+      ]
+  verified_at: '2026-09-01'
   volume_ml: 17
+  warnings: [
+    ]
 - brand: Prince August
   brand_aliases: [
     ]
@@ -1445,40 +1490,38 @@ paints:
   volume_ml: 17
   warnings: [
     ]
-- verified_at: '2026-09-01'
-  source_snapshots:
-  - payload:
-      description: Prince August Classic 210 teintes, vernis, médiums, mastic plastique,
-        masque…
-      image: https://www.prince-august.net/wp-content/uploads/2019/05/P737-1.jpg
-      name: Vert Fluo.
-      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/06/PMP737_0000.png
-      reference: P737
-      url: https://www.prince-august.net/peintures/classic/210-vert-fluo
-    provider: prince_august_product_card
-    url: https://www.prince-august.net/peintures/classic/210-vert-fluo
-  deduplication_key: pau|ref:p737
-  id: pau-p737
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
+- brand: Prince August
+  brand_aliases: [
+    ]
   color:
     family: ''
-    hex: ''
+    hex: '#91d451'
+  confidence: 1.0
   data_status: confirmed
-  usage_instructions:
-    steps: [
+  deduplication_key: pau|ref:p737
+  id: pau-p737
+  lifecycle_status: active
+  manufacturer: Prince August
+  manufacturer_image:
+    credit: Official Prince August catalogue
+    image_quality: official_photo
+    path: /media/market/paints/prince-august/pau-p737.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://www.prince-august.net/wp-content/uploads/2019/06/PMP737_0000.png
+  manufacturer_page: https://www.prince-august.net/peintures/classic/210-vert-fluo
+  mapping_report:
+    ignored_fields: [
       ]
-    summary: ''
-    tips: [
+    mapped_fields: [
       ]
+    mapping: prince-august
+    mapping_version: 1
+    unmapped_fields: [
+      ]
+  name: Vert Fluo.
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
   profile:
     application_methods:
     - brush
@@ -1493,40 +1536,21 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: false
       tone: any
-  notes: ''
-  schema_version: 1
-  warnings: [
-    ]
-  observed_brand: ''
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: CLASSIC
   recommended_uses: [
     ]
-  observed_range: ''
-  lifecycle_status: active
-  name: Vert Fluo.
-  manufacturer: Prince August
-  confidence: 1.0
-  manufacturer_image:
-    credit: Official Prince August catalogue
-    image_quality: official_photo
-    path: /media/market/paints/prince-august/pau-p737.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://www.prince-august.net/wp-content/uploads/2019/06/PMP737_0000.png
   reference: P737
-  manufacturer_page: https://www.prince-august.net/peintures/classic/210-vert-fluo
-  brand: Prince August
-  mapping_report:
-    ignored_fields: [
-      ]
-    mapped_fields: [
-      ]
-    mapping: prince-august
-    mapping_version: 1
-    unmapped_fields: [
-      ]
-  brand_aliases: [
-    ]
-  tags:
-  - CLASSIC
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -1538,8 +1562,54 @@ paints:
       value: acrylic
     - name: opacity
       value: opaque
-  range: CLASSIC
+  source_snapshots:
+  - payload:
+      description: Prince August Classic 210 teintes, vernis, médiums, mastic plastique,
+        masque…
+      image: https://www.prince-august.net/wp-content/uploads/2019/05/P737-1.jpg
+      name: Vert Fluo.
+      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/06/PMP737_0000.png
+      reference: P737
+      url: https://www.prince-august.net/peintures/classic/210-vert-fluo
+    provider: prince_august_product_card
+    url: https://www.prince-august.net/peintures/classic/210-vert-fluo
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Acrylicos Vallejo
+      extraction_method: median-official-pdf-swatch-fill
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published catalogue; extracted swatches retained as factual
+        reference metadata.
+      revision: 6043322d70b18f14e23fd641036f76e44674b605fe5272117533680660c1d519
+      source_document_sha256: 6043322d70b18f14e23fd641036f76e44674b605fe5272117533680660c1d519
+      source_equivalent: Vallejo Model Color 70.737 Fluorescent Green, position 210
+      source_image_sha256: ''
+      source_image_url: ''
+      source_page: 2
+      source_record:
+        brand: Prince August
+        hex: '#91d451'
+        name: Vert Fluo.
+        range: CLASSIC
+        reference: P737
+        source_equivalent: Vallejo Model Color 70.737 Fluorescent Green, position
+          210
+    provider: prince-august-vallejo-model-color-rev18
+    url: https://acrylicosvallejo.com/wp-content/uploads/2021/09/CC070-Model_Color-Rev18-baja.pdf
+  tags:
+  - CLASSIC
+  usage_instructions:
+    steps: [
+      ]
+    summary: ''
+    tips: [
+      ]
+  verified_at: '2026-09-01'
   volume_ml: 17
+  warnings: [
+    ]
 - brand: Prince August
   brand_aliases: [
     ]
@@ -16892,40 +16962,38 @@ paints:
   volume_ml: 17
   warnings: [
     ]
-- verified_at: '2026-09-01'
-  source_snapshots:
-  - payload:
-      description: Prince August Classic 210 teintes, vernis, médiums, mastic plastique,
-        masque…
-      image: https://www.prince-august.net/wp-content/uploads/2019/05/P951-1.jpg
-      name: Blanc
-      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/06/PMP951_0000.png
-      reference: P951
-      url: https://www.prince-august.net/peintures/classic/1-blanc
-    provider: prince_august_product_card
-    url: https://www.prince-august.net/peintures/classic/1-blanc
-  deduplication_key: pau|ref:p951
-  id: pau-p951
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
+- brand: Prince August
+  brand_aliases: [
+    ]
   color:
     family: ''
-    hex: ''
+    hex: '#ffffff'
+  confidence: 1.0
   data_status: confirmed
-  usage_instructions:
-    steps: [
+  deduplication_key: pau|ref:p951
+  id: pau-p951
+  lifecycle_status: active
+  manufacturer: Prince August
+  manufacturer_image:
+    credit: Official Prince August catalogue
+    image_quality: official_photo
+    path: /media/market/paints/prince-august/pau-p951.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://www.prince-august.net/wp-content/uploads/2019/06/PMP951_0000.png
+  manufacturer_page: https://www.prince-august.net/peintures/classic/1-blanc
+  mapping_report:
+    ignored_fields: [
       ]
-    summary: ''
-    tips: [
+    mapped_fields: [
       ]
+    mapping: prince-august
+    mapping_version: 1
+    unmapped_fields: [
+      ]
+  name: Blanc
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
   profile:
     application_methods:
     - brush
@@ -16940,40 +17008,21 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: false
       tone: any
-  notes: ''
-  schema_version: 1
-  warnings: [
-    ]
-  observed_brand: ''
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: CLASSIC
   recommended_uses: [
     ]
-  observed_range: ''
-  lifecycle_status: active
-  name: Blanc
-  manufacturer: Prince August
-  confidence: 1.0
-  manufacturer_image:
-    credit: Official Prince August catalogue
-    image_quality: official_photo
-    path: /media/market/paints/prince-august/pau-p951.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://www.prince-august.net/wp-content/uploads/2019/06/PMP951_0000.png
   reference: P951
-  manufacturer_page: https://www.prince-august.net/peintures/classic/1-blanc
-  brand: Prince August
-  mapping_report:
-    ignored_fields: [
-      ]
-    mapped_fields: [
-      ]
-    mapping: prince-august
-    mapping_version: 1
-    unmapped_fields: [
-      ]
-  brand_aliases: [
-    ]
-  tags:
-  - CLASSIC
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -16985,8 +17034,53 @@ paints:
       value: acrylic
     - name: opacity
       value: opaque
-  range: CLASSIC
+  source_snapshots:
+  - payload:
+      description: Prince August Classic 210 teintes, vernis, médiums, mastic plastique,
+        masque…
+      image: https://www.prince-august.net/wp-content/uploads/2019/05/P951-1.jpg
+      name: Blanc
+      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/06/PMP951_0000.png
+      reference: P951
+      url: https://www.prince-august.net/peintures/classic/1-blanc
+    provider: prince_august_product_card
+    url: https://www.prince-august.net/peintures/classic/1-blanc
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Acrylicos Vallejo
+      extraction_method: median-official-pdf-swatch-fill
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published catalogue; extracted swatches retained as factual
+        reference metadata.
+      revision: 6043322d70b18f14e23fd641036f76e44674b605fe5272117533680660c1d519
+      source_document_sha256: 6043322d70b18f14e23fd641036f76e44674b605fe5272117533680660c1d519
+      source_equivalent: Vallejo Model Color 70.951 White, position 1
+      source_image_sha256: ''
+      source_image_url: ''
+      source_page: 2
+      source_record:
+        brand: Prince August
+        hex: '#ffffff'
+        name: Blanc
+        range: CLASSIC
+        reference: P951
+        source_equivalent: Vallejo Model Color 70.951 White, position 1
+    provider: prince-august-vallejo-model-color-rev18
+    url: https://acrylicosvallejo.com/wp-content/uploads/2021/09/CC070-Model_Color-Rev18-baja.pdf
+  tags:
+  - CLASSIC
+  usage_instructions:
+    steps: [
+      ]
+    summary: ''
+    tips: [
+      ]
+  verified_at: '2026-09-01'
   volume_ml: 17
+  warnings: [
+    ]
 - brand: Prince August
   brand_aliases: [
     ]

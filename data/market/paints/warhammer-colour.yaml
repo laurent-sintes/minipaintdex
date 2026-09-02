@@ -1998,7 +1998,7 @@ paints:
     ]
   color:
     family: skin
-    hex: ''
+    hex: '#442825'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4190163-99189950313
@@ -2148,6 +2148,31 @@ paints:
       reference: PROD4190163-99189950313
     provider: image_quality_review
     url: https://eirehobbies.com/products/citadel-catachan-fleshtone
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: 7ddb4eb7143eaeddb6ebdba1c1af0b1b63878dc0905d3f6363ac3dc45b4c5e3d
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189950313_56189950313_BASE_CATACHAN_FLESH_12ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#442825'
+        name: Catachan Flesh
+        range: Base
+        reference: PROD4190163-99189950313
+        source_image_sha256: 7ddb4eb7143eaeddb6ebdba1c1af0b1b63878dc0905d3f6363ac3dc45b4c5e3d
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189950313_56189950313_BASE_CATACHAN_FLESH_12ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/Base-Catachan-Fleshtone-2019
   tags:
   - Base
   usage_instructions:
@@ -22445,26 +22470,32 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-- lifecycle_status: active
-  name: Bugman's Glow
-  manufacturer: Games Workshop
+- brand: Warhammer Colour
+  brand_aliases: [
+    ]
+  color:
+    family: skin
+    hex: '#7c4b44'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4210270-99189950282
+  id: cit-prod4210270-99189950282
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4210270-99189950282.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/citadel-bugmans-glow
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/https___trade.games-workshop.com_assets_2026_03_EP210-21-18-99189950282-BUGMANSGLOW12MLROW.jpg?v=1779875218
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4210270-99189950282
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/citadel-bugmans-glow
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/https___trade.games-workshop.com_assets_2026_03_EP210-21-18-99189950282-BUGMANSGLOW12MLROW.jpg?v=1779875218
   manufacturer_page: https://eirehobbies.com/products/citadel-bugmans-glow
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -22479,10 +22510,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Bugman's Glow
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: conventional_layering
+    coverage: opaque
+    effects: [
+      ]
+    finish: matte
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Base
+  recommended_uses: [
     ]
-  tags:
-  - Base
+  reference: PROD4210270-99189950282
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -22494,9 +22554,6 @@ paints:
       value: acrylic
     - name: opacity
       value: opaque
-  range: Base
-  volume_ml: 12
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -22561,22 +22618,33 @@ paints:
       reference: PROD4210270-99189950282
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/citadel-bugmans-glow
-  deduplication_key: cit|ref:prod4210270-99189950282
-  id: cit-prod4210270-99189950282
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: skin
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: dca0242c2d49da391711504230afa93c643591ffdddf687b90bf97a51e1bc5e6
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189950282_56189950282_BASE_BUGMANS_GLOW_12ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#7c4b44'
+        name: Bugman's Glow
+        range: Base
+        reference: PROD4210270-99189950282
+        source_image_sha256: dca0242c2d49da391711504230afa93c643591ffdddf687b90bf97a51e1bc5e6
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189950282_56189950282_BASE_BUGMANS_GLOW_12ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/Base-Bugmans-Glow-2019
+  tags:
+  - Base
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -22585,28 +22653,10 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: conventional_layering
-    coverage: opaque
-    effects: [
-      ]
-    finish: matte
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: false
-      tone: any
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
-    ]
-  observed_range: ''
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -31852,26 +31902,32 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-- lifecycle_status: active
-  name: Emperor's Children
-  manufacturer: Games Workshop
+- brand: Warhammer Colour
+  brand_aliases: [
+    ]
+  color:
+    family: pink
+    hex: '#ae3d71'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4210322-99189951366
+  id: cit-prod4210322-99189951366
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4210322-99189951366.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/citadel-emperors-children
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/https___trade.games-workshop.com_assets_2019_05_Emperors-Children.png?v=1726307055
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4210322-99189951366
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/citadel-emperors-children
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/https___trade.games-workshop.com_assets_2019_05_Emperors-Children.png?v=1726307055
   manufacturer_page: https://eirehobbies.com/products/citadel-emperors-children
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -31886,10 +31942,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Emperor's Children
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: conventional_layering
+    coverage: opaque
+    effects: [
+      ]
+    finish: matte
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Layer
+  recommended_uses: [
     ]
-  tags:
-  - Layer
+  reference: PROD4210322-99189951366
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -31901,9 +31986,6 @@ paints:
       value: acrylic
     - name: opacity
       value: opaque
-  range: Layer
-  volume_ml: 12
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -31968,22 +32050,33 @@ paints:
       reference: PROD4210322-99189951366
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/citadel-emperors-children
-  deduplication_key: cit|ref:prod4210322-99189951366
-  id: cit-prod4210322-99189951366
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: pink
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: 075a36666de5baff434c8d83af8b16a01ccde83fbbea2dee26e3ff1e46523a60
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189951366_56189951366_LAYER_EMPERORS_CHILDREN_12ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#ae3d71'
+        name: Emperor's Children
+        range: Layer
+        reference: PROD4210322-99189951366
+        source_image_sha256: 075a36666de5baff434c8d83af8b16a01ccde83fbbea2dee26e3ff1e46523a60
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189951366_56189951366_LAYER_EMPERORS_CHILDREN_12ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/Layer-Emperors-Children-2019
+  tags:
+  - Layer
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -31992,28 +32085,10 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: conventional_layering
-    coverage: opaque
-    effects: [
-      ]
-    finish: matte
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: false
-      tone: any
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
-    ]
-  observed_range: ''
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -33101,26 +33176,32 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-- lifecycle_status: active
-  name: Gehenna's Gold
-  manufacturer: Games Workshop
+- brand: Warhammer Colour
+  brand_aliases: [
+    ]
+  color:
+    family: gold
+    hex: '#ad6b43'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4210330-99189951359
+  id: cit-prod4210330-99189951359
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4210330-99189951359.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/citadel-gehennas-gold
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/https___trade.games-workshop.com_assets_2019_05_Gehennas-Gold.png?v=1726307208
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4210330-99189951359
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/citadel-gehennas-gold
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/https___trade.games-workshop.com_assets_2019_05_Gehennas-Gold.png?v=1726307208
   manufacturer_page: https://eirehobbies.com/products/citadel-gehennas-gold
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -33135,10 +33216,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Gehenna's Gold
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: conventional_layering
+    coverage: opaque
+    effects:
+    - metallic
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Layer
+  recommended_uses: [
     ]
-  tags:
-  - Layer
+  reference: PROD4210330-99189951359
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -33150,9 +33260,6 @@ paints:
       value: acrylic
     - name: opacity
       value: opaque
-  range: Layer
-  volume_ml: 12
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -33217,22 +33324,33 @@ paints:
       reference: PROD4210330-99189951359
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/citadel-gehennas-gold
-  deduplication_key: cit|ref:prod4210330-99189951359
-  id: cit-prod4210330-99189951359
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: gold
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: dba933c399fbd8c2eeebf2797a22aafdb6e1d4e517a89b3eb12210f32c3e2c36
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189951359_56189951359_LAYER_GEHENNAS_GOLD_12ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#ad6b43'
+        name: Gehenna's Gold
+        range: Layer
+        reference: PROD4210330-99189951359
+        source_image_sha256: dba933c399fbd8c2eeebf2797a22aafdb6e1d4e517a89b3eb12210f32c3e2c36
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189951359_56189951359_LAYER_GEHENNAS_GOLD_12ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/Layer-Gehennas-Gold-2019
+  tags:
+  - Layer
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -33241,28 +33359,10 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: conventional_layering
-    coverage: opaque
-    effects:
-    - metallic
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: false
-      tone: any
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
-    ]
-  observed_range: ''
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -42684,26 +42784,32 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-- lifecycle_status: active
-  name: Nurgle's Rot
-  manufacturer: Games Workshop
+- brand: Warhammer Colour
+  brand_aliases: [
+    ]
+  color:
+    family: green
+    hex: '#9a8b26'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4210389-99189956062
+  id: cit-prod4210389-99189956062
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4210389-99189956062.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/citadel-nurgles-rot
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/164d36b0a96d74fec93057ad5c8ea06d.jpg?v=1635957024
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4210389-99189956062
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/citadel-nurgles-rot
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/164d36b0a96d74fec93057ad5c8ea06d.jpg?v=1635957024
   manufacturer_page: https://eirehobbies.com/products/citadel-nurgles-rot
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -42718,10 +42824,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Nurgle's Rot
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: effect_application
+    coverage: unknown
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - technical_effect
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Technical
+  recommended_uses: [
     ]
-  tags:
-  - Technical
+  reference: PROD4210389-99189956062
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -42729,9 +42864,6 @@ paints:
       value: technical_effect
     - name: medium
       value: acrylic
-  range: Technical
-  volume_ml: 0
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -42796,22 +42928,33 @@ paints:
       reference: PROD4210389-99189956062
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/citadel-nurgles-rot
-  deduplication_key: cit|ref:prod4210389-99189956062
-  id: cit-prod4210389-99189956062
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: green
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: d13355874e286fd38179258d44701de2b86182c5d781305b74e145005434433c
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189956123_56189956123_TECHNICAL_NURGLES_ROT_12ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#9a8b26'
+        name: Nurgle's Rot
+        range: Technical
+        reference: PROD4210389-99189956062
+        source_image_sha256: d13355874e286fd38179258d44701de2b86182c5d781305b74e145005434433c
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189956123_56189956123_TECHNICAL_NURGLES_ROT_12ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/Technical-Nurgles-Rot-2019
+  tags:
+  - Technical
   usage_instructions:
     instruction_status: manufacturer_summary_with_generic_steps
     review_required: true
@@ -42823,28 +42966,10 @@ paints:
     tips:
     - Use dedicated tools when required and consult the manufacturer page for product-specific
       precautions.
-  profile:
-    application_methods:
-    - brush
-    application_system: effect_application
-    coverage: unknown
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - technical_effect
-    undercoat:
-      pre_highlighted_surface_recommended: false
-      tone: any
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
-    ]
-  observed_range: ''
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -53929,26 +54054,32 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-- lifecycle_status: active
-  name: Casandora Yellow
-  manufacturer: Games Workshop
+- brand: Warhammer Colour
+  brand_aliases: [
+    ]
+  color:
+    family: yellow
+    hex: '#c7ac64'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960256-99189953056
+  id: cit-prod4960256-99189953056
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960256-99189953056.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/casandora-yellow-18ml-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Casandora_Yellow_18ml_2022_New.png?v=1656679958
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960256-99189953056
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/casandora-yellow-18ml-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Casandora_Yellow_18ml_2022_New.png?v=1656679958
   manufacturer_page: https://eirehobbies.com/products/casandora-yellow-18ml-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -53963,10 +54094,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Casandora Yellow
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: washing
+    coverage: transparent
+    effects: [
+      ]
+    finish: matte
+    medium: acrylic
+    roles:
+    - wash
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Shade
+  recommended_uses: [
     ]
-  tags:
-  - Shade
+  reference: PROD4960256-99189953056
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -53978,9 +54138,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Shade
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -54045,22 +54202,33 @@ paints:
       reference: PROD4960256-99189953056
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/casandora-yellow-18ml-pre-order
-  deduplication_key: cit|ref:prod4960256-99189953056
-  id: cit-prod4960256-99189953056
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: yellow
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: fe89e81d426ea9768afa260d67b21a907e62a7519305840f88ab0c4c5b3b21f2
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189953087_56189953087_SHADE_CASANDORA_YELLOW_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#c7ac64'
+        name: Casandora Yellow
+        range: Shade
+        reference: PROD4960256-99189953056
+        source_image_sha256: fe89e81d426ea9768afa260d67b21a907e62a7519305840f88ab0c4c5b3b21f2
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189953087_56189953087_SHADE_CASANDORA_YELLOW_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/shade-casandora-yellow-18ml-2022
+  tags:
+  - Shade
   usage_instructions:
     instruction_status: manufacturer_summary_with_generic_steps
     review_required: true
@@ -54071,28 +54239,10 @@ paints:
     summary: </br>
     tips:
     - Build several controlled layers instead of flooding fine details.
-  profile:
-    application_methods:
-    - brush
-    application_system: washing
-    coverage: transparent
-    effects: [
-      ]
-    finish: matte
-    medium: acrylic
-    roles:
-    - wash
-    undercoat:
-      pre_highlighted_surface_recommended: false
-      tone: any
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
-    ]
-  observed_range: ''
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -54642,26 +54792,32 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-- lifecycle_status: active
-  name: Garaghak's Sewer
-  manufacturer: Games Workshop
+- brand: Warhammer Colour
+  brand_aliases: [
+    ]
+  color:
+    family: brown
+    hex: '#836531'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960260-99189960035
+  id: cit-prod4960260-99189960035
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960260-99189960035.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/garaghaks-sewer-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Garaghaks_Sewer_Contrast_18ml_2022_New.png?v=1656683310
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960260-99189960035
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/garaghaks-sewer-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Garaghaks_Sewer_Contrast_18ml_2022_New.png?v=1656683310
   manufacturer_page: https://eirehobbies.com/products/garaghaks-sewer-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -54676,10 +54832,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Garaghak's Sewer
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Contrast
+  recommended_uses: [
     ]
-  tags:
-  - Contrast
+  reference: PROD4960260-99189960035
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -54689,9 +54874,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -54756,22 +54938,33 @@ paints:
       reference: PROD4960260-99189960035
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/garaghaks-sewer-pre-order
-  deduplication_key: cit|ref:prod4960260-99189960035
-  id: cit-prod4960260-99189960035
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: brown
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: 0cc81040bd86bc35103ae5a22c27d1aabd4bad4cb62714f40bb9134bf3736b76
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960236_56189960236_CONTRAST_GARAGHAKS_SEWER_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#836531'
+        name: Garaghak's Sewer
+        range: Contrast
+        reference: PROD4960260-99189960035
+        source_image_sha256: 0cc81040bd86bc35103ae5a22c27d1aabd4bad4cb62714f40bb9134bf3736b76
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960236_56189960236_CONTRAST_GARAGHAKS_SEWER_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-garaghaks-sewer-18ml-2022
+  tags:
+  - Contrast
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -54780,28 +54973,10 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
-    ]
-  observed_range: ''
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -54981,26 +55156,34 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-- lifecycle_status: active
-  name: Ratling Grime
-  manufacturer: Games Workshop
+- brand: Warhammer Colour
+  brand_aliases:
+  - Citadel
+  - Citadel Colour
+  - Games Workshop
+  color:
+    family: brown
+    hex: '#837977'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960262-99189960037
+  id: cit-prod4960262-99189960037
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960262-99189960037.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/ratling-grime-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Ratling_Grime_Contrast_18ml_2022_New.png?v=1656683167
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960262-99189960037
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/ratling-grime-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Ratling_Grime_Contrast_18ml_2022_New.png?v=1656683167
   manufacturer_page: https://eirehobbies.com/products/ratling-grime-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -55010,16 +55193,42 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  brand_aliases:
-  - Citadel
-  - Citadel Colour
-  - Games Workshop
-  tags:
-  - grey
-  - brown
-  - grime
-  - contrast
-  - one coat
+  name: Ratling Grime
+  notes: Name and SSC reference confirmed by Games Workshop Trade; the paint remains
+    listed in the current range guide.
+  observed_brand: CITADEL COLOUR
+  observed_range: CONTRAST
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes:
+    - 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
+    photo: imports/photos/IMG_5315.jpeg
+  range: Contrast
+  recommended_uses:
+  - Dirty metal
+  - Weathered cloth
+  - Grimy organic surfaces
+  reference: PROD4960262-99189960037
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -55031,9 +55240,6 @@ paints:
       value: water-based acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -55098,22 +55304,37 @@ paints:
       reference: PROD4960262-99189960037
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/ratling-grime-pre-order
-  deduplication_key: cit|ref:prod4960262-99189960037
-  id: cit-prod4960262-99189960037
-  provenance:
-    hashes:
-    - 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
-    photo: imports/photos/IMG_5315.jpeg
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: brown
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: eb6f3aa90b8d5e994b2ee79cb635bd63f6064aebf6ed600936a5cf66152e89e0
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960238_56189960238_CONTRAST_RATLING_GRIME_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#837977'
+        name: Ratling Grime
+        range: Contrast
+        reference: PROD4960262-99189960037
+        source_image_sha256: eb6f3aa90b8d5e994b2ee79cb635bd63f6064aebf6ed600936a5cf66152e89e0
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960238_56189960238_CONTRAST_RATLING_GRIME_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-ratling-grime-18ml-2022
+  tags:
+  - grey
+  - brown
+  - grime
+  - contrast
+  - one coat
   usage_instructions:
     steps:
     - Shake thoroughly.
@@ -55123,31 +55344,10 @@ paints:
       a light undercoat.
     tips:
     - Use controlled pooling to reinforce grime only where it is wanted.
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: Name and SSC reference confirmed by Games Workshop Trade; the paint remains
-    listed in the current range guide.
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: CITADEL COLOUR
-  recommended_uses:
-  - Dirty metal
-  - Weathered cloth
-  - Grimy organic surfaces
-  observed_range: CONTRAST
 - lifecycle_status: active
   name: Mantis Warriors Green
   manufacturer: Games Workshop
@@ -55311,26 +55511,32 @@ paints:
   - Végétation
   - Armures et tissus verts
   observed_range: CONTRAST
-- lifecycle_status: active
-  name: Aeldari Emerald
-  manufacturer: Games Workshop
+- brand: Warhammer Colour
+  brand_aliases: [
+    ]
+  color:
+    family: green
+    hex: '#2b7f70'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960264-99189960039
+  id: cit-prod4960264-99189960039
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960264-99189960039.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/aeldari-emerald-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Aeldari_Emerald_Contrast_18ml_2022_New.png?v=1656682841
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960264-99189960039
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/aeldari-emerald-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Aeldari_Emerald_Contrast_18ml_2022_New.png?v=1656682841
   manufacturer_page: https://eirehobbies.com/products/aeldari-emerald-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -55345,10 +55551,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Aeldari Emerald
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Contrast
+  recommended_uses: [
     ]
-  tags:
-  - Contrast
+  reference: PROD4960264-99189960039
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -55358,9 +55593,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -55425,22 +55657,33 @@ paints:
       reference: PROD4960264-99189960039
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/aeldari-emerald-pre-order
-  deduplication_key: cit|ref:prod4960264-99189960039
-  id: cit-prod4960264-99189960039
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: green
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: 0c5a020a6bbb2b8a6087fcc91652b4eb7dc03b9eee5995a8d91589febdcc2adc
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960240_56189960240_CONTRAST_AELDARI_EMERALD_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#2b7f70'
+        name: Aeldari Emerald
+        range: Contrast
+        reference: PROD4960264-99189960039
+        source_image_sha256: 0c5a020a6bbb2b8a6087fcc91652b4eb7dc03b9eee5995a8d91589febdcc2adc
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960240_56189960240_CONTRAST_AELDARI_EMERALD_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-aeldari-emerald-18ml-2022
+  tags:
+  - Contrast
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -55449,28 +55692,10 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
-    ]
-  observed_range: ''
 - lifecycle_status: active
   name: Gutrippa Flesh
   manufacturer: Games Workshop
@@ -55635,26 +55860,32 @@ paints:
   - Créatures
   - Végétation claire
   observed_range: CONTRAST
-- lifecycle_status: active
-  name: Karandras Green
-  manufacturer: Games Workshop
+- brand: Warhammer Colour
+  brand_aliases: [
+    ]
+  color:
+    family: green
+    hex: '#21925b'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960266-99189960041
+  id: cit-prod4960266-99189960041
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960266-99189960041.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/karandras-green-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Karandras_Green_Contrast_18ml_2022_New.png?v=1656682686
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960266-99189960041
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/karandras-green-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Karandras_Green_Contrast_18ml_2022_New.png?v=1656682686
   manufacturer_page: https://eirehobbies.com/products/karandras-green-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -55669,10 +55900,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Karandras Green
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Contrast
+  recommended_uses: [
     ]
-  tags:
-  - Contrast
+  reference: PROD4960266-99189960041
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -55682,9 +55942,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -55749,22 +56006,33 @@ paints:
       reference: PROD4960266-99189960041
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/karandras-green-pre-order
-  deduplication_key: cit|ref:prod4960266-99189960041
-  id: cit-prod4960266-99189960041
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: green
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: 00a1b2b49e88cbb8193e187333f137b0a95e0be329ca7323aa62c8fe50b4f0b2
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960242_56189960242_CONTRAST_KARANDRAS_GREEN_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#21925b'
+        name: Karandras Green
+        range: Contrast
+        reference: PROD4960266-99189960041
+        source_image_sha256: 00a1b2b49e88cbb8193e187333f137b0a95e0be329ca7323aa62c8fe50b4f0b2
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960242_56189960242_CONTRAST_KARANDRAS_GREEN_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-karandras-green-18ml-2022
+  tags:
+  - Contrast
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -55773,48 +56041,36 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
+- brand: Warhammer Colour
+  brand_aliases: [
     ]
-  observed_range: ''
-- lifecycle_status: active
-  name: Striking Scorpion Green
-  manufacturer: Games Workshop
+  color:
+    family: green
+    hex: '#29995e'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960267-99189960042
+  id: cit-prod4960267-99189960042
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960267-99189960042.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/strikeing-scorpion-green-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Striking_Scorpion_Green_Contrast_18ml_2022_New.png?v=1656682602
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960267-99189960042
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/strikeing-scorpion-green-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Striking_Scorpion_Green_Contrast_18ml_2022_New.png?v=1656682602
   manufacturer_page: https://eirehobbies.com/products/strikeing-scorpion-green-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -55829,10 +56085,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Striking Scorpion Green
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Contrast
+  recommended_uses: [
     ]
-  tags:
-  - Contrast
+  reference: PROD4960267-99189960042
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -55842,9 +56127,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -55909,22 +56191,33 @@ paints:
       reference: PROD4960267-99189960042
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/strikeing-scorpion-green-pre-order
-  deduplication_key: cit|ref:prod4960267-99189960042
-  id: cit-prod4960267-99189960042
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: green
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: e1d57602a2a93aa1c7232bffdb7d525ca825db9ba53e7abdcab86e918eb545e8
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960243_56189960243_CONTRAST_STRIKING_SCORPION_GREEN_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#29995e'
+        name: Striking Scorpion Green
+        range: Contrast
+        reference: PROD4960267-99189960042
+        source_image_sha256: e1d57602a2a93aa1c7232bffdb7d525ca825db9ba53e7abdcab86e918eb545e8
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960243_56189960243_CONTRAST_STRIKING_SCORPION_GREEN_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-striking-scorpion-green-18ml-2022
+  tags:
+  - Contrast
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -55933,28 +56226,10 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
-    ]
-  observed_range: ''
 - lifecycle_status: active
   name: Ironjawz Yellow
   manufacturer: Games Workshop
@@ -56117,26 +56392,32 @@ paints:
   - Cuir ocre
   - Grandes surfaces texturées
   observed_range: Contrast
-- lifecycle_status: active
-  name: Bad Moon Yellow
-  manufacturer: Games Workshop
+- brand: Warhammer Colour
+  brand_aliases: [
+    ]
+  color:
+    family: yellow
+    hex: '#c5b522'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960269-99189960044
+  id: cit-prod4960269-99189960044
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960269-99189960044.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/bad-moon-yellow-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Bad_Moon_Yellow_Contrast_18ml_2022_New.png?v=1656682272
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960269-99189960044
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/bad-moon-yellow-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Bad_Moon_Yellow_Contrast_18ml_2022_New.png?v=1656682272
   manufacturer_page: https://eirehobbies.com/products/bad-moon-yellow-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -56151,10 +56432,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Bad Moon Yellow
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Contrast
+  recommended_uses: [
     ]
-  tags:
-  - Contrast
+  reference: PROD4960269-99189960044
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -56164,9 +56474,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -56231,22 +56538,33 @@ paints:
       reference: PROD4960269-99189960044
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/bad-moon-yellow-pre-order
-  deduplication_key: cit|ref:prod4960269-99189960044
-  id: cit-prod4960269-99189960044
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: yellow
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: 73e8f4482a554b84a671d55f4f346b1f3e7edb15d6dab76dc2640baf0d0045bd
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960245_56189960245_CONTRAST_BAD_MOON_YELLOW_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#c5b522'
+        name: Bad Moon Yellow
+        range: Contrast
+        reference: PROD4960269-99189960044
+        source_image_sha256: 73e8f4482a554b84a671d55f4f346b1f3e7edb15d6dab76dc2640baf0d0045bd
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960245_56189960245_CONTRAST_BAD_MOON_YELLOW_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-bad-moon-yellow-18ml-2022
+  tags:
+  - Contrast
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -56255,28 +56573,10 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
-    ]
-  observed_range: ''
 - lifecycle_status: active
   name: Imperial Fist
   manufacturer: Games Workshop
@@ -56764,26 +57064,32 @@ paints:
   - Fumées et apparitions
   - Glace et blancs corrompus
   observed_range: Contrast
-- lifecycle_status: active
-  name: Frostheart
-  manufacturer: Games Workshop
+- brand: Warhammer Colour
+  brand_aliases: [
+    ]
+  color:
+    family: blue
+    hex: '#2d5262'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960273-99189960048
+  id: cit-prod4960273-99189960048
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960273-99189960048.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/frostheart-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Frostheart_Contrast_18ml_2022_New.png?v=1656681004
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960273-99189960048
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/frostheart-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Frostheart_Contrast_18ml_2022_New.png?v=1656681004
   manufacturer_page: https://eirehobbies.com/products/frostheart-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -56798,10 +57104,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Frostheart
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Contrast
+  recommended_uses: [
     ]
-  tags:
-  - Contrast
+  reference: PROD4960273-99189960048
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -56811,9 +57146,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -56878,22 +57210,33 @@ paints:
       reference: PROD4960273-99189960048
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/frostheart-pre-order
-  deduplication_key: cit|ref:prod4960273-99189960048
-  id: cit-prod4960273-99189960048
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: blue
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: b2877210c678970da210f321a7cca49a048de97d63e0ad7c3fb8c942f378be4c
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960249_56189960249_CONTRAST_FROSTHEART_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#2d5262'
+        name: Frostheart
+        range: Contrast
+        reference: PROD4960273-99189960048
+        source_image_sha256: b2877210c678970da210f321a7cca49a048de97d63e0ad7c3fb8c942f378be4c
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960249_56189960249_CONTRAST_FROSTHEART_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-frostheart-18ml-2022
+  tags:
+  - Contrast
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -56902,28 +57245,10 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
-    ]
-  observed_range: ''
 - lifecycle_status: active
   name: Pylar Glacier
   manufacturer: Games Workshop
@@ -57086,26 +57411,32 @@ paints:
   - Lueurs sur métal
   - Effets énergétiques pâles
   observed_range: Contrast
-- lifecycle_status: active
-  name: Asurmen Blue
-  manufacturer: Games Workshop
+- brand: Warhammer Colour
+  brand_aliases: [
+    ]
+  color:
+    family: blue
+    hex: '#227aa8'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960275-99189960050
+  id: cit-prod4960275-99189960050
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960275-99189960050.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/asurmen-blue-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Asurmen_Blue_Contrast_18ml_2022_New.png?v=1656680397
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960275-99189960050
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/asurmen-blue-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Asurmen_Blue_Contrast_18ml_2022_New.png?v=1656680397
   manufacturer_page: https://eirehobbies.com/products/asurmen-blue-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -57120,10 +57451,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Asurmen Blue
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Contrast
+  recommended_uses: [
     ]
-  tags:
-  - Contrast
+  reference: PROD4960275-99189960050
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -57133,9 +57493,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -57199,22 +57556,33 @@ paints:
       reference: PROD4960275-99189960050
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/asurmen-blue-pre-order
-  deduplication_key: cit|ref:prod4960275-99189960050
-  id: cit-prod4960275-99189960050
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: blue
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: 2cd5915f6cd04bbb55cef0a0973cf18b7ecb2edce1e37a5868a1e77b3ae12d60
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960251_56189960251_CONTRAST_ASURMEN_BLUE_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#227aa8'
+        name: Asurmen Blue
+        range: Contrast
+        reference: PROD4960275-99189960050
+        source_image_sha256: 2cd5915f6cd04bbb55cef0a0973cf18b7ecb2edce1e37a5868a1e77b3ae12d60
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960251_56189960251_CONTRAST_ASURMEN_BLUE_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-asurmen-blue-18ml-2022
+  tags:
+  - Contrast
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -57223,48 +57591,36 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
+- brand: Warhammer Colour
+  brand_aliases: [
     ]
-  observed_range: ''
-- lifecycle_status: active
-  name: Celestium Blue
-  manufacturer: Games Workshop
+  color:
+    family: blue
+    hex: '#365f8b'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960276-99189960051
+  id: cit-prod4960276-99189960051
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960276-99189960051.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/celestium-blue-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Celestium_Blue_Contrast_18ml_2022_New.png?v=1656680306
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960276-99189960051
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/celestium-blue-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Celestium_Blue_Contrast_18ml_2022_New.png?v=1656680306
   manufacturer_page: https://eirehobbies.com/products/celestium-blue-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -57279,10 +57635,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Celestium Blue
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Contrast
+  recommended_uses: [
     ]
-  tags:
-  - Contrast
+  reference: PROD4960276-99189960051
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -57292,9 +57677,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -57359,22 +57741,33 @@ paints:
       reference: PROD4960276-99189960051
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/celestium-blue-pre-order
-  deduplication_key: cit|ref:prod4960276-99189960051
-  id: cit-prod4960276-99189960051
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: blue
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: 34a2a347aefc73b212e9db049250fe1368e34141ee9d49c56789794f5b5a3d9b
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960252_56189960252_CONTRAST_CELESTIUM_BLUE_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#365f8b'
+        name: Celestium Blue
+        range: Contrast
+        reference: PROD4960276-99189960051
+        source_image_sha256: 34a2a347aefc73b212e9db049250fe1368e34141ee9d49c56789794f5b5a3d9b
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960252_56189960252_CONTRAST_CELESTIUM_BLUE_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-celestium-blue-18ml-2022
+  tags:
+  - Contrast
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -57383,48 +57776,36 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
+- brand: Warhammer Colour
+  brand_aliases: [
     ]
-  observed_range: ''
-- lifecycle_status: active
-  name: Stormfiend
-  manufacturer: Games Workshop
+  color:
+    family: blue
+    hex: '#216684'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960277-99189960052
+  id: cit-prod4960277-99189960052
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960277-99189960052.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/stormfiend-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Stormfiend_Contrast_18ml_2022_New.png?v=1656680228
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960277-99189960052
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/stormfiend-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Stormfiend_Contrast_18ml_2022_New.png?v=1656680228
   manufacturer_page: https://eirehobbies.com/products/stormfiend-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -57439,10 +57820,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Stormfiend
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Contrast
+  recommended_uses: [
     ]
-  tags:
-  - Contrast
+  reference: PROD4960277-99189960052
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -57452,9 +57862,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -57519,22 +57926,33 @@ paints:
       reference: PROD4960277-99189960052
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/stormfiend-pre-order
-  deduplication_key: cit|ref:prod4960277-99189960052
-  id: cit-prod4960277-99189960052
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: blue
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: b5d1d5a420eba322be7646d2dc26f222effd04be06c2840051591e934cad59ed
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960253_56189960253_CONTRAST_STORMFIEND_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#216684'
+        name: Stormfiend
+        range: Contrast
+        reference: PROD4960277-99189960052
+        source_image_sha256: b5d1d5a420eba322be7646d2dc26f222effd04be06c2840051591e934cad59ed
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960253_56189960253_CONTRAST_STORMFIEND_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-stormfiend-18ml-2022
+  tags:
+  - Contrast
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -57543,48 +57961,36 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
+- brand: Warhammer Colour
+  brand_aliases: [
     ]
-  observed_range: ''
-- lifecycle_status: active
-  name: Leviathan Purple
-  manufacturer: Games Workshop
+  color:
+    family: purple
+    hex: '#272861'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960278-99189960053
+  id: cit-prod4960278-99189960053
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960278-99189960053.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/leviathan-purple-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Leviathon_Purple_Contrast_18ml_2022_New.png?v=1656680145
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960278-99189960053
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/leviathan-purple-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Leviathon_Purple_Contrast_18ml_2022_New.png?v=1656680145
   manufacturer_page: https://eirehobbies.com/products/leviathan-purple-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -57599,10 +58005,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Leviathan Purple
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Contrast
+  recommended_uses: [
     ]
-  tags:
-  - Contrast
+  reference: PROD4960278-99189960053
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -57612,9 +58047,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -57679,22 +58111,33 @@ paints:
       reference: PROD4960278-99189960053
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/leviathan-purple-pre-order
-  deduplication_key: cit|ref:prod4960278-99189960053
-  id: cit-prod4960278-99189960053
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: purple
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: 6827afff2384785840f16d274d7fd8712d12f3d7d687b5df460404bbac4a4a03
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960254_56189960254_CONTRAST_LEVIATHAN_PURPLE_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#272861'
+        name: Leviathan Purple
+        range: Contrast
+        reference: PROD4960278-99189960053
+        source_image_sha256: 6827afff2384785840f16d274d7fd8712d12f3d7d687b5df460404bbac4a4a03
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960254_56189960254_CONTRAST_LEVIATHAN_PURPLE_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-leviathan-purple-18ml-2022
+  tags:
+  - Contrast
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -57703,48 +58146,36 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
+- brand: Warhammer Colour
+  brand_aliases: [
     ]
-  observed_range: ''
-- lifecycle_status: active
-  name: Luxion Purple
-  manufacturer: Games Workshop
+  color:
+    family: purple
+    hex: '#523578'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960279-99189960054
+  id: cit-prod4960279-99189960054
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960279-99189960054.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/luxion-purple-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Luxion_Purple_Contrast_18ml_2022_New.png?v=1656680056
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960279-99189960054
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/luxion-purple-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Luxion_Purple_Contrast_18ml_2022_New.png?v=1656680056
   manufacturer_page: https://eirehobbies.com/products/luxion-purple-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -57759,10 +58190,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Luxion Purple
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Contrast
+  recommended_uses: [
     ]
-  tags:
-  - Contrast
+  reference: PROD4960279-99189960054
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -57772,9 +58232,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -57839,22 +58296,33 @@ paints:
       reference: PROD4960279-99189960054
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/luxion-purple-pre-order
-  deduplication_key: cit|ref:prod4960279-99189960054
-  id: cit-prod4960279-99189960054
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: purple
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: 17f05acd21ab24bdac049a6d9441f6089eb7b4f3ac91086422b029a7fb84db11
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960255_56189960255_CONTRAST_LUXION_PURPLE_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#523578'
+        name: Luxion Purple
+        range: Contrast
+        reference: PROD4960279-99189960054
+        source_image_sha256: 17f05acd21ab24bdac049a6d9441f6089eb7b4f3ac91086422b029a7fb84db11
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960255_56189960255_CONTRAST_LUXION_PURPLE_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-luxion-purple-18ml-2022
+  tags:
+  - Contrast
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -57863,48 +58331,36 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
+- brand: Warhammer Colour
+  brand_aliases: [
     ]
-  observed_range: ''
-- lifecycle_status: active
-  name: Sigvald Burgundy
-  manufacturer: Games Workshop
+  color:
+    family: purple
+    hex: '#7b235f'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960280-99189960055
+  id: cit-prod4960280-99189960055
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960280-99189960055.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/sigvald-burgundy-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Sigvald_Burgandy_Contrast_18ml_2022_New.png?v=1656679986
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960280-99189960055
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/sigvald-burgundy-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Sigvald_Burgandy_Contrast_18ml_2022_New.png?v=1656679986
   manufacturer_page: https://eirehobbies.com/products/sigvald-burgundy-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -57919,10 +58375,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Sigvald Burgundy
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Contrast
+  recommended_uses: [
     ]
-  tags:
-  - Contrast
+  reference: PROD4960280-99189960055
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -57932,9 +58417,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -57999,22 +58481,33 @@ paints:
       reference: PROD4960280-99189960055
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/sigvald-burgundy-pre-order
-  deduplication_key: cit|ref:prod4960280-99189960055
-  id: cit-prod4960280-99189960055
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: purple
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: a02b4815309e2c731ea5a8bac713463d105bd9c7fb7164390aaef88cf6e53105
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960256_56189960256_CONTRAST_SIGVALD_BURGUNDY_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#7b235f'
+        name: Sigvald Burgundy
+        range: Contrast
+        reference: PROD4960280-99189960055
+        source_image_sha256: a02b4815309e2c731ea5a8bac713463d105bd9c7fb7164390aaef88cf6e53105
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960256_56189960256_CONTRAST_SIGVALD_BURGUNDY_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-sigvald-burgundy-18ml-2022
+  tags:
+  - Contrast
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -58023,48 +58516,36 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
+- brand: Warhammer Colour
+  brand_aliases: [
     ]
-  observed_range: ''
-- lifecycle_status: active
-  name: Dreadful Visage
-  manufacturer: Games Workshop
+  color:
+    family: purple
+    hex: '#b3a5b2'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960281-99189960056
+  id: cit-prod4960281-99189960056
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960281-99189960056.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/dreadful-visage-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Dreadful_Visage_Contrast_18ml_2022_New.png?v=1656679898
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960281-99189960056
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/dreadful-visage-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Dreadful_Visage_Contrast_18ml_2022_New.png?v=1656679898
   manufacturer_page: https://eirehobbies.com/products/dreadful-visage-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -58079,10 +58560,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Dreadful Visage
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Contrast
+  recommended_uses: [
     ]
-  tags:
-  - Contrast
+  reference: PROD4960281-99189960056
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -58092,9 +58602,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -58159,22 +58666,33 @@ paints:
       reference: PROD4960281-99189960056
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/dreadful-visage-pre-order
-  deduplication_key: cit|ref:prod4960281-99189960056
-  id: cit-prod4960281-99189960056
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: purple
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: e3e147de9a3432335458779d85f0002013d16bd968d4e293864b65504fe1fa7f
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960257_56189960257_CONTRAST_DREADFUL_VISAGE_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#b3a5b2'
+        name: Dreadful Visage
+        range: Contrast
+        reference: PROD4960281-99189960056
+        source_image_sha256: e3e147de9a3432335458779d85f0002013d16bd968d4e293864b65504fe1fa7f
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960257_56189960257_CONTRAST_DREADFUL_VISAGE_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-dreadful-visage-18ml-2022
+  tags:
+  - Contrast
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -58183,48 +58701,36 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
+- brand: Warhammer Colour
+  brand_aliases: [
     ]
-  observed_range: ''
-- lifecycle_status: active
-  name: Doomfire Magenta
-  manufacturer: Games Workshop
+  color:
+    family: pink
+    hex: '#ba227f'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960282-99189960057
+  id: cit-prod4960282-99189960057
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960282-99189960057.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/doomfire-magenta-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Doomfire_Magenta_Contrast_18ml_2022_New.png?v=1656679821
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960282-99189960057
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/doomfire-magenta-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Doomfire_Magenta_Contrast_18ml_2022_New.png?v=1656679821
   manufacturer_page: https://eirehobbies.com/products/doomfire-magenta-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -58239,10 +58745,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Doomfire Magenta
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Contrast
+  recommended_uses: [
     ]
-  tags:
-  - Contrast
+  reference: PROD4960282-99189960057
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -58252,9 +58787,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -58319,22 +58851,33 @@ paints:
       reference: PROD4960282-99189960057
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/doomfire-magenta-pre-order
-  deduplication_key: cit|ref:prod4960282-99189960057
-  id: cit-prod4960282-99189960057
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: pink
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: f6d6757fa98618152d873d96a83bd7ce3f9632933a76429cc0ab868112bd09a8
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960258_56189960258_CONTRAST_DOOMFIRE_MAGENTA_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#ba227f'
+        name: Doomfire Magenta
+        range: Contrast
+        reference: PROD4960282-99189960057
+        source_image_sha256: f6d6757fa98618152d873d96a83bd7ce3f9632933a76429cc0ab868112bd09a8
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960258_56189960258_CONTRAST_DOOMFIRE_MAGENTA_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-doomfire-magenta-18ml-2022
+  tags:
+  - Contrast
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -58343,48 +58886,36 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
+- brand: Warhammer Colour
+  brand_aliases: [
     ]
-  observed_range: ''
-- lifecycle_status: active
-  name: Baal Red
-  manufacturer: Games Workshop
+  color:
+    family: red
+    hex: '#b13641'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960283-99189960058
+  id: cit-prod4960283-99189960058
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960283-99189960058.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/baal-red-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Baal_Red_Contrast_18ml_2022_New.png?v=1656679744
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960283-99189960058
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/baal-red-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Baal_Red_Contrast_18ml_2022_New.png?v=1656679744
   manufacturer_page: https://eirehobbies.com/products/baal-red-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -58399,10 +58930,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Baal Red
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Contrast
+  recommended_uses: [
     ]
-  tags:
-  - Contrast
+  reference: PROD4960283-99189960058
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -58412,9 +58972,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -58479,22 +59036,33 @@ paints:
       reference: PROD4960283-99189960058
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/baal-red-pre-order
-  deduplication_key: cit|ref:prod4960283-99189960058
-  id: cit-prod4960283-99189960058
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: red
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: a77ba03753671879300957443d68c7b57a4ae14d42447286d7ce25839bff42d5
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960259_56189960259_CONTRAST_BAAL_RED_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#b13641'
+        name: Baal Red
+        range: Contrast
+        reference: PROD4960283-99189960058
+        source_image_sha256: a77ba03753671879300957443d68c7b57a4ae14d42447286d7ce25839bff42d5
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960259_56189960259_CONTRAST_BAAL_RED_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-baal-red-18ml-2022
+  tags:
+  - Contrast
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -58503,48 +59071,36 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
+- brand: Warhammer Colour
+  brand_aliases: [
     ]
-  observed_range: ''
-- lifecycle_status: active
-  name: Magmadroth Flame
-  manufacturer: Games Workshop
+  color:
+    family: orange
+    hex: '#d94d29'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960284-99189960059
+  id: cit-prod4960284-99189960059
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960284-99189960059.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/magmadroth-flame-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_TR-29-68-9918996005906-ContrastMagmadrothFlame.png?v=1656679592
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960284-99189960059
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/magmadroth-flame-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_TR-29-68-9918996005906-ContrastMagmadrothFlame.png?v=1656679592
   manufacturer_page: https://eirehobbies.com/products/magmadroth-flame-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -58559,10 +59115,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Magmadroth Flame
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Contrast
+  recommended_uses: [
     ]
-  tags:
-  - Contrast
+  reference: PROD4960284-99189960059
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -58572,9 +59157,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -58639,22 +59221,33 @@ paints:
       reference: PROD4960284-99189960059
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/magmadroth-flame-pre-order
-  deduplication_key: cit|ref:prod4960284-99189960059
-  id: cit-prod4960284-99189960059
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: orange
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: 810047ee48745b0b0bfb3c30acf682cf2a2c2332c590e4aab39890860a469a99
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960260_56189960260_CONTRAST_MAGMADROTH_FLAME_18MLa.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#d94d29'
+        name: Magmadroth Flame
+        range: Contrast
+        reference: PROD4960284-99189960059
+        source_image_sha256: 810047ee48745b0b0bfb3c30acf682cf2a2c2332c590e4aab39890860a469a99
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960260_56189960260_CONTRAST_MAGMADROTH_FLAME_18MLa.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-magmadroth-flame-18ml-2022
+  tags:
+  - Contrast
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -58663,48 +59256,36 @@ paints:
     summary: ''
     tips: [
       ]
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
+- brand: Warhammer Colour
+  brand_aliases: [
     ]
-  observed_range: ''
-- lifecycle_status: active
-  name: Hexwraith Flame
-  manufacturer: Games Workshop
+  color:
+    family: green
+    hex: '#2f9855'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960285-99189960060
+  id: cit-prod4960285-99189960060
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960285-99189960060.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/hexwraith-flame-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Hexwraith_Flame_Contrast_18ml_2022_New.png?v=1656683375
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960285-99189960060
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/hexwraith-flame-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Hexwraith_Flame_Contrast_18ml_2022_New.png?v=1656683375
   manufacturer_page: https://eirehobbies.com/products/hexwraith-flame-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -58719,10 +59300,39 @@ paints:
     unmapped_fields:
     - observed_brand
     - observed_range
-  brand_aliases: [
+  name: Hexwraith Flame
+  notes: ''
+  observed_brand: ''
+  observed_range: ''
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    photo: ''
+  range: Contrast
+  recommended_uses: [
     ]
-  tags:
-  - Contrast
+  reference: PROD4960285-99189960060
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -58732,9 +59342,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -58799,22 +59406,33 @@ paints:
       reference: PROD4960285-99189960060
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/hexwraith-flame-pre-order
-  deduplication_key: cit|ref:prod4960285-99189960060
-  id: cit-prod4960285-99189960060
-  provenance:
-    hashes: [
-      ]
-    photo: ''
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: green
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: 821f4becd4516ecd5be699c38750a923135a96f5173ccd8d30e94b0c883b688e
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960261_56189960261_CONTRAST_HEXWRAITH_FLAME_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#2f9855'
+        name: Hexwraith Flame
+        range: Contrast
+        reference: PROD4960285-99189960060
+        source_image_sha256: 821f4becd4516ecd5be699c38750a923135a96f5173ccd8d30e94b0c883b688e
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960261_56189960261_CONTRAST_HEXWRAITH_FLAME_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-hexwraith-flame-18ml-2022
+  tags:
+  - Contrast
   usage_instructions:
     instruction_status: not_applicable
     review_required: false
@@ -58823,6 +59441,52 @@ paints:
     summary: ''
     tips: [
       ]
+  verified_at: '2026-09-01'
+  volume_ml: 18
+  warnings:
+  - Official store artwork is a colour swatch, not a product packshot.
+- brand: Warhammer Colour
+  brand_aliases:
+  - Citadel
+  - Citadel Colour
+  - Games Workshop
+  color:
+    family: blue
+    hex: '#4e7b81'
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960286-99189960061
+  id: cit-prod4960286-99189960061
+  lifecycle_status: active
+  manufacturer: Games Workshop
+  manufacturer_image:
+    credit: EireHobbies
+    image_quality: retailer_photo
+    license: ''
+    path: /media/market/paints/warhammer-colour/cit-prod4960286-99189960061.webp
+    quality_limitation:
+      code: official-photo-not-published
+      detail: The official catalog publishes a color swatch rather than a usable product
+        photo.
+      observed_at: '2026-09-02'
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/nighthaunt-gloom-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Nighthaunt_Gloom_Contrast_18ml_2022_New.png?v=1656683456
+  manufacturer_page: https://eirehobbies.com/products/nighthaunt-gloom-pre-order
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields: [
+      ]
+    mapping: warhammer-colour
+    mapping_version: 1
+    unmapped_fields: [
+      ]
+  name: Nighthaunt Gloom
+  notes: The current official paint rack groups Nighthaunt Gloom with Contrast colours
+    while retaining SSC reference 27-19.
+  observed_brand: CITADEL COLOUR
+  observed_range: CONTRAST
   profile:
     application_methods:
     - brush
@@ -58837,52 +59501,23 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: true
       tone: light
-  notes: ''
-  schema_version: 1
-  warnings:
-  - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: ''
-  recommended_uses: [
-    ]
-  observed_range: ''
-- lifecycle_status: active
-  name: Nighthaunt Gloom
-  manufacturer: Games Workshop
-  confidence: 1.0
-  manufacturer_image:
-    credit: EireHobbies
-    image_quality: retailer_photo
-    license: ''
-    path: /media/market/paints/warhammer-colour/cit-prod4960286-99189960061.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/nighthaunt-gloom-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Nighthaunt_Gloom_Contrast_18ml_2022_New.png?v=1656683456
-    quality_limitation:
-      code: official-photo-not-published
-      detail: The official catalog publishes a color swatch rather than a usable product
-        photo.
-      observed_at: '2026-09-02'
+  provenance:
+    hashes:
+    - 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
+    photo: imports/photos/IMG_5315.jpeg
+  range: Contrast
+  recommended_uses:
+  - Spectral cloth
+  - Ghostly skin
+  - Cold weathering
   reference: PROD4960286-99189960061
-  manufacturer_page: https://eirehobbies.com/products/nighthaunt-gloom-pre-order
-  brand: Warhammer Colour
-  mapping_report:
-    ignored_fields: [
-      ]
-    mapped_fields: [
-      ]
-    mapping: warhammer-colour
-    mapping_version: 1
-    unmapped_fields: [
-      ]
-  brand_aliases:
-  - Citadel
-  - Citadel Colour
-  - Games Workshop
-  tags:
-  - blue-green
-  - spectral
-  - contrast
-  - one coat
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -58894,9 +59529,6 @@ paints:
       value: water-based acrylic
     - name: opacity
       value: transparent
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -58961,22 +59593,36 @@ paints:
       reference: PROD4960286-99189960061
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/nighthaunt-gloom-pre-order
-  deduplication_key: cit|ref:prod4960286-99189960061
-  id: cit-prod4960286-99189960061
-  provenance:
-    hashes:
-    - 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
-    photo: imports/photos/IMG_5315.jpeg
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: blue
-    hex: ''
-  data_status: confirmed
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: median-official-gradient-swatch
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: f3a6cf05ec6e6d9bc891789d060c1effabded622d697bd860c08ff61933f3762
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960262_56189960262_CONTRAST_NIGHTHAUNT_GLOOM_18ML.jpg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#4e7b81'
+        name: Nighthaunt Gloom
+        range: Contrast
+        reference: PROD4960286-99189960061
+        source_image_sha256: f3a6cf05ec6e6d9bc891789d060c1effabded622d697bd860c08ff61933f3762
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960262_56189960262_CONTRAST_NIGHTHAUNT_GLOOM_18ML.jpg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/contrast-nighthaunt-gloom-18ml-2022
+  tags:
+  - blue-green
+  - spectral
+  - contrast
+  - one coat
   usage_instructions:
     steps:
     - Shake thoroughly.
@@ -58985,37 +59631,16 @@ paints:
     summary: Transparent spectral colour for shading and tinting a light undercoat.
     tips:
     - Keep raised areas lighter to preserve the spectral effect.
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: The current official paint rack groups Nighthaunt Gloom with Contrast colours
-    while retaining SSC reference 27-19.
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: CITADEL COLOUR
-  recommended_uses:
-  - Spectral cloth
-  - Ghostly skin
-  - Cold weathering
-  observed_range: CONTRAST
 - brand: Warhammer Colour
   brand_aliases: [
     ]
   color:
     family: white
-    hex: ''
+    hex: '#ffffff'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4960287-99209999102
@@ -59158,6 +59783,31 @@ paints:
       reference: PROD4960287-99209999102
     provider: retailer_image_manifest
     url: https://eirehobbies.com/collections/warhammer-colour-sprays/products/white-scar-spray-pre-order
+  - payload:
+      accuracy: Approximate official digital swatch for hue filtering; not a dried-paint
+        measurement.
+      copyright: © Games Workshop Limited
+      extraction_method: official-svg-fill
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer-published product colour cards; extracted swatches retained
+        as factual reference metadata.
+      revision: b614f255d776381355cbb0a7f096baa4734ecc301f365cf7a419827cab28486c
+      source_document_sha256: ''
+      source_equivalent: ''
+      source_image_sha256: 202d88ba0525a531c6c4355cdf5f15f96d3338591bb500b69a8b785c31d7162d
+      source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/60249999620_Spray_White_Scar.svg
+      source_page: null
+      source_record:
+        brand: Warhammer Colour
+        hex: '#ffffff'
+        name: White Scar
+        range: Spray
+        reference: PROD4960287-99209999102
+        source_image_sha256: 202d88ba0525a531c6c4355cdf5f15f96d3338591bb500b69a8b785c31d7162d
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/60249999620_Spray_White_Scar.svg
+    provider: warhammer-official-gradient-colors
+    url: https://www.warhammer.com/en-GB/shop/white-scar-spray-paint-2022-row
   tags:
   - Spray
   usage_instructions:

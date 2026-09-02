@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "id": "vallejo-official-catalog-2026-colors",
+  "repository": "https://acrylicosvallejo.com/descargas/",
+  "revision": "112c145a7d438131240e8791687da46ef6b575a883d10891c39c004ec666249a",
+  "license": "Manufacturer-published catalogue; extracted swatches retained as factual reference metadata.",
+  "copyright": "© Acrylicos Vallejo",
+  "accuracy": "Approximate digital swatches for hue filtering; not dried-paint measurements.",
+  "brands": {
+    "Vallejo": {
+      "file": "vallejo-catalog-2026-colors.json",
+      "sha256": "a2bb83a0b90283b3a23c646f6e16687102ffd3ef92561797ad9d1493c1223ed8",
+      "match": "reference"
+    }
+  }
+}

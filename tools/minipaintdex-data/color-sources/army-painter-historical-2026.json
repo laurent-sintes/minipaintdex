@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "id": "army-painter-historical-chart-2026-colors",
+  "repository": "https://thearmypainter.com/pages/downloads",
+  "revision": "76ca0bab2911ab5fa3c9e1623211074d1371dca8cf50dccb9db84b68df57b8f7",
+  "license": "Manufacturer-published colour comparison chart; extracted swatches retained as factual reference metadata.",
+  "copyright": "© The Army Painter",
+  "accuracy": "Approximate digital swatches for hue filtering; not dried-paint measurements.",
+  "brands": {
+    "The Army Painter": {
+      "file": "army-painter-historical-2026-colors.json",
+      "sha256": "82ec66685d22cf10e26ba1f644171ccc5fe8bb340fca82fdeeb1be6c9a640d3a",
+      "match": "reference"
+    }
+  }
+}

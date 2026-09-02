@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "id": "prince-august-vallejo-model-color-rev18",
+  "repository": "https://acrylicosvallejo.com/descargas/",
+  "revision": "6043322d70b18f14e23fd641036f76e44674b605fe5272117533680660c1d519",
+  "license": "Manufacturer-published catalogue; extracted swatches retained as factual reference metadata.",
+  "copyright": "© Acrylicos Vallejo",
+  "accuracy": "Approximate digital swatches for hue filtering; not dried-paint measurements.",
+  "brands": {
+    "Prince August": {
+      "file": "prince-august-vallejo-model-color-rev18-colors.json",
+      "sha256": "b2ff47468c3a43efa6b48361861d4e40ceaff3c9c13283994cb0d682a0382de6",
+      "match": "reference"
+    }
+  }
+}
