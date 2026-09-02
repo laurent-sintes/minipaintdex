@@ -21,6 +21,7 @@
 5. Transformer ce manifeste avec `assets import-paint-image-sources`. `--allow-unmatched` conserve dans le change set la liste des nouvelles références officielles absentes du catalogue au lieu de bloquer les correspondances exactes.
 6. Relancer le cache puis `assets audit`. Une image locale hors cache n'est conservée que lorsqu'aucune source officielle validée ne permet de la remplacer.
 7. Appliquer l'ordre canonique sans régression : `official_photo`, `retailer_photo`, `owned_photo`, `generic_visual`, `color_swatch`, `none`. Un nuancier, un aplat ou un damier reste une preuve dans `source_snapshots`, mais ne doit pas être présenté comme une photo produit.
+8. Un audit visuel revu peut déclarer dans le manifeste `quality_overrides` avec la référence fabricant comme clé et `generic_visual` ou `color_swatch` comme valeur. Cet override corrige la qualification du visuel existant sans perdre son fichier, son URL, son crédit ni sa provenance. Lorsqu'un meilleur visuel de même rang remplace explicitement une source erronée, marquer uniquement cet item `reviewed_replacement: true`; cette option ne peut jamais dégrader le rang de qualité.
 
 Ne jamais interpréter une erreur HTTP ou un catalogue incomplet comme une preuve de suppression.
 Pour Warhammer Colour, contrôler l'exhaustivité de l'index officiel de la boutique : le nombre de résultats annoncé doit être égal au nombre de fiches effectivement collectées et toute chute brutale de volume doit bloquer l'application.

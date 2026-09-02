@@ -157,7 +157,7 @@ def raster_is_flat_artwork(image: Any, *, max_dominant_color_ratio: float) -> tu
 def assess_raster_artwork(image: Any, *, max_dominant_color_ratio: float) -> dict[str, Any]:
     """Estimate whether a raster is a usable product photo and explain the decision."""
     try:
-        from PIL import ImageFilter
+        from PIL import Image, ImageFilter
     except ImportError as error:  # pragma: no cover - operator dependency
         raise ValueError("Pillow is required to assess paint images.") from error
     dominant_ratio, color_count = raster_artwork_metrics(image)
@@ -187,6 +187,53 @@ def assess_raster_artwork(image: Any, *, max_dominant_color_ratio: float) -> dic
                     transitions += abs(luminance[index] - luminance[neighbor]) >= 24
     neutral_ratio = sum(neutral) / max(1, len(neutral))
     checker_transition_ratio = transitions / max(1, comparable)
+
+    # Product packshots contain internal structure: lid separation, label boundaries and
+    # typography. Warhammer's catalog swatches can have gradients and a tiny pot outline,
+    # which makes global color and edge metrics look deceptively photo-like. Measure edges
+    # strictly inside the non-background foreground so those outer contours do not count as
+    # product detail.
+    structure_sample = image.convert("RGBA")
+    structure_sample.thumbnail((128, 128))
+    canvas = Image.new("RGBA", structure_sample.size, (*PRESENTATION_BACKGROUND, 255))
+    canvas.alpha_composite(structure_sample)
+    structure_rgb = canvas.convert("RGB")
+    structure_values = (structure_rgb.get_flattened_data()
+                        if hasattr(structure_rgb, "get_flattened_data") else structure_rgb.getdata())
+    structure_pixels = list(structure_values)
+    foreground = [
+        not (
+            red >= 235 and green >= 235 and blue >= 228
+            and max(red, green, blue) - min(red, green, blue) <= 20
+        )
+        for red, green, blue in structure_pixels
+    ]
+    foreground_indices = [index for index, value in enumerate(foreground) if value]
+    foreground_ratio = len(foreground_indices) / max(1, len(foreground))
+    foreground_bbox_ratio = 0.0
+    internal_edge_density = 0.0
+    if foreground_indices:
+        structure_width, structure_height = structure_rgb.size
+        xs = [index % structure_width for index in foreground_indices]
+        ys = [index // structure_width for index in foreground_indices]
+        foreground_bbox_ratio = (
+            (max(xs) - min(xs) + 1) * (max(ys) - min(ys) + 1)
+            / max(1, structure_width * structure_height)
+        )
+        structure_edges = structure_rgb.convert("L").filter(ImageFilter.FIND_EDGES)
+        structure_edge_values = (structure_edges.get_flattened_data()
+                                 if hasattr(structure_edges, "get_flattened_data") else structure_edges.getdata())
+        structure_edge_pixels = list(structure_edge_values)
+        interior_indices = []
+        for index in foreground_indices:
+            x, y = index % structure_width, index // structure_width
+            if 0 < x < structure_width - 1 and 0 < y < structure_height - 1:
+                neighbors = (index - 1, index + 1, index - structure_width, index + structure_width)
+                if all(foreground[neighbor] for neighbor in neighbors):
+                    interior_indices.append(index)
+        internal_edge_density = sum(
+            structure_edge_pixels[index] >= 28 for index in interior_indices
+        ) / max(1, len(interior_indices))
     # A real checkerboard alternates in both directions often enough to remain above this
     # threshold after downsampling. Product layouts with typography and diagonal artwork can
     # approach 0.18, so keep a margin to avoid rejecting official packshots.
@@ -202,6 +249,13 @@ def assess_raster_artwork(image: Any, *, max_dominant_color_ratio: float) -> dic
         neutral_ratio >= 0.97 and dominant_ratio >= 0.80
         and color_count <= 24 and edge_density < 0.10
     )
+    color_card = (
+        foreground_ratio >= 0.72 and foreground_bbox_ratio >= 0.75
+        and internal_edge_density <= 0.03
+    )
+    low_detail_silhouette = (
+        0.05 <= foreground_ratio < 0.72 and internal_edge_density <= 0.02
+    )
 
     score = 100
     reasons: list[str] = []
@@ -214,6 +268,12 @@ def assess_raster_artwork(image: Any, *, max_dominant_color_ratio: float) -> dic
     if neutral_silhouette:
         score -= 65
         reasons.append("low_complexity_neutral_artwork")
+    if color_card and not flat:
+        score -= 80
+        reasons.append("color_card_without_product_detail")
+    if low_detail_silhouette and not flat:
+        score -= 65
+        reasons.append("silhouette_without_product_detail")
     if edge_density < 0.01:
         score -= 20
         reasons.append("very_low_detail")
@@ -224,16 +284,19 @@ def assess_raster_artwork(image: Any, *, max_dominant_color_ratio: float) -> dic
     classification = "packshot_candidate"
     if flat:
         classification = "color_swatch"
+    elif color_card:
+        classification = "color_swatch"
     elif checkerboard:
         classification = "checkerboard_visual"
-    elif neutral_silhouette:
+    elif neutral_silhouette or low_detail_silhouette:
         classification = "generic_visual"
     elif score < 70:
         classification = "low_detail_visual"
     return {
         "technical_quality_score": score,
         "classification": classification,
-        "accepted_as_photo": not flat and not checkerboard and not neutral_silhouette and score >= 70,
+        "accepted_as_photo": not flat and not checkerboard and not neutral_silhouette
+        and not color_card and not low_detail_silhouette and score >= 70,
         "reasons": reasons,
         "signals": {
             "dominant_color_ratio": round(dominant_ratio, 4),
@@ -241,6 +304,9 @@ def assess_raster_artwork(image: Any, *, max_dominant_color_ratio: float) -> dic
             "edge_density": round(edge_density, 4),
             "neutral_pixel_ratio": round(neutral_ratio, 4),
             "checker_transition_ratio": round(checker_transition_ratio, 4),
+            "foreground_ratio": round(foreground_ratio, 4),
+            "foreground_bbox_ratio": round(foreground_bbox_ratio, 4),
+            "internal_edge_density": round(internal_edge_density, 4),
         },
     }
 
@@ -577,6 +643,22 @@ def build_image_source_changeset(
     if manifest_quality not in {"official_photo", "retailer_photo"}:
         raise ValueError("A remote image manifest must declare official_photo or retailer_photo quality.")
     verification_date = verified_at or date.today().isoformat()
+    raw_quality_overrides = manifest.get("quality_overrides", {})
+    if not isinstance(raw_quality_overrides, dict):
+        raise ValueError("Image source manifest quality_overrides must be an object keyed by reference.")
+    quality_overrides = {
+        str(reference_code).replace(" ", "").upper(): str(quality).strip()
+        for reference_code, quality in raw_quality_overrides.items()
+    }
+    unsupported_overrides = sorted(
+        reference_code for reference_code, quality in quality_overrides.items()
+        if quality not in {"generic_visual", "color_swatch"}
+    )
+    if unsupported_overrides:
+        raise ValueError(
+            "Image quality overrides must declare generic_visual or color_swatch: "
+            + ", ".join(unsupported_overrides)
+        )
     by_reference = {
         str(paint.get("reference", "")).replace(" ", "").upper(): paint
         for paint in catalog.get("paints", [])
@@ -602,6 +684,9 @@ def build_image_source_changeset(
         item_quality = str(item.get("image_quality", manifest_quality)).strip()
         if item_quality not in {"official_photo", "retailer_photo"}:
             raise ValueError(f"Invalid remote image quality for {brand} {reference_code}: {item_quality}")
+        reviewed_replacement = item.get("reviewed_replacement", False)
+        if not isinstance(reviewed_replacement, bool):
+            raise ValueError(f"reviewed_replacement must be a boolean for {brand} {reference_code}")
         if item_quality == "official_photo" and (
             not _allowed_url(brand, image_url) or not _allowed_url(brand, page_url)
         ):
@@ -613,25 +698,53 @@ def build_image_source_changeset(
             raise ValueError(f"Retailer image credit is required for {brand} {reference_code}")
         current = by_reference[reference_code]
         updated = deepcopy(current)
+        effective_quality = quality_overrides.get(reference_code, item_quality)
         candidate = {
             "path": "",
             "source_url": image_url,
             "credit": credit or f"Official {updated.get('manufacturer', brand)} catalogue",
             "license": str(item.get("license", "")),
             "reference_url": page_url,
-            "image_quality": item_quality,
+            "image_quality": effective_quality,
             "quality_verified_at": verification_date,
         }
-        if item_quality == "retailer_photo":
+        if effective_quality != "official_photo":
             declared_limitation = item.get("quality_limitation")
-            candidate["quality_limitation"] = declared_limitation if isinstance(declared_limitation, dict) else quality_limitation(
-                "better-source-not-found",
-                "No accepted official photo accompanied this refresh; the credited retailer photo was retained.",
-                verification_date,
-            )
+            if isinstance(declared_limitation, dict):
+                candidate["quality_limitation"] = declared_limitation
+            elif effective_quality == "color_swatch":
+                candidate["quality_limitation"] = quality_limitation(
+                    "better-source-not-found",
+                    "The audited source asset is a color swatch rather than a product packshot; no better source was retained.",
+                    verification_date,
+                )
+            elif effective_quality == "generic_visual":
+                candidate["quality_limitation"] = quality_limitation(
+                    "better-source-not-found",
+                    "The audited source asset does not show an identifiable product packshot; no better source was retained.",
+                    verification_date,
+                )
+            else:
+                candidate["quality_limitation"] = quality_limitation(
+                    "better-source-not-found",
+                    "No accepted official photo accompanied this refresh; the credited retailer photo was retained.",
+                    verification_date,
+                )
         current_image = deepcopy(updated.get("manufacturer_image")) if isinstance(updated.get("manufacturer_image"), dict) else {}
         current_image.setdefault("image_quality", infer_image_quality(updated))
-        updated["manufacturer_image"] = prefer_image(current_image, candidate)
+        if reviewed_replacement:
+            if IMAGE_QUALITY_RANKS[effective_quality] > IMAGE_QUALITY_RANKS.get(
+                str(current_image.get("image_quality", "none")), IMAGE_QUALITY_RANKS["none"]
+            ):
+                raise ValueError(f"Reviewed replacement would downgrade image quality for {brand} {reference_code}")
+            if str(current_image.get("source_url", "")) == image_url:
+                candidate["path"] = str(current_image.get("path", ""))
+            updated["manufacturer_image"] = candidate
+        elif reference_code in quality_overrides and str(current_image.get("source_url", "")) == image_url:
+            candidate["path"] = str(current_image.get("path", ""))
+            updated["manufacturer_image"] = candidate
+        else:
+            updated["manufacturer_image"] = prefer_image(current_image, candidate)
         updated["manufacturer_page"] = page_url
         snapshots = [
             snapshot for snapshot in updated.get("source_snapshots", [])
@@ -639,15 +752,61 @@ def build_image_source_changeset(
                 "official_image_manifest", "retailer_image_manifest",
             })
         ]
+        snapshot_payload = {
+            "reference": reference_code,
+            "name": str(item.get("name", "")),
+            "image_url": image_url,
+            "image_quality": effective_quality,
+            "credit": candidate["credit"],
+        }
+        if effective_quality != item_quality:
+            snapshot_payload["source_quality"] = item_quality
         snapshots.append({
             "provider": "official_image_manifest" if item_quality == "official_photo" else "retailer_image_manifest",
             "url": page_url,
+            "payload": snapshot_payload,
+        })
+        updated["source_snapshots"] = snapshots
+        if updated != current:
+            operations.append({
+                "action": "upsert", "record": updated,
+                "workshop_quantity_delta": 0, "confirmed_removal": False,
+            })
+    for reference_code, effective_quality in quality_overrides.items():
+        if reference_code in seen or reference_code not in by_reference:
+            continue
+        current = by_reference[reference_code]
+        updated = deepcopy(current)
+        current_image = deepcopy(updated.get("manufacturer_image")) if isinstance(
+            updated.get("manufacturer_image"), dict
+        ) else {}
+        current_image["image_quality"] = effective_quality
+        current_image["quality_verified_at"] = verification_date
+        current_image["quality_limitation"] = quality_limitation(
+            "better-source-not-found",
+            (
+                "The audited source asset is a color swatch rather than a product packshot; "
+                "no better source was retained."
+                if effective_quality == "color_swatch"
+                else "The audited source asset does not show an identifiable product packshot; "
+                     "no better source was retained."
+            ),
+            verification_date,
+        )
+        updated["manufacturer_image"] = current_image
+        snapshots = [
+            snapshot for snapshot in updated.get("source_snapshots", [])
+            if not (isinstance(snapshot, dict) and snapshot.get("provider") == "image_quality_review")
+        ]
+        snapshots.append({
+            "provider": "image_quality_review",
+            "url": str(current_image.get("reference_url") or current_image.get("source_url")
+                       or manifest.get("source_url", "")),
             "payload": {
                 "reference": reference_code,
-                "name": str(item.get("name", "")),
-                "image_url": image_url,
-                "image_quality": item_quality,
-                "credit": candidate["credit"],
+                "name": str(current.get("name", "")),
+                "image_url": str(current_image.get("source_url", "")),
+                "image_quality": effective_quality,
             },
         })
         updated["source_snapshots"] = snapshots
@@ -656,6 +815,9 @@ def build_image_source_changeset(
                 "action": "upsert", "record": updated,
                 "workshop_quantity_delta": 0, "confirmed_removal": False,
             })
+    unknown_overrides = sorted(set(quality_overrides) - set(by_reference))
+    if unknown_overrides:
+        raise ValueError("Image quality overrides do not match catalog references: " + ", ".join(unknown_overrides))
     changeset = {
         "schema_version": 1,
         "kind": "market_paints",

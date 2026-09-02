@@ -158,6 +158,50 @@ class PaintImageCacheTest(unittest.TestCase):
         limitation = changeset["operations"][0]["record"]["manufacturer_image"]["quality_limitation"]
         self.assertEqual(limitation["code"], "official-candidate-rejected")
 
+    def test_rejects_a_neutral_warhammer_color_card_as_a_packshot(self):
+        from PIL import Image, ImageDraw
+
+        source = io.BytesIO()
+        image = Image.new("RGB", (800, 800), "white")
+        draw = ImageDraw.Draw(image)
+        draw.rounded_rectangle((35, 25, 765, 770), radius=35, fill="#9da1a3", outline="#777777", width=2)
+        draw.line((595, 700, 600, 620, 665, 595, 715, 625, 720, 700, 690, 735, 625, 735, 595, 700),
+                  fill="#222222", width=2)
+        image.save(source, format="PNG")
+
+        changeset, report = build_image_cache_changeset(
+            {"paints": [paint("https://acrylicosvallejo.com/neutral-card.png")]},
+            self.temporary_directory(),
+            fetch_image=lambda url, maximum: (source.getvalue(), "image/png", url), workers=1,
+        )
+
+        self.assertEqual(report["counts"], {"failed": 1})
+        self.assertIn("color_card_without_product_detail", report["items"][0]["error"])
+        self.assertEqual(len(changeset["operations"]), 1)
+
+    def test_rejects_a_synthetic_gradient_pot_silhouette_as_a_packshot(self):
+        from PIL import Image, ImageDraw
+
+        image = Image.new("RGB", (800, 800), "white")
+        draw = ImageDraw.Draw(image)
+        for x in range(250, 550):
+            red = 105 + (x - 250) // 5
+            draw.line((x, 235, x, 620), fill=(red, 92, 22), width=1)
+        draw.ellipse((250, 185, 550, 290), fill="#a88b24")
+        draw.ellipse((250, 565, 550, 650), fill="#795c16")
+        source = io.BytesIO()
+        image.save(source, format="PNG")
+
+        changeset, report = build_image_cache_changeset(
+            {"paints": [paint("https://acrylicosvallejo.com/synthetic-pot.png")]},
+            self.temporary_directory(),
+            fetch_image=lambda url, maximum: (source.getvalue(), "image/png", url), workers=1,
+        )
+
+        self.assertEqual(report["counts"], {"failed": 1})
+        self.assertIn("silhouette_without_product_detail", report["items"][0]["error"])
+        self.assertEqual(len(changeset["operations"]), 1)
+
     def test_rejects_checkerboard_background_as_a_product_photo(self):
         try:
             from PIL import Image, ImageDraw
@@ -221,13 +265,17 @@ class PaintImageCacheTest(unittest.TestCase):
         catalog_path.write_text(yaml.safe_dump({
             "paints": [{
                 "id": "flat", "brand": "Vallejo",
-                "manufacturer_image": {"path": "/media/market/paints/vallejo/flat.webp"},
+                "manufacturer_image": {
+                    "path": "/media/market/paints/vallejo/flat.webp",
+                    "image_quality": "retailer_photo",
+                },
             }],
         }), encoding="utf-8")
 
         report = audit_assets(root)
 
-        self.assertEqual(report["paint_images"]["by_brand"]["Vallejo"], {"color_swatch": 1})
+        self.assertEqual(report["paint_images"]["by_brand"]["Vallejo"], {"quality_mismatch": 1})
+        self.assertEqual(report["paint_images"]["issues"][0]["visual_classification"], "color_swatch")
         self.assertEqual(report["rejected_artwork"][0]["path"], "/media/market/paints/vallejo/flat.webp")
         self.assertIn("flat_colour_artwork", report["rejected_artwork"][0]["reasons"])
 
@@ -287,7 +335,7 @@ class PaintImageCacheTest(unittest.TestCase):
         )
 
         self.assertEqual(report["counts"], {"failed": 1})
-        self.assertIn("low_complexity_neutral_artwork", report["items"][0]["error"])
+        self.assertIn("silhouette_without_product_detail", report["items"][0]["error"])
         self.assertEqual(len(changeset["operations"]), 1)
 
     def test_imports_verified_official_image_source(self):
@@ -354,6 +402,99 @@ class PaintImageCacheTest(unittest.TestCase):
         self.assertEqual(image["image_quality"], "retailer_photo")
         self.assertEqual(image["credit"], "Example Paints")
         self.assertEqual(image["quality_limitation"]["code"], "better-source-not-found")
+
+    def test_applies_a_reviewed_quality_override_to_the_same_retailer_asset(self):
+        current = paint("")
+        current["id"] = "cit-prod4190213-99189958145"
+        current["brand"] = "Warhammer Colour"
+        current["reference"] = "PROD4190213-99189958145"
+        current["manufacturer_image"] = {
+            "path": "/media/market/paints/warhammer-colour/cit-abaddon.webp",
+            "source_url": "https://www.wog.ch/nas/cover_xl/abaddon.jpg",
+            "reference_url": "https://www.wog.ch/en/abaddon",
+            "credit": "World of Games",
+            "license": "",
+            "image_quality": "retailer_photo",
+            "quality_verified_at": "2026-09-01",
+            "quality_limitation": {
+                "code": "better-source-not-found", "detail": "No better source was retained.",
+                "observed_at": "2026-09-01",
+            },
+        }
+
+        changeset = build_image_source_changeset(
+            {"paints": [current]},
+            {
+                "schema_version": 1,
+                "brand": "Warhammer Colour",
+                "image_quality": "retailer_photo",
+                "source_url": "https://www.wog.ch/en/paints",
+                "quality_overrides": {"PROD4190213-99189958145": "color_swatch"},
+                "items": [{
+                    "reference": "PROD4190213-99189958145", "name": "Abaddon Black",
+                    "page_url": "https://www.wog.ch/en/abaddon",
+                    "image_url": "https://www.wog.ch/nas/cover_xl/abaddon.jpg",
+                    "credit": "World of Games",
+                }],
+            },
+            verified_at="2026-09-02",
+        )
+
+        image = changeset["operations"][0]["record"]["manufacturer_image"]
+        self.assertEqual(image["image_quality"], "color_swatch")
+        self.assertEqual(image["path"], current["manufacturer_image"]["path"])
+        self.assertIn("color swatch", image["quality_limitation"]["detail"])
+
+    def test_applies_an_explicit_reviewed_replacement_at_equal_quality(self):
+        current = paint("")
+        current["brand"] = "Warhammer Colour"
+        current["id"] = "cit-prod4190213-99189958145"
+        current["reference"] = "PROD4190213-99189958145"
+        current["manufacturer_image"] = {
+            "path": "/media/market/paints/warhammer-colour/cit-abaddon.webp",
+            "source_url": "https://www.wog.ch/nas/cover_xl/abaddon.jpg",
+            "reference_url": "https://www.wog.ch/en/abaddon",
+            "credit": "World of Games", "license": "", "image_quality": "retailer_photo",
+            "quality_verified_at": "2026-09-02",
+            "quality_limitation": {
+                "code": "better-source-not-found", "detail": "No better source was retained.",
+                "observed_at": "2026-09-02",
+            },
+        }
+
+        changeset = build_image_source_changeset(
+            {"paints": [current]},
+            {
+                "schema_version": 1, "brand": "Warhammer Colour",
+                "image_quality": "retailer_photo", "source_url": "https://retailer.test/paints",
+                "items": [{
+                    "reference": current["reference"], "name": "Abaddon Black",
+                    "page_url": "https://retailer.test/abaddon",
+                    "image_url": "https://retailer.test/abaddon-packshot.jpg",
+                    "credit": "Reviewed Retailer", "reviewed_replacement": True,
+                }],
+            },
+            verified_at="2026-09-02",
+        )
+
+        image = changeset["operations"][0]["record"]["manufacturer_image"]
+        self.assertEqual(image["source_url"], "https://retailer.test/abaddon-packshot.jpg")
+        self.assertEqual(image["path"], "")
+        self.assertEqual(image["image_quality"], "retailer_photo")
+
+    def test_rejects_quality_override_without_a_matching_manifest_item(self):
+        with self.assertRaisesRegex(ValueError, "do not match catalog references"):
+            build_image_source_changeset(
+                {"paints": [paint("")]},
+                {
+                    "schema_version": 1,
+                    "brand": "Vallejo",
+                    "image_quality": "retailer_photo",
+                    "source_url": "https://example-paints.test/vallejo",
+                    "quality_overrides": {"72.999": "generic_visual"},
+                    "items": [],
+                },
+            )
 
     def test_keeps_a_detailed_monochrome_product_photo(self):
         from PIL import Image, ImageDraw

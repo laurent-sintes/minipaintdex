@@ -89,11 +89,15 @@ class MiniPaintDexConfigurationTest {
         mvc.perform(get("/api/v1/market/paints/quality"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.total").value(2019))
-                .andExpect(jsonPath("$.imageQualities.length()").value(2))
-                .andExpect(jsonPath("$.imageQualities[0].quality").value("official_photo"))
-                .andExpect(jsonPath("$.imageQualities[0].count").value(1668))
-                .andExpect(jsonPath("$.imageQualities[1].quality").value("retailer_photo"))
-                .andExpect(jsonPath("$.imageQualities[1].count").value(351))
+                .andExpect(jsonPath("$.imageQualities.length()").value(4))
+                .andExpect(jsonPath("$.imageQualities[0].quality").value("color_swatch"))
+                .andExpect(jsonPath("$.imageQualities[0].count").value(10))
+                .andExpect(jsonPath("$.imageQualities[1].quality").value("generic_visual"))
+                .andExpect(jsonPath("$.imageQualities[1].count").value(41))
+                .andExpect(jsonPath("$.imageQualities[2].quality").value("official_photo"))
+                .andExpect(jsonPath("$.imageQualities[2].count").value(1668))
+                .andExpect(jsonPath("$.imageQualities[3].quality").value("retailer_photo"))
+                .andExpect(jsonPath("$.imageQualities[3].count").value(300))
                 .andExpect(jsonPath("$.imageLimitations.length()").value(3));
     }
 

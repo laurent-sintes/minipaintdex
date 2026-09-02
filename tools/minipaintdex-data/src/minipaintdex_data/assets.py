@@ -108,12 +108,21 @@ def audit_assets(root: Path, *, min_width: int = 300, min_height: int = 300) -> 
             manufacturer_image = paint.get("manufacturer_image") if isinstance(paint.get("manufacturer_image"), dict) else {}
             display_path = str(result_image.get("path") or manufacturer_image.get("path") or "")
             source_url = str(result_image.get("source_url") or manufacturer_image.get("source_url") or "")
+            declared_quality = str(manufacturer_image.get("image_quality", "none"))
             width, height = dimensions.get(display_path, (None, None))
+            visual_classification = (
+                rejected_by_path[display_path]["classification"]
+                if display_path in rejected_by_path
+                else ("packshot_candidate" if display_path and display_path in files else "")
+            )
             if display_path and display_path in files:
                 if width is not None and (width < min_width or height < min_height):
                     status = "too_small"
-                elif display_path in rejected_by_path:
-                    status = rejected_by_path[display_path]["classification"]
+                elif (
+                    display_path in rejected_by_path
+                    and declared_quality in {"official_photo", "retailer_photo", "owned_photo"}
+                ):
+                    status = "quality_mismatch"
                 else:
                     status = "local"
             elif display_path:
@@ -125,6 +134,8 @@ def audit_assets(root: Path, *, min_width: int = 300, min_height: int = 300) -> 
             paint_image_records.append({
                 "id": str(paint.get("id", "")), "brand": str(paint.get("brand", "")),
                 "status": status, "path": display_path, "source_url": source_url,
+                "declared_quality": declared_quality,
+                "visual_classification": visual_classification,
                 "width": width, "height": height,
             })
     paint_image_counts: dict[str, dict[str, int]] = {}
