@@ -19,6 +19,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 import com.minipaintdex.domain.market.paint.MarketPaintLifecycle;
 import com.minipaintdex.domain.market.paint.MarketPaintImageQuality;
+import com.minipaintdex.domain.market.paint.MarketPaintImageLimitationCode;
 import com.minipaintdex.domain.market.paint.MarketPaintProfile;
 
 /** Cohesive read service for the market knowledge bounded context. */
@@ -84,7 +85,9 @@ public final class MarketCatalogApplicationService implements MarketCatalogUseCa
                         vocabulary("undercoat-tone", java.util.Arrays.stream(MarketPaintProfile.UndercoatTone.values()).map(MarketPaintProfile.UndercoatTone::id).toList()),
                         vocabulary("medium", java.util.Arrays.stream(MarketPaintProfile.Medium.values()).map(MarketPaintProfile.Medium::id).toList()),
                         vocabulary("lifecycle", java.util.Arrays.stream(MarketPaintLifecycle.values()).map(MarketPaintLifecycle::id).toList()),
-                        vocabulary("image-quality", java.util.Arrays.stream(MarketPaintImageQuality.values()).map(MarketPaintImageQuality::id).toList())));
+                        vocabulary("image-quality", java.util.Arrays.stream(MarketPaintImageQuality.values()).map(MarketPaintImageQuality::id).toList()),
+                        vocabulary("image-quality-limitation", java.util.Arrays.stream(MarketPaintImageLimitationCode.values())
+                                .map(MarketPaintImageLimitationCode::id).toList())));
     }
     @Override public PaintCatalogQualityView marketPaintQuality() {
         return paints.quality();

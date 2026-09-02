@@ -16,6 +16,26 @@ IMAGE_QUALITY_RANKS = {
     "none": 6,
 }
 
+IMAGE_QUALITY_LIMITATION_CODES = {
+    "official-photo-not-published",
+    "official-source-unavailable",
+    "official-candidate-rejected",
+    "official-reference-unmatched",
+    "better-source-not-found",
+    "manually-provided",
+    "historical-reason-not-recorded",
+}
+
+
+def quality_limitation(code: str, detail: str, observed_at: str) -> dict[str, str]:
+    """Build one controlled, human-readable explanation for a non-official image."""
+    if code not in IMAGE_QUALITY_LIMITATION_CODES:
+        raise ValueError(f"Unsupported image quality limitation: {code}")
+    if not str(detail).strip():
+        raise ValueError("Image quality limitation detail is required.")
+    date.fromisoformat(str(observed_at))
+    return {"code": code, "detail": str(detail).strip(), "observed_at": str(observed_at)}
+
 
 def quality_rank(value: object) -> int:
     """Return the canonical rank; an absent image has the lowest quality."""
@@ -52,6 +72,28 @@ def normalize_image_quality(record: dict[str, Any], *, verified_at: str | None =
     image["image_quality"] = infer_image_quality(normalized)
     if image["image_quality"] != "none" and not image.get("quality_verified_at"):
         image["quality_verified_at"] = verified_at or str(normalized.get("verified_at", "")) or date.today().isoformat()
+    if image["image_quality"] == "official_photo":
+        image.pop("quality_limitation", None)
+    elif not isinstance(image.get("quality_limitation"), dict):
+        observed_at = verified_at or str(normalized.get("verified_at", "")) or date.today().isoformat()
+        warnings = " ".join(str(value) for value in normalized.get("warnings", [])).casefold()
+        if "colour swatch" in warnings or "color swatch" in warnings:
+            limitation = quality_limitation(
+                "official-photo-not-published",
+                "The official catalog publishes a color swatch rather than a usable product photo.",
+                observed_at,
+            )
+        elif image["image_quality"] == "owned_photo":
+            limitation = quality_limitation(
+                "manually-provided", "The retained product photo was supplied manually.", observed_at,
+            )
+        else:
+            limitation = quality_limitation(
+                "historical-reason-not-recorded",
+                "This non-optimal quality predates structured limitation tracking; the precise reason was not recorded.",
+                observed_at,
+            )
+        image["quality_limitation"] = limitation
     return normalized
 
 

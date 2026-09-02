@@ -170,6 +170,29 @@ class OfficialRefreshTest(unittest.TestCase):
         self.assertEqual(records[0]["source_snapshots"][0]["provider"], "warhammer_store_search")
         self.assertEqual(records[0]["source_snapshots"][0]["payload"]["sku"], "prod-test-123")
 
+    @patch("minipaintdex_data.official_sources.warhammer._hits")
+    def test_warhammer_reference_drift_requires_explicit_identity_reconciliation(self, hits):
+        hits.return_value = [{
+            "id": "stable-provider-id", "name": "Layer: Tallarn Sand", "slug": "Layer-Tallarn-Sand-2019",
+            "sku": "prod4210363-99189951332", "images": [
+                "/app/resources/catalog/product/920x950/99189951332_LAYER_TALLARN_SAND.jpg",
+            ],
+            "description": ".", "paintType": ["Layer"], "paintColourRange": "Brown",
+        }]
+        catalog = {"paints": [{
+            "schema_version": 1, "id": "cit-prod4210363-99189951239", "brand": "Warhammer Colour",
+            "manufacturer": "Games Workshop", "range": "Layer", "reference": "PROD4210363-99189951239",
+            "name": "Tallarn Sand", "deduplication_key": "cit|ref:prod4210363-99189951239",
+        }]}
+
+        record = collect_warhammer(catalog, Path("unused.pdf"))[0]
+
+        self.assertEqual(record["id"], "cit-prod4210363-99189951239")
+        self.assertEqual(record["reference"], "PROD4210363-99189951239")
+        self.assertTrue(any("explicit identity reconciliation" in warning for warning in record["warnings"]))
+        self.assertEqual(record["manufacturer_image"]["source_url"], "")
+        self.assertIn("99189951332", record["source_snapshots"][0]["payload"]["images"][0])
+
     def test_provider_gate_rejects_a_large_volume_drop(self):
         spec = ProviderSpec("Brand", "provider", "mode", "scope", (), lambda *_: [], 1, 0.80)
         paints = [{"id": f"paint-{index}", "brand": "Brand", "source_snapshots": [{}]} for index in range(79)]

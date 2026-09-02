@@ -154,7 +154,7 @@ public final class AdministrationApplicationService implements AdministrationUse
 
         var result = byId.values().stream()
                 .sorted(Comparator.comparing(paint -> StructuredDocuments.text(paint.get("id"))))
-                .map(Map::copyOf).toList();
+                .map(paint -> java.util.Collections.unmodifiableMap(new LinkedHashMap<>(paint))).toList();
         var resultDocuments = StructuredDocuments.fromMaps(result);
         var normalizedInventory = inventoryDocuments(quantities);
         var rewrittenGuides = rewritePaintReferences(snapshot.marketPaintingGuides(), identityMigrations);

@@ -8,7 +8,7 @@ from typing import Any
 
 import yaml
 
-from .paint_images import MAX_DOMINANT_COLOR_RATIO, raster_is_flat_artwork
+from .paint_images import MAX_DOMINANT_COLOR_RATIO, assess_raster_artwork
 
 
 PUBLIC_PATH = re.compile(
@@ -67,7 +67,7 @@ def audit_assets(root: Path, *, min_width: int = 300, min_height: int = 300) -> 
             else public / public_path.lstrip("/")
         )
     too_small: list[dict[str, Any]] = []
-    flat_artwork: list[dict[str, Any]] = []
+    rejected_artwork: list[dict[str, Any]] = []
     unreadable: list[str] = []
     dimensions: dict[str, tuple[int, int]] = {}
     try:
@@ -83,22 +83,21 @@ def audit_assets(root: Path, *, min_width: int = 300, min_height: int = 300) -> 
             try:
                 with Image.open(path) as image:
                     width, height = image.size
-                    is_flat, dominant_color_ratio, quantized_color_count = raster_is_flat_artwork(
+                    assessment = assess_raster_artwork(
                         image, max_dominant_color_ratio=MAX_DOMINANT_COLOR_RATIO,
                     )
                 dimensions[public_path] = (width, height)
                 if width < min_width or height < min_height:
                     too_small.append({"path": public_path, "width": width, "height": height})
-                elif is_flat:
-                    flat_artwork.append({
+                elif not assessment["accepted_as_photo"]:
+                    rejected_artwork.append({
                         "path": public_path,
-                        "dominant_color_ratio": round(dominant_color_ratio, 4),
-                        "quantized_color_count": quantized_color_count,
+                        **assessment,
                     })
             except (OSError, UnidentifiedImageError):
                 unreadable.append(public_path)
     paint_image_records: list[dict[str, Any]] = []
-    flat_paths = {item["path"] for item in flat_artwork}
+    rejected_by_path = {item["path"]: item for item in rejected_artwork}
     paints_root = data / "market" / "paints"
     for catalog_path in sorted(paints_root.glob("*.yaml")) if paints_root.is_dir() else []:
         value = documents.get(catalog_path)
@@ -113,8 +112,8 @@ def audit_assets(root: Path, *, min_width: int = 300, min_height: int = 300) -> 
             if display_path and display_path in files:
                 if width is not None and (width < min_width or height < min_height):
                     status = "too_small"
-                elif display_path in flat_paths:
-                    status = "flat_artwork"
+                elif display_path in rejected_by_path:
+                    status = rejected_by_path[display_path]["classification"]
                 else:
                     status = "local"
             elif display_path:
@@ -141,7 +140,7 @@ def audit_assets(root: Path, *, min_width: int = 300, min_height: int = 300) -> 
         "orphaned": sorted(files - references - allowed_unreferenced),
         "minimum_dimensions": {"width": min_width, "height": min_height},
         "too_small": too_small,
-        "flat_artwork": flat_artwork,
+        "rejected_artwork": rejected_artwork,
         "unreadable": unreadable,
         "paint_images": {
             "records": len(paint_image_records),

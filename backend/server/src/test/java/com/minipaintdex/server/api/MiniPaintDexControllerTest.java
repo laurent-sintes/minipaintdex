@@ -108,9 +108,13 @@ class MiniPaintDexControllerTest {
                 .andExpect(jsonPath("$['x-model-version']").value(1))
                 .andExpect(jsonPath("$['x-image-quality-ranks'].official_photo").value(1))
                 .andExpect(jsonPath("$.additionalProperties").value(false))
+                .andExpect(jsonPath("$.required[8]").value("manufacturer_image"))
                 .andExpect(jsonPath("$.properties.source_snapshots.type").value("array"))
                 .andExpect(jsonPath("$.properties.usage_instructions.type").value("object"))
                 .andExpect(jsonPath("$.properties.manufacturer_image.properties.image_quality.enum[5]").value("none"))
+                .andExpect(jsonPath("$.properties.manufacturer_image.required[0]").value("image_quality"))
+                .andExpect(jsonPath("$.properties.manufacturer_image.properties.quality_limitation.required[0]").value("code"))
+                .andExpect(jsonPath("$['x-vocabularies']['image-quality-limitation'][0]").value("official-photo-not-published"))
                 .andExpect(jsonPath("$['x-filters'][0].queryParameter").value("role"))
                 .andExpect(jsonPath("$['x-filters'][12].control").value("toggle"))
                 .andExpect(jsonPath("$['x-sort-options'][0].queryValue").value("name,asc"))
@@ -255,7 +259,7 @@ class MiniPaintDexControllerTest {
                         List.of("color_paint"), List.of("brush"), "conventional_layering",
                         "opaque", "matte", List.of(), "any", false, "acrylic"),
                 "", name, "#000000", "current", "confirmed", "", List.of(),
-                "", "", "", "", "", "", "", "none", 6, "", 18, "Black", "", List.of(),
+                "", "", "", "", "", "", "", "none", 6, "", "", "", "", 18, "Black", "", List.of(),
                 new MarketPaintView.UsageInstructions("", List.of(), List.of(), "", false),
                 "", "", "", "", "", "");
     }

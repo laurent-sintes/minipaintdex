@@ -10479,6 +10479,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-plastic-putty-17ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/vallejo-auxiliaries-plastic-putty-70400.jpg?v=1717689369
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   confidence: 1.0
   reference: '70.400'
   manufacturer: Acrylicos Vallejo
@@ -10585,6 +10590,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-gloss-medium-17ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/vallejo-auxiliaries-gloss-medium-70470.jpg?v=1717689215
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   confidence: 1.0
   reference: '70.470'
   manufacturer: Acrylicos Vallejo
@@ -10691,6 +10701,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-gloss-varnish-17ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/vallejo-auxiliaries-gloss-varnish-70510.jpg?v=1770466183
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   confidence: 1.0
   reference: '70.510'
   manufacturer: Acrylicos Vallejo
@@ -10797,6 +10812,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-matt-varnish-17ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/vallejo-auxiliaries-matt-varnish-70520.jpg?v=1717689098
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   confidence: 1.0
   reference: '70.520'
   manufacturer: Acrylicos Vallejo
@@ -10903,6 +10923,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-metal-medium-17ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/vallejo-auxiliaries-metal-medium-70521.jpg?v=1717689017
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   confidence: 1.0
   reference: '70.521'
   manufacturer: Acrylicos Vallejo
@@ -11009,6 +11034,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-satin-varnish-17ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/satin-varnish-vallejo-70522-17ml.jpg?v=1635952137
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   confidence: 1.0
   reference: '70.522'
   manufacturer: Acrylicos Vallejo
@@ -11111,6 +11141,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-liquid-mask-17ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/vallejo-auxiliaries-liquid-mask-70523.jpg?v=1717688972
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   confidence: 1.0
   reference: '70.523'
   manufacturer: Acrylicos Vallejo
@@ -11217,6 +11252,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-thinner-medium-17ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/vallejo-auxiliaries-thinner-medium-70524.jpg?v=1717688904
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   confidence: 1.0
   reference: '70.524'
   manufacturer: Acrylicos Vallejo
@@ -11319,6 +11359,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-matt-medium-17ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/vallejo-auxiliaries-matt-base-70540.jpg?v=1717688788
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   confidence: 1.0
   reference: '70.540'
   manufacturer: Acrylicos Vallejo
@@ -11425,6 +11470,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-glaze-medium-17ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/vallejo-auxiliaries-glaze-medium-70596.jpg?v=1717688718
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   confidence: 1.0
   reference: '70.596'
   manufacturer: Acrylicos Vallejo
@@ -11531,6 +11581,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-retarder-medium-17ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/vallejo-auxiliaries-retarder-medium-70597.jpg?v=1758109237
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   confidence: 1.0
   reference: '70.597'
   manufacturer: Acrylicos Vallejo
@@ -48686,6 +48741,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://mierce-miniatures.com/products/vallejo-71-261-auxiliaries-mediums-airbrush-thinner
     source_url: https://cdn.shopify.com/s/files/1/0844/2249/2506/files/vallejo-auxiliaries-airbrush-thinner-71261_0b98123b-a0be-4533-9621-4bd9b12841b1.jpg?v=1780999439
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   reference: '71.261'
   manufacturer_page: https://mierce-miniatures.com/products/vallejo-71-261-auxiliaries-mediums-airbrush-thinner
   brand: Vallejo
@@ -48792,6 +48852,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-airbrush-flow-improver-17ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/vallejo-auxiliaries-airbrush-flow-improver-71262.jpg?v=1717689567
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   reference: '71.262'
   manufacturer_page: https://eirehobbies.com/products/vallejo-airbrush-flow-improver-17ml
   brand: Vallejo
@@ -57332,6 +57397,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-airbrush-thinner-60ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/441941-big.jpg?v=1635952209
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   reference: '71.361'
   manufacturer_page: https://eirehobbies.com/products/vallejo-airbrush-thinner-60ml
   brand: Vallejo
@@ -75182,6 +75252,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-polyurethane-gloss-varnish-18ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/453044-big.jpg?v=1676996186
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   confidence: 1.0
   reference: '72.650'
   manufacturer: Acrylicos Vallejo
@@ -75288,6 +75363,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-polyurethane-matt-varnish-18ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/453045-big.jpg?v=1676996331
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   confidence: 1.0
   reference: '72.651'
   manufacturer: Acrylicos Vallejo
@@ -75394,6 +75474,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-polyurethane-satin-varnish-18ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/453046-big_1.jpg?v=1676996437
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   confidence: 1.0
   reference: '72.652'
   manufacturer: Acrylicos Vallejo
@@ -75500,6 +75585,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-polyurethane-ultra-matt-varnish-18ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/453047-big.jpg?v=1676996522
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   confidence: 1.0
   reference: '72.653'
   manufacturer: Acrylicos Vallejo
@@ -82495,6 +82585,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://topshelfco.ca/products/vallejo-game-air-toxic-yellow-18ml
     source_url: https://cdn.shopify.com/s/files/1/0578/9148/7924/files/vallejo-game-air-76109-NewIC.jpg?v=1750093226
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   reference: '76.109'
   manufacturer_page: https://topshelfco.ca/products/vallejo-game-air-toxic-yellow-18ml
   brand: Vallejo
@@ -85317,6 +85412,11 @@ paints:
     quality_verified_at: '2026-09-01'
     reference_url: https://eirehobbies.com/products/vallejo-model-wash-chipping-medium-35ml
     source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/files/vallejo-auxiliary-products-chipping-medium-35ml-76550-1.jpg?v=1757690629
+    quality_limitation:
+      code: historical-reason-not-recorded
+      detail: This non-optimal quality predates structured limitation tracking; the
+        precise reason was not recorded.
+      observed_at: '2026-09-02'
   confidence: 1.0
   reference: '76.550'
   manufacturer: Acrylicos Vallejo

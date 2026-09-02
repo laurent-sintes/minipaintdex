@@ -1,0 +1,442 @@
+{
+  "schema_version": 1,
+  "brand": "Warhammer Colour",
+  "image_quality": "retailer_photo",
+  "source_url": "https://www.wog.ch/en/index.cfm/productfamily/type/Toys/extendedView/1/title/Citadel%2DColour",
+  "items": [
+    {
+      "reference": "PROD4190213-99189958145",
+      "name": "Abaddon Black",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147062-Citadel-Colour-Air-Abaddon-Black-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995806706.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190242-99189958174",
+      "name": "Administratum Grey",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147063-Citadel-Colour-Air-Administratum-Grey-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995809606.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190232-99189958164",
+      "name": "Air Caste Thinner",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147068-Citadel-Colour-Air-Caste-Thinner-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995808606.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190251-99189958183",
+      "name": "Angron Red Clear",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147094-Citadel-Colour-Air-Angron-Red-Clear-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995810506.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190200-99189958131",
+      "name": "Averland Sunset",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147064-Citadel-Colour-Air-Averland-Sunset-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995805306.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190215-99189958147",
+      "name": "Balthasar Gold",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147065-Citadel-Colour-Air-Balthasar-Gold-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995806906.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190240-99189958172",
+      "name": "Baneblade Brown",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147066-Citadel-Colour-Air-Baneblade-Brown-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995809406.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190205-99189958137",
+      "name": "Caliban Green",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147067-Citadel-Colour-Air-Caliban-Green-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995805906.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190252-99189958184",
+      "name": "Calth Blue Clear",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147095-Citadel-Colour-Air-Calth-Blue-Clear-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995810606.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190206-99189958138",
+      "name": "Castellan Green",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147069-Citadel-Colour-Air-Castellan-Green-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995806006.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190262-99189958194",
+      "name": "Corvus Black",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147096-Citadel-Colour-Air-Corvus-Black-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995811606.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190241-99189958173",
+      "name": "Dawnstone",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147070-Citadel-Colour-Air-Dawnstone-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995809506.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190207-99189958139",
+      "name": "Deathworld Forest",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/155412-Citadel-Colour-Air-Death-World-Forest-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel99189958139.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190254-99189958186",
+      "name": "Eidolon Purple Clear",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147097-Citadel-Colour-Air-Eidolon-Purple-Clear-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995810806.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190229-99189958161",
+      "name": "Elysian Green",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147071-Citadel-Colour-Air-Elysian-Green-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995808306.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190220-99189958152",
+      "name": "Evil Sunz Scarlet",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147072-Citadel-Colour-Air-Evil-Sunz-Scarlet-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995807406.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190249-99189958181",
+      "name": "Fenrisian Grey",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147073-Citadel-Colour-Air-Fenrisian-Grey-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995810306.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190218-99189958150",
+      "name": "Flash Gitz Yellow",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147074-Citadel-Colour-Air-Flash-Gitz-Yellow-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995807206.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190275-99189958207",
+      "name": "Grey Knights Steel",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147098-Citadel-Colour-Air-Grey-Knights-Steel-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995812906.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190203-99189958134",
+      "name": "Kantor Blue",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147075-Citadel-Colour-Air-Kantor-Blue-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995805606.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190202-99189958133",
+      "name": "Khorne Red",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147076-Citadel-Colour-Air-Khorne-Red-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995805506.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190235-99189958167",
+      "name": "Kislev Flesh",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147077-Citadel-Colour-Air-Kislev-Flesh-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995808906.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190214-99189958146",
+      "name": "Leadbelcher",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147078-Citadel-Colour-Air-Leadbelcher-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995806806.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190223-99189958155",
+      "name": "Lothern Blue",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147079-Citadel-Colour-Air-Lothern-Blue-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995807706.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4210259-99189958135",
+      "name": "Macragge Blue",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147080-Citadel-Colour-Air-Macragge-Blue-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995805706.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190212-99189958144",
+      "name": "Mechanicus Standard Grey",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147081-Citadel-Colour-Air-Mechanicus-Standard-Grey-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995806606.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190201-99189958132",
+      "name": "Mephiston Red",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/155411-Citadel-Colour-Air-Mephiston-Red-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel99189958132.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190226-99189958158",
+      "name": "Moot Green",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147082-Citadel-Colour-Air-Moot-Green-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995808006.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190255-99189958187",
+      "name": "Mortarion Green Clear",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/155413-Citadel-Colour-Air-Mortarion-Green-Clear-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel99189958187.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190209-99189958141",
+      "name": "Mournfang Brown",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147083-Citadel-Colour-Air-Mournfang-Brown-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995806306.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190259-99189958191",
+      "name": "Night Lords Blue",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147099-Citadel-Colour-Air-Night-Lords-Blue-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995811306.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190230-99189958162",
+      "name": "Ogryn Camo",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147084-Citadel-Colour-Air-Ogryn-Camo-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995808406.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190266-99189958198",
+      "name": "Phalanx Yellow",
+      "page_url": "https://oupi.eu/fr/air/2285-phalanx-yellow-air-citadel.html",
+      "image_url": "https://oupi.eu/7848-large_default/phalanx-yellow-air-citadel.jpg",
+      "credit": "Oupi"
+    },
+    {
+      "reference": "PROD4190256-99189958188",
+      "name": "Phoenician Purple",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/155414-Citadel-Colour-Air-Phoenician-Purple-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel99189958188.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190246-99189958178",
+      "name": "Runefang Steel",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147085-Citadel-Colour-Air-Runefang-Steel-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995810006.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190248-99189958180",
+      "name": "Russ Grey",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147086-Citadel-Colour-Air-Russ-Grey-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995810206.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190224-99189958156",
+      "name": "Temple Guard Blue",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147088-Citadel-Colour-Air-Temple-Guard-Blue-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995807806.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190276-99189958208",
+      "name": "Thallax Gold",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147100-Citadel-Colour-Air-Thallax-Gold-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995813006.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190217-99189958149",
+      "name": "The Fang",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/155410-Citadel-Colour-Air-The-Fang-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel99189958149.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190219-99189958151",
+      "name": "Troll Slayer Orange",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147089-Citadel-Colour-Air-Troll-Slayer-Orange-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995807306.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190264-99189958196",
+      "name": "Typhon Ash",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147101-Citadel-Colour-Air-Typhon-Ash-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995811806.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190243-99189958175",
+      "name": "Ulthuan Grey",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147090-Citadel-Colour-Air-Ulthuan-Grey-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995809706.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190231-99189958163",
+      "name": "Ushabti Bone",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147091-Citadel-Colour-Air-Ushabti-Bone-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995808506.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190244-99189958176",
+      "name": "White Scar",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147092-Citadel-Colour-Air-White-Scar-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995809806.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190208-99189958140",
+      "name": "Zandri Dust",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147093-Citadel-Colour-Air-Zandri-Dust-24ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995806206.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190304-99189960123",
+      "name": "Basilicanum Grey",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/128600-Citadel-Colour-Contrast-Basilicanum-Grey-18ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel2937.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4190305-99189960124",
+      "name": "Black Templar",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/128602-Citadel-Colour-Contrast-Black-Templar-18ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel2938.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4960244-99189953044",
+      "name": "Mortarion Grime",
+      "page_url": "https://www.wog.ch/en/index.cfm/details/product/147057-Citadel-Colour-Shade-Mortarion-Grime-18ml",
+      "image_url": "https://www.wog.ch/nas/cover_xl/ta/ta_citadel9918995304406.jpg",
+      "credit": "World of Games"
+    },
+    {
+      "reference": "PROD4540248-99209999090",
+      "name": "Chaos Black",
+      "page_url": "https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-chaos-black-spray",
+      "image_url": "https://eirehobbies.com/cdn/shop/products/Untitled_1c1b987a-b85e-4399-9ba3-28fe1af3a763_1200x1200.png?v=1635956998",
+      "credit": "EireHobbies"
+    },
+    {
+      "reference": "PROD4540249-99209999099",
+      "name": "Death Guard Green",
+      "page_url": "https://eirehobbies.com/collections/warhammer-colour-sprays/products/death-guard-green-spray",
+      "image_url": "https://eirehobbies.com/cdn/shop/products/Citadel-Death-Guard-Green_1200x1200.jpg?v=1635956132",
+      "credit": "EireHobbies"
+    },
+    {
+      "reference": "PROD4540250-99209999092",
+      "name": "Grey Seer",
+      "page_url": "https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-grey-seer-spray",
+      "image_url": "https://eirehobbies.com/cdn/shop/products/222c28b9a312c4fecc737c24601dedce_4000x.progressive_37801187-8bdc-4758-ba2d-fb205fe63bef_1200x1200.jpg?v=1635956475",
+      "credit": "EireHobbies"
+    },
+    {
+      "reference": "PROD4540253-99209999097",
+      "name": "Leadbelcher",
+      "page_url": "https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-leadbelcher-spray",
+      "image_url": "https://eirehobbies.com/cdn/shop/products/Untitled_e141d0f0-d58b-48a3-92e3-129e8d1e717c_1200x1200.png?v=1635956305",
+      "credit": "EireHobbies"
+    },
+    {
+      "reference": "PROD4540254-99209999095",
+      "name": "Macragge Blue",
+      "page_url": "https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-macragge-blue-spray",
+      "image_url": "https://eirehobbies.com/cdn/shop/products/Untitled_fe7146f3-c82a-463b-805a-a0068d8b34ef_1200x1200.png?v=1635956388",
+      "credit": "EireHobbies"
+    },
+    {
+      "reference": "PROD4540255-99209999098",
+      "name": "Mechanicus Standard Grey",
+      "page_url": "https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-mechanicus-standard-grey-1",
+      "image_url": "https://eirehobbies.com/cdn/shop/products/23838215e4c6026ec805b595f8eff0e5_1200x1200.jpg?v=1635956175",
+      "credit": "EireHobbies"
+    },
+    {
+      "reference": "PROD4540256-99209999094",
+      "name": "Mephiston Red",
+      "page_url": "https://eirehobbies.com/collections/warhammer-colour-sprays/products/copy-of-macragge-blue-spray",
+      "image_url": "https://eirehobbies.com/cdn/shop/products/99209999045_MephistonRedSpray01__40254.1514350158.500.750_1200x1200.jpg?v=1635956157",
+      "credit": "EireHobbies"
+    },
+    {
+      "reference": "PROD4540257-99209999107",
+      "name": "Munitorum Varnish",
+      "page_url": "https://eirehobbies.com/collections/warhammer-colour-sprays/products/munitorum-varnish-spray",
+      "image_url": "https://eirehobbies.com/cdn/shop/files/MunitorumVarnsih_1200x1200.jpg?v=1742318600",
+      "credit": "EireHobbies"
+    },
+    {
+      "reference": "PROD4540258-99209999100",
+      "name": "Retributor Armour",
+      "page_url": "https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-retributor-armour",
+      "image_url": "https://eirehobbies.com/cdn/shop/products/armour_4000x.progressive_69731b38-fd1f-4a3d-9937-90323b515eea_1200x1200.jpg?v=1635957173",
+      "credit": "EireHobbies"
+    },
+    {
+      "reference": "PROD4960287-99209999102",
+      "name": "White Scar",
+      "page_url": "https://eirehobbies.com/collections/warhammer-colour-sprays/products/white-scar-spray-pre-order",
+      "image_url": "https://eirehobbies.com/cdn/shop/products/https___trade.games-workshop.com_assets_2022_06_TR-62-36-8020999910206-WhiteScarSprayPaint_993x1088.jpg?v=1656679332",
+      "credit": "EireHobbies"
+    },
+    {
+      "reference": "PROD4540251-99209999091",
+      "name": "Wraithbone",
+      "page_url": "https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-wraithbone-spray",
+      "image_url": "https://eirehobbies.com/cdn/shop/products/5c50e8fa5f06b74f2b24d2153422a155_4000x.progressive_58a071b9-a258-43ee-a5be-aaa72b206350_1200x1200.jpg?v=1635956477",
+      "credit": "EireHobbies"
+    },
+    {
+      "reference": "PROD4540259-99209999096",
+      "name": "Zandri Dust",
+      "page_url": "https://eirehobbies.com/collections/warhammer-colour-sprays/products/zandri-dust",
+      "image_url": "https://eirehobbies.com/cdn/shop/products/spray-zandri-dust-1_1200x1200.jpg?v=1635953173",
+      "credit": "EireHobbies"
+    },
+    {
+      "reference": "PROD4190198-99189956081",
+      "name": "Contrast Medium",
+      "page_url": "https://wulfgaming.com/products/citadel-technical-contrast-medium-24ml",
+      "image_url": "https://wulfgaming.com/cdn/shop/files/ContrastMedium.jpg?v=1754057876&width=1400",
+      "credit": "Wulf Gaming"
+    },
+    {
+      "reference": "PROD4190199-99189956082",
+      "name": "Stormshield",
+      "page_url": "https://wulfgaming.com/products/citadel-technical-stormshield-24ml",
+      "image_url": "https://wulfgaming.com/cdn/shop/files/Stormshield.png?v=1754058001&width=1400",
+      "credit": "Wulf Gaming"
+    }
+  ]
+}

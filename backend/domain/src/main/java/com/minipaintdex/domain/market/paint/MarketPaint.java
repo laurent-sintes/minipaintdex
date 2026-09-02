@@ -48,6 +48,14 @@ public record MarketPaint(
         tags = immutableStrings(tags);
         notes = optional(notes);
         manufacturerImage = manufacturerImage == null ? ImageReference.empty() : manufacturerImage;
+        if (manufacturerImage.imageQuality() == MarketPaintImageQuality.OFFICIAL_PHOTO
+                && manufacturerImage.qualityLimitation() != null) {
+            throw invalid("manufacturerImage.qualityLimitation must be absent for an official photo.");
+        }
+        if (manufacturerImage.imageQuality() != MarketPaintImageQuality.OFFICIAL_PHOTO
+                && manufacturerImage.qualityLimitation() == null) {
+            throw invalid("manufacturerImage.qualityLimitation is required when image quality is not official_photo.");
+        }
         if (volumeMl < 0) throw invalid("volumeMl cannot be negative.");
         recommendedUses = immutableStrings(recommendedUses);
         usageInstructions = usageInstructions == null ? UsageInstructions.empty() : usageInstructions;
@@ -73,7 +81,8 @@ public record MarketPaint(
             String license,
             URI referenceUrl,
             MarketPaintImageQuality imageQuality,
-            LocalDate qualityVerifiedAt) {
+            LocalDate qualityVerifiedAt,
+            ImageQualityLimitation qualityLimitation) {
         public ImageReference {
             path = optional(path);
             credit = optional(credit);
@@ -99,10 +108,24 @@ public record MarketPaint(
                     && (credit == null || referenceUrl == null)) {
                 throw invalid("retailer photos require a credit and referenceUrl.");
             }
+            if (imageQuality == MarketPaintImageQuality.OFFICIAL_PHOTO && qualityLimitation != null) {
+                throw invalid("qualityLimitation must be absent for an official photo.");
+            }
         }
 
         public static ImageReference empty() {
-            return new ImageReference(null, null, null, null, null, MarketPaintImageQuality.NONE, null);
+            return new ImageReference(null, null, null, null, null, MarketPaintImageQuality.NONE, null, null);
+        }
+    }
+
+    public record ImageQualityLimitation(
+            MarketPaintImageLimitationCode code,
+            String detail,
+            LocalDate observedAt) {
+        public ImageQualityLimitation {
+            if (code == null) throw invalid("image quality limitation code is required.");
+            detail = required(detail, "image quality limitation detail");
+            if (observedAt == null) throw invalid("image quality limitation observedAt is required.");
         }
     }
 

@@ -87,7 +87,13 @@ class MarketCatalogFactoryTest {
                         "undercoat", Map.of("tone", "light", "pre_highlighted_surface_recommended", true),
                         "medium", "acrylic")),
                 Map.entry("name", "Paint"), Map.entry("volume_ml", 18),
-                Map.entry("tags", List.of("smooth")));
+                Map.entry("tags", List.of("smooth")),
+                Map.entry("manufacturer_image", Map.of(
+                        "image_quality", "none",
+                        "quality_limitation", Map.of(
+                                "code", "historical-reason-not-recorded",
+                                "detail", "The precise historical reason was not recorded.",
+                                "observed_at", "2026-09-01"))));
     }
 
     private static PaintableProduct product() {

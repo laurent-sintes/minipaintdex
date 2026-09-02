@@ -103,6 +103,10 @@ def build_parser() -> argparse.ArgumentParser:
     cache_images.add_argument("--workers", type=int, default=4)
     cache_images.add_argument("--limit", type=int, default=0, help="Maximum records to inspect; zero means no limit")
     cache_images.add_argument("--overwrite", action="store_true")
+    cache_images.add_argument(
+        "--normalize-local", action="store_true",
+        help="Normalize existing raster cache entries to the square presentation canvas without downloading them again",
+    )
     cache_images.add_argument("--allow-partial", action="store_true", help="Return success even when some downloads fail")
     cache_images.add_argument("--verified-at")
     cache_images.add_argument("--audit-log", required=True)
@@ -284,6 +288,7 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         if args.command == "assets" and args.assets_command == "cache-paint-images":
             catalog = read_catalog(Path(args.catalog))
+            fallback_catalog = catalog
             if args.source_manifest and args.source_changeset:
                 raise ValueError("Use either --source-manifest or --source-changeset, not both.")
             if args.source_manifest:
@@ -311,7 +316,8 @@ def main(argv: list[str] | None = None) -> int:
                 catalog, Path(args.media_root),
                 brands=args.brand or ["all"], min_width=args.min_width, min_height=args.min_height,
                 max_edge=args.max_edge, max_bytes=args.max_bytes, overwrite=args.overwrite,
-                limit=args.limit, workers=args.workers, verified_at=args.verified_at,
+                normalize_local=args.normalize_local, limit=args.limit, workers=args.workers,
+                verified_at=args.verified_at, fallback_catalog=fallback_catalog,
             )
             write_json(Path(args.output), changeset)
             write_json(Path(args.audit_log), report)

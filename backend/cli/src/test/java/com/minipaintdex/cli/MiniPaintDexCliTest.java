@@ -7,11 +7,14 @@ import com.minipaintdex.application.port.EventBus;
 import com.minipaintdex.application.event.EventBusState;
 import com.minipaintdex.application.port.PersistenceLifecycle;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import picocli.CommandLine;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.time.Instant;
 
@@ -20,6 +23,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 class MiniPaintDexCliTest {
+    @TempDir
+    Path temporaryDirectory;
+
     @Test
     void healthHasDeterministicJsonOutputAndExitCode() {
         var output = new ByteArrayOutputStream();
@@ -84,5 +90,43 @@ class MiniPaintDexCliTest {
 
         assertEquals(0, command.execute("market", "paints", "apply", "--help"));
         assertEquals(0, command.execute("market", "paintable-products", "apply", "--help"));
+    }
+
+    @Test
+    void paintChangeSetReaderPreservesJsonFieldOrder() throws Exception {
+        var path = temporaryDirectory.resolve("paint-change-set.json");
+        Files.writeString(path, """
+                {
+                  "schema_version": 1,
+                  "kind": "market_paints",
+                  "operations": [{
+                    "action": "upsert",
+                    "record": {
+                      "lifecycle_status": "active",
+                      "name": "Ordered paint",
+                      "id": "tst-1",
+                      "manufacturer_image": {
+                        "credit": "Official",
+                        "image_quality": "official_photo",
+                        "path": "/media/paint.webp"
+                      }
+                    }
+                  }]
+                }
+                """);
+        var cli = new MiniPaintDexCli(
+                mock(MarketCatalogUseCases.class), mock(WorkshopUseCases.class),
+                mock(AdministrationUseCases.class), mock(EventBus.class), mock(PersistenceLifecycle.class));
+
+        var command = cli.readPaintChangeSet(path, true);
+        var record = command.operations().getFirst().record();
+        assertEquals(
+                List.of("lifecycle_status", "name", "id", "manufacturer_image"),
+                record.fields().stream().map(field -> field.name()).toList());
+        var image = (com.minipaintdex.application.document.StructuredDocument.ObjectValue)
+                record.fields().getLast().value();
+        assertEquals(
+                List.of("credit", "image_quality", "path"),
+                image.value().fields().stream().map(field -> field.name()).toList());
     }
 }

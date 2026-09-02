@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from .paint_identity import market_paint_deduplication_key, market_paint_id
-from .image_quality import IMAGE_QUALITY_RANKS
+from .image_quality import IMAGE_QUALITY_LIMITATION_CODES, IMAGE_QUALITY_RANKS, quality_limitation
 from .paint_model import canonical_profile, source_observation, validate_profile
 
 
@@ -92,6 +92,14 @@ def canonical_paint(record: dict[str, Any], *, verified_at: str | None = None) -
             verification_date if image_quality != "none" else ""
         ),
     }
+    if image_quality != "official_photo":
+        existing_limitation = existing_manufacturer_image.get("quality_limitation")
+        manufacturer_image["quality_limitation"] = existing_limitation if isinstance(existing_limitation, dict) else quality_limitation(
+            "manually-provided" if image_quality == "owned_photo" else "better-source-not-found",
+            "The product photo was supplied manually." if image_quality == "owned_photo"
+            else "The import did not provide a better usable product image.",
+            verification_date,
+        )
     result_image = {
         "path": _text(_first(record, enrichment, "result_image")),
         "source_url": _text(_first(record, enrichment, "result_source_url")),
@@ -367,6 +375,23 @@ def _validate_image_reference(
             errors.append(f"{location}.credit is required for retailer_photo")
         if not _text(image.get("reference_url")):
             errors.append(f"{location}.reference_url is required for retailer_photo")
+    limitation = image.get("quality_limitation")
+    if quality == "official_photo":
+        if limitation is not None:
+            errors.append(f"{location}.quality_limitation must be absent for official_photo")
+    elif not isinstance(limitation, dict):
+        errors.append(f"{location}.quality_limitation is required for {quality}")
+    else:
+        code = _text(limitation.get("code"))
+        if code not in IMAGE_QUALITY_LIMITATION_CODES:
+            errors.append(f"{location}.quality_limitation.code is unsupported: {code}")
+        if not _text(limitation.get("detail")):
+            errors.append(f"{location}.quality_limitation.detail is required")
+        observed_at = _text(limitation.get("observed_at"))
+        try:
+            date.fromisoformat(observed_at)
+        except ValueError:
+            errors.append(f"{location}.quality_limitation.observed_at must be an ISO-8601 date")
 
 
 def _validate_source_evidence(record: dict[str, Any], location: str, errors: list[str]) -> None:

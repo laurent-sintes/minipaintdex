@@ -36,6 +36,7 @@ export type SiteConfig = {
     vocabularies: string; openPaintSchema: string; qualityTitle: string; qualityDescription: string;
     missingColorHex: string; missingColorFamily: string; unknownFinish: string; unknownCoverage: string;
     technicalReviewRequired: string; sourcedImagesWithoutLicense: string; realResultImages: string; imageQualityBreakdown: string;
+    imageQualityLimitations: string; noImageQualityLimitations: string;
     apiTitle: string; apiDescription: string; versionTitle: string; versionDescription: string; versionLabel: string; authorLabel: string;
     loading: string; documentTitles: Record<string, string>;
   };
@@ -76,7 +77,8 @@ export type SiteConfig = {
     productVisual: string; appliedResult: string; digitalPreview: string; digitalPreviewHelp: string;
     noProductVisual: string; realResultSource: string; referenceLabel: string; volumeLabel: string;
     instructionsReviewRequired: string;
-    imageQuality: string; imageQualityLabels: Record<string, string>;
+    imageQuality: string; imageQualityLimitation: string; imageQualityLimitationObservedOn: string;
+    imageQualityLabels: Record<string, string>;
   };
   errors: { loading: string; productNotFound: string; catalogItemNotFound: string; paintNotFound: string; requestFailed: string };
 };

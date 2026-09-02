@@ -151,6 +151,8 @@ about:
   sourced_images_without_license: visuels sourcés sans licence renseignée
   real_result_images: rendus réels disponibles
   image_quality_breakdown: Répartition de la qualité des visuels
+  image_quality_limitations: Raisons des qualités non optimales, par marque
+  no_image_quality_limitations: Tous les visuels sont des photos officielles.
   api_title: API REST
   api_description: Explorez le contrat OpenAPI et testez les services locaux de Mini Paint Dex.
   version_title: Informations sur l’application
@@ -311,6 +313,13 @@ collection:
     generic_visual: Visuel générique
     color_swatch: Rectangle de couleur
     none: Pas de photo
+    official-photo-not-published: Photo officielle non publiée
+    official-source-unavailable: Source officielle indisponible
+    official-candidate-rejected: Candidat officiel rejeté par le contrôle qualité
+    official-reference-unmatched: Référence officielle non rapprochée
+    better-source-not-found: Aucune meilleure source trouvée
+    manually-provided: Visuel fourni manuellement
+    historical-reason-not-recorded: Motif historique non enregistré
   reset_filters: Tout effacer
   active_filters: Filtres actifs
   remove_filter: Retirer le filtre
@@ -355,6 +364,8 @@ paint_detail:
   reference_label: Réf.
   volume_label: Volume
   image_quality: Qualité du visuel
+  image_quality_limitation: Pourquoi le visuel n’est pas optimal
+  image_quality_limitation_observed_on: Constaté le
   image_quality_labels:
     official_photo: Photo officielle
     retailer_photo: Photo de revendeur

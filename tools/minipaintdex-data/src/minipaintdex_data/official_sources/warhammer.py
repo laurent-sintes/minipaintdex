@@ -10,7 +10,7 @@ from urllib.parse import urlencode
 
 from ..paint_identity import market_paint_id
 from .common import base_record, classify, color_family, existing_indexes, fetch_json, merge_previous, reference, slug, source_snapshot
-from ..image_quality import prefer_image
+from ..image_quality import prefer_image, quality_limitation
 
 
 RANGE_URL = "https://paint.warhammer.com/the-paint-range/"
@@ -22,6 +22,7 @@ SEARCH_HEADERS = {
     "X-Algolia-API-Key": "92c6a8254f9d34362df8e6d96475e5d8",
 }
 OFFICIAL_URLS = (RANGE_URL, STORE_URL + "/en-GB/paint")
+COLOUR_SWATCH_WARNING = "Official store artwork is a colour swatch, not a product packshot."
 
 
 def _hits() -> list[dict[str, Any]]:
@@ -96,16 +97,29 @@ def collect(catalog: dict[str, Any], _: Path) -> list[dict[str, Any]]:
             (paint_type.casefold(), name.casefold())
         )
         if previous:
+            previous_reference = reference(previous.get("reference"))
             record["id"] = previous["id"]
             record["deduplication_key"] = previous.get("deduplication_key", record["deduplication_key"])
             record = merge_previous(record, previous)
+            if previous_reference and previous_reference != reference_code:
+                # An id is immutable after first import. Keep the prior identity basis until an
+                # explicit rekey can migrate every mutable reference atomically.
+                record["reference"] = previous_reference
+                record["deduplication_key"] = previous.get("deduplication_key", record["deduplication_key"])
+                record["warnings"] = sorted(set(record.get("warnings", [])) | {
+                    f"Official store reference changed from {previous_reference} to {reference_code}; "
+                    "explicit identity reconciliation is required."
+                })
         record["manufacturer_image"] = prefer_image(record.get("manufacturer_image", {}), {
             "path": "", "source_url": "", "credit": "Official Games Workshop colour swatch",
             "license": "", "reference_url": record["manufacturer_page"],
             "image_quality": "color_swatch", "quality_verified_at": date.today().isoformat(),
+            "quality_limitation": quality_limitation(
+                "official-photo-not-published",
+                "The official Games Workshop catalog publishes a color swatch rather than a usable product photo.",
+                date.today().isoformat(),
+            ),
         })
-        record["warnings"] = sorted(
-            set(record.get("warnings", [])) | {"Official store artwork is a colour swatch, not a product packshot."}
-        )
+        record["warnings"] = sorted(set(record.get("warnings", [])) | {COLOUR_SWATCH_WARNING})
         records.append(record)
     return records

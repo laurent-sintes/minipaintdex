@@ -83,7 +83,12 @@ final class MarketPaintQueryService {
     PaintCatalogQualityView quality() {
         var paints = catalogs.load().paints();
         var qualityCounts = new java.util.TreeMap<String, Integer>();
+        var limitationCounts = new java.util.TreeMap<String, Integer>();
         paints.forEach(paint -> qualityCounts.merge(paint.manufacturerImage().imageQuality().id(), 1, Integer::sum));
+        paints.stream().filter(paint -> paint.manufacturerImage().qualityLimitation() != null)
+                .forEach(paint -> limitationCounts.merge(
+                        paint.brand() + "\u0000" + paint.manufacturerImage().qualityLimitation().code().id(),
+                        1, Integer::sum));
         return new PaintCatalogQualityView(
                 paints.size(),
                 (int) paints.stream().filter(paint -> !present(paint.color().hex())).count(),
@@ -97,6 +102,14 @@ final class MarketPaintQueryService {
                 (int) paints.stream().filter(paint -> present(image(paint.resultImage()))).count(),
                 qualityCounts.entrySet().stream()
                         .map(entry -> new PaintCatalogQualityView.ImageQualityCount(entry.getKey(), entry.getValue()))
+                        .toList(),
+                limitationCounts.entrySet().stream()
+                        .map(entry -> {
+                            var separator = entry.getKey().indexOf('\u0000');
+                            return new PaintCatalogQualityView.ImageLimitationCount(
+                                    entry.getKey().substring(0, separator),
+                                    entry.getKey().substring(separator + 1), entry.getValue());
+                        })
                         .toList());
     }
 
@@ -148,6 +161,12 @@ final class MarketPaintQueryService {
                 string(paint.manufacturerImage().credit()), paint.manufacturerImage().imageQuality().id(),
                 paint.manufacturerImage().imageQuality().rank(),
                 paint.manufacturerImage().qualityVerifiedAt() == null ? "" : paint.manufacturerImage().qualityVerifiedAt().toString(),
+                paint.manufacturerImage().qualityLimitation() == null ? ""
+                        : paint.manufacturerImage().qualityLimitation().code().id(),
+                paint.manufacturerImage().qualityLimitation() == null ? ""
+                        : paint.manufacturerImage().qualityLimitation().detail(),
+                paint.manufacturerImage().qualityLimitation() == null ? ""
+                        : paint.manufacturerImage().qualityLimitation().observedAt().toString(),
                 paint.volumeMl(), string(paint.color().family()),
                 string(paint.notes()), paint.recommendedUses(),
                 new MarketPaintView.UsageInstructions(

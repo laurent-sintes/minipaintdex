@@ -12,10 +12,14 @@ public record PaintCatalogQualityView(
         int technicalReviewRequired,
         int sourcedImagesWithoutLicense,
         int realResultImages,
-        List<ImageQualityCount> imageQualities) {
+        List<ImageQualityCount> imageQualities,
+        List<ImageLimitationCount> imageLimitations) {
     public PaintCatalogQualityView {
         imageQualities = List.copyOf(imageQualities);
+        imageLimitations = List.copyOf(imageLimitations);
     }
 
     public record ImageQualityCount(String quality, int count) {}
+
+    public record ImageLimitationCount(String brand, String code, int count) {}
 }

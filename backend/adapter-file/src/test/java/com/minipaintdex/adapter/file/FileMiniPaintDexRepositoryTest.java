@@ -82,7 +82,7 @@ class FileMiniPaintDexRepositoryTest {
                         "finish", "matte", "effects", List.of(),
                         "undercoat", Map.of("tone", "any", "pre_highlighted_surface_recommended", false),
                         "medium", "acrylic"),
-                "name", "New Paint"))));
+                "name", "New Paint", "manufacturer_image", missingImage()))));
 
         var snapshot = repository.load();
         assertEquals("New Paint", text(snapshot.marketPaints().getFirst(), "name"));
@@ -114,6 +114,12 @@ class FileMiniPaintDexRepositoryTest {
                     manufacturer: Other Maker
                     brand: Other Brand
                     id: other-paint
+                    manufacturer_image:
+                      image_quality: none
+                      quality_limitation:
+                        code: historical-reason-not-recorded
+                        detail: The precise historical reason was not recorded.
+                        observed_at: '2026-09-01'
                 """);
         var repository = new FileMiniPaintDexRepository(layout());
         repository.initialize();
@@ -129,7 +135,7 @@ class FileMiniPaintDexRepositoryTest {
                         "finish", "matte", "effects", List.of(),
                         "undercoat", Map.of("tone", "any", "pre_highlighted_surface_recommended", false),
                         "medium", "acrylic"),
-                "name", "Updated Paint")));
+                "name", "Updated Paint", "manufacturer_image", missingImage())));
 
         repository.replaceMarketPaints(paints);
 
@@ -212,6 +218,12 @@ class FileMiniPaintDexRepositoryTest {
                       undercoat: {tone: any, pre_highlighted_surface_recommended: false}
                       medium: acrylic
                     name: Refreshed Paint
+                    manufacturer_image:
+                      image_quality: none
+                      quality_limitation:
+                        code: historical-reason-not-recorded
+                        detail: The precise historical reason was not recorded.
+                        observed_at: '2026-09-01'
                 """);
 
         assertEquals("paint", text(repository.load().marketPaints().getFirst(), "id"));
@@ -276,6 +288,12 @@ class FileMiniPaintDexRepositoryTest {
                       undercoat: {tone: any, pre_highlighted_surface_recommended: false}
                       medium: acrylic
                     name: Paint
+                    manufacturer_image:
+                      image_quality: none
+                      quality_limitation:
+                        code: historical-reason-not-recorded
+                        detail: The precise historical reason was not recorded.
+                        observed_at: '2026-09-01'
                 """);
         write("data/workshop/paints.yaml", "schema_version: 1\npaints: []\n");
         write("data/workshop/shopping.yaml", "schema_version: 1\nitems: []\n");
@@ -323,6 +341,15 @@ class FileMiniPaintDexRepositoryTest {
                 .map(entry -> new StructuredDocument.Field(
                         entry.getKey(), documentValue(entry.getValue())))
                 .toList());
+    }
+
+    private static Map<String, Object> missingImage() {
+        return Map.of(
+                "image_quality", "none",
+                "quality_limitation", Map.of(
+                        "code", "historical-reason-not-recorded",
+                        "detail", "The precise historical reason was not recorded.",
+                        "observed_at", "2026-09-01"));
     }
 
     private static StructuredDocument.Value documentValue(Object value) {

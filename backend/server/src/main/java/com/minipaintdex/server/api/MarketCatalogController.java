@@ -206,12 +206,12 @@ final class MarketCatalogController {
         properties.put("tags", stringArrayProperty());
         properties.put("notes", Map.of("type", "string"));
         properties.put("manufacturer_page", uriProperty());
-        properties.put("manufacturer_image", imageProperty(vocabularies));
+        properties.put("manufacturer_image", imageProperty(vocabularies, true));
         properties.put("volume_ml", Map.of("type", "integer", "minimum", 0));
         properties.put("recommended_uses", stringArrayProperty());
         properties.put("usage_instructions", usageInstructionsProperty());
         properties.put("verified_at", Map.of("type", "string", "format", "date"));
-        properties.put("result_image", imageProperty(vocabularies));
+        properties.put("result_image", imageProperty(vocabularies, false));
         properties.put("confidence", Map.of("type", "number", "minimum", 0, "maximum", 1));
         properties.put("deduplication_key", Map.of("type", "string"));
         properties.put("provenance", sourceEvidenceProperty());
@@ -227,7 +227,8 @@ final class MarketCatalogController {
                 "Mini Paint Dex canonical market paint",
                 "object",
                 false,
-                List.of("schema_version", "id", "brand", "manufacturer", "range", "name", "profile", "data_status"),
+                List.of("schema_version", "id", "brand", "manufacturer", "range", "name", "profile",
+                        "data_status", "manufacturer_image"),
                 properties,
                 model.modelVersion(),
                 model.filters(),
@@ -238,7 +239,8 @@ final class MarketCatalogController {
                         "generic_visual", 4, "color_swatch", 5, "none", 6));
     }
 
-    private static Map<String, Object> imageProperty(Map<String, List<String>> vocabularies) {
+    private static Map<String, Object> imageProperty(
+            Map<String, List<String>> vocabularies, boolean manufacturerVisual) {
         var properties = new LinkedHashMap<String, Object>();
         properties.put("path", Map.of("type", "string"));
         properties.put("source_url", uriProperty());
@@ -249,7 +251,38 @@ final class MarketCatalogController {
                 "type", "string", "enum", vocabularies.get("image-quality"),
                 "description", "Source quality; lower x-quality-rank is better."));
         properties.put("quality_verified_at", Map.of("type", "string", "format", "date"));
-        return Map.of("type", "object", "additionalProperties", false, "properties", properties);
+        properties.put("quality_limitation", Map.of(
+                "type", "object",
+                "additionalProperties", false,
+                "required", List.of("code", "detail", "observed_at"),
+                "properties", Map.of(
+                        "code", Map.of("type", "string", "enum", vocabularies.get("image-quality-limitation")),
+                        "detail", Map.of("type", "string", "minLength", 1),
+                        "observed_at", Map.of("type", "string", "format", "date"))));
+        var result = new LinkedHashMap<String, Object>();
+        result.put("type", "object");
+        result.put("additionalProperties", false);
+        result.put("properties", properties);
+        if (manufacturerVisual) {
+            result.put("required", List.of("image_quality"));
+            result.put("allOf", List.of(
+                    Map.of(
+                            "if", Map.of(
+                                    "required", List.of("image_quality"),
+                                    "properties", Map.of("image_quality", Map.of("const", "official_photo"))),
+                            "then", Map.of("not", Map.of("required", List.of("quality_limitation")))),
+                    Map.of(
+                            "if", Map.of(
+                                    "required", List.of("image_quality"),
+                                    "properties", Map.of("image_quality", Map.of(
+                                            "enum", List.of("retailer_photo", "owned_photo", "generic_visual", "color_swatch", "none")))),
+                            "then", Map.of("required", List.of("quality_limitation"))),
+                    Map.of(
+                            "if", Map.of("properties", Map.of("image_quality", Map.of(
+                                    "enum", List.of("official_photo", "retailer_photo", "owned_photo", "generic_visual", "color_swatch")))),
+                            "then", Map.of("required", List.of("quality_verified_at")))));
+        }
+        return result;
     }
 
     private static Map<String, Object> usageInstructionsProperty() {

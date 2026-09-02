@@ -366,7 +366,13 @@ class ApplicationServicesTest {
                         "medium", "water_based_acrylic")),
                 Map.entry("reference", "29-34"), Map.entry("name", name),
                 Map.entry("color", Map.of("hex", "#D9DEDA", "family", "White")), Map.entry("volume_ml", 18),
-                Map.entry("lifecycle_status", "active"), Map.entry("tags", List.of("cold")));
+                Map.entry("lifecycle_status", "active"), Map.entry("tags", List.of("cold")),
+                Map.entry("manufacturer_image", Map.of(
+                        "image_quality", "none",
+                        "quality_limitation", Map.of(
+                                "code", "historical-reason-not-recorded",
+                                "detail", "The precise historical reason was not recorded.",
+                                "observed_at", "2026-09-01"))));
     }
 
     private static StructuredDocument document(Map<String, Object> values) {

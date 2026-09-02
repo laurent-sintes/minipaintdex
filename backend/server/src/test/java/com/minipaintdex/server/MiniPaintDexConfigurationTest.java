@@ -89,7 +89,12 @@ class MiniPaintDexConfigurationTest {
         mvc.perform(get("/api/v1/market/paints/quality"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.total").value(2019))
-                .andExpect(jsonPath("$.imageQualities.length()").value(3));
+                .andExpect(jsonPath("$.imageQualities.length()").value(2))
+                .andExpect(jsonPath("$.imageQualities[0].quality").value("official_photo"))
+                .andExpect(jsonPath("$.imageQualities[0].count").value(1668))
+                .andExpect(jsonPath("$.imageQualities[1].quality").value("retailer_photo"))
+                .andExpect(jsonPath("$.imageQualities[1].count").value(351))
+                .andExpect(jsonPath("$.imageLimitations.length()").value(3));
     }
 
     @Test

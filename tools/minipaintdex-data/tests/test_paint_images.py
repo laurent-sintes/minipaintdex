@@ -13,6 +13,7 @@ from minipaintdex_data.image_quality import plan_image_rechallenge
 
 
 def paint(source_url: str) -> dict:
+    quality = "official_photo" if source_url else "none"
     return {
         "schema_version": 1,
         "id": "val-72-401",
@@ -31,7 +32,16 @@ def paint(source_url: str) -> dict:
             "undercoat": {"tone": "light", "pre_highlighted_surface_recommended": True},
             "medium": "water_based_acrylic",
         },
-        "manufacturer_image": {"path": "", "source_url": source_url, "credit": "Official Vallejo catalogue"},
+        "manufacturer_image": {
+            "path": "", "source_url": source_url, "credit": "Official Vallejo catalogue",
+            "image_quality": quality,
+            "quality_verified_at": "2026-09-01" if source_url else "",
+            **({} if source_url else {"quality_limitation": {
+                "code": "historical-reason-not-recorded",
+                "detail": "The precise historical reason was not recorded.",
+                "observed_at": "2026-09-01",
+            }}),
+        },
     }
 
 
@@ -67,6 +77,8 @@ class PaintImageCacheTest(unittest.TestCase):
         path = changeset["operations"][0]["record"]["manufacturer_image"]["path"]
         self.assertEqual(path, "/media/market/paints/vallejo/val-72-401.webp")
         self.assertTrue((directory / path.removeprefix("/media/")).is_file())
+        self.assertEqual((report["items"][0]["width"], report["items"][0]["height"]), (800, 800))
+        self.assertEqual(report["items"][0]["presentation_canvas"], "square")
 
     def test_rekeys_existing_cached_image(self):
         directory = self.temporary_directory()
@@ -142,7 +154,9 @@ class PaintImageCacheTest(unittest.TestCase):
 
         self.assertEqual(report["counts"], {"failed": 1})
         self.assertIn("flat colour artwork", report["items"][0]["error"])
-        self.assertEqual(changeset["operations"], [])
+        self.assertEqual(len(changeset["operations"]), 1)
+        limitation = changeset["operations"][0]["record"]["manufacturer_image"]["quality_limitation"]
+        self.assertEqual(limitation["code"], "official-candidate-rejected")
 
     def test_rejects_checkerboard_background_as_a_product_photo(self):
         try:
@@ -164,7 +178,11 @@ class PaintImageCacheTest(unittest.TestCase):
             fetch_image=lambda url, maximum: (source.getvalue(), "image/png", url), workers=1,
         )
 
-        self.assertEqual(changeset["operations"], [])
+        self.assertEqual(len(changeset["operations"]), 1)
+        self.assertEqual(
+            changeset["operations"][0]["record"]["manufacturer_image"]["quality_limitation"]["code"],
+            "official-candidate-rejected",
+        )
         self.assertIn("checkerboard_background", report["items"][0]["error"])
 
     def test_plans_lower_quality_and_stale_official_images(self):
@@ -189,7 +207,7 @@ class PaintImageCacheTest(unittest.TestCase):
             {"better_quality_available", "official_photo_older_than_policy"},
         )
 
-    def test_asset_audit_reports_flat_artwork(self):
+    def test_asset_audit_reports_rejected_artwork_with_technical_reasons(self):
         try:
             from PIL import Image
         except ImportError:
@@ -209,8 +227,9 @@ class PaintImageCacheTest(unittest.TestCase):
 
         report = audit_assets(root)
 
-        self.assertEqual(report["paint_images"]["by_brand"]["Vallejo"], {"flat_artwork": 1})
-        self.assertEqual(report["flat_artwork"][0]["path"], "/media/market/paints/vallejo/flat.webp")
+        self.assertEqual(report["paint_images"]["by_brand"]["Vallejo"], {"color_swatch": 1})
+        self.assertEqual(report["rejected_artwork"][0]["path"], "/media/market/paints/vallejo/flat.webp")
+        self.assertIn("flat_colour_artwork", report["rejected_artwork"][0]["reasons"])
 
     def test_rejects_non_official_image_host(self):
         directory = self.temporary_directory()
@@ -248,7 +267,7 @@ class PaintImageCacheTest(unittest.TestCase):
         )
 
         self.assertEqual(report["counts"], {"failed": 1})
-        self.assertEqual(changeset["operations"], [])
+        self.assertEqual(len(changeset["operations"]), 1)
 
     def test_rejects_low_complexity_neutral_pot_silhouette(self):
         from PIL import Image, ImageDraw
@@ -269,7 +288,7 @@ class PaintImageCacheTest(unittest.TestCase):
 
         self.assertEqual(report["counts"], {"failed": 1})
         self.assertIn("low_complexity_neutral_artwork", report["items"][0]["error"])
-        self.assertEqual(changeset["operations"], [])
+        self.assertEqual(len(changeset["operations"]), 1)
 
     def test_imports_verified_official_image_source(self):
         changeset = build_image_source_changeset(
@@ -334,6 +353,54 @@ class PaintImageCacheTest(unittest.TestCase):
         image = changeset["operations"][0]["record"]["manufacturer_image"]
         self.assertEqual(image["image_quality"], "retailer_photo")
         self.assertEqual(image["credit"], "Example Paints")
+        self.assertEqual(image["quality_limitation"]["code"], "better-source-not-found")
+
+    def test_keeps_a_detailed_monochrome_product_photo(self):
+        from PIL import Image, ImageDraw
+
+        source = Image.new("RGB", (800, 800), "white")
+        draw = ImageDraw.Draw(source)
+        draw.rounded_rectangle((300, 120, 520, 710), radius=45, fill="#ededed", outline="#303030", width=7)
+        for y in range(210, 610, 24):
+            draw.line((320, y, 500, y), fill="#777777", width=4)
+        draw.rectangle((335, 390, 485, 530), fill="white", outline="black", width=5)
+        draw.text((365, 440), "P842", fill="black")
+        buffer = io.BytesIO()
+        source.save(buffer, format="PNG")
+
+        changeset, report = build_image_cache_changeset(
+            {"paints": [paint("https://acrylicosvallejo.com/white-product.png")]},
+            self.temporary_directory(),
+            fetch_image=lambda url, maximum: (buffer.getvalue(), "image/png", url), workers=1,
+        )
+
+        self.assertEqual(report["counts"], {"cached": 1})
+        self.assertEqual(len(changeset["operations"]), 1)
+
+    def test_normalizes_an_existing_local_raster_without_downloading_it(self):
+        try:
+            from PIL import Image, ImageDraw
+        except ImportError:
+            self.skipTest("Pillow is not installed")
+        directory = self.temporary_directory()
+        local = directory / "market" / "paints" / "vallejo" / "val-72-401.webp"
+        local.parent.mkdir(parents=True)
+        image = Image.new("RGB", (600, 400), "white")
+        draw = ImageDraw.Draw(image)
+        draw.rectangle((180, 40, 420, 360), fill="#a92222", outline="black", width=8)
+        image.save(local, format="WEBP")
+        record = paint("https://acrylicosvallejo.com/official.png")
+        record["manufacturer_image"]["path"] = "/media/market/paints/vallejo/val-72-401.webp"
+
+        changeset, report = build_image_cache_changeset(
+            {"paints": [record]}, directory, normalize_local=True, workers=1,
+            fetch_image=lambda *_: self.fail("The remote source must not be downloaded."),
+        )
+
+        self.assertEqual(changeset["operations"], [])
+        self.assertEqual(report["counts"], {"normalized_local": 1})
+        with Image.open(local) as normalized:
+            self.assertEqual(normalized.size, (800, 800))
 
 
 if __name__ == "__main__":

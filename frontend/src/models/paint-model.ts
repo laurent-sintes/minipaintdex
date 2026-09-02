@@ -6,6 +6,9 @@ export type ManufacturerInfo = {
   manufacturerImageQuality: 'official_photo' | 'retailer_photo' | 'owned_photo' | 'generic_visual' | 'color_swatch' | 'none';
   manufacturerImageQualityRank: number;
   manufacturerImageQualityVerifiedAt: string;
+  manufacturerImageQualityLimitationCode: string;
+  manufacturerImageQualityLimitationDetail: string;
+  manufacturerImageQualityLimitationObservedAt: string;
   volumeMl: number;
   colorFamily: string;
   manufacturerDescription: string;
@@ -95,6 +98,7 @@ export type PaintCatalogQuality = {
   sourcedImagesWithoutLicense: number;
   realResultImages: number;
   imageQualities: Array<{ quality: string; count: number }>;
+  imageLimitations: Array<{ brand: string; code: string; count: number }>;
 };
 
 export type ShoppingItem = {

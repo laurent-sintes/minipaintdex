@@ -27,6 +27,11 @@ const effects = new Set(['metallic', 'fluorescent', 'pearlescent']);
 const undercoats = new Set(['light', 'dark', 'any', 'unknown']);
 const mediums = new Set(['water_based_acrylic', 'acrylic', 'alcohol_based', 'oil', 'enamel', 'unknown']);
 const imageQualities = new Set(['official_photo', 'retailer_photo', 'owned_photo', 'generic_visual', 'color_swatch', 'none']);
+const imageQualityLimitationCodes = new Set([
+  'official-photo-not-published', 'official-source-unavailable', 'official-candidate-rejected',
+  'official-reference-unmatched', 'better-source-not-found', 'manually-provided',
+  'historical-reason-not-recorded',
+]);
 
 function requireValue(value, location, message) {
   if (value === undefined || value === null || value === '') errors.push(`${location}: ${message}`);
@@ -105,6 +110,19 @@ for (const paintCatalogPath of paintCatalogPaths) {
     else {
       const quality = image.image_quality ?? 'none';
       if (!imageQualities.has(quality)) errors.push(`${location}: unsupported manufacturer_image.image_quality ${quality}`);
+      const limitation = image.quality_limitation;
+      if (quality === 'official_photo' && limitation !== undefined && limitation !== null) {
+        errors.push(`${location}: manufacturer_image.quality_limitation must be absent for official_photo`);
+      }
+      if (quality !== 'official_photo') {
+        if (!limitation || typeof limitation !== 'object' || Array.isArray(limitation)) {
+          errors.push(`${location}: manufacturer_image.quality_limitation required for ${quality}`);
+        } else {
+          if (!imageQualityLimitationCodes.has(limitation.code)) errors.push(`${location}: unsupported manufacturer_image.quality_limitation.code ${limitation.code}`);
+          requireValue(limitation.detail, location, 'manufacturer_image.quality_limitation.detail required');
+          requireValue(limitation.observed_at, location, 'manufacturer_image.quality_limitation.observed_at required');
+        }
+      }
       if (quality !== 'none') requireValue(image.quality_verified_at, location, `manufacturer_image.quality_verified_at required for ${quality}`);
       if (['official_photo', 'retailer_photo', 'owned_photo', 'generic_visual'].includes(quality) && !image.path && !image.source_url) errors.push(`${location}: manufacturer_image requires a path or source_url for ${quality}`);
       if (quality === 'retailer_photo') {

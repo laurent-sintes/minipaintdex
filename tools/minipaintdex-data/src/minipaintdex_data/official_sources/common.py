@@ -12,7 +12,7 @@ from typing import Any
 from urllib.request import Request, urlopen
 
 from ..paint_identity import market_paint_deduplication_key
-from ..image_quality import normalize_image_quality, prefer_image
+from ..image_quality import normalize_image_quality, prefer_image, quality_limitation
 from ..paint_model import canonical_profile, source_observation
 
 
@@ -176,6 +176,11 @@ def base_record(
             "credit": f"Official {manufacturer} catalogue" if image else "",
             "image_quality": "official_photo" if image else "none",
             "quality_verified_at": date.today().isoformat() if image else "",
+            **({} if image else {"quality_limitation": quality_limitation(
+                "official-source-unavailable",
+                "The official catalog record did not expose a usable product photo.",
+                date.today().isoformat(),
+            )}),
         },
         "result_image": {"path": "", "source_url": "", "credit": "", "license": "", "reference_url": ""},
         "provenance": {"photo": "", "hashes": []},

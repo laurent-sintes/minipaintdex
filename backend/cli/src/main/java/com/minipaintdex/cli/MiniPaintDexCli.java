@@ -30,6 +30,8 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.LoaderOptions;
+import org.yaml.snakeyaml.constructor.SafeConstructor;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -319,7 +321,10 @@ public final class MiniPaintDexCli implements Runnable {
     }
 
     ApplyMarketPaintChangeSetCommand readPaintChangeSet(Path path, boolean dryRun) throws Exception {
-        var payload = json.readValue(Files.readString(path), MAP_TYPE);
+        var loaderOptions = new LoaderOptions();
+        loaderOptions.setAllowDuplicateKeys(false);
+        loaderOptions.setCodePointLimit(64 * 1024 * 1024);
+        var payload = stringMap(new Yaml(new SafeConstructor(loaderOptions)).load(Files.readString(path)));
         var rawOperations = payload.get("operations") instanceof List<?> list ? list : List.of();
         var operations = rawOperations.stream()
                 .filter(Map.class::isInstance)

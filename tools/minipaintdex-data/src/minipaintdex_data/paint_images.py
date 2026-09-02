@@ -19,13 +19,14 @@ from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
 from .changesets import validate_changeset
-from .image_quality import IMAGE_QUALITY_RANKS, infer_image_quality, prefer_image
+from .image_quality import IMAGE_QUALITY_RANKS, infer_image_quality, prefer_image, quality_limitation
 from .official_sources.common import slug
 
 
 FetchImage = Callable[[str, int], tuple[bytes, str, str]]
 MAX_DOMINANT_COLOR_RATIO = 0.90
 MAX_FLAT_ARTWORK_COLORS = 48
+PRESENTATION_BACKGROUND = (248, 247, 243)
 ALLOWED_IMAGE_HOSTS = {
     "Prince August": {"prince-august.net", "www.prince-august.net"},
     "The Army Painter": {"cdn.shopify.com", "thearmypainter.com", "www.thearmypainter.com"},
@@ -160,7 +161,6 @@ def assess_raster_artwork(image: Any, *, max_dominant_color_ratio: float) -> dic
     except ImportError as error:  # pragma: no cover - operator dependency
         raise ValueError("Pillow is required to assess paint images.") from error
     dominant_ratio, color_count = raster_artwork_metrics(image)
-    flat = dominant_ratio >= max_dominant_color_ratio and color_count <= MAX_FLAT_ARTWORK_COLORS
     sample = image.convert("RGB")
     sample.thumbnail((96, 96))
     edges = sample.convert("L").filter(ImageFilter.FIND_EDGES)
@@ -187,9 +187,21 @@ def assess_raster_artwork(image: Any, *, max_dominant_color_ratio: float) -> dic
                     transitions += abs(luminance[index] - luminance[neighbor]) >= 24
     neutral_ratio = sum(neutral) / max(1, len(neutral))
     checker_transition_ratio = transitions / max(1, comparable)
-    checkerboard = neutral_ratio >= 0.65 and checker_transition_ratio >= 0.18 and color_count <= 80
-    flat = flat or (dominant_ratio >= 0.72 and color_count <= 24 and neutral_ratio < 0.50)
-    neutral_silhouette = neutral_ratio >= 0.97 and color_count <= 24 and edge_density < 0.10
+    # A real checkerboard alternates in both directions often enough to remain above this
+    # threshold after downsampling. Product layouts with typography and diagonal artwork can
+    # approach 0.18, so keep a margin to avoid rejecting official packshots.
+    checkerboard = neutral_ratio >= 0.65 and checker_transition_ratio >= 0.22 and color_count <= 80
+    flat = (
+        dominant_ratio >= max_dominant_color_ratio
+        and color_count <= MAX_FLAT_ARTWORK_COLORS
+        and neutral_ratio < 0.65
+    ) or (dominant_ratio >= 0.72 and color_count <= 24 and neutral_ratio < 0.50)
+    # Neutral products (white paint, mediums and varnishes) are legitimate photographs. Only
+    # classify the image as a generic silhouette when one neutral tone also dominates the canvas.
+    neutral_silhouette = (
+        neutral_ratio >= 0.97 and dominant_ratio >= 0.80
+        and color_count <= 24 and edge_density < 0.10
+    )
 
     score = 100
     reasons: list[str] = []
@@ -258,11 +270,26 @@ def _write_webp(
                 )
             image.thumbnail((max_edge, max_edge), Image.Resampling.LANCZOS)
             converted = image.convert("RGBA" if "A" in image.getbands() else "RGB")
+            content_width, content_height = converted.size
+            background = (*PRESENTATION_BACKGROUND, 0) if converted.mode == "RGBA" else PRESENTATION_BACKGROUND
+            canvas = Image.new(converted.mode, (max_edge, max_edge), background)
+            offset = ((max_edge - content_width) // 2, (max_edge - content_height) // 2)
+            canvas.paste(converted, offset, converted if converted.mode == "RGBA" else None)
+            presentation_sample = canvas
+            if canvas.mode == "RGBA":
+                presentation_sample = Image.new("RGB", canvas.size, PRESENTATION_BACKGROUND)
+                presentation_sample.paste(canvas, (0, 0), canvas)
+            presentation_assessment = assess_raster_artwork(
+                presentation_sample, max_dominant_color_ratio=max_dominant_color_ratio,
+            )
+            if not presentation_assessment["accepted_as_photo"]:
+                reason_text = ", ".join(presentation_assessment["reasons"])
+                raise ValueError("presentation canvas is not a product photo: " + reason_text)
             target.parent.mkdir(parents=True, exist_ok=True)
             with tempfile.NamedTemporaryFile(dir=target.parent, suffix=".webp.tmp", delete=False) as handle:
                 temporary = Path(handle.name)
             try:
-                converted.save(temporary, format="WEBP", quality=82, method=6)
+                canvas.save(temporary, format="WEBP", quality=82, method=6)
                 temporary.replace(target)
             finally:
                 if temporary.exists():
@@ -270,13 +297,18 @@ def _write_webp(
     except (OSError, UnidentifiedImageError) as error:
         raise ValueError("source is not a readable raster image") from error
     return {
-        "width": converted.width,
-        "height": converted.height,
+        "width": canvas.width,
+        "height": canvas.height,
+        "content_width": content_width,
+        "content_height": content_height,
+        "content_offset": {"x": offset[0], "y": offset[1]},
+        "presentation_canvas": "square",
         "original_width": original_width,
         "original_height": original_height,
         "dominant_color_ratio": round(dominant_color_ratio, 4),
         "quantized_color_count": quantized_color_count,
         "technical_assessment": assessment,
+        "presentation_assessment": presentation_assessment,
         "bytes": target.stat().st_size,
         "sha256": hashlib.sha256(target.read_bytes()).hexdigest(),
     }
@@ -338,13 +370,45 @@ def _write_svg(content: bytes, target: Path, *, max_edge: int) -> dict[str, Any]
 def _cache_one(
     paint: dict[str, Any], media_root: Path, *, min_width: int, min_height: int,
     max_edge: int, max_bytes: int, max_dominant_color_ratio: float,
-    overwrite: bool, verified_at: str, fetch_image: FetchImage,
+    overwrite: bool, normalize_local: bool, verified_at: str, fetch_image: FetchImage,
+    fallback: dict[str, Any] | None,
 ) -> tuple[dict[str, Any] | None, dict[str, Any]]:
     identifier = str(paint.get("id", ""))
     brand = str(paint.get("brand", ""))
     image = paint.get("manufacturer_image") if isinstance(paint.get("manufacturer_image"), dict) else {}
     source_url = str(image.get("source_url", "")).strip()
     local_path = str(image.get("path", "")).strip()
+    if normalize_local and local_path.startswith("/media/"):
+        local_target = (media_root.resolve() / local_path.removeprefix("/media/")).resolve()
+        if not local_target.is_relative_to(media_root.resolve()):
+            raise ValueError(f"Image cache target escapes the media root: {identifier}")
+        if local_target.exists() and local_target.suffix.casefold() == ".webp":
+            try:
+                from PIL import Image
+                with Image.open(local_target) as cached:
+                    size = cached.size
+                if size == (max_edge, max_edge):
+                    return None, {
+                        "id": identifier, "brand": brand, "status": "already_normalized",
+                        "path": local_path, "width": size[0], "height": size[1],
+                    }
+                metadata = _write_webp(
+                    local_target.read_bytes(), local_target, min_width=min_width, min_height=min_height,
+                    max_edge=max_edge, max_dominant_color_ratio=max_dominant_color_ratio,
+                )
+                return None, {
+                    "id": identifier, "brand": brand, "status": "normalized_local",
+                    "path": local_path, **metadata,
+                }
+            except (OSError, ValueError) as error:
+                return None, {
+                    "id": identifier, "brand": brand, "status": "failed",
+                    "path": local_path, "error": str(error),
+                }
+        if local_target.exists():
+            return None, {
+                "id": identifier, "brand": brand, "status": "vector_unchanged", "path": local_path,
+            }
     if local_path and not overwrite and (not source_url or not _allowed_image_reference(brand, image)):
         return None, {"id": identifier, "brand": brand, "status": "skipped_local", "path": local_path}
     if not source_url:
@@ -392,18 +456,47 @@ def _cache_one(
             "source_url": source_url, "final_url": final_url, **metadata,
         }
     except (OSError, ValueError) as error:
-        return None, {
+        retained = _record_official_candidate_rejection(paint, fallback, str(error), verified_at)
+        return retained, {
             "id": identifier, "brand": brand, "status": "failed", "source_url": source_url,
             "error": str(error),
         }
 
 
+def _record_official_candidate_rejection(
+    candidate: dict[str, Any], fallback: dict[str, Any] | None, error: str, observed_at: str,
+) -> dict[str, Any] | None:
+    candidate_image = candidate.get("manufacturer_image") if isinstance(candidate.get("manufacturer_image"), dict) else {}
+    if str(candidate_image.get("image_quality", "")) != "official_photo":
+        return None
+    retained = deepcopy(candidate)
+    fallback_image = fallback.get("manufacturer_image") if isinstance(fallback, dict) and isinstance(
+        fallback.get("manufacturer_image"), dict
+    ) else {}
+    fallback_quality = infer_image_quality(fallback) if isinstance(fallback, dict) else "none"
+    if fallback_quality == "official_photo":
+        return None
+    retained_image = deepcopy(fallback_image) if fallback_image else {
+        "path": "", "source_url": "", "credit": "", "license": "", "reference_url": "",
+        "image_quality": "none", "quality_verified_at": "",
+    }
+    retained_image["image_quality"] = fallback_quality
+    retained_image["quality_limitation"] = quality_limitation(
+        "official-candidate-rejected",
+        f"An official image candidate was rejected by the cache quality gate: {error}",
+        observed_at,
+    )
+    retained["manufacturer_image"] = retained_image
+    return retained
+
+
 def build_image_cache_changeset(
     catalog: dict[str, Any], media_root: Path, *, brands: list[str] | None = None,
     min_width: int = 300, min_height: int = 300, max_edge: int = 800,
-    max_bytes: int = 10 * 1024 * 1024, overwrite: bool = False, limit: int = 0,
+    max_bytes: int = 10 * 1024 * 1024, overwrite: bool = False, normalize_local: bool = False, limit: int = 0,
     workers: int = 4, verified_at: str | None = None, fetch_image: FetchImage = _download,
     max_dominant_color_ratio: float = MAX_DOMINANT_COLOR_RATIO,
+    fallback_catalog: dict[str, Any] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     if min_width <= 0 or min_height <= 0 or max_edge < max(min_width, min_height):
         raise ValueError("Image dimensions must be positive and max_edge must cover the minimum dimensions.")
@@ -423,12 +516,17 @@ def build_image_cache_changeset(
         paints = paints[:limit]
     verification_date = verified_at or date.today().isoformat()
     results: list[tuple[dict[str, Any] | None, dict[str, Any]]] = []
+    fallback_by_id = {
+        str(paint.get("id", "")): paint for paint in (fallback_catalog or {}).get("paints", [])
+        if isinstance(paint, dict)
+    }
     with ThreadPoolExecutor(max_workers=workers, thread_name_prefix="paint-image-cache") as executor:
         futures = {
             executor.submit(
                 _cache_one, paint, media_root, min_width=min_width, min_height=min_height,
                 max_edge=max_edge, max_bytes=max_bytes, max_dominant_color_ratio=max_dominant_color_ratio,
-                overwrite=overwrite, verified_at=verification_date, fetch_image=fetch_image,
+                overwrite=overwrite, normalize_local=normalize_local, verified_at=verification_date,
+                fetch_image=fetch_image, fallback=fallback_by_id.get(str(paint.get("id", ""))),
             ): paint
             for paint in paints
         }
@@ -449,6 +547,7 @@ def build_image_cache_changeset(
         "media_root": media_root.as_posix(),
         "minimum_dimensions": {"width": min_width, "height": min_height},
         "max_edge": max_edge,
+        "presentation_canvas": "square",
         "max_dominant_color_ratio": max_dominant_color_ratio,
         "counts": dict(sorted(counts.items())),
         "items": [item for _, item in results],
@@ -523,6 +622,13 @@ def build_image_source_changeset(
             "image_quality": item_quality,
             "quality_verified_at": verification_date,
         }
+        if item_quality == "retailer_photo":
+            declared_limitation = item.get("quality_limitation")
+            candidate["quality_limitation"] = declared_limitation if isinstance(declared_limitation, dict) else quality_limitation(
+                "better-source-not-found",
+                "No accepted official photo accompanied this refresh; the credited retailer photo was retained.",
+                verification_date,
+            )
         current_image = deepcopy(updated.get("manufacturer_image")) if isinstance(updated.get("manufacturer_image"), dict) else {}
         current_image.setdefault("image_quality", infer_image_quality(updated))
         updated["manufacturer_image"] = prefer_image(current_image, candidate)

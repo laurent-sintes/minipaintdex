@@ -42,10 +42,14 @@ commerciaux, la provenance et les vraies dates de mise à jour restent conservé
 
 Les images suivent une politique commune à toutes les marques. `manufacturer_image` conserve sa
 qualité de provenance et sa date de vérification : `official_photo` (1), `retailer_photo` (2),
-`owned_photo` (3), `generic_visual` (4), `color_swatch` (5) ou `none` (6). Un rafraîchissement
-conserve toujours la meilleure qualité connue. Une photo officielle peut être remise en concurrence
-après 365 jours. Le score visuel technique et ses motifs restent dans l’audit d’import : ils aident à
-détecter aplats, damiers et images pauvres sans remplacer la provenance métier.
+`owned_photo` (3), `generic_visual` (4), `color_swatch` (5) ou `none` (6). Toute qualité autre que
+`official_photo` doit expliquer sa limite dans `quality_limitation` avec un code contrôlé, un détail
+lisible et la date du constat. Un rafraîchissement conserve toujours la meilleure qualité connue ; si
+un candidat officiel échoue au contrôle, la meilleure image précédente reste en place et son motif
+est actualisé. Une photo officielle peut être remise en concurrence après 365 jours. Le score visuel
+technique et ses motifs complets restent dans l’audit d’import : ils aident à détecter aplats, damiers
+et images pauvres sans remplacer la provenance métier. Les rasters acceptés sont publiés dans un
+canevas carré centré, tandis que l’URL et l’instantané de source préservent la preuve originale.
 
 ## Bounded context Workshop
 

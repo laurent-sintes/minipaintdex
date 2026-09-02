@@ -6,6 +6,7 @@ import com.minipaintdex.domain.market.guide.MarketPaintingGuide;
 import com.minipaintdex.domain.market.paint.MarketPaint;
 import com.minipaintdex.domain.market.paint.MarketPaintLifecycle;
 import com.minipaintdex.domain.market.paint.MarketPaintImageQuality;
+import com.minipaintdex.domain.market.paint.MarketPaintImageLimitationCode;
 import com.minipaintdex.domain.market.paint.MarketPaintProfile;
 import com.minipaintdex.domain.market.product.PaintableProduct;
 import com.minipaintdex.domain.shared.DomainException;
@@ -99,12 +100,17 @@ public final class MarketCatalogFactory {
     }
 
     private static MarketPaint.ImageReference image(Map<String, Object> value, String field) {
+        var limitation = map(value.get("quality_limitation"));
         return new MarketPaint.ImageReference(
                 text(value.get("path")), uri(value.get("source_url"), field + ".source_url"),
                 text(value.get("credit")), text(value.get("license")),
                 uri(value.get("reference_url"), field + ".reference_url"),
                 MarketPaintImageQuality.fromId(text(value.get("image_quality"))),
-                date(value.get("quality_verified_at"), field + ".quality_verified_at"));
+                date(value.get("quality_verified_at"), field + ".quality_verified_at"),
+                limitation.isEmpty() ? null : new MarketPaint.ImageQualityLimitation(
+                        MarketPaintImageLimitationCode.fromId(text(limitation.get("code"))),
+                        text(limitation.get("detail")),
+                        date(limitation.get("observed_at"), field + ".quality_limitation.observed_at")));
     }
 
     private static MarketPaintingGuide guide(StructuredDocument document) {
