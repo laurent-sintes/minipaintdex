@@ -1,9 +1,17 @@
 # Détourage local des photos de pots
 
 Les photos personnelles appartiennent à `PaintPot`. Le catalogue `PaintProduct` conserve ses
-visuels fabricant. Depuis une fiche peinture, « Ajouter la photo » permet de choisir un pot
-déjà enregistré, comparer original et aperçu, puis enregistrer la photo. La page du pot offre
-le même formulaire. Décocher le détourage conserve uniquement l’original.
+visuels fabricant. Depuis une fiche peinture, « Remplacer la photo » (ou « Définir la photo »)
+permet de choisir un pot déjà enregistré, comparer original et aperçu, puis changer le visuel
+de l’atelier. Ce bouton est proposé uniquement si un pot est possédé et si le visuel catalogue
+n’est ni une photo officielle ni une photo de revendeur. La dernière photo personnelle est alors
+utilisée dans la popup et sur les cartes de stock ; les anciennes restent dans l’historique.
+La page du pot conserve l’ajout libre de photos de suivi, quelle que soit la qualité du catalogue.
+Décocher le détourage conserve uniquement l’original.
+
+La jauge à six positions indique la provenance, de l’absence de photo à la photo officielle.
+Elle n’est pas modifiable et ne prétend pas mesurer la netteté. Source, crédit et date figurent
+sous l’image qu’ils décrivent ; une photo personnelle conserve un lien vers son original.
 
 ## Installation
 

@@ -16,8 +16,8 @@ function BlobImage({ blob, alt }: { blob: Blob; alt: string }) {
   return <img ref={ref} alt={alt} className="h-full w-full object-contain" />;
 }
 
-export function PaintPotPhotoUpload({ paintPotId, config, onSaved }: {
-  paintPotId: string; config: SiteConfig; onSaved: () => void;
+export function PaintPotPhotoUpload({ paintPotId, config, onSaved, submitLabel, help }: {
+  paintPotId: string; config: SiteConfig; onSaved: () => void; submitLabel?: string; help?: string;
 }) {
   const labels = config.paintPots;
   const inputId = useId();
@@ -87,7 +87,7 @@ export function PaintPotPhotoUpload({ paintPotId, config, onSaved }: {
   }
 
   return <form className="mt-4 space-y-3" onSubmit={event => { event.preventDefault(); void save(); }}>
-    <p className="text-sm leading-6 text-muted-foreground">{labels.photoHelp}</p>
+    <p className="text-sm leading-6 text-muted-foreground">{help ?? labels.photoHelp}</p>
     <label htmlFor={inputId} className="block text-sm font-medium">{labels.personalPhoto}</label>
     <input id={inputId} key={fileKey} type="file" required accept="image/jpeg,image/png,image/webp" disabled={busy}
       className="block w-full rounded-xl border p-3 text-sm" onChange={event => { setFile(event.target.files?.[0] ?? null); setPreview(null); setPreviewNotice(''); setNotice(''); }} />
@@ -102,15 +102,18 @@ export function PaintPotPhotoUpload({ paintPotId, config, onSaved }: {
       </div>
       <AppNotice notice={previewNotice} />
       <label className="block text-sm">{labels.caption}<input value={caption} disabled={busy} onChange={event => setCaption(event.target.value)} className="mt-1 block w-full rounded-xl border bg-card p-3" /></label>
-      <button type="submit" disabled={busy || processing || (removeBackground && !preview)} className={button}>{busy ? labels.pending : labels.addPhoto}</button>
+      <button type="submit" disabled={busy || processing || (removeBackground && !preview)} className={button}>{busy ? labels.pending : submitLabel ?? labels.addPhoto}</button>
     </>}
     <AppNotice notice={notice} />
   </form>;
 }
 
-/** The market sheet composes workshop data explicitly; it never replaces catalog imagery. */
-export function PaintProductPotPhotoUpload({ paintProductId, config }: { paintProductId: string; config: SiteConfig }) {
-  const [expanded, setExpanded] = useState(false);
+/** Replaces the representative workshop visual by appending to one identified pot's journal. */
+export function PaintProductPotPhotoReplacement({ paintProductId, config, submitLabel, onSaved }: {
+  paintProductId: string; config: SiteConfig; submitLabel: string; onSaved: () => void;
+}) {
+  const editor = useRef<HTMLElement>(null);
+  useEffect(() => { editor.current?.scrollIntoView({ block: 'start', behavior: 'smooth' }); }, []);
   const [page, setPage] = useState(0);
   const [result, setResult] = useState<{ pots: PaintPot[]; totalPages: number } | null>(null);
   const [selectedId, setSelectedId] = useState('');
@@ -119,29 +122,29 @@ export function PaintProductPotPhotoUpload({ paintProductId, config }: { paintPr
   const labels = config.paintPots;
   const selected = result?.pots.find(pot => pot.paintPotId === selectedId) ?? result?.pots[0];
   useEffect(() => {
-    if (!expanded) return;
     const controller = new AbortController();
     const params = new URLSearchParams({ paintProductId, size: '20', page: String(page) });
     void apiFetch('/api/v1/workshop/paint-pots?' + params, { signal: controller.signal })
       .then(response => response.json()).then(value => { if (!controller.signal.aborted) { setResult(value); setNotice(''); } })
       .catch(error => { if (!controller.signal.aborted) setNotice(failureNotice(config.errors.requestFailed, error)); });
     return () => controller.abort();
-  }, [expanded, paintProductId, page, revision, config.errors.requestFailed]);
-  return <section className="paint-detail-section">
-    <button type="button" className={button} aria-expanded={expanded} onClick={() => setExpanded(value => !value)}>{labels.addPhoto}</button>
-    {expanded && <div className="mt-3">
+  }, [paintProductId, page, revision, config.errors.requestFailed]);
+  return <section ref={editor} className="paint-detail-section paint-photo-replacement">
+    <h3>{submitLabel}</h3>
+    <div className="mt-3">
       <AppNotice notice={notice} />
+      {notice && <button type="button" className={button} onClick={() => { setNotice(''); setRevision(value => value + 1); }}>{config.paintDetail.retry}</button>}
       {!result && !notice && <output>{config.errors.loading}</output>}
       {result?.pots.length === 0 && <p className="text-sm">{labels.photoNeedsPot}</p>}
       {selected && <>
         <label className="block text-sm">{labels.choosePot}<select value={selected.paintPotId} onChange={event => setSelectedId(event.target.value)} className="mt-1 block w-full rounded-xl border bg-card p-3">
           {result!.pots.map(pot => <option key={pot.paintPotId} value={pot.paintPotId}>{pot.paintPotId}</option>)}
         </select></label>
-        {selected.photos.at(-1) && <img src={selected.photos.at(-1)!.url} alt={labels.personalPhoto} className="mt-3 h-32 w-32 rounded-xl border object-contain" />}
-        <PaintPotPhotoUpload key={selected.paintPotId} paintPotId={selected.paintPotId} config={config} onSaved={() => setRevision(value => value + 1)} />
+        <PaintPotPhotoUpload key={selected.paintPotId} paintPotId={selected.paintPotId} config={config}
+          submitLabel={submitLabel} help={config.paintDetail.replacementHelp} onSaved={onSaved} />
       </>}
       {result && result.totalPages > 1 && <div className="mt-3 flex gap-2"><button type="button" disabled={page === 0} className={button} onClick={() => { setResult(null); setPage(value => value - 1); }}>{labels.previous}</button>
         <button type="button" disabled={page + 1 >= result.totalPages} className={button} onClick={() => { setResult(null); setPage(value => value + 1); }}>{labels.next}</button></div>}
-    </div>}
+    </div>
   </section>;
 }

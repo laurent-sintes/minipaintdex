@@ -98,18 +98,28 @@ création. Un produit contient `paintableComponents`, la collection physique ren
 et la liste d’achats renvoie `entries`. Le détail d’un exemplaire expose ses champs directement,
 avec `activity` et les liens HAL, sans enveloppe `item`.
 
-La recherche de stocks renvoie `results.content: [{paintProduct, quantity, availableQuantity, personalImage}]`,
+La recherche de stocks renvoie `results.content: [{paintProduct, quantity, availableQuantity, personalPhoto, canReplacePhoto}]`,
 avec `results.totalElements`, `results.page`, `results.size`, les suggestions demandées et la corrélation. Le CLI restitue ces mêmes champs et accepte les filtres répétables, les indicateurs
 `--manufacturer-sheet-only` / `--real-result-only`, la pagination et le tri :
 
 ```text
 minipaintdex --format json workshop paint-stocks search --brand Vallejo --page 0 --size 60 --sort "name,asc"
 minipaintdex --format json workshop paint-stocks facets --color blue --color red
+minipaintdex --format json workshop paint-stocks show --paint-product-id cit-27-29 --correlation-id photo-read
 minipaintdex --format json workshop paintables list --painting-project-id paint-game
 minipaintdex --format json workshop paintables show --workshop-paintable-id ws-copy-1
 minipaintdex --format json workshop shopping-list entries list
 minipaintdex --format json workshop shopping-list entries set-checked --shopping-list-entry-id buy-one --checked true
 ```
+
+`GET /api/v1/workshop/paint-stocks/{paintProductId}` renvoie `{stock, correlationId}` et les liens
+HAL vers le produit, les pots et l’atelier. Une référence connue sans pot renvoie un stock nul,
+pas une erreur ; une référence inconnue renvoie 404. `personalPhoto` est le visuel personnel
+retenu (identité du pot et du média, URL affichée et originale, traitement, légende et date), ou
+null. Les photos officielles et de revendeur restent prioritaires. `canReplacePhoto` n’est vrai
+que pour un pot possédé et un visuel catalogue de qualité personnelle ou inférieure. Cette règle
+n’empêche pas de photographier un pot dans son journal. Le remplacement ajoute une photo via
+la commande existante, conserve l’historique et ne modifie jamais le catalogue Market.
 
 Les commandes de recette ordinaires utilisent `recipeId`, `paintableComponentId`, `basedOnGuideId`,
 `supersedesRecipeId`, `displayName`, `actorId`, `occurredAt` ; les solutions utilisent `guideSlotId`

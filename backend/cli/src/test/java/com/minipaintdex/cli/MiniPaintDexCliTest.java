@@ -27,6 +27,19 @@ class MiniPaintDexCliTest {
     Path temporaryDirectory;
 
     @Test
+    void readsOneWorkshopPaintStockWithCanonicalIdentityAndCorrelation() {
+        var workshop = mock(WorkshopUseCases.class);
+        var command = new CommandLine(new MiniPaintDexCli(mock(MarketCatalogUseCases.class), workshop,
+                mock(AdministrationUseCases.class), mock(EventBus.class), mock(PersistenceLifecycle.class)));
+        assertEquals(0, command.execute("--format", "json", "workshop", "paint-stocks", "show",
+                "--paint-product-id", "paint-one", "--correlation-id", "photo-read"));
+        var capture = org.mockito.ArgumentCaptor.forClass(com.minipaintdex.application.query.GetWorkshopPaintStockQuery.class);
+        org.mockito.Mockito.verify(workshop).getWorkshopPaintStock(capture.capture());
+        assertEquals("paint-one", capture.getValue().paintProductId());
+        assertEquals("photo-read", capture.getValue().correlationId());
+    }
+
+    @Test
     void exposesUsageGuideLanguageScopeAndCorrelation() {
         var market = mock(MarketCatalogUseCases.class);
         var command = new CommandLine(new MiniPaintDexCli(market, mock(WorkshopUseCases.class),

@@ -41,6 +41,17 @@ import java.util.List;
 /** Commands and queries for the owner's workshop aggregates. */
 public interface WorkshopUseCases {
     /**
+     * Reads one product's committed stock, including zero owned pots, or raises not_found for an
+     * unknown Market reference. Invalid identity/correlation raises invalid_input. Selects the latest
+     * owned-pot photo only when it does not downgrade catalog provenance; timestamp ties use stable
+     * media ID then pot ID. Each source is read once; concurrent changes appear on later reads.
+     * Read-only, no idempotency key, correlation echoed and no resources retained. Replacement
+     * availability concerns the representative visual, not the pot's independent photo journal.
+     */
+    com.minipaintdex.application.result.WorkshopPaintStockResult getWorkshopPaintStock(
+            com.minipaintdex.application.query.GetWorkshopPaintStockQuery query);
+
+    /**
      * Searches results, suggestions, or both from one ranked selection. Results are pageable and
      * explicitly sortable; suggestions stay relevance-ordered, bounded and empty for blank text.
      * Workshop applies ownership before limiting; Market never reads Workshop state.

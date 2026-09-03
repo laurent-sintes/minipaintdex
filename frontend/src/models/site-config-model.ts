@@ -87,6 +87,9 @@ export type SiteConfig = {
   };
   paintDetail: {
     catalogEditions: string;
+    notDocumented: string; preHighlight: string; recommended: string; warnings: string;
+    imageQualityHelp: string; imageVerifiedOn: string; photoAddedOn: string; photoProcessing: string;
+    replacePhoto: string; definePhoto: string; cancelReplacement: string; replacementHelp: string; photoReplaced: string;
     characteristics: string; documentLanguage: string; french: string; original: string;
     sharedGuide: string; revision: string; sources: string; source: string; knowledgeLabels: Record<string, string>;
     translationReviewRequired: string; translationMissing: string; translationStale: string;

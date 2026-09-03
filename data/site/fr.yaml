@@ -379,8 +379,21 @@ paint_detail:
   specific_instructions: Compléments propres à ce produit
   previous: Précédent
   next: Suivant
-  image_provenance: Visuel et provenance
+  image_provenance: Source et détails
   catalog_editions: Catalogues documentés
+  not_documented: Non renseigné
+  pre_highlight: Pré-éclaircissement
+  recommended: Recommandé
+  warnings: Précautions
+  image_quality_help: Cette échelle décrit la provenance du visuel, pas sa netteté. Le niveau est déterminé automatiquement.
+  image_verified_on: Visuel vérifié le
+  photo_added_on: Photo enregistrée le
+  photo_processing: Détourage local
+  replace_photo: Remplacer la photo
+  define_photo: Définir la photo
+  cancel_replacement: Annuler le remplacement
+  replacement_help: Choisis une photo du pot sélectionné. Elle devient le visuel de ton atelier ; l’image catalogue et les anciennes photos sont conservées.
+  photo_replaced: Nouveau visuel enregistré dans ton atelier.
   sheet: Fiche peinture
   close: Fermer la fiche
   color_family: Famille de couleur
@@ -411,7 +424,7 @@ paint_detail:
     retailer_photo: Photo de revendeur
     owned_photo: Photo personnelle du pot
     generic_visual: Visuel générique
-    color_swatch: Rectangle de couleur
+    color_swatch: Nuancier
     none: Pas de photo
 errors:
   unavailable: Service local indisponible

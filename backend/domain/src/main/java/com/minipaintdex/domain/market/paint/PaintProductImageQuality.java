@@ -23,6 +23,7 @@ public enum PaintProductImageQuality {
 
     public String id() { return id; }
     public int rank() { return rank; }
+    public boolean isAtLeastAsGoodAs(PaintProductImageQuality other) { return rank <= other.rank; }
 
     public static PaintProductImageQuality fromId(String value) {
         if (value == null || value.isBlank()) return NONE;

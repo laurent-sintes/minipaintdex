@@ -1,6 +1,7 @@
 'use client';
 
-import { PaintProductPotPhotoUpload } from './paint-pot-photo-upload';
+import { PaintProductPotPhotoReplacement } from './paint-pot-photo-upload';
+import { PaintVisualQuality, usePaintVisual } from './paint-visual';
 
 import {
   BookOpen, Check, ChevronLeft, ChevronRight, Droplets, ExternalLink,
@@ -69,9 +70,9 @@ function ResilientPaintImage({ primary, fallback, alt, onFallback }: { primary: 
 }
 
 function PaintCard({ paint, config, onOpen }: { paint: PaintCardModel; config: SiteConfig; onOpen: () => void }) {
-  const [personalFailed, setPersonalFailed] = useState(false);
-  const personal = paint.personalImage && !personalFailed;
-  const image = personal ? paint.personalImage! : paint.manufacturerImage;
+  const visual = usePaintVisual(paint);
+  const personal = visual.personalPhoto;
+  const image = visual.url;
   const hasColor = validColor(paint.colorHex);
   return (
     <button type="button" className="paint-card group w-full text-left" onClick={onOpen}>
@@ -80,7 +81,7 @@ function PaintCard({ paint, config, onOpen }: { paint: PaintCardModel; config: S
         style={!image && hasColor ? { background: `color-mix(in srgb, ${paint.colorHex} 14%, white)` } : undefined}
       >
         {image
-          ? <ResilientPaintImage key={`${image}|${paint.manufacturerImageSource}`} primary={image} fallback={paint.manufacturerImageSource} onFallback={() => setPersonalFailed(true)} alt={`${config.paintDetail.productVisual} ${paint.brand} ${paint.name}`} />
+          ? <img src={image} onError={visual.onError} className="h-full w-full object-contain" alt={`${config.paintDetail.productVisual} ${paint.brand} ${paint.name}`} />
           : hasColor ? <span className="absolute inset-0" style={{ background: paint.colorHex }} /> : <span className="absolute inset-0 grid place-items-center px-2 text-center text-[10px] font-semibold text-muted-foreground">{config.paintDetail.toQualify}</span>}
       </div>
       <div className="min-w-0 flex-1 py-0.5">
@@ -364,7 +365,7 @@ export function PaintApp({ initialDashboard, config, paintModel }: { initialDash
         .then((result) => {
           if (controller.signal.aborted || paintRequestId.current !== requestId) return;
           const paints = route.view === 'workshopPaints'
-            ? (result.results!.content as WorkshopPaintStock[]).map((stock) => ({ ...stock.paintProduct, quantity: stock.quantity, availableQuantity: stock.availableQuantity, personalImage: stock.personalImage }))
+            ? (result.results!.content as WorkshopPaintStock[]).map((stock) => ({ ...stock.paintProduct, quantity: stock.quantity, availableQuantity: stock.availableQuantity, personalPhoto: stock.personalPhoto }))
             : result.results!.content as PaintProduct[];
           setPaints(paints); setPaintResultCount(result.results!.totalElements);
         })
@@ -560,7 +561,8 @@ export function PaintApp({ initialDashboard, config, paintModel }: { initialDash
         </main>
       </div>
 
-      {selectedPaint && <PaintDetail paint={selectedPaint} config={config} onPots={() => { setSelectedPaint(null); navigate({ view: 'paintPots', paintProductId: selectedPaint.id }); }} onClose={() => setSelectedPaint(null)} />}
+      {selectedPaint && <PaintDetail key={selectedPaint.id} initialPaint={selectedPaint} config={config} revision={serverRevision}
+        onPhotoSaved={() => setServerRevision(value => value + 1)} onClose={() => setSelectedPaint(null)} />}
     </div>
   );
 }
@@ -734,8 +736,30 @@ function MarkdownDocument({ markdown }: { markdown: string }) {
   })}</div>;
 }
 
-function PaintDetail({ paint, config, onClose, onPots }: { paint: PaintCardModel; config: SiteConfig; onClose: () => void; onPots: () => void }) {
+function PaintDetail({ initialPaint, config, revision, onClose, onPhotoSaved }: {
+  initialPaint: PaintCardModel; config: SiteConfig; revision: number; onClose: () => void; onPhotoSaved: () => void;
+}) {
   const dialog = useRef<HTMLDialogElement>(null);
+  const photoAction = useRef<HTMLButtonElement>(null);
+  const [stock, setStock] = useState<WorkshopPaintStock | null>(null);
+  const [notice, setNotice] = useState<Notice>('');
+  const [retry, setRetry] = useState(0);
+  const [replacing, setReplacing] = useState(false);
+  const [replaced, setReplaced] = useState(false);
+  const [loadedKey, setLoadedKey] = useState('');
+  const readKey = `${revision}:${retry}`;
+  const loading = loadedKey !== readKey;
+  const paint: PaintCardModel = stock ? { ...stock.paintProduct, personalPhoto: stock.personalPhoto } : initialPaint;
+  const visual = usePaintVisual(paint);
+  useEffect(() => {
+    const controller = new AbortController();
+    apiFetch('/api/v1/workshop/paint-stocks/' + encodeURIComponent(initialPaint.id), { signal: controller.signal })
+      .then(response => response.json() as Promise<{ stock: WorkshopPaintStock }>)
+      .then(result => { if (!controller.signal.aborted) { setStock(result.stock); setNotice(''); } })
+      .catch(error => { if (!controller.signal.aborted) setNotice(failureNotice(config.errors.requestFailed, error)); })
+      .finally(() => { if (!controller.signal.aborted) setLoadedKey(readKey); });
+    return () => controller.abort();
+  }, [initialPaint.id, readKey, config.errors.requestFailed]);
   const titleId = `paint-detail-${paint.id}`;
   useEffect(() => {
     const element = dialog.current;
@@ -745,16 +769,22 @@ function PaintDetail({ paint, config, onClose, onPots }: { paint: PaintCardModel
   }, []);
   const labels = config.paintDetail;
   const hasColor = validColor(paint.colorHex);
-  const image = paint.manufacturerImage;
+  const image = visual.url;
+  const photoLabel = visual.quality === 'none' || visual.quality === 'color_swatch' ? labels.definePhoto : labels.replacePhoto;
   const characteristics = [
     [labels.referenceLabel, paint.reference],
     [labels.volumeLabel, paint.volumeMl > 0 ? `${paint.volumeMl} ml` : '—'],
+    [labels.colorFamily, metadataLabel(config, paint.colorFamily)],
+    [config.collection.lifecycleFilter, metadataLabel(config, paint.lifecycleStatus)],
     [config.collection.roleFilter, paint.profile.roles.map(value => metadataLabel(config, value)).join(', ')],
     [config.collection.applicationMethodFilter, paint.profile.applicationMethods.map(value => metadataLabel(config, value)).join(', ')],
     [config.collection.applicationSystemFilter, metadataLabel(config, paint.profile.applicationSystem)],
     [config.collection.coverageFilter, metadataLabel(config, paint.profile.coverage)],
     [config.collection.finishFilter, metadataLabel(config, paint.profile.finish)],
     [config.collection.mediumFilter, metadataLabel(config, paint.profile.medium)],
+    ...(paint.profile.effects.length > 0 ? [[config.collection.effectFilter, paint.profile.effects.map(value => metadataLabel(config, value)).join(', ')]] : []),
+    ...(paint.profile.undercoatTone && paint.profile.undercoatTone !== 'unknown' ? [[config.collection.undercoatFilter, metadataLabel(config, paint.profile.undercoatTone)]] : []),
+    ...(paint.profile.preHighlightedSurfaceRecommended ? [[labels.preHighlight, labels.recommended]] : []),
   ];
   const localUsage = paint.usageInstructions;
   return <dialog ref={dialog} aria-labelledby={titleId} className="paint-detail-dialog" onCancel={event => { event.preventDefault(); onClose(); }}>
@@ -765,19 +795,66 @@ function PaintDetail({ paint, config, onClose, onPots }: { paint: PaintCardModel
     </header>
     <div className="paint-detail-body">
       <section className="paint-detail-overview" aria-label={labels.characteristics}>
+        <figure className="paint-detail-visual">
         <div className={'paint-detail-image ' + (image ? 'paint-image-surface' : !hasColor ? 'unknown-color' : '')}
           style={!image && hasColor ? { backgroundColor: paint.colorHex } : undefined}>
-          {image ? <ResilientPaintImage key={image} primary={image} fallback={paint.manufacturerImageSource} alt={`${labels.productVisual} ${paint.name}`} />
+          {image ? <img src={image} onError={visual.onError} className="h-full w-full object-contain" alt={`${labels.productVisual} ${paint.name}`} />
             : !hasColor && <span>{labels.toQualify}</span>}
         </div>
+        <figcaption>
+          <PaintVisualQuality quality={visual.quality} config={config} />
+          <details className="paint-detail-provenance">
+            <summary>{labels.imageProvenance}</summary>
+            <p className="mt-3 text-muted-foreground">{labels.imageQualityHelp}</p>
+            {visual.personalPhoto ? <>
+              <p className="mt-3">{config.paintPots.personalPhoto} · {visual.personalPhoto.paintPotId}</p>
+              <p className="mt-2">{labels.photoAddedOn} {new Date(visual.personalPhoto.addedAt).toLocaleString('fr-FR')}</p>
+              {visual.personalPhoto.caption && <p className="mt-2">{visual.personalPhoto.caption}</p>}
+              {visual.personalPhoto.processingMethod && visual.url !== visual.personalPhoto.originalUrl && <p className="mt-2">{labels.photoProcessing} : {visual.personalPhoto.processingMethod}</p>}
+              <a href={visual.personalPhoto.originalUrl} target="_blank" rel="noreferrer" className="mt-2 inline-block underline">{config.paintPots.originalPhoto}</a>
+            </> : visual.url ? <>
+              {paint.manufacturerImageCredit && <p className="mt-3">{paint.manufacturerImageCredit}</p>}
+              {paint.manufacturerImageSource && <a href={paint.manufacturerImageSource} target="_blank" rel="noreferrer" className="mt-2 inline-block underline">{labels.source}</a>}
+              {paint.manufacturerImageQualityVerifiedAt && <p className="mt-2">{labels.imageVerifiedOn} {paint.manufacturerImageQualityVerifiedAt}</p>}
+              {paint.manufacturerImageQualityLimitationDetail && <div className="mt-3">
+                <h4 className="font-semibold">{labels.imageQualityLimitation}</h4><p className="mt-2">{paint.manufacturerImageQualityLimitationDetail}</p>
+                <p className="mt-2 text-muted-foreground">{metadataLabel(config, paint.manufacturerImageQualityLimitationCode)} · {labels.imageQualityLimitationObservedOn} {paint.manufacturerImageQualityLimitationObservedAt}</p>
+              </div>}
+            </> : <p className="mt-3">{labels.noProductVisual}</p>}
+          </details>
+          {stock?.canReplacePhoto && !notice && <button ref={photoAction} type="button" disabled={loading} aria-expanded={replacing}
+            className="mt-4 w-full rounded-xl border px-3 py-2.5 text-sm font-semibold disabled:opacity-40"
+            onClick={() => { setReplacing(value => !value); setReplaced(false); }}>{replacing ? labels.cancelReplacement : photoLabel}</button>}
+          {replaced && <output className="mt-3 block text-sm">{labels.photoReplaced}</output>}
+        </figcaption>
+        </figure>
         <div className="min-w-0"><h3 className="mb-3 text-base font-semibold">{labels.characteristics}</h3>
           <dl className="paint-characteristics">{characteristics.map(([label, value]) => <div key={label}>
             <dt>{label}</dt><dd>{value || '—'}</dd>
-          </div>)}</dl>
+          </div>)}
+          <div className="paint-characteristic-wide"><dt>{labels.catalogEditions}</dt><dd>
+            {paint.catalogMemberships.length > 0 ? <ul className="space-y-2">{paint.catalogMemberships.map(membership => <li key={membership.catalogEditionId}>
+              <a href={membership.sourceUrl} target="_blank" rel="noreferrer" className="underline">{membership.title} · {membership.editionLabel}</a>
+              {membership.publicationYear && !membership.editionLabel.includes(String(membership.publicationYear))
+                && !membership.title.includes(String(membership.publicationYear)) && <span> ({membership.publicationYear})</span>}
+              {membership.locator && <span className="block text-xs font-normal text-muted-foreground">{membership.locator}</span>}
+            </li>)}</ul> : labels.notDocumented}
+          </dd></div>
+          {paint.manufacturerVerifiedAt && <div className="paint-characteristic-wide"><dt>{labels.verifiedOn}</dt><dd>{paint.manufacturerVerifiedAt}</dd></div>}
+          </dl>
         </div>
       </section>
+      <AppNotice notice={notice} />
+      {notice && <button type="button" className="justify-self-start rounded-xl border px-4 py-2 text-sm" onClick={() => setRetry(value => value + 1)}>{labels.retry}</button>}
+      {replacing && stock?.canReplacePhoto && !notice && <PaintProductPotPhotoReplacement paintProductId={paint.id} config={config}
+        submitLabel={photoLabel} onSaved={() => {
+          setReplacing(false); setReplaced(true);
+          photoAction.current?.focus({ preventScroll: true });
+          photoAction.current?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+          onPhotoSaved();
+        }} />}
+      {paint.warnings && <aside className="guide-notice"><h3 className="font-semibold">{labels.warnings}</h3><p className="mt-2">{paint.warnings}</p></aside>}
       {paint.manufacturerDescription && <p className="text-sm leading-6 text-muted-foreground">{paint.manufacturerDescription}</p>}
-      <PaintProductPotPhotoUpload paintProductId={paint.id} config={config} />
       {paint.recommendedUses.length > 0 && <section className="paint-detail-section"><h3>{labels.recommendedUses}</h3>
         <ul className="mt-3 flex flex-wrap gap-2">{paint.recommendedUses.map(use => <li key={use} className="rounded-lg border px-3 py-2 text-sm">{use}</li>)}</ul>
       </section>}
@@ -787,29 +864,13 @@ function PaintDetail({ paint, config, onClose, onPots }: { paint: PaintCardModel
         {localUsage.reviewRequired && <p className="guide-notice">{labels.instructionsReviewRequired}</p>}
         <UsageContent content={localUsage} config={config} />
       </section>}
-      {paint.catalogMemberships.length > 0 && <section className="paint-detail-section"><h3>{labels.catalogEditions}</h3>
-        <ul className="mt-3 space-y-2 text-sm">{paint.catalogMemberships.map(membership => <li key={membership.catalogEditionId}>
-          <a href={membership.sourceUrl} target="_blank" rel="noreferrer" className="underline">{membership.title} · {membership.editionLabel}</a>
-          <span className="text-muted-foreground"> — {membership.locator}</span>
-        </li>)}</ul>
-      </section>}
       {paint.resultImage && <section className="paint-detail-section"><h3>{labels.appliedResult}</h3>
         <div className="mt-3 aspect-video overflow-hidden rounded-2xl border bg-secondary"><ResilientPaintImage primary={paint.resultImage} fallback={paint.resultImageSource} alt={`${labels.appliedResult} ${paint.name}`} /></div>
         {paint.resultReferenceUrl && <a href={paint.resultReferenceUrl} target="_blank" rel="noreferrer" className="mt-2 inline-flex text-sm underline">{labels.realResultSource}</a>}
       </section>}
-      <details className="paint-detail-provenance">
-        <summary>{labels.imageProvenance}</summary>
-        <p className="mt-3">{labels.imageQuality} : {labels.imageQualityLabels[paint.manufacturerImageQuality.replace(/_([a-z])/g, (_, letter: string) => letter.toUpperCase())]} ({paint.manufacturerImageQualityRank}/6)</p>
-        {paint.manufacturerImageCredit && <p className="mt-2">{paint.manufacturerImageCredit}</p>}
-        {paint.manufacturerImageQualityLimitationDetail && <div className="mt-3">
-          <h3 className="font-semibold">{labels.imageQualityLimitation}</h3><p className="mt-2 leading-6">{paint.manufacturerImageQualityLimitationDetail}</p>
-          <p className="mt-2 text-muted-foreground">{metadataLabel(config, paint.manufacturerImageQualityLimitationCode)} · {labels.imageQualityLimitationObservedOn} {paint.manufacturerImageQualityLimitationObservedAt}</p>
-        </div>}
-      </details>
     </div>
-    <footer className="paint-detail-footer">
-      <button type="button" className="rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground" onClick={onPots}>{config.paintPots.title}</button>
+    {paint.manufacturerUrl && <footer className="paint-detail-footer">
       {paint.manufacturerUrl && <a href={paint.manufacturerUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-primary"><ExternalLink size={16} />{labels.openManufacturerSheet}</a>}
-    </footer>
+    </footer>}
   </dialog>;
 }

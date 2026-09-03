@@ -516,6 +516,13 @@ class ApplicationServicesTest {
     void previewsWithoutWritesAndAttachesOriginalAndCutoutIdempotently() {
         var repository = repository();
         var service = service(repository);
+        var stockQuery = new com.minipaintdex.application.query.GetWorkshopPaintStockQuery("warhammer-colour-contrast-apothecary-white", "stock-photo");
+        assertEquals(0, service.getWorkshopPaintStock(stockQuery).stock().quantity());
+        assertFalse(service.getWorkshopPaintStock(stockQuery).stock().canReplacePhoto());
+        assertThrows(DomainException.class, () -> service.getWorkshopPaintStock(
+                new com.minipaintdex.application.query.GetWorkshopPaintStockQuery("missing", "stock-photo")));
+        assertThrows(DomainException.class, () -> new com.minipaintdex.application.query.GetWorkshopPaintStockQuery("Bad ID", "test"));
+        assertThrows(DomainException.class, () -> new com.minipaintdex.application.query.GetWorkshopPaintStockQuery("paint", ""));
         service.registerPaintPot(new RegisterPaintPotCommand("pot-photo", "warhammer-colour-contrast-apothecary-white", null, "owner", "photos", "register-photo"));
         var original = new byte[]{1, 2, 3};
         var batchCount = repository.batches.size();
@@ -533,6 +540,20 @@ class ApplicationServicesTest {
         assertFalse(photo.url().equals(photo.originalUrl()));
         assertEquals(1, service.getPaintPot("pot-photo").photos().size());
         assertEquals("photos", receipt.correlationId());
+        var stock = service.getWorkshopPaintStock(stockQuery);
+        assertEquals("stock-photo", stock.correlationId());
+        assertEquals(1, stock.stock().quantity());
+        assertTrue(stock.stock().canReplacePhoto());
+        assertEquals("pot-photo", stock.stock().personalPhoto().paintPotId());
+        assertEquals(photo.url(), stock.stock().personalPhoto().url());
+        assertEquals(photo.originalUrl(), stock.stock().personalPhoto().originalUrl());
+        var search = service.searchWorkshopPaintStocks(new com.minipaintdex.application.query.PaintSearchQuery(
+                SearchPaintProductsQuery.empty(), false, false, java.util.Set.of("results"), new PageQuery(0, 50, List.of()), null, "stock-photo"));
+        assertEquals(stock.stock(), search.results().content().stream().filter(value -> value.paintProduct().id().equals(stockQuery.paintProductId())).findFirst().orElseThrow());
+        service.addPaintPotPhoto(new AddPaintPotPhotoCommand("pot-photo", "new.png", "image/png", original, "New photo", "owner", AT.plusSeconds(1), "photos", "new-photo", false));
+        assertEquals("New photo", service.getWorkshopPaintStock(stockQuery).stock().personalPhoto().caption());
+        org.junit.jupiter.api.Assertions.assertNull(service.getWorkshopPaintStock(stockQuery).stock().personalPhoto().processingMethod());
+        assertEquals(2, service.getPaintPot("pot-photo").photos().size());
         assertThrows(DomainException.class, () -> service.previewPaintPotPhoto(
                 new com.minipaintdex.application.query.PreviewPaintPotPhotoQuery("missing", "image/png", original, "preview")));
         assertThrows(DomainException.class, () -> service.previewPaintPotPhoto(

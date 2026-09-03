@@ -83,6 +83,26 @@ class MiniPaintDexControllerTest {
     }
 
     @Test
+    void readsRepresentativePhotoWithoutMutatingTheCatalog() throws Exception {
+        var photo = new WorkshopPaintStockView.PersonalPhoto("pot-one", "photo-one", "/cutout.png", "/original.png", "test-cutout", "My pot", Instant.parse("2026-09-01T00:00:00Z"));
+        when(workshop.getWorkshopPaintStock(any())).thenReturn(new com.minipaintdex.application.result.WorkshopPaintStockResult(
+                new WorkshopPaintStockView(paint("paint", "Paint"), 1, 1, photo, true), "photo-read"));
+        mvc.perform(get("/api/v1/workshop/paint-stocks/paint").header("X-Correlation-Id", "photo-read"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.stock.personalPhoto.url").value("/cutout.png"))
+                .andExpect(jsonPath("$.stock.personalPhoto.originalUrl").value("/original.png"))
+                .andExpect(jsonPath("$.stock.personalPhoto.paintPotId").value("pot-one"))
+                .andExpect(jsonPath("$.stock.canReplacePhoto").value(true))
+                .andExpect(jsonPath("$.correlationId").value("photo-read"));
+        var capture = ArgumentCaptor.forClass(com.minipaintdex.application.query.GetWorkshopPaintStockQuery.class);
+        verify(workshop).getWorkshopPaintStock(capture.capture());
+        assertEquals("paint", capture.getValue().paintProductId());
+        assertEquals("photo-read", capture.getValue().correlationId());
+        mvc.perform(get("/api/v1/workshop/paint-stocks/Bad-ID")).andExpect(status().isUnprocessableEntity());
+        when(workshop.getWorkshopPaintStock(any())).thenThrow(new com.minipaintdex.domain.shared.DomainException("not_found", "Unknown paint product"));
+        mvc.perform(get("/api/v1/workshop/paint-stocks/missing")).andExpect(status().isNotFound());
+    }
+
+    @Test
     void previewsBinaryPhotosAndForwardsAttachmentChoiceWithIdempotency() throws Exception {
         var file = new org.springframework.mock.web.MockMultipartFile("file", "pot.png", "image/png", new byte[]{1, 2, 3});
         when(workshop.previewPaintPotPhoto(any())).thenReturn(new com.minipaintdex.application.result.PaintPotPhotoPreview(new byte[]{4, 5, 6}, "test-cutout", "preview"));
@@ -260,7 +280,7 @@ class MiniPaintDexControllerTest {
     @Test
     void exposesOwnedPaintsOnlyThroughTheWorkshopContext() throws Exception {
         when(workshop.searchWorkshopPaintStocks(any())).thenReturn(new com.minipaintdex.application.result.PaintSearchResult<>(
-                new PageResult<>(List.of(new WorkshopPaintStockView(paint("paint", "Paint"), 2, 2, null)), 0, 10, 1), null, "test"));
+                new PageResult<>(List.of(new WorkshopPaintStockView(paint("paint", "Paint"), 2, 2, null, true)), 0, 10, 1), null, "test"));
         mvc.perform(post("/api/v1/workshop/paint-stocks/search").queryParam("page", "0").queryParam("size", "10")
                 .contentType(MediaType.APPLICATION_JSON).content("{}"))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.results.content[0].paintProduct.id").value("paint"))

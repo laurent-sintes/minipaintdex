@@ -43,10 +43,17 @@ export type PaintProduct = ManufacturerInfo & {
   updatedAt: string;
 };
 
-export type WorkshopPaintStock = { paintProduct: PaintProduct; quantity: number; availableQuantity: number; personalImage: string | null };
+export type PersonalPaintPhoto = {
+  paintPotId: string; mediaId: string; url: string; originalUrl: string;
+  processingMethod: string | null; caption: string; addedAt: string;
+};
+export type WorkshopPaintStock = {
+  paintProduct: PaintProduct; quantity: number; availableQuantity: number;
+  personalPhoto: PersonalPaintPhoto | null; canReplacePhoto: boolean;
+};
 
 /** Card-only composition; owned quantities are never Market facts. */
-export type PaintCardModel = PaintProduct & { quantity?: number; availableQuantity?: number; personalImage?: string | null };
+export type PaintCardModel = PaintProduct & { quantity?: number; availableQuantity?: number; personalPhoto?: PersonalPaintPhoto | null };
 
 export type PaintProfile = {
   roles: string[];
@@ -56,7 +63,7 @@ export type PaintProfile = {
   finish: string;
   effects: string[];
   undercoatTone: string;
-  preHighlightRecommended: boolean;
+  preHighlightedSurfaceRecommended: boolean;
   medium: string;
 };
 

@@ -53,9 +53,20 @@ Le niveau est une estimation manuelle, jamais une mesure déduite de l'image. Un
 dans ta collection mais ne compte plus comme disponible. « Donné » ou « Jeté » le sort du stock sans
 effacer son histoire. Les catalogues des marques et les éditions ne datent pas tes pots.
 
-Pour un nouveau pot physique, utilise **Ajouter un nouveau pot** depuis la liste des pots du produit
-(accessible aussi depuis la fiche du catalogue). Pour une nouvelle photo du même pot, ouvre sa fiche :
+Pour un nouveau pot physique, utilise **Ajouter un nouveau pot** depuis la liste des pots du produit.
+Pour une nouvelle photo du même pot, ouvre sa fiche :
 ne crée pas un deuxième pot. Les imports réutilisent les identifiants déjà enregistrés.
+
+La popup d’une peinture présente les catalogues documentés parmi ses caractéristiques. « Non
+renseigné » signifie que l’association à une édition n’est pas encore documentée.
+Sous le visuel, une jauge à six positions indique sa provenance, pas sa netteté. Elle est pleine
+pour une photo officielle. « Source et détails » précise l’origine de l’image affichée.
+
+Si tu possèdes un pot et que le visuel n’est ni une photo officielle ni une photo de revendeur,
+**Remplacer la photo** (ou **Définir la photo**) permet de choisir une image et de vérifier son
+détourage avant validation. Le nouveau visuel apparaît dans la popup et sur les cartes de ton
+stock. L’image catalogue et les anciennes photos restent conservées. L’ajout de photos de suivi
+dans la fiche du pot reste possible quel que soit le visuel catalogue.
 
 Les datasets `workshop.paint-pots` transportent les inscriptions des pots possédés, pas leurs notes,
 observations ou fichiers photo. Pour une sauvegarde complète, conserver `data/` et `media/`.

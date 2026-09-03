@@ -528,11 +528,24 @@ Pot imports merge registrations by explicit stable pot ID, validate product iden
 idempotent, and never reset existing observations, photos or history. Rephotographing a pot does not
 register a new pot. Catalog changes cannot add inventory through quantity deltas or rekey product IDs
 referenced by immutable pot histories. Personal pot photos stay in Workshop; a catalog refresh must
-never replace them. Workshop views prefer a personal photo and explicitly label a catalog fallback.
-REST searches use `POST /api/v1/workshop/paint-stocks/search` (`results.content`, `paintProduct`, `quantity`, `availableQuantity`, `personalImage`) and the CLI uses
+never replace them. Stock representative visuals prefer official and retailer catalog photos; otherwise
+the latest dated photo of an owned pot is selected (stable media ID then pot ID break timestamp ties).
+The Market provenance ordering and `PaintPotPhotoSelection` domain policy are composed in the application
+and shared by stock search and detail reads; the Workshop selector does not import Market implementations. Personal photos
+remain visible in each physical pot's journal regardless of catalog quality. The stock's `personalPhoto`
+includes pot/media identity, derivative and original URLs, processing method, caption and recorded date.
+`canReplacePhoto` requires an owned pot and catalog quality no better than `owned_photo`. Replacing the
+representative photo uses `AddPaintPotPhotoCommand` / `PaintPotPhotoAdded`: history is retained, never
+overwritten. The policy does not restrict independent journal-photo attachments. No schema migration.
+REST searches use `POST /api/v1/workshop/paint-stocks/search` (`results.content`, `paintProduct`, `quantity`, `availableQuantity`, `personalPhoto`, `canReplacePhoto`) and the CLI uses
 `workshop paint-stocks search` / `facets`. Product relations use `paintableProductId`, component
 relations `paintableComponentId`, project relations `paintingProjectId` and physical-copy command
 targets `workshopPaintableId`. The corresponding physical-copy collection is `workshop/paintables`.
+
+`GET /api/v1/workshop/paint-stocks/{paintProductId}` and `workshop paint-stocks show --paint-product-id`
+return the same correlated stock result, including zero stock for a known Market reference. The paint
+dialog composes this Workshop read with Market facts and refetches on committed invalidation or upload
+completion. Market responses and catalog cards never acquire owner-derived image fields.
 
 Shopping list routes and CLI commands are scoped under `workshop/shopping-list/entries` and
 `workshop shopping-list entries`. `set-checked` changes only the checked marker; it neither records
@@ -695,6 +708,10 @@ Keep the interaction model uniform across the SPA:
 - Paint search, selections, sorting and pagination have URL state and support back/forward. Result cards show brand, range and manufacturer reference outside the image; omit the generic color-paint badge while retaining useful technical roles and application methods.
 - Every desktop destination must remain reachable on small screens, either directly in mobile navigation or through a visible local sub-navigation.
 - User-facing labels independent of market/workshop data come from `data/site`; components must not duplicate them.
+- Paint dialogs place image provenance directly below the displayed image. Their six-position,
+  read-only gauge fills toward the best provenance without presenting the domain's rank as a score.
+  Source details always describe the displayed image, including fallback. Catalog memberships are
+  visible among paint characteristics; unknown membership is explicitly unrecorded, never invented.
 
 ## Media and provenance
 

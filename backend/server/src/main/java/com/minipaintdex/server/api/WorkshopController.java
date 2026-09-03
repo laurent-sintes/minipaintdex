@@ -79,6 +79,23 @@ final class WorkshopController {
         return PaintSearchResponse.from(workshop.searchWorkshopPaintStocks(request.toQuery(pageable, correlationId)), true);
     }
 
+    @GetMapping(value = "/workshop/paint-stocks/{paintProductId}", produces = {MediaType.APPLICATION_JSON_VALUE, "application/hal+json"})
+    @io.swagger.v3.oas.annotations.Operation(operationId = "getWorkshopPaintStock", summary = "Read stock and representative photo for one paint product")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Stock, including zero owned pots", useReturnTypeSchema = true)
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Unknown paint product",
+            content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/problem+json", schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = org.springframework.http.ProblemDetail.class)))
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "422", description = "Invalid product identity",
+            content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/problem+json", schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = org.springframework.http.ProblemDetail.class)))
+    EntityModel<com.minipaintdex.application.result.WorkshopPaintStockResult> paintStock(@PathVariable String paintProductId,
+            @RequestHeader(value = "X-Correlation-Id", required = false) String correlationId) {
+        var result = workshop.getWorkshopPaintStock(new com.minipaintdex.application.query.GetWorkshopPaintStockQuery(
+                paintProductId, correlationId == null ? java.util.UUID.randomUUID().toString() : correlationId));
+        return EntityModel.of(result, Link.of("/api/v1/workshop/paint-stocks/" + paintProductId).withSelfRel(),
+                Link.of("/api/v1/market/paint-products/" + paintProductId).withRel("paint-product"),
+                Link.of("/api/v1/workshop/paint-pots?paintProductId=" + paintProductId).withRel("paint-pots"),
+                Link.of("/api/v1/workshop").withRel("workshop"));
+    }
+
     @GetMapping("/workshop/paint-stocks/facets")
     PaintFacetsView paintFacets(
             @RequestParam(required = false) String query,

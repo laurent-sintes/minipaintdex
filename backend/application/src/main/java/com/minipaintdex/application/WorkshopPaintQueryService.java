@@ -14,7 +14,10 @@ import com.minipaintdex.application.view.PaintFacetsView;
 import com.minipaintdex.application.view.WorkshopPaintStockView;
 import com.minipaintdex.domain.shared.DomainException;
 
-import java.util.Comparator;
+import com.minipaintdex.domain.workshop.PaintPot;
+import com.minipaintdex.domain.workshop.PaintPotPhotoSelection;
+import com.minipaintdex.domain.workshop.PaintPotPossession;
+import com.minipaintdex.domain.market.paint.PaintProductImageQuality;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,17 +51,26 @@ final class WorkshopPaintQueryService {
         var ordered = PaintSearch.order(ranked, query.page().sort());
         var from = Math.min(query.page().offset(), ordered.size());
         var to = Math.min(from + query.page().size(), ordered.size());
-        var content = ordered.subList(from, to).stream().map(paint -> {
-            var owned = pots.stream().filter(pot -> pot.paintProductId().equals(paint.id())
-                    && pot.possession() == com.minipaintdex.domain.workshop.PaintPotPossession.OWNED).toList();
-            var available = (int) owned.stream().filter(com.minipaintdex.domain.workshop.PaintPot::available).count();
-            var photo = owned.stream().flatMap(pot -> pot.photos().stream())
-                    .max(Comparator.comparing(com.minipaintdex.domain.workshop.PaintPotEvent.PaintPotPhotoAdded::occurredAt))
-                    .map(photoEntry -> photoEntry.cutout() == null ? photoEntry.url() : photoEntry.cutout().url()).orElse(null);
-            return new WorkshopPaintStockView(paint, owned.size(), available, photo);
-        }).toList();
+        var content = ordered.subList(from, to).stream().map(paint -> stock(paint, pots)).toList();
         return new PaintSearchResult<>(
                 new PageResult<>(content, query.page().page(), query.page().size(), ordered.size()), suggestions, query.correlationId());
+    }
+
+    com.minipaintdex.application.result.WorkshopPaintStockResult get(
+            com.minipaintdex.application.query.GetWorkshopPaintStockQuery query) {
+        var paint = market.getPaintProduct(query.paintProductId());
+        var pots = com.minipaintdex.domain.workshop.PaintPotProjector.project(snapshots.load().events());
+        return new com.minipaintdex.application.result.WorkshopPaintStockResult(stock(paint, pots), query.correlationId());
+    }
+
+    private static WorkshopPaintStockView stock(PaintProductView paint, List<PaintPot> pots) {
+        var owned = pots.stream().filter(pot -> pot.paintProductId().equals(paint.id())
+                && pot.possession() == PaintPotPossession.OWNED).toList();
+        var quality = PaintProductImageQuality.fromId(paint.manufacturerImageQuality());
+        var allowsPersonalPhoto = PaintProductImageQuality.OWNED_PHOTO.isAtLeastAsGoodAs(quality);
+        var photo = allowsPersonalPhoto ? PaintPotPhotoSelection.select(owned).map(WorkshopPaintStockView.PersonalPhoto::from).orElse(null) : null;
+        return new WorkshopPaintStockView(paint, owned.size(), (int) owned.stream().filter(PaintPot::available).count(),
+                photo, !owned.isEmpty() && allowsPersonalPhoto);
     }
 
     PaintFacetsView facets(

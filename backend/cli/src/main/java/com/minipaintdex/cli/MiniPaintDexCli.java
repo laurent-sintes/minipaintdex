@@ -596,10 +596,23 @@ public final class MiniPaintDexCli implements Runnable {
         public void run() { CommandLine.usage(this, System.out); }
 
         @Command(name = "paint-stocks", mixinStandardHelpOptions = true,
-                subcommands = {PaintStocks.Search.class, PaintStocks.Facets.class})
+                subcommands = {PaintStocks.Search.class, PaintStocks.Facets.class, PaintStocks.Show.class})
         static final class PaintStocks implements Runnable {
             @ParentCommand Workshop parent;
             public void run() { CommandLine.usage(this, System.out); }
+
+            @Command(name = "show", mixinStandardHelpOptions = true, description = "Read stock and representative photo for one paint product")
+            static final class Show implements Callable<Integer> {
+                @ParentCommand PaintStocks parent;
+                @Option(names = "--paint-product-id", required = true) String paintProductId;
+                @Option(names = "--correlation-id") String correlationId;
+                public Integer call() {
+                    var root = parent.parent.root;
+                    root.output(root.workshop().getWorkshopPaintStock(new com.minipaintdex.application.query.GetWorkshopPaintStockQuery(
+                            paintProductId, correlationId == null ? java.util.UUID.randomUUID().toString() : correlationId)));
+                    return 0;
+                }
+            }
 
 
             @Command(name = "search", mixinStandardHelpOptions = true, description = "Search results, suggestions, or both")

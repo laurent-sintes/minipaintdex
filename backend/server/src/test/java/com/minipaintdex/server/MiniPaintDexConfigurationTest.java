@@ -63,6 +63,23 @@ class MiniPaintDexConfigurationTest {
     }
 
     @Test
+    void publishesStockDetailWithHalLinksAndPhotoSelectionContract() throws Exception {
+        var paint = market.searchPaintProducts(com.minipaintdex.application.query.SearchPaintProductsQuery.empty()).getFirst();
+        mvc.perform(get("/api/v1/workshop/paint-stocks/" + paint.id()).header("X-Correlation-Id", "stock-read"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.stock.paintProduct.id").value(paint.id()))
+                .andExpect(jsonPath("$.stock.quantity").isNumber())
+                .andExpect(jsonPath("$.stock.canReplacePhoto").isBoolean())
+                .andExpect(jsonPath("$.correlationId").value("stock-read"))
+                .andExpect(jsonPath("$._links.self.href").value("/api/v1/workshop/paint-stocks/" + paint.id()))
+                .andExpect(jsonPath("$._links.paint-product.href").value("/api/v1/market/paint-products/" + paint.id()));
+        mvc.perform(get("/v3/api-docs")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.paths['/api/v1/workshop/paint-stocks/{paintProductId}'].get.operationId").value("getWorkshopPaintStock"))
+                .andExpect(jsonPath("$.components.schemas.WorkshopPaintStockView.properties.personalPhoto").exists())
+                .andExpect(jsonPath("$.components.schemas.WorkshopPaintStockView.properties.canReplacePhoto").exists())
+                .andExpect(jsonPath("$.components.schemas.WorkshopPaintStockView.properties.personalImage").doesNotExist());
+    }
+
+    @Test
     void documentsPhotoPreviewAsBinaryPngRatherThanBase64() throws Exception {
         mvc.perform(get("/v3/api-docs"))
                 .andExpect(status().isOk())

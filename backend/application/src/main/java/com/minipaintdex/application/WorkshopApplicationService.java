@@ -70,6 +70,9 @@ public final class WorkshopApplicationService implements WorkshopUseCases {
         return paintQueries.search(query, searchPolicy);
     }
 
+    @Override public com.minipaintdex.application.result.WorkshopPaintStockResult getWorkshopPaintStock(
+            com.minipaintdex.application.query.GetWorkshopPaintStockQuery query) { return paintQueries.get(query); }
+
     @Override public WorkshopOverviewView workshopOverview() { return queries.workshopOverview(); }
     @Override public ImportPaintPotsResult importPaintPots(ImportPaintPotsCommand command) { return commands.importPaintPots(command); }
     @Override public ImportPaintPotsResult registerPaintPot(RegisterPaintPotCommand command) { return commands.registerPaintPot(command); }
