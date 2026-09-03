@@ -1,0 +1,14 @@
+[
+  {
+    "brand": "The Army Painter",
+    "reference": "WP1470",
+    "name": "Light Tone",
+    "range": "Warpaints Washes",
+    "hex": "#b03622",
+    "source_url": "https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf",
+    "source_sha256": "65339bb4badff21ecadc9470e44ee32ad0ede16cf10f2f67ef089f35ab71d1c7",
+    "source_page": 2,
+    "extraction_method": "Dominant RGB pixel in the visually reviewed Light Tone WP1470 chart cell; Poppler 26.05.0 pdftoppm -f 2 -l 2 -scale-to 2200 -png -singlefile; rendered size 2200x1569; half-open pixel box [2006,972,2087,1043]; RGB [176,54,34], 3634 of 5751 pixels.",
+    "accuracy": "Approximate digital swatch from the 2019 Army Painter catalogue distributed by Freesia Enterprise. The red-brown printed swatch is not a measured dried wash colour; substrate, application and rendering colour management affect appearance. Not a Fanatic or Quickshade Dip equivalent."
+  }
+]

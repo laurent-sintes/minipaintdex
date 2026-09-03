@@ -69,6 +69,29 @@ def paint(brand: str, reference: str, name: str, range_name: str, *, role: str =
 
 
 class PaintColorEnrichmentTest(unittest.TestCase):
+    def test_pinned_light_tone_chart_matches_historical_reference_only(self):
+        source_root = Path(__file__).resolve().parents[1] / "color-sources"
+        historical = paint("The Army Painter", "WP1470", "Light Tone", "Warpaints Washes", role="wash")
+        fanatic = paint("The Army Painter", "WP3014P", "Light Tone", "Warpaints Fanatic Wash", role="wash")
+        changeset, audit = build_color_enrichment_changeset(
+            {"schema_version": 1, "paints": [historical, fanatic]},
+            manifest_path=source_root / "army-painter-light-tone-2019.json",
+            source_root=source_root, as_of="2026-09-03")
+        self.assertEqual(1, len(changeset["operations"]))
+        updated = changeset["operations"][0]["record"]
+        self.assertEqual(historical["id"], updated["id"])
+        self.assertEqual("#b03622", updated["color"]["hex"])
+        self.assertEqual(historical["profile"], updated["profile"])
+        evidence = updated["source_snapshots"][-1]["payload"]
+        self.assertEqual(2, evidence["source_page"])
+        self.assertEqual("65339bb4badff21ecadc9470e44ee32ad0ede16cf10f2f67ef089f35ab71d1c7", evidence["source_document_sha256"])
+        self.assertIn("not a measured dried wash colour", evidence["accuracy"])
+        replay, _ = build_color_enrichment_changeset(
+            {"paints": [updated, fanatic]},
+            manifest_path=source_root / "army-painter-light-tone-2019.json",
+            source_root=source_root, as_of="2026-09-03")
+        self.assertEqual([], replay["operations"])
+
     def build(self, catalog_paint: dict, records: list[dict], config: dict):
         brand = catalog_paint["brand"]
         manifest = {

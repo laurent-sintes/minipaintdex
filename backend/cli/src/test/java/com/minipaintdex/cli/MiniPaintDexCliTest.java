@@ -339,4 +339,24 @@ class MiniPaintDexCliTest {
                 List.of("credit", "image_quality", "path"),
                 image.value().fields().stream().map(field -> field.name()).toList());
     }
+
+    @Test
+    void paintChangeSetReaderPreservesExplicitQualityDecisions() throws Exception {
+        var path = temporaryDirectory.resolve("quality-review.json");
+        Files.writeString(path, """
+                {"schema_version":1,"kind":"market_paints","operations":[{"action":"upsert","record":{
+                "id":"tst-1","source_snapshots":[{"provider":"reviewed-paint-color-quality",
+                "url":"https://example.test/chart","payload":{"field":"profile.finish","before":"unknown",
+                "after":"satin","review_id":"review-1","manifest_sha256":"abc","rationale":"Exact chart"}}]}}]}
+                """);
+        var cli = new MiniPaintDexCli(mock(MarketCatalogUseCases.class), mock(WorkshopUseCases.class),
+                mock(AdministrationUseCases.class), mock(EventBus.class), mock(PersistenceLifecycle.class));
+        var command = cli.readPaintChangeSet(path, true);
+        var record = com.minipaintdex.application.validation.StructuredDocuments.toMap(command.operations().getFirst().record());
+        var sources = com.minipaintdex.application.validation.StructuredDocuments.maps(record.get("source_snapshots"));
+        var payload = com.minipaintdex.application.validation.StructuredDocuments.map(sources.getFirst().get("payload"));
+        assertEquals("profile.finish", payload.get("field"));
+        assertEquals("unknown", payload.get("before"));
+        assertEquals("satin", payload.get("after"));
+    }
 }

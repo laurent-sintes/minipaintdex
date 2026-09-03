@@ -3683,8 +3683,8 @@ paints:
   brand_aliases:
   - Prince Auguste
   color:
-    family: Gris bleu uniforme
-    hex: '#4D5A63'
+    family: grey
+    hex: '#485267'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: pau|ref:p816
@@ -3768,6 +3768,65 @@ paints:
       url: https://www.prince-august.net/peintures/classic/105-uniforme-luftwaffe
     provider: prince_august_product_card
     url: https://www.prince-august.net/peintures/classic/105-uniforme-luftwaffe
+  - payload:
+      after: grey
+      before: Gris bleu uniforme
+      evidence:
+        previous_family: Gris bleu uniforme
+      field: family
+      manifest_sha256: 0d77a297238cc6045a3d18d0730f9387a83525d82ed1585bc5973e5cfe40e779
+      rationale: Reviewed normalization of an existing descriptive family; not a HEX-derived
+        classification.
+      review_id: paint-color-quality-2026-09-03
+      reviewed_at: '2026-09-03'
+    provider: reviewed-paint-color-quality
+    url: https://www.prince-august.net/peintures/classic/105-uniforme-luftwaffe
+  - payload:
+      accuracy: Approximate equivalent Vallejo historical chart swatch; not an exact
+        Prince August paint measurement.
+      after: '#485267'
+      before: '#4D5A63'
+      evidence:
+        accuracy: Approximate equivalent Vallejo historical chart swatch; not an exact
+          Prince August paint measurement.
+        box:
+        - 1475
+        - 460
+        - 1607
+        - 498
+        extraction_method: median-rgb
+        identity_match: reviewed-prince-august-model-color-reference-equivalence
+        image_size:
+        - 5000
+        - 1516
+        page: 2
+        rationale: Reviewed manufacturer chart cell; replaces an unsourced digital
+          approximation. Not a physical paint measurement.
+        render_long_side: 5000
+        renderer: Poppler 26.05.0 pdftoppm
+        source_equivalent: Vallejo Model Color 70.816
+        source_file: vallejo-model-color-rev18.pdf
+        source_record:
+          hex: '#485267'
+          name: Uniforme Luftwaffe
+          range: CLASSIC
+          reference: P816
+        source_sha256: 6043322d70b18f14e23fd641036f76e44674b605fe5272117533680660c1d519
+        url: https://acrylicosvallejo.com/wp-content/uploads/2021/09/CC070-Model_Color-Rev18-baja.pdf
+      field: color.hex
+      identity_match: reviewed-prince-august-model-color-reference-equivalence
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed manufacturer chart cell; replaces an unsourced digital approximation.
+        Not a physical paint measurement.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#485267'
+        name: Uniforme Luftwaffe
+        range: CLASSIC
+        reference: P816
+    provider: reviewed-paint-color-quality
+    url: https://acrylicosvallejo.com/wp-content/uploads/2021/09/CC070-Model_Color-Rev18-baja.pdf
   tags:
   - gris bleu
   - uniforme
@@ -5149,8 +5208,8 @@ paints:
   brand_aliases:
   - Prince Auguste
   color:
-    family: Vert allemand grisé
-    hex: '#667566'
+    family: green
+    hex: '#535753'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: pau|ref:p830
@@ -5234,6 +5293,65 @@ paints:
       url: https://www.prince-august.net/peintures/classic/102-vert-allem-wwii
     provider: prince_august_product_card
     url: https://www.prince-august.net/peintures/classic/102-vert-allem-wwii
+  - payload:
+      after: green
+      before: Vert allemand grisé
+      evidence:
+        previous_family: Vert allemand grisé
+      field: family
+      manifest_sha256: 0d77a297238cc6045a3d18d0730f9387a83525d82ed1585bc5973e5cfe40e779
+      rationale: Reviewed normalization of an existing descriptive family; not a HEX-derived
+        classification.
+      review_id: paint-color-quality-2026-09-03
+      reviewed_at: '2026-09-03'
+    provider: reviewed-paint-color-quality
+    url: https://www.prince-august.net/peintures/classic/102-vert-allem-wwii
+  - payload:
+      accuracy: Approximate equivalent Vallejo historical chart swatch; not an exact
+        Prince August paint measurement.
+      after: '#535753'
+      before: '#667566'
+      evidence:
+        accuracy: Approximate equivalent Vallejo historical chart swatch; not an exact
+          Prince August paint measurement.
+        box:
+        - 1638
+        - 346
+        - 1770
+        - 384
+        extraction_method: median-rgb
+        identity_match: reviewed-prince-august-model-color-reference-equivalence
+        image_size:
+        - 5000
+        - 1516
+        page: 2
+        rationale: Reviewed manufacturer chart cell; replaces an unsourced digital
+          approximation. Not a physical paint measurement.
+        render_long_side: 5000
+        renderer: Poppler 26.05.0 pdftoppm
+        source_equivalent: Vallejo Model Color 70.830
+        source_file: vallejo-model-color-rev18.pdf
+        source_record:
+          hex: '#535753'
+          name: Vert Allem. WWII
+          range: CLASSIC
+          reference: P830
+        source_sha256: 6043322d70b18f14e23fd641036f76e44674b605fe5272117533680660c1d519
+        url: https://acrylicosvallejo.com/wp-content/uploads/2021/09/CC070-Model_Color-Rev18-baja.pdf
+      field: color.hex
+      identity_match: reviewed-prince-august-model-color-reference-equivalence
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed manufacturer chart cell; replaces an unsourced digital approximation.
+        Not a physical paint measurement.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#535753'
+        name: Vert Allem. WWII
+        range: CLASSIC
+        reference: P830
+    provider: reviewed-paint-color-quality
+    url: https://acrylicosvallejo.com/wp-content/uploads/2021/09/CC070-Model_Color-Rev18-baja.pdf
   tags:
   - vert
   - uniforme

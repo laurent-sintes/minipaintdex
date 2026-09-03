@@ -11,11 +11,13 @@
     "Warhammer Colour": {
       "file": "citadel.json",
       "sha256": "15decc4552ee658fb1bb9879c1e10441707258efd6e94afe73939652d825a504",
+      "sha256_text_lf": "0a85f928ae2afabba00b5d1cff8482db627589a5592031b575e9ece32bffd7f7",
       "match": "name-range"
     },
     "The Army Painter": {
       "file": "army-painter.json",
       "sha256": "805b06872d4f3b73998d76c6ebcb0980eb49a4405a07c0dc223f6a6e294ecdc9",
+      "sha256_text_lf": "1ce9c7f04373e7cfdf3351c1c0aa9c2845b6a37f641de92559b40a5dfe931d99",
       "match": "name-range",
       "strip_name_prefixes": ["Colour Primer:"],
       "range_aliases": {
@@ -28,6 +30,7 @@
         "Bony Spikes": "Boney Spikes",
         "Brethil Blush": "Brethil Flesh",
         "Brigandine Brown": "Brigadine Brown",
+        "Hydra Turquoise": "Hydra Turqoise",
         "Matt Black Primer, 100 ml": "Matt Black",
         "Matt Grey Primer, 100 ml": "Uniform Grey",
         "Matt White Primer, 100 ml": "Matt White",
@@ -40,11 +43,13 @@
     "Vallejo": {
       "file": "vallejo.json",
       "sha256": "9ec2967408ffc5105f0fdc53e1d36e3bd5f1aa94391ef2655d2bdc17cd7335a0",
+      "sha256_text_lf": "75ffb86ad72b7d42fe93b48e4f2b46e4cfe72e75d560a4c95c4ce778a7273774",
       "match": "reference"
     },
     "Prince August": {
       "file": "vallejo.json",
       "sha256": "9ec2967408ffc5105f0fdc53e1d36e3bd5f1aa94391ef2655d2bdc17cd7335a0",
+      "sha256_text_lf": "75ffb86ad72b7d42fe93b48e4f2b46e4cfe72e75d560a4c95c4ce778a7273774",
       "match": "prince-august-model-color-reference",
       "source_range": "Model Color"
     }

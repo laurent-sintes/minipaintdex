@@ -42,8 +42,12 @@ def _read_source_records(source_root: Path, config: dict[str, Any]) -> list[dict
     path = source_root / str(config.get("file", ""))
     if not path.is_file():
         raise ValueError(f"Colour-source file not found: {path}")
-    digest = hashlib.sha256(path.read_bytes()).hexdigest()
-    if digest != config.get("sha256"):
+    content = path.read_bytes()
+    digest = hashlib.sha256(content).hexdigest()
+    # A Windows Git checkout can change LF to CRLF. Only accept that difference
+    # when the manifest also pins the independently verified LF-content hash.
+    text_digest = hashlib.sha256(content.replace(b"\r\n", b"\n")).hexdigest()
+    if digest != config.get("sha256") and text_digest != config.get("sha256_text_lf"):
         raise ValueError(f"Colour-source checksum mismatch for {path}: {digest}")
     value = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(value, list) or any(not isinstance(record, dict) for record in value):

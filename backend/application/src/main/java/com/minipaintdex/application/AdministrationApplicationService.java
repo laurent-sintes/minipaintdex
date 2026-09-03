@@ -13,6 +13,7 @@ import com.minipaintdex.application.result.ApplyMarketPaintableProductChangeSetR
 import com.minipaintdex.application.usecase.AdministrationUseCases;
 import com.minipaintdex.application.validation.MarketCatalogFactory;
 import com.minipaintdex.application.validation.DataSnapshotValidator;
+import com.minipaintdex.application.validation.PaintProductImportEvidence;
 import com.minipaintdex.application.view.RebuildProjectionResult;
 import com.minipaintdex.domain.event.EventEnvelope;
 import com.minipaintdex.domain.market.guide.MarketPaintingGuide;
@@ -109,8 +110,10 @@ public final class AdministrationApplicationService implements AdministrationUse
             if (!operatedIds.add(id)) throw invalid("Only one operation is allowed per paint id: " + id);
             switch (required(operation.action(), "operation.action")) {
                 case "upsert" -> {
-                    var replacement = new LinkedHashMap<>(record);
-                    var previous = byId.put(id, replacement);
+                    var previous = byId.get(id);
+                    var replacement = previous == null ? record : StructuredDocuments.toMap(
+                            PaintProductImportEvidence.preserve(StructuredDocuments.fromMap(previous), operation.record()));
+                    byId.put(id, replacement);
                     if (previous == null) added++;
                     else if (previous.equals(replacement)) unchanged++;
                     else updated++;
@@ -122,8 +125,10 @@ public final class AdministrationApplicationService implements AdministrationUse
                         throw invalid("Only one rekey is allowed per previous paint id: " + previousId);
                     }
                     if (byId.containsKey(id)) throw conflict("Rekey target already exists: " + id);
-                    if (byId.remove(previousId) == null) throw notFound("Paint not found: " + previousId);
-                    byId.put(id, new LinkedHashMap<>(record));
+                    var previous = byId.remove(previousId);
+                    if (previous == null) throw notFound("Paint not found: " + previousId);
+                    byId.put(id, StructuredDocuments.toMap(PaintProductImportEvidence.preserve(
+                            StructuredDocuments.fromMap(previous), operation.record())));
                     if (referencedPaintIds(List.of(), snapshot.events()).contains(previousId)
                             || com.minipaintdex.domain.workshop.PaintPotProjector.project(snapshot.events()).stream().anyMatch(pot -> pot.paintProductId().equals(previousId))) throw conflict("A product referenced by pot or recipe history cannot be rekeyed: " + previousId);
                     rekeyed++;

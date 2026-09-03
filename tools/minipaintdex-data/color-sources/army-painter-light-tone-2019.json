@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "id": "army-painter-light-tone-2019-chart",
+  "repository": "https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf",
+  "revision": "65339bb4badff21ecadc9470e44ee32ad0ede16cf10f2f67ef089f35ab71d1c7",
+  "license": "Manufacturer catalogue distributed by Freesia Enterprise; extracted swatch retained as factual reference metadata. No redistribution license for the complete document asserted.",
+  "copyright": "The Army Painter / Freesia Enterprise",
+  "accuracy": "Approximate historical digital chart swatch, not a dried-paint measurement.",
+  "brands": {
+    "The Army Painter": {
+      "file": "army-painter-light-tone-2019-colors.json",
+      "sha256": "051ae2320be3db0260ff7036106c705d86dbfc6024531d27e5d5f913ba357f2c",
+      "sha256_text_lf": "051ae2320be3db0260ff7036106c705d86dbfc6024531d27e5d5f913ba357f2c",
+      "match": "reference"
+    }
+  }
+}

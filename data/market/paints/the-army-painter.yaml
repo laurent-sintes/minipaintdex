@@ -40116,7 +40116,7 @@ paints:
     source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
   color:
     family: ''
-    hex: ''
+    hex: '#d7955a'
   confidence: 0.98
   data_status: confirmed
   deduplication_key: the-army-painter|warpaints|name:desert-yellow
@@ -40214,6 +40214,25 @@ paints:
       volume_ml: 18
     provider: the-army-painter-2019-catalogue
     url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  - payload:
+      accuracy: Approximate digital swatches derived from manufacturer and community
+        sources; not physical paint measurements.
+      copyright: Copyright (c) 2026 Paintdex contributors
+      identity_confidence: 0.95
+      identity_match: name-range
+      license: MIT
+      revision: f77970bad84e8b23337af24d204b741d51c67104
+      source_record:
+        brand: Army Painter
+        code: WP1121
+        discontinued: false
+        hex: '#D7955A'
+        id: army-painter-desert-yellow-warpaints
+        name: Desert Yellow
+        range: Warpaints
+        type: other
+    provider: paintdex-community-colors
+    url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/army-painter.json
   tags: [
     ]
   usage_instructions:
@@ -40235,7 +40254,7 @@ paints:
     source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
   color:
     family: ''
-    hex: ''
+    hex: '#48240a'
   confidence: 0.99
   data_status: confirmed
   deduplication_key: the-army-painter|warpaints|name:oak-brown
@@ -40333,6 +40352,25 @@ paints:
       volume_ml: 18
     provider: the-army-painter-2019-catalogue
     url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  - payload:
+      accuracy: Approximate digital swatches derived from manufacturer and community
+        sources; not physical paint measurements.
+      copyright: Copyright (c) 2026 Paintdex contributors
+      identity_confidence: 0.95
+      identity_match: name-range
+      license: MIT
+      revision: f77970bad84e8b23337af24d204b741d51c67104
+      source_record:
+        brand: Army Painter
+        code: WP1124
+        discontinued: false
+        hex: '#48240A'
+        id: army-painter-oak-brown-warpaints
+        name: Oak Brown
+        range: Warpaints
+        type: other
+    provider: paintdex-community-colors
+    url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/army-painter.json
   tags: [
     ]
   usage_instructions:
@@ -40354,7 +40392,7 @@ paints:
     source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
   color:
     family: ''
-    hex: ''
+    hex: '#1e939c'
   confidence: 0.98
   data_status: confirmed
   deduplication_key: the-army-painter|warpaints|name:hydra-turquoise
@@ -40452,6 +40490,25 @@ paints:
       volume_ml: 18
     provider: the-army-painter-2019-catalogue
     url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  - payload:
+      accuracy: Approximate digital swatches derived from manufacturer and community
+        sources; not physical paint measurements.
+      copyright: Copyright (c) 2026 Paintdex contributors
+      identity_confidence: 0.95
+      identity_match: name-range-reviewed-alias
+      license: MIT
+      revision: f77970bad84e8b23337af24d204b741d51c67104
+      source_record:
+        brand: Army Painter
+        code: WP1141
+        discontinued: false
+        hex: '#1E939C'
+        id: army-painter-hydra-turqoise
+        name: Hydra Turqoise
+        range: Warpaints
+        type: other
+    provider: paintdex-community-colors
+    url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/army-painter.json
   tags: [
     ]
   usage_instructions:
@@ -40473,7 +40530,7 @@ paints:
     source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
   color:
     family: ''
-    hex: ''
+    hex: '#bfa59b'
   confidence: 0.98
   data_status: confirmed
   deduplication_key: the-army-painter|warpaints|name:banshee-brown
@@ -40571,6 +40628,25 @@ paints:
       volume_ml: 18
     provider: the-army-painter-2019-catalogue
     url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  - payload:
+      accuracy: Approximate digital swatches derived from manufacturer and community
+        sources; not physical paint measurements.
+      copyright: Copyright (c) 2026 Paintdex contributors
+      identity_confidence: 0.95
+      identity_match: name-range
+      license: MIT
+      revision: f77970bad84e8b23337af24d204b741d51c67104
+      source_record:
+        brand: Army Painter
+        code: WP1404
+        discontinued: false
+        hex: '#BFA59B'
+        id: army-painter-banshee-brown
+        name: Banshee Brown
+        range: Warpaints
+        type: other
+    provider: paintdex-community-colors
+    url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/army-painter.json
   tags: [
     ]
   usage_instructions:
@@ -40592,7 +40668,7 @@ paints:
     source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
   color:
     family: ''
-    hex: ''
+    hex: '#787164'
   confidence: 0.99
   data_status: confirmed
   deduplication_key: the-army-painter|warpaints|name:cultist-robe
@@ -40690,6 +40766,25 @@ paints:
       volume_ml: 18
     provider: the-army-painter-2019-catalogue
     url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  - payload:
+      accuracy: Approximate digital swatches derived from manufacturer and community
+        sources; not physical paint measurements.
+      copyright: Copyright (c) 2026 Paintdex contributors
+      identity_confidence: 0.95
+      identity_match: name-range
+      license: MIT
+      revision: f77970bad84e8b23337af24d204b741d51c67104
+      source_record:
+        brand: Army Painter
+        code: WP1414
+        discontinued: false
+        hex: '#787164'
+        id: army-painter-cultist-robe
+        name: Cultist Robe
+        range: Warpaints
+        type: other
+    provider: paintdex-community-colors
+    url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/army-painter.json
   tags: [
     ]
   usage_instructions:
@@ -40711,7 +40806,7 @@ paints:
     source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
   color:
     family: ''
-    hex: ''
+    hex: '#cfd7e7'
   confidence: 0.98
   data_status: confirmed
   deduplication_key: the-army-painter|warpaints|name:gorgon-hide
@@ -40809,6 +40904,25 @@ paints:
       volume_ml: 18
     provider: the-army-painter-2019-catalogue
     url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  - payload:
+      accuracy: Approximate digital swatches derived from manufacturer and community
+        sources; not physical paint measurements.
+      copyright: Copyright (c) 2026 Paintdex contributors
+      identity_confidence: 0.95
+      identity_match: name-range
+      license: MIT
+      revision: f77970bad84e8b23337af24d204b741d51c67104
+      source_record:
+        brand: Army Painter
+        code: WP1428
+        discontinued: false
+        hex: '#CFD7E7'
+        id: army-painter-gorgon-hide
+        name: Gorgon Hide
+        range: Warpaints
+        type: other
+    provider: paintdex-community-colors
+    url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/army-painter.json
   tags: [
     ]
   usage_instructions:
@@ -40830,7 +40944,7 @@ paints:
     source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
   color:
     family: ''
-    hex: ''
+    hex: '#3a7529'
   confidence: 0.99
   data_status: confirmed
   deduplication_key: the-army-painter|warpaints|name:mouldy-clothes
@@ -40928,6 +41042,25 @@ paints:
       volume_ml: 18
     provider: the-army-painter-2019-catalogue
     url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  - payload:
+      accuracy: Approximate digital swatches derived from manufacturer and community
+        sources; not physical paint measurements.
+      copyright: Copyright (c) 2026 Paintdex contributors
+      identity_confidence: 0.95
+      identity_match: name-range
+      license: MIT
+      revision: f77970bad84e8b23337af24d204b741d51c67104
+      source_record:
+        brand: Army Painter
+        code: WP1439
+        discontinued: false
+        hex: '#3A7529'
+        id: army-painter-mouldy-clothes
+        name: Mouldy Clothes
+        range: Warpaints
+        type: other
+    provider: paintdex-community-colors
+    url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/army-painter.json
   tags: [
     ]
   usage_instructions:
@@ -40949,7 +41082,7 @@ paints:
     source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
   color:
     family: ''
-    hex: ''
+    hex: '#c3c5be'
   confidence: 0.98
   data_status: confirmed
   deduplication_key: the-army-painter|warpaints|name:stone-golem
@@ -41047,6 +41180,25 @@ paints:
       volume_ml: 18
     provider: the-army-painter-2019-catalogue
     url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  - payload:
+      accuracy: Approximate digital swatches derived from manufacturer and community
+        sources; not physical paint measurements.
+      copyright: Copyright (c) 2026 Paintdex contributors
+      identity_confidence: 0.95
+      identity_match: name-range
+      license: MIT
+      revision: f77970bad84e8b23337af24d204b741d51c67104
+      source_record:
+        brand: Army Painter
+        code: WP1455
+        discontinued: false
+        hex: '#C3C5BE'
+        id: army-painter-stone-golem
+        name: Stone Golem
+        range: Warpaints
+        type: other
+    provider: paintdex-community-colors
+    url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/army-painter.json
   tags: [
     ]
   usage_instructions:
@@ -41068,7 +41220,7 @@ paints:
     source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
   color:
     family: ''
-    hex: ''
+    hex: '#796352'
   confidence: 0.99
   data_status: confirmed
   deduplication_key: the-army-painter|warpaints|name:werewolf-fur
@@ -41166,6 +41318,25 @@ paints:
       volume_ml: 18
     provider: the-army-painter-2019-catalogue
     url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  - payload:
+      accuracy: Approximate digital swatches derived from manufacturer and community
+        sources; not physical paint measurements.
+      copyright: Copyright (c) 2026 Paintdex contributors
+      identity_confidence: 0.95
+      identity_match: name-range
+      license: MIT
+      revision: f77970bad84e8b23337af24d204b741d51c67104
+      source_record:
+        brand: Army Painter
+        code: WP1464
+        discontinued: false
+        hex: '#796352'
+        id: army-painter-werewolf-fur
+        name: Werewolf Fur
+        range: Warpaints
+        type: other
+    provider: paintdex-community-colors
+    url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/army-painter.json
   tags: [
     ]
   usage_instructions:
@@ -41187,7 +41358,7 @@ paints:
     source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
   color:
     family: ''
-    hex: ''
+    hex: '#b03622'
   confidence: 0.98
   data_status: confirmed
   deduplication_key: the-army-painter|quickshade-washes|name:light-tone
@@ -41296,6 +41467,35 @@ paints:
       volume_ml: 18
     provider: the-army-painter-2019-catalogue
     url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  - payload:
+      accuracy: Approximate digital swatch from the 2019 Army Painter catalogue distributed
+        by Freesia Enterprise. The red-brown printed swatch is not a measured dried
+        wash colour; substrate, application and rendering colour management affect
+        appearance. Not a Fanatic or Quickshade Dip equivalent.
+      copyright: The Army Painter / Freesia Enterprise
+      extraction_method: Dominant RGB pixel in the visually reviewed Light Tone WP1470
+        chart cell; Poppler 26.05.0 pdftoppm -f 2 -l 2 -scale-to 2200 -png -singlefile;
+        rendered size 2200x1569; half-open pixel box [2006,972,2087,1043]; RGB [176,54,34],
+        3634 of 5751 pixels.
+      identity_confidence: 1.0
+      identity_match: reference
+      license: Manufacturer catalogue distributed by Freesia Enterprise; extracted
+        swatch retained as factual reference metadata. No redistribution license for
+        the complete document asserted.
+      revision: 65339bb4badff21ecadc9470e44ee32ad0ede16cf10f2f67ef089f35ab71d1c7
+      source_document_sha256: 65339bb4badff21ecadc9470e44ee32ad0ede16cf10f2f67ef089f35ab71d1c7
+      source_equivalent: ''
+      source_image_sha256: ''
+      source_image_url: ''
+      source_page: 2
+      source_record:
+        brand: The Army Painter
+        hex: '#b03622'
+        name: Light Tone
+        range: Warpaints Washes
+        reference: WP1470
+    provider: army-painter-light-tone-2019-chart
+    url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
   tags: [
     ]
   usage_guide_ids:
@@ -41313,7 +41513,7 @@ paints:
     source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
   color:
     family: ''
-    hex: ''
+    hex: '#7d807b'
   confidence: 0.98
   data_status: confirmed
   deduplication_key: the-army-painter|warpaints|name:field-grey
@@ -41411,6 +41611,25 @@ paints:
       volume_ml: 18
     provider: the-army-painter-2019-catalogue
     url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  - payload:
+      accuracy: Approximate digital swatches derived from manufacturer and community
+        sources; not physical paint measurements.
+      copyright: Copyright (c) 2026 Paintdex contributors
+      identity_confidence: 0.95
+      identity_match: name-range
+      license: MIT
+      revision: f77970bad84e8b23337af24d204b741d51c67104
+      source_record:
+        brand: Army Painter
+        code: WP1481
+        discontinued: false
+        hex: '#7D807B'
+        id: army-painter-field-grey
+        name: Field Grey
+        range: Warpaints
+        type: other
+    provider: paintdex-community-colors
+    url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/army-painter.json
   tags: [
     ]
   usage_instructions:
@@ -42292,7 +42511,7 @@ paints:
   - Army Painter
   color:
     family: skin
-    hex: '#C1846C'
+    hex: '#f6aa7d'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: tap|ref:wp2004p
@@ -42487,6 +42706,54 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-crusader-skin-wp2004p
+  - payload:
+      accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+        text and the darker right face; not the painted miniature or a measurement.
+      after: '#f6aa7d'
+      before: '#C1846C'
+      evidence:
+        accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+          text and the darker right face; not the painted miniature or a measurement.
+        box:
+        - 1411
+        - 1009
+        - 1416
+        - 1015
+        extraction_method: median-rgb
+        identity_evidence: Current official product page identifies this SKU and explicitly
+          describes Speedpaint 2.0. No pot manufacturing date inferred.
+        identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+        identity_source_url: https://thearmypainter.com/products/speedpaint-speedpaint-crusader-skin-wp2004p
+        image_size:
+        - 1839
+        - 2600
+        page: 1
+        rationale: Reviewed manufacturer chart cell; replaces an unsourced digital
+          approximation. Not a physical paint measurement.
+        render_long_side: 2600
+        renderer: Poppler 26.05.0 pdftoppm
+        source_file: army-speedpaint.pdf
+        source_record:
+          hex: '#f6aa7d'
+          name: Crusader Skin
+          range: Speedpaint
+          reference: WP2004P
+        source_sha256: 6ff752e51c32b3a03c91190619905a44434af080d8fbcb28f178ae5be3436bec
+        url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
+      field: color.hex
+      identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed manufacturer chart cell; replaces an unsourced digital approximation.
+        Not a physical paint measurement.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#f6aa7d'
+        name: Crusader Skin
+        range: Speedpaint
+        reference: WP2004P
+    provider: reviewed-paint-color-quality
+    url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
   tags:
   - chair
   - peau
@@ -42726,7 +42993,7 @@ paints:
   - Army Painter
   color:
     family: white
-    hex: '#C4B486'
+    hex: '#e7d39a'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: tap|ref:wp2006p
@@ -42922,6 +43189,54 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-pallid-bone-wp2006p
+  - payload:
+      accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+        text and the darker right face; not the painted miniature or a measurement.
+      after: '#e7d39a'
+      before: '#C4B486'
+      evidence:
+        accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+          text and the darker right face; not the painted miniature or a measurement.
+        box:
+        - 1700
+        - 1009
+        - 1705
+        - 1015
+        extraction_method: median-rgb
+        identity_evidence: Current official product page identifies this SKU and explicitly
+          describes Speedpaint 2.0. No pot manufacturing date inferred.
+        identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+        identity_source_url: https://thearmypainter.com/products/speedpaint-speedpaint-pallid-bone-wp2006p
+        image_size:
+        - 1839
+        - 2600
+        page: 1
+        rationale: Reviewed manufacturer chart cell; replaces an unsourced digital
+          approximation. Not a physical paint measurement.
+        render_long_side: 2600
+        renderer: Poppler 26.05.0 pdftoppm
+        source_file: army-speedpaint.pdf
+        source_record:
+          hex: '#e7d39a'
+          name: Pallid Bone
+          range: Speedpaint
+          reference: WP2006P
+        source_sha256: 6ff752e51c32b3a03c91190619905a44434af080d8fbcb28f178ae5be3436bec
+        url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
+      field: color.hex
+      identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed manufacturer chart cell; replaces an unsourced digital approximation.
+        Not a physical paint measurement.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#e7d39a'
+        name: Pallid Bone
+        range: Speedpaint
+        reference: WP2006P
+    provider: reviewed-paint-color-quality
+    url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
   tags:
   - os
   - beige
@@ -43388,7 +43703,7 @@ paints:
   - Army Painter
   color:
     family: skin
-    hex: '#4E7C43'
+    hex: '#178222'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: tap|ref:wp2009p
@@ -43584,6 +43899,54 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-orc-skin-wp2009p
+  - payload:
+      accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+        text and the darker right face; not the painted miniature or a measurement.
+      after: '#178222'
+      before: '#4E7C43'
+      evidence:
+        accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+          text and the darker right face; not the painted miniature or a measurement.
+        box:
+        - 544
+        - 1312
+        - 550
+        - 1318
+        extraction_method: median-rgb
+        identity_evidence: Current official product page identifies this SKU and explicitly
+          describes Speedpaint 2.0. No pot manufacturing date inferred.
+        identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+        identity_source_url: https://thearmypainter.com/products/speedpaint-speedpaint-orc-skin-wp2009p
+        image_size:
+        - 1839
+        - 2600
+        page: 1
+        rationale: Reviewed manufacturer chart cell; replaces an unsourced digital
+          approximation. Not a physical paint measurement.
+        render_long_side: 2600
+        renderer: Poppler 26.05.0 pdftoppm
+        source_file: army-speedpaint.pdf
+        source_record:
+          hex: '#178222'
+          name: Orc Skin
+          range: Speedpaint
+          reference: WP2009P
+        source_sha256: 6ff752e51c32b3a03c91190619905a44434af080d8fbcb28f178ae5be3436bec
+        url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
+      field: color.hex
+      identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed manufacturer chart cell; replaces an unsourced digital approximation.
+        Not a physical paint measurement.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#178222'
+        name: Orc Skin
+        range: Speedpaint
+        reference: WP2009P
+    provider: reviewed-paint-color-quality
+    url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
   tags:
   - vert
   - peau
@@ -43598,7 +43961,7 @@ paints:
   - Army Painter
   color:
     family: red
-    hex: '#A42E31'
+    hex: '#ea290a'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: tap|ref:wp2010p
@@ -43794,6 +44157,54 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-blood-red-wp2010p
+  - payload:
+      accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+        text and the darker right face; not the painted miniature or a measurement.
+      after: '#ea290a'
+      before: '#A42E31'
+      evidence:
+        accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+          text and the darker right face; not the painted miniature or a measurement.
+        box:
+        - 1266
+        - 706
+        - 1271
+        - 712
+        extraction_method: median-rgb
+        identity_evidence: Current official product page identifies this SKU and explicitly
+          describes Speedpaint 2.0. No pot manufacturing date inferred.
+        identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+        identity_source_url: https://thearmypainter.com/products/speedpaint-speedpaint-blood-red-wp2010p
+        image_size:
+        - 1839
+        - 2600
+        page: 1
+        rationale: Reviewed manufacturer chart cell; replaces an unsourced digital
+          approximation. Not a physical paint measurement.
+        render_long_side: 2600
+        renderer: Poppler 26.05.0 pdftoppm
+        source_file: army-speedpaint.pdf
+        source_record:
+          hex: '#ea290a'
+          name: Blood Red
+          range: Speedpaint
+          reference: WP2010P
+        source_sha256: 6ff752e51c32b3a03c91190619905a44434af080d8fbcb28f178ae5be3436bec
+        url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
+      field: color.hex
+      identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed manufacturer chart cell; replaces an unsourced digital approximation.
+        Not a physical paint measurement.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#ea290a'
+        name: Blood Red
+        range: Speedpaint
+        reference: WP2010P
+    provider: reviewed-paint-color-quality
+    url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
   tags:
   - rouge
   - sang
@@ -44261,7 +44672,7 @@ paints:
   - Army Painter
   color:
     family: yellow
-    hex: '#D4B12F'
+    hex: '#ffc800'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: tap|ref:wp2013p
@@ -44457,6 +44868,54 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-zealot-yellow-wp2013p
+  - payload:
+      accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+        text and the darker right face; not the painted miniature or a measurement.
+      after: '#ffc800'
+      before: '#D4B12F'
+      evidence:
+        accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+          text and the darker right face; not the painted miniature or a measurement.
+        box:
+        - 401
+        - 1009
+        - 406
+        - 1015
+        extraction_method: median-rgb
+        identity_evidence: Current official product page identifies this SKU and explicitly
+          describes Speedpaint 2.0. No pot manufacturing date inferred.
+        identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+        identity_source_url: https://thearmypainter.com/products/speedpaint-speedpaint-zealot-yellow-wp2013p
+        image_size:
+        - 1839
+        - 2600
+        page: 1
+        rationale: Reviewed manufacturer chart cell; replaces an unsourced digital
+          approximation. Not a physical paint measurement.
+        render_long_side: 2600
+        renderer: Poppler 26.05.0 pdftoppm
+        source_file: army-speedpaint.pdf
+        source_record:
+          hex: '#ffc800'
+          name: Zealot Yellow
+          range: Speedpaint
+          reference: WP2013P
+        source_sha256: 6ff752e51c32b3a03c91190619905a44434af080d8fbcb28f178ae5be3436bec
+        url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
+      field: color.hex
+      identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed manufacturer chart cell; replaces an unsourced digital approximation.
+        Not a physical paint measurement.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#ffc800'
+        name: Zealot Yellow
+        range: Speedpaint
+        reference: WP2013P
+    provider: reviewed-paint-color-quality
+    url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
   tags:
   - jaune
   - signalétique
@@ -44696,7 +45155,7 @@ paints:
   - Army Painter
   color:
     family: blue
-    hex: '#335991'
+    hex: '#005588'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: tap|ref:wp2015p
@@ -44891,6 +45350,54 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-highlord-blue-wp2015p
+  - payload:
+      accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+        text and the darker right face; not the painted miniature or a measurement.
+      after: '#005588'
+      before: '#335991'
+      evidence:
+        accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+          text and the darker right face; not the painted miniature or a measurement.
+        box:
+        - 1266
+        - 1615
+        - 1271
+        - 1621
+        extraction_method: median-rgb
+        identity_evidence: Current official product page identifies this SKU and explicitly
+          describes Speedpaint 2.0. No pot manufacturing date inferred.
+        identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+        identity_source_url: https://thearmypainter.com/products/speedpaint-speedpaint-highlord-blue-wp2015p
+        image_size:
+        - 1839
+        - 2600
+        page: 1
+        rationale: Reviewed manufacturer chart cell; replaces an unsourced digital
+          approximation. Not a physical paint measurement.
+        render_long_side: 2600
+        renderer: Poppler 26.05.0 pdftoppm
+        source_file: army-speedpaint.pdf
+        source_record:
+          hex: '#005588'
+          name: Highlord Blue
+          range: Speedpaint
+          reference: WP2015P
+        source_sha256: 6ff752e51c32b3a03c91190619905a44434af080d8fbcb28f178ae5be3436bec
+        url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
+      field: color.hex
+      identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed manufacturer chart cell; replaces an unsourced digital approximation.
+        Not a physical paint measurement.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#005588'
+        name: Highlord Blue
+        range: Speedpaint
+        reference: WP2015P
+    provider: reviewed-paint-color-quality
+    url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
   tags:
   - bleu
   - uniforme
@@ -45131,7 +45638,7 @@ paints:
   - Army Painter
   color:
     family: orange
-    hex: '#D1662D'
+    hex: '#f07b17'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: tap|ref:wp2017p
@@ -45327,6 +45834,54 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-fire-giant-orange-wp2017p
+  - payload:
+      accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+        text and the darker right face; not the painted miniature or a measurement.
+      after: '#f07b17'
+      before: '#D1662D'
+      evidence:
+        accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+          text and the darker right face; not the painted miniature or a measurement.
+        box:
+        - 832
+        - 1009
+        - 838
+        - 1015
+        extraction_method: median-rgb
+        identity_evidence: Current official product page identifies this SKU and explicitly
+          describes Speedpaint 2.0. No pot manufacturing date inferred.
+        identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+        identity_source_url: https://thearmypainter.com/products/speedpaint-speedpaint-fire-giant-orange-wp2017p
+        image_size:
+        - 1839
+        - 2600
+        page: 1
+        rationale: Reviewed manufacturer chart cell; replaces an unsourced digital
+          approximation. Not a physical paint measurement.
+        render_long_side: 2600
+        renderer: Poppler 26.05.0 pdftoppm
+        source_file: army-speedpaint.pdf
+        source_record:
+          hex: '#f07b17'
+          name: Fire Giant Orange
+          range: Speedpaint
+          reference: WP2017P
+        source_sha256: 6ff752e51c32b3a03c91190619905a44434af080d8fbcb28f178ae5be3436bec
+        url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
+      field: color.hex
+      identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed manufacturer chart cell; replaces an unsourced digital approximation.
+        Not a physical paint measurement.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#f07b17'
+        name: Fire Giant Orange
+        range: Speedpaint
+        reference: WP2017P
+    provider: reviewed-paint-color-quality
+    url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
   tags:
   - orange
   - feu
@@ -45341,7 +45896,7 @@ paints:
   - Army Painter
   color:
     family: purple
-    hex: '#533B65'
+    hex: '#523473'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: tap|ref:wp2018p
@@ -45537,6 +46092,54 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-hive-dweller-purple-wp2018p
+  - payload:
+      accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+        text and the darker right face; not the painted miniature or a measurement.
+      after: '#523473'
+      before: '#533B65'
+      evidence:
+        accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+          text and the darker right face; not the painted miniature or a measurement.
+        box:
+        - 1121
+        - 1920
+        - 1127
+        - 1925
+        extraction_method: median-rgb
+        identity_evidence: Current official product page identifies this SKU and explicitly
+          describes Speedpaint 2.0. No pot manufacturing date inferred.
+        identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+        identity_source_url: https://thearmypainter.com/products/speedpaint-speedpaint-hive-dweller-purple-wp2018p
+        image_size:
+        - 1839
+        - 2600
+        page: 1
+        rationale: Reviewed manufacturer chart cell; replaces an unsourced digital
+          approximation. Not a physical paint measurement.
+        render_long_side: 2600
+        renderer: Poppler 26.05.0 pdftoppm
+        source_file: army-speedpaint.pdf
+        source_record:
+          hex: '#523473'
+          name: Hive Dweller Purple
+          range: Speedpaint
+          reference: WP2018P
+        source_sha256: 6ff752e51c32b3a03c91190619905a44434af080d8fbcb28f178ae5be3436bec
+        url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
+      field: color.hex
+      identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed manufacturer chart cell; replaces an unsourced digital approximation.
+        Not a physical paint measurement.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#523473'
+        name: Hive Dweller Purple
+        range: Speedpaint
+        reference: WP2018P
+    provider: reviewed-paint-color-quality
+    url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
   tags:
   - violet
   - sombre
@@ -46457,7 +47060,7 @@ paints:
   - Army Painter
   color:
     family: brown
-    hex: '#76513A'
+    hex: '#955201'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: tap|ref:wp2023p
@@ -46653,6 +47256,54 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-hardened-leather-wp2023p
+  - payload:
+      accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+        text and the darker right face; not the painted miniature or a measurement.
+      after: '#955201'
+      before: '#76513A'
+      evidence:
+        accuracy: Approximate upper-left face of the manufacturer poster badge, avoiding
+          text and the darker right face; not the painted miniature or a measurement.
+        box:
+        - 401
+        - 706
+        - 406
+        - 712
+        extraction_method: median-rgb
+        identity_evidence: Current official product page identifies this SKU and explicitly
+          describes Speedpaint 2.0. No pot manufacturing date inferred.
+        identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+        identity_source_url: https://thearmypainter.com/products/speedpaint-speedpaint-hardened-leather-wp2023p
+        image_size:
+        - 1839
+        - 2600
+        page: 1
+        rationale: Reviewed manufacturer chart cell; replaces an unsourced digital
+          approximation. Not a physical paint measurement.
+        render_long_side: 2600
+        renderer: Poppler 26.05.0 pdftoppm
+        source_file: army-speedpaint.pdf
+        source_record:
+          hex: '#955201'
+          name: Hardened Leather
+          range: Speedpaint
+          reference: WP2023P
+        source_sha256: 6ff752e51c32b3a03c91190619905a44434af080d8fbcb28f178ae5be3436bec
+        url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
+      field: color.hex
+      identity_match: reviewed-name-and-Speedpaint-2.0-range-with-official-SKU-page
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed manufacturer chart cell; replaces an unsourced digital approximation.
+        Not a physical paint measurement.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#955201'
+        name: Hardened Leather
+        range: Speedpaint
+        reference: WP2023P
+    provider: reviewed-paint-color-quality
+    url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/A3_Speedpaint_2.0_All_Colours_Poster_web.pdf?v=1707827727
   tags:
   - brun
   - cuir

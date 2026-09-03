@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "id": "paint-color-quality-2026-09-03",
+  "reviewed_at": "2026-09-03",
+  "family_corrections": [
+    {"id": "pau-p816", "brand": "Prince August", "reference": "P816", "before": "Gris bleu uniforme", "after": "grey"},
+    {"id": "pau-p830", "brand": "Prince August", "reference": "P830", "before": "Vert allemand grisé", "after": "green"},
+    {"id": "val-72-015", "brand": "Vallejo", "reference": "72.015", "before": "Violet lichen", "after": "purple"},
+    {"id": "val-72-053", "brand": "Vallejo", "reference": "72.053", "before": "Acier moyen", "after": "silver"},
+    {"id": "val-77-139", "brand": "Vallejo", "reference": "77.139", "before": "Métal vieilli brun", "after": "brown"}
+  ],
+  "metallic_corrections": [
+    {"id": "val-69-066", "brand": "Vallejo", "reference": "69.066", "name": "Metallic Red"},
+    {"id": "val-69-067", "brand": "Vallejo", "reference": "69.067", "name": "Metallic Blue"},
+    {"id": "val-69-068", "brand": "Vallejo", "reference": "69.068", "name": "Metallic Green"},
+    {"id": "val-71-062", "brand": "Vallejo", "reference": "71.062", "name": "Aluminium (Metallic)"},
+    {"id": "val-71-063", "brand": "Vallejo", "reference": "71.063", "name": "Silver RLM01 (Metal.)"},
+    {"id": "val-71-064", "brand": "Vallejo", "reference": "71.064", "name": "Chrome (Metallic)"},
+    {"id": "val-71-065", "brand": "Vallejo", "reference": "71.065", "name": "Steel (Metallic)"},
+    {"id": "val-71-066", "brand": "Vallejo", "reference": "71.066", "name": "Gold (Metallic)"},
+    {"id": "val-71-067", "brand": "Vallejo", "reference": "71.067", "name": "Bright Brass (Metal.)"},
+    {"id": "val-71-068", "brand": "Vallejo", "reference": "71.068", "name": "Copper (Metallic)"},
+    {"id": "val-71-069", "brand": "Vallejo", "reference": "71.069", "name": "Rust (Metallic)"},
+    {"id": "val-71-070", "brand": "Vallejo", "reference": "71.070", "name": "Signal Red (Metallic)"},
+    {"id": "val-71-071", "brand": "Vallejo", "reference": "71.071", "name": "Arctic Blue (Metallic)"},
+    {"id": "val-71-072", "brand": "Vallejo", "reference": "71.072", "name": "Gunmetal (Metallic)"},
+    {"id": "val-71-073", "brand": "Vallejo", "reference": "71.073", "name": "Black (Metallic)"}
+  ]
+}

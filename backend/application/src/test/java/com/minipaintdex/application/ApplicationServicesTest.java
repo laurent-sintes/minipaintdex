@@ -250,6 +250,22 @@ class ApplicationServicesTest {
     }
 
     @Test
+    void rejectsUnreviewedHexReplacementInDryRunAndApplyBeforeAnyWrite() {
+        var repository = repository();
+        var service = new AdministrationApplicationService(repository, repository, repository);
+        var changed = new LinkedHashMap<>(documentMap(repository.snapshot.paintProducts().getFirst()));
+        changed.put("color", Map.of("hex", "#123456", "family", "blue"));
+        var operation = new ApplyPaintProductChangeSetCommand.Operation("upsert", null, document(changed), 0, false);
+        for (var dryRun : List.of(true, false)) {
+            var error = assertThrows(DomainException.class, () -> service.applyPaintProductChangeSet(
+                    new ApplyPaintProductChangeSetCommand(1, "market_paints", List.of(operation), dryRun, List.of(), List.of())));
+            assertEquals("conflict", error.code());
+            assertTrue(error.getMessage().contains("color.hex"));
+        }
+        assertTrue(repository.replaced.isEmpty());
+    }
+
+    @Test
     void rekeysPaintAndMutableReferencesAsOneGeneration() {
         var repository = repository();
         var oldId = "warhammer-colour-contrast-apothecary-white";

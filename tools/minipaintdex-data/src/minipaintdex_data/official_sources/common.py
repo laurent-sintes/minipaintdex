@@ -14,6 +14,7 @@ from urllib.request import Request, urlopen
 from ..paint_identity import market_paint_deduplication_key
 from ..image_quality import normalize_image_quality, prefer_image, quality_limitation
 from ..paint_model import canonical_color_family, canonical_profile, source_observation
+from ..paint_quality_protection import preserve_qualified_data
 
 
 TECHNICAL_TYPES = {"technical_effect", "primer", "wash_shade", "ink", "varnish", "medium", "auxiliary", "pigment"}
@@ -235,4 +236,4 @@ def merge_previous(record: dict[str, Any], previous: dict[str, Any]) -> dict[str
         merged["usage_instructions"] = record["usage_instructions"]
     if record.get("source_snapshots"):
         merged["source_snapshots"] = deepcopy(record["source_snapshots"])
-    return merged
+    return preserve_qualified_data(merged, previous)

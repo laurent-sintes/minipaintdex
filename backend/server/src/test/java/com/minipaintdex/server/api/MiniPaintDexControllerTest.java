@@ -336,6 +336,19 @@ class MiniPaintDexControllerTest {
     }
 
     @Test
+    void exposesQualityReviewConflictsWithoutApplyingTheChangeSet() throws Exception {
+        when(administration.applyPaintProductChangeSet(any())).thenThrow(
+                new com.minipaintdex.domain.shared.DomainException("conflict", "Paint quality change requires an explicit before/after review: paint/color.hex"));
+        mvc.perform(post("/api/v1/market/paint-changesets")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"schema_version":1,"kind":"market_paints","operations":[{"action":"upsert","record":{"id":"paint"}}]}
+                                """))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.detail").value("Paint quality change requires an explicit before/after review: paint/color.hex"));
+    }
+
+    @Test
     void exposesOwnedPaintReconciliationForAMarketGuide() throws Exception {
         when(workshop.reconcileMarketPaintingGuide("guide-1")).thenReturn(new GuideReconciliationView(
                 new MarketPaintingGuideView("guide-1", "item-1", 1, "documented",

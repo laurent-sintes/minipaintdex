@@ -770,7 +770,7 @@ paints:
   - Games Workshop
   color:
     family: ''
-    hex: ''
+    hex: '#e8d36f'
   confidence: 0.98
   data_status: confirmed
   deduplication_key: warhammer-colour|technical|name:armageddon-dunes
@@ -879,6 +879,25 @@ paints:
       volume_ml: 24
     provider: frontline-games-product-page
     url: https://www.frontlinegames.de/Citadel-Technical-Armageddon-Dunes-24ml_3
+  - payload:
+      accuracy: Approximate digital swatches derived from manufacturer and community
+        sources; not physical paint measurements.
+      copyright: Copyright (c) 2026 Paintdex contributors
+      identity_confidence: 0.95
+      identity_match: name-range
+      license: MIT
+      revision: f77970bad84e8b23337af24d204b741d51c67104
+      source_record:
+        brand: Citadel
+        code: null
+        discontinued: false
+        hex: '#E8D36F'
+        id: citadel-armageddon-dunes
+        name: Armageddon Dunes
+        range: Technical
+        type: technical
+    provider: paintdex-community-colors
+    url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags: [
     ]
   usage_guide_ids:
@@ -17963,7 +17982,7 @@ paints:
   - Games Workshop
   color:
     family: blue
-    hex: '#112c4f'
+    hex: '#093c69'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4190284-99189960103
@@ -18111,6 +18130,45 @@ paints:
       reference: PROD4190284-99189960103
     provider: image_quality_review
     url: https://eirehobbies.com/products/citadel-leviadon-blue
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#093c69'
+      before: '#112c4f'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4190284-99189960103.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960211_56189960211_CONTRAST_LEVIADON_BLUE_18ML.jpg
+        source_record:
+          hex: '#093c69'
+          name: Leviadon Blue
+          range: Contrast
+          reference: PROD4190284-99189960103
+        source_sha256: 902fc0ff3a8fdd640423886daf8fd9b7e4a60418d3909ac6ef5458b63adfe165
+        url: https://www.warhammer.com/en-GB/shop/Leviadon-Blue-2019
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#093c69'
+        name: Leviadon Blue
+        range: Contrast
+        reference: PROD4190284-99189960103
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/Leviadon-Blue-2019
   tags:
   - bleu
   - ombre
@@ -18686,7 +18744,7 @@ paints:
   - Games Workshop
   color:
     family: yellow
-    hex: '#8b7c21'
+    hex: '#dc9b1d'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4190288-99189960107
@@ -18834,6 +18892,45 @@ paints:
       reference: PROD4190288-99189960107
     provider: image_quality_review
     url: https://eirehobbies.com/products/citadel-nazdreg-yellow
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#dc9b1d'
+      before: '#8b7c21'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4190288-99189960107.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960215_56189960215_CONTRAST_NAZDREG_YELLOW_18ML.jpg
+        source_record:
+          hex: '#dc9b1d'
+          name: Nazdreg Yellow
+          range: Contrast
+          reference: PROD4190288-99189960107
+        source_sha256: fb1efedf13a7eb6a36f9845299f6e6df572bbc21842fe6908242486b13460bae
+        url: https://www.warhammer.com/en-GB/shop/Nazdreg-Yellow-2019
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#dc9b1d'
+        name: Nazdreg Yellow
+        range: Contrast
+        reference: PROD4190288-99189960107
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/Nazdreg-Yellow-2019
   tags:
   - jaune
   - ocre
@@ -19186,7 +19283,7 @@ paints:
   - Games Workshop
   color:
     family: green
-    hex: '#4B5535'
+    hex: '#979e58'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4190291-99189960110
@@ -19335,6 +19432,45 @@ paints:
       reference: PROD4190291-99189960110
     provider: image_quality_review
     url: https://eirehobbies.com/products/citadel-militarum-green
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#979e58'
+      before: '#4B5535'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4190291-99189960110.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960217_56189960217_CONTRAST_MILITARUM_GREEN_18ML.jpg
+        source_record:
+          hex: '#979e58'
+          name: Militarum Green
+          range: Contrast
+          reference: PROD4190291-99189960110
+        source_sha256: 66c4c4dffac4f375014e95c168d4dfdb7782c35eef30e271cbe85dd9b7da9bb7
+        url: https://www.warhammer.com/en-GB/shop/Militarum-Green-2019
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#979e58'
+        name: Militarum Green
+        range: Contrast
+        reference: PROD4190291-99189960110
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/Militarum-Green-2019
   tags:
   - vert
   - militaire
@@ -19354,7 +19490,7 @@ paints:
   - Games Workshop
   color:
     family: brown
-    hex: '#806b43'
+    hex: '#d2bb75'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4190292-99189960111
@@ -19495,6 +19631,45 @@ paints:
       reference: PROD4190292-99189960111
     provider: retailer_image_manifest
     url: https://www.twomoons.ch/en/aggaros-dunes-aggaros-dunes-18ml
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#d2bb75'
+      before: '#806b43'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4190292-99189960111.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960218_56189960218_CONTRAST_AGGAROS_DUNES_18ML.jpg
+        source_record:
+          hex: '#d2bb75'
+          name: Aggaros Dunes
+          range: Contrast
+          reference: PROD4190292-99189960111
+        source_sha256: 4e8fa26c6f1375ddbdc1991ffbd5699cdd8693a75ec5271c60dc9f1becbbcdcf
+        url: https://www.warhammer.com/en-GB/shop/Aggaros-Dunes-2019
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#d2bb75'
+        name: Aggaros Dunes
+        range: Contrast
+        reference: PROD4190292-99189960111
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/Aggaros-Dunes-2019
   tags:
   - ocre
   - sable
@@ -19699,7 +19874,7 @@ paints:
   - Games Workshop
   color:
     family: brown
-    hex: '#725026'
+    hex: '#b56e28'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4190294-99189960113
@@ -19848,6 +20023,45 @@ paints:
       reference: PROD4190294-99189960113
     provider: image_quality_review
     url: https://eirehobbies.com/products/citadel-snakebite-leather
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#b56e28'
+      before: '#725026'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4190294-99189960113.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960220_56189960220_CONTRAST_SNAKEBITE_LEATHER_18ML.jpg
+        source_record:
+          hex: '#b56e28'
+          name: Snakebite Leather
+          range: Contrast
+          reference: PROD4190294-99189960113
+        source_sha256: 1e79d3529b90f44e031d19751424f4ea1f6430b15eaa584e59eb9aa81245be2d
+        url: https://www.warhammer.com/en-GB/shop/Snakebite-Leather-2019
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#b56e28'
+        name: Snakebite Leather
+        range: Contrast
+        reference: PROD4190294-99189960113
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/Snakebite-Leather-2019
   tags:
   - brun
   - cuir
@@ -19867,7 +20081,7 @@ paints:
   - Games Workshop
   color:
     family: brown
-    hex: '#6d3524'
+    hex: '#964213'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4190295-99189960114
@@ -20015,6 +20229,45 @@ paints:
       reference: PROD4190295-99189960114
     provider: image_quality_review
     url: https://eirehobbies.com/products/citadel-gore-grunta-fur
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#964213'
+      before: '#6d3524'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4190295-99189960114.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960221_56189960221_CONTRAST_GORE-GRUNTA_FUR_18ML.jpg
+        source_record:
+          hex: '#964213'
+          name: Gore-Grunta Fur
+          range: Contrast
+          reference: PROD4190295-99189960114
+        source_sha256: 5a986412d7e0c508bbd91dd3ca4511bbb96ecd3245604860d35f04daf747b9dd
+        url: https://www.warhammer.com/en-GB/shop/Gore-grunta-Fur-2019
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#964213'
+        name: Gore-Grunta Fur
+        range: Contrast
+        reference: PROD4190295-99189960114
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/Gore-grunta-Fur-2019
   tags:
   - brun rouge
   - fourrure
@@ -20033,7 +20286,7 @@ paints:
   - Games Workshop
   color:
     family: brown
-    hex: '#3a2322'
+    hex: '#735150'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4190296-99189960115
@@ -20181,6 +20434,45 @@ paints:
       reference: PROD4190296-99189960115
     provider: image_quality_review
     url: https://eirehobbies.com/products/citadel-cygor-brown
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#735150'
+      before: '#3a2322'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4190296-99189960115.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960222_56189960222_CONTRAST_CYGOR_BROWN_18ML.jpg
+        source_record:
+          hex: '#735150'
+          name: Cygor Brown
+          range: Contrast
+          reference: PROD4190296-99189960115
+        source_sha256: 91dabb158cfb51f2d7c27c7465010db39e6a4c49e95fca1ef42cda59afeffa74
+        url: https://www.warhammer.com/en-GB/shop/Cygor-Brown-2019
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#735150'
+        name: Cygor Brown
+        range: Contrast
+        reference: PROD4190296-99189960115
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/Cygor-Brown-2019
   tags:
   - brun
   - cuir
@@ -20199,7 +20491,7 @@ paints:
   - Games Workshop
   color:
     family: brown
-    hex: '#2e241e'
+    hex: '#6a5652'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4190297-99189960116
@@ -20347,6 +20639,45 @@ paints:
       reference: PROD4190297-99189960116
     provider: image_quality_review
     url: https://eirehobbies.com/products/citadel-wyldwood
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#6a5652'
+      before: '#2e241e'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4190297-99189960116.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960223_56189960223_CONTRAST_WYLDWOOD_18ML.jpg
+        source_record:
+          hex: '#6a5652'
+          name: Wyldwood
+          range: Contrast
+          reference: PROD4190297-99189960116
+        source_sha256: 452a4afae0a385e4eea1d8646f8c093d1a13cf0a5644ef3dd30089aa1d5e1463
+        url: https://www.warhammer.com/en-GB/shop/Wyldwood-2019
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#6a5652'
+        name: Wyldwood
+        range: Contrast
+        reference: PROD4190297-99189960116
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/Wyldwood-2019
   tags:
   - brun
   - bois
@@ -20553,7 +20884,7 @@ paints:
   - Games Workshop
   color:
     family: skin
-    hex: '#a76550'
+    hex: '#d29e92'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4190299-99189960118
@@ -20701,6 +21032,45 @@ paints:
       reference: PROD4190299-99189960118
     provider: image_quality_review
     url: https://eirehobbies.com/products/citadel-guilliman-flesh
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#d29e92'
+      before: '#a76550'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4190299-99189960118.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960224_56189960224_CONTRAST_GUILLIMAN_FLESH_18ML.jpg
+        source_record:
+          hex: '#d29e92'
+          name: Guilliman Flesh
+          range: Contrast
+          reference: PROD4190299-99189960118
+        source_sha256: 6206f1fd66ab06aa1e99118a66b82d129fd264a0584b3dfe0d838dad6ae3f06a
+        url: https://www.warhammer.com/en-GB/shop/Guilliman-Flesh-2019
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#d29e92'
+        name: Guilliman Flesh
+        range: Contrast
+        reference: PROD4190299-99189960118
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/Guilliman-Flesh-2019
   tags:
   - chair
   - peau
@@ -20718,7 +21088,7 @@ paints:
   - Games Workshop
   color:
     family: skin
-    hex: '#9a6b58'
+    hex: '#da9787'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4190300-99189960119
@@ -20873,6 +21243,45 @@ paints:
       reference: PROD4190300-99189960119
     provider: image_quality_review
     url: https://eirehobbies.com/products/citadel-darkoath-flesh
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#da9787'
+      before: '#9a6b58'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4190300-99189960119.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960225_56189960225_CONTRAST_DARKOATH_FLESH_18ML.jpg
+        source_record:
+          hex: '#da9787'
+          name: Darkoath Flesh
+          range: Contrast
+          reference: PROD4190300-99189960119
+        source_sha256: 140cb930a50c6afb98f151b0815cc4d5def2b95f5d1ae4288f40c93e38573dd5
+        url: https://www.warhammer.com/en-GB/shop/Darkoath-Flesh-2019
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#da9787'
+        name: Darkoath Flesh
+        range: Contrast
+        reference: PROD4190300-99189960119
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/Darkoath-Flesh-2019
   tags:
   - chair
   - peau
@@ -20890,7 +21299,7 @@ paints:
   - Games Workshop
   color:
     family: white
-    hex: '#C5D0D2'
+    hex: '#f1fafe'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4190301-99189960120
@@ -21039,6 +21448,45 @@ paints:
       reference: PROD4190301-99189960120
     provider: image_quality_review
     url: https://eirehobbies.com/products/citadel-apothecary-white
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#f1fafe'
+      before: '#C5D0D2'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4190301-99189960120.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960226_56189960226_CONTRAST_APOTHECARY_WHITE_18ML.jpg
+        source_record:
+          hex: '#f1fafe'
+          name: Apothecary White
+          range: Contrast
+          reference: PROD4190301-99189960120
+        source_sha256: 8ba74ed2aa62a4ca1269525bfd9fc0b29e25074c117b55d505b7d38e2065ee1e
+        url: https://www.warhammer.com/en-GB/shop/Apothecary-White-2019
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#f1fafe'
+        name: Apothecary White
+        range: Contrast
+        reference: PROD4190301-99189960120
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/Apothecary-White-2019
   tags:
   - blanc
   - gris froid
@@ -21057,7 +21505,7 @@ paints:
   - Games Workshop
   color:
     family: grey
-    hex: '#607985'
+    hex: '#9fc8da'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4190302-99189960121
@@ -21206,6 +21654,45 @@ paints:
       reference: PROD4190302-99189960121
     provider: image_quality_review
     url: https://eirehobbies.com/products/citadel-gryph-charger-grey
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#9fc8da'
+      before: '#607985'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4190302-99189960121.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960227_56189960227_CONTRAST_GRYPH-CHARGER_GREY_18ML.jpg
+        source_record:
+          hex: '#9fc8da'
+          name: Gryph-Charger Grey
+          range: Contrast
+          reference: PROD4190302-99189960121
+        source_sha256: 61592eab5cea93b6357414e31387c3938c42a44a5e4796204cd6fc0913aeb9ad
+        url: https://www.warhammer.com/en-GB/shop/Gryph-charger-Grey-2019
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#9fc8da'
+        name: Gryph-Charger Grey
+        range: Contrast
+        reference: PROD4190302-99189960121
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/Gryph-charger-Grey-2019
   tags:
   - gris bleu
   - froid
@@ -21770,7 +22257,7 @@ paints:
   - Games Workshop
   color:
     family: blue
-    hex: '#155cc4'
+    hex: '#0887cd'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4190306-99189960125
@@ -21918,6 +22405,45 @@ paints:
       reference: PROD4190306-99189960125
     provider: image_quality_review
     url: https://eirehobbies.com/products/citadel-talassar-blue
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#0887cd'
+      before: '#155cc4'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4190306-99189960125.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960231_56189960231_CONTRAST_TALASSAR_BLUE_18ML.jpg
+        source_record:
+          hex: '#0887cd'
+          name: Talassar Blue
+          range: Contrast
+          reference: PROD4190306-99189960125
+        source_sha256: 0bdabbdd0d5852f40772aef8d92564a7cfa5b12508cc8ba03fac4b020430e3a1
+        url: https://www.warhammer.com/en-GB/shop/Talassar-Blue-2019
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#0887cd'
+        name: Talassar Blue
+        range: Contrast
+        reference: PROD4190306-99189960125
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/Talassar-Blue-2019
   tags:
   - bleu
   - vif
@@ -22307,7 +22833,7 @@ paints:
   - Games Workshop
   color:
     family: skin
-    hex: '#9B9A45'
+    hex: '#cdd4ab'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4190309-99189960128
@@ -22456,6 +22982,45 @@ paints:
       reference: PROD4190309-99189960128
     provider: image_quality_review
     url: https://eirehobbies.com/products/citadel-plaguebearer-flesh
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#cdd4ab'
+      before: '#9B9A45'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4190309-99189960128.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960234_56189960234_CONTRAST_PLAGUEBEARER_FLESH_18ML.jpg
+        source_record:
+          hex: '#cdd4ab'
+          name: Plaguebearer Flesh
+          range: Contrast
+          reference: PROD4190309-99189960128
+        source_sha256: 4fe8f29bd07005d887052a5279bc570785dc85204cc83fa8ea4ee877ba74e1f8
+        url: https://www.warhammer.com/en-GB/shop/Plaguebearer-Flesh-2019
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#cdd4ab'
+        name: Plaguebearer Flesh
+        range: Contrast
+        reference: PROD4190309-99189960128
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/Plaguebearer-Flesh-2019
   tags:
   - vert
   - olive
@@ -22475,7 +23040,7 @@ paints:
   - Games Workshop
   color:
     family: blue
-    hex: '#0f6b70'
+    hex: '#0997af'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4190310-99189960034
@@ -22623,6 +23188,45 @@ paints:
       reference: PROD4190310-99189960034
     provider: image_quality_review
     url: https://eirehobbies.com/products/citadel-terradon-turquoise
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#0997af'
+      before: '#0f6b70'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4190310-99189960034.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960235_56189960235_CONTRAST_TERRADON_TURQUOISE_18ML.jpg
+        source_record:
+          hex: '#0997af'
+          name: Terradon Turquoise
+          range: Contrast
+          reference: PROD4190310-99189960034
+        source_sha256: 2cf12a42037be1d332d4789017eef7a7ff3bc06211e427d2dbb52e2dcae07f99
+        url: https://www.warhammer.com/en-GB/shop/Terradon-Turquoise-2019
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#0997af'
+        name: Terradon Turquoise
+        range: Contrast
+        reference: PROD4190310-99189960034
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/Terradon-Turquoise-2019
   tags:
   - turquoise
   - bleu
@@ -55732,7 +56336,7 @@ paints:
   - Games Workshop
   color:
     family: green
-    hex: '#587B2B'
+    hex: '#7c9651'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4960263-99189960038
@@ -55873,6 +56477,45 @@ paints:
       reference: PROD4960263-99189960038
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/mantis-warriors-pre-order
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#7c9651'
+      before: '#587B2B'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4960263-99189960038.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960239_56189960239_CONTRAST_MANTIS_WARRIORS_GREEN_18ML.jpg
+        source_record:
+          hex: '#7c9651'
+          name: Mantis Warriors Green
+          range: Contrast
+          reference: PROD4960263-99189960038
+        source_sha256: d5dde1df0d82e6ed2cca7e788f932952d2d7f26a70b74686decfffc814e7293a
+        url: https://www.warhammer.com/en-GB/shop/contrast-mantis-warriors-green-18ml-2022
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#7c9651'
+        name: Mantis Warriors Green
+        range: Contrast
+        reference: PROD4960263-99189960038
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/contrast-mantis-warriors-green-18ml-2022
   tags:
   - vert
   - nature
@@ -56076,7 +56719,7 @@ paints:
   - Games Workshop
   color:
     family: green
-    hex: '#87934E'
+    hex: '#7b9976'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4960265-99189960040
@@ -56217,6 +56860,45 @@ paints:
       reference: PROD4960265-99189960040
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/gutrippa-flesh-pre-order
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#7b9976'
+      before: '#87934E'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4960265-99189960040.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960241_56189960241_CONTRAST_GUTRIPPA_FLESH_18ML.jpg
+        source_record:
+          hex: '#7b9976'
+          name: Gutrippa Flesh
+          range: Contrast
+          reference: PROD4960265-99189960040
+        source_sha256: e54729afe79d4558985861799e4c5485e18e63935ff0ca3795d6ec814c6a8acf
+        url: https://www.warhammer.com/en-GB/shop/contrast-gutrippa-flesh-18ml-2022
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#7b9976'
+        name: Gutrippa Flesh
+        range: Contrast
+        reference: PROD4960265-99189960040
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/contrast-gutrippa-flesh-18ml-2022
   tags:
   - vert
   - peau
@@ -56606,7 +57288,7 @@ paints:
   - Games Workshop
   color:
     family: yellow
-    hex: '#d6a800'
+    hex: '#c4a656'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4960268-99189960043
@@ -56747,6 +57429,45 @@ paints:
       reference: PROD4960268-99189960043
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/ironjawz-yellow-pre-order
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#c4a656'
+      before: '#d6a800'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4960268-99189960043.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960244_56189960244_CONTRAST_IRONJAWZ_YELLOW_18ML.jpg
+        source_record:
+          hex: '#c4a656'
+          name: Ironjawz Yellow
+          range: Contrast
+          reference: PROD4960268-99189960043
+        source_sha256: f613fdf82d0ab8144ffa7a6491c8e736b89d0d8b2fd0f4027f5d427c7d9623ce
+        url: https://www.warhammer.com/en-GB/shop/contrast-ironjawz-yellow-18ml-2022
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#c4a656'
+        name: Ironjawz Yellow
+        range: Contrast
+        reference: PROD4960268-99189960043
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/contrast-ironjawz-yellow-18ml-2022
   tags:
   - jaune
   - ocre
@@ -56949,7 +57670,7 @@ paints:
   - Games Workshop
   color:
     family: yellow
-    hex: '#ffb300'
+    hex: '#c39a2b'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4960270-99189960045
@@ -57090,6 +57811,45 @@ paints:
       reference: PROD4960270-99189960045
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/imperial-fist-pre-order
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#c39a2b'
+      before: '#ffb300'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4960270-99189960045.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960246_56189960246_CONTRAST_IMPERIAL_FIST_18ML.jpg
+        source_record:
+          hex: '#c39a2b'
+          name: Imperial Fist
+          range: Contrast
+          reference: PROD4960270-99189960045
+        source_sha256: 8158a0838053a79a3070fb251dcd097dbab036cea8f095d65c1bbfeb4984e98d
+        url: https://www.warhammer.com/en-GB/shop/contrast-imperial-fist-18ml-2022
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#c39a2b'
+        name: Imperial Fist
+        range: Contrast
+        reference: PROD4960270-99189960045
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/contrast-imperial-fist-18ml-2022
   tags:
   - jaune
   - vif
@@ -57107,7 +57867,7 @@ paints:
   - Games Workshop
   color:
     family: blue
-    hex: '#0b7f91'
+    hex: '#218794'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4960271-99189960046
@@ -57248,6 +58008,45 @@ paints:
       reference: PROD4960271-99189960046
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/kroxigor-scales-pre-order
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#218794'
+      before: '#0b7f91'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4960271-99189960046.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960247_56189960247_CONTRAST_KROXIGOR_SCALES_18ML.jpg
+        source_record:
+          hex: '#218794'
+          name: Kroxigor Scales
+          range: Contrast
+          reference: PROD4960271-99189960046
+        source_sha256: 36e43e37c69dde76857565db3e29ae9dd853fe6b0022bb6d07c2c068ddcb2016
+        url: https://www.warhammer.com/en-GB/shop/contrast-kroxigor-scales-18ml-2022
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#218794'
+        name: Kroxigor Scales
+        range: Contrast
+        reference: PROD4960271-99189960046
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/contrast-kroxigor-scales-18ml-2022
   tags:
   - turquoise
   - bleu
@@ -57265,7 +58064,7 @@ paints:
   - Games Workshop
   color:
     family: blue
-    hex: '#74c4c9'
+    hex: '#759da8'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4960272-99189960047
@@ -57406,6 +58205,45 @@ paints:
       reference: PROD4960272-99189960047
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/briar-queen-pre-order
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#759da8'
+      before: '#74c4c9'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4960272-99189960047.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960248_56189960248_CONTRAST_BRIAR_QUEEN_CHILL_18ML.jpg
+        source_record:
+          hex: '#759da8'
+          name: Briar Queen Chill
+          range: Contrast
+          reference: PROD4960272-99189960047
+        source_sha256: de15bbce55ba25969b65a37b8abdd15a0d7f8e141f6257ad27075aa86bc6f36a
+        url: https://www.warhammer.com/en-GB/shop/contrast-briar-queen-chill-18ml-2022
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#759da8'
+        name: Briar Queen Chill
+        range: Contrast
+        reference: PROD4960272-99189960047
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/contrast-briar-queen-chill-18ml-2022
   tags:
   - bleu clair
   - spectral
@@ -57609,7 +58447,7 @@ paints:
   - Games Workshop
   color:
     family: blue
-    hex: '#45c5e9'
+    hex: '#5e9bbb'
   confidence: 1.0
   data_status: confirmed
   deduplication_key: cit|ref:prod4960274-99189960049
@@ -57750,6 +58588,45 @@ paints:
       reference: PROD4960274-99189960049
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/pylar-glacier-pre-order
+  - payload:
+      accuracy: Approximate digital swatch; not a paint measurement.
+      after: '#5e9bbb'
+      before: '#45c5e9'
+      evidence:
+        box:
+        - 147
+        - 228
+        - 1509
+        - 1235
+        extraction_method: median-rgb
+        image_size:
+        - 1840
+        - 1900
+        rationale: Reviewed official digital gradient. The representative median is
+          an illustration, not a measured dry paint colour.
+        source_file: cit-prod4960274-99189960049.jpg
+        source_image_url: https://www.warhammer.com/app/resources/catalog/product/920x950/99189960250_56189960250_CONTRAST_PYLAR_GLACIER_18ML.jpg
+        source_record:
+          hex: '#5e9bbb'
+          name: Pylar Glacier
+          range: Contrast
+          reference: PROD4960274-99189960049
+        source_sha256: a8dafce58439910b43e96261e913d6783d8e0c3ce743e39cdf23ab56393e833c
+        url: https://www.warhammer.com/en-GB/shop/contrast-pylar-glacier-18ml-2022
+      field: color.hex
+      identity_match: reviewed-exact-reference
+      manifest_sha256: ab595196876f9f3b85c06d165c4efea514e9269aebf0c68e3c5f253dd0c3cd5e
+      rationale: Reviewed official digital gradient. The representative median is
+        an illustration, not a measured dry paint colour.
+      review_id: paint-quality-followup-2026-09-03
+      reviewed_at: '2026-09-03'
+      source_record:
+        hex: '#5e9bbb'
+        name: Pylar Glacier
+        range: Contrast
+        reference: PROD4960274-99189960049
+    provider: reviewed-paint-color-quality
+    url: https://www.warhammer.com/en-GB/shop/contrast-pylar-glacier-18ml-2022
   tags:
   - bleu clair
   - glace

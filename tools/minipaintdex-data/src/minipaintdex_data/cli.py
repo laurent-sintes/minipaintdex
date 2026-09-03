@@ -21,6 +21,8 @@ from .official_refresh import collect_official_refresh
 from .image_quality import plan_image_rechallenge
 from .paint_images import build_image_cache_changeset, build_image_source_changeset, rekey_cached_paint_images
 from .paint_colors import build_color_enrichment_changeset
+from .paint_color_quality import audit_color_quality, build_reviewed_color_corrections
+from .paint_swatch_verification import verify_reviewed_swatches
 from .refresh import build_refresh_changeset, read_catalog
 
 
@@ -72,6 +74,18 @@ def build_parser() -> argparse.ArgumentParser:
 
     catalog = subcommands.add_parser("catalog", help="Collect verified manufacturer catalogue data")
     catalog_commands = catalog.add_subparsers(dest="catalog_command", required=True)
+    color_quality = catalog_commands.add_parser("audit-color-quality", help="Audit colour evidence and technical missingness without changing data")
+    color_quality.add_argument("--catalog", default="data/market/paints")
+    color_quality.add_argument("--output", required=True)
+    reviewed_colors = catalog_commands.add_parser("reviewed-color-corrections", help="Prepare only explicit, precondition-checked review decisions")
+    reviewed_colors.add_argument("--catalog", default="data/market/paints")
+    reviewed_colors.add_argument("--manifest", required=True)
+    reviewed_colors.add_argument("--output", required=True)
+    reviewed_colors.add_argument("--audit-log", required=True)
+    verify_swatches = catalog_commands.add_parser("verify-reviewed-swatches", help="Reproduce reviewed HEX from pinned local manufacturer sources")
+    verify_swatches.add_argument("--manifest", required=True)
+    verify_swatches.add_argument("--source-root", required=True, action="append")
+    verify_swatches.add_argument("--output", required=True)
     collect = catalog_commands.add_parser("collect-official-paints", help="Collect one or every registered official paint catalogue")
     collect.add_argument("--catalog", default="data/market/paints")
     collect.add_argument("--vallejo-pdf", help="Downloaded official Vallejo catalogue PDF; required only for Vallejo")
@@ -276,12 +290,13 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         if args.command == "catalog" and args.catalog_command == "refresh-official-paints":
             selected_brands = [args.brand]
+            current_catalog = read_catalog(Path(args.catalog))
             payload = collect_official_refresh(
                 Path(args.catalog), Path(args.vallejo_pdf) if args.vallejo_pdf else None,
                 verified_at=args.verified_at, brands=selected_brands,
             )
             changeset = build_refresh_changeset(
-                read_catalog(Path(args.catalog)), payload, brand=args.brand,
+                current_catalog, payload, brand=args.brand,
                 verified_at=args.verified_at, remove_missing=args.remove_missing,
             )
             errors = validate_changeset(changeset, allow_empty=True)
@@ -304,6 +319,11 @@ def main(argv: list[str] | None = None) -> int:
                 "comparison": changeset["refresh"]["audit"],
                 "warnings": changeset["refresh"]["warnings"],
                 "image_rechallenge": image_plan,
+                "color_quality_before": audit_color_quality(current_catalog)["summary"],
+                "color_quality_after_upserts": audit_color_quality({"paints": list({
+                    **{p["id"]: p for p in current_catalog["paints"]},
+                    **{op["record"]["id"]: op["record"] for op in changeset["operations"] if op["action"] == "upsert"},
+                }.values())})["summary"],
             })
             print(
                 f"Official refresh prepared: paints={len(payload['paints'])} "
@@ -314,6 +334,23 @@ def main(argv: list[str] | None = None) -> int:
                 f"Next: minipaintdex market paint-products apply --input {args.output} "
                 "(dry-run by default; add --apply only after audit)."
             )
+            return 0
+        if args.command == "catalog" and args.catalog_command == "audit-color-quality":
+            audit = audit_color_quality(read_catalog(Path(args.catalog)))
+            write_json(Path(args.output), audit)
+            print(json.dumps(audit["summary"], sort_keys=True))
+            return 0
+        if args.command == "catalog" and args.catalog_command == "reviewed-color-corrections":
+            changeset, audit = build_reviewed_color_corrections(
+                read_catalog(Path(args.catalog)), Path(args.manifest))
+            write_json(Path(args.output), changeset)
+            write_json(Path(args.audit_log), audit)
+            print(f"Reviewed colour corrections: {audit['operation_count']} operation(s).")
+            return 0
+        if args.command == "catalog" and args.catalog_command == "verify-reviewed-swatches":
+            audit = verify_reviewed_swatches(Path(args.manifest), [Path(p) for p in args.source_root])
+            write_json(Path(args.output), audit)
+            print(f"Reproduced {audit['verified_count']} reviewed swatches.")
             return 0
         if args.command == "catalog" and args.catalog_command == "enrich-paint-colors":
             changeset, audit = build_color_enrichment_changeset(

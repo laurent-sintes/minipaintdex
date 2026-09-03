@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "paint-quality-pending-2026-09-03",
+  "reviewed_at": "2026-09-03",
+  "policy": "Keep current HEX when the manufacturer's digital illustration is visually suspect. No candidate is a physical measurement. Require independent corroboration before replacing it.",
+  "items": [
+    {
+      "paint_id": "cit-prod4190289-99189960108",
+      "name": "Ork Flesh",
+      "current_hex": "#1e5947",
+      "community_hex": "#00591e",
+      "official_gradient_median": "#c1cca2",
+      "official_image_url": "https://www.warhammer.com/app/resources/catalog/product/920x950/99189960216_56189960216_CONTRAST_ORK_FLESH_18ML.jpg",
+      "official_image_sha256": "a04147ff3ffe5350fb5b76600cb69609b4b305dbbb3c44c250d32b454bebe67e",
+      "status": "needs-independent-corroboration",
+      "reason": "The official illustration is a very pale olive while both the existing value and the independent community candidate are darker green. Source URL alone is insufficient to accept this large visual change."
+    },
+    {
+      "paint_id": "cit-prod4190290-99189960109",
+      "name": "Creed Camo",
+      "current_hex": "#3f4930",
+      "community_hex": "#145d2e",
+      "official_gradient_median": "#09876a",
+      "official_image_url": "https://www.warhammer.com/app/resources/catalog/product/920x950/99189960143_56189960143_CONTRAST_CREED_CAMO_18ML.jpg",
+      "official_image_sha256": "b91b4b38b3b5e05f39b38117be842031dd1fb6edb5a3c906d8fd04ac1e93a616",
+      "status": "needs-independent-corroboration",
+      "reason": "The official illustration shifts towards saturated emerald/cyan while the existing value is muted olive. Retain both observations and seek a second identified manufacturer chart."
+    }
+  ],
+  "community_source": {
+    "manifest": "color-sources/paintdex.json",
+    "revision": "f77970bad84e8b23337af24d204b741d51c67104",
+    "url": "https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json"
+  },
+  "other_queues": {
+    "finish_unknown": 363,
+    "coverage_unknown": 62,
+    "legacy_family_missing": 398,
+    "hsl_boundary_review": 779,
+    "note": "Counts are a dated snapshot. Regenerate audit-color-quality for the current per-product queue. Non-unknown values are not automatically verified: range defaults still need qualification."
+  }
+}

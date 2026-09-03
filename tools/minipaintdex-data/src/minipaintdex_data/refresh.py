@@ -11,6 +11,7 @@ from copy import deepcopy
 import yaml
 
 from .changesets import canonical_paint, validate_changeset
+from .paint_quality_protection import preserve_qualified_data
 
 
 INSTRUCTION_ROLES = {"technical_effect", "primer", "wash", "ink", "varnish", "medium", "auxiliary", "pigment"}
@@ -23,7 +24,7 @@ def read_catalog(path: Path) -> dict[str, Any]:
     usage_guides: list[dict[str, Any]] = []
     for source in paths:
         with source.open("r", encoding="utf-8-sig") as handle:
-            value = yaml.safe_load(handle)
+            value = yaml.load(handle, Loader=getattr(yaml, "CSafeLoader", yaml.SafeLoader))
         if (
             not isinstance(value, dict)
             or value.get("schema_version") != 1
@@ -108,6 +109,7 @@ def build_refresh_changeset(
     for identifier in sorted(incoming):
         record = deepcopy(incoming[identifier])
         previous = existing.get(identifier, {})
+        record = preserve_qualified_data(record, previous)
         if previous.get("usage_guide_ids"):
             from .paint_usage_guides import plain_text
             record["usage_guide_ids"] = list(dict.fromkeys([*previous["usage_guide_ids"], *record.get("usage_guide_ids", [])]))

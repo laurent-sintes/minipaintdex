@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "id": "digital-hsl-swatch-grid",
+  "status": "review-proposal",
+  "accuracy": "Deterministic digital grouping, not perceptually uniform and not a physical paint measurement.",
+  "neutral_saturation_max": 0.10,
+  "hue_bins": [
+    {"id": "red", "start": 345, "end": 15, "center": 0},
+    {"id": "orange", "start": 15, "end": 45, "center": 30},
+    {"id": "yellow", "start": 45, "end": 75, "center": 60},
+    {"id": "green", "start": 75, "end": 165, "center": 120},
+    {"id": "cyan", "start": 165, "end": 195, "center": 180},
+    {"id": "blue", "start": 195, "end": 255, "center": 225},
+    {"id": "purple", "start": 255, "end": 285, "center": 270},
+    {"id": "magenta", "start": 285, "end": 345, "center": 315}
+  ],
+  "saturation_edges": [0.35, 0.70],
+  "saturation_centers": [0.22, 0.52, 0.85],
+  "lightness_edges": [0.20, 0.40, 0.60, 0.80],
+  "lightness_centers": [0.10, 0.30, 0.50, 0.70, 0.90],
+  "boundary_hue_degrees": 3,
+  "boundary_sl_margin": 0.02
+}
