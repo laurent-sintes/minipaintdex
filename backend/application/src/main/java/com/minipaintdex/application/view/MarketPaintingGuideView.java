@@ -2,10 +2,10 @@ package com.minipaintdex.application.view;
 
 import java.util.List;
 
-/** Sourced professional or community paint knowledge for one market catalog item. */
+/** Sourced professional or community paint knowledge for one market paintable component. */
 public record MarketPaintingGuideView(
         String id,
-        String catalogItemId,
+        String paintableComponentId,
         int version,
         String knowledgeStatus,
         List<PaintableProductView.SourceView> sources,
@@ -22,7 +22,7 @@ public record MarketPaintingGuideView(
     public record SlotView(
             String id,
             String role,
-            String marketPaintId,
+            String paintProductId,
             boolean pendingImport,
             RequestedPaintView requestedPaint) {}
 

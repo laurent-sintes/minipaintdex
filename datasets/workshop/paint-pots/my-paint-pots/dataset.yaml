@@ -1,0 +1,15 @@
+schema_version: 1
+id: my-paint-pots
+name: my-paint-pots
+category: workshop.paint-pots
+mode: merge
+source_files:
+- data/ledger/events
+- data/market/paints/prince-august.yaml
+- data/market/paints/the-army-painter.yaml
+- data/market/paints/vallejo.yaml
+- data/market/paints/warhammer-colour.yaml
+payload:
+  path: payload/change-set.json
+  kind: workshop_paint_pots
+  sha256: 38795c625382ca40e1547036ab5e724fa2716834fd22b5de4a869ff8d9b3eec8

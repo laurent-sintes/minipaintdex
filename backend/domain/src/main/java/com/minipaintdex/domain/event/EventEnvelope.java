@@ -30,7 +30,7 @@ public record EventEnvelope(
     public String eventType() { return event.eventType(); }
     public String aggregateType() { return event.aggregateType(); }
     public String aggregateId() { return event.aggregateId(); }
-    public String projectId() { return event.projectId(); }
+    public String scopePaintingProjectId() { return event.scopePaintingProjectId(); }
     public Instant occurredAt() { return event.occurredAt(); }
 
     private static void require(String value, String field) {

@@ -5,8 +5,8 @@ import com.minipaintdex.application.port.EventPublicationStore;
 import com.minipaintdex.application.port.SnapshotRepository;
 import com.minipaintdex.domain.event.EventEnvelope;
 
-import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /** Read decorator that includes durably accepted, not-yet-committed events in aggregate decisions. */
 final class EffectiveSnapshotRepository implements SnapshotRepository {
@@ -26,11 +26,10 @@ final class EffectiveSnapshotRepository implements SnapshotRepository {
         publications.recoverable().stream()
                 .flatMap(publication -> publication.batch().events().stream())
                 .forEach(event -> eventsById.putIfAbsent(event.eventId(), event));
-        var events = eventsById.values().stream()
-                .sorted(Comparator.comparing(EventEnvelope::recordedAt).thenComparing(EventEnvelope::eventId))
-                .toList();
+        // Preserve committed sequence and the publication store's ordered batches, including ties in timestamps.
+        var events = List.copyOf(eventsById.values());
         return new DataSnapshot(
-                snapshot.site(), snapshot.marketPaints(), snapshot.paintInventory(),
-                snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.shopping(), events, snapshot.paintCatalogEditions());
+                snapshot.site(), snapshot.paintProducts(),
+                snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.shopping(), events, snapshot.paintCatalogEditions(), snapshot.paintUsageGuides());
     }
 }

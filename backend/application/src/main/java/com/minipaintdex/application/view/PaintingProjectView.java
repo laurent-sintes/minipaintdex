@@ -5,14 +5,14 @@ import java.util.List;
 
 /** Read model of one workshop painting-project aggregate. */
 public record PaintingProjectView(
-        String projectId,
-        String productId,
+        String paintingProjectId,
+        String paintableProductId,
         String name,
         String status,
         Instant createdAt,
         Instant updatedAt,
         Instant importedAt,
-        int itemCount,
+        int paintableCount,
         int completedCount,
         int inProgressCount,
         int pendingCount,

@@ -59,6 +59,6 @@ describe('paint search helpers', () => {
       query: '', filters: { color: ['blue'] }, sort: 'name,asc', page: 0,
     });
     assert.equal(readPaintSearch('?page=Infinity', [], []).page, 0);
-    assert.equal(paintBrowserSearchParams({ query: '', filters: {}, sort: 'name,asc', page: 0 }).toString(), '');
+    assert.equal(paintBrowserSearchParams({ query: '', filters: {}, sort: 'relevance,desc', page: 0 }).toString(), '');
   });
 });

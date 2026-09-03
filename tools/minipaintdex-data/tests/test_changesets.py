@@ -52,14 +52,14 @@ class ChangeSetTests(unittest.TestCase):
         observations = {item["name"]: item["value"] for item in record["source_observation"]["fields"]}
         self.assertEqual(observations["functional_class"], "one_coat_contrast")
         self.assertIn("enrichment", observations)
-        self.assertEqual(changeset["operations"][0]["workshop_quantity_delta"], 2)
+        self.assertEqual(changeset["operations"][0]["workshop_quantity_delta"], 0)
 
     def test_manual_pot_photo_is_classified_as_owned_photo(self):
         changeset = build_paint_changeset({"paints": [{
             "brand_canonical": "Vallejo", "manufacturer": "Acrylicos Vallejo",
             "range_canonical": "Model Color", "reference": "70.001", "name": "White",
             "local_image": "/media/market/paints/vallejo/val-70-001.webp",
-        }]}, source="imports/manual-photo.json", verified_at="2026-09-01", include_workshop=False)
+        }]}, source="imports/manual-photo.json", verified_at="2026-09-01")
 
         image = changeset["operations"][0]["record"]["manufacturer_image"]
         self.assertEqual(image["image_quality"], "owned_photo")
@@ -94,7 +94,7 @@ class ChangeSetTests(unittest.TestCase):
         changeset = build_paint_changeset({"paints": [{
             "brand_canonical": "Vallejo", "manufacturer": "Acrylicos Vallejo",
             "range_canonical": "Model Color", "reference": "70.001", "name": "White",
-        }]}, source="test", include_workshop=False)
+        }]}, source="test")
         changeset["operations"][0]["record"]["schema_version"] = 2
 
         self.assertIn("operations[0].record.schema_version must be 1", validate_changeset(changeset))
@@ -103,7 +103,7 @@ class ChangeSetTests(unittest.TestCase):
         changeset = build_paint_changeset({"paints": [{
             "brand_canonical": "Vallejo", "manufacturer": "Acrylicos Vallejo",
             "range_canonical": "Model Color", "reference": "70.001", "name": "White",
-        }]}, source="test", include_workshop=False)
+        }]}, source="test")
         changeset["operations"][0]["record"]["manufacturer_image"] = {
             "source_url": "https://retailer.test/paint.webp",
             "image_quality": "retailer_photo",
@@ -119,7 +119,7 @@ class ChangeSetTests(unittest.TestCase):
         changeset = build_paint_changeset({"paints": [{
             "brand_canonical": "Vallejo", "manufacturer": "Acrylicos Vallejo",
             "range_canonical": "Model Color", "reference": "70.001", "name": "White",
-        }]}, source="test", include_workshop=False)
+        }]}, source="test")
         changeset["operations"][0]["record"]["source_snapshots"] = [{"provider": "official", "url": "", "payload": []}]
 
         errors = validate_changeset(changeset)

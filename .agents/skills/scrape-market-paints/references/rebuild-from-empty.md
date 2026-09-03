@@ -77,8 +77,8 @@ Pour chaque marque, vérifier au minimum : volume, doublons d'identité, référ
 Simuler avec le cas d'usage Java, lire le résultat JSON, puis seulement appliquer :
 
 ```powershell
-.\scripts\minipaintdex.ps1 cli --root . --format json market paints apply --input "<changeset>"
-.\scripts\minipaintdex.ps1 cli --root . --format json market paints apply --input "<changeset>" --apply
+.\scripts\minipaintdex.ps1 cli --root . --format json market paint-products apply --input "<changeset>"
+.\scripts\minipaintdex.ps1 cli --root . --format json market paint-products apply --input "<changeset>" --apply
 ```
 
 Appliquer les marques une par une. Ne lancer `--brand all` qu'après leur réussite individuelle.

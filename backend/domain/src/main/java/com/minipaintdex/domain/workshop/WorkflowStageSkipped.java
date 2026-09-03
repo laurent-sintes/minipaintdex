@@ -4,10 +4,10 @@ import java.time.Instant;
 import java.util.Objects;
 
 public record WorkflowStageSkipped(
-        String workshopItemId, String paintingProjectId, WorkflowStage stage,
-        String reason, Instant occurredAt) implements WorkshopItemEvent {
+        String workshopPaintableId, String paintingProjectId, WorkflowStage stage,
+        String reason, Instant occurredAt) implements WorkshopPaintableEvent {
     public WorkflowStageSkipped {
-        workshopItemId = DomainFields.id(workshopItemId, "workshopItemId");
+        workshopPaintableId = DomainFields.id(workshopPaintableId, "workshopPaintableId");
         paintingProjectId = DomainFields.id(paintingProjectId, "paintingProjectId");
         stage = Objects.requireNonNull(stage, "stage is required.");
         reason = DomainFields.required(reason, "reason");
@@ -15,6 +15,6 @@ public record WorkflowStageSkipped(
     }
 
     @Override public String eventType() { return "workflow.stage.skipped"; }
-    @Override public String aggregateId() { return workshopItemId; }
-    @Override public String projectId() { return paintingProjectId; }
+    @Override public String aggregateId() { return workshopPaintableId; }
+    @Override public String scopePaintingProjectId() { return paintingProjectId; }
 }

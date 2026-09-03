@@ -1,17 +1,17 @@
 package com.minipaintdex.domain.market;
 
 import com.minipaintdex.domain.market.guide.MarketPaintingGuide;
-import com.minipaintdex.domain.market.paint.MarketPaint;
-import com.minipaintdex.domain.market.paint.MarketPaintLifecycle;
-import com.minipaintdex.domain.market.paint.MarketPaintProfile;
+import com.minipaintdex.domain.market.paint.PaintProduct;
+import com.minipaintdex.domain.market.paint.PaintProductLifecycle;
+import com.minipaintdex.domain.market.paint.PaintProductProfile;
 import com.minipaintdex.domain.shared.DomainException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.net.URI;
 import java.time.LocalDate;
-import com.minipaintdex.domain.market.paint.MarketPaintImageQuality;
-import com.minipaintdex.domain.market.paint.MarketPaintImageLimitationCode;
+import com.minipaintdex.domain.market.paint.PaintProductImageQuality;
+import com.minipaintdex.domain.market.paint.PaintProductImageLimitationCode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -20,7 +20,7 @@ class MarketCatalogAggregateTest {
     @Test
     void requiresInstructionsForBehavioralPaintTypes() {
         var failure = assertThrows(DomainException.class, () -> paint(
-                MarketPaintProfile.Role.TECHNICAL_EFFECT, MarketPaint.UsageInstructions.empty()));
+                PaintProductProfile.Role.TECHNICAL_EFFECT, PaintProduct.UsageInstructions.empty()));
 
         assertEquals("invalid_market_paint", failure.code());
     }
@@ -28,7 +28,7 @@ class MarketCatalogAggregateTest {
     @Test
     void normalizesColorsAndDefensivelyCopiesMetadata() {
         var tags = new java.util.ArrayList<>(List.of("cold"));
-        var paint = paint(MarketPaintProfile.Role.COLOR_PAINT, MarketPaint.UsageInstructions.empty(), tags);
+        var paint = paint(PaintProductProfile.Role.COLOR_PAINT, PaintProduct.UsageInstructions.empty(), tags);
         tags.add("mutated");
 
         assertEquals("#aabbcc", paint.color().hex());
@@ -43,7 +43,7 @@ class MarketCatalogAggregateTest {
     @Test
     void rejectsAnyPaintSchemaOtherThanOne() {
         assertThrows(DomainException.class, () -> paint(
-                2, MarketPaintProfile.Role.COLOR_PAINT, MarketPaint.UsageInstructions.empty(), List.of()));
+                2, PaintProductProfile.Role.COLOR_PAINT, PaintProduct.UsageInstructions.empty(), List.of()));
     }
 
     @Test
@@ -57,73 +57,73 @@ class MarketCatalogAggregateTest {
 
     @Test
     void rejectsRetailerPhotosWithoutTraceableCreditAndProductPage() {
-        assertThrows(DomainException.class, () -> new MarketPaint.ImageReference(
+        assertThrows(DomainException.class, () -> new PaintProduct.ImageReference(
                 null, URI.create("https://retailer.test/paint.webp"), null, null, null,
-                MarketPaintImageQuality.RETAILER_PHOTO, LocalDate.parse("2026-09-01"),
+                PaintProductImageQuality.RETAILER_PHOTO, LocalDate.parse("2026-09-01"),
                 limitation()));
     }
 
     @Test
     void requiresALimitationForANonOfficialManufacturerImage() {
-        assertThrows(DomainException.class, () -> paintWithManufacturerImage(MarketPaint.ImageReference.empty()));
+        assertThrows(DomainException.class, () -> paintWithManufacturerImage(PaintProduct.ImageReference.empty()));
     }
 
     @Test
     void rejectsALimitationOnAnOfficialPhoto() {
-        assertThrows(DomainException.class, () -> new MarketPaint.ImageReference(
+        assertThrows(DomainException.class, () -> new PaintProduct.ImageReference(
                 "/media/official.webp", URI.create("https://maker.test/official.webp"),
                 "Official Maker catalogue", null, URI.create("https://maker.test/paint"),
-                MarketPaintImageQuality.OFFICIAL_PHOTO, LocalDate.parse("2026-09-01"), limitation()));
+                PaintProductImageQuality.OFFICIAL_PHOTO, LocalDate.parse("2026-09-01"), limitation()));
     }
 
-    private static MarketPaint paint(
-            MarketPaintProfile.Role role, MarketPaint.UsageInstructions instructions) {
+    private static PaintProduct paint(
+            PaintProductProfile.Role role, PaintProduct.UsageInstructions instructions) {
         return paint(role, instructions, List.of());
     }
 
-    private static MarketPaint paint(
-            MarketPaintProfile.Role role, MarketPaint.UsageInstructions instructions, List<String> tags) {
+    private static PaintProduct paint(
+            PaintProductProfile.Role role, PaintProduct.UsageInstructions instructions, List<String> tags) {
         return paint(1, role, instructions, tags);
     }
 
-    private static MarketPaint paint(
-            int schemaVersion, MarketPaintProfile.Role role,
-            MarketPaint.UsageInstructions instructions, List<String> tags) {
-        return new MarketPaint(
+    private static PaintProduct paint(
+            int schemaVersion, PaintProductProfile.Role role,
+            PaintProduct.UsageInstructions instructions, List<String> tags) {
+        return new PaintProduct(
                 schemaVersion, "brand-range-paint", "Brand", "Maker", List.of(), "Range",
-                new MarketPaintProfile(
-                        List.of(role), List.of(MarketPaintProfile.ApplicationMethod.BRUSH),
-                        MarketPaintProfile.ApplicationSystem.CONVENTIONAL_LAYERING,
-                        MarketPaintProfile.Coverage.OPAQUE, MarketPaintProfile.Finish.MATTE, List.of(),
-                        new MarketPaintProfile.Undercoat(MarketPaintProfile.UndercoatTone.ANY, false),
-                        MarketPaintProfile.Medium.WATER_BASED_ACRYLIC),
-                "001", "Paint", new MarketPaint.Color("Blue", "#AABBCC"),
-                MarketPaintLifecycle.ACTIVE, "verified", List.of(), tags, null,
-                null, new MarketPaint.ImageReference(
-                        null, null, null, null, null, MarketPaintImageQuality.NONE, null, limitation()),
+                new PaintProductProfile(
+                        List.of(role), List.of(PaintProductProfile.ApplicationMethod.BRUSH),
+                        PaintProductProfile.ApplicationSystem.CONVENTIONAL_LAYERING,
+                        PaintProductProfile.Coverage.OPAQUE, PaintProductProfile.Finish.MATTE, List.of(),
+                        new PaintProductProfile.Undercoat(PaintProductProfile.UndercoatTone.ANY, false),
+                        PaintProductProfile.Medium.WATER_BASED_ACRYLIC),
+                "001", "Paint", new PaintProduct.Color("Blue", "#AABBCC"),
+                PaintProductLifecycle.ACTIVE, "verified", List.of(), tags, null,
+                null, new PaintProduct.ImageReference(
+                        null, null, null, null, null, PaintProductImageQuality.NONE, null, limitation()),
                 18, List.of(), instructions, null,
-                MarketPaint.ImageReference.empty(), List.of());
+                PaintProduct.ImageReference.empty(), List.of(), java.util.List.of());
     }
 
-    private static MarketPaint paintWithManufacturerImage(MarketPaint.ImageReference image) {
-        return new MarketPaint(
+    private static PaintProduct paintWithManufacturerImage(PaintProduct.ImageReference image) {
+        return new PaintProduct(
                 1, "brand-range-paint", "Brand", "Maker", List.of(), "Range",
-                new MarketPaintProfile(
-                        List.of(MarketPaintProfile.Role.COLOR_PAINT),
-                        List.of(MarketPaintProfile.ApplicationMethod.BRUSH),
-                        MarketPaintProfile.ApplicationSystem.CONVENTIONAL_LAYERING,
-                        MarketPaintProfile.Coverage.OPAQUE, MarketPaintProfile.Finish.MATTE, List.of(),
-                        new MarketPaintProfile.Undercoat(MarketPaintProfile.UndercoatTone.ANY, false),
-                        MarketPaintProfile.Medium.WATER_BASED_ACRYLIC),
-                "001", "Paint", new MarketPaint.Color("Blue", "#aabbcc"),
-                MarketPaintLifecycle.ACTIVE, "verified", List.of(), List.of(), null,
-                null, image, 18, List.of(), MarketPaint.UsageInstructions.empty(), null,
-                MarketPaint.ImageReference.empty(), List.of());
+                new PaintProductProfile(
+                        List.of(PaintProductProfile.Role.COLOR_PAINT),
+                        List.of(PaintProductProfile.ApplicationMethod.BRUSH),
+                        PaintProductProfile.ApplicationSystem.CONVENTIONAL_LAYERING,
+                        PaintProductProfile.Coverage.OPAQUE, PaintProductProfile.Finish.MATTE, List.of(),
+                        new PaintProductProfile.Undercoat(PaintProductProfile.UndercoatTone.ANY, false),
+                        PaintProductProfile.Medium.WATER_BASED_ACRYLIC),
+                "001", "Paint", new PaintProduct.Color("Blue", "#aabbcc"),
+                PaintProductLifecycle.ACTIVE, "verified", List.of(), List.of(), null,
+                null, image, 18, List.of(), PaintProduct.UsageInstructions.empty(), null,
+                PaintProduct.ImageReference.empty(), List.of(), java.util.List.of());
     }
 
-    private static MarketPaint.ImageQualityLimitation limitation() {
-        return new MarketPaint.ImageQualityLimitation(
-                MarketPaintImageLimitationCode.HISTORICAL_REASON_NOT_RECORDED,
+    private static PaintProduct.ImageQualityLimitation limitation() {
+        return new PaintProduct.ImageQualityLimitation(
+                PaintProductImageLimitationCode.HISTORICAL_REASON_NOT_RECORDED,
                 "The precise historical reason was not recorded.", LocalDate.parse("2026-09-01"));
     }
 

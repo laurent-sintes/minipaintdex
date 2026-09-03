@@ -5,7 +5,7 @@ import java.util.List;
 
 public record WorkshopRecipeState(
         String id,
-        String catalogItemId,
+        String paintableComponentId,
         String basedOnGuideId,
         String supersedesRecipeId,
         String displayName,

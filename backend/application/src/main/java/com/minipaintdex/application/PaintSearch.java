@@ -1,15 +1,13 @@
 package com.minipaintdex.application;
 
 import com.minipaintdex.application.query.PaintRangeSelection;
-import com.minipaintdex.application.query.SearchMarketPaintsQuery;
-import com.minipaintdex.application.view.MarketPaintView;
+import com.minipaintdex.application.query.SearchPaintProductsQuery;
+import com.minipaintdex.application.view.PaintProductView;
 import com.minipaintdex.application.view.PaintFacetValue;
 import com.minipaintdex.application.view.PaintFacetView;
 import com.minipaintdex.application.view.PaintFacetsView;
 
-import java.text.Normalizer;
 import java.util.List;
-import java.util.Locale;
 import java.util.TreeMap;
 import java.util.function.Function;
 
@@ -17,11 +15,11 @@ import java.util.function.Function;
 final class PaintSearch {
     private PaintSearch() {}
 
-    static boolean matches(MarketPaintView paint, SearchMarketPaintsQuery query) {
+    static boolean matches(PaintProductView paint, SearchPaintProductsQuery query) {
         return matches(paint, query, "");
     }
 
-    private static boolean matches(MarketPaintView paint, SearchMarketPaintsQuery query, String excludedFacet) {
+    private static boolean matches(PaintProductView paint, SearchPaintProductsQuery query, String excludedFacet) {
         if (!excludedFacet.equals("brands") && !excludedFacet.equals("ranges")
                 && (!query.brand().isEmpty() || !query.range().isEmpty())
                 && query.brand().stream().noneMatch(brand -> same(brand, paint.brand()))
@@ -33,24 +31,16 @@ final class PaintSearch {
             if (!selected.isEmpty() && selected.stream().noneMatch(expected ->
                     facet.values.apply(paint).stream().anyMatch(actual -> same(expected, actual)))) return false;
         }
-        if (query.query().isBlank()) return true;
-        var profile = paint.profile();
-        var haystack = String.join(" ", paint.name(), paint.brand(), paint.manufacturer(), paint.range(),
-                paint.reference(), paint.colorFamily(), String.join(" ", paint.tags()),
-                String.join(" ", profile.roles()), String.join(" ", profile.applicationMethods()),
-                String.join(" ", profile.effects()), profile.applicationSystem(), profile.coverage(),
-                profile.finish(), profile.medium());
-        var normalized = normalize(haystack);
-        return java.util.Arrays.stream(normalize(query.query()).split("\\s+")).allMatch(normalized::contains);
+        return true;
     }
 
-    static PaintFacetsView facets(List<MarketPaintView> paints, SearchMarketPaintsQuery query) {
-        return new PaintFacetsView((int) paints.stream().filter(paint -> matches(paint, query)).count(),
+    static PaintFacetsView facets(List<PaintProductView> paints, SearchPaintProductsQuery query, java.util.Set<String> textMatches) {
+        return new PaintFacetsView((int) paints.stream().filter(paint -> textMatches.contains(paint.id()) && matches(paint, query)).count(),
                 java.util.Arrays.stream(Facet.values()).map(facet -> {
                     var counts = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
-                    var samples = new TreeMap<String, MarketPaintView>(String.CASE_INSENSITIVE_ORDER);
+                    var samples = new TreeMap<String, PaintProductView>(String.CASE_INSENSITIVE_ORDER);
                     for (var paint : paints) {
-                        var matches = matches(paint, query, facet.id);
+                        var matches = textMatches.contains(paint.id()) && matches(paint, query, facet.id);
                         for (var value : facet.values.apply(paint).stream().filter(v -> !v.isBlank()).distinct().toList()) {
                             counts.merge(value, matches ? 1 : 0, Integer::sum);
                             samples.putIfAbsent(value, paint);
@@ -66,30 +56,59 @@ final class PaintSearch {
     }
 
     private static boolean same(String left, String right) { return left.equalsIgnoreCase(right); }
-    private static String normalize(String value) {
-        return Normalizer.normalize(value, Normalizer.Form.NFD).replaceAll("\\p{M}", "").toLowerCase(Locale.ROOT);
+
+
+    static List<PaintProductView> order(List<PaintProductView> ranked, List<com.minipaintdex.application.query.SortOrder> orders) {
+        if (orders.isEmpty()) return ranked;
+        var ranks = new java.util.HashMap<String, Integer>();
+        for (int i = 0; i < ranked.size(); i++) ranks.put(ranked.get(i).id(), i);
+        java.util.Comparator<PaintProductView> comparator = null;
+        for (var order : orders) {
+            java.util.Comparator<PaintProductView> next = "relevance".equals(order.property())
+                    ? java.util.Comparator.comparingInt(p -> -ranks.get(p.id()))
+                    : java.util.Comparator.comparing(p -> sortable(p, order.property()), String.CASE_INSENSITIVE_ORDER);
+            // Validate even an empty result, before Comparator has a chance to access a row.
+            if (!java.util.Set.of("relevance", "name", "brand", "range", "reference", "role", "colorFamily", "verifiedAt").contains(order.property()))
+                throw new com.minipaintdex.domain.shared.DomainException("invalid_input", "Unsupported paint sort property: " + order.property());
+            if (order.direction() == com.minipaintdex.application.query.SortOrder.Direction.DESCENDING) next = next.reversed();
+            comparator = comparator == null ? next : comparator.thenComparing(next);
+        }
+        return ranked.stream().sorted(comparator.thenComparing(PaintProductView::id)).toList();
+    }
+
+    private static String sortable(PaintProductView paint, String field) {
+        return switch (field) {
+            case "name" -> paint.name();
+            case "brand" -> paint.brand();
+            case "range" -> paint.range();
+            case "reference" -> paint.reference();
+            case "role" -> paint.profile().roles().getFirst();
+            case "colorFamily" -> paint.colorFamily();
+            case "verifiedAt" -> paint.manufacturerVerifiedAt();
+            default -> throw new IllegalArgumentException("Unsupported paint sort: " + field);
+        };
     }
 
     private enum Facet {
         BRANDS("brands", paint -> List.of(paint.brand()), null),
         RANGES("ranges", paint -> List.of(new PaintRangeSelection(paint.brand(), paint.range()).selectionKey()), null),
-        ROLES("roles", paint -> paint.profile().roles(), SearchMarketPaintsQuery::role),
-        METHODS("applicationMethods", paint -> paint.profile().applicationMethods(), SearchMarketPaintsQuery::applicationMethod),
-        SYSTEMS("applicationSystems", paint -> List.of(paint.profile().applicationSystem()), SearchMarketPaintsQuery::applicationSystem),
-        COLORS("colors", paint -> List.of(paint.colorFamily()), SearchMarketPaintsQuery::color),
-        COVERAGES("coverages", paint -> List.of(paint.profile().coverage()), SearchMarketPaintsQuery::coverage),
-        FINISHES("finishes", paint -> List.of(paint.profile().finish()), SearchMarketPaintsQuery::finish),
-        EFFECTS("effects", paint -> paint.profile().effects(), SearchMarketPaintsQuery::effect),
-        UNDERCOATS("undercoats", paint -> List.of(paint.profile().undercoatTone()), SearchMarketPaintsQuery::undercoat),
-        MEDIUMS("mediums", paint -> List.of(paint.profile().medium()), SearchMarketPaintsQuery::medium),
-        LIFECYCLES("lifecycles", paint -> List.of(paint.lifecycleStatus()), SearchMarketPaintsQuery::lifecycle);
+        ROLES("roles", paint -> paint.profile().roles(), SearchPaintProductsQuery::role),
+        METHODS("applicationMethods", paint -> paint.profile().applicationMethods(), SearchPaintProductsQuery::applicationMethod),
+        SYSTEMS("applicationSystems", paint -> List.of(paint.profile().applicationSystem()), SearchPaintProductsQuery::applicationSystem),
+        COLORS("colors", paint -> List.of(paint.colorFamily()), SearchPaintProductsQuery::color),
+        COVERAGES("coverages", paint -> List.of(paint.profile().coverage()), SearchPaintProductsQuery::coverage),
+        FINISHES("finishes", paint -> List.of(paint.profile().finish()), SearchPaintProductsQuery::finish),
+        EFFECTS("effects", paint -> paint.profile().effects(), SearchPaintProductsQuery::effect),
+        UNDERCOATS("undercoats", paint -> List.of(paint.profile().undercoatTone()), SearchPaintProductsQuery::undercoat),
+        MEDIUMS("mediums", paint -> List.of(paint.profile().medium()), SearchPaintProductsQuery::medium),
+        LIFECYCLES("lifecycles", paint -> List.of(paint.lifecycleStatus()), SearchPaintProductsQuery::lifecycle);
 
         private final String id;
-        private final Function<MarketPaintView, List<String>> values;
-        private final Function<SearchMarketPaintsQuery, List<String>> selections;
+        private final Function<PaintProductView, List<String>> values;
+        private final Function<SearchPaintProductsQuery, List<String>> selections;
 
-        Facet(String id, Function<MarketPaintView, List<String>> values,
-                Function<SearchMarketPaintsQuery, List<String>> selections) {
+        Facet(String id, Function<PaintProductView, List<String>> values,
+                Function<SearchPaintProductsQuery, List<String>> selections) {
             this.id = id; this.values = values; this.selections = selections;
         }
     }

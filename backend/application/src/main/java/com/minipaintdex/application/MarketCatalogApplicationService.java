@@ -1,11 +1,11 @@
 package com.minipaintdex.application;
 
 import com.minipaintdex.application.query.PageQuery;
-import com.minipaintdex.application.query.SearchMarketPaintsQuery;
+import com.minipaintdex.application.query.SearchPaintProductsQuery;
 import com.minipaintdex.application.result.PageResult;
 import com.minipaintdex.application.port.MarketCatalogReader;
 import com.minipaintdex.application.usecase.MarketCatalogUseCases;
-import com.minipaintdex.application.view.MarketPaintView;
+import com.minipaintdex.application.view.PaintProductView;
 import com.minipaintdex.application.view.MarketPaintingGuideView;
 import com.minipaintdex.application.view.PaintFacetsView;
 import com.minipaintdex.application.view.PaintCatalogQualityView;
@@ -16,25 +16,34 @@ import com.minipaintdex.application.view.PaintableProductView;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
-import com.minipaintdex.domain.market.paint.MarketPaintLifecycle;
-import com.minipaintdex.domain.market.paint.MarketPaintImageQuality;
-import com.minipaintdex.domain.market.paint.MarketPaintImageLimitationCode;
-import com.minipaintdex.domain.market.paint.MarketPaintProfile;
+import com.minipaintdex.domain.market.paint.PaintProductLifecycle;
+import com.minipaintdex.domain.market.paint.PaintProductImageQuality;
+import com.minipaintdex.domain.market.paint.PaintProductImageLimitationCode;
+import com.minipaintdex.domain.market.paint.PaintProductProfile;
 
 /** Cohesive read service for the market knowledge bounded context. */
 public final class MarketCatalogApplicationService implements MarketCatalogUseCases {
-    private final MarketPaintQueryService paints;
-    private final MarketProductQueryService products;
+    private final PaintProductQueryService paints;
+    private final MarketPaintableProductQueryService products;
     private final MarketCatalogReader catalogs;
+    private final com.minipaintdex.application.query.PaintSearchPolicy searchPolicy;
 
-    public MarketCatalogApplicationService(MarketCatalogReader catalogs) {
+    public MarketCatalogApplicationService(MarketCatalogReader catalogs,
+            com.minipaintdex.application.port.PaintProductSearchIndex index,
+            com.minipaintdex.application.query.PaintSearchPolicy searchPolicy) {
+        this.searchPolicy = Objects.requireNonNull(searchPolicy);
         var reader = Objects.requireNonNull(catalogs);
         this.catalogs = reader;
-        this.paints = new MarketPaintQueryService(reader);
-        this.products = new MarketProductQueryService(reader, paints);
+        this.paints = new PaintProductQueryService(reader, index);
+        this.products = new MarketPaintableProductQueryService(reader, paints);
     }
 
-    @Override public List<MarketPaintView> searchMarketPaints(SearchMarketPaintsQuery query) {
+    @Override public com.minipaintdex.application.result.PaintSearchResult<PaintProductView> searchPaintProducts(
+            com.minipaintdex.application.query.PaintSearchQuery query) {
+        return paints.search(query, searchPolicy);
+    }
+
+    @Override public List<PaintProductView> searchPaintProducts(SearchPaintProductsQuery query) {
         return paints.search(query);
     }
 
@@ -60,19 +69,22 @@ public final class MarketCatalogApplicationService implements MarketCatalogUseCa
         return catalogs.load().paintCatalogEditions().stream().filter(edition -> edition.id().equals(query.id()))
                 .findFirst().orElseThrow(() -> new com.minipaintdex.domain.shared.DomainException("not_found", "Catalog edition not found: " + query.id()));
     }
-    @Override public Stream<MarketPaintView> streamMarketPaints(SearchMarketPaintsQuery query) {
+    @Override public com.minipaintdex.application.result.PaintUsageGuidesResult searchPaintUsageGuides(
+            com.minipaintdex.application.query.SearchPaintUsageGuidesQuery query) {
+        return new PaintUsageGuideQueryService(catalogs).search(query);
+    }
+    @Override public com.minipaintdex.application.result.PaintUsageGuideResult getPaintUsageGuide(
+            com.minipaintdex.application.query.GetPaintUsageGuideQuery query) {
+        return new PaintUsageGuideQueryService(catalogs).get(query);
+    }
+    @Override public Stream<PaintProductView> streamPaintProducts(SearchPaintProductsQuery query) {
         return paints.stream(query);
     }
-    @Override public PageResult<MarketPaintView> searchMarketPaintPage(
-            SearchMarketPaintsQuery query, boolean manufacturerSheetOnly,
-            boolean realResultOnly, PageQuery page) {
-        return paints.page(query, manufacturerSheetOnly, realResultOnly, page);
-    }
-    @Override public PaintFacetsView marketPaintFacets(
-            SearchMarketPaintsQuery filters, boolean manufacturerSheetOnly, boolean realResultOnly) {
+    @Override public PaintFacetsView paintProductFacets(
+            SearchPaintProductsQuery filters, boolean manufacturerSheetOnly, boolean realResultOnly) {
         return paints.facets(filters, manufacturerSheetOnly, realResultOnly);
     }
-    @Override public PaintModelView marketPaintModel() {
+    @Override public PaintModelView paintProductModel() {
         return new PaintModelView(1, "https://json-schema.org/draft/2020-12/schema", List.of(
                 filter("role", "role", "roles", "collection.roleFilter", "paint-role", 1),
                 filter("applicationMethod", "applicationMethod", "applicationMethods", "collection.applicationMethodFilter", "application-method", 2),
@@ -89,6 +101,7 @@ public final class MarketCatalogApplicationService implements MarketCatalogUseCa
                 toggle("manufacturer-sheet", "manufacturerSheetOnly", "collection.manufacturerSheetOnly", 13),
                 toggle("real-result", "realResultOnly", "collection.realResultOnly", 14)),
                 List.of(
+                        sort("relevance", "relevance,desc", "collection.sortRelevance", 0),
                         sort("name-ascending", "name,asc", "collection.sortNameAscending", 1),
                         sort("name-descending", "name,desc", "collection.sortNameDescending", 2),
                         sort("brand-ascending", "brand,asc", "collection.sortBrandAscending", 3),
@@ -100,39 +113,36 @@ public final class MarketCatalogApplicationService implements MarketCatalogUseCa
                         sort("verified-newest", "verifiedAt,desc", "collection.sortVerifiedNewest", 9),
                         sort("verified-oldest", "verifiedAt,asc", "collection.sortVerifiedOldest", 10)),
                 List.of(
-                        vocabulary("paint-role", java.util.Arrays.stream(MarketPaintProfile.Role.values()).map(MarketPaintProfile.Role::id).toList()),
-                        vocabulary("application-method", java.util.Arrays.stream(MarketPaintProfile.ApplicationMethod.values()).map(MarketPaintProfile.ApplicationMethod::id).toList()),
-                        vocabulary("application-system", java.util.Arrays.stream(MarketPaintProfile.ApplicationSystem.values()).map(MarketPaintProfile.ApplicationSystem::id).toList()),
-                        vocabulary("coverage", java.util.Arrays.stream(MarketPaintProfile.Coverage.values()).map(MarketPaintProfile.Coverage::id).toList()),
-                        vocabulary("finish", java.util.Arrays.stream(MarketPaintProfile.Finish.values()).map(MarketPaintProfile.Finish::id).toList()),
-                        vocabulary("effect", java.util.Arrays.stream(MarketPaintProfile.Effect.values()).map(MarketPaintProfile.Effect::id).toList()),
-                        vocabulary("undercoat-tone", java.util.Arrays.stream(MarketPaintProfile.UndercoatTone.values()).map(MarketPaintProfile.UndercoatTone::id).toList()),
-                        vocabulary("medium", java.util.Arrays.stream(MarketPaintProfile.Medium.values()).map(MarketPaintProfile.Medium::id).toList()),
-                        vocabulary("lifecycle", java.util.Arrays.stream(MarketPaintLifecycle.values()).map(MarketPaintLifecycle::id).toList()),
-                        vocabulary("image-quality", java.util.Arrays.stream(MarketPaintImageQuality.values()).map(MarketPaintImageQuality::id).toList()),
-                        vocabulary("image-quality-limitation", java.util.Arrays.stream(MarketPaintImageLimitationCode.values())
-                                .map(MarketPaintImageLimitationCode::id).toList())));
+                        vocabulary("paint-role", java.util.Arrays.stream(PaintProductProfile.Role.values()).map(PaintProductProfile.Role::id).toList()),
+                        vocabulary("application-method", java.util.Arrays.stream(PaintProductProfile.ApplicationMethod.values()).map(PaintProductProfile.ApplicationMethod::id).toList()),
+                        vocabulary("application-system", java.util.Arrays.stream(PaintProductProfile.ApplicationSystem.values()).map(PaintProductProfile.ApplicationSystem::id).toList()),
+                        vocabulary("coverage", java.util.Arrays.stream(PaintProductProfile.Coverage.values()).map(PaintProductProfile.Coverage::id).toList()),
+                        vocabulary("finish", java.util.Arrays.stream(PaintProductProfile.Finish.values()).map(PaintProductProfile.Finish::id).toList()),
+                        vocabulary("effect", java.util.Arrays.stream(PaintProductProfile.Effect.values()).map(PaintProductProfile.Effect::id).toList()),
+                        vocabulary("undercoat-tone", java.util.Arrays.stream(PaintProductProfile.UndercoatTone.values()).map(PaintProductProfile.UndercoatTone::id).toList()),
+                        vocabulary("medium", java.util.Arrays.stream(PaintProductProfile.Medium.values()).map(PaintProductProfile.Medium::id).toList()),
+                        vocabulary("lifecycle", java.util.Arrays.stream(PaintProductLifecycle.values()).map(PaintProductLifecycle::id).toList()),
+                        vocabulary("image-quality", java.util.Arrays.stream(PaintProductImageQuality.values()).map(PaintProductImageQuality::id).toList()),
+                        vocabulary("image-quality-limitation", java.util.Arrays.stream(PaintProductImageLimitationCode.values())
+                                .map(PaintProductImageLimitationCode::id).toList())));
     }
-    @Override public PaintCatalogQualityView marketPaintQuality() {
+    @Override public PaintCatalogQualityView paintProductQuality() {
         return paints.quality();
     }
-    @Override public MarketPaintView getMarketPaint(String id) {
-        return paints.search(SearchMarketPaintsQuery.empty()).stream()
-                .filter(paint -> id.equals(paint.id())).findFirst()
-                .orElseThrow(() -> new com.minipaintdex.domain.shared.DomainException(
-                        "not_found", "Paint not found: " + id));
+    @Override public PaintProductView getPaintProduct(String id) {
+        return paints.get(id);
     }
     @Override public List<PaintableProductSummaryView> listMarketPaintableProducts() {
         return products.summaries();
     }
-    @Override public PaintableProductView getMarketPaintableProduct(String productId) {
-        return products.product(productId);
+    @Override public PaintableProductView getMarketPaintableProduct(String paintableProductId) {
+        return products.product(paintableProductId);
     }
-    @Override public List<MarketPaintingGuideView> listMarketPaintingGuides(String catalogItemId) {
-        return products.guides(catalogItemId);
+    @Override public List<MarketPaintingGuideView> listMarketPaintingGuides(String paintableComponentId) {
+        return products.guides(paintableComponentId);
     }
     @Override public String exportPaints(String format) {
-        var results = paints.search(SearchMarketPaintsQuery.empty());
+        var results = paints.search(SearchPaintProductsQuery.empty());
         if ("csv".equals(format)) {
             var rows = new java.util.ArrayList<String>();
             rows.add("id,brand,range,reference,name,color_hex,color_family,roles,application_methods,application_system,coverage,finish,effects,undercoat,medium,volume_ml");

@@ -35,7 +35,7 @@ KNOWN_INPUT_FIELDS = {
     "brand_aliases", "manufacturer", "range", "range_observed", "range_canonical", "profile",
     "reference", "confidence", "status", "data_status", "lifecycle_status", "warnings", "color",
     "color_hex", "couleur_hex", "color_family", "famille_couleur", "volume_ml", "tags",
-    "recommended_uses", "usages_conseilles", "usage_instructions", "manufacturer_url",
+    "recommended_uses", "usages_conseilles", "usage_instructions", "usage_guide_ids", "manufacturer_url",
     "manufacturer_page", "manufacturer_image", "local_image", "image_source_url", "image_credit",
     "result_image", "result_source_url", "result_credit", "result_license", "result_reference_url",
     "provenance", "source_photo", "source_hash", "verified_on", "verified_at", "notes", "dedupe_key",

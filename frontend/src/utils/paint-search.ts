@@ -65,7 +65,7 @@ export function readPaintSearch(search: string, keys: string[], sorts: string[])
 
 export function paintBrowserSearchParams(state: PaintSearchState) {
   const params = paintFacetSearchParams(state.query, state.filters);
-  if (state.sort !== 'name,asc') params.set('sort', state.sort);
+  if (state.sort !== 'relevance,desc') params.set('sort', state.sort);
   if (state.page > 0) params.set('page', String(state.page));
   return params;
 }

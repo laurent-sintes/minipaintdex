@@ -1,2 +1,2 @@
-/** Sourced and versioned professional painting knowledge for Market catalog items. */
+/** Sourced and versioned professional painting knowledge for Market paintable components. */
 package com.minipaintdex.domain.market.guide;

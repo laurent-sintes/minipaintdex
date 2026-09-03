@@ -7,7 +7,7 @@ import com.minipaintdex.domain.workshop.RecipeSolution;
 
 public record CreateWorkshopRecipeCommand(
         String recipeId,
-        String catalogItemId,
+        String paintableComponentId,
         String basedOnGuideId,
         String supersedesRecipeId,
         String displayName,

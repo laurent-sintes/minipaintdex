@@ -11,8 +11,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
-record AddWorkshopItemRequest(
-        String itemId, @NotBlank String catalogItemId, @NotBlank String paintingProjectId,
+record AddWorkshopPaintableRequest(
+        String workshopPaintableId, @NotBlank String paintableComponentId, @NotBlank String paintingProjectId,
         @NotBlank String displayName, String actorId, Instant occurredAt) {}
 
 record CreatePaintingProjectRequest(
@@ -22,29 +22,24 @@ record CreatePaintingProjectRequest(
 record TransitionPaintingProjectRequest(
         @NotBlank String targetStatus, String actorId, Instant occurredAt) {}
 
-record ReplaceWorkshopPaintInventoryRequest(
-        @JsonProperty("schema_version") int schemaVersion,
-        @NotBlank String kind,
-        @Valid List<WorkshopPaintEntryRequest> paints) {}
 
-record WorkshopPaintEntryRequest(@JsonProperty("paint_id") @NotBlank String paintId, int quantity) {}
 
-record TransitionStageRequest(
+record TransitionWorkshopPaintableStageRequest(
         @NotBlank String stage, @NotBlank String action, String comment, String reason,
         String actorId, Instant occurredAt) {}
 
-record AddWorkshopItemCommentRequest(@NotBlank String comment, String actorId, Instant occurredAt) {}
+record AddWorkshopPaintableCommentRequest(@NotBlank String comment, String actorId, Instant occurredAt) {}
 
 record CreateWorkshopRecipeRequest(
-        @JsonProperty("recipe_id") String recipeId,
-        @JsonProperty("catalog_item_id") @NotBlank String catalogItemId,
-        @JsonProperty("based_on_guide_id") String basedOnGuideId,
-        @JsonProperty("supersedes_recipe_id") String supersedesRecipeId,
-        @JsonProperty("display_name") @NotBlank String displayName,
+        String recipeId,
+        @NotBlank String paintableComponentId,
+        String basedOnGuideId,
+        String supersedesRecipeId,
+        @NotBlank String displayName,
         int version,
         List<RecipeSolutionRequest> solutions,
-        @JsonProperty("actor_id") String actorId,
-        @JsonProperty("occurred_at") Instant occurredAt) {
+        String actorId,
+        Instant occurredAt) {
     CreateWorkshopRecipeRequest {
         solutions = solutions == null ? List.of() : List.copyOf(solutions);
     }
@@ -52,8 +47,8 @@ record CreateWorkshopRecipeRequest(
 
 record RecipeSolutionRequest(
         @NotBlank String type,
-        @JsonProperty("guide_slot_id") String guideSlotId,
-        @JsonProperty("paint_id") String paintId,
+        String guideSlotId,
+        String paintProductId,
         List<PaintComponentRequest> components,
         String instructions) {
     RecipeSolutionRequest {
@@ -62,40 +57,42 @@ record RecipeSolutionRequest(
 
     RecipeSolution toDomain() {
         return new RecipeSolution(
-                RecipeSolutionType.fromId(type), guideSlotId, paintId,
+                RecipeSolutionType.fromId(type), guideSlotId, paintProductId,
                 components.stream().map(PaintComponentRequest::toDomain).toList(), instructions);
     }
 }
 
 record PaintComponentRequest(
-        @JsonProperty("paint_id") @NotBlank String paintId, Double proportion, String role) {
+        @NotBlank String paintProductId, Double proportion, String role) {
     PaintComponent toDomain() {
-        return new PaintComponent(paintId, proportion == null ? 1 : proportion, role);
+        return new PaintComponent(paintProductId, proportion == null ? 1 : proportion, role);
     }
 }
 
 record TransitionWorkshopRecipeRequest(
         @NotBlank String action,
-        @JsonProperty("successor_recipe_id") String successorRecipeId,
+        String successorRecipeId,
         String reason,
-        @JsonProperty("actor_id") String actorId,
-        @JsonProperty("occurred_at") Instant occurredAt) {}
+        String actorId,
+        Instant occurredAt) {}
 
 record AssignWorkshopRecipeRequest(
-        @JsonProperty("recipe_id") @NotBlank String recipeId,
-        @JsonProperty("actor_id") String actorId,
-        @JsonProperty("occurred_at") Instant occurredAt) {}
+        @NotBlank String recipeId,
+        String actorId,
+        Instant occurredAt) {}
 
-record SetShoppingItemStatusRequest(boolean checked, String actorId, Instant occurredAt) {}
+record SetShoppingListEntryCheckedRequest(boolean checked, String actorId, Instant occurredAt) {}
 
 record ApplyPaintChangeSetRequest(
         @JsonProperty("schema_version") int schemaVersion,
         @NotBlank String kind,
         List<PaintOperationRequest> operations,
-        @JsonProperty("catalog_editions") List<Map<String, Object>> catalogEditions) {
+        @JsonProperty("catalog_editions") List<Map<String, Object>> catalogEditions,
+        @JsonProperty("paint_usage_guides") List<Map<String, Object>> paintUsageGuides) {
     ApplyPaintChangeSetRequest {
         operations = operations == null ? List.of() : List.copyOf(operations);
         catalogEditions = catalogEditions == null ? List.of() : List.copyOf(catalogEditions);
+        paintUsageGuides = paintUsageGuides == null ? List.of() : List.copyOf(paintUsageGuides);
     }
 }
 

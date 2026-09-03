@@ -1,5 +1,8 @@
 'use client';
 
+import { AppNotice } from './app-notice';
+import { apiFetch, failureNotice } from '@/utils/api-errors';
+import type { FailureNotice } from '@/utils/api-errors';
 import { useEffect, useState } from 'react';
 import { PaintApp } from '@/components/paint-app';
 import type { Dashboard } from '@/models/paintable-product-model';
@@ -10,17 +13,16 @@ type InitialData = { config: SiteConfig; dashboard: Dashboard; paintModel: Paint
 
 export function PaintAppLoader() {
   const [data, setData] = useState<InitialData | null>(null);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<FailureNotice | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
     Promise.all([
-      fetch('/api/v1/site/config', { signal: controller.signal, headers: { accept: 'application/json' } }),
-      fetch('/api/v1/dashboard', { signal: controller.signal, headers: { accept: 'application/json' } }),
-      fetch('/api/v1/market/paint-model', { signal: controller.signal, headers: { accept: 'application/schema+json' } }),
+      apiFetch('/api/v1/site/config', { signal: controller.signal, headers: { accept: 'application/json' } }),
+      apiFetch('/api/v1/dashboard', { signal: controller.signal, headers: { accept: 'application/json' } }),
+      apiFetch('/api/v1/market/paint-product-model', { signal: controller.signal, headers: { accept: 'application/schema+json' } }),
     ])
       .then(async ([config, dashboard, paintModel]) => {
-        if (!config.ok || !dashboard.ok || !paintModel.ok) throw new Error('Initial application load failed');
         return {
           config: await config.json() as SiteConfig,
           dashboard: await dashboard.json() as Dashboard,
@@ -30,7 +32,7 @@ export function PaintAppLoader() {
       .then(setData)
       .catch((reason) => {
         if (reason instanceof DOMException && reason.name === 'AbortError') return;
-        setError(true);
+        setError(failureNotice(__BOOTSTRAP_LABELS__.unavailable, reason));
       });
     return () => controller.abort();
   }, []);
@@ -39,15 +41,15 @@ export function PaintAppLoader() {
     return (
       <main className="grid min-h-screen place-items-center bg-background p-6 text-foreground">
         <section className="max-w-md rounded-[24px] border bg-card p-6 text-center shadow-sm">
-          <h1 className="text-lg font-semibold">Service local indisponible</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Démarrez Mini Paint Dex avec la commande de développement complète, puis rechargez cette page.</p>
+          <AppNotice notice={error} />
+          <p className="mt-2 text-sm text-muted-foreground">{__BOOTSTRAP_LABELS__.unavailableHelp}</p>
         </section>
       </main>
     );
   }
 
   if (!data) {
-    return <main className="grid min-h-screen place-items-center bg-background"><output className="size-8 animate-spin rounded-full border-2 border-primary border-t-transparent" aria-label="Chargement" /></main>;
+    return <main className="grid min-h-screen place-items-center bg-background"><output className="size-8 animate-spin rounded-full border-2 border-primary border-t-transparent" aria-label={__BOOTSTRAP_LABELS__.loading} /></main>;
   }
 
   return <PaintApp initialDashboard={data.dashboard} config={data.config} paintModel={data.paintModel} />;

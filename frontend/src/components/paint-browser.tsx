@@ -1,22 +1,25 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import { ChevronLeft, ChevronRight, ListFilter, Search, X } from 'lucide-react';
-import type { Paint, PaintFacetValue, PaintModelSchema } from '@/models/paint-model';
+import { ChevronLeft, ChevronRight, ListFilter, X } from 'lucide-react';
+import type { PaintCardModel, PaintProductSuggestion, PaintFacetValue, PaintModelSchema } from '@/models/paint-model';
 import type { SiteConfig } from '@/models/site-config-model';
 import type { PaintFilters } from '@/utils/paint-search';
 import { togglePaintFilter } from '@/utils/paint-search';
 import { configuredLabel, metadataLabel } from '@/utils/site-labels';
 
+import { PaintSearchCombobox } from './paint-search-combobox';
+
 export type FilterOptions = Record<string, PaintFacetValue[]>;
 
 type Props = {
-  paints: Paint[]; resultCount: number; offset: number; pageSize: number;
+  collection: string; revision: number; onSelectSuggestion: (suggestion: PaintProductSuggestion) => void;
+  paints: PaintCardModel[]; resultCount: number; offset: number; pageSize: number;
   filters: PaintFilters; setFilters: (filters: PaintFilters) => void;
   filterOptions: FilterOptions; paintModel: PaintModelSchema;
   query: string; setQuery: (value: string) => void;
   sort: string; setSort: (value: string) => void; loading: boolean;
   clearFilters: () => void; config: SiteConfig; onPage: (offset: number) => void;
-  renderPaint: (paint: Paint) => ReactNode;
+  renderPaint: (paint: PaintCardModel) => ReactNode;
 };
 
 function FilterCheckbox({ label, checked, mixed = false, count, onChange }: {
@@ -142,11 +145,8 @@ export function PaintBrowser(props: Props) {
     <aside aria-label={config.collection.filterAriaLabel} className="paint-filters-desktop">{panel}</aside>
     <section className="paint-results" aria-label={config.collection.resultsTitle} aria-busy={loading}>
       <div className="paint-search-bar">
-        <label className="relative min-w-0 flex-1">
-          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <input className="paint-search-input" value={query} onChange={event => setQuery(event.target.value)}
-            placeholder={config.header.searchPlaceholder} aria-label={config.header.searchAriaLabel} />
-        </label>
+        <PaintSearchCombobox key={props.collection} query={query} setQuery={setQuery} filters={filters} collection={props.collection}
+          revision={props.revision} config={config} onSelect={props.onSelectSuggestion} />
         <button ref={opener} type="button" className="filter-drawer-opener" onClick={() => setFiltersOpen(true)} aria-haspopup="dialog">
           <ListFilter size={17} />{config.collection.filters}{activeCount > 0 && <span>{activeCount}</span>}
         </button>

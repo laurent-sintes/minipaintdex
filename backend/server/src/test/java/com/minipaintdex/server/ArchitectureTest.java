@@ -58,6 +58,17 @@ class ArchitectureTest {
             });
 
     @ArchTest
+    static final ArchRule lucene_is_confined_to_its_adapter = noClasses()
+            .that().resideOutsideOfPackage("com.minipaintdex.adapter.lucene..")
+            .should().dependOnClassesThat().resideInAPackage("org.apache.lucene..");
+
+    @ArchTest
+    static final ArchRule lucene_does_not_read_workshop_or_storage = noClasses()
+            .that().resideInAPackage("com.minipaintdex.adapter.lucene..")
+            .should().dependOnClassesThat().resideInAnyPackage("..workshop..", "com.minipaintdex.adapter.file..")
+            .orShould().dependOnClassesThat().haveSimpleName("SnapshotRepository");
+
+    @ArchTest
     static final ArchRule domain_is_framework_independent = noClasses()
             .that().resideInAPackage("com.minipaintdex.domain..")
             .should().dependOnClassesThat().resideInAnyPackage(

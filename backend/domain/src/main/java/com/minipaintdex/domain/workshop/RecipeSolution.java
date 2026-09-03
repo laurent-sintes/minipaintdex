@@ -6,37 +6,37 @@ import java.util.Objects;
 public record RecipeSolution(
         RecipeSolutionType type,
         String guideSlotId,
-        String paintId,
+        String paintProductId,
         List<PaintComponent> components,
         String instructions) {
     public RecipeSolution {
         type = Objects.requireNonNull(type, "type is required.");
         guideSlotId = DomainFields.optional(guideSlotId);
-        paintId = DomainFields.optional(paintId);
+        paintProductId = DomainFields.optional(paintProductId);
         components = components == null ? List.of() : List.copyOf(components);
         instructions = DomainFields.optional(instructions);
         switch (type) {
             case SINGLE_PAINT -> {
-                if (paintId == null) throw DomainFields.invalid("single_paint requires paintId.");
+                if (paintProductId == null) throw DomainFields.invalid("single_paint requires paintProductId.");
                 if (!components.isEmpty()) throw DomainFields.invalid("single_paint cannot contain components.");
             }
             case MIXTURE, LAYER_STACK -> {
                 if (components.isEmpty()) throw DomainFields.invalid(type.id() + " requires components.");
-                if (paintId != null) throw DomainFields.invalid(type.id() + " uses components instead of paintId.");
+                if (paintProductId != null) throw DomainFields.invalid(type.id() + " uses components instead of paintProductId.");
             }
             case TECHNIQUE -> {
                 if (instructions == null) throw DomainFields.invalid("technique requires instructions.");
-                if (paintId != null) throw DomainFields.invalid("technique uses optional components instead of paintId.");
+                if (paintProductId != null) throw DomainFields.invalid("technique uses optional components instead of paintProductId.");
             }
         }
         if (type == RecipeSolutionType.MIXTURE
-                && components.stream().map(PaintComponent::paintId).distinct().count() != components.size()) {
+                && components.stream().map(PaintComponent::paintProductId).distinct().count() != components.size()) {
             throw DomainFields.invalid("mixture cannot contain the same paint more than once.");
         }
     }
 
     public List<String> referencedPaintIds() {
-        if (paintId != null) return List.of(paintId);
-        return components.stream().map(PaintComponent::paintId).distinct().toList();
+        if (paintProductId != null) return List.of(paintProductId);
+        return components.stream().map(PaintComponent::paintProductId).distinct().toList();
     }
 }

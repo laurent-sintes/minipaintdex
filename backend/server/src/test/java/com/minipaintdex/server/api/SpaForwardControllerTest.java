@@ -16,7 +16,7 @@ class SpaForwardControllerTest {
     @ValueSource(strings = {
             "/about",
             "/shopping",
-            "/market/paints",
+            "/market/paint-products",
             "/market/paintable-products/reichbusters-reloaded",
             "/workshop/painting-projects/project/products/product/items/item"
     })

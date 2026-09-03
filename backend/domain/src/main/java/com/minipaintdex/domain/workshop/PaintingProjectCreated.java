@@ -4,13 +4,13 @@ import java.time.Instant;
 
 public record PaintingProjectCreated(
         String paintingProjectId, String workshopId, String paintableProductId,
-        String name, int paintableItemCount, Instant occurredAt) implements PaintingProjectEvent {
+        String name, int paintableCount, Instant occurredAt) implements PaintingProjectEvent {
     public PaintingProjectCreated {
         paintingProjectId = DomainFields.id(paintingProjectId, "paintingProjectId");
         workshopId = DomainFields.id(workshopId, "workshopId");
         paintableProductId = DomainFields.id(paintableProductId, "paintableProductId");
         name = DomainFields.required(name, "name");
-        if (paintableItemCount < 1) throw DomainFields.invalid("paintableItemCount must be positive.");
+        if (paintableCount < 1) throw DomainFields.invalid("paintableCount must be positive.");
         occurredAt = DomainFields.required(occurredAt, "occurredAt");
     }
     @Override public String eventType() { return "painting_project.created"; }

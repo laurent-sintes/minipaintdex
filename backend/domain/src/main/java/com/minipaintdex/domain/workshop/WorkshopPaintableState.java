@@ -1,0 +1,29 @@
+package com.minipaintdex.domain.workshop;
+
+import java.time.Instant;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.Map;
+
+public record WorkshopPaintableState(
+        String id,
+        String paintableComponentId,
+        String paintingProjectId,
+        String displayName,
+        Map<WorkflowStage, WorkflowStageStatus> workflow,
+        WorkflowStage currentStage,
+        boolean completed,
+        String recipeId,
+        int recipeVersion,
+        Instant updatedAt) {
+
+    public WorkshopPaintableState {
+        workflow = Collections.unmodifiableMap(new EnumMap<>(workflow));
+    }
+
+    public static Map<WorkflowStage, WorkflowStageStatus> emptyWorkflow() {
+        var result = new EnumMap<WorkflowStage, WorkflowStageStatus>(WorkflowStage.class);
+        for (var stage : WorkflowStage.values()) result.put(stage, WorkflowStageStatus.PENDING);
+        return result;
+    }
+}

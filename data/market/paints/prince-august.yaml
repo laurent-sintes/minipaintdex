@@ -1,5 +1,582 @@
 schema_version: 1
 brand: Prince August
+paint_usage_guides:
+- brand: Prince August
+  id: pau-usage-0ffc324872416b73
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Auxiliary product (Retardateur) used to modify, protect or support the
+      painting process.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - CLASSIC
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: generic_template
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Auxiliary product (Retardateur) used to modify, protect or support
+        the painting process.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://www.prince-august.net/peintures/classic/196-retardateur
+  title: CLASSIC
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Produit auxiliaire (Retardateur) destiné à modifier, protéger ou faciliter
+        le travail de peinture.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Prince August
+  id: pau-usage-317aa817d7e22ba1
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Auxiliary product (Médium Mat) used to modify, protect or support the
+      painting process.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - CLASSIC
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: generic_template
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Auxiliary product (Médium Mat) used to modify, protect or support the
+        painting process.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://www.prince-august.net/peintures/classic/189-medium-mat
+  title: CLASSIC
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Produit auxiliaire (Médium Mat) destiné à modifier, protéger ou faciliter
+        le travail de peinture.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Prince August
+  id: pau-usage-3262c88fe32778db
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Auxiliary product (Mastic plastique) used to modify, protect or support
+      the painting process.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - CLASSIC
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: generic_template
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Auxiliary product (Mastic plastique) used to modify, protect or support
+        the painting process.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://www.prince-august.net/peintures/classic/199-mastic-plastique
+  title: CLASSIC
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Produit auxiliaire (Mastic plastique) destiné à modifier, protéger
+        ou faciliter le travail de peinture.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Prince August
+  id: pau-usage-386a790d32e94f1d
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Protégez de manière optimale vos réalisations avec ce vernis qui…
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: mul
+  ranges:
+  - CLASSIC
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Protégez de manière optimale vos réalisations avec ce vernis qui…
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://www.prince-august.net/peintures/classic/194-vernis-satine
+  title: CLASSIC
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Protégez de manière optimale vos réalisations avec ce vernis qui…
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Prince August
+  id: pau-usage-3ebe82ddbedb71b1
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Il fluidifie vos teintes. Versez quelques gouttes sur une palette…
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: mul
+  ranges:
+  - CLASSIC
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Il fluidifie vos teintes. Versez quelques gouttes sur une palette…
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://www.prince-august.net/peintures/classic/200-diluant
+  title: CLASSIC
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Il fluidifie vos teintes. Versez quelques gouttes sur une palette…
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Prince August
+  id: pau-usage-48cdc384fe1d7386
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Auxiliary product (Médium Brillant) used to modify, protect or support
+      the painting process.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - CLASSIC
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: generic_template
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Auxiliary product (Médium Brillant) used to modify, protect or support
+        the painting process.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://www.prince-august.net/peintures/classic/190-medium-brillant
+  title: CLASSIC
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Produit auxiliaire (Médium Brillant) destiné à modifier, protéger ou
+        faciliter le travail de peinture.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Prince August
+  id: pau-usage-5feaacaf80683c6d
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Protégez de manière optimale vos réalisations avec ce vernis brillant…
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: mul
+  ranges:
+  - CLASSIC
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Protégez de manière optimale vos réalisations avec ce vernis brillant…
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://www.prince-august.net/peintures/classic/193-vernis-brillant
+  title: CLASSIC
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Protégez de manière optimale vos réalisations avec ce vernis brillant…
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Prince August
+  id: pau-usage-836dfec6dafda80a
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Protégez de manière optimale vos réalisations tout en apportant un…
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: mul
+  ranges:
+  - CLASSIC
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Protégez de manière optimale vos réalisations tout en apportant un…
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://www.prince-august.net/peintures/classic/192-vernis-mat
+  title: CLASSIC
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Protégez de manière optimale vos réalisations tout en apportant un…
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Prince August
+  id: pau-usage-9b51197143dd7d6e
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Auxiliary product (Médium à Craqueler) used to modify, protect or support
+      the painting process.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - CLASSIC
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: generic_template
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Auxiliary product (Médium à Craqueler) used to modify, protect or support
+        the painting process.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://www.prince-august.net/peintures/classic/198-medium-a-craqueler
+  title: CLASSIC
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Produit auxiliaire (Médium à Craqueler) destiné à modifier, protéger
+        ou faciliter le travail de peinture.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Prince August
+  id: pau-usage-b6342b0e58d9da4c
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Auxiliary product (Médium Glacis) used to modify, protect or support
+      the painting process.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - CLASSIC
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: generic_template
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Auxiliary product (Médium Glacis) used to modify, protect or support
+        the painting process.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://www.prince-august.net/peintures/classic/195-medium-glacis
+  title: CLASSIC
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Produit auxiliaire (Médium Glacis) destiné à modifier, protéger ou
+        faciliter le travail de peinture.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Prince August
+  id: pau-usage-d5c5104def7813c6
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Auxiliary product (Masque Liquide) used to modify, protect or support
+      the painting process.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - CLASSIC
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: generic_template
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Auxiliary product (Masque Liquide) used to modify, protect or support
+        the painting process.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://www.prince-august.net/peintures/classic/197-masque-liquide
+  title: CLASSIC
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Produit auxiliaire (Masque Liquide) destiné à modifier, protéger ou
+        faciliter le travail de peinture.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Prince August
+  id: pau-usage-d9c97bbe39dce0cf
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Auxiliary product (Médium Métal) used to modify, protect or support the
+      painting process.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - CLASSIC
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: generic_template
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Auxiliary product (Médium Métal) used to modify, protect or support
+        the painting process.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://www.prince-august.net/peintures/classic/191-medium-metal
+  title: CLASSIC
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Produit auxiliaire (Médium Métal) destiné à modifier, protéger ou faciliter
+        le travail de peinture.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
 paints:
 - brand: Prince August
   brand_aliases: [
@@ -81,17 +658,8 @@ paints:
     url: https://www.prince-august.net/peintures/classic/199-mastic-plastique
   tags:
   - CLASSIC
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Auxiliary product (Mastic plastique) used to modify, protect or support
-      the painting process.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - pau-usage-3262c88fe32778db
   verified_at: '2026-09-01'
   volume_ml: 17
   warnings:
@@ -176,17 +744,8 @@ paints:
     url: https://www.prince-august.net/peintures/classic/190-medium-brillant
   tags:
   - CLASSIC
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Auxiliary product (Médium Brillant) used to modify, protect or support
-      the painting process.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - pau-usage-48cdc384fe1d7386
   verified_at: '2026-09-01'
   volume_ml: 17
   warnings:
@@ -271,16 +830,8 @@ paints:
     url: https://www.prince-august.net/peintures/classic/193-vernis-brillant
   tags:
   - CLASSIC
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Protégez de manière optimale vos réalisations avec ce vernis brillant…
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - pau-usage-5feaacaf80683c6d
   verified_at: '2026-09-01'
   volume_ml: 17
   warnings:
@@ -366,16 +917,8 @@ paints:
     url: https://www.prince-august.net/peintures/classic/192-vernis-mat
   tags:
   - CLASSIC
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Protégez de manière optimale vos réalisations tout en apportant un…
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - pau-usage-836dfec6dafda80a
   verified_at: '2026-09-01'
   volume_ml: 17
   warnings:
@@ -460,17 +1003,8 @@ paints:
     url: https://www.prince-august.net/peintures/classic/191-medium-metal
   tags:
   - CLASSIC
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Auxiliary product (Médium Métal) used to modify, protect or support the
-      painting process.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - pau-usage-d9c97bbe39dce0cf
   verified_at: '2026-09-01'
   volume_ml: 17
   warnings:
@@ -555,16 +1089,8 @@ paints:
     url: https://www.prince-august.net/peintures/classic/194-vernis-satine
   tags:
   - CLASSIC
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Protégez de manière optimale vos réalisations avec ce vernis qui…
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - pau-usage-386a790d32e94f1d
   verified_at: '2026-09-01'
   volume_ml: 17
   warnings:
@@ -649,17 +1175,8 @@ paints:
     url: https://www.prince-august.net/peintures/classic/197-masque-liquide
   tags:
   - CLASSIC
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Auxiliary product (Masque Liquide) used to modify, protect or support
-      the painting process.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - pau-usage-d5c5104def7813c6
   verified_at: '2026-09-01'
   volume_ml: 17
   warnings:
@@ -744,16 +1261,8 @@ paints:
     url: https://www.prince-august.net/peintures/classic/200-diluant
   tags:
   - CLASSIC
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Il fluidifie vos teintes. Versez quelques gouttes sur une palette…
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - pau-usage-3ebe82ddbedb71b1
   verified_at: '2026-09-01'
   volume_ml: 17
   warnings:
@@ -838,17 +1347,8 @@ paints:
     url: https://www.prince-august.net/peintures/classic/189-medium-mat
   tags:
   - CLASSIC
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Auxiliary product (Médium Mat) used to modify, protect or support the
-      painting process.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - pau-usage-317aa817d7e22ba1
   verified_at: '2026-09-01'
   volume_ml: 17
   warnings:
@@ -933,17 +1433,8 @@ paints:
     url: https://www.prince-august.net/peintures/classic/195-medium-glacis
   tags:
   - CLASSIC
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Auxiliary product (Médium Glacis) used to modify, protect or support
-      the painting process.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - pau-usage-b6342b0e58d9da4c
   verified_at: '2026-09-01'
   volume_ml: 17
   warnings:
@@ -1032,17 +1523,8 @@ paints:
     url: https://www.prince-august.net/peintures/classic/196-retardateur
   tags:
   - CLASSIC
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Auxiliary product (Retardateur) used to modify, protect or support the
-      painting process.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - pau-usage-0ffc324872416b73
   verified_at: '2026-09-01'
   volume_ml: 17
   warnings:
@@ -1127,17 +1609,8 @@ paints:
     url: https://www.prince-august.net/peintures/classic/198-medium-a-craqueler
   tags:
   - CLASSIC
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Auxiliary product (Médium à Craqueler) used to modify, protect or support
-      the painting process.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - pau-usage-9b51197143dd7d6e
   verified_at: '2026-09-01'
   volume_ml: 17
   warnings:

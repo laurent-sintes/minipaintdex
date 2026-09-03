@@ -3,7 +3,7 @@ package com.minipaintdex.adapter.file;
 import com.minipaintdex.application.document.StructuredDocument;
 import com.minipaintdex.domain.event.Actor;
 import com.minipaintdex.domain.event.EventEnvelope;
-import com.minipaintdex.domain.workshop.WorkshopItemCommentAdded;
+import com.minipaintdex.domain.workshop.WorkshopPaintableCommentAdded;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -29,6 +29,27 @@ class FileMiniPaintDexRepositoryTest {
     Path root;
 
     @Test
+    void keepsSharedGuidesAcrossPaintWritesAndRestart() throws IOException {
+        createFixture();
+        var repository = new FileMiniPaintDexRepository(layout());
+        repository.initialize();
+        var before = repository.load();
+        var raw = new LinkedHashMap<String, Object>();
+        raw.put("schema_version", 1); raw.put("id", "brand-usage"); raw.put("brand", "Brand");
+        raw.put("title", "Range"); raw.put("revision", 1); raw.put("ranges", List.of("Range"));
+        raw.put("original_language", "en"); raw.put("knowledge_status", "generic-template"); raw.put("review_required", true);
+        raw.put("original", Map.of("summary", "Usage", "steps", List.of("Shake"), "tips", List.of("Care")));
+        var guide = document(raw);
+        repository.replacePaintProductCatalog(before.paintProducts(), before.paintCatalogEditions(), List.of(guide));
+        repository.replacePaintProducts(before.paintProducts());
+        assertEquals(List.of(guide), repository.load().paintUsageGuides());
+        var reopened = new FileMiniPaintDexRepository(layout());
+        reopened.initialize();
+        assertEquals(List.of(guide), reopened.load().paintUsageGuides());
+        assertEquals(before.events(), reopened.load().events());
+    }
+
+    @Test
     void loadsAnIsolatedFileRepository() throws IOException {
         createFixture();
         var repository = new FileMiniPaintDexRepository(layout());
@@ -36,11 +57,52 @@ class FileMiniPaintDexRepositoryTest {
 
         var snapshot = repository.load();
 
-        assertEquals(1, snapshot.marketPaints().size());
+        assertEquals(1, snapshot.paintProducts().size());
         assertEquals(1, snapshot.paintableProducts().size());
         assertEquals(1, snapshot.marketPaintingGuides().size());
         assertEquals(5, snapshot.events().size());
         assertEquals("workshop.created", snapshot.events().getFirst().eventType());
+    }
+
+    @Test
+    void replaysEqualTimestampEventsInLedgerOrderRatherThanIdentifierOrder() throws IOException {
+        createFixture();
+        var ledger = root.resolve("data/ledger/events/2026-08.jsonl");
+        Files.writeString(ledger, Files.readString(ledger)
+                .replaceAll("2026-08-30T[0-9:]+Z", "2026-08-30T10:00:00Z")
+                .replace("01KTESTPROJECT000000000001", "zz-project-created")
+                .replace("01KTESTPROJECT000000000002", "aa-project-activated"));
+        var repository = new FileMiniPaintDexRepository(layout());
+
+        repository.initialize();
+
+        assertEquals(List.of("workshop.created", "painting_project.created", "painting_project.status_changed",
+                        "workshop.painting_project_registered", "workshop_item.added"),
+                repository.load().events().stream().map(EventEnvelope::eventType).toList());
+    }
+
+    @Test
+    void preservesAppendOrderInPublishedSnapshotAndAfterRestart() throws IOException {
+        createFixture();
+        var repository = new FileMiniPaintDexRepository(layout());
+        repository.initialize();
+        var existingIds = repository.load().events().stream().map(EventEnvelope::eventId).toList();
+        var recordedAt = Instant.parse("2026-08-30T09:00:00Z");
+        var first = new EventEnvelope("zz-first-comment", 1, 2, recordedAt,
+                new Actor("user", "owner"), "correlation", null, "first-comment",
+                new WorkshopPaintableCommentAdded("ws-1", "paint-game", "First", recordedAt));
+        var second = new EventEnvelope("aa-second-comment", 1, 3, recordedAt,
+                new Actor("user", "owner"), "correlation", null, "second-comment",
+                new WorkshopPaintableCommentAdded("ws-1", "paint-game", "Second", recordedAt));
+        var expectedIds = new ArrayList<>(existingIds);
+        expectedIds.addAll(List.of(first.eventId(), second.eventId()));
+
+        repository.appendAll(List.of(first, second));
+
+        assertEquals(expectedIds, repository.load().events().stream().map(EventEnvelope::eventId).toList());
+        var restarted = new FileMiniPaintDexRepository(layout());
+        restarted.initialize();
+        assertEquals(expectedIds, restarted.load().events().stream().map(EventEnvelope::eventId).toList());
     }
 
     @Test
@@ -50,12 +112,12 @@ class FileMiniPaintDexRepositoryTest {
         repository.initialize();
         var edition = document(Map.of("schema_version", 1, "id", "brand-2019", "brand", "Brand", "title", "Catalogue",
                 "edition_label", "2019", "ranges", List.of("Range"), "source_urls", List.of("https://example.com/catalog.pdf")));
-        repository.replaceMarketPaintCatalog(repository.load().marketPaints(), List.of(edition));
-        repository.replaceMarketPaints(repository.load().marketPaints());
+        repository.replacePaintProductCatalog(repository.load().paintProducts(), List.of(edition), java.util.List.of());
+        repository.replacePaintProducts(repository.load().paintProducts());
         var restarted = new FileMiniPaintDexRepository(layout());
         restarted.initialize();
         assertEquals(List.of(edition), restarted.load().paintCatalogEditions());
-        assertEquals(1, restarted.load().marketPaints().size());
+        assertEquals(1, restarted.load().paintProducts().size());
     }
 
     @Test
@@ -64,7 +126,7 @@ class FileMiniPaintDexRepositoryTest {
         var repository = new FileMiniPaintDexRepository(layout());
         repository.initialize();
         List<Callable<Integer>> reads = IntStream.range(0, 32)
-                .mapToObj(ignored -> (Callable<Integer>) () -> repository.load().marketPaints().size())
+                .mapToObj(ignored -> (Callable<Integer>) () -> repository.load().paintProducts().size())
                 .toList();
 
         try (var executor = Executors.newFixedThreadPool(8)) {
@@ -81,12 +143,12 @@ class FileMiniPaintDexRepositoryTest {
     }
 
     @Test
-    void atomicallyReplacesTheMarketPaintCatalog() throws IOException {
+    void atomicallyReplacesThePaintProductCatalog() throws IOException {
         createFixture();
         var repository = new FileMiniPaintDexRepository(layout());
         repository.initialize();
 
-        repository.replaceMarketPaints(List.of(document(Map.of(
+        repository.replacePaintProducts(List.of(document(Map.of(
                 "schema_version", 1, "id", "paint",
                 "brand", "Brand",
                 "manufacturer", "Maker",
@@ -100,7 +162,7 @@ class FileMiniPaintDexRepositoryTest {
                 "name", "New Paint", "manufacturer_image", missingImage()))));
 
         var snapshot = repository.load();
-        assertEquals("New Paint", text(snapshot.marketPaints().getFirst(), "name"));
+        assertEquals("New Paint", text(snapshot.paintProducts().getFirst(), "name"));
         var stored = Files.readString(root.resolve("data/market/paints/brand.yaml"));
         assertTrue(stored.contains("schema_version: 1"));
         assertTrue(stored.contains("brand: Brand"));
@@ -108,7 +170,7 @@ class FileMiniPaintDexRepositoryTest {
     }
 
     @Test
-    void rewritesOnlyTheMarketPaintBrandThatChanged() throws IOException {
+    void rewritesOnlyThePaintProductBrandThatChanged() throws IOException {
         createFixture();
         write("data/market/paints/other-brand.yaml", """
                 schema_version: 1
@@ -140,7 +202,7 @@ class FileMiniPaintDexRepositoryTest {
         repository.initialize();
         var otherBrandPath = root.resolve("data/market/paints/other-brand.yaml");
         var otherBrandBefore = Files.readString(otherBrandPath);
-        var paints = new ArrayList<>(repository.load().marketPaints());
+        var paints = new ArrayList<>(repository.load().paintProducts());
         paints.removeIf(paint -> "paint".equals(text(paint, "id")));
         paints.add(document(Map.of(
                 "schema_version", 1, "id", "paint", "brand", "Brand", "manufacturer", "Maker", "range", "Range",
@@ -152,10 +214,10 @@ class FileMiniPaintDexRepositoryTest {
                         "medium", "acrylic"),
                 "name", "Updated Paint", "manufacturer_image", missingImage())));
 
-        repository.replaceMarketPaints(paints);
+        repository.replacePaintProducts(paints);
 
         assertEquals(otherBrandBefore, Files.readString(otherBrandPath));
-        assertEquals("Updated Paint", repository.load().marketPaints().stream()
+        assertEquals("Updated Paint", repository.load().paintProducts().stream()
                 .filter(paint -> "paint".equals(text(paint, "id")))
                 .map(paint -> text(paint, "name"))
                 .findFirst().orElseThrow());
@@ -170,13 +232,13 @@ class FileMiniPaintDexRepositoryTest {
         var event = new EventEnvelope(
                 "01KTESTCOMMENT000000000000", 1, 2, now,
                 new Actor("user", "owner"), "correlation", null, "same-command",
-                new WorkshopItemCommentAdded("ws-1", "paint-game", "Note", now));
+                new WorkshopPaintableCommentAdded("ws-1", "paint-game", "Note", now));
 
         repository.append(event);
         var duplicate = repository.append(new EventEnvelope(
                 "01KTESTCOMMENT000000000001", 1, 2, now,
                 new Actor("user", "owner"), "other-correlation", null, "same-command",
-                new WorkshopItemCommentAdded("ws-1", "paint-game", "Note", now)));
+                new WorkshopPaintableCommentAdded("ws-1", "paint-game", "Note", now)));
 
         assertEquals(event.eventId(), duplicate.eventId());
         assertEquals(6, repository.load().events().size());
@@ -191,7 +253,7 @@ class FileMiniPaintDexRepositoryTest {
         var stale = new EventEnvelope(
                 "01KTESTSTALE00000000000000", 1, 3, now,
                 new Actor("user", "owner"), "correlation", null, "stale-command",
-                new WorkshopItemCommentAdded("ws-1", "paint-game", "Note", now));
+                new WorkshopPaintableCommentAdded("ws-1", "paint-game", "Note", now));
 
         assertThrows(FileStorageException.class, () -> repository.append(stale));
         assertEquals(5, repository.load().events().size());
@@ -241,12 +303,12 @@ class FileMiniPaintDexRepositoryTest {
                         observed_at: '2026-09-01'
                 """);
 
-        assertEquals("paint", text(repository.load().marketPaints().getFirst(), "id"));
+        assertEquals("paint", text(repository.load().paintProducts().getFirst(), "id"));
         var refresh = repository.refreshIfChanged();
 
         assertTrue(refresh.changed());
         assertEquals("ready", refresh.status().state());
-        assertEquals("Refreshed Paint", text(repository.load().marketPaints().getFirst(), "name"));
+        assertEquals("Refreshed Paint", text(repository.load().paintProducts().getFirst(), "name"));
     }
 
     @Test
@@ -278,8 +340,8 @@ class FileMiniPaintDexRepositoryTest {
 
         assertFalse(refresh.changed());
         assertEquals("degraded", refresh.status().state());
-        assertEquals("paint", text(repository.load().marketPaints().getFirst(), "id"));
-        assertThrows(FileStorageException.class, () -> repository.replaceWorkshopPaints(List.of()));
+        assertEquals("paint", text(repository.load().paintProducts().getFirst(), "id"));
+        assertThrows(FileStorageException.class, () -> repository.replacePaintProducts(List.of()));
     }
 
     private void createFixture() throws IOException {
@@ -394,7 +456,6 @@ class FileMiniPaintDexRepositoryTest {
         return new FileRepositoryLayout(
                 root.resolve("data/site/fr.yaml"),
                 root.resolve("data/market/paints"),
-                root.resolve("data/workshop/paints.yaml"),
                 root.resolve("data/workshop/shopping.yaml"),
                 root.resolve("data/market/paintable-products"),
                 root.resolve("data/market/painting-guides"),

@@ -1,7 +1,7 @@
 # Photos de mes peintures à importer
 
 Dépose ici les photos des pots à ajouter à ton atelier. Ce dossier cible uniquement
-l’inventaire `workshop.paints`, pas le scraping du référentiel marché.
+les pots physiques `workshop.paint-pots`, pas le scraping du référentiel marché.
 
 ## Une photo exploitable
 
@@ -15,3 +15,6 @@ Après vérification de l’import, les photos sont déplacées sans suppression
 dans `../archive/<date>/<import-id>/`. Les doublons confirmés vont dans `duplicates/`
 sans modifier les quantités. Les photos en attente de clarification restent ici.
 Les analyses et manifestes de traçabilité sont conservés dans `../runs/<import-id>/`.
+Pour photographier à nouveau un pot déjà enregistré, indique lequel : l'import doit conserver
+son identité, pas ajouter une unité. Les photos personnelles se rattachent au pot, indépendamment
+du visuel catalogue du fabricant.

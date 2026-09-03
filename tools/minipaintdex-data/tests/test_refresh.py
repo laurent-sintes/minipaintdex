@@ -25,6 +25,17 @@ def paint(identifier: str, brand: str, name: str = "Paint") -> dict:
 
 
 class RefreshTests(unittest.TestCase):
+    def test_refresh_preserves_shared_guides_without_recreating_identical_text(self):
+        previous = paint("a-one", "The Army Painter") | {"usage_guide_ids": ["shared"]}
+        content = {"summary": "Instructions", "steps": ["Shake"], "tips": ["Care"]}
+        catalog = {"paints": [previous], "paint_usage_guides": [{"id": "shared", "original": content}]}
+        incoming = paint("a-one", "The Army Painter") | {"usage_instructions": content}
+        result = build_refresh_changeset(catalog, {"paints": [incoming]}, brand="all", verified_at="2026-01-01")
+        self.assertEqual([], result["operations"])
+        incoming["usage_instructions"] = content | {"summary": "Changed instructions"}
+        with self.assertRaisesRegex(ValueError, "revision review"):
+            build_refresh_changeset(catalog, {"paints": [incoming]}, brand="all")
+
     @staticmethod
     def coverage(**overrides):
         return {"brand": "The Army Painter", "complete": True, "scope": "current", "ranges": ["Warpaints Fanatic"],

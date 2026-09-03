@@ -149,6 +149,8 @@ def canonical_paint(record: dict[str, Any], *, verified_at: str | None = None) -
         "source_observation": source_observation(record),
         "mapping_report": mapping_report,
     }
+    if record.get("usage_guide_ids"):
+        paint["usage_guide_ids"] = record["usage_guide_ids"]
     if record.get("catalog_memberships"):
         paint["catalog_memberships"] = record["catalog_memberships"]
     return paint
@@ -159,7 +161,6 @@ def build_paint_changeset(
     *,
     source: str,
     verified_at: str | None = None,
-    include_workshop: bool = True,
 ) -> dict[str, Any]:
     records = payload.get("paints", payload) if isinstance(payload, dict) else payload
     if not isinstance(records, list):
@@ -168,7 +169,7 @@ def build_paint_changeset(
         {
             "action": "upsert",
             "record": canonical_paint(record, verified_at=verified_at),
-            "workshop_quantity_delta": _quantity(record.get("quantity", 1)) if include_workshop else 0,
+            "workshop_quantity_delta": 0,
         }
         for record in records
     ]
@@ -180,6 +181,8 @@ def build_paint_changeset(
     }
     if isinstance(payload, dict) and "catalog_editions" in payload:
         changeset["catalog_editions"] = payload["catalog_editions"]
+    if isinstance(payload, dict) and "paint_usage_guides" in payload:
+        changeset["paint_usage_guides"] = payload["paint_usage_guides"]
     errors = validate_changeset(changeset)
     if errors:
         raise ValueError("Invalid generated change set: " + "; ".join(errors))
@@ -198,10 +201,13 @@ def validate_changeset(changeset: Any, *, allow_empty: bool = False) -> list[str
         errors.append(f"unsupported kind: {kind}")
         return errors
     if kind == "market_paints":
+        from .paint_usage_guides import validate_guides
+        usage_guides = changeset.get("paint_usage_guides", [])
+        errors.extend(validate_guides(usage_guides))
         editions = changeset.get("catalog_editions", [])
         errors.extend(validate_editions(editions))
         operations = changeset.get("operations")
-        if not isinstance(operations, list) or (not operations and not allow_empty and not editions):
+        if not isinstance(operations, list) or (not operations and not allow_empty and not editions and not usage_guides):
             errors.append("operations must be a non-empty list")
             return errors
         seen: set[str] = set()
@@ -212,7 +218,7 @@ def validate_changeset(changeset: Any, *, allow_empty: bool = False) -> list[str
                 continue
             quantity_delta = operation.get("workshop_quantity_delta", 0)
             if not isinstance(quantity_delta, int) or quantity_delta < 0:
-                errors.append(f"{location}.workshop_quantity_delta must be a non-negative integer")
+                errors.append(f"{location}.workshop_quantity_delta must be zero; import identified paint pots separately")
             record = operation.get("record")
             if not isinstance(record, dict):
                 errors.append(f"{location}.record must be an object")
@@ -246,7 +252,7 @@ def validate_changeset(changeset: Any, *, allow_empty: bool = False) -> list[str
                 except ValueError as error:
                     errors.append(str(error))
             roles = set(profile.get("roles", [])) if isinstance(profile, dict) else set()
-            if operation.get("action") in {"upsert", "rekey"} and roles.intersection(INSTRUCTION_ROLES):
+            if operation.get("action") in {"upsert", "rekey"} and roles.intersection(INSTRUCTION_ROLES) and not record.get("usage_guide_ids"):
                 instructions = record.get("usage_instructions")
                 if not isinstance(instructions, dict) or not _text(instructions.get("summary")):
                     errors.append(f"{location}.record.usage_instructions.summary is required for technical paint")

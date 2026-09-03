@@ -3,6 +3,10 @@ package com.minipaintdex.adapter.file;
 import com.minipaintdex.domain.event.Actor;
 import com.minipaintdex.domain.event.DomainEvent;
 import com.minipaintdex.domain.event.EventEnvelope;
+import com.minipaintdex.domain.workshop.PaintPotEvent.*;
+import com.minipaintdex.domain.workshop.PaintPotCondition;
+import com.minipaintdex.domain.workshop.PaintPotRemainingLevel;
+import com.minipaintdex.domain.workshop.PaintPotPossession;
 import com.minipaintdex.domain.workshop.WorkflowStage;
 import com.minipaintdex.domain.workshop.PaintComponent;
 import com.minipaintdex.domain.workshop.PaintingProjectCreated;
@@ -11,16 +15,16 @@ import com.minipaintdex.domain.workshop.PaintingProjectStatus;
 import com.minipaintdex.domain.workshop.PaintingProjectStatusChanged;
 import com.minipaintdex.domain.workshop.RecipeSolution;
 import com.minipaintdex.domain.workshop.RecipeSolutionType;
-import com.minipaintdex.domain.workshop.ShoppingItemStatusChanged;
+import com.minipaintdex.domain.workshop.ShoppingListEntryCheckedChanged;
 import com.minipaintdex.domain.workshop.WorkflowStageCompleted;
 import com.minipaintdex.domain.workshop.WorkflowStageReopened;
 import com.minipaintdex.domain.workshop.WorkflowStageSkipped;
 import com.minipaintdex.domain.workshop.WorkflowStageStarted;
 import com.minipaintdex.domain.workshop.WorkshopCreated;
-import com.minipaintdex.domain.workshop.WorkshopItemAdded;
-import com.minipaintdex.domain.workshop.WorkshopItemCommentAdded;
-import com.minipaintdex.domain.workshop.WorkshopItemPhotoAdded;
-import com.minipaintdex.domain.workshop.WorkshopItemRecipeAssigned;
+import com.minipaintdex.domain.workshop.WorkshopPaintableAdded;
+import com.minipaintdex.domain.workshop.WorkshopPaintableCommentAdded;
+import com.minipaintdex.domain.workshop.WorkshopPaintablePhotoAdded;
+import com.minipaintdex.domain.workshop.WorkshopPaintableRecipeAssigned;
 import com.minipaintdex.domain.workshop.WorkshopRecipeActivated;
 import com.minipaintdex.domain.workshop.WorkshopRecipeArchived;
 import com.minipaintdex.domain.workshop.WorkshopRecipeCreated;
@@ -39,10 +43,10 @@ public final class DomainEventCodec {
         var actor = map(entry.get("actor"));
         var eventType = text(entry.get("event_type"));
         var aggregateId = text(entry.get("aggregate_id"));
-        var projectId = nullable(entry.get("project_id"));
+        var paintingProjectId = nullable(entry.get("project_id"));
         var occurredAt = instant(entry.get("occurred_at"));
         var payload = map(entry.get("payload"));
-        var event = decodeEvent(eventType, aggregateId, projectId, occurredAt, payload);
+        var event = decodeEvent(eventType, aggregateId, paintingProjectId, occurredAt, payload);
         var schemaVersion = number(entry.getOrDefault("schema_version", 1));
         if (schemaVersion != 1) {
             throw new FileStorageException("Unsupported domain event schema version: " + schemaVersion, null);
@@ -50,7 +54,7 @@ public final class DomainEventCodec {
         if (!event.aggregateType().equals(text(entry.get("aggregate_type")))) {
             throw new FileStorageException("Stored aggregate_type does not match event_type " + eventType, null);
         }
-        if (!Objects.equals(event.projectId(), projectId)) {
+        if (!Objects.equals(event.scopePaintingProjectId(), paintingProjectId)) {
             throw new FileStorageException("Stored project_id does not match event_type " + eventType, null);
         }
         return new EventEnvelope(
@@ -75,7 +79,7 @@ public final class DomainEventCodec {
         result.put("recorded_at", envelope.recordedAt().toString());
         result.put("aggregate_type", envelope.aggregateType());
         result.put("aggregate_id", envelope.aggregateId());
-        if (envelope.projectId() != null) result.put("project_id", envelope.projectId());
+        if (envelope.scopePaintingProjectId() != null) result.put("project_id", envelope.scopePaintingProjectId());
         result.put("actor", Map.of("type", envelope.actor().type(), "id", envelope.actor().id()));
         result.put("correlation_id", envelope.correlationId());
         if (envelope.causationId() != null) result.put("causation_id", envelope.causationId());
@@ -85,8 +89,18 @@ public final class DomainEventCodec {
     }
 
     private DomainEvent decodeEvent(
-            String type, String aggregateId, String projectId, Instant at, Map<String, Object> payload) {
+            String type, String aggregateId, String paintingProjectId, Instant at, Map<String, Object> payload) {
         return switch (type) {
+            case "paint_pot.registered" -> new PaintPotRegistered(aggregateId, text(payload.get("paint_product_id")),
+                    payload.get("acquired_at") == null ? null : instant(payload.get("acquired_at")), at);
+            case "paint_pot.observed" -> new PaintPotObserved(aggregateId, PaintPotCondition.fromId(text(payload.get("condition"))),
+                    PaintPotRemainingLevel.fromId(text(payload.get("remaining_level"))), at);
+            case "paint_pot.opened" -> new PaintPotOpened(aggregateId, at);
+            case "paint_pot.possession_changed" -> new PaintPotPossessionChanged(aggregateId, PaintPotPossession.fromId(text(payload.get("possession"))), at);
+            case "paint_pot.note_added" -> new PaintPotNoteAdded(aggregateId, text(payload.get("note")), at);
+            case "paint_pot.photo_added" -> new PaintPotPhotoAdded(aggregateId, text(payload.get("media_id")), text(payload.get("url")),
+                    text(payload.get("caption")), text(payload.get("original_filename")), text(payload.get("content_type")),
+                    longNumber(payload.get("size")), text(payload.get("sha256")), at);
             case "workshop.created" -> new WorkshopCreated(
                     aggregateId, text(payload.get("name")), at);
             case "workshop.painting_project_registered" -> new PaintingProjectRegistered(
@@ -96,41 +110,41 @@ public final class DomainEventCodec {
                     text(payload.get("name")), number(payload.get("paintable_item_count")), at);
             case "painting_project.status_changed" -> new PaintingProjectStatusChanged(
                     aggregateId, PaintingProjectStatus.fromId(text(payload.get("status"))), at);
-            case "workshop_item.added" -> new WorkshopItemAdded(
-                    aggregateId, text(payload.get("catalog_item_id")), requiredProject(projectId, payload),
+            case "workshop_item.added" -> new WorkshopPaintableAdded(
+                    aggregateId, text(payload.get("catalog_item_id")), requiredProject(paintingProjectId, payload),
                     text(payload.get("display_name")), number(payload.get("ordinal")), at);
-            case "workshop_item.comment_added" -> new WorkshopItemCommentAdded(
-                    aggregateId, requiredProject(projectId, payload), text(payload.get("comment")), at);
-            case "workshop_item.photo_added" -> new WorkshopItemPhotoAdded(
-                    aggregateId, requiredProject(projectId, payload), text(payload.get("media_id")),
+            case "workshop_item.comment_added" -> new WorkshopPaintableCommentAdded(
+                    aggregateId, requiredProject(paintingProjectId, payload), text(payload.get("comment")), at);
+            case "workshop_item.photo_added" -> new WorkshopPaintablePhotoAdded(
+                    aggregateId, requiredProject(paintingProjectId, payload), text(payload.get("media_id")),
                     text(payload.get("url")), nullableStage(payload), text(payload.get("caption")),
                     text(payload.get("original_filename")), text(payload.get("content_type")),
                     longNumber(payload.get("size")), text(payload.get("sha256")), at);
-            case "recipe.assigned" -> new WorkshopItemRecipeAssigned(
-                    aggregateId, requiredProject(projectId, payload), text(payload.get("recipe_id")),
+            case "recipe.assigned" -> new WorkshopPaintableRecipeAssigned(
+                    aggregateId, requiredProject(paintingProjectId, payload), text(payload.get("recipe_id")),
                     number(payload.get("recipe_version")), at);
             case "workflow.stage.started" -> new WorkflowStageStarted(
-                    aggregateId, requiredProject(projectId, payload), stage(payload), nullable(payload.get("comment")), at);
+                    aggregateId, requiredProject(paintingProjectId, payload), stage(payload), nullable(payload.get("comment")), at);
             case "workflow.stage.completed" -> new WorkflowStageCompleted(
-                    aggregateId, requiredProject(projectId, payload), stage(payload), nullable(payload.get("comment")), at);
+                    aggregateId, requiredProject(paintingProjectId, payload), stage(payload), nullable(payload.get("comment")), at);
             case "workflow.stage.skipped" -> new WorkflowStageSkipped(
-                    aggregateId, requiredProject(projectId, payload), stage(payload), text(payload.get("reason")), at);
+                    aggregateId, requiredProject(paintingProjectId, payload), stage(payload), text(payload.get("reason")), at);
             case "workflow.stage.reopened" -> new WorkflowStageReopened(
-                    aggregateId, requiredProject(projectId, payload), stage(payload), nullable(payload.get("comment")), at);
+                    aggregateId, requiredProject(paintingProjectId, payload), stage(payload), nullable(payload.get("comment")), at);
             case "workshop_recipe.created" -> new WorkshopRecipeCreated(
-                    aggregateId, requiredProject(projectId, payload), text(payload.get("catalog_item_id")),
+                    aggregateId, requiredProject(paintingProjectId, payload), text(payload.get("catalog_item_id")),
                     nullable(payload.get("based_on_guide_id")), nullable(payload.get("supersedes_recipe_id")),
                     text(payload.get("display_name")), number(payload.get("version")),
                     listOfMaps(payload.get("solutions")).stream().map(this::decodeSolution).toList(), at);
             case "workshop_recipe.validated" -> new WorkshopRecipeValidated(
-                    aggregateId, requiredProject(projectId, payload), at);
+                    aggregateId, requiredProject(paintingProjectId, payload), at);
             case "workshop_recipe.activated" -> new WorkshopRecipeActivated(
-                    aggregateId, requiredProject(projectId, payload), at);
+                    aggregateId, requiredProject(paintingProjectId, payload), at);
             case "workshop_recipe.superseded" -> new WorkshopRecipeSuperseded(
-                    aggregateId, requiredProject(projectId, payload), text(payload.get("successor_recipe_id")), at);
+                    aggregateId, requiredProject(paintingProjectId, payload), text(payload.get("successor_recipe_id")), at);
             case "workshop_recipe.archived" -> new WorkshopRecipeArchived(
-                    aggregateId, requiredProject(projectId, payload), nullable(payload.get("reason")), at);
-            case "shopping_item.status_changed" -> new ShoppingItemStatusChanged(
+                    aggregateId, requiredProject(paintingProjectId, payload), nullable(payload.get("reason")), at);
+            case "shopping_item.status_changed" -> new ShoppingListEntryCheckedChanged(
                     aggregateId, Boolean.TRUE.equals(payload.get("checked")), at);
             default -> throw new FileStorageException("Unknown domain event type: " + type, null);
         };
@@ -139,26 +153,39 @@ public final class DomainEventCodec {
     private Map<String, Object> encodePayload(DomainEvent event) {
         var payload = new LinkedHashMap<String, Object>();
         switch (event) {
+            case PaintPotRegistered value -> {
+                payload.put("paint_product_id", value.paintProductId());
+                optional(payload, "acquired_at", value.acquiredAt() == null ? null : value.acquiredAt().toString());
+            }
+            case PaintPotObserved value -> { payload.put("condition", value.condition().id()); payload.put("remaining_level", value.remainingLevel().id()); }
+            case PaintPotOpened value -> { }
+            case PaintPotPossessionChanged value -> payload.put("possession", value.possession().id());
+            case PaintPotNoteAdded value -> payload.put("note", value.note());
+            case PaintPotPhotoAdded value -> {
+                payload.put("media_id", value.mediaId()); payload.put("url", value.url()); payload.put("caption", value.caption());
+                payload.put("original_filename", value.originalFilename()); payload.put("content_type", value.contentType());
+                payload.put("size", value.size()); payload.put("sha256", value.sha256());
+            }
             case WorkshopCreated value -> payload.put("name", value.name());
             case PaintingProjectRegistered value -> payload.put("painting_project_id", value.paintingProjectId());
             case PaintingProjectCreated value -> {
                 payload.put("workshop_id", value.workshopId());
                 payload.put("paintable_product_id", value.paintableProductId());
                 payload.put("name", value.name());
-                payload.put("paintable_item_count", value.paintableItemCount());
+                payload.put("paintable_item_count", value.paintableCount());
             }
             case PaintingProjectStatusChanged value -> payload.put("status", value.status().id());
-            case WorkshopItemAdded value -> {
-                payload.put("catalog_item_id", value.catalogItemId());
+            case WorkshopPaintableAdded value -> {
+                payload.put("catalog_item_id", value.paintableComponentId());
                 payload.put("painting_project_id", value.paintingProjectId());
                 payload.put("display_name", value.displayName());
                 payload.put("ordinal", value.ordinal());
             }
-            case WorkshopItemCommentAdded value -> {
+            case WorkshopPaintableCommentAdded value -> {
                 payload.put("painting_project_id", value.paintingProjectId());
                 payload.put("comment", value.comment());
             }
-            case WorkshopItemPhotoAdded value -> {
+            case WorkshopPaintablePhotoAdded value -> {
                 payload.put("painting_project_id", value.paintingProjectId());
                 payload.put("media_id", value.mediaId());
                 payload.put("url", value.url());
@@ -169,7 +196,7 @@ public final class DomainEventCodec {
                 payload.put("size", value.size());
                 payload.put("sha256", value.sha256());
             }
-            case WorkshopItemRecipeAssigned value -> {
+            case WorkshopPaintableRecipeAssigned value -> {
                 payload.put("painting_project_id", value.paintingProjectId());
                 payload.put("recipe_id", value.recipeId());
                 payload.put("recipe_version", value.recipeVersion());
@@ -180,7 +207,7 @@ public final class DomainEventCodec {
             case WorkflowStageReopened value -> stagePayload(payload, value.paintingProjectId(), value.stage(), "comment", value.comment());
             case WorkshopRecipeCreated value -> {
                 payload.put("painting_project_id", value.paintingProjectId());
-                payload.put("catalog_item_id", value.catalogItemId());
+                payload.put("catalog_item_id", value.paintableComponentId());
                 optional(payload, "based_on_guide_id", value.basedOnGuideId());
                 optional(payload, "supersedes_recipe_id", value.supersedesRecipeId());
                 payload.put("display_name", value.displayName());
@@ -197,7 +224,7 @@ public final class DomainEventCodec {
                 payload.put("painting_project_id", value.paintingProjectId());
                 optional(payload, "reason", value.reason());
             }
-            case ShoppingItemStatusChanged value -> payload.put("checked", value.checked());
+            case ShoppingListEntryCheckedChanged value -> payload.put("checked", value.checked());
             default -> throw new FileStorageException("Unsupported domain event: " + event.getClass().getName(), null);
         }
         return payload;
@@ -218,10 +245,10 @@ public final class DomainEventCodec {
         var payload = new LinkedHashMap<String, Object>();
         payload.put("type", solution.type().id());
         optional(payload, "guide_slot_id", solution.guideSlotId());
-        optional(payload, "paint_id", solution.paintId());
+        optional(payload, "paint_id", solution.paintProductId());
         if (!solution.components().isEmpty()) payload.put("components", solution.components().stream().map(component -> {
             var value = new LinkedHashMap<String, Object>();
-            value.put("paint_id", component.paintId());
+            value.put("paint_id", component.paintProductId());
             value.put("proportion", component.proportion());
             optional(value, "role", component.role());
             return value;
@@ -231,8 +258,8 @@ public final class DomainEventCodec {
     }
 
     private static void stagePayload(
-            Map<String, Object> payload, String projectId, WorkflowStage stage, String noteName, String note) {
-        payload.put("painting_project_id", projectId);
+            Map<String, Object> payload, String paintingProjectId, WorkflowStage stage, String noteName, String note) {
+        payload.put("painting_project_id", paintingProjectId);
         payload.put("stage", stage.id());
         optional(payload, noteName, note);
     }
@@ -246,8 +273,8 @@ public final class DomainEventCodec {
         return value == null ? null : WorkflowStage.fromId(value);
     }
 
-    private static String requiredProject(String projectId, Map<String, Object> payload) {
-        var result = projectId == null ? text(payload.get("painting_project_id")) : projectId;
+    private static String requiredProject(String paintingProjectId, Map<String, Object> payload) {
+        var result = paintingProjectId == null ? text(payload.get("painting_project_id")) : paintingProjectId;
         if (result.isBlank()) throw new FileStorageException("Event project_id is required.", null);
         return result;
     }

@@ -15,6 +15,7 @@ from .changesets import (
     validate_changeset,
     write_json,
 )
+from .paint_pots import build_import, ledger_snapshot
 from .datasets import CATEGORY_PATHS, create_dataset, inspect_dataset, validate_dataset
 from .official_refresh import collect_official_refresh
 from .image_quality import plan_image_rechallenge
@@ -34,13 +35,28 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     subcommands = parser.add_subparsers(dest="command", required=True)
 
+    guides = subcommands.add_parser("paint-usage-guides", help="Prepare shared usage documents without writing active storage")
+    guide_commands = guides.add_subparsers(dest="guide_command", required=True)
+    extract = guide_commands.add_parser("extract")
+    extract.add_argument("--catalog", default="data/market/paints")
+    extract.add_argument("--translations", required=True, help="Operator-authored exact French translation manifest")
+    extract.add_argument("--output", required=True)
+
+    pots = subcommands.add_parser("paint-pots", help="Build explicit pot registrations or inspect committed identities")
+    pot_commands = pots.add_subparsers(dest="pot_command", required=True)
+    pot_build = pot_commands.add_parser("build-import")
+    pot_build.add_argument("input")
+    pot_build.add_argument("--output", required=True)
+    pot_snapshot = pot_commands.add_parser("snapshot")
+    pot_snapshot.add_argument("--root", default=".")
+    pot_snapshot.add_argument("--output")
+
     changeset = subcommands.add_parser("changeset", help="Build or validate an application change set")
     changeset_commands = changeset.add_subparsers(dest="changeset_command", required=True)
     build_paints = changeset_commands.add_parser("build-paints", help="Build a canonical market-paint change set")
     build_paints.add_argument("input")
     build_paints.add_argument("--source")
     build_paints.add_argument("--verified-at")
-    build_paints.add_argument("--no-workshop", action="store_true", help="Do not add imported quantities to the owned inventory")
     build_paints.add_argument("--output", required=True)
     validate = changeset_commands.add_parser("validate", help="Validate a change set without applying it")
     validate.add_argument("input")
@@ -175,13 +191,22 @@ def main(argv: list[str] | None = None) -> int:
         return paint_import.main(arguments[1:])
     try:
         args = build_parser().parse_args(arguments)
+        if args.command == "paint-usage-guides":
+            from .paint_usage_guides import extract_guides
+            result = extract_guides(Path(args.catalog), load_json(Path(args.translations)))
+            write_json(Path(args.output), result)
+            print(f"Prepared {len(result['paint_usage_guides'])} guides for {len(result['operations'])} products")
+            return 0
+        if args.command == "paint-pots":
+            result = build_import(load_json(Path(args.input))) if args.pot_command == "build-import" else ledger_snapshot(Path(args.root))
+            _write_result(result, args.output)
+            return 0
         if args.command == "changeset" and args.changeset_command == "build-paints":
             payload = load_json(Path(args.input))
             changeset = build_paint_changeset(
                 payload,
                 source=args.source or Path(args.input).as_posix(),
                 verified_at=args.verified_at,
-                include_workshop=not args.no_workshop,
             )
             write_json(Path(args.output), changeset)
             print(f"Change set written to {args.output} ({len(changeset['operations'])} operation(s)).")
@@ -286,7 +311,7 @@ def main(argv: list[str] | None = None) -> int:
                 f"images_to_rechallenge={image_plan['candidate_count']}"
             )
             print(
-                f"Next: minipaintdex market paints apply --input {args.output} "
+                f"Next: minipaintdex market paint-products apply --input {args.output} "
                 "(dry-run by default; add --apply only after audit)."
             )
             return 0
@@ -313,7 +338,7 @@ def main(argv: list[str] | None = None) -> int:
                     f"conflicts={values.get('existing_conflicts', 0)}"
                 )
             print(
-                f"Next: minipaintdex market paints apply --input {args.output} "
+                f"Next: minipaintdex market paint-products apply --input {args.output} "
                 "(dry-run by default; add --apply only after audit)."
             )
             return 0

@@ -13,7 +13,7 @@ export type ReferenceImage = {
 
 export type GuidePaint = {
   slotId: string;
-  paintId?: string;
+  paintProductId?: string;
   brand: string;
   name: string;
   role: string;
@@ -26,9 +26,9 @@ export type GuideStep = {
   detail: string;
 };
 
-export type PaintableCatalogItem = {
+export type PaintableComponent = {
   id: string;
-  productId: string;
+  paintableProductId: string;
   name: string;
   kind: string;
   quantity: number;
@@ -49,7 +49,7 @@ export type PaintableCatalogItem = {
 
 export type WorkshopRecipe = {
   id: string;
-  catalogItemId: string;
+  paintableComponentId: string;
   basedOnGuideId: string;
   supersedesRecipeId: string;
   displayName: string;
@@ -69,7 +69,7 @@ export type PaintableProduct = {
   edition: { note: string; url: string };
   expectedPaintableCount: number;
   sources: PaintableProductSource[];
-  items: PaintableCatalogItem[];
+  paintableComponents: PaintableComponent[];
 };
 
 export type PaintableProductSummary = {
@@ -78,25 +78,25 @@ export type PaintableProductSummary = {
   line: string;
   productType: string;
   scope: string;
-  catalogItemCount: number;
+  paintableComponentCount: number;
   expectedPaintableCount: number;
 };
 
 export type Dashboard = {
   paintStats: { total: number; owned: number; brands: number };
   paintableProductCount: number;
-  workshop: Pick<WorkshopOverview, 'projectCount' | 'itemCount' | 'completedItemCount' | 'progressPercentage'>;
+  workshop: Pick<WorkshopOverview, 'projectCount' | 'paintableCount' | 'completedPaintableCount' | 'progressPercentage'>;
 };
 
 export type PaintingProjectSummary = {
-  projectId: string;
-  productId: string;
+  paintingProjectId: string;
+  paintableProductId: string;
   name: string;
   status: 'planned' | 'active' | 'completed' | 'archived';
   createdAt: string;
   updatedAt: string;
   importedAt: string;
-  itemCount: number;
+  paintableCount: number;
   completedCount: number;
   inProgressCount: number;
   pendingCount: number;
@@ -112,15 +112,15 @@ export type WorkshopOverview = {
   id: string;
   paintingProjects: PaintingProjectSummary[];
   projectCount: number;
-  itemCount: number;
-  completedItemCount: number;
+  paintableCount: number;
+  completedPaintableCount: number;
   progressPercentage: number;
   recentActivity: DomainEvent[];
 };
 
-export type WorkshopItem = {
+export type WorkshopPaintable = {
   id: string;
-  catalogItemId: string;
+  paintableComponentId: string;
   paintingProjectId: string;
   displayName: string;
   workflow: Record<string, 'pending' | 'in_progress' | 'completed' | 'skipped'>;
@@ -131,7 +131,7 @@ export type WorkshopItem = {
   updatedAt: string;
 };
 
-export type WorkshopItemDetail = WorkshopItem & {
+export type WorkshopPaintableDetail = WorkshopPaintable & {
   activity: DomainEvent[];
 };
 
@@ -145,11 +145,11 @@ export type DomainEvent = {
   payload: Record<string, unknown>;
 };
 
-export type PaintableProductImportPreview = {
-  productId: string;
-  productName: string;
-  catalogItemCount: number;
-  paintableItemCount: number;
+export type PaintingProjectImportPreview = {
+  paintableProductId: string;
+  paintableProductName: string;
+  paintableComponentCount: number;
+  paintableCount: number;
   paintingGuideCount: number;
   requiredPaintCount: number;
   missingPaintCount: number;

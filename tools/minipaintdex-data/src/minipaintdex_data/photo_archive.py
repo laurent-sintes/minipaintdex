@@ -5,6 +5,7 @@ import hashlib
 import json
 import re
 
+from .paint_pots import ledger_snapshot
 from .changesets import load_json, write_json
 
 
@@ -23,14 +24,15 @@ def same_photo(left, right):
 
 def plan_archive(root, manifest):
     root = Path(root).resolve()
-    if manifest.get("schema_version") != 1 or manifest.get("target") != "workshop.paints":
-        raise ValueError("Archive manifest must target workshop.paints, schema_version 1")
+    if manifest.get("schema_version") != 1 or manifest.get("target") != "workshop.paint-pots":
+        raise ValueError("Archive manifest must target workshop.paint-pots, schema_version 1")
     identifier = manifest.get("import_id", "")
     if not isinstance(identifier, str) or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", identifier):
         raise ValueError("Invalid import_id")
     archive_date = date.fromisoformat(manifest["archive_date"]).isoformat()
-    if digest(root / "data/workshop/paints.yaml") != manifest.get("verified_inventory_sha256"):
-        raise ValueError("Inventory is not the verified generation; verify the import before archiving")
+    snapshot = ledger_snapshot(root)
+    if snapshot["ledgerSha256"] != manifest.get("verified_ledger_sha256"):
+        raise ValueError("Ledger is not the verified generation; verify the import before archiving")
     base = (root / "imports/workshop-paints").resolve()
     if not base.is_relative_to(root):
         raise ValueError("Import directory escapes application root")
@@ -52,6 +54,11 @@ def plan_archive(root, manifest):
         if outcome == "pending":
             pending.append(name)
             continue
+        if outcome == "imported":
+            ids = photo.get("paint_pot_ids", [])
+            known_ids = {pot["paintPotId"] for pot in snapshot["pots"]}
+            if not ids or not set(ids).issubset(known_ids):
+                raise ValueError("Imported photos must reference verified paint pot identities")
         sha = photo.get("sha256", "")
         if not isinstance(sha, str) or not re.fullmatch(r"[a-f0-9]{64}", sha):
             raise ValueError("Missing source SHA-256")
@@ -73,7 +80,7 @@ def plan_archive(root, manifest):
                 raise ValueError("Duplicate must match a different archived photo")
         moves.append({"source": source.relative_to(root).as_posix(), "destination": destination.relative_to(root).as_posix(),
                       "sha256": sha, "photo_id": "photo-" + sha, "outcome": outcome})
-    return {"schema_version": 1, "target": "workshop.paints", "import_id": identifier,
+    return {"schema_version": 1, "target": "workshop.paint-pots", "import_id": identifier,
             "archive_date": archive_date, "moves": moves, "pending": pending}
 
 

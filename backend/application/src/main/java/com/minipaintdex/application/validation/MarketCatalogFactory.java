@@ -3,12 +3,12 @@ package com.minipaintdex.application.validation;
 import com.minipaintdex.application.document.StructuredDocument;
 import com.minipaintdex.application.port.MarketCatalogSnapshot;
 import com.minipaintdex.domain.market.guide.MarketPaintingGuide;
-import com.minipaintdex.domain.market.paint.MarketPaint;
+import com.minipaintdex.domain.market.paint.PaintProduct;
 import com.minipaintdex.domain.market.paint.PaintCatalogEdition;
-import com.minipaintdex.domain.market.paint.MarketPaintLifecycle;
-import com.minipaintdex.domain.market.paint.MarketPaintImageQuality;
-import com.minipaintdex.domain.market.paint.MarketPaintImageLimitationCode;
-import com.minipaintdex.domain.market.paint.MarketPaintProfile;
+import com.minipaintdex.domain.market.paint.PaintProductLifecycle;
+import com.minipaintdex.domain.market.paint.PaintProductImageQuality;
+import com.minipaintdex.domain.market.paint.PaintProductImageLimitationCode;
+import com.minipaintdex.domain.market.paint.PaintProductProfile;
 import com.minipaintdex.domain.market.product.PaintableProduct;
 import com.minipaintdex.domain.shared.DomainException;
 
@@ -29,7 +29,7 @@ public final class MarketCatalogFactory {
             List<StructuredDocument> paintDocuments,
             List<PaintableProduct> products,
             List<StructuredDocument> guideDocuments,
-            List<StructuredDocument> editionDocuments) {
+            List<StructuredDocument> editionDocuments, List<StructuredDocument> usageGuideDocuments) {
         var paints = paintDocuments.stream().map(MarketCatalogFactory::paint).toList();
         var guides = guideDocuments.stream().map(MarketCatalogFactory::guide).toList();
         validateGeneration(paints, products, guides);
@@ -45,7 +45,37 @@ public final class MarketCatalogFactory {
                 throw invalid("Catalog membership is outside documented source/range scope: " + paint.id());
             }
         }
-        return new MarketCatalogSnapshot(paints, products, guides, editions);
+        var usageGuides = usageGuideDocuments.stream().map(MarketCatalogFactory::paintUsageGuide).toList();
+        uniqueIds(usageGuides.stream().map(com.minipaintdex.domain.market.paint.PaintUsageGuide::id).toList(), "paint usage guide");
+        var usageById = usageGuides.stream().collect(java.util.stream.Collectors.toMap(com.minipaintdex.domain.market.paint.PaintUsageGuide::id, g -> g));
+        for (var paint : paints) {
+            for (var id : paint.usageGuideIds()) {
+                var usageGuide = usageById.get(id);
+                if (usageGuide == null || !usageGuide.appliesTo(paint)) throw invalid("Unknown or out-of-scope usage guide for " + paint.id());
+            }
+            if (paint.profile().requiresUsageInstructions() && !paint.usageInstructions().complete()
+                    && paint.usageGuideIds().stream().map(usageById::get).noneMatch(g -> !g.original().steps().isEmpty())) {
+                throw invalid("Technical paint requires actionable usage instructions: " + paint.id());
+            }
+        }
+        return new MarketCatalogSnapshot(paints, products, guides, editions, usageGuides);
+    }
+
+    public static com.minipaintdex.domain.market.paint.PaintUsageGuide paintUsageGuide(StructuredDocument document) {
+        var value = map(document);
+        return new com.minipaintdex.domain.market.paint.PaintUsageGuide(
+                number(value.get("schema_version"), null, "guide.schema_version"), text(value.get("id")),
+                text(value.get("brand")), text(value.get("title")), number(value.get("revision"), null, "guide.revision"),
+                strings(value.get("ranges")), text(value.get("original_language")), usageContent(map(value.get("original"))),
+                text(value.get("knowledge_status")), Boolean.TRUE.equals(value.get("review_required")),
+                strings(value.get("source_urls")).stream().map(url -> uri(url, "guide.source_urls")).toList(),
+                maps(value.get("translations")).stream().map(t -> new com.minipaintdex.domain.market.paint.PaintUsageGuide.Translation(
+                        text(t.get("language")), number(t.get("source_revision"), null, "translation.source_revision"),
+                        text(t.get("method")), Boolean.TRUE.equals(t.get("review_required")), usageContent(map(t.get("content"))))).toList());
+    }
+
+    private static com.minipaintdex.domain.market.paint.PaintUsageGuide.Content usageContent(Map<String, Object> value) {
+        return new com.minipaintdex.domain.market.paint.PaintUsageGuide.Content(text(value.get("summary")), strings(value.get("steps")), strings(value.get("tips")));
     }
 
     public static PaintCatalogEdition catalogEdition(StructuredDocument document) {
@@ -63,7 +93,7 @@ public final class MarketCatalogFactory {
         var value = map(document);
         var edition = map(value.get("edition"));
         var sources = maps(value.get("sources")).stream().map(MarketCatalogFactory::productSource).toList();
-        var items = maps(value.get("catalog_items")).stream().map(item -> new PaintableProduct.CatalogItem(
+        var items = maps(value.get("catalog_items")).stream().map(item -> new PaintableProduct.PaintableComponent(
                 text(item.get("id")), text(item.get("product_id")), text(item.get("name")),
                 text(item.get("kind")), number(item.get("quantity"), null, "product.catalog_items.quantity"),
                 text(item.get("description")), Boolean.TRUE.equals(item.get("assembly_required")),
@@ -84,31 +114,31 @@ public final class MarketCatalogFactory {
                 text(source.get("kind")), text(source.get("label")), text(source.get("url")));
     }
 
-    private static MarketPaint paint(StructuredDocument document) {
+    private static PaintProduct paint(StructuredDocument document) {
         var value = map(document);
         var color = map(value.get("color"));
         var profile = map(value.get("profile"));
         var undercoat = map(profile.get("undercoat"));
         var usage = map(value.get("usage_instructions"));
-        return new MarketPaint(
+        return new PaintProduct(
                 number(value.get("schema_version"), null, "paint.schema_version"),
                 text(value.get("id")), text(value.get("brand")), text(value.get("manufacturer")),
                 strings(value.get("brand_aliases")), text(value.get("range")),
-                new MarketPaintProfile(
-                        strings(profile.get("roles")).stream().map(MarketPaintProfile.Role::fromId).toList(),
+                new PaintProductProfile(
+                        strings(profile.get("roles")).stream().map(PaintProductProfile.Role::fromId).toList(),
                         strings(profile.get("application_methods")).stream()
-                                .map(MarketPaintProfile.ApplicationMethod::fromId).toList(),
-                        MarketPaintProfile.ApplicationSystem.fromId(text(profile.get("application_system"))),
-                        MarketPaintProfile.Coverage.fromId(text(profile.get("coverage"))),
-                        MarketPaintProfile.Finish.fromId(text(profile.get("finish"))),
-                        strings(profile.get("effects")).stream().map(MarketPaintProfile.Effect::fromId).toList(),
-                        new MarketPaintProfile.Undercoat(
-                                MarketPaintProfile.UndercoatTone.fromId(text(undercoat.get("tone"))),
+                                .map(PaintProductProfile.ApplicationMethod::fromId).toList(),
+                        PaintProductProfile.ApplicationSystem.fromId(text(profile.get("application_system"))),
+                        PaintProductProfile.Coverage.fromId(text(profile.get("coverage"))),
+                        PaintProductProfile.Finish.fromId(text(profile.get("finish"))),
+                        strings(profile.get("effects")).stream().map(PaintProductProfile.Effect::fromId).toList(),
+                        new PaintProductProfile.Undercoat(
+                                PaintProductProfile.UndercoatTone.fromId(text(undercoat.get("tone"))),
                                 Boolean.TRUE.equals(undercoat.get("pre_highlighted_surface_recommended"))),
-                        MarketPaintProfile.Medium.fromId(text(profile.get("medium")))),
+                        PaintProductProfile.Medium.fromId(text(profile.get("medium")))),
                 text(value.get("reference")), text(value.get("name")),
-                new MarketPaint.Color(text(color.get("family")), text(color.get("hex"))),
-                MarketPaintLifecycle.fromId(defaultText(text(value.get("lifecycle_status")), "unknown")),
+                new PaintProduct.Color(text(color.get("family")), text(color.get("hex"))),
+                PaintProductLifecycle.fromId(defaultText(text(value.get("lifecycle_status")), "unknown")),
                 defaultText(text(value.get("data_status")), "unreviewed"),
                 strings(value.get("warnings")), strings(value.get("tags")),
                 text(value.get("notes")),
@@ -116,26 +146,26 @@ public final class MarketCatalogFactory {
                 image(map(value.get("manufacturer_image")), "paint.manufacturer_image"),
                 number(value.get("volume_ml"), 0, "paint.volume_ml"),
                 strings(value.get("recommended_uses")),
-                new MarketPaint.UsageInstructions(
+                new PaintProduct.UsageInstructions(
                         text(usage.get("summary")), strings(usage.get("steps")), strings(usage.get("tips")),
                         text(usage.get("instruction_status")), Boolean.TRUE.equals(usage.get("review_required"))),
                 date(value.get("verified_at"), "paint.verified_at"),
                 image(map(value.get("result_image")), "paint.result_image"),
                 maps(value.get("catalog_memberships")).stream().map(m -> new PaintCatalogEdition.Membership(
                         text(m.get("catalog_edition_id")), uri(m.get("source_url"), "membership.source_url"),
-                        text(m.get("locator")))).toList());
+                        text(m.get("locator")))).toList(), strings(value.get("usage_guide_ids")));
     }
 
-    private static MarketPaint.ImageReference image(Map<String, Object> value, String field) {
+    private static PaintProduct.ImageReference image(Map<String, Object> value, String field) {
         var limitation = map(value.get("quality_limitation"));
-        return new MarketPaint.ImageReference(
+        return new PaintProduct.ImageReference(
                 text(value.get("path")), uri(value.get("source_url"), field + ".source_url"),
                 text(value.get("credit")), text(value.get("license")),
                 uri(value.get("reference_url"), field + ".reference_url"),
-                MarketPaintImageQuality.fromId(text(value.get("image_quality"))),
+                PaintProductImageQuality.fromId(text(value.get("image_quality"))),
                 date(value.get("quality_verified_at"), field + ".quality_verified_at"),
-                limitation.isEmpty() ? null : new MarketPaint.ImageQualityLimitation(
-                        MarketPaintImageLimitationCode.fromId(text(limitation.get("code"))),
+                limitation.isEmpty() ? null : new PaintProduct.ImageQualityLimitation(
+                        PaintProductImageLimitationCode.fromId(text(limitation.get("code"))),
                         text(limitation.get("detail")),
                         date(limitation.get("observed_at"), field + ".quality_limitation.observed_at")));
     }
@@ -172,25 +202,25 @@ public final class MarketCatalogFactory {
     }
 
     private static void validateGeneration(
-            List<MarketPaint> paints,
+            List<PaintProduct> paints,
             List<PaintableProduct> products,
             List<MarketPaintingGuide> guides) {
-        var paintIds = uniqueIds(paints.stream().map(MarketPaint::id).toList(), "market paint");
+        var paintIds = uniqueIds(paints.stream().map(PaintProduct::id).toList(), "market paint");
         uniqueIds(products.stream().map(PaintableProduct::id).toList(), "paintable product");
-        var catalogItemIds = uniqueIds(products.stream()
-                .flatMap(product -> product.catalogItems().stream()).map(PaintableProduct.CatalogItem::id).toList(),
-                "catalog item");
+        var paintableComponentIds = uniqueIds(products.stream()
+                .flatMap(product -> product.paintableComponents().stream()).map(PaintableProduct.PaintableComponent::id).toList(),
+                "paintable component");
         var guideVersions = new HashSet<String>();
         for (var guide : guides) {
             if (!guideVersions.add(guide.id() + "@" + guide.version())) {
                 throw invalid("Duplicate market painting guide version: " + guide.id() + "@" + guide.version());
             }
-            if (!catalogItemIds.contains(guide.catalogItemId())) {
-                throw invalid("Guide " + guide.id() + " references unknown catalog item " + guide.catalogItemId());
+            if (!paintableComponentIds.contains(guide.paintableComponentId())) {
+                throw invalid("Guide " + guide.id() + " references unknown paintable component " + guide.paintableComponentId());
             }
             for (var slot : guide.slots()) {
-                if (slot.marketPaintId() != null && !paintIds.contains(slot.marketPaintId())) {
-                    throw invalid("Guide slot " + slot.id() + " references unknown market paint " + slot.marketPaintId());
+                if (slot.paintProductId() != null && !paintIds.contains(slot.paintProductId())) {
+                    throw invalid("Guide slot " + slot.id() + " references unknown market paint " + slot.paintProductId());
                 }
             }
         }

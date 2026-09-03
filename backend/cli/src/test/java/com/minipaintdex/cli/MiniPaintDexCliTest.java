@@ -27,6 +27,140 @@ class MiniPaintDexCliTest {
     Path temporaryDirectory;
 
     @Test
+    void exposesUsageGuideLanguageScopeAndCorrelation() {
+        var market = mock(MarketCatalogUseCases.class);
+        var command = new CommandLine(new MiniPaintDexCli(market, mock(WorkshopUseCases.class),
+                mock(AdministrationUseCases.class), mock(EventBus.class), mock(PersistenceLifecycle.class)));
+        assertEquals(0, command.execute("--format", "json", "market", "paint-usage-guides", "list",
+                "--paint-product-id", "paint", "--language", "original", "--size", "2", "--correlation-id", "test"));
+        var capture = org.mockito.ArgumentCaptor.forClass(com.minipaintdex.application.query.SearchPaintUsageGuidesQuery.class);
+        org.mockito.Mockito.verify(market).searchPaintUsageGuides(capture.capture());
+        assertEquals("paint", capture.getValue().paintProductId()); assertEquals("original", capture.getValue().language());
+        assertEquals(2, capture.getValue().page().size()); assertEquals("test", capture.getValue().correlationId());
+        assertEquals(0, command.execute("--format", "json", "market", "paint-usage-guides", "show", "--paint-usage-guide-id", "guide"));
+        org.mockito.Mockito.verify(market).getPaintUsageGuide(org.mockito.ArgumentMatchers.any());
+    }
+
+    @Test
+    void exposesBothSearchContextsWithEquivalentSuggestionSelection() {
+        var market = mock(MarketCatalogUseCases.class);
+        var workshop = mock(WorkshopUseCases.class);
+        var suggestions = List.of(new com.minipaintdex.application.view.PaintProductSuggestion("karak", "Karak Stone", "Citadel", "Layer", "22-17", "", ""));
+        org.mockito.Mockito.when(market.searchPaintProducts(org.mockito.ArgumentMatchers.any(com.minipaintdex.application.query.PaintSearchQuery.class)))
+                .thenReturn(new com.minipaintdex.application.result.PaintSearchResult<>(null, suggestions, "test"));
+        org.mockito.Mockito.when(workshop.searchWorkshopPaintStocks(org.mockito.ArgumentMatchers.any()))
+                .thenReturn(new com.minipaintdex.application.result.PaintSearchResult<>(null, suggestions, "test"));
+        var command = new CommandLine(new MiniPaintDexCli(market, workshop,
+                mock(AdministrationUseCases.class), mock(EventBus.class), mock(PersistenceLifecycle.class)));
+        var output = new ByteArrayOutputStream();
+        var previous = System.out;
+        try {
+            System.setOut(new PrintStream(output, true, StandardCharsets.UTF_8));
+            for (var context : List.of("market", "workshop")) {
+                assertEquals(0, command.execute("--format", "json", context, context.equals("market") ? "paint-products" : "paint-stocks",
+                        "search", "--include", "suggestions", "--query", "kar", "--suggestion-limit", "3", "--brand", "A", "--brand", "B",
+                        "--range", "Citadel::Layer", "--correlation-id", "test"));
+            }
+        } finally { System.setOut(previous); }
+        var captor = org.mockito.ArgumentCaptor.forClass(com.minipaintdex.application.query.PaintSearchQuery.class);
+        org.mockito.Mockito.verify(market).searchPaintProducts(captor.capture());
+        assertEquals(3, captor.getValue().suggestionLimit());
+        assertEquals(java.util.Set.of("suggestions"), captor.getValue().include());
+        assertEquals(List.of("A", "B"), captor.getValue().filters().brand());
+        org.mockito.Mockito.verify(workshop).searchWorkshopPaintStocks(captor.capture());
+        assertEquals("test", captor.getValue().correlationId());
+        assertTrue(output.toString(StandardCharsets.UTF_8).contains("\"suggestions\":[{\"paintProductId\":\"karak\""));
+    }
+
+    @Test
+    void exposesCombinedSearchWithoutLegacySuggestCommands() {
+        var market = mock(MarketCatalogUseCases.class);
+        var command = new CommandLine(new MiniPaintDexCli(market, mock(WorkshopUseCases.class),
+                mock(AdministrationUseCases.class), mock(EventBus.class), mock(PersistenceLifecycle.class)));
+        assertEquals(0, command.execute("--format", "json", "market", "paint-products", "search",
+                "--include", "results,suggestions", "--page", "2", "--size", "5", "--sort", "name,desc"));
+        var capture = org.mockito.ArgumentCaptor.forClass(com.minipaintdex.application.query.PaintSearchQuery.class);
+        org.mockito.Mockito.verify(market).searchPaintProducts(capture.capture());
+        assertEquals(java.util.Set.of("results", "suggestions"), capture.getValue().include());
+        assertEquals(2, capture.getValue().page().page());
+        assertTrue(!command.getSubcommands().get("market").getSubcommands().get("paint-products").getSubcommands().containsKey("suggest"));
+        assertTrue(!command.getSubcommands().get("workshop").getSubcommands().get("paint-stocks").getSubcommands().containsKey("suggest"));
+    }
+
+    @Test
+    void exposesPhysicalPotCommandsAndForwardsObservations() {
+        var workshop = mock(WorkshopUseCases.class);
+        org.mockito.Mockito.when(workshop.observePaintPot(org.mockito.ArgumentMatchers.any()))
+                .thenReturn(new com.minipaintdex.application.event.PublicationReceipt("p", com.minipaintdex.application.event.EventPublicationStatus.COMPLETED, Instant.now(), "test"));
+        var command = new CommandLine(new MiniPaintDexCli(mock(MarketCatalogUseCases.class), workshop,
+                mock(AdministrationUseCases.class), mock(EventBus.class), mock(PersistenceLifecycle.class)));
+        assertEquals(java.util.Set.of("search", "show", "add", "import", "observe", "open", "set-possession", "note", "photo"),
+                command.getSubcommands().get("workshop").getSubcommands().get("paint-pots").getSubcommands().keySet());
+        assertEquals(0, command.execute("--server-url", "http://127.0.0.1:0", "--format", "json", "workshop", "paint-pots", "observe",
+                "--paint-pot-id", "pot-one", "--condition", "thickened", "--remaining-level", "low", "--idempotency-key", "observation"));
+        var captor = org.mockito.ArgumentCaptor.forClass(com.minipaintdex.application.command.ObservePaintPotCommand.class);
+        org.mockito.Mockito.verify(workshop).observePaintPot(captor.capture());
+        assertEquals("pot-one", captor.getValue().paintPotId());
+        assertEquals("low", captor.getValue().remainingLevel());
+    }
+
+    @Test
+    void shoppingCheckedOptionRequiresAnExplicitBooleanValue() {
+        var command = new CommandLine(new MiniPaintDexCli(mock(MarketCatalogUseCases.class), mock(WorkshopUseCases.class),
+                mock(AdministrationUseCases.class), mock(EventBus.class), mock(PersistenceLifecycle.class)));
+        for (var value : List.of("true", "false")) {
+            var parsed = command.parseArgs("workshop", "shopping-list", "entries", "set-checked",
+                    "--shopping-list-entry-id", "buy-1", "--checked", value);
+            while (parsed.hasSubcommand()) parsed = parsed.subcommand();
+            assertEquals(Boolean.valueOf(value), parsed.matchedOptionValue("--checked", null));
+        }
+        org.junit.jupiter.api.Assertions.assertThrows(CommandLine.MissingParameterException.class,
+                () -> command.parseArgs("workshop", "shopping-list", "entries", "set-checked",
+                        "--shopping-list-entry-id", "buy-1", "--checked"));
+    }
+
+    @Test
+    void exposesAlignedWorkshopStockAndShoppingQueries() {
+        var workshop = mock(WorkshopUseCases.class);
+        org.mockito.Mockito.when(workshop.searchWorkshopPaintStocks(org.mockito.ArgumentMatchers.any()))
+                .thenReturn(new com.minipaintdex.application.result.PaintSearchResult<>(new com.minipaintdex.application.result.PageResult<>(List.of(), 1, 5, 0), null, "test"));
+        org.mockito.Mockito.when(workshop.workshopPaintStockFacets(org.mockito.ArgumentMatchers.any(),
+                org.mockito.ArgumentMatchers.anyBoolean(), org.mockito.ArgumentMatchers.anyBoolean()))
+                .thenReturn(new com.minipaintdex.application.view.PaintFacetsView(0, List.of()));
+        org.mockito.Mockito.when(workshop.listShoppingListEntries()).thenReturn(List.of());
+        var command = new CommandLine(new MiniPaintDexCli(mock(MarketCatalogUseCases.class), workshop,
+                mock(AdministrationUseCases.class), mock(EventBus.class), mock(PersistenceLifecycle.class)));
+        var output = new ByteArrayOutputStream();
+        var previous = System.out;
+        try {
+            System.setOut(new PrintStream(output, true, StandardCharsets.UTF_8));
+            assertEquals(0, command.execute("--format", "json", "workshop", "paint-stocks", "search",
+                    "--brand", "Vallejo", "--range", "Warhammer Colour::Contrast", "--color", "blue", "--color", "red",
+                    "--page", "1", "--size", "5", "--sort", "name,desc", "--manufacturer-sheet-only"));
+            assertEquals(0, command.execute("--format", "json", "workshop", "paint-stocks", "facets", "--brand", "Vallejo"));
+            assertEquals(0, command.execute("--format", "json", "workshop", "shopping-list", "entries", "list"));
+        } finally {
+            System.setOut(previous);
+        }
+        var capture = org.mockito.ArgumentCaptor.forClass(com.minipaintdex.application.query.PaintSearchQuery.class);
+        org.mockito.Mockito.verify(workshop).searchWorkshopPaintStocks(capture.capture());
+        var filters = capture.getValue().filters();
+        var page = capture.getValue().page();
+        assertTrue(capture.getValue().manufacturerSheetOnly());
+        assertEquals(List.of("blue", "red"), filters.color());
+        assertEquals(1, page.page());
+        assertEquals(5, page.size());
+        assertEquals(com.minipaintdex.application.query.SortOrder.Direction.DESCENDING, page.sort().getFirst().direction());
+        assertTrue(output.toString(StandardCharsets.UTF_8).contains("\"content\":[]"));
+        assertTrue(output.toString(StandardCharsets.UTF_8).contains("\"entries\":[]"));
+        assertTrue(!command.getSubcommands().containsKey("shopping"));
+        var workshopCommands = command.getSubcommands().get("workshop").getSubcommands();
+        assertTrue(!workshopCommands.containsKey("items"));
+        assertTrue(workshopCommands.get("paintables").getSubcommands().get("add").getCommandSpec()
+                .findOption("--paintable-component-id") != null);
+    }
+
+    @Test
     void forwardsCatalogEditionQueriesAndReadsEditionImports() throws Exception {
         var market = mock(MarketCatalogUseCases.class);
         org.mockito.Mockito.when(market.searchPaintCatalogEditions(org.mockito.ArgumentMatchers.any()))
@@ -49,15 +183,16 @@ class MiniPaintDexCliTest {
         var market = mock(MarketCatalogUseCases.class);
         var command = new CommandLine(new MiniPaintDexCli(market, mock(WorkshopUseCases.class),
                 mock(AdministrationUseCases.class), mock(EventBus.class), mock(PersistenceLifecycle.class)));
-        org.mockito.Mockito.when(market.searchMarketPaints(org.mockito.ArgumentMatchers.any())).thenReturn(List.of());
-        assertEquals(0, command.execute("--format", "json", "market", "paints", "search",
+        org.mockito.Mockito.when(market.searchPaintProducts(org.mockito.ArgumentMatchers.any(com.minipaintdex.application.query.PaintSearchQuery.class)))
+                .thenReturn(new com.minipaintdex.application.result.PaintSearchResult<>(new com.minipaintdex.application.result.PageResult<>(List.of(), 0, 60, 0), null, "test"));
+        assertEquals(0, command.execute("--format", "json", "market", "paint-products", "search",
                 "--brand", "Vallejo", "--brand", "AK Interactive", "--range", "Warhammer Colour::Contrast",
                 "--color", "blue", "--color", "red"));
-        var query = org.mockito.ArgumentCaptor.forClass(com.minipaintdex.application.query.SearchMarketPaintsQuery.class);
-        org.mockito.Mockito.verify(market).searchMarketPaints(query.capture());
-        assertEquals(List.of("Vallejo", "AK Interactive"), query.getValue().brand());
-        assertEquals(List.of("blue", "red"), query.getValue().color());
-        assertEquals("Warhammer Colour::Contrast", query.getValue().range().getFirst().selectionKey());
+        var query = org.mockito.ArgumentCaptor.forClass(com.minipaintdex.application.query.PaintSearchQuery.class);
+        org.mockito.Mockito.verify(market).searchPaintProducts(query.capture());
+        assertEquals(List.of("Vallejo", "AK Interactive"), query.getValue().filters().brand());
+        assertEquals(List.of("blue", "red"), query.getValue().filters().color());
+        assertEquals("Warhammer Colour::Contrast", query.getValue().filters().range().getFirst().selectionKey());
     }
 
     @Test
@@ -95,7 +230,7 @@ class MiniPaintDexCliTest {
 
         assertTrue(command.getSubcommands().get("market").getSubcommands().containsKey("guides"));
         assertTrue(command.getSubcommands().get("market").getSubcommands().containsKey("paintable-products"));
-        assertTrue(command.getSubcommands().get("market").getSubcommands().get("paints").getSubcommands().containsKey("model"));
+        assertTrue(command.getSubcommands().get("market").getSubcommands().get("paint-products").getSubcommands().containsKey("model"));
         assertTrue(command.getSubcommands().get("workshop").getSubcommands().containsKey("painting-projects"));
         assertTrue(command.getSubcommands().get("workshop").getSubcommands().get("painting-projects").getSubcommands().containsKey("preview-import"));
         assertTrue(command.getSubcommands().get("workshop").getSubcommands().get("painting-projects").getSubcommands().containsKey("create"));
@@ -103,8 +238,8 @@ class MiniPaintDexCliTest {
         assertTrue(command.getSubcommands().get("workshop").getSubcommands().containsKey("recipes"));
         assertTrue(command.getSubcommands().get("workshop").getSubcommands().get("recipes").getSubcommands().containsKey("reconcile-guide"));
         assertTrue(command.getSubcommands().get("workshop").getSubcommands().get("recipes").getSubcommands().containsKey("assign"));
-        assertTrue(command.getSubcommands().get("workshop").getSubcommands().get("items").getSubcommands().containsKey("photo"));
-        assertTrue(command.getSubcommands().containsKey("shopping"));
+        assertTrue(command.getSubcommands().get("workshop").getSubcommands().get("paintables").getSubcommands().containsKey("photo"));
+        assertTrue(command.getSubcommands().get("workshop").getSubcommands().containsKey("shopping-list"));
         assertTrue(command.getSubcommands().get("datasets").getSubcommands().containsKey("import"));
     }
 
@@ -122,7 +257,7 @@ class MiniPaintDexCliTest {
                 mock(MarketCatalogUseCases.class), mock(WorkshopUseCases.class),
                 mock(AdministrationUseCases.class), mock(EventBus.class), mock(PersistenceLifecycle.class)));
 
-        assertEquals(0, command.execute("market", "paints", "apply", "--help"));
+        assertEquals(0, command.execute("market", "paint-products", "apply", "--help"));
         assertEquals(0, command.execute("market", "paintable-products", "apply", "--help"));
     }
 

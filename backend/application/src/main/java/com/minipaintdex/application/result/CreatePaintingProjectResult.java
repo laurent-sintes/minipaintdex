@@ -6,8 +6,8 @@ public record CreatePaintingProjectResult(
         String workshopId,
         String paintingProjectId,
         String paintableProductId,
-        int workshopItemsAdded,
-        int workshopItemsExisting,
+        int workshopPaintablesAdded,
+        int workshopPaintablesExisting,
         boolean alreadyExists,
         boolean applied,
         PublicationReceipt publication) {

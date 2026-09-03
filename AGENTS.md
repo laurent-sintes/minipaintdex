@@ -24,21 +24,39 @@ The domain model is the primary architectural driver. Before changing storage, R
 
 ### Ubiquitous language and aggregate boundaries
 
+The domain core owns the ubiquitous language. REST resources, request/response fields,
+OpenAPI schemas, CLI command groups/options/JSON results, application contracts and frontend
+models must use the same business concepts and relationship names. Do not introduce competing
+synonyms such as `productId` for `paintableProductId` or `item` for a paint stock. A business
+rename is one coordinated change across these surfaces, documentation and contract tests.
+Technical collection/schema keywords and locally scoped value objects may remain generic when
+their meaning is unambiguous. Existing persisted file/dataset/event encodings may be retained
+without changing identities or history; document their single mapping in the adapters and never
+expose alternate API or CLI vocabularies as compatibility aliases.
+
 ```text
 MARKET (reference knowledge, file-versioned)
-  MarketPaint                         aggregate root for one commercial paint reference
+  PaintProduct                        aggregate root for one commercial paint reference
   PaintCatalogEdition                 sourced commercial publication, independent of scrape runs
+  PaintUsageGuide                     shared, sourced usage document with revision-bound translations
   PaintableProduct                    aggregate root for a box, range, expansion, or set
-    └── CatalogItem                   entity describing one kind of paintable component
+    └── PaintableComponent             entity describing one kind of paintable component
          └── quantity                 number supplied by the market product
-  MarketPaintingGuide                versioned aggregate root targeting one CatalogItem
+  MarketPaintingGuide                versioned aggregate root targeting one PaintableComponent
 
-WORKSHOP (owner state, event-sourced)
+WORKSHOP (owner state; aggregates event-sourced, stock projected, shopping plan file-backed)
   Workshop                            aggregate root for the owner's whole workshop
     └── paintingProjectIds            references PaintingProject aggregate IDs
   PaintingProject                     aggregate root for the intent to paint one PaintableProduct
-  WorkshopItem                        aggregate root for one physical miniature/scenery copy
+  WorkshopPaintable                   aggregate root for one physical miniature/scenery copy
   WorkshopRecipe                     versioned aggregate root for one personal painting plan
+  PaintPot                            event-sourced aggregate root for one owned physical paint container
+    └── paintProductId                 stable reference to the Market PaintProduct
+  WorkshopPaintInventory              read-only projection of PaintPot histories
+    └── WorkshopPaintStock             owned and usable pot counts grouped by PaintProduct
+  WorkshopShoppingPlan               explicit personal purchase intentions
+    └── PaintPurchaseIntent            intention, distinct from a calculated paint requirement
+  ShoppingListEntry                  aggregate owning a list entry's checked marker
 
 SITE (supporting configuration, file-versioned)
   SiteConfiguration                   localized labels and application presentation settings
@@ -64,18 +82,18 @@ SITE (supporting configuration, file-versioned)
 - Enforce the direction with ArchUnit. Any new market package or class must pass a rule prohibiting
   dependencies on `..workshop..`; do not bypass the rule through a universal service or an
   untyped `Map` facade.
-- `MarketPaint` and `PaintableProduct` have different identities, metadata, search behavior, and lifecycles.
-- A `PaintableProduct` owns its `CatalogItem` entities. Each catalog item has a stable ID, `product_id`, English `kind`, and positive market quantity.
-- The sum of catalog-item quantities must equal `expected_paintable_count`; invalid products must fail loading or change-set validation.
+- `PaintProduct` and `PaintableProduct` have different identities, metadata, search behavior, and lifecycles.
+- A `PaintableProduct` owns its `PaintableComponent` entities. Each component has a stable ID, `paintableProductId`, English `kind`, and positive market quantity.
+- The sum of paintable-component quantities must equal `expected_paintable_count`; invalid products must fail loading or change-set validation.
 - A `PaintableProduct` contains public facts and sourced knowledge only. It never contains ownership, personal progress, physical workshop state, or personal recipes.
-- A `MarketPaintingGuide` targets a catalog item by ID and owns its public paint slots and source provenance. It is not the owner's recipe.
+- A `MarketPaintingGuide` targets a paintable component by ID and owns its public paint slots and source provenance. It is not the owner's recipe.
 
 ### Workshop bounded context
 
 - `Workshop` is an aggregate root with stable ID `my-workshop`. It is the durable owner context and references its `PaintingProject` aggregate IDs.
 - `PaintingProject` is the aggregate root for the owner's intent to paint one `PaintableProduct`. It has its own ID, name and lifecycle `planned -> active -> completed -> archived`. It references market facts by `paintable_product_id` and never copies them.
 - Creating a painting project is an idempotent application command. It uses catalog quantities to append one `painting_project.created` event and one `workshop_item.added` event per physical copy in one atomic ledger batch.
-- Every physical copy is a separate `WorkshopItem` aggregate root with its own workflow, recipe assignment, photos, notes, and history. It references both a `catalog_item_id` and a `painting_project_id`.
+- Every physical copy is a separate `WorkshopPaintable` aggregate root with its own workflow, recipe assignment, photos, notes, and history. It references both a `paintableComponentId` and a `paintingProjectId`; persisted encodings are documented below.
 - `WorkshopRecipe` has an independent lifecycle. It may be inspired by a market guide, but the owner's substitutions, mixtures, layers, and techniques belong only to the workshop.
 - Use `PaintingProject` in the core and technical contracts, and the French label “Projet” in the UI. Never use the ambiguous bare Java type `Project`.
 
@@ -83,13 +101,13 @@ SITE (supporting configuration, file-versioned)
 
 | Source | Relationship | Target | Rule |
 | --- | --- | --- | --- |
-| `CatalogItem` | belongs to | `PaintableProduct` | same `product_id`, no cross-product child |
-| `MarketPaintingGuide` | documents | `CatalogItem` | versioned, sourced market knowledge |
+| `PaintableComponent` | belongs to | `PaintableProduct` | same `product_id`, no cross-product child |
+| `MarketPaintingGuide` | documents | `PaintableComponent` | versioned, sourced market knowledge |
 | `PaintingProject` | references | `PaintableProduct` | `paintable_product_id`; market facts stay in market |
-| `WorkshopItem` | instance of | `CatalogItem` | one aggregate per physical copy |
-| `WorkshopItem` | grouped by | `PaintingProject` | `painting_project_id` |
-| `WorkshopRecipe` | plans | `CatalogItem` | owner lifecycle independent of market guide |
-| recipe assignment | attaches | `WorkshopItem` | two copies may use different recipes |
+| `WorkshopPaintable` | instance of | `PaintableComponent` | one aggregate per physical copy |
+| `WorkshopPaintable` | grouped by | `PaintingProject` | `painting_project_id` |
+| `WorkshopRecipe` | plans | `PaintableComponent` | owner lifecycle independent of market guide |
+| recipe assignment | attaches | `WorkshopPaintable` | two copies may use different recipes |
 
 Market product views and workshop views are distinct projections. Market responses never contain
 `inWorkshop`, owned quantity, personal progress, or any other workshop-derived field. When the UI
@@ -110,6 +128,7 @@ backend/
   domain/                 # Pure Java entities, value objects, events, workflow rules
   application/            # Commands, queries, handlers, ports, DTO contracts
   adapter-file/           # YAML/JSONL outbound repositories
+  adapter-lucene/         # Rebuildable embedded Market search index
   adapter-spring-events/  # Spring Events bus, asynchronous dispatch and lifecycle adapter
   bootstrap/              # Shared validated Spring configuration and bean wiring
   server/                 # Spring Boot and Spring MVC REST adapter
@@ -231,13 +250,13 @@ Examples:
 
 | Use case | REST adapter | CLI adapter |
 | --- | --- | --- |
-| Search market paints | `GET /api/v1/market/paints` | `minipaintdex market paints search` |
-| Refresh a paint brand | `POST /api/v1/market/paint-refreshes` | `minipaintdex market paints refresh` |
+| Search market paint-products | `POST /api/v1/market/paint-products/search` | `minipaintdex market paint-products search` |
+| Refresh a paint brand | `POST /api/v1/market/paint-refreshes` | `minipaintdex market paint-products refresh` |
 | Create a painting project | `POST /api/v1/workshop/painting-projects` | `minipaintdex workshop painting-projects create` |
-| Add a workshop item | `POST /api/v1/workshop/items` | `minipaintdex workshop items add` |
+| Add a workshop item | `POST /api/v1/workshop/paintables` | `minipaintdex workshop paintables add` |
 | Import a dataset | category-specific REST command | `minipaintdex datasets import` |
-| Transition a workflow stage | `POST /api/v1/workshop/items/{id}/stage-transitions` | `minipaintdex workshop stage transition` |
-| Attach a photo | `POST /api/v1/workshop/items/{id}/photos` | `minipaintdex workshop photos add` |
+| Transition a workflow stage | `POST /api/v1/workshop/paintables/{id}/stage-transitions` | `minipaintdex workshop paintables stages transition` |
+| Attach a photo | `POST /api/v1/workshop/paintables/{id}/photos` | `minipaintdex workshop photos add` |
 | Read activity | `GET /api/v1/activity` | `minipaintdex activity list` |
 | Rebuild projections | maintenance REST resource | `minipaintdex projections rebuild` |
 
@@ -360,7 +379,7 @@ Maintain complete paint ranges by brand and range where sources permit. Store on
 
 - manufacturer and brand;
 - manufacturer reference;
-- range and canonical `MarketPaintProfile`;
+- range and canonical `PaintProductProfile`;
 - color family and color metadata;
 - roles, application methods and system, coverage, finish, effects, undercoat, medium, volume, and other searchable properties;
 - lifecycle status such as current or discontinued;
@@ -381,7 +400,7 @@ Brand adapters map their source vocabulary to the canonical profile through one 
 
 Products whose roles are exclusively `varnish`, `medium`, or `auxiliary` use the canonical color family `auxiliary`. This is a selectable functional tone in the color facet, not missing or non-applicable color data. Its `color.hex` remains empty because inventing a representative chromatic value would be misleading.
 
-Each refreshed record also retains a semantically lossless `source_snapshots` envelope containing the provider, source URL and collected source payload. Provider-generated request-time metadata with no source meaning may be removed explicitly so identical refreshes stay idempotent; commercial facts, provenance and real source update dates remain preserved. This envelope is import and audit evidence, not a competing domain model: it is excluded from market search, facets and generic React filters. A source-specific field is promoted to `MarketPaintProfile` only when it expresses stable, cross-brand paint behavior useful to application use cases; volatile commerce and provider fields remain in the snapshot.
+Each refreshed record also retains a semantically lossless `source_snapshots` envelope containing the provider, source URL and collected source payload. Provider-generated request-time metadata with no source meaning may be removed explicitly so identical refreshes stay idempotent; commercial facts, provenance and real source update dates remain preserved. This envelope is import and audit evidence, not a competing domain model: it is excluded from market search, facets and generic React filters. A source-specific field is promoted to `PaintProductProfile` only when it expresses stable, cross-brand paint behavior useful to application use cases; volatile commerce and provider fields remain in the snapshot.
 
 Official collectors are independent brand adapters under `tools/minipaintdex-data/src/minipaintdex_data/official_sources`; the orchestrator owns only provider registration, cross-provider validation and audit assembly. Each adapter has a minimum absolute volume and a ratio guard against the existing catalog. A suspicious source drop must fail collection before a change set can be built.
 
@@ -391,15 +410,67 @@ Validated local copies are generated under `media/market/paints/<brand>/<paint-i
 
 When an official catalog page is protected from direct HTTP collection but remains normally accessible in an interactive browser, the operator may export an exact manifest of observed product reference, product page and largest rendered image URL. The deterministic image-source importer validates the brand hosts and exact catalog references. Official references absent from the current catalog are reported as unmatched and never silently discarded or invented.
 
-The market paint browser searches only canonical fields and supports API-published filters including brand, range, role, application method, application system, color, finish, medium, coverage, effect, undercoat, and lifecycle. `GET /api/v1/market/paint-model` publishes the JSON Schema, filter definitions, and controlled vocabularies used by the generic React filter UI. Ownership badges and owned-only filters belong to Workshop endpoints or to a UI composition of separate responses; Market services must never read the Workshop inventory to produce them.
+The market paint browser searches only canonical fields and supports API-published filters including brand, range, role, application method, application system, color, finish, medium, coverage, effect, undercoat, and lifecycle. `GET /api/v1/market/paint-product-model` publishes the JSON Schema, filter definitions, and controlled vocabularies used by the generic React filter UI. Ownership badges and owned-only filters belong to Workshop endpoints or to a UI composition of separate responses; Market services must never read the Workshop inventory to produce them.
 
 The paint-brand refresh skill must accept a brand name or `all`, where `all` is resolved dynamically from the brands already present in the market catalog. It may accept range, current/all scope, removal, and dry-run options. It must resolve aliases, prefer official sources, normalize identifiers, retain provenance and verification dates, compare every refreshed product with the local record, report additions and field-level updates, and handle missing products explicitly. Missing products are retired by default. Deletion requires verified complete source coverage, an explicit removal option, and application validation; owned paints and paints referenced by market guides or workshop recipes cannot be deleted. A dry run must not mutate canonical catalogs. Skills must use REST or CLI application interfaces for writes once those interfaces exist.
 
-Paints with roles `technical_effect`, `primer`, `wash`, `ink`, `varnish`, `medium`, `auxiliary`, or `pigment` must include structured `usage_instructions` with an explanatory summary, actionable steps, and useful tips or precautions. These instructions are market product knowledge and are displayed dynamically by the paint sheet.
+Paints with roles `technical_effect`, `primer`, `wash`, `ink`, `varnish`, `medium`, `auxiliary`, or `pigment` must resolve actionable instructions through explicit `usage_guide_ids` or product-specific `usage_instructions`. Shared guides own their summaries, steps, tips and translations; product-specific supplements must not duplicate them. These instructions are market product knowledge and are displayed dynamically by the paint sheet.
 
 Never fabricate a representative grey for an unknown color. An absent or invalid `color.hex` remains missing metadata in APIs, rendering, and reconciliation. The matcher uses its configured missing-metadata score, emits an explicit reason, and never reports a CIEDE2000 distance or `close_color` reason for an unknown color.
 
 Technical instructions must distinguish sourced product/range guidance from reusable generic templates through `instruction_status` and `review_required`. A generic template can help an operator but must remain visibly marked for review and must not be presented as manufacturer-specific instructions.
+
+### Shared paint usage documentation
+
+`PaintUsageGuide` belongs to Market, independently of `PaintProduct`, `PaintPot`, catalog editions
+and miniature-specific `MarketPaintingGuide`. It has a stable ID, brand, explicit range scope,
+business revision, original language/content, source URLs, knowledge status and translations.
+Brand YAML files store the shared registry under `paint_usage_guides`; products explicitly reference
+`usage_guide_ids`. A matching range never implicitly assigns a guide. References must resolve to
+same-brand guides within the declared range scope. Product-local `usage_instructions` are optional
+specific supplements; do not copy shared instructions into them. Technical paints must have actionable
+local instructions or a resolved shared guide with steps. Extraction preserves original provenance,
+does not change product identities and never touches Workshop history.
+
+Translations are content owned by a guide, not Site UI labels. Store their language, method, review
+status and source revision. Original content may be en, fr or explicitly mixed (mul); queries accept fr, en or original. Prefer a current French translation; otherwise expose the original and
+an explicit fallback/stale status. Translation never upgrades the original knowledge status. A guide
+source/content/scope change requires the next business revision; translations from older revisions
+remain traceable but are not served as current. Schema versions stay 1. REST and CLI expose the same
+typed guide queries and market change-set import semantics. Source HTML is evidence, never executable
+markup in the UI. Generic/imported advice must remain visibly distinct from verified manufacturer advice.
+
+### Paint search and suggestions
+
+Paint search uses embedded Lucene behind the application `PaintProductSearchIndex` output port.
+Lucene classes are confined to `adapter-lucene`; domain, application, REST and CLI contracts
+must not expose them. The initial index lives in JVM memory, warms before readiness, and rebuilds
+from the complete validated Market generation before the next search after a catalog change.
+A replacement is published only when complete. Index data is disposable, not an aggregate,
+an event history or a source of truth. No data migration is needed to rebuild it.
+
+Index canonical names, references, brands/aliases, ranges and profile metadata, never source
+snapshots or owner state. Search and suggest share text normalization, word-prefix matching,
+bounded name typo tolerance, relevance ordering and facet rules. References are never fuzzily
+corrected. Exact reference/name matches are prioritized; an empty search uses stable name/ID order.
+Settings belong to validated `minipaintdex.paint-search` configuration.
+
+Search uses dedicated read-only POST resources: `/api/v1/market/paint-products/search` and
+`/api/v1/workshop/paint-stocks/search`. Both accept a typed MiniPaintDex JSON contract:
+`query`, `filters`, `include` (results, suggestions, or both; default results) and optional
+`suggestionLimit`. This contract is inspired by search-engine APIs but is not Elasticsearch
+DSL or wire compatibility. Reject unsupported fields; never silently ignore an unknown query.
+REST and CLI share `PaintSearchQuery` / `PaintSearchResult`; CLI exposes `search --include`.
+No legacy collection-search or separate suggest aliases are maintained.
+Requested results are pageable via `page`, `size`, `sort`; HAL page links require POST with
+the same body. Facets remain separate GET resources using identical filter semantics.
+Unrequested response parts are null, not empty successes. Both parts share one ranked selection
+and one immutable generation per source. Result sorting never changes suggestion relevance.
+Compact suggestions use `paintProductId`, name, brand, range, reference and catalog visual.
+Suggestions-only requests return no result page or exhaustive total; blank text returns no suggestions.
+Workshop applies ownership before limiting candidates and does not multiply references by pot count.
+The browser debounces and aborts stale requests, supports keyboard selection, and never indexes
+the full catalog locally. Explicit field sorting remains available alongside `relevance,desc`.
 
 ### Paintable products and catalog items
 
@@ -440,20 +511,50 @@ The matcher may propose a single paint candidate, but the workshop solution may 
 
 Workshop paint inventory references market paint IDs rather than duplicating product metadata.
 
-```yaml
-schema_version: 1
-paints:
-  - paint_id: cit-29-34
-    quantity: 1
-```
+`PaintProduct` owns commercial reference facts; `PaintPot` owns one physical container's personal
+state. They are separate aggregate roots, not subtypes. A pot has its own stable ID and references
+`paintProductId`; two identical purchases are two pots. Commercial retirement never removes a pot.
+Pot registration, opening, condition/remaining-level observations, possession changes, notes and
+personal photos emit typed `paint_pot.*` events in the workshop ledger. Unknown opening, acquisition,
+condition and remaining level must remain unknown; registration time is not acquisition time.
+Possession (`owned`, `given-away`, `discarded`), condition (`unknown`, `usable`, `thickened`, `dried`)
+and remaining level (`unknown`, `full`, `half`, `low`, `empty`) are independent dimensions.
+Stock is a projection, never a separately editable count. Owned count includes owned empty/dried pots;
+available count excludes given-away/discarded, empty and dried pots. Unknown condition/level does not
+assert a full pot and remains available until an explicit contrary observation. Recipes reference
+products, not particular pots; availability uses that projection.
+Pot imports merge registrations by explicit stable pot ID, validate product identity, are atomic and
+idempotent, and never reset existing observations, photos or history. Rephotographing a pot does not
+register a new pot. Catalog changes cannot add inventory through quantity deltas or rekey product IDs
+referenced by immutable pot histories. Personal pot photos stay in Workshop; a catalog refresh must
+never replace them. Workshop views prefer a personal photo and explicitly label a catalog fallback.
+REST searches use `POST /api/v1/workshop/paint-stocks/search` (`results.content`, `paintProduct`, `quantity`, `availableQuantity`, `personalImage`) and the CLI uses
+`workshop paint-stocks search` / `facets`. Product relations use `paintableProductId`, component
+relations `paintableComponentId`, project relations `paintingProjectId` and physical-copy command
+targets `workshopPaintableId`. The corresponding physical-copy collection is `workshop/paintables`.
 
-Allow workshop-specific fields only when they describe the owned stock, such as quantity, acquisition details, bottle condition, or personal notes.
+Shopping list routes and CLI commands are scoped under `workshop/shopping-list/entries` and
+`workshop shopping-list entries`. `set-checked` changes only the checked marker; it neither records
+a purchase nor increments stock. Calculated requirements and explicit purchase intentions remain
+distinct, even when composed into one `ShoppingListEntryView`.
 
-## Physical workshop items
+Market and pre-existing workshop event encodings remain v1. Pot registrations and lifecycle use new `paint_pot.*` facts, also v1. `catalog_items` / `catalog_item_id`
+encode Paintable components, `product_id` encodes a Paintable product relationship, and ledger `workshop_item.*` / `shopping_item.status_changed` encode
+the renamed typed events. Dataset import adapters accept that same single persisted representation.
+Ordinary REST/CLI commands and results use the canonical names, not these serialized keys.
+The event envelope's project scope is distinct from the project referenced by a Workshop membership
+event: `scopePaintingProjectId` is null for Workshop events, even when their payload references a project.
+
+Paint stock has no editable YAML source. The former quantity file is retired after explicit pot
+registration with exact per-product counts. Every physical pot is identified independently; missing
+acquisition/opening dates, condition and remaining level stay unknown. Personal notes and images belong
+to that pot and survive any catalog refresh.
+
+## Physical workshop paintables
 
 Every physical miniature, vehicle, scenery piece, or other paintable component owned by the user is a first-class `workshop_item`. Do not model ownership only as a catalog ID plus a quantity or a painted boolean.
 
-Each physical item has its own stable ID and references one market catalog item and one painting project. It can independently hold a display name, recipe assignment, progress, notes, photos, and history. Multiple copies of one market item therefore produce multiple workshop items.
+Each physical item has its own stable ID and references one market catalog item and one painting project. It can independently hold a display name, recipe assignment, progress, notes, photos, and history. Multiple copies of one market item therefore produce multiple workshop paintables.
 
 ```yaml
 id: ws-reichbusters-soldier-001
@@ -462,7 +563,7 @@ painting_project_id: paint-reichbusters
 display_name: Soldier 1
 ```
 
-This per-item identity is mandatory because each physical piece may later receive its own progress photos and journal entries. Paintable-product quantities and completion counts in the workshop are projections calculated from workshop items, not primary ownership fields.
+This per-item identity is mandatory because each physical piece may later receive its own progress photos and journal entries. Paintable-product quantities and completion counts in the workshop are projections calculated from workshop paintables, not primary ownership fields.
 
 ## Painting workflow
 
@@ -596,7 +697,7 @@ Keep the interaction model uniform across the SPA:
 
 ## Media and provenance
 
-Store user-owned progress photos under `media/workshop` through the server. Attach them to individual workshop items and, when relevant, a workflow stage.
+Store personal photos under `media/workshop` through the server. Attach each to a `PaintPot` or a `WorkshopPaintable`; only a paintable photo may refer to a workflow stage.
 
 For internet images and manufacturer assets, retain source URLs, attribution, and usage status. Do not publish copied images without clear usage rights. Distinguish manufacturer packshots, sourced photos of actual painted results, user progress photos, and approximate generated or color-swatch previews.
 
@@ -616,16 +717,16 @@ Stable IDs act as foreign keys across market catalogs, workshop membership, phys
 
 ## Portable datasets and deterministic administration
 
-`data/` is active application storage. `datasets/` is a separate portable exchange area with the canonical categories `market.paint-brand`, `market.paintable-product`, `workshop.paints`, and `workshop.painting-project`.
+`data/` is active application storage. `datasets/` is a separate portable exchange area with the canonical categories `market.paint-brand`, `market.paintable-product`, `workshop.paint-pots`, and `workshop.painting-project`.
 
-Each named dataset contains a versioned `dataset.yaml` manifest and a checksummed `payload/change-set.json`. Python may read application references and create or validate datasets, but only Java application use cases may import them. `minipaintdex datasets import` performs a dry run by default and requires `--apply` to mutate storage. Importing `workshop.paints` replaces the inventory; market and painting-project imports merge through their domain commands.
+Each named dataset contains a versioned `dataset.yaml` manifest and a checksummed `payload/change-set.json`. Python may read application references and create or validate datasets, but only Java application use cases may import them. `minipaintdex datasets import` performs a dry run by default and requires `--apply` to mutate storage. All datasets merge through domain commands. `workshop.paint-pots` registers stable pot identities, preserving any existing lifecycle and media; it never replaces stock. This registration dataset exports currently owned pots, not their journals or photo binaries: use a full data/media backup to preserve history.
 
 Keep deterministic transformations in `tools/minipaintdex-data`. Human or agent reasoning identifies images, products, sources and ambiguity; Python performs hashing, normalization, comparison, packaging and validation. Do not encode visual identification or unverified web judgments in deterministic scripts.
 
 Owned-paint photo intake is `imports/workshop-paints/photos/`, with batch archives under
 `imports/workshop-paints/archive/<date>/<import-id>/` and processing evidence under
 `imports/workshop-paints/runs/<import-id>/`. Other import targets must use separate roots.
-Photo manifests declare `target: workshop.paints`, a stable import ID, source SHA-256 and a
+Photo manifests declare `target: workshop.paint-pots`, a stable import ID, verified ledger SHA-256, explicit paint-pot IDs for imported photos, source SHA-256 and a
 per-photo outcome. Archive only verified imports and confirmed duplicates; unresolved photos
 remain in intake. Never overwrite an archive or count a repeated photo twice. Retain original
 paths as historical evidence and maintain a relocation manifest with current locations and hashes.

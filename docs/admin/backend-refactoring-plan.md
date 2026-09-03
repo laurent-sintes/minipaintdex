@@ -97,7 +97,7 @@ Une base de caractérisation minimale et des frontières automatiquement protég
 
 - Introduire les value objects d’identité et de version nécessaires.
 - Introduire une abstraction framework-independent `AggregateRoot` et le support des événements en attente.
-- Transformer `Workshop`, `PaintingProject`, `WorkshopItem` et `WorkshopRecipe` en agrégats exécutables :
+- Transformer `Workshop`, `PaintingProject`, `WorkshopPaintable` et `WorkshopRecipe` en agrégats exécutables :
   - les méthodes métier valident les invariants ;
   - elles émettent les événements ;
   - elles appliquent ces événements à leur propre état ;

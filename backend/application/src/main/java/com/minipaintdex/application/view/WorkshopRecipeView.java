@@ -8,7 +8,7 @@ import java.util.List;
 /** Personal paint recipe with a lifecycle independent from its market guide. */
 public record WorkshopRecipeView(
         String id,
-        String catalogItemId,
+        String paintableComponentId,
         String basedOnGuideId,
         String supersedesRecipeId,
         String displayName,

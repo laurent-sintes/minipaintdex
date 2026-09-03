@@ -232,7 +232,7 @@ def command_hash_photos(args: argparse.Namespace) -> int:
                     "mtime_utc": datetime.fromtimestamp(stat.st_mtime, timezone.utc).isoformat(),
                 }
             )
-    write_json(Path(args.output), {"schema_version": 1, "target": "workshop.paints", "root": str(directory), "photos": manifest})
+    write_json(Path(args.output), {"schema_version": 1, "target": "workshop.paint-pots", "root": str(directory), "photos": manifest})
     print(f"{len(manifest)} photo(s) indexée(s) dans {args.output}")
     return 0
 

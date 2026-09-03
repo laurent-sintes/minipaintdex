@@ -7,8 +7,8 @@ import com.minipaintdex.application.validation.StructuredDocuments;
 import com.minipaintdex.application.view.DashboardView;
 import com.minipaintdex.application.view.SiteConfigurationView;
 import com.minipaintdex.domain.workshop.PaintingProjectProjector;
-import com.minipaintdex.domain.workshop.WorkshopItemProjector;
-import com.minipaintdex.domain.workshop.WorkshopItemState;
+import com.minipaintdex.domain.workshop.WorkshopPaintableProjector;
+import com.minipaintdex.domain.workshop.WorkshopPaintableState;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -34,13 +34,11 @@ public final class SiteApplicationService implements SiteQueries {
     public DashboardView dashboard() {
         var snapshot = snapshots.load();
         var catalog = MarketCatalogFactory.create(
-                snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions());
-        var items = WorkshopItemProjector.project(snapshot.events());
+                snapshot.paintProducts(), snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions(), snapshot.paintUsageGuides());
+        var items = WorkshopPaintableProjector.project(snapshot.events());
         var projects = PaintingProjectProjector.project(snapshot.events());
-        var ownedPaintIds = StructuredDocuments.toMaps(snapshot.paintInventory()).stream()
-                .filter(entry -> StructuredDocuments.integer(entry.get("quantity"), "paint_inventory.quantity") > 0)
-                .map(entry -> StructuredDocuments.text(entry.get("paint_id"))).collect(Collectors.toSet());
-        var completedItems = items.stream().filter(WorkshopItemState::completed).count();
+        var ownedPaintIds = snapshot.paintInventory().ownedPaintProductIds();
+        var completedItems = items.stream().filter(WorkshopPaintableState::completed).count();
         return new DashboardView(
                 new DashboardView.PaintStats(
                         catalog.paints().size(), ownedPaintIds.size(),

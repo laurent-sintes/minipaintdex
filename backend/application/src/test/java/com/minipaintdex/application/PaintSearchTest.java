@@ -1,8 +1,8 @@
 package com.minipaintdex.application;
 
 import com.minipaintdex.application.query.PaintRangeSelection;
-import com.minipaintdex.application.query.SearchMarketPaintsQuery;
-import com.minipaintdex.application.view.MarketPaintView;
+import com.minipaintdex.application.query.SearchPaintProductsQuery;
+import com.minipaintdex.application.view.PaintProductView;
 import com.minipaintdex.application.view.PaintFacetsView;
 import com.minipaintdex.domain.shared.DomainException;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PaintSearchTest {
-    private final List<MarketPaintView> paints = List.of(
+    private final List<PaintProductView> paints = List.of(
             paint("a-blue", "Alpha", "Brush", "blue", "brush"),
             paint("a-red", "Alpha", "Air", "red", "airbrush"),
             paint("b-blue", "Beta", "Brush", "blue", "brush"),
@@ -37,7 +37,7 @@ class PaintSearchTest {
     @Test
     void countsAlternativesIgnoringOnlyTheirOwnFacetAndTheCombinedCatalogGroup() {
         var query = query(List.of("Alpha"), null, List.of("blue"), null);
-        var facets = PaintSearch.facets(paints, query);
+        var facets = PaintSearch.facets(paints, query, paints.stream().map(PaintProductView::id).collect(Collectors.toSet()));
         assertEquals(1, facets.total());
         assertEquals(Map.of("blue", 1, "red", 1, "green", 0), counts(facets, "colors"));
         assertEquals(Map.of("Alpha", 1, "Beta", 1), counts(facets, "brands"));
@@ -49,10 +49,10 @@ class PaintSearchTest {
     }
 
     @Test
-    void retainsZeroCountOptionsAndHonorsTextSearch() {
-        var query = SearchMarketPaintsQuery.fromSelections("  BÉTA b-blue ", null, null, null, null, null,
+    void retainsZeroCountOptionsAndHonorsTextMatchesFromTheSearchPort() {
+        var query = SearchPaintProductsQuery.fromSelections("  BÉTA b-blue ", null, null, null, null, null,
                 List.of("red"), null, null, null, null, null, null);
-        var facets = PaintSearch.facets(paints, query);
+        var facets = PaintSearch.facets(paints, query, java.util.Set.of("b-blue"));
         assertEquals(0, facets.total());
         assertEquals(Map.of("blue", 1, "red", 0, "green", 0), counts(facets, "colors"));
     }
@@ -75,8 +75,8 @@ class PaintSearchTest {
         assertThrows(UnsupportedOperationException.class, () -> query.color().add("red"));
     }
 
-    private List<String> matching(SearchMarketPaintsQuery query) {
-        return paints.stream().filter(paint -> PaintSearch.matches(paint, query)).map(MarketPaintView::id).toList();
+    private List<String> matching(SearchPaintProductsQuery query) {
+        return paints.stream().filter(paint -> PaintSearch.matches(paint, query)).map(PaintProductView::id).toList();
     }
 
     private static Map<String, Integer> counts(PaintFacetsView facets, String id) {
@@ -84,17 +84,17 @@ class PaintSearchTest {
                 .collect(Collectors.toMap(value -> value.value(), value -> value.count()));
     }
 
-    private static SearchMarketPaintsQuery query(List<String> brands, List<String> ranges, List<String> colors, List<String> methods) {
-        return SearchMarketPaintsQuery.fromSelections("", brands, ranges, null, methods, null, colors, null, null, null, null, null, null);
+    private static SearchPaintProductsQuery query(List<String> brands, List<String> ranges, List<String> colors, List<String> methods) {
+        return SearchPaintProductsQuery.fromSelections("", brands, ranges, null, methods, null, colors, null, null, null, null, null, null);
     }
 
-    private static MarketPaintView paint(String id, String brand, String range, String color, String method) {
-        return new MarketPaintView(id, brand, brand, List.of(), range,
-                new MarketPaintView.Profile(List.of("color_paint"), List.of(method), "conventional_layering",
+    private static PaintProductView paint(String id, String brand, String range, String color, String method) {
+        return new PaintProductView(id, brand, brand, List.of(), range,
+                new PaintProductView.Profile(List.of("color_paint"), List.of(method), "conventional_layering",
                         "opaque", "matte", List.of(), "any", false, "water_based_acrylic"),
                 id, "Paint", "#000000", "active", "confirmed", "", List.of(),
                 "", "", "", "", "", "", "", "none", 6, "", "", "", "", 18, color, "", List.of(),
-                new MarketPaintView.UsageInstructions("", List.of(), List.of(), "", false),
-                "", "", "", "", "", "", List.of());
+                new PaintProductView.UsageInstructions("", List.of(), List.of(), "", false),
+                "", "", "", "", "", "", List.of(), java.util.List.of());
     }
 }

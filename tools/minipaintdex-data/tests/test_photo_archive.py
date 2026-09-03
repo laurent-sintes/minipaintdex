@@ -1,4 +1,6 @@
+import json
 import uuid
+from minipaintdex_data.paint_pots import ledger_snapshot
 import shutil
 import unittest
 from pathlib import Path
@@ -12,15 +14,15 @@ class PhotoArchiveTests(unittest.TestCase):
         self.root = (parent / uuid.uuid4().hex).resolve()
         self.root.mkdir()
         self.addCleanup(shutil.rmtree, self.root)
-        stock = self.root / "data/workshop/paints.yaml"
+        stock = self.root / "data/ledger/events/2026-09.jsonl"
         stock.parent.mkdir(parents=True)
-        stock.write_text("schema_version: 1\npaints: []\n", encoding="utf-8")
+        stock.write_text(json.dumps({"event_type": "paint_pot.registered", "aggregate_id": "pot-1", "payload": {"paint_product_id": "paint-1"}}) + "\n", encoding="utf-8")
         self.photo = self.root / "imports/workshop-paints/photos/test.jpeg"
         self.photo.parent.mkdir(parents=True)
         self.photo.write_bytes(b"test photo contents")
-        self.manifest = {"schema_version": 1, "target": "workshop.paints", "import_id": "test-import",
-                         "archive_date": "2026-09-03", "verified_inventory_sha256": digest(stock),
-                         "photos": [{"path": "test.jpeg", "sha256": digest(self.photo), "outcome": "imported"}]}
+        self.manifest = {"schema_version": 1, "target": "workshop.paint-pots", "import_id": "test-import",
+                         "archive_date": "2026-09-03", "verified_ledger_sha256": ledger_snapshot(self.root)["ledgerSha256"],
+                         "photos": [{"path": "test.jpeg", "sha256": digest(self.photo), "outcome": "imported", "paint_pot_ids": ["pot-1"]}]}
 
     def test_dry_run_then_idempotent_archive_and_pending_photos(self):
         pending = self.photo.with_name("pending.jpeg")
@@ -36,7 +38,7 @@ class PhotoArchiveTests(unittest.TestCase):
         self.assertEqual(result, archive_batch(self.root, self.manifest, apply=True))
 
     def test_rejects_wrong_target_changed_stock_path_escape_and_overwrite(self):
-        for override in [{"target": "market.paints"}, {"verified_inventory_sha256": "wrong"}, {"import_id": "../escape"}]:
+        for override in [{"target": "market.paints"}, {"verified_ledger_sha256": "wrong"}, {"import_id": "../escape"}]:
             with self.subTest(override=override), self.assertRaises(ValueError):
                 archive_batch(self.root, self.manifest | override, apply=True)
         self.assertTrue(self.photo.exists())

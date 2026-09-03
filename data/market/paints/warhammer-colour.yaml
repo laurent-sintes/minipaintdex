@@ -1,5 +1,767 @@
 schema_version: 1
 brand: Warhammer Colour
+paint_usage_guides:
+- brand: Warhammer Colour
+  id: cit-usage-2b20bab489772ed3
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: ''
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Air
+  - Technical
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: </br>
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/citadel-ardcoat
+  - https://eirehobbies.com/products/citadel-lahmian-medium
+  - https://wulfgaming.com/products/citadel-technical-contrast-medium-24ml
+  - https://wulfgaming.com/products/citadel-technical-stormshield-24ml
+  - https://www.wog.ch/en/index.cfm/details/product/147068-Citadel-Colour-Air-Caste-Thinner-24ml
+  title: Technical
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: ''
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Warhammer Colour
+  id: cit-usage-2f118f2431379d3c
+  knowledge_status: unverified
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply one or more thin coats.
+    - Let each coat dry before highlighting.
+    summary: Opaque layer paint for warm dark-grey layers and highlights.
+    tips:
+    - Thin the paint slightly to preserve surface detail.
+  original_language: en
+  ranges:
+  - Layer
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Shake thoroughly.
+      - Apply one or more thin coats.
+      - Let each coat dry before highlighting.
+      summary: Opaque layer paint for warm dark-grey layers and highlights.
+      tips:
+      - Thin the paint slightly to preserve surface detail.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/citadel-skavenblight-dinge
+  title: Layer
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer une ou plusieurs couches fines.
+      - Laisser sécher chaque couche avant de réaliser les éclaircissements.
+      summary: Peinture opaque pour les couches et éclaircissements gris foncé chaud.
+      tips:
+      - Diluer légèrement la peinture pour préserver les détails de surface.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Warhammer Colour
+  id: cit-usage-56feb84ae29c906c
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Auxiliary product (Munitorum Varnish) used to modify, protect or support
+      the painting process.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Spray
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: generic_template
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Auxiliary product (Munitorum Varnish) used to modify, protect or support
+        the painting process.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/munitorum-varnish-spray
+  title: Spray
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Produit auxiliaire (Munitorum Varnish) destiné à modifier, protéger
+        ou faciliter le travail de peinture.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Warhammer Colour
+  id: cit-usage-63284b11f31038e1
+  knowledge_status: unverified
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply one or more thin coats.
+    - Let each coat dry before highlighting.
+    summary: Opaque layer paint for warm brown layers and highlights.
+    tips:
+    - Thin the paint slightly to preserve surface detail.
+  original_language: en
+  ranges:
+  - Layer
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Shake thoroughly.
+      - Apply one or more thin coats.
+      - Let each coat dry before highlighting.
+      summary: Opaque layer paint for warm brown layers and highlights.
+      tips:
+      - Thin the paint slightly to preserve surface detail.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/citadel-skrag-brown
+  title: Layer
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer une ou plusieurs couches fines.
+      - Laisser sécher chaque couche avant de réaliser les éclaircissements.
+      summary: Peinture opaque pour les couches et éclaircissements brun chaud.
+      tips:
+      - Diluer légèrement la peinture pour préserver les détails de surface.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Warhammer Colour
+  id: cit-usage-659d13dc1d7a6013
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply thin, even coats to a clean model.
+    - Allow to dry fully before painting.
+    summary: Primer intended to provide an even surface for subsequent paint layers.
+    tips:
+    - Keep surface detail visible and follow the safety directions on the label.
+  original_language: en
+  ranges:
+  - Spray
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: generic_template
+      review_required: true
+      steps:
+      - Shake thoroughly.
+      - Apply thin, even coats to a clean model.
+      - Allow to dry fully before painting.
+      summary: Primer intended to provide an even surface for subsequent paint layers.
+      tips:
+      - Keep surface detail visible and follow the safety directions on the label.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-chaos-black-spray
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-grey-seer-spray
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-leadbelcher-spray
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-macragge-blue-spray
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-mechanicus-standard-grey-1
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-retributor-armour
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-wraithbone-spray
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/copy-of-macragge-blue-spray
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/death-guard-green-spray
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/white-scar-spray-pre-order
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/zandri-dust
+  title: Spray
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer des couches fines et régulières sur une figurine propre.
+      - Laisser sécher complètement avant de peindre.
+      summary: Sous-couche destinée à offrir une surface uniforme pour les couches
+        de peinture suivantes.
+      tips:
+      - Préserver les détails de surface et respecter les consignes de sécurité de
+        l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Warhammer Colour
+  id: cit-usage-66a5d25dfd4d6106
+  knowledge_status: unverified
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply a thin even coat.
+    - Let it dry and add a second thin coat if required.
+    summary: High-pigment opaque base paint for a solid black foundation.
+    tips:
+    - Avoid one heavy coat so fine detail remains sharp.
+  original_language: en
+  ranges:
+  - Base
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Shake thoroughly.
+      - Apply a thin even coat.
+      - Let it dry and add a second thin coat if required.
+      summary: High-pigment opaque base paint for a solid black foundation.
+      tips:
+      - Avoid one heavy coat so fine detail remains sharp.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/citadel-abaddon-black
+  title: Base
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer une couche fine et régulière.
+      - Laisser sécher et ajouter une seconde couche fine si nécessaire.
+      summary: Peinture de base opaque, riche en pigments, pour obtenir une base noire
+        uniforme.
+      tips:
+      - Éviter une couche épaisse pour conserver la netteté des détails.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Warhammer Colour
+  id: cit-usage-68b9cce4e6e0fb42
+  knowledge_status: unverified
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply one or more thin coats.
+    - Let each coat dry before highlighting.
+    summary: Opaque layer paint for purple layers and highlights.
+    tips:
+    - Thin the paint slightly to preserve surface detail.
+  original_language: en
+  ranges:
+  - Layer
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Shake thoroughly.
+      - Apply one or more thin coats.
+      - Let each coat dry before highlighting.
+      summary: Opaque layer paint for purple layers and highlights.
+      tips:
+      - Thin the paint slightly to preserve surface detail.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/citadel-genestealer-purple
+  title: Layer
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer une ou plusieurs couches fines.
+      - Laisser sécher chaque couche avant de réaliser les éclaircissements.
+      summary: Peinture opaque pour les couches et éclaircissements violets.
+      tips:
+      - Diluer légèrement la peinture pour préserver les détails de surface.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Warhammer Colour
+  id: cit-usage-817013e82dc73a95
+  knowledge_status: unverified
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply a generous controlled coat over a light undercoat.
+    - Guide excess away from flat areas and let the coat dry fully.
+    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
+      in one application, or to glaze and tint.
+    tips:
+    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  original_language: en
+  ranges:
+  - Contrast
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Shake thoroughly.
+      - Apply a generous controlled coat over a light undercoat.
+      - Guide excess away from flat areas and let the coat dry fully.
+      summary: Contrast paint formulated to base, shade and highlight over a light
+        undercoat in one application, or to glaze and tint.
+      tips:
+      - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/briar-queen-pre-order
+  - https://eirehobbies.com/products/citadel-apothecary-white
+  - https://eirehobbies.com/products/citadel-creed-camo
+  - https://eirehobbies.com/products/citadel-cygor-brown
+  - https://eirehobbies.com/products/citadel-darkoath-flesh
+  - https://eirehobbies.com/products/citadel-gore-grunta-fur
+  - https://eirehobbies.com/products/citadel-gryph-charger-grey
+  - https://eirehobbies.com/products/citadel-guilliman-flesh
+  - https://eirehobbies.com/products/citadel-leviadon-blue
+  - https://eirehobbies.com/products/citadel-militarum-green
+  - https://eirehobbies.com/products/citadel-nazdreg-yellow
+  - https://eirehobbies.com/products/citadel-ork-flesh
+  - https://eirehobbies.com/products/citadel-plaguebearer-flesh
+  - https://eirehobbies.com/products/citadel-snakebite-leather
+  - https://eirehobbies.com/products/citadel-talassar-blue
+  - https://eirehobbies.com/products/citadel-terradon-turquoise
+  - https://eirehobbies.com/products/citadel-wyldwood
+  - https://eirehobbies.com/products/gutrippa-flesh-pre-order
+  - https://eirehobbies.com/products/imperial-fist-pre-order
+  - https://eirehobbies.com/products/ironjawz-yellow-pre-order
+  - https://eirehobbies.com/products/kroxigor-scales-pre-order
+  - https://eirehobbies.com/products/mantis-warriors-pre-order
+  - https://eirehobbies.com/products/pylar-glacier-pre-order
+  - https://www.twomoons.ch/en/aggaros-dunes-aggaros-dunes-18ml
+  title: Contrast
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer une couche généreuse, en maîtrisant la quantité, sur une sous-couche
+        claire.
+      - Éloigner l’excédent des surfaces planes et laisser sécher complètement.
+      summary: Peinture Contrast conçue pour réaliser la couleur de base, les ombres
+        et les éclaircissements en une application sur une sous-couche claire, ou
+        pour réaliser des glacis et teinter.
+      tips:
+      - Peut également servir de glacis ou de teinte ; éviter les accumulations non
+        maîtrisées.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Warhammer Colour
+  id: cit-usage-a0ce307cdf30432a
+  knowledge_status: unverified
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply a controlled coat over a light undercoat.
+    - Guide excess into recesses and let the coat dry fully.
+    summary: Transparent spectral colour for shading and tinting a light undercoat.
+    tips:
+    - Keep raised areas lighter to preserve the spectral effect.
+  original_language: en
+  ranges:
+  - Contrast
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Shake thoroughly.
+      - Apply a controlled coat over a light undercoat.
+      - Guide excess into recesses and let the coat dry fully.
+      summary: Transparent spectral colour for shading and tinting a light undercoat.
+      tips:
+      - Keep raised areas lighter to preserve the spectral effect.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/nighthaunt-gloom-pre-order
+  title: Contrast
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer une couche maîtrisée sur une sous-couche claire.
+      - Diriger l’excédent vers les creux et laisser sécher complètement.
+      summary: Couleur spectrale transparente destinée à ombrer et teinter une sous-couche
+        claire.
+      tips:
+      - Conserver des reliefs plus clairs pour préserver l’effet spectral.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Warhammer Colour
+  id: cit-usage-abbc6bf5046650e3
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Test on a spare base first.
+    - Spread a small amount on the base with a suitable tool, avoiding the miniature.
+    - Allow the texture to dry fully before painting or drybrushing.
+    summary: Generic basing-texture guidance; manufacturer-specific instructions require
+      review.
+    tips:
+    - Keep the lid closed between uses.
+  original_language: en
+  ranges:
+  - Technical
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: generic_template
+      review_required: true
+      steps:
+      - Test on a spare base first.
+      - Spread a small amount on the base with a suitable tool, avoiding the miniature.
+      - Allow the texture to dry fully before painting or drybrushing.
+      summary: Generic basing-texture guidance; manufacturer-specific instructions
+        require review.
+      tips:
+      - Keep the lid closed between uses.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://www.frontlinegames.de/Citadel-Technical-Armageddon-Dunes-24ml_3
+  title: Technical
+  translations:
+  - content:
+      steps:
+      - Faire d’abord un essai sur un socle de réserve.
+      - Étaler une petite quantité sur le socle avec un outil adapté, en évitant la
+        figurine.
+      - Laisser sécher complètement la texture avant de peindre ou de brosser à sec.
+      summary: Conseils génériques pour les textures de soclage ; les consignes propres
+        au fabricant restent à vérifier.
+      tips:
+      - Garder le couvercle fermé entre les utilisations.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Warhammer Colour
+  id: cit-usage-c86959a949b58d81
+  knowledge_status: unverified
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply a generous controlled coat over a light undercoat.
+    - Guide excess away from flat areas and let the coat dry fully.
+    summary: Contrast paint formulated to create base colour and shading over a light
+      undercoat in one controlled coat.
+    tips:
+    - Work one connected area at a time and avoid uncontrolled pooling.
+  original_language: en
+  ranges:
+  - Contrast
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Shake thoroughly.
+      - Apply a generous controlled coat over a light undercoat.
+      - Guide excess away from flat areas and let the coat dry fully.
+      summary: Contrast paint formulated to create base colour and shading over a
+        light undercoat in one controlled coat.
+      tips:
+      - Work one connected area at a time and avoid uncontrolled pooling.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/citadel-fyreslayer-flesh
+  title: Contrast
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer une couche généreuse, en maîtrisant la quantité, sur une sous-couche
+        claire.
+      - Éloigner l’excédent des surfaces planes et laisser sécher complètement.
+      summary: Peinture Contrast conçue pour créer la couleur de base et les ombres
+        en une couche maîtrisée sur une sous-couche claire.
+      tips:
+      - Travailler une zone continue à la fois et éviter les accumulations non maîtrisées.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Warhammer Colour
+  id: cit-usage-e700db49a68651c5
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Mix or shake the product as directed on its label.
+    - Test the effect, then apply it to the intended area.
+    - Let the effect set before adding another layer.
+    summary: ''
+    tips:
+    - Use dedicated tools when required and consult the manufacturer page for product-specific
+      precautions.
+  original_language: en
+  ranges:
+  - Technical
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Mix or shake the product as directed on its label.
+      - Test the effect, then apply it to the intended area.
+      - Let the effect set before adding another layer.
+      summary: </br>
+      tips:
+      - Use dedicated tools when required and consult the manufacturer page for product-specific
+        precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/citadel-agrellan-earth
+  - https://eirehobbies.com/products/citadel-armageddon-dust
+  - https://eirehobbies.com/products/citadel-astrogranite
+  - https://eirehobbies.com/products/citadel-blood-for-the-blood-god
+  - https://eirehobbies.com/products/citadel-martian-ironearth
+  - https://eirehobbies.com/products/citadel-nihilakh-oxide
+  - https://eirehobbies.com/products/citadel-nurgles-rot
+  - https://eirehobbies.com/products/citadel-spiritstone-red
+  - https://eirehobbies.com/products/citadel-stirland-mud
+  - https://eirehobbies.com/products/citadel-typhus-corrosion
+  - https://eirehobbies.com/products/citadel-valhallan-blizzard-technical
+  - https://eirehobbies.com/products/martian-ironcrust
+  - https://eirehobbies.com/products/mordant-earth
+  - https://eirehobbies.com/products/soulstone-blue
+  - https://eirehobbies.com/products/tesseract-glow
+  - https://eirehobbies.com/products/waystone-green
+  - https://elementgames.co.uk/games-workshop/warhammer-40k/tyranids/games-workshop/citadel-games-workshop-paints/technical-agrellan-badland-24ml
+  title: Technical
+  translations:
+  - content:
+      steps:
+      - Mélanger ou agiter le produit conformément aux indications de l’étiquette.
+      - Tester l’effet, puis l’appliquer sur la zone souhaitée.
+      - Laisser l’effet prendre avant d’ajouter une nouvelle couche.
+      summary: ''
+      tips:
+      - Employer des outils dédiés si nécessaire et consulter la page du fabricant
+        pour les précautions propres au produit.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Warhammer Colour
+  id: cit-usage-e843dc38221c8747
+  knowledge_status: unverified
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply in thin coats with a slightly damp brush.
+    - Let each coat dry before adding another coat or a final highlight.
+    summary: Opaque layer paint for smooth white layers and crisp final highlights.
+    tips:
+    - Several thin coats give a smoother white than one thick coat.
+  original_language: en
+  ranges:
+  - Layer
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Shake thoroughly.
+      - Apply in thin coats with a slightly damp brush.
+      - Let each coat dry before adding another coat or a final highlight.
+      summary: Opaque layer paint for smooth white layers and crisp final highlights.
+      tips:
+      - Several thin coats give a smoother white than one thick coat.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/citadel-white-scar
+  title: Layer
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer en couches fines avec un pinceau légèrement humide.
+      - Laisser sécher chaque couche avant d’en ajouter une autre ou de réaliser un
+        éclaircissement final.
+      summary: Peinture opaque pour des couches blanches lisses et des éclaircissements
+        finaux nets.
+      tips:
+      - Plusieurs couches fines donnent un blanc plus lisse qu’une seule couche épaisse.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Warhammer Colour
+  id: cit-usage-efe5097b3ccde6d5
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply selectively to recesses or the target area.
+    - Remove unwanted pooling and let the layer dry.
+    summary: ''
+    tips:
+    - Build several controlled layers instead of flooding fine details.
+  original_language: en
+  ranges:
+  - Shade
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Shake thoroughly.
+      - Apply selectively to recesses or the target area.
+      - Remove unwanted pooling and let the layer dry.
+      summary: </br>
+      tips:
+      - Build several controlled layers instead of flooding fine details.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/agrax-earthshade-18ml-pre-order
+  - https://eirehobbies.com/products/athonion-camoshade-18ml-pre-order
+  - https://eirehobbies.com/products/berzerker-bloodshade-18ml-pre-order
+  - https://eirehobbies.com/products/biel-tan-green-18ml-pre-order
+  - https://eirehobbies.com/products/carroburg-crimson-18ml-pre-order
+  - https://eirehobbies.com/products/casandora-yellow-18ml-pre-order
+  - https://eirehobbies.com/products/colia-greenshade-18ml-pre-order
+  - https://eirehobbies.com/products/drakenhof-nightshade-18ml-pre-order
+  - https://eirehobbies.com/products/druchii-violet-18ml-pre-order
+  - https://eirehobbies.com/products/fuegan-orange-18ml-pre-order
+  - https://eirehobbies.com/products/kroak-green-18ml-pre-order
+  - https://eirehobbies.com/products/nuln-oil-18ml-pre-order
+  - https://eirehobbies.com/products/poxwalker-18ml-pre-order
+  - https://eirehobbies.com/products/reikland-fleshshade-18ml-pre-order
+  - https://eirehobbies.com/products/seraphim-sepia-18ml-pre-order
+  - https://eirehobbies.com/products/soulblight-grey-18ml-pre-order
+  - https://eirehobbies.com/products/targor-rageshade-18ml-pre-order
+  - https://eirehobbies.com/products/tyran-blue-18ml-pre-order
+  - https://www.wog.ch/en/index.cfm/details/product/147057-Citadel-Colour-Shade-Mortarion-Grime-18ml
+  title: Shade
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer de manière ciblée dans les creux ou sur la zone souhaitée.
+      - Retirer les accumulations indésirables et laisser sécher la couche.
+      summary: ''
+      tips:
+      - Superposer plusieurs couches maîtrisées plutôt que de noyer les détails.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Warhammer Colour
+  id: cit-usage-fcb6e57e9c9045db
+  knowledge_status: unverified
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply a controlled coat over a light undercoat.
+    - Remove excess from flat areas and let the coat dry fully.
+    summary: Contrast paint formulated to create a muted dirty base and shading over
+      a light undercoat.
+    tips:
+    - Use controlled pooling to reinforce grime only where it is wanted.
+  original_language: en
+  ranges:
+  - Contrast
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Shake thoroughly.
+      - Apply a controlled coat over a light undercoat.
+      - Remove excess from flat areas and let the coat dry fully.
+      summary: Contrast paint formulated to create a muted dirty base and shading
+        over a light undercoat.
+      tips:
+      - Use controlled pooling to reinforce grime only where it is wanted.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/ratling-grime-pre-order
+  title: Contrast
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer une couche maîtrisée sur une sous-couche claire.
+      - Retirer l’excédent des surfaces planes et laisser sécher complètement.
+      summary: Peinture Contrast conçue pour créer une base terne et salie ainsi que
+        des ombres sur une sous-couche claire.
+      tips:
+      - Maîtriser les accumulations pour renforcer la salissure uniquement aux endroits
+        souhaités.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
 paints:
 - brand: Warhammer Colour
   brand_aliases:
@@ -119,17 +881,8 @@ paints:
     url: https://www.frontlinegames.de/Citadel-Technical-Armageddon-Dunes-24ml_3
   tags: [
     ]
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Test on a spare base first.
-    - Spread a small amount on the base with a suitable tool, avoiding the miniature.
-    - Allow the texture to dry fully before painting or drybrushing.
-    summary: Generic basing-texture guidance; manufacturer-specific instructions require
-      review.
-    tips:
-    - Keep the lid closed between uses.
+  usage_guide_ids:
+  - cit-usage-abbc6bf5046650e3
   verified_at: '2026-09-03'
   volume_ml: 24
   warnings: [
@@ -6112,17 +6865,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: </br>
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - cit-usage-e700db49a68651c5
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -6292,17 +7036,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: </br>
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - cit-usage-e700db49a68651c5
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -6472,17 +7207,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: </br>
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - cit-usage-e700db49a68651c5
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -6659,17 +7385,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: </br>
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - cit-usage-e700db49a68651c5
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -6839,17 +7556,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: </br>
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - cit-usage-e700db49a68651c5
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -7019,17 +7727,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: </br>
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - cit-usage-e700db49a68651c5
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -7199,17 +7898,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: </br>
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - cit-usage-e700db49a68651c5
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -7379,17 +8069,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: </br>
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - cit-usage-e700db49a68651c5
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -7566,17 +8247,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: </br>
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - cit-usage-e700db49a68651c5
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -7726,16 +8398,8 @@ paints:
     url: https://eirehobbies.com/products/citadel-lahmian-medium
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: </br>
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - cit-usage-2b20bab489772ed3
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -7885,16 +8549,8 @@ paints:
     url: https://wulfgaming.com/products/citadel-technical-contrast-medium-24ml
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: </br>
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - cit-usage-2b20bab489772ed3
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -8044,16 +8700,8 @@ paints:
     url: https://wulfgaming.com/products/citadel-technical-stormshield-24ml
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: </br>
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - cit-usage-2b20bab489772ed3
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -12374,16 +13022,8 @@ paints:
     url: https://www.wog.ch/en/index.cfm/details/product/147068-Citadel-Colour-Air-Caste-Thinner-24ml
   tags:
   - Air
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: </br>
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - cit-usage-2b20bab489772ed3
   verified_at: '2026-09-01'
   volume_ml: 24
   warnings:
@@ -17475,15 +18115,8 @@ paints:
   - bleu
   - ombre
   - contrast
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -18205,15 +18838,8 @@ paints:
   - jaune
   - ocre
   - contrast
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -18379,15 +19005,8 @@ paints:
   - peau
   - Contrast
   - une couche
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -18554,15 +19173,8 @@ paints:
   - militaire
   - Contrast
   - une couche
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -18729,15 +19341,8 @@ paints:
   - uniforme
   - Contrast
   - une couche
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -18895,15 +19500,8 @@ paints:
   - sable
   - cuir
   - contrast
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -19256,15 +19854,8 @@ paints:
   - bois
   - Contrast
   - une couche
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -19429,15 +20020,8 @@ paints:
   - fourrure
   - cuir
   - contrast
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -19602,15 +20186,8 @@ paints:
   - cuir
   - ombre
   - contrast
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -19775,15 +20352,8 @@ paints:
   - bois
   - ombre
   - contrast
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -19970,15 +20540,8 @@ paints:
   - warm brown
   - contrast
   - one coat
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to create base colour and shading over a light
-      undercoat in one controlled coat.
-    tips:
-    - Work one connected area at a time and avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-c86959a949b58d81
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -20142,15 +20705,8 @@ paints:
   - chair
   - peau
   - contrast
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -20321,15 +20877,8 @@ paints:
   - chair
   - peau
   - contrast
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -20495,15 +21044,8 @@ paints:
   - gris froid
   - Contrast
   - une couche
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -20669,15 +21211,8 @@ paints:
   - froid
   - Contrast
   - une couche
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -21387,15 +21922,8 @@ paints:
   - bleu
   - vif
   - contrast
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -21934,15 +22462,8 @@ paints:
   - peau
   - Contrast
   - une couche
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -22106,15 +22627,8 @@ paints:
   - turquoise
   - bleu
   - contrast
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -22474,14 +22988,8 @@ paints:
   - black
   - base
   - opaque
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a thin even coat.
-    - Let it dry and add a second thin coat if required.
-    summary: High-pigment opaque base paint for a solid black foundation.
-    tips:
-    - Avoid one heavy coat so fine detail remains sharp.
+  usage_guide_ids:
+  - cit-usage-66a5d25dfd4d6106
   verified_at: '2026-09-01'
   volume_ml: 12
   warnings:
@@ -33734,14 +34242,8 @@ paints:
   - purple
   - layer
   - highlight
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply one or more thin coats.
-    - Let each coat dry before highlighting.
-    summary: Opaque layer paint for purple layers and highlights.
-    tips:
-    - Thin the paint slightly to preserve surface detail.
+  usage_guide_ids:
+  - cit-usage-68b9cce4e6e0fb42
   verified_at: '2026-09-01'
   volume_ml: 12
   warnings:
@@ -37181,14 +37683,8 @@ paints:
   - grey
   - warm grey
   - layer
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply one or more thin coats.
-    - Let each coat dry before highlighting.
-    summary: Opaque layer paint for warm dark-grey layers and highlights.
-    tips:
-    - Thin the paint slightly to preserve surface detail.
+  usage_guide_ids:
+  - cit-usage-2f118f2431379d3c
   verified_at: '2026-09-01'
   volume_ml: 12
   warnings:
@@ -37367,14 +37863,8 @@ paints:
   - brown
   - warm
   - layer
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply one or more thin coats.
-    - Let each coat dry before highlighting.
-    summary: Opaque layer paint for warm brown layers and highlights.
-    tips:
-    - Thin the paint slightly to preserve surface detail.
+  usage_guide_ids:
+  - cit-usage-63284b11f31038e1
   verified_at: '2026-09-01'
   volume_ml: 12
   warnings:
@@ -41717,14 +42207,8 @@ paints:
   - white
   - layer
   - highlight
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply in thin coats with a slightly damp brush.
-    - Let each coat dry before adding another coat or a final highlight.
-    summary: Opaque layer paint for smooth white layers and crisp final highlights.
-    tips:
-    - Several thin coats give a smoother white than one thick coat.
+  usage_guide_ids:
+  - cit-usage-e843dc38221c8747
   verified_at: '2026-09-01'
   volume_ml: 12
   warnings:
@@ -42618,17 +43102,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: </br>
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - cit-usage-e700db49a68651c5
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -42798,17 +43273,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: </br>
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - cit-usage-e700db49a68651c5
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -42978,17 +43444,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: </br>
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - cit-usage-e700db49a68651c5
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -43164,17 +43621,8 @@ paints:
     url: https://www.warhammer.com/en-GB/shop/Technical-Nurgles-Rot-2019
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: </br>
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - cit-usage-e700db49a68651c5
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -43344,17 +43792,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: </br>
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - cit-usage-e700db49a68651c5
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -43524,17 +43963,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: </br>
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - cit-usage-e700db49a68651c5
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -44047,16 +44477,8 @@ paints:
     url: https://eirehobbies.com/products/citadel-ardcoat
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: </br>
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - cit-usage-2b20bab489772ed3
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -44226,17 +44648,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: </br>
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - cit-usage-e700db49a68651c5
   verified_at: '2026-09-01'
   volume_ml: 0
   warnings:
@@ -48958,17 +49371,8 @@ paints:
   - glow
   - energy
   - technical
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: </br>
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - cit-usage-e700db49a68651c5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -49143,16 +49547,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Spray
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Primer intended to provide an even surface for subsequent paint layers.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - cit-usage-659d13dc1d7a6013
   verified_at: '2026-09-01'
   volume_ml: 400
   warnings:
@@ -49326,16 +49722,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Spray
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Primer intended to provide an even surface for subsequent paint layers.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - cit-usage-659d13dc1d7a6013
   verified_at: '2026-09-01'
   volume_ml: 400
   warnings:
@@ -49509,16 +49897,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Spray
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Primer intended to provide an even surface for subsequent paint layers.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - cit-usage-659d13dc1d7a6013
   verified_at: '2026-09-01'
   volume_ml: 400
   warnings:
@@ -49692,16 +50072,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Spray
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Primer intended to provide an even surface for subsequent paint layers.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - cit-usage-659d13dc1d7a6013
   verified_at: '2026-09-01'
   volume_ml: 400
   warnings:
@@ -49877,16 +50249,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Spray
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Primer intended to provide an even surface for subsequent paint layers.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - cit-usage-659d13dc1d7a6013
   verified_at: '2026-09-01'
   volume_ml: 400
   warnings:
@@ -50061,16 +50425,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Spray
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Primer intended to provide an even surface for subsequent paint layers.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - cit-usage-659d13dc1d7a6013
   verified_at: '2026-09-01'
   volume_ml: 400
   warnings:
@@ -50244,16 +50600,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Spray
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Primer intended to provide an even surface for subsequent paint layers.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - cit-usage-659d13dc1d7a6013
   verified_at: '2026-09-01'
   volume_ml: 400
   warnings:
@@ -50427,16 +50775,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Spray
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Primer intended to provide an even surface for subsequent paint layers.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - cit-usage-659d13dc1d7a6013
   verified_at: '2026-09-01'
   volume_ml: 400
   warnings:
@@ -50590,17 +50930,8 @@ paints:
     url: https://eirehobbies.com/collections/warhammer-colour-sprays/products/munitorum-varnish-spray
   tags:
   - Spray
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Auxiliary product (Munitorum Varnish) used to modify, protect or support
-      the painting process.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - cit-usage-56feb84ae29c906c
   verified_at: '2026-09-01'
   volume_ml: 400
   warnings:
@@ -50775,16 +51106,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Spray
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Primer intended to provide an even surface for subsequent paint layers.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - cit-usage-659d13dc1d7a6013
   verified_at: '2026-09-01'
   volume_ml: 400
   warnings:
@@ -50958,16 +51281,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Spray
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Primer intended to provide an even surface for subsequent paint layers.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - cit-usage-659d13dc1d7a6013
   verified_at: '2026-09-01'
   volume_ml: 400
   warnings:
@@ -51683,16 +51998,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Shade
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -51866,16 +52173,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Shade
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -52049,16 +52348,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Shade
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -52233,16 +52524,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Shade
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -52416,16 +52699,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Shade
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -52599,16 +52874,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Shade
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -52782,16 +53049,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Shade
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -52971,16 +53230,8 @@ paints:
   - shade
   - wash
   - recess
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -53154,16 +53405,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Shade
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -53337,16 +53580,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Shade
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -53520,16 +53755,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Shade
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -53703,16 +53930,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Shade
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -53886,16 +54105,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Shade
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -54075,16 +54286,8 @@ paints:
   - brown
   - shade
   - wash
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -54258,16 +54461,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Shade
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -54447,16 +54642,8 @@ paints:
     url: https://www.warhammer.com/en-GB/shop/shade-casandora-yellow-18ml-2022
   tags:
   - Shade
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -54630,16 +54817,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Shade
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -54813,16 +54992,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Shade
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -54996,16 +55167,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/citadel.json
   tags:
   - Shade
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: </br>
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - cit-usage-efe5097b3ccde6d5
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -55556,15 +55719,8 @@ paints:
   - grime
   - contrast
   - one coat
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a controlled coat over a light undercoat.
-    - Remove excess from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to create a muted dirty base and shading over
-      a light undercoat.
-    tips:
-    - Use controlled pooling to reinforce grime only where it is wanted.
+  usage_guide_ids:
+  - cit-usage-fcb6e57e9c9045db
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -55722,15 +55878,8 @@ paints:
   - nature
   - Contrast
   - une couche
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -56074,15 +56223,8 @@ paints:
   - orque
   - Contrast
   - une couche
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -56609,15 +56751,8 @@ paints:
   - jaune
   - ocre
   - contrast
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -56959,15 +57094,8 @@ paints:
   - jaune
   - vif
   - contrast
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -57124,15 +57252,8 @@ paints:
   - turquoise
   - bleu
   - contrast
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -57290,15 +57411,8 @@ paints:
   - spectral
   - glace
   - contrast
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -57640,15 +57754,8 @@ paints:
   - bleu clair
   - glace
   - contrast
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a generous controlled coat over a light undercoat.
-    - Guide excess away from flat areas and let the coat dry fully.
-    summary: Contrast paint formulated to base, shade and highlight over a light undercoat
-      in one application, or to glaze and tint.
-    tips:
-    - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  usage_guide_ids:
+  - cit-usage-817013e82dc73a95
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -59868,14 +59975,8 @@ paints:
   - spectral
   - contrast
   - one coat
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a controlled coat over a light undercoat.
-    - Guide excess into recesses and let the coat dry fully.
-    summary: Transparent spectral colour for shading and tinting a light undercoat.
-    tips:
-    - Keep raised areas lighter to preserve the spectral effect.
+  usage_guide_ids:
+  - cit-usage-a0ce307cdf30432a
   verified_at: '2026-09-01'
   volume_ml: 18
   warnings:
@@ -60055,16 +60156,8 @@ paints:
     url: https://www.warhammer.com/en-GB/shop/white-scar-spray-paint-2022-row
   tags:
   - Spray
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Primer intended to provide an even surface for subsequent paint layers.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - cit-usage-659d13dc1d7a6013
   verified_at: '2026-09-01'
   volume_ml: 400
   warnings:

@@ -2,12 +2,11 @@ package com.minipaintdex.adapter.file;
 
 import com.minipaintdex.application.document.StructuredDocument;
 import com.minipaintdex.application.port.EventLedger;
-import com.minipaintdex.application.port.MarketPaintCatalogWriter;
+import com.minipaintdex.application.port.PaintProductCatalogWriter;
 import com.minipaintdex.application.port.PaintableProductCatalogWriter;
 import com.minipaintdex.application.port.PersistenceLifecycle;
 import com.minipaintdex.application.port.SnapshotRepository;
 import com.minipaintdex.application.port.WorkshopMediaStorage;
-import com.minipaintdex.application.port.WorkshopPaintInventoryWriter;
 import com.minipaintdex.domain.event.EventEnvelope;
 
 import java.util.List;
@@ -40,39 +39,26 @@ public final class FilePersistenceAdapters {
         };
     }
 
-    public MarketPaintCatalogWriter marketPaints() {
-        return new MarketPaintCatalogWriter() {
+    public PaintProductCatalogWriter paintProducts() {
+        return new PaintProductCatalogWriter() {
             @Override
-            public void replaceMarketPaintCatalog(List<StructuredDocument> paints, List<StructuredDocument> editions) {
-                engine.replaceMarketPaintCatalog(paints, editions);
+            public void replacePaintProductCatalog(List<StructuredDocument> paints, List<StructuredDocument> editions, List<StructuredDocument> usageGuides) {
+                engine.replacePaintProductCatalog(paints, editions, usageGuides);
             }
 
             @Override
-            public void replaceMarketPaints(List<StructuredDocument> paints) {
-                engine.replaceMarketPaints(paints);
+            public void replacePaintProducts(List<StructuredDocument> paints) {
+                engine.replacePaintProducts(paints);
             }
 
             @Override
-            public void replaceMarketPaintsAndWorkshopInventory(
+            public void replacePaintProductIdentities(
                     List<StructuredDocument> paints,
-                    List<StructuredDocument> inventory,
-                    WorkshopPaintInventoryWriter inventoryWriter) {
-                engine.replaceMarketPaintsAndWorkshopInventory(paints, inventory, inventoryWriter);
-            }
-
-            @Override
-            public void replaceMarketPaintIdentities(
-                    List<StructuredDocument> paints,
-                    List<StructuredDocument> inventory,
                     List<StructuredDocument> paintingGuides,
                     List<StructuredDocument> shopping) {
-                engine.replaceMarketPaintIdentities(paints, inventory, paintingGuides, shopping);
+                engine.replacePaintProductIdentities(paints, paintingGuides, shopping);
             }
         };
-    }
-
-    public WorkshopPaintInventoryWriter workshopPaints() {
-        return engine::replaceWorkshopPaints;
     }
 
     public PaintableProductCatalogWriter paintableProducts() {
@@ -83,9 +69,9 @@ public final class FilePersistenceAdapters {
         return new WorkshopMediaStorage() {
             @Override
             public StoredMedia store(
-                    String itemId, String mediaId, String originalFilename,
+                    String ownerAggregateId, String mediaId, String originalFilename,
                     String contentType, byte[] content) {
-                return engine.store(itemId, mediaId, originalFilename, contentType, content);
+                return engine.store(ownerAggregateId, mediaId, originalFilename, contentType, content);
             }
 
             @Override

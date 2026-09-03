@@ -22,7 +22,8 @@ export type ManufacturerInfo = {
   resultReferenceUrl: string;
 };
 
-export type Paint = ManufacturerInfo & {
+export type PaintProduct = ManufacturerInfo & {
+  usageGuideIds: string[];
   catalogMemberships: Array<{ catalogEditionId: string; title: string; editionLabel: string; publicationYear: number | null; sourceUrl: string; locator: string }>;
   id: string;
   brand: string;
@@ -34,7 +35,6 @@ export type Paint = ManufacturerInfo & {
   name: string;
   colorHex: string;
   lifecycleStatus: string;
-  quantity?: number;
   status: string;
   warnings: string;
   tags: string[];
@@ -42,6 +42,11 @@ export type Paint = ManufacturerInfo & {
   createdAt: string;
   updatedAt: string;
 };
+
+export type WorkshopPaintStock = { paintProduct: PaintProduct; quantity: number; availableQuantity: number; personalImage: string | null };
+
+/** Card-only composition; owned quantities are never Market facts. */
+export type PaintCardModel = PaintProduct & { quantity?: number; availableQuantity?: number; personalImage?: string | null };
 
 export type PaintProfile = {
   roles: string[];
@@ -105,7 +110,7 @@ export type PaintCatalogQuality = {
   imageLimitations: Array<{ brand: string; code: string; count: number }>;
 };
 
-export type ShoppingItem = {
+export type ShoppingListEntry = {
   id: string;
   brand: string;
   name: string;
@@ -115,8 +120,14 @@ export type ShoppingItem = {
   priority: 'high' | 'medium' | 'low';
   kind: 'required' | 'planned';
   planned: boolean;
-  marketPaintId: string;
-  sourceProductIds: string[];
-  sourceProductNames: string[];
+  paintProductId: string;
+  sourcePaintableProductIds: string[];
+  sourcePaintableProductNames: string[];
   checked: boolean;
+};
+
+
+export type PaintProductSuggestion = {
+  paintProductId: string; name: string; brand: string; range: string; reference: string;
+  manufacturerImage: string; colorHex: string;
 };

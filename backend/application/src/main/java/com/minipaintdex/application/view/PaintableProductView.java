@@ -13,26 +13,26 @@ public record PaintableProductView(
         int expectedPaintableCount,
         EditionView edition,
         List<SourceView> sources,
-        List<CatalogItemView> items) {
+        List<PaintableComponentView> paintableComponents) {
     public PaintableProductView {
         sources = List.copyOf(sources);
-        items = List.copyOf(items);
+        paintableComponents = List.copyOf(paintableComponents);
     }
 
     public record EditionView(String note, String url) {}
     public record SourceView(String kind, String label, String url) {}
     public record ReferenceImageView(String url, String pageUrl, String credit, String license) {}
     public record GuidePaintView(
-            String slotId, String paintId, String brand, String name, String role,
+            String slotId, String paintProductId, String brand, String name, String role,
             String colorHex, boolean pendingImport) {}
     public record GuideStepView(String title, String detail) {}
     public record MarketGuideView(
             String id, int version, String knowledgeStatus, List<SourceView> sources) {
         public MarketGuideView { sources = List.copyOf(sources); }
     }
-    public record CatalogItemView(
+    public record PaintableComponentView(
             String id,
-            String productId,
+            String paintableProductId,
             String name,
             String kind,
             int quantity,
@@ -44,7 +44,7 @@ public record PaintableProductView(
             List<GuideStepView> painting,
             MarketGuideView marketGuide,
             List<SourceView> sources) {
-        public CatalogItemView {
+        public PaintableComponentView {
             referenceImages = List.copyOf(referenceImages);
             paints = List.copyOf(paints);
             preparation = List.copyOf(preparation);

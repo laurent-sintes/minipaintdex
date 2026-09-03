@@ -7,5 +7,5 @@ public record PaintableProductSummaryView(
         String line,
         String productType,
         String scope,
-        int catalogItemCount,
+        int paintableComponentCount,
         int expectedPaintableCount) {}

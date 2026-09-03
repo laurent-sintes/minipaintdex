@@ -6,7 +6,7 @@ import java.util.List;
 public record WorkshopRecipeCreated(
         String recipeId,
         String paintingProjectId,
-        String catalogItemId,
+        String paintableComponentId,
         String basedOnGuideId,
         String supersedesRecipeId,
         String displayName,
@@ -16,7 +16,7 @@ public record WorkshopRecipeCreated(
     public WorkshopRecipeCreated {
         recipeId = DomainFields.id(recipeId, "recipeId");
         paintingProjectId = DomainFields.id(paintingProjectId, "paintingProjectId");
-        catalogItemId = DomainFields.id(catalogItemId, "catalogItemId");
+        paintableComponentId = DomainFields.id(paintableComponentId, "paintableComponentId");
         if (basedOnGuideId != null && !basedOnGuideId.isBlank()) {
             basedOnGuideId = DomainFields.id(basedOnGuideId, "basedOnGuideId");
         }
@@ -34,5 +34,5 @@ public record WorkshopRecipeCreated(
 
     @Override public String eventType() { return "workshop_recipe.created"; }
     @Override public String aggregateId() { return recipeId; }
-    @Override public String projectId() { return paintingProjectId; }
+    @Override public String scopePaintingProjectId() { return paintingProjectId; }
 }

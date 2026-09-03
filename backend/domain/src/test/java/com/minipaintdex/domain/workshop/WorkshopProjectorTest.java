@@ -16,12 +16,16 @@ class WorkshopProjectorTest {
         var project = PaintingProject.create("paint-game", "my-workshop", "game", "Paint Game", 1, at);
         project.changeStatus(PaintingProjectStatus.ACTIVE, at);
         workshop.registerPaintingProject(project.id(), at);
+        workshop.registerPaintingProject("second-project", at);
         var events = new ArrayList<>(workshop.releaseEvents());
         events.addAll(project.releaseEvents());
 
         var projectedWorkshop = WorkshopProjector.project(events).orElseThrow();
         var projectedProject = PaintingProjectProjector.project(events).getFirst();
         assertTrue(projectedWorkshop.containsPaintingProject("paint-game"));
+        assertTrue(projectedWorkshop.containsPaintingProject("second-project"));
+        assertTrue(events.stream().filter(PaintingProjectRegistered.class::isInstance)
+                .allMatch(event -> event.scopePaintingProjectId() == null));
         assertEquals("game", projectedProject.paintableProductId());
         assertEquals(PaintingProjectStatus.ACTIVE, projectedProject.status());
     }

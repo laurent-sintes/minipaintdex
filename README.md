@@ -52,17 +52,17 @@ La CLI réutilise exactement les mêmes services applicatifs que l’API REST.
 
 ```powershell
 .\scripts\minipaintdex.ps1 cli --root . --format json health
-.\scripts\minipaintdex.ps1 cli --root . --format json market paints search --brand "Warhammer Colour"
-.\scripts\minipaintdex.ps1 cli --root . --format json market paints apply --input imports/runs/paint-refresh/changeset.json
+.\scripts\minipaintdex.ps1 cli --root . --format json market paint-products search --brand "Warhammer Colour"
+.\scripts\minipaintdex.ps1 cli --root . --format json market paint-products apply --input imports/runs/paint-refresh/changeset.json
 .\scripts\minipaintdex.ps1 cli --root . --format json market paintable-products apply --input imports/runs/product-import/changeset.json
 # Ajouter --apply uniquement après validation de la simulation.
-.\scripts\minipaintdex.ps1 cli --root . --format json workshop painting-projects preview-import --product reichbusters-reloaded
-.\scripts\minipaintdex.ps1 cli --root . --format json workshop painting-projects create --product reichbusters-reloaded --project-id paint-reichbusters
-.\scripts\minipaintdex.ps1 cli --root . --format json --wait workshop painting-projects transition --project paint-reichbusters --status completed
+.\scripts\minipaintdex.ps1 cli --root . --format json workshop painting-projects preview-import --paintable-product-id reichbusters-reloaded
+.\scripts\minipaintdex.ps1 cli --root . --format json workshop painting-projects create --paintable-product-id reichbusters-reloaded --painting-project-id paint-reichbusters
+.\scripts\minipaintdex.ps1 cli --root . --format json --wait workshop painting-projects transition --painting-project-id paint-reichbusters --status completed
 .\scripts\minipaintdex.ps1 cli --root . --format json workshop recipes reconcile-guide --guide reichbusters-reloaded-red-hawk-guide
-.\scripts\minipaintdex.ps1 cli --root . --format json workshop items list --project paint-reichbusters
+.\scripts\minipaintdex.ps1 cli --root . --format json workshop paintables list --painting-project-id paint-reichbusters
 .\scripts\minipaintdex.ps1 cli --root . --format json datasets import --input datasets/workshop/painting-projects/reichbusters
-.\scripts\minipaintdex.ps1 cli --root . --format json workshop recipes list --catalog-item reichbusters-reloaded-red-hawk
+.\scripts\minipaintdex.ps1 cli --root . --format json workshop recipes list --paintable-component reichbusters-reloaded-red-hawk
 .\scripts\minipaintdex.ps1 cli --root . --format json activity list
 ```
 
@@ -161,7 +161,7 @@ data/
     publications/        outbox durable des lots événementiels asynchrones
 ```
 
-Un `PaintableProduct` est l’agrégat du marché pour une boîte, une extension ou une gamme contenant des éléments à peindre. Ses quantités décrivent le contenu théorique. `Workshop` est le contexte personnel durable. Un `PaintingProject` porte l’intention de peindre un produit et crée un `WorkshopItem` par exemplaire physique. Un guide de peinture du marché contient la palette et la méthode publiées ou inférées à partir d’une référence traçable. Une recette d’atelier est un autre agrégat : elle versionne les substitutions, mélanges, couches et techniques réellement choisies par le propriétaire, puis peut être affectée à un objet physique précis. Son cycle `draft → validated → active → superseded/archived` est conservé dans le ledger.
+Un `PaintableProduct` est l’agrégat du marché pour une boîte, une extension ou une gamme contenant des éléments à peindre. Ses quantités décrivent le contenu théorique. `Workshop` est le contexte personnel durable. Un `PaintingProject` porte l’intention de peindre un produit et crée un `WorkshopPaintable` par exemplaire physique. Un guide de peinture du marché contient la palette et la méthode publiées ou inférées à partir d’une référence traçable. Une recette d’atelier est un autre agrégat : elle versionne les substitutions, mélanges, couches et techniques réellement choisies par le propriétaire, puis peut être affectée à un objet physique précis. Son cycle `draft → validated → active → superseded/archived` est conservé dans le ledger.
 
 Le rapprochement d’un guide avec l’atelier ne compare que les peintures possédées. Les peintures opaques sont classées principalement par distance CIEDE2000. Les gammes comportementales (Contrast, Speedpaint, lavis, encres et effets techniques) combinent type et profil d’application et exigent toujours une validation manuelle. Tous les paramètres de classement sont injectés depuis la configuration Spring Boot.
 
@@ -187,7 +187,7 @@ La base de l’API est `/api/v1`. Les principaux services couvrent :
 - exports CSV et YAML.
 - métadonnées de version, auteur et documentation embarquée dans « À propos ».
 
-Les recherches volumineuses utilisent `page`, `size` et `sort`; un flux séparé `/api/v1/market/paints/stream` fournit du NDJSON. Les commandes d’agrégat répondent `202 Accepted` avec une ressource de publication durable. Le flux `/api/v1/events` notifie le navigateur une seule fois par lot committé afin qu’il relise les ressources REST concernées. OpenAPI est disponible via `/swagger-ui.html`, `/v3/api-docs` et `/v3/api-docs.yaml`.
+Les peintures utilisent `POST /api/v1/market/paint-products/search` et `POST /api/v1/workshop/paint-stocks/search`, avec `include` pour les résultats, les suggestions ou les deux. Le contrat est propre à MiniPaintDex, sans compatibilité Elasticsearch. Les recherches volumineuses utilisent `page`, `size` et `sort`; un flux séparé `/api/v1/market/paint-products/stream` fournit du NDJSON. Les commandes d’agrégat répondent `202 Accepted` avec une ressource de publication durable. Le flux `/api/v1/events` notifie le navigateur une seule fois par lot committé afin qu’il relise les ressources REST concernées. OpenAPI est disponible via `/swagger-ui.html`, `/v3/api-docs` et `/v3/api-docs.yaml`.
 
 ## Outils de données et skills
 

@@ -12,7 +12,7 @@ class OpenApiConfiguration {
     @Bean
     OpenAPI miniPaintDexOpenApi(MiniPaintDexProperties properties) {
         return new OpenAPI().info(new Info()
-                .title("Mini Paint Dex REST API")
+                .title("MiniPaintDex REST API")
                 .description("Local market-catalog, workshop and asynchronous publication services.")
                 .contact(new Contact().name(properties.application().author()))
                 .version("v1"));

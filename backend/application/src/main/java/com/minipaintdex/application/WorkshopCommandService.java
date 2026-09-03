@@ -1,15 +1,15 @@
 package com.minipaintdex.application;
 
-import com.minipaintdex.application.command.AddWorkshopItemCommand;
-import com.minipaintdex.application.command.AddWorkshopItemCommentCommand;
-import com.minipaintdex.application.command.AddWorkshopItemPhotoCommand;
+import com.minipaintdex.application.command.AddWorkshopPaintableCommand;
+import com.minipaintdex.application.command.AddWorkshopPaintableCommentCommand;
+import com.minipaintdex.application.command.AddWorkshopPaintablePhotoCommand;
 import com.minipaintdex.application.command.AssignWorkshopRecipeCommand;
 import com.minipaintdex.application.command.CreateWorkshopRecipeCommand;
 import com.minipaintdex.application.command.CreatePaintingProjectCommand;
-import com.minipaintdex.application.command.TransitionStageCommand;
+import com.minipaintdex.application.command.TransitionWorkshopPaintableStageCommand;
 import com.minipaintdex.application.command.TransitionWorkshopRecipeCommand;
 import com.minipaintdex.application.command.TransitionPaintingProjectCommand;
-import com.minipaintdex.application.command.SetShoppingItemStatusCommand;
+import com.minipaintdex.application.command.SetShoppingListEntryCheckedCommand;
 import com.minipaintdex.application.port.DataSnapshot;
 import com.minipaintdex.application.port.EventLedger;
 import com.minipaintdex.application.port.EventBus;
@@ -20,14 +20,14 @@ import com.minipaintdex.application.port.MarketCatalogSnapshot;
 import com.minipaintdex.application.port.SnapshotRepository;
 import com.minipaintdex.application.port.WorkshopMediaStorage;
 import com.minipaintdex.application.result.CreatePaintingProjectResult;
-import com.minipaintdex.application.view.MarketPaintView;
+import com.minipaintdex.application.view.PaintProductView;
 import com.minipaintdex.application.view.MissingPaintView;
 import com.minipaintdex.application.view.PaintableProductSummaryView;
 import com.minipaintdex.application.view.PaintableProductView;
 import com.minipaintdex.application.view.PaintingProjectView;
-import com.minipaintdex.application.view.ProductImportPreviewView;
-import com.minipaintdex.application.view.ShoppingItemView;
-import com.minipaintdex.application.view.WorkshopItemView;
+import com.minipaintdex.application.view.PaintingProjectImportPreviewView;
+import com.minipaintdex.application.view.ShoppingListEntryView;
+import com.minipaintdex.application.view.WorkshopPaintableView;
 import com.minipaintdex.application.view.WorkshopOverviewView;
 import com.minipaintdex.application.view.WorkshopRecipeView;
 import com.minipaintdex.application.validation.MarketCatalogFactory;
@@ -38,15 +38,15 @@ import com.minipaintdex.domain.event.Actor;
 import com.minipaintdex.domain.event.AggregateRoot;
 import com.minipaintdex.domain.event.EventEnvelope;
 import com.minipaintdex.domain.market.paint.PaintMatchEngine;
-import com.minipaintdex.domain.market.paint.MarketPaint;
+import com.minipaintdex.domain.market.paint.PaintProduct;
 import com.minipaintdex.domain.market.guide.MarketPaintingGuide;
 import com.minipaintdex.domain.market.product.PaintableProduct;
 import com.minipaintdex.domain.shared.DomainException;
 import com.minipaintdex.domain.workshop.StageAction;
 import com.minipaintdex.domain.workshop.WorkflowStage;
 import com.minipaintdex.domain.workshop.WorkflowStageStatus;
-import com.minipaintdex.domain.workshop.WorkshopItemProjector;
-import com.minipaintdex.domain.workshop.WorkshopItemState;
+import com.minipaintdex.domain.workshop.WorkshopPaintableProjector;
+import com.minipaintdex.domain.workshop.WorkshopPaintableState;
 import com.minipaintdex.domain.workshop.PaintingProjectProjector;
 import com.minipaintdex.domain.workshop.PaintingProject;
 import com.minipaintdex.domain.workshop.WorkshopRecipeProjector;
@@ -57,12 +57,12 @@ import com.minipaintdex.domain.workshop.WorkshopProjector;
 import com.minipaintdex.domain.workshop.PaintingProjectStatus;
 import com.minipaintdex.domain.workshop.PaintingProjectEvent;
 import com.minipaintdex.domain.workshop.RecipeSolution;
-import com.minipaintdex.domain.workshop.ShoppingItem;
-import com.minipaintdex.domain.workshop.ShoppingItemEvent;
-import com.minipaintdex.domain.workshop.ShoppingItemStatusChanged;
+import com.minipaintdex.domain.workshop.ShoppingListEntry;
+import com.minipaintdex.domain.workshop.ShoppingListEntryEvent;
+import com.minipaintdex.domain.workshop.ShoppingListEntryCheckedChanged;
 import com.minipaintdex.domain.workshop.WorkshopEvent;
-import com.minipaintdex.domain.workshop.WorkshopItem;
-import com.minipaintdex.domain.workshop.WorkshopItemEvent;
+import com.minipaintdex.domain.workshop.WorkshopPaintable;
+import com.minipaintdex.domain.workshop.WorkshopPaintableEvent;
 import com.minipaintdex.domain.workshop.WorkshopRecipe;
 import com.minipaintdex.domain.workshop.WorkshopRecipeEvent;
 import com.minipaintdex.domain.workshop.WorkshopRecipeCreated;
@@ -104,6 +104,111 @@ public final class WorkshopCommandService {
         this.queries = Objects.requireNonNull(queries);
     }
 
+
+    public synchronized com.minipaintdex.application.result.ImportPaintPotsResult importPaintPots(
+            com.minipaintdex.application.command.ImportPaintPotsCommand command) {
+        if (command.schemaVersion() != 1 || !"workshop_paint_pots".equals(command.kind())) {
+            throw new DomainException("invalid_input", "Expected workshop_paint_pots schema version 1.");
+        }
+        var snapshot = snapshots.load();
+        var products = queries.marketCatalog(snapshot).paints().stream().map(paint -> paint.id()).collect(Collectors.toSet());
+        var pots = com.minipaintdex.domain.workshop.PaintPotProjector.project(snapshot.events()).stream()
+                .collect(Collectors.toMap(com.minipaintdex.domain.workshop.PaintPot::id, Function.identity()));
+        var at = Instant.now();
+        var correlation = defaultText(command.correlationId(), Ulid.next(at));
+        var actor = new Actor("user", defaultText(command.actorId(), "owner"));
+        var ids = new java.util.HashSet<String>();
+        var events = new ArrayList<EventEnvelope>();
+        var added = 0;
+        var existing = 0;
+        for (var registration : command.pots()) {
+            require(registration.paintPotId(), "paintPotId");
+            require(registration.paintProductId(), "paintProductId");
+            if (!ids.add(registration.paintPotId())) throw new DomainException("invalid_input", "Duplicate paint pot ID: " + registration.paintPotId());
+            if (!products.contains(registration.paintProductId())) throw new DomainException("not_found", "Paint product not found: " + registration.paintProductId());
+            var previous = pots.get(registration.paintPotId());
+            if (previous != null) {
+                if (!previous.paintProductId().equals(registration.paintProductId())
+                        || (registration.acquiredAt() != null && !registration.acquiredAt().equals(previous.acquiredAt()))) {
+                    throw new DomainException("conflict", "An existing paint pot cannot be replaced by an import: " + registration.paintPotId());
+                }
+                existing++;
+            } else {
+                var pot = com.minipaintdex.domain.workshop.PaintPot.register(
+                        registration.paintPotId(), registration.paintProductId(), registration.acquiredAt(), at);
+                events.addAll(envelopeFactory.envelop(pot, actor, correlation, null, "register-pot:" + pot.id(), at));
+                added++;
+            }
+        }
+        if (!events.isEmpty() && workshopAggregate(snapshot) == null) {
+            var workshop = Workshop.create(Workshop.DEFAULT_ID, "My workshop", at);
+            events.addAll(0, envelopeFactory.envelop(workshop, actor, correlation, null, "create-workshop", at));
+        }
+        var receipt = command.dryRun() || events.isEmpty() ? null : publish(events, correlation, command.idempotencyKey());
+        return new com.minipaintdex.application.result.ImportPaintPotsResult(added, existing, receipt != null, receipt);
+    }
+
+    public synchronized com.minipaintdex.application.result.ImportPaintPotsResult registerPaintPot(
+            com.minipaintdex.application.command.RegisterPaintPotCommand command) {
+        return importPaintPots(new com.minipaintdex.application.command.ImportPaintPotsCommand(
+                1, "workshop_paint_pots", List.of(new com.minipaintdex.application.command.ImportPaintPotsCommand.Registration(
+                        command.paintPotId(), command.paintProductId(), command.acquiredAt())),
+                false, command.actorId(), command.correlationId(), command.idempotencyKey()));
+    }
+
+    public synchronized PublicationReceipt observePaintPot(com.minipaintdex.application.command.ObservePaintPotCommand command) {
+        return changePaintPot(command.paintPotId(), command.actorId(), command.occurredAt(), command.correlationId(), command.idempotencyKey(),
+                (pot, at) -> pot.observe(com.minipaintdex.domain.workshop.PaintPotCondition.fromId(command.condition()),
+                        com.minipaintdex.domain.workshop.PaintPotRemainingLevel.fromId(command.remainingLevel()), at));
+    }
+    public synchronized PublicationReceipt openPaintPot(com.minipaintdex.application.command.OpenPaintPotCommand command) {
+        return changePaintPot(command.paintPotId(), command.actorId(), command.occurredAt(), command.correlationId(), command.idempotencyKey(),
+                (pot, at) -> pot.open(at));
+    }
+    public synchronized PublicationReceipt changePaintPotPossession(com.minipaintdex.application.command.ChangePaintPotPossessionCommand command) {
+        return changePaintPot(command.paintPotId(), command.actorId(), command.occurredAt(), command.correlationId(), command.idempotencyKey(),
+                (pot, at) -> pot.changePossession(com.minipaintdex.domain.workshop.PaintPotPossession.fromId(command.possession()), at));
+    }
+    public synchronized PublicationReceipt addPaintPotNote(com.minipaintdex.application.command.AddPaintPotNoteCommand command) {
+        return changePaintPot(command.paintPotId(), command.actorId(), command.occurredAt(), command.correlationId(), command.idempotencyKey(),
+                (pot, at) -> pot.addNote(requiredText(command.note(), "note"), at));
+    }
+    private PublicationReceipt changePaintPot(String id, String actorId, Instant at, String correlation, String key,
+            java.util.function.BiConsumer<com.minipaintdex.domain.workshop.PaintPot, Instant> action) {
+        var snapshot = snapshots.load();
+        var duplicate = idempotent(snapshot, key);
+        if (duplicate != null) return existingReceipt(duplicate);
+        var pot = paintPot(snapshot, id);
+        action.accept(pot, at == null ? Instant.now() : at);
+        return publish(pot, new Actor("user", defaultText(actorId, "owner")), correlation, key);
+    }
+    private static com.minipaintdex.domain.workshop.PaintPot paintPot(DataSnapshot snapshot, String id) {
+        require(id, "paintPotId");
+        return com.minipaintdex.domain.workshop.PaintPotProjector.project(snapshot.events()).stream()
+                .filter(pot -> pot.id().equals(id)).findFirst()
+                .orElseThrow(() -> new DomainException("not_found", "Paint pot not found: " + id));
+    }
+    public synchronized PublicationReceipt addPaintPotPhoto(com.minipaintdex.application.command.AddPaintPotPhotoCommand command) {
+        require(command.originalFilename(), "originalFilename");
+        var type = defaultText(command.contentType(), "").toLowerCase(Locale.ROOT);
+        if (!mediaPolicy.allowedContentTypes().contains(type)) throw new DomainException("invalid_input", "Unsupported pot photo content type.");
+        var content = command.content();
+        if (content.length == 0 || content.length > mediaPolicy.maxUploadBytes()) throw new DomainException("invalid_input", "Pot photo exceeds upload limit.");
+        var snapshot = snapshots.load();
+        var duplicate = idempotent(snapshot, command.idempotencyKey());
+        if (duplicate != null) return existingReceipt(duplicate);
+        var pot = paintPot(snapshot, command.paintPotId());
+        var at = command.occurredAt() == null ? Instant.now() : command.occurredAt();
+        var stored = mediaStorage.store(pot.id(), "media-" + Ulid.next(at).toLowerCase(Locale.ROOT), command.originalFilename(), type, content);
+        pot.addPhoto(stored.id(), stored.publicPath(), command.caption(), stored.originalFilename(), stored.contentType(), stored.size(), stored.sha256(), at);
+        try {
+            return publish(pot, new Actor("user", defaultText(command.actorId(), "owner")), command.correlationId(), command.idempotencyKey());
+        } catch (RuntimeException failure) {
+            mediaStorage.delete(stored);
+            throw failure;
+        }
+    }
+
     public synchronized CreatePaintingProjectResult createPaintingProject(CreatePaintingProjectCommand command) {
         require(command.paintableProductId(), "paintableProductId");
         var snapshot = snapshots.load();
@@ -114,7 +219,7 @@ public final class WorkshopCommandService {
                 .findFirst().orElse(null);
         var paintingProjectId = defaultText(command.paintingProjectId(), product.id());
         var paintingProjectName = defaultText(command.name(), product.name());
-        var existingItems = WorkshopItemProjector.project(snapshot.events());
+        var existingItems = WorkshopPaintableProjector.project(snapshot.events());
         var existingForProduct = (int) existingItems.stream()
                 .filter(item -> (existingProject == null ? paintingProjectId : existingProject.id())
                         .equals(item.paintingProjectId())).count();
@@ -145,19 +250,19 @@ public final class WorkshopCommandService {
         events.addAll(envelopeFactory.envelop(
                 workshop, actor, correlationId, null, baseKey + ":register", recordedAt));
 
-        var existingIds = existingItems.stream().map(WorkshopItemState::id).collect(Collectors.toSet());
+        var existingIds = existingItems.stream().map(WorkshopPaintableState::id).collect(Collectors.toSet());
         var added = 0;
-        for (var catalogItem : product.catalogItems()) {
-            for (var ordinal = 1; ordinal <= catalogItem.quantity(); ordinal++) {
-                var itemId = "ws-" + catalogItem.id() + "-" + String.format(Locale.ROOT, "%03d", ordinal);
-                if (existingIds.contains(itemId)) continue;
-                var displayName = catalogItem.quantity() == 1
-                        ? catalogItem.name()
-                        : catalogItem.name() + " #" + ordinal;
-                var workshopItem = WorkshopItem.create(
-                        itemId, catalogItem.id(), paintingProjectId, displayName, ordinal, occurredAt);
+        for (var paintableComponent : product.paintableComponents()) {
+            for (var ordinal = 1; ordinal <= paintableComponent.quantity(); ordinal++) {
+                var workshopPaintableId = "ws-" + paintableComponent.id() + "-" + String.format(Locale.ROOT, "%03d", ordinal);
+                if (existingIds.contains(workshopPaintableId)) continue;
+                var displayName = paintableComponent.quantity() == 1
+                        ? paintableComponent.name()
+                        : paintableComponent.name() + " #" + ordinal;
+                var workshopPaintable = WorkshopPaintable.create(
+                        workshopPaintableId, paintableComponent.id(), paintingProjectId, displayName, ordinal, occurredAt);
                 events.addAll(envelopeFactory.envelop(
-                        workshopItem, actor, correlationId, null, baseKey + ":" + itemId, recordedAt));
+                        workshopPaintable, actor, correlationId, null, baseKey + ":" + workshopPaintableId, recordedAt));
                 added++;
             }
         }
@@ -181,23 +286,23 @@ public final class WorkshopCommandService {
     }
 
     public synchronized PublicationReceipt createWorkshopRecipe(CreateWorkshopRecipeCommand command) {
-        require(command.catalogItemId(), "catalogItemId");
+        require(command.paintableComponentId(), "paintableComponentId");
         require(command.displayName(), "displayName");
         if (command.version() < 1) throw new DomainException("invalid_input", "version must be positive.");
         if (command.solutions().isEmpty()) throw new DomainException("invalid_input", "At least one recipe solution is required.");
         var snapshot = snapshots.load();
         var duplicate = idempotent(snapshot, command.idempotencyKey());
         if (duplicate != null) return existingReceipt(duplicate);
-        var productId = paintableProductIdForCatalogItem(snapshot, command.catalogItemId());
+        var paintableProductId = paintableProductIdForPaintableComponent(snapshot, command.paintableComponentId());
         var paintingProject = PaintingProjectProjector.project(snapshot.events()).stream()
-                .filter(project -> productId.equals(project.paintableProductId())).findFirst().orElse(null);
+                .filter(project -> paintableProductId.equals(project.paintableProductId())).findFirst().orElse(null);
         if (paintingProject == null) {
-            throw new DomainException("conflict", "Paintable product is not imported in the workshop: " + productId);
+            throw new DomainException("conflict", "Paintable product is not imported in the workshop: " + paintableProductId);
         }
         var recipes = WorkshopRecipeProjector.project(snapshot.events());
         var occurredAt = command.occurredAt() == null ? Instant.now() : command.occurredAt();
         var recipeId = present(command.recipeId()) ? command.recipeId()
-                : "recipe-" + command.catalogItemId() + "-v" + command.version() + "-" + Ulid.next(occurredAt).toLowerCase(Locale.ROOT);
+                : "recipe-" + command.paintableComponentId() + "-v" + command.version() + "-" + Ulid.next(occurredAt).toLowerCase(Locale.ROOT);
         if (recipes.stream().anyMatch(recipe -> recipeId.equals(recipe.id()))) {
             throw new DomainException("conflict", "Workshop recipe already exists: " + recipeId);
         }
@@ -206,20 +311,20 @@ public final class WorkshopCommandService {
             guide = queries.marketCatalog(snapshot).paintingGuides().stream()
                     .filter(candidate -> command.basedOnGuideId().equals(candidate.id()))
                     .findFirst().orElseThrow(() -> new DomainException("not_found", "Market painting guide not found: " + command.basedOnGuideId()));
-            if (!command.catalogItemId().equals(guide.catalogItemId())) {
-                throw new DomainException("conflict", "Market guide and workshop recipe must target the same catalog item.");
+            if (!command.paintableComponentId().equals(guide.paintableComponentId())) {
+                throw new DomainException("conflict", "Market guide and workshop recipe must target the same paintable component.");
             }
         }
         if (present(command.supersedesRecipeId())) {
             var previous = recipes.stream().filter(recipe -> command.supersedesRecipeId().equals(recipe.id())).findFirst()
                     .orElseThrow(() -> new DomainException("not_found", "Superseded recipe not found: " + command.supersedesRecipeId()));
-            if (!command.catalogItemId().equals(previous.catalogItemId()) || command.version() != previous.version() + 1) {
-                throw new DomainException("conflict", "A recipe revision must target the same catalog item and increment the version by one.");
+            if (!command.paintableComponentId().equals(previous.paintableComponentId()) || command.version() != previous.version() + 1) {
+                throw new DomainException("conflict", "A recipe revision must target the same paintable component and increment the version by one.");
             }
         }
         validateRecipeSolutions(command.solutions(), guide, snapshot);
         var recipe = WorkshopRecipe.create(
-                recipeId, paintingProject.id(), command.catalogItemId(), command.basedOnGuideId(),
+                recipeId, paintingProject.id(), command.paintableComponentId(), command.basedOnGuideId(),
                 command.supersedesRecipeId(), command.displayName(), command.version(), command.solutions(), occurredAt);
         return publish(recipe,
                 new Actor("user", defaultText(command.actorId(), "owner")),
@@ -259,33 +364,33 @@ public final class WorkshopCommandService {
     }
 
     public synchronized PublicationReceipt assignWorkshopRecipe(AssignWorkshopRecipeCommand command) {
-        require(command.itemId(), "itemId");
+        require(command.workshopPaintableId(), "workshopPaintableId");
         require(command.recipeId(), "recipeId");
         var snapshot = snapshots.load();
         var duplicate = idempotent(snapshot, command.idempotencyKey());
         if (duplicate != null) return existingReceipt(duplicate);
-        var item = WorkshopItemProjector.project(snapshot.events()).stream()
-                .filter(candidate -> command.itemId().equals(candidate.id())).findFirst()
-                .orElseThrow(() -> new DomainException("not_found", "Workshop item not found: " + command.itemId()));
+        var item = WorkshopPaintableProjector.project(snapshot.events()).stream()
+                .filter(candidate -> command.workshopPaintableId().equals(candidate.id())).findFirst()
+                .orElseThrow(() -> new DomainException("not_found", "Workshop paintable not found: " + command.workshopPaintableId()));
         var recipe = WorkshopRecipeProjector.project(snapshot.events()).stream()
                 .filter(candidate -> command.recipeId().equals(candidate.id())).findFirst()
                 .orElseThrow(() -> new DomainException("not_found", "Workshop recipe not found: " + command.recipeId()));
         if (recipe.status() != WorkshopRecipeStatus.ACTIVE) {
             throw new DomainException("conflict", "Only an active workshop recipe can be assigned.");
         }
-        if (!item.catalogItemId().equals(recipe.catalogItemId())) {
-            throw new DomainException("conflict", "Workshop item and recipe must target the same catalog item.");
+        if (!item.paintableComponentId().equals(recipe.paintableComponentId())) {
+            throw new DomainException("conflict", "Workshop paintable and recipe must target the same paintable component.");
         }
-        var workshopItem = workshopItemAggregate(snapshot, item.id());
+        var workshopPaintable = workshopPaintableAggregate(snapshot, item.id());
         var occurredAt = command.occurredAt() == null ? Instant.now() : command.occurredAt();
-        workshopItem.assignRecipe(recipe.id(), recipe.version(), occurredAt);
-        return publish(workshopItem,
+        workshopPaintable.assignRecipe(recipe.id(), recipe.version(), occurredAt);
+        return publish(workshopPaintable,
                 new Actor("user", defaultText(command.actorId(), "owner")),
                 command.correlationId(), command.idempotencyKey());
     }
 
-    public synchronized PublicationReceipt addWorkshopItem(AddWorkshopItemCommand command) {
-        require(command.catalogItemId(), "catalogItemId");
+    public synchronized PublicationReceipt addWorkshopPaintable(AddWorkshopPaintableCommand command) {
+        require(command.paintableComponentId(), "paintableComponentId");
         require(command.paintingProjectId(), "paintingProjectId");
         require(command.displayName(), "displayName");
         var snapshot = snapshots.load();
@@ -295,58 +400,58 @@ public final class WorkshopCommandService {
                 .filter(workshop -> workshop.containsPaintingProject(paintingProject.id())).isEmpty()) {
             throw new DomainException("conflict", "Painting project is not registered in the workshop: " + paintingProject.id());
         }
-        product.catalogItem(command.catalogItemId());
+        product.paintableComponent(command.paintableComponentId());
         var duplicate = idempotent(snapshot, command.idempotencyKey());
         if (duplicate != null) return existingReceipt(duplicate);
         var occurredAt = command.occurredAt() == null ? Instant.now() : command.occurredAt();
-        var itemId = present(command.itemId()) ? command.itemId() : "ws-" + command.catalogItemId() + "-" + Ulid.next(occurredAt).toLowerCase(Locale.ROOT);
-        if (snapshot.events().stream().anyMatch(event -> itemId.equals(event.aggregateId()) && "workshop_item.added".equals(event.eventType()))) {
-            throw new DomainException("conflict", "Workshop item already exists: " + itemId);
+        var workshopPaintableId = present(command.workshopPaintableId()) ? command.workshopPaintableId() : "ws-" + command.paintableComponentId() + "-" + Ulid.next(occurredAt).toLowerCase(Locale.ROOT);
+        if (snapshot.events().stream().anyMatch(event -> workshopPaintableId.equals(event.aggregateId()) && "workshop_item.added".equals(event.eventType()))) {
+            throw new DomainException("conflict", "Workshop paintable already exists: " + workshopPaintableId);
         }
-        var item = WorkshopItem.create(
-                itemId, command.catalogItemId(), paintingProject.id(), command.displayName(), 0, occurredAt);
+        var item = WorkshopPaintable.create(
+                workshopPaintableId, command.paintableComponentId(), paintingProject.id(), command.displayName(), 0, occurredAt);
         return publish(item,
                 new Actor("user", defaultText(command.actorId(), "owner")),
                 command.correlationId(), command.idempotencyKey());
     }
 
-    public synchronized PublicationReceipt transitionStage(TransitionStageCommand command) {
-        require(command.itemId(), "itemId");
+    public synchronized PublicationReceipt transitionWorkshopPaintableStage(TransitionWorkshopPaintableStageCommand command) {
+        require(command.workshopPaintableId(), "workshopPaintableId");
         var stage = WorkflowStage.fromId(command.stage());
         var action = StageAction.fromId(command.action());
         var snapshot = snapshots.load();
         var duplicate = idempotent(snapshot, command.idempotencyKey());
         if (duplicate != null) return existingReceipt(duplicate);
-        var item = WorkshopItemProjector.project(snapshot.events()).stream().filter(candidate -> command.itemId().equals(candidate.id())).findFirst()
-                .orElseThrow(() -> new DomainException("not_found", "Workshop item not found: " + command.itemId()));
-        var workshopItem = workshopItemAggregate(snapshot, item.id());
+        var item = WorkshopPaintableProjector.project(snapshot.events()).stream().filter(candidate -> command.workshopPaintableId().equals(candidate.id())).findFirst()
+                .orElseThrow(() -> new DomainException("not_found", "Workshop paintable not found: " + command.workshopPaintableId()));
+        var workshopPaintable = workshopPaintableAggregate(snapshot, item.id());
         var occurredAt = command.occurredAt() == null ? Instant.now() : command.occurredAt();
         var note = action == StageAction.SKIP ? command.reason() : command.comment();
-        workshopItem.transition(stage, action, note, occurredAt);
-        return publish(workshopItem,
+        workshopPaintable.transition(stage, action, note, occurredAt);
+        return publish(workshopPaintable,
                 new Actor("user", defaultText(command.actorId(), "owner")),
                 command.correlationId(), command.idempotencyKey());
     }
 
-    public synchronized PublicationReceipt addWorkshopItemComment(AddWorkshopItemCommentCommand command) {
-        require(command.itemId(), "itemId");
+    public synchronized PublicationReceipt addWorkshopPaintableComment(AddWorkshopPaintableCommentCommand command) {
+        require(command.workshopPaintableId(), "workshopPaintableId");
         require(command.comment(), "comment");
         var snapshot = snapshots.load();
         var duplicate = idempotent(snapshot, command.idempotencyKey());
         if (duplicate != null) return existingReceipt(duplicate);
-        var item = WorkshopItemProjector.project(snapshot.events()).stream()
-                .filter(candidate -> command.itemId().equals(candidate.id())).findFirst()
-                .orElseThrow(() -> new DomainException("not_found", "Workshop item not found: " + command.itemId()));
-        var workshopItem = workshopItemAggregate(snapshot, item.id());
-        workshopItem.addComment(command.comment().trim(),
+        var item = WorkshopPaintableProjector.project(snapshot.events()).stream()
+                .filter(candidate -> command.workshopPaintableId().equals(candidate.id())).findFirst()
+                .orElseThrow(() -> new DomainException("not_found", "Workshop paintable not found: " + command.workshopPaintableId()));
+        var workshopPaintable = workshopPaintableAggregate(snapshot, item.id());
+        workshopPaintable.addComment(command.comment().trim(),
                 command.occurredAt() == null ? Instant.now() : command.occurredAt());
-        return publish(workshopItem,
+        return publish(workshopPaintable,
                 new Actor("user", defaultText(command.actorId(), "owner")),
                 command.correlationId(), command.idempotencyKey());
     }
 
-    public synchronized PublicationReceipt addWorkshopItemPhoto(AddWorkshopItemPhotoCommand command) {
-        require(command.itemId(), "itemId");
+    public synchronized PublicationReceipt addWorkshopPaintablePhoto(AddWorkshopPaintablePhotoCommand command) {
+        require(command.workshopPaintableId(), "workshopPaintableId");
         require(command.originalFilename(), "originalFilename");
         var contentType = defaultText(command.contentType(), "").toLowerCase(Locale.ROOT);
         if (!mediaPolicy.allowedContentTypes().contains(contentType)) {
@@ -359,19 +464,19 @@ public final class WorkshopCommandService {
         var snapshot = snapshots.load();
         var duplicate = idempotent(snapshot, command.idempotencyKey());
         if (duplicate != null) return existingReceipt(duplicate);
-        var item = WorkshopItemProjector.project(snapshot.events()).stream()
-                .filter(candidate -> command.itemId().equals(candidate.id())).findFirst()
-                .orElseThrow(() -> new DomainException("not_found", "Workshop item not found: " + command.itemId()));
+        var item = WorkshopPaintableProjector.project(snapshot.events()).stream()
+                .filter(candidate -> command.workshopPaintableId().equals(candidate.id())).findFirst()
+                .orElseThrow(() -> new DomainException("not_found", "Workshop paintable not found: " + command.workshopPaintableId()));
         var stage = present(command.stage()) ? WorkflowStage.fromId(command.stage()) : null;
         var occurredAt = command.occurredAt() == null ? Instant.now() : command.occurredAt();
         var mediaId = "media-" + Ulid.next(occurredAt).toLowerCase(Locale.ROOT);
         var stored = mediaStorage.store(item.id(), mediaId, command.originalFilename(), contentType, content);
-        var workshopItem = workshopItemAggregate(snapshot, item.id());
-        workshopItem.addPhoto(
+        var workshopPaintable = workshopPaintableAggregate(snapshot, item.id());
+        workshopPaintable.addPhoto(
                 stored.id(), stored.publicPath(), stage, command.caption(), stored.originalFilename(),
                 stored.contentType(), stored.size(), stored.sha256(), occurredAt);
         try {
-            return publish(workshopItem,
+            return publish(workshopPaintable,
                     new Actor("user", defaultText(command.actorId(), "owner")),
                     command.correlationId(), command.idempotencyKey());
         } catch (RuntimeException failure) {
@@ -380,36 +485,36 @@ public final class WorkshopCommandService {
         }
     }
 
-    public synchronized PublicationReceipt setShoppingItemStatus(SetShoppingItemStatusCommand command) {
-        require(command.itemId(), "itemId");
+    public synchronized PublicationReceipt setShoppingListEntryChecked(SetShoppingListEntryCheckedCommand command) {
+        require(command.shoppingListEntryId(), "shoppingListEntryId");
         var snapshot = snapshots.load();
         var duplicate = idempotent(snapshot, command.idempotencyKey());
         if (duplicate != null) return existingReceipt(duplicate);
-        var known = queries.shoppingViews(snapshot).stream().anyMatch(item -> command.itemId().equals(item.id()));
-        if (!known) throw new DomainException("not_found", "Shopping item not found: " + command.itemId());
+        var known = queries.shoppingViews(snapshot).stream().anyMatch(item -> command.shoppingListEntryId().equals(item.id()));
+        if (!known) throw new DomainException("not_found", "Shopping list entry not found: " + command.shoppingListEntryId());
         var occurredAt = command.occurredAt() == null ? Instant.now() : command.occurredAt();
         var itemHistory = snapshot.events().stream()
-                .filter(event -> command.itemId().equals(event.aggregateId()))
+                .filter(event -> command.shoppingListEntryId().equals(event.aggregateId()))
                 .map(EventEnvelope::event)
-                .filter(ShoppingItemEvent.class::isInstance)
-                .map(ShoppingItemEvent.class::cast)
+                .filter(ShoppingListEntryEvent.class::isInstance)
+                .map(ShoppingListEntryEvent.class::cast)
                 .toList();
         var currentChecked = itemHistory.stream()
-                .filter(ShoppingItemStatusChanged.class::isInstance)
-                .map(ShoppingItemStatusChanged.class::cast)
+                .filter(ShoppingListEntryCheckedChanged.class::isInstance)
+                .map(ShoppingListEntryCheckedChanged.class::cast)
                 .reduce((left, right) -> right)
-                .map(ShoppingItemStatusChanged::checked)
+                .map(ShoppingListEntryCheckedChanged::checked)
                 .orElse(false);
-        var shoppingItem = ShoppingItem.current(command.itemId(), currentChecked, itemHistory);
-        shoppingItem.setChecked(command.checked(), occurredAt);
-        if (shoppingItem.pendingEvents().isEmpty()) {
+        var shoppingListEntry = ShoppingListEntry.current(command.shoppingListEntryId(), currentChecked, itemHistory);
+        shoppingListEntry.setChecked(command.checked(), occurredAt);
+        if (shoppingListEntry.pendingEvents().isEmpty()) {
             return snapshot.events().stream()
-                    .filter(event -> command.itemId().equals(event.aggregateId()))
+                    .filter(event -> command.shoppingListEntryId().equals(event.aggregateId()))
                     .reduce((left, right) -> right)
                     .map(WorkshopCommandService::existingReceipt)
-                    .orElseThrow(() -> new DomainException("no_change", "Shopping item status is already current."));
+                    .orElseThrow(() -> new DomainException("no_change", "Shopping list entry checked state is already current."));
         }
-        return publish(shoppingItem,
+        return publish(shoppingListEntry,
                 new Actor("user", defaultText(command.actorId(), "owner")),
                 command.correlationId(), command.idempotencyKey());
     }
@@ -422,20 +527,20 @@ public final class WorkshopCommandService {
                         "not_found", "Painting project not found: " + paintingProjectId));
     }
 
-    private static PaintingProject paintingProjectForProduct(DataSnapshot snapshot, String productId) {
+    private static PaintingProject paintingProjectForProduct(DataSnapshot snapshot, String paintableProductId) {
         return PaintingProjectProjector.project(snapshot.events()).stream()
-                .filter(project -> productId.equals(project.paintableProductId())).findFirst()
+                .filter(project -> paintableProductId.equals(project.paintableProductId())).findFirst()
                 .orElseThrow(() -> new DomainException(
-                        "conflict", "Paintable product is not part of a painting project: " + productId));
+                        "conflict", "Paintable product is not part of a painting project: " + paintableProductId));
     }
 
-    private static String paintableProductIdForCatalogItem(DataSnapshot snapshot, String catalogItemId) {
+    private static String paintableProductIdForPaintableComponent(DataSnapshot snapshot, String paintableComponentId) {
         for (var product : snapshot.paintableProducts()) {
-            if (product.catalogItems().stream().anyMatch(item -> catalogItemId.equals(item.id()))) {
+            if (product.paintableComponents().stream().anyMatch(item -> paintableComponentId.equals(item.id()))) {
                 return product.id();
             }
         }
-        throw new DomainException("not_found", "Catalog item not found: " + catalogItemId);
+        throw new DomainException("not_found", "Paintable component not found: " + paintableComponentId);
     }
 
     private Workshop workshopAggregate(DataSnapshot snapshot) {
@@ -448,17 +553,17 @@ public final class WorkshopCommandService {
         return history.isEmpty() ? null : Workshop.rehydrate(history);
     }
 
-    private WorkshopItem workshopItemAggregate(DataSnapshot snapshot, String workshopItemId) {
+    private WorkshopPaintable workshopPaintableAggregate(DataSnapshot snapshot, String workshopPaintableId) {
         var history = snapshot.events().stream()
-                .filter(event -> workshopItemId.equals(event.aggregateId()))
+                .filter(event -> workshopPaintableId.equals(event.aggregateId()))
                 .map(EventEnvelope::event)
-                .filter(WorkshopItemEvent.class::isInstance)
-                .map(WorkshopItemEvent.class::cast)
+                .filter(WorkshopPaintableEvent.class::isInstance)
+                .map(WorkshopPaintableEvent.class::cast)
                 .toList();
         if (history.isEmpty()) {
-            throw new DomainException("not_found", "Workshop item not found: " + workshopItemId);
+            throw new DomainException("not_found", "Workshop paintable not found: " + workshopPaintableId);
         }
-        return WorkshopItem.rehydrate(history);
+        return WorkshopPaintable.rehydrate(history);
     }
 
     private PaintingProject paintingProjectAggregate(DataSnapshot snapshot, String paintingProjectId) {
@@ -509,10 +614,7 @@ public final class WorkshopCommandService {
 
     private static void validateRecipeSolutions(
             List<RecipeSolution> solutions, MarketPaintingGuide guide, DataSnapshot snapshot) {
-        var ownedPaintIds = StructuredDocuments.toMaps(snapshot.paintInventory()).stream()
-                .filter(entry -> StructuredDocuments.integer(
-                        entry.get("quantity"), "paint_inventory.quantity") > 0)
-                .map(entry -> StructuredDocuments.text(entry.get("paint_id"))).collect(Collectors.toSet());
+        var ownedPaintIds = snapshot.paintInventory().availablePaintProductIds();
         var guideSlotIds = guide == null ? Set.<String>of() : guide.slots().stream()
                 .map(MarketPaintingGuide.Slot::id).collect(Collectors.toSet());
         var usedSlots = new java.util.HashSet<String>();

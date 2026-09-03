@@ -1,5 +1,1542 @@
 schema_version: 1
 brand: Vallejo
+paint_usage_guides:
+- brand: Vallejo
+  id: val-usage-0eee4540cd296ac1
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply a thin controlled layer.
+    - Let it dry before evaluating colour intensity.
+    summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
+    tips:
+    - Reduce or dilute only with a compatible medium.
+  original_language: en
+  ranges:
+  - Model Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Shake thoroughly.
+      - Apply a thin controlled layer.
+      - Let it dry before evaluating colour intensity.
+      summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
+      tips:
+      - Reduce or dilute only with a compatible medium.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/model-color-en/mahogany-ink-70828/
+  - https://acrylicosvallejo.com/en/product/hobby/model-color-en/smoke-ink-70939/
+  title: Model Color
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer une fine couche en maîtrisant la quantité.
+      - Laisser sécher avant d’évaluer l’intensité de la couleur.
+      summary: Catalogue officiel Vallejo 2026, nuancier Model Color, page 13.
+      tips:
+      - Fluidifier ou diluer uniquement avec un médium compatible.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-1f372a8495cd6450
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Primers
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/vallejo-airbrush-thinner-60ml
+  title: Primers
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Catalogue officiel Vallejo 2026, nuancier Primers, page 48.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-42c27e1acc9a60a8
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Official Vallejo 2026 catalogue, Xpress Color chart, page 68.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Xpress Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Official Vallejo 2026 catalogue, Xpress Color chart, page 68.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/medium-xpress-72448/
+  title: Xpress Color
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Catalogue officiel Vallejo 2026, nuancier Xpress Color, page 68.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-5b1e2597e9e79f55
+  knowledge_status: unverified
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Official Vallejo 2026 catalogue, Model Air chart, page 28.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Model Air
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Official Vallejo 2026 catalogue, Model Air chart, page 28.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/model-air-camouflage-medium-brown-71038/
+  - https://acrylicosvallejo.com/en/product/hobby/model-air-medium-gray-71114/
+  - https://acrylicosvallejo.com/en/product/hobby/model-air-medium-gunship-gray-71097/
+  - https://acrylicosvallejo.com/en/product/hobby/ral6003-medium-olive-71092/
+  - https://acrylicosvallejo.com/en/product/model-air-en/medium-yellow-71002/
+  title: Model Air
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Catalogue officiel Vallejo 2026, nuancier Model Air, page 28.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-5db942783aa63204
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Hobby Paint
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/auxiliary-products-hobby/acrylic-gloss-spray-varnish-28530/
+  - https://acrylicosvallejo.com/en/product/hobby/auxiliary-products-hobby/acrylic-matt-spray-varnish-28531/
+  - https://acrylicosvallejo.com/en/product/hobby/auxiliary-products-hobby/acrylic-satin-spray-varnish-28532/
+  title: Hobby Paint
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Catalogue officiel Vallejo 2026, nuancier Hobby Paint, page 90.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-6344041008313ce4
+  knowledge_status: unverified
+  original:
+    steps:
+    - Mix or shake the product as directed on its label.
+    - Test the effect, then apply it to the intended area.
+    - Let the effect set before adding another layer.
+    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
+    tips:
+    - Use dedicated tools when required and consult the manufacturer page for product-specific
+      precautions.
+  original_language: en
+  ranges:
+  - Pigment FX
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Mix or shake the product as directed on its label.
+      - Test the effect, then apply it to the intended area.
+      - Let the effect set before adding another layer.
+      summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
+      tips:
+      - Use dedicated tools when required and consult the manufacturer page for product-specific
+        precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/blue-grey-73128/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/brown-drown-leaves-73129/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/brown-iron-oxide-73108/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/burnt-sienna-73106/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/burnt-umber-73110/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/carbon-black-smoke-black-73116/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/chrome-oxide-green-73112/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/dark-red-ochre-73107/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/dark-slate-grey-73114/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/dark-steel-73123/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/dark-yellow-ocre-73103/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/desert-dust-73121/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/european-earth-73119/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/faded-olive-green-73122/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/green-earth-73111/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/khaki-green-73127/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/light-sienna-73104/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/light-slate-grey-73113/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/light-yellow-ochre-73102/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/loam-brown-73125/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/mid-orient-dust-73124/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/natural-iron-oxide-73115/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/natural-sienna-73105/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/natural-umber-73109/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/new-rust-73118/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/old-rust-73120/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/rust-73117/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/titanium-white-73101/
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/wood-green-73126/
+  title: Pigment FX
+  translations:
+  - content:
+      steps:
+      - Mélanger ou agiter le produit conformément aux indications de l’étiquette.
+      - Tester l’effet, puis l’appliquer sur la zone souhaitée.
+      - Laisser l’effet prendre avant d’ajouter une nouvelle couche.
+      summary: Catalogue officiel Vallejo 2026, nuancier Pigment FX, page 132.
+      tips:
+      - Employer des outils dédiés si nécessaire et consulter la page du fabricant
+        pour les précautions propres au produit.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-638e82f052809948
+  knowledge_status: unverified
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Official Vallejo 2026 catalogue, Model Color chart, page 12.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Model Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Official Vallejo 2026 catalogue, Model Color chart, page 12.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/model-color-en/medium-blue-70963/
+  - https://acrylicosvallejo.com/en/product/hobby/model-color-en/medium-grey-70987/
+  - https://acrylicosvallejo.com/en/product/hobby/model-color-en/medium-olive-70850/
+  title: Model Color
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Catalogue officiel Vallejo 2026, nuancier Model Color, page 12.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-6487b317ec70f5a0
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Mix or shake the product as directed on its label.
+    - Test the effect, then apply it to the intended area.
+    - Let the effect set before adding another layer.
+    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
+    tips:
+    - Use dedicated tools when required and consult the manufacturer page for product-specific
+      precautions.
+  original_language: en
+  ranges:
+  - Mecha Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Mix or shake the product as directed on its label.
+      - Test the effect, then apply it to the intended area.
+      - Let the effect set before adding another layer.
+      summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
+      tips:
+      - Use dedicated tools when required and consult the manufacturer page for product-specific
+        precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/brown-engine-soot-matt-69818/
+  - https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/fuel-stains-gloss-69814/
+  - https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/oil-stains-gloss-69813/
+  - https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/petrol-spills-gloss-69817/
+  - https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/rust-texture-matt-69821/
+  title: Mecha Color
+  translations:
+  - content:
+      steps:
+      - Mélanger ou agiter le produit conformément aux indications de l’étiquette.
+      - Tester l’effet, puis l’appliquer sur la zone souhaitée.
+      - Laisser l’effet prendre avant d’ajouter une nouvelle couche.
+      summary: Catalogue officiel Vallejo 2026, nuancier Mecha Color, page 82.
+      tips:
+      - Employer des outils dédiés si nécessaire et consulter la page du fabricant
+        pour les précautions propres au produit.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-69c5452f54d54e1b
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Wash FX
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/vallejo-model-wash-chipping-medium-35ml
+  title: Wash FX
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Catalogue officiel Vallejo 2026, nuancier Wash FX, page 138.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-6cba781755d22630
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply thin, even coats to a clean model.
+    - Allow to dry fully before painting.
+    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
+    tips:
+    - Keep surface detail visible and follow the safety directions on the label.
+  original_language: en
+  ranges:
+  - Hobby Paint
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Shake thoroughly.
+      - Apply thin, even coats to a clean model.
+      - Allow to dry fully before painting.
+      summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
+      tips:
+      - Keep surface detail visible and follow the safety directions on the label.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/alien-purple-28025/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/beasty-brown-28019/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/black-28012/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/bloody-red-28023/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/bone-white-28013/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/dark-green-28026/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/dead-flesh-28022/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/desert-yellow-28015/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/english-uniform-28008/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/german-field-grey-28006/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/goblin-green-28027/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/gory-red-28029/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/grey-28011/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/gunmetal-28031/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/leather-brown-28014/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/magic-blue-28030/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/pale-flesh-28024/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/panzer-grey-28002/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/panzer-yellow-28001/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/russian-green-4bo-28003/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/russian-uniform-28007/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/scarlet-red-28016/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/sick-green-28028/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/silver-28021/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/sun-yellow-28018/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/uk-bronze-green-28004/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/ultramarine-blue-28017/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/us-khaki-28009/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/us-olive-drab-28005/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/white-28010/
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/wolf-grey-28020/
+  title: Hobby Paint
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer des couches fines et régulières sur une figurine propre.
+      - Laisser sécher complètement avant de peindre.
+      summary: Catalogue officiel Vallejo 2026, nuancier Hobby Paint, page 90.
+      tips:
+      - Préserver les détails de surface et respecter les consignes de sécurité de
+        l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-6f2c6286098ab059
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Official Vallejo 2026 catalogue, Model Air chart, page 29.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Model Air
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Official Vallejo 2026 catalogue, Model Air chart, page 29.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/vallejo-airbrush-flow-improver-17ml
+  - https://mierce-miniatures.com/products/vallejo-71-261-auxiliaries-mediums-airbrush-thinner
+  title: Model Air
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Catalogue officiel Vallejo 2026, nuancier Model Air, page 29.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-84b68d3a798bc110
+  knowledge_status: unverified
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply a thin controlled layer.
+    - Let it dry before evaluating colour intensity.
+    summary: Official Vallejo 2026 catalogue, Xpress Color chart, page 68.
+    tips:
+    - Reduce or dilute only with a compatible medium.
+  original_language: en
+  ranges:
+  - Xpress Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Shake thoroughly.
+      - Apply a thin controlled layer.
+      - Let it dry before evaluating colour intensity.
+      summary: Official Vallejo 2026 catalogue, Xpress Color chart, page 68.
+      tips:
+      - Reduce or dilute only with a compatible medium.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/fluid-pink-72459/
+  title: Xpress Color
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer une fine couche en maîtrisant la quantité.
+      - Laisser sécher avant d’évaluer l’intensité de la couleur.
+      summary: Catalogue officiel Vallejo 2026, nuancier Xpress Color, page 68.
+      tips:
+      - Fluidifier ou diluer uniquement avec un médium compatible.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-9298805b453a4ffa
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Model Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/vallejo-glaze-medium-17ml
+  - https://eirehobbies.com/products/vallejo-gloss-medium-17ml
+  - https://eirehobbies.com/products/vallejo-gloss-varnish-17ml
+  - https://eirehobbies.com/products/vallejo-matt-varnish-17ml
+  - https://eirehobbies.com/products/vallejo-metal-medium-17ml
+  - https://eirehobbies.com/products/vallejo-retarder-medium-17ml
+  - https://eirehobbies.com/products/vallejo-satin-varnish-17ml
+  - https://eirehobbies.com/products/vallejo-thinner-medium-17ml
+  title: Model Color
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Catalogue officiel Vallejo 2026, nuancier Model Color, page 13.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-99babe7fbe6c3d36
+  knowledge_status: unverified
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply a thin controlled layer.
+    - Let it dry before evaluating colour intensity.
+    summary: Official Vallejo 2026 catalogue, Game Color chart, page 52.
+    tips:
+    - Reduce or dilute only with a compatible medium.
+  original_language: en
+  ranges:
+  - Game Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Shake thoroughly.
+      - Apply a thin controlled layer.
+      - Let it dry before evaluating colour intensity.
+      summary: Official Vallejo 2026 catalogue, Game Color chart, page 52.
+      tips:
+      - Reduce or dilute only with a compatible medium.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/game-color-en/squid-pink-72013/
+  title: Game Color
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer une fine couche en maîtrisant la quantité.
+      - Laisser sécher avant d’évaluer l’intensité de la couleur.
+      summary: Catalogue officiel Vallejo 2026, nuancier Game Color, page 52.
+      tips:
+      - Fluidifier ou diluer uniquement avec un médium compatible.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-9bfd99dfd69bc78f
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply selectively to recesses or the target area.
+    - Remove unwanted pooling and let the layer dry.
+    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
+    tips:
+    - Build several controlled layers instead of flooding fine details.
+  original_language: en
+  ranges:
+  - Mecha Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Shake thoroughly.
+      - Apply selectively to recesses or the target area.
+      - Remove unwanted pooling and let the layer dry.
+      summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
+      tips:
+      - Build several controlled layers instead of flooding fine details.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/black-wash-69518/
+  - https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/dark-rust-wash-69507/
+  - https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/desert-dust-wash-69522/
+  - https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/light-grey-wash-69515/
+  - https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/light-rust-wash-69505/
+  - https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/oiled-earth-wash-69521/
+  title: Mecha Color
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer de manière ciblée dans les creux ou sur la zone souhaitée.
+      - Retirer les accumulations indésirables et laisser sécher la couche.
+      summary: Catalogue officiel Vallejo 2026, nuancier Mecha Color, page 82.
+      tips:
+      - Superposer plusieurs couches maîtrisées plutôt que de noyer les détails.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-9d28d7e2ff575ef5
+  knowledge_status: unverified
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply a thin controlled layer.
+    - Let it dry before evaluating colour intensity.
+    summary: Official Vallejo 2026 catalogue, Model Color chart, page 12.
+    tips:
+    - Reduce or dilute only with a compatible medium.
+  original_language: en
+  ranges:
+  - Model Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Shake thoroughly.
+      - Apply a thin controlled layer.
+      - Let it dry before evaluating colour intensity.
+      summary: Official Vallejo 2026 catalogue, Model Color chart, page 12.
+      tips:
+      - Reduce or dilute only with a compatible medium.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/model-color-en/light-pink-70748/
+  - https://acrylicosvallejo.com/en/product/hobby/model-color-en/pink-70958/
+  title: Model Color
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer une fine couche en maîtrisant la quantité.
+      - Laisser sécher avant d’évaluer l’intensité de la couleur.
+      summary: Catalogue officiel Vallejo 2026, nuancier Model Color, page 12.
+      tips:
+      - Fluidifier ou diluer uniquement avec un médium compatible.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-b0c1bf7bbd2b503d
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Pigment FX
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/pigment-binder-26233/
+  title: Pigment FX
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Catalogue officiel Vallejo 2026, nuancier Pigment FX, page 132.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-b136ebf21dc88b02
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Official Vallejo 2026 catalogue, Metal Color chart, page 44.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Metal Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Official Vallejo 2026 catalogue, Metal Color chart, page 44.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/gloss-metal-varnish-77657/
+  title: Metal Color
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Catalogue officiel Vallejo 2026, nuancier Metal Color, page 44.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-b3c2d282b066c4d0
+  knowledge_status: unverified
+  original:
+    steps:
+    - Mix or shake the product as directed on its label.
+    - Test the effect, then apply it to the intended area.
+    - Let the effect set before adding another layer.
+    summary: Official Vallejo 2026 catalogue, Liquid Metal chart, page 25.
+    tips:
+    - Use dedicated tools when required and consult the manufacturer page for product-specific
+      precautions.
+  original_language: en
+  ranges:
+  - Liquid Metal
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Mix or shake the product as directed on its label.
+      - Test the effect, then apply it to the intended area.
+      - Let the effect set before adding another layer.
+      summary: Official Vallejo 2026 catalogue, Liquid Metal chart, page 25.
+      tips:
+      - Use dedicated tools when required and consult the manufacturer page for product-specific
+        precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/liquid-metal-en/copper-70797/
+  title: Liquid Metal
+  translations:
+  - content:
+      steps:
+      - Mélanger ou agiter le produit conformément aux indications de l’étiquette.
+      - Tester l’effet, puis l’appliquer sur la zone souhaitée.
+      - Laisser l’effet prendre avant d’ajouter une nouvelle couche.
+      summary: Catalogue officiel Vallejo 2026, nuancier Liquid Metal, page 25.
+      tips:
+      - Employer des outils dédiés si nécessaire et consulter la page du fabricant
+        pour les précautions propres au produit.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-b41b119b2cc668ae
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Official Vallejo 2026 catalogue, Game Color chart, page 53.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Game Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Official Vallejo 2026 catalogue, Game Color chart, page 53.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/vallejo-polyurethane-gloss-varnish-18ml
+  - https://eirehobbies.com/products/vallejo-polyurethane-matt-varnish-18ml
+  - https://eirehobbies.com/products/vallejo-polyurethane-satin-varnish-18ml
+  - https://eirehobbies.com/products/vallejo-polyurethane-ultra-matt-varnish-18ml
+  title: Game Color
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Catalogue officiel Vallejo 2026, nuancier Game Color, page 53.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-b7f4aed5d6a27dcb
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply selectively to recesses or the target area.
+    - Remove unwanted pooling and let the layer dry.
+    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
+    tips:
+    - Build several controlled layers instead of flooding fine details.
+  original_language: en
+  ranges:
+  - Wash FX
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Shake thoroughly.
+      - Apply selectively to recesses or the target area.
+      - Remove unwanted pooling and let the layer dry.
+      summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
+      tips:
+      - Build several controlled layers instead of flooding fine details.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/black-76518/
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/blue-grey-76524/
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/brown-76513/
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/dark-brown-76514/
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/dark-green-76512/
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/dark-grey-76517/
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/dark-khaki-green-76520/
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/dark-rust-76507/
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/dark-yellow-76503/
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/desert-dust-76522/
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/european-dust-76523/
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/light-grey-76515/
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/light-rust-76505/
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/off-grey-76516/
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/oiled-earth-76521/
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/olive-green-76519/
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/rust-76506/
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/white-76501/
+  title: Wash FX
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer de manière ciblée dans les creux ou sur la zone souhaitée.
+      - Retirer les accumulations indésirables et laisser sécher la couche.
+      summary: Catalogue officiel Vallejo 2026, nuancier Wash FX, page 138.
+      tips:
+      - Superposer plusieurs couches maîtrisées plutôt que de noyer les détails.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-be25b336e4e6badb
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply thin, even coats to a clean model.
+    - Allow to dry fully before painting.
+    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
+    tips:
+    - Keep surface detail visible and follow the safety directions on the label.
+  original_language: en
+  ranges:
+  - Primers
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Shake thoroughly.
+      - Apply thin, even coats to a clean model.
+      - Allow to dry fully before painting.
+      summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
+      tips:
+      - Keep surface detail visible and follow the safety directions on the label.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/primers-en/black-70602/
+  - https://acrylicosvallejo.com/en/product/hobby/primers-en/desert-tan-70613/
+  - https://acrylicosvallejo.com/en/product/hobby/primers-en/earth-green-early-70611/
+  - https://acrylicosvallejo.com/en/product/hobby/primers-en/german-dark-yellow-70604/
+  - https://acrylicosvallejo.com/en/product/hobby/primers-en/german-green-brown-70606/
+  - https://acrylicosvallejo.com/en/product/hobby/primers-en/german-panzer-grey-70603/
+  - https://acrylicosvallejo.com/en/product/hobby/primers-en/german-red-brown-70605/
+  - https://acrylicosvallejo.com/en/product/hobby/primers-en/gloss-black-77660/
+  - https://acrylicosvallejo.com/en/product/hobby/primers-en/grey-70601/
+  - https://acrylicosvallejo.com/en/product/hobby/primers-en/idf-israeli-sand-grey-61-73-70614/
+  - https://acrylicosvallejo.com/en/product/hobby/primers-en/nato-green-70612/
+  - https://acrylicosvallejo.com/en/product/hobby/primers-en/parched-grass-late-70610/
+  - https://acrylicosvallejo.com/en/product/hobby/primers-en/russian-green-4bo-70609/
+  - https://acrylicosvallejo.com/en/product/hobby/primers-en/uk-bronze-green-70607/
+  - https://acrylicosvallejo.com/en/product/hobby/primers-en/us-olive-drab-70608/
+  - https://acrylicosvallejo.com/en/product/hobby/primers-en/usn-light-ghost-grey-70615/
+  - https://acrylicosvallejo.com/en/product/hobby/primers-en/white-70600/
+  title: Primers
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer des couches fines et régulières sur une figurine propre.
+      - Laisser sécher complètement avant de peindre.
+      summary: Catalogue officiel Vallejo 2026, nuancier Primers, page 48.
+      tips:
+      - Préserver les détails de surface et respecter les consignes de sécurité de
+        l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-c67c047bc7ab84fe
+  knowledge_status: unverified
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Mecha Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/medium-grey-69038/
+  title: Mecha Color
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Catalogue officiel Vallejo 2026, nuancier Mecha Color, page 82.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-d00afaafdbcca086
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Mecha Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: manufacturer_summary_with_generic_steps
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/mecha-gloss-varnish-69701-en/
+  - https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/mecha-matt-varnish-69702-en/
+  - https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/mecha-satin-varnish-69703-en/
+  title: Mecha Color
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Catalogue officiel Vallejo 2026, nuancier Mecha Color, page 82.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-da9038a47e2a4b4d
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Auxiliary product (Plastic Putty) used to modify, protect or support
+      the painting process.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Model Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: generic_template
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Auxiliary product (Plastic Putty) used to modify, protect or support
+        the painting process.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/vallejo-plastic-putty-17ml
+  title: Model Color
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Produit auxiliaire (Plastic Putty) destiné à modifier, protéger ou
+        faciliter le travail de peinture.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-dc8bd1cfdf26e511
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Auxiliary product (Liquid Mask) used to modify, protect or support the
+      painting process.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Model Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: generic_template
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Auxiliary product (Liquid Mask) used to modify, protect or support
+        the painting process.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/vallejo-liquid-mask-17ml
+  title: Model Color
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Produit auxiliaire (Liquid Mask) destiné à modifier, protéger ou faciliter
+        le travail de peinture.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-e4f79cc006e1f18d
+  knowledge_status: unverified
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply a thin controlled layer.
+    - Let it dry before evaluating colour intensity.
+    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
+    tips:
+    - Reduce or dilute only with a compatible medium.
+  original_language: en
+  ranges:
+  - Mecha Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Shake thoroughly.
+      - Apply a thin controlled layer.
+      - Let it dry before evaluating colour intensity.
+      summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
+      tips:
+      - Reduce or dilute only with a compatible medium.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/pink-69006/
+  title: Mecha Color
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer une fine couche en maîtrisant la quantité.
+      - Laisser sécher avant d’évaluer l’intensité de la couleur.
+      summary: Catalogue officiel Vallejo 2026, nuancier Mecha Color, page 82.
+      tips:
+      - Fluidifier ou diluer uniquement avec un médium compatible.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-f143d81e8c70bc56
+  knowledge_status: unverified
+  original:
+    steps:
+    - Shake thoroughly.
+    - Apply a thin controlled layer.
+    - Let it dry before evaluating colour intensity.
+    summary: Official Vallejo 2026 catalogue, Game Air chart, page 72.
+    tips:
+    - Reduce or dilute only with a compatible medium.
+  original_language: en
+  ranges:
+  - Game Air
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Shake thoroughly.
+      - Apply a thin controlled layer.
+      - Let it dry before evaluating colour intensity.
+      summary: Official Vallejo 2026 catalogue, Game Air chart, page 72.
+      tips:
+      - Reduce or dilute only with a compatible medium.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/game-air-en/squid-pink-76013/
+  title: Game Air
+  translations:
+  - content:
+      steps:
+      - Agiter soigneusement.
+      - Appliquer une fine couche en maîtrisant la quantité.
+      - Laisser sécher avant d’évaluer l’intensité de la couleur.
+      summary: Catalogue officiel Vallejo 2026, nuancier Game Air, page 72.
+      tips:
+      - Fluidifier ou diluer uniquement avec un médium compatible.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-f221d7fad8eca202
+  knowledge_status: unverified
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Official Vallejo 2026 catalogue, Model Air chart, page 29.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Model Air
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Official Vallejo 2026 catalogue, Model Air chart, page 29.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/ijn-medium-grey-71312/
+  - https://acrylicosvallejo.com/en/product/hobby/model-air-bs-medium-sea-grey-71307/
+  - https://acrylicosvallejo.com/en/product/hobby/model-air-usaf-medium-gray-71275/
+  title: Model Air
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Catalogue officiel Vallejo 2026, nuancier Model Air, page 29.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-f22b6a6e1f6a73db
+  knowledge_status: generic-template
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Auxiliary product (Matt Base) used to modify, protect or support the
+      painting process.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Model Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      instruction_status: generic_template
+      review_required: true
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Auxiliary product (Matt Base) used to modify, protect or support the
+        painting process.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://eirehobbies.com/products/vallejo-matt-medium-17ml
+  title: Model Color
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Produit auxiliaire (Matt Base) destiné à modifier, protéger ou faciliter
+        le travail de peinture.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
+- brand: Vallejo
+  id: val-usage-f661295058584cd4
+  knowledge_status: unverified
+  original:
+    steps:
+    - Read the manufacturer directions and shake if required.
+    - Use a controlled amount for the stated purpose.
+    - Allow the product to dry or cure before the next operation.
+    summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
+    tips:
+    - Check compatibility on a test surface and follow label precautions.
+  original_language: en
+  ranges:
+  - Model Color
+  review_required: true
+  revision: 1
+  schema_version: 1
+  source_snapshots:
+  - payload:
+      steps:
+      - Read the manufacturer directions and shake if required.
+      - Use a controlled amount for the stated purpose.
+      - Allow the product to dry or cure before the next operation.
+      summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
+      tips:
+      - Check compatibility on a test surface and follow label precautions.
+    provider: paint-usage-extraction
+  source_urls:
+  - https://acrylicosvallejo.com/en/product/hobby/model-color-en/medium-brown-70826/
+  - https://acrylicosvallejo.com/en/product/hobby/model-color-en/medium-grey-blue-70772/
+  - https://acrylicosvallejo.com/en/product/hobby/model-color-en/medium-sea-grey-70870/
+  title: Model Color
+  translations:
+  - content:
+      steps:
+      - Lire les consignes du fabricant et agiter si nécessaire.
+      - Utiliser une quantité maîtrisée pour l’usage indiqué.
+      - Laisser sécher ou durcir le produit avant l’opération suivante.
+      summary: Catalogue officiel Vallejo 2026, nuancier Model Color, page 13.
+      tips:
+      - Vérifier la compatibilité sur une surface d’essai et respecter les précautions
+        de l’étiquette.
+    language: fr
+    method: machine
+    review_required: true
+    source_revision: 1
 paints:
 - brand: Vallejo
   brand_aliases: [
@@ -87,16 +1624,8 @@ paints:
     url: https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/pigment-binder-26233/
   tags:
   - Pigment FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-b0c1bf7bbd2b503d
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -206,16 +1735,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -325,16 +1846,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -444,16 +1957,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -563,16 +2068,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -682,16 +2179,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -801,16 +2290,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -920,16 +2401,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -1039,16 +2512,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -1158,16 +2623,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -1277,16 +2734,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -1396,16 +2845,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -1515,16 +2956,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -1634,16 +3067,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -1753,16 +3178,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -1872,16 +3289,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -1991,16 +3400,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -2110,16 +3511,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -2229,16 +3622,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -2348,16 +3733,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -2467,16 +3844,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -2586,16 +3955,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -2705,16 +4066,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -2824,16 +4177,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -2943,16 +4288,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -3062,16 +4399,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -3181,16 +4510,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -3300,16 +4621,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -3419,16 +4732,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -3538,16 +4843,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -3657,16 +4954,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -3776,16 +5065,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-6cba781755d22630
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -3876,16 +5157,8 @@ paints:
     url: https://acrylicosvallejo.com/en/product/hobby/auxiliary-products-hobby/acrylic-gloss-spray-varnish-28530/
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-5db942783aa63204
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -3976,16 +5249,8 @@ paints:
     url: https://acrylicosvallejo.com/en/product/hobby/auxiliary-products-hobby/acrylic-matt-spray-varnish-28531/
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-5db942783aa63204
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -4076,16 +5341,8 @@ paints:
     url: https://acrylicosvallejo.com/en/product/hobby/auxiliary-products-hobby/acrylic-satin-spray-varnish-28532/
   tags:
   - Hobby Paint
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Hobby Paint chart, page 90.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-5db942783aa63204
   verified_at: '2026-08-31'
   volume_ml: 400
   warnings: [
@@ -4770,14 +6027,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Mecha Color
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a thin controlled layer.
-    - Let it dry before evaluating colour intensity.
-    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
-    tips:
-    - Reduce or dilute only with a compatible medium.
+  usage_guide_ids:
+  - val-usage-e4f79cc006e1f18d
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -8452,14 +9703,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Mecha Color
-  usage_instructions:
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-c67c047bc7ab84fe
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -10754,16 +11999,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Mecha Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-9bfd99dfd69bc78f
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -10873,16 +12110,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Mecha Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-9bfd99dfd69bc78f
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -10992,16 +12221,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Mecha Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-9bfd99dfd69bc78f
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -11111,16 +12332,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Mecha Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-9bfd99dfd69bc78f
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -11230,16 +12443,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Mecha Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-9bfd99dfd69bc78f
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -11349,16 +12554,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Mecha Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-9bfd99dfd69bc78f
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -11449,16 +12646,8 @@ paints:
     url: https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/mecha-gloss-varnish-69701-en/
   tags:
   - Mecha Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-d00afaafdbcca086
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -11549,16 +12738,8 @@ paints:
     url: https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/mecha-matt-varnish-69702-en/
   tags:
   - Mecha Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-d00afaafdbcca086
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -11649,16 +12830,8 @@ paints:
     url: https://acrylicosvallejo.com/en/product/hobby/mecha-color-en/mecha-satin-varnish-69703-en/
   tags:
   - Mecha Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-d00afaafdbcca086
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -11768,17 +12941,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Mecha Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6487b317ec70f5a0
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -11888,17 +13052,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Mecha Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6487b317ec70f5a0
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -12008,17 +13163,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Mecha Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6487b317ec70f5a0
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -12128,17 +13274,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Mecha Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6487b317ec70f5a0
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -12248,17 +13385,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Mecha Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Mecha Color chart, page 82.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6487b317ec70f5a0
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -12360,17 +13488,8 @@ paints:
     url: https://eirehobbies.com/products/vallejo-plastic-putty-17ml
   tags:
   - Model Color
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Auxiliary product (Plastic Putty) used to modify, protect or support
-      the painting process.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-da9038a47e2a4b4d
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -12472,16 +13591,8 @@ paints:
     url: https://eirehobbies.com/products/vallejo-gloss-medium-17ml
   tags:
   - Model Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-9298805b453a4ffa
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -12583,16 +13694,8 @@ paints:
     url: https://eirehobbies.com/products/vallejo-gloss-varnish-17ml
   tags:
   - Model Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-9298805b453a4ffa
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -12694,16 +13797,8 @@ paints:
     url: https://eirehobbies.com/products/vallejo-matt-varnish-17ml
   tags:
   - Model Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-9298805b453a4ffa
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -12805,16 +13900,8 @@ paints:
     url: https://eirehobbies.com/products/vallejo-metal-medium-17ml
   tags:
   - Model Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-9298805b453a4ffa
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -12916,16 +14003,8 @@ paints:
     url: https://eirehobbies.com/products/vallejo-satin-varnish-17ml
   tags:
   - Model Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-9298805b453a4ffa
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -13027,17 +14106,8 @@ paints:
     url: https://eirehobbies.com/products/vallejo-liquid-mask-17ml
   tags:
   - Model Color
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Auxiliary product (Liquid Mask) used to modify, protect or support the
-      painting process.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-dc8bd1cfdf26e511
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -13139,16 +14209,8 @@ paints:
     url: https://eirehobbies.com/products/vallejo-thinner-medium-17ml
   tags:
   - Model Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-9298805b453a4ffa
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -13275,17 +14337,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2024/03/CC329-R00-Model-Color-NewIC.pdf
   tags:
   - Model Color
-  usage_instructions:
-    instruction_status: generic_template
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Auxiliary product (Matt Base) used to modify, protect or support the
-      painting process.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-f22b6a6e1f6a73db
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -13387,16 +14440,8 @@ paints:
     url: https://eirehobbies.com/products/vallejo-glaze-medium-17ml
   tags:
   - Model Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-9298805b453a4ffa
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -13498,16 +14543,8 @@ paints:
     url: https://eirehobbies.com/products/vallejo-retarder-medium-17ml
   tags:
   - Model Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-9298805b453a4ffa
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -13619,16 +14656,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-be25b336e4e6badb
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -13740,16 +14769,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-be25b336e4e6badb
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -13861,16 +14882,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-be25b336e4e6badb
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -13982,16 +14995,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-be25b336e4e6badb
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -14103,16 +15108,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-be25b336e4e6badb
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -14224,16 +15221,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-be25b336e4e6badb
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -14345,16 +15334,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-be25b336e4e6badb
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -14466,16 +15447,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-be25b336e4e6badb
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -14587,16 +15560,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-be25b336e4e6badb
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -14708,16 +15673,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-be25b336e4e6badb
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -14829,16 +15786,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-be25b336e4e6badb
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -14950,16 +15899,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-be25b336e4e6badb
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -15071,16 +16012,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-be25b336e4e6badb
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -15192,16 +16125,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-be25b336e4e6badb
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -15313,16 +16238,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-be25b336e4e6badb
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -15434,16 +16351,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-be25b336e4e6badb
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -16140,14 +17049,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Model Color
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a thin controlled layer.
-    - Let it dry before evaluating colour intensity.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 12.
-    tips:
-    - Reduce or dilute only with a compatible medium.
+  usage_guide_ids:
+  - val-usage-9d28d7e2ff575ef5
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -18950,14 +19853,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Model Color
-  usage_instructions:
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-f661295058584cd4
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -20122,15 +21019,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Liquid Metal
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Liquid Metal chart, page 25.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-b3c2d282b066c4d0
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -23167,14 +24057,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Model Color
-  usage_instructions:
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-f661295058584cd4
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -23403,16 +24287,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Model Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply a thin controlled layer.
-    - Let it dry before evaluating colour intensity.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
-    tips:
-    - Reduce or dilute only with a compatible medium.
+  usage_guide_ids:
+  - val-usage-0eee4540cd296ac1
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -25162,14 +26038,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Model Color
-  usage_instructions:
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 12.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-638e82f052809948
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -26919,14 +27789,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Model Color
-  usage_instructions:
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-f661295058584cd4
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -33457,16 +34321,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Model Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply a thin controlled layer.
-    - Let it dry before evaluating colour intensity.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 13.
-    tips:
-    - Reduce or dilute only with a compatible medium.
+  usage_guide_ids:
+  - val-usage-0eee4540cd296ac1
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -35567,14 +36423,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Model Color
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a thin controlled layer.
-    - Let it dry before evaluating colour intensity.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 12.
-    tips:
-    - Reduce or dilute only with a compatible medium.
+  usage_guide_ids:
+  - val-usage-9d28d7e2ff575ef5
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -36154,14 +37004,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Model Color
-  usage_instructions:
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 12.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-638e82f052809948
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -38847,14 +39691,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Model Color
-  usage_instructions:
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Color chart, page 12.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-638e82f052809948
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -40487,14 +41325,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Model Air
-  usage_instructions:
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Air chart, page 28.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-5b1e2597e9e79f55
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -44701,14 +45533,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Model Air
-  usage_instructions:
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Air chart, page 28.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-5b1e2597e9e79f55
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -50553,14 +51379,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Model Air
-  usage_instructions:
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Air chart, page 28.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-5b1e2597e9e79f55
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -51140,14 +51960,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Model Air
-  usage_instructions:
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Air chart, page 28.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-5b1e2597e9e79f55
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -52780,14 +53594,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Model Air
-  usage_instructions:
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Air chart, page 28.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-5b1e2597e9e79f55
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -57803,16 +58611,8 @@ paints:
     url: https://mierce-miniatures.com/products/vallejo-71-261-auxiliaries-mediums-airbrush-thinner
   tags:
   - Model Air
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Air chart, page 29.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-6f2c6286098ab059
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -57914,16 +58714,8 @@ paints:
     url: https://eirehobbies.com/products/vallejo-airbrush-flow-improver-17ml
   tags:
   - Model Air
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Air chart, page 29.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-6f2c6286098ab059
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -59439,14 +60231,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Model Air
-  usage_instructions:
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Air chart, page 29.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-f221d7fad8eca202
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -63185,14 +63971,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Model Air
-  usage_instructions:
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Air chart, page 29.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-f221d7fad8eca202
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -63772,14 +64552,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Model Air
-  usage_instructions:
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Model Air chart, page 29.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-f221d7fad8eca202
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -68093,16 +68867,8 @@ paints:
     url: https://eirehobbies.com/products/vallejo-airbrush-thinner-60ml
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-1f372a8495cd6450
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -69501,14 +70267,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Game Color
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a thin controlled layer.
-    - Let it dry before evaluating colour intensity.
-    summary: Official Vallejo 2026 catalogue, Game Color chart, page 52.
-    tips:
-    - Reduce or dilute only with a compatible medium.
+  usage_guide_ids:
+  - val-usage-99babe7fbe6c3d36
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -83545,16 +84305,8 @@ paints:
     url: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/medium-xpress-72448/
   tags:
   - Xpress Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Xpress Color chart, page 68.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-42c27e1acc9a60a8
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -84788,14 +85540,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Xpress Color
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a thin controlled layer.
-    - Let it dry before evaluating colour intensity.
-    summary: Official Vallejo 2026 catalogue, Xpress Color chart, page 68.
-    tips:
-    - Reduce or dilute only with a compatible medium.
+  usage_guide_ids:
+  - val-usage-84b68d3a798bc110
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -89210,16 +89956,8 @@ paints:
     url: https://eirehobbies.com/products/vallejo-polyurethane-gloss-varnish-18ml
   tags:
   - Game Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Game Color chart, page 53.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-b41b119b2cc668ae
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -89321,16 +90059,8 @@ paints:
     url: https://eirehobbies.com/products/vallejo-polyurethane-matt-varnish-18ml
   tags:
   - Game Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Game Color chart, page 53.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-b41b119b2cc668ae
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -89432,16 +90162,8 @@ paints:
     url: https://eirehobbies.com/products/vallejo-polyurethane-satin-varnish-18ml
   tags:
   - Game Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Game Color chart, page 53.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-b41b119b2cc668ae
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -89543,16 +90265,8 @@ paints:
     url: https://eirehobbies.com/products/vallejo-polyurethane-ultra-matt-varnish-18ml
   tags:
   - Game Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Game Color chart, page 53.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-b41b119b2cc668ae
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -89662,15 +90376,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -89780,15 +90487,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -89898,15 +90598,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -90016,15 +90709,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -90134,15 +90820,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -90252,15 +90931,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -90370,15 +91042,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -90488,15 +91153,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -90606,15 +91264,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -90724,15 +91375,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -90842,15 +91486,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -90960,15 +91597,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -91078,15 +91708,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -91196,15 +91819,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -91314,15 +91930,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -91432,15 +92041,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -91550,15 +92152,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -91668,15 +92263,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -91786,15 +92374,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -91904,15 +92485,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -92022,15 +92596,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -92140,15 +92707,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -92258,15 +92818,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -92376,15 +92929,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -92494,15 +93040,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -92612,15 +93151,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -92730,15 +93262,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -92848,15 +93373,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -92966,15 +93484,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Pigment FX
-  usage_instructions:
-    steps:
-    - Mix or shake the product as directed on its label.
-    - Test the effect, then apply it to the intended area.
-    - Let the effect set before adding another layer.
-    summary: Official Vallejo 2026 catalogue, Pigment FX chart, page 132.
-    tips:
-    - Use dedicated tools when required and consult the manufacturer page for product-specific
-      precautions.
+  usage_guide_ids:
+  - val-usage-6344041008313ce4
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -94139,14 +94650,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Game Air
-  usage_instructions:
-    steps:
-    - Shake thoroughly.
-    - Apply a thin controlled layer.
-    - Let it dry before evaluating colour intensity.
-    summary: Official Vallejo 2026 catalogue, Game Air chart, page 72.
-    tips:
-    - Reduce or dilute only with a compatible medium.
+  usage_guide_ids:
+  - val-usage-f143d81e8c70bc56
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [
@@ -99064,16 +99569,8 @@ paints:
     url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -99185,16 +99682,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -99306,16 +99795,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -99427,16 +99908,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -99548,16 +100021,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -99669,16 +100134,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -99790,16 +100247,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -99911,16 +100360,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -100032,16 +100473,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -100153,16 +100586,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -100274,16 +100699,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -100395,16 +100812,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -100516,16 +100925,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -100637,16 +101038,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -100758,16 +101151,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -100879,16 +101264,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -101000,16 +101377,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -101121,16 +101490,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply selectively to recesses or the target area.
-    - Remove unwanted pooling and let the layer dry.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Build several controlled layers instead of flooding fine details.
+  usage_guide_ids:
+  - val-usage-b7f4aed5d6a27dcb
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -101232,16 +101593,8 @@ paints:
     url: https://eirehobbies.com/products/vallejo-model-wash-chipping-medium-35ml
   tags:
   - Wash FX
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Wash FX chart, page 138.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-69c5452f54d54e1b
   verified_at: '2026-08-31'
   volume_ml: 35
   warnings: [
@@ -110679,16 +111032,8 @@ paints:
     url: https://acrylicosvallejo.com/en/product/hobby/metal-color-en/gloss-metal-varnish-77657/
   tags:
   - Metal Color
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Read the manufacturer directions and shake if required.
-    - Use a controlled amount for the stated purpose.
-    - Allow the product to dry or cure before the next operation.
-    summary: Official Vallejo 2026 catalogue, Metal Color chart, page 44.
-    tips:
-    - Check compatibility on a test surface and follow label precautions.
+  usage_guide_ids:
+  - val-usage-b136ebf21dc88b02
   verified_at: '2026-08-31'
   volume_ml: 32
   warnings: [
@@ -110800,16 +111145,8 @@ paints:
     url: https://github.com/s10-steve/paintdex/blob/f77970bad84e8b23337af24d204b741d51c67104/data/paints/vallejo.json
   tags:
   - Primers
-  usage_instructions:
-    instruction_status: manufacturer_summary_with_generic_steps
-    review_required: true
-    steps:
-    - Shake thoroughly.
-    - Apply thin, even coats to a clean model.
-    - Allow to dry fully before painting.
-    summary: Official Vallejo 2026 catalogue, Primers chart, page 48.
-    tips:
-    - Keep surface detail visible and follow the safety directions on the label.
+  usage_guide_ids:
+  - val-usage-be25b336e4e6badb
   verified_at: '2026-08-31'
   volume_ml: 18
   warnings: [

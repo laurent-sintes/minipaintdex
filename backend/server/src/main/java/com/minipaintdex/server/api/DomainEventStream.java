@@ -3,6 +3,11 @@ package com.minipaintdex.server.api;
 import com.minipaintdex.application.event.CommittedEventBatch;
 import com.minipaintdex.bootstrap.MiniPaintDexProperties;
 import org.springframework.context.event.EventListener;
+import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -17,6 +22,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.RejectedExecutionException;
 
 @Component
 final class DomainEventStream implements AutoCloseable {
@@ -25,6 +31,8 @@ final class DomainEventStream implements AutoCloseable {
     private final ArrayDeque<Notification> replay;
     private final CopyOnWriteArrayList<SseEmitter> emitters = new CopyOnWriteArrayList<>();
     private final ThreadPoolExecutor sender;
+    private final Object lifecycleMonitor = new Object();
+    private volatile boolean closing;
 
     DomainEventStream(MiniPaintDexProperties properties) {
         var web = properties.web();
@@ -40,13 +48,22 @@ final class DomainEventStream implements AutoCloseable {
     }
 
     SseEmitter subscribe(String lastEventId) {
-        var emitter = new SseEmitter(connectionTimeoutMillis);
-        emitters.add(emitter);
-        emitter.onCompletion(() -> emitters.remove(emitter));
-        emitter.onTimeout(() -> emitters.remove(emitter));
-        emitter.onError(ignored -> emitters.remove(emitter));
-        sender.execute(() -> replay(emitter, lastEventId));
-        return emitter;
+        synchronized (lifecycleMonitor) {
+            if (closing) throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Event stream is shutting down.");
+            var emitter = new SseEmitter(connectionTimeoutMillis);
+            emitter.onCompletion(() -> emitters.remove(emitter));
+            emitter.onTimeout(() -> emitters.remove(emitter));
+            emitter.onError(ignored -> emitters.remove(emitter));
+            emitters.add(emitter);
+            try {
+                sender.execute(() -> { replay(emitter, lastEventId); sendHeartbeat(emitter); });
+            } catch (RejectedExecutionException failure) {
+                emitters.remove(emitter);
+                emitter.complete();
+                throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Event stream is busy.");
+            }
+            return emitter;
+        }
     }
 
     @EventListener
@@ -56,17 +73,37 @@ final class DomainEventStream implements AutoCloseable {
 
     @Scheduled(fixedDelayString = "${minipaintdex.web.sse-heartbeat}")
     void heartbeat() {
-        sender.execute(() -> emitters.forEach(emitter -> sendHeartbeat(emitter)));
+        if (closing) return;
+        try {
+            sender.execute(() -> emitters.forEach(emitter -> sendHeartbeat(emitter)));
+        } catch (RejectedExecutionException ignored) {
+            // Heartbeats are disposable when the bounded sender is busy or closing.
+        }
+    }
+
+    @EventListener(ContextClosedEvent.class)
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    void contextClosing() {
+        // ContextClosedEvent precedes lifecycle shutdown: close long-lived HTTP requests before
+        // Tomcat starts graceful draining. Bean destruction alone is too late (after its timeout).
+        close();
     }
 
     @Override
     public void close() {
-        sender.shutdown();
-        emitters.forEach(SseEmitter::complete);
-        emitters.clear();
+        List<SseEmitter> active;
+        synchronized (lifecycleMonitor) {
+            if (closing) return;
+            closing = true;
+            active = List.copyOf(emitters);
+            emitters.clear();
+            sender.shutdownNow();
+        }
+        active.forEach(SseEmitter::complete);
     }
 
     private void enqueue(Notification notification) {
+        if (closing) return;
         synchronized (replay) {
             if (replay.size() == replayCapacity) replay.removeFirst();
             replay.addLast(notification);
@@ -79,6 +116,7 @@ final class DomainEventStream implements AutoCloseable {
     }
 
     private void replay(SseEmitter emitter, String lastEventId) {
+        if (closing) return;
         List<Notification> snapshot;
         synchronized (replay) {
             snapshot = new ArrayList<>(replay);
@@ -91,7 +129,7 @@ final class DomainEventStream implements AutoCloseable {
         if (position < 0 && !snapshot.isEmpty()) {
             try {
                 emitter.send(SseEmitter.event().name("resync-required").data("{}"));
-            } catch (IOException failure) {
+            } catch (IOException | IllegalStateException failure) {
                 remove(emitter, failure);
             }
             return;
@@ -100,6 +138,7 @@ final class DomainEventStream implements AutoCloseable {
     }
 
     private void send(SseEmitter emitter, Notification notification) {
+        if (closing) return;
         try {
             emitter.send(SseEmitter.event()
                     .id(notification.id())
@@ -111,6 +150,7 @@ final class DomainEventStream implements AutoCloseable {
     }
 
     private void sendHeartbeat(SseEmitter emitter) {
+        if (closing) return;
         try {
             emitter.send(SseEmitter.event().comment("heartbeat"));
         } catch (IOException | IllegalStateException failure) {
@@ -129,7 +169,7 @@ final class DomainEventStream implements AutoCloseable {
         var aggregateTypes = events.stream().map(event -> event.aggregateType()).distinct().toList();
         var aggregateIds = events.stream().map(event -> event.aggregateId())
                 .collect(java.util.stream.Collectors.toCollection(LinkedHashSet::new));
-        var projectIds = events.stream().map(event -> event.projectId())
+        var projectIds = events.stream().map(event -> event.scopePaintingProjectId())
                 .filter(java.util.Objects::nonNull)
                 .collect(java.util.stream.Collectors.toCollection(LinkedHashSet::new));
         return new Notification(

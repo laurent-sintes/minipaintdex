@@ -10,7 +10,8 @@ public interface DomainEvent {
 
     String aggregateId();
 
-    String projectId();
+    /** Owning project scope, distinct from a project referenced by a Workshop membership event. */
+    String scopePaintingProjectId();
 
     Instant occurredAt();
 }

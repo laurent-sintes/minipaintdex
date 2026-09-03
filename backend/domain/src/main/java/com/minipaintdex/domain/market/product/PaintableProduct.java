@@ -22,7 +22,7 @@ public record PaintableProduct(
         int expectedPaintableCount,
         Edition edition,
         List<Source> sources,
-        List<CatalogItem> catalogItems) {
+        List<PaintableComponent> paintableComponents) {
 
     public PaintableProduct {
         if (schemaVersion != 1) throw invalid("schemaVersion must be 1.");
@@ -34,16 +34,16 @@ public record PaintableProduct(
         if (expectedPaintableCount < 1) throw invalid("expectedPaintableCount must be positive.");
         edition = Objects.requireNonNullElse(edition, new Edition("", ""));
         sources = sources == null ? List.of() : List.copyOf(sources);
-        catalogItems = catalogItems == null ? List.of() : List.copyOf(catalogItems);
-        if (catalogItems.isEmpty()) throw invalid("A product must contain at least one catalog item.");
+        paintableComponents = paintableComponents == null ? List.of() : List.copyOf(paintableComponents);
+        if (paintableComponents.isEmpty()) throw invalid("A product must contain at least one paintable component.");
 
         var ids = new HashSet<String>();
         var total = 0;
-        for (var item : catalogItems) {
-            if (!id.equals(item.productId())) {
-                throw invalid("Catalog item " + item.id() + " must reference product " + id + ".");
+        for (var item : paintableComponents) {
+            if (!id.equals(item.paintableProductId())) {
+                throw invalid("Paintable component " + item.id() + " must reference product " + id + ".");
             }
-            if (!ids.add(item.id())) throw invalid("Duplicate catalog item id: " + item.id());
+            if (!ids.add(item.id())) throw invalid("Duplicate paintable component id: " + item.id());
             total += item.quantity();
         }
         if (total != expectedPaintableCount) {
@@ -51,11 +51,11 @@ public record PaintableProduct(
         }
     }
 
-    public CatalogItem catalogItem(String catalogItemId) {
-        return catalogItems.stream()
-                .filter(item -> item.id().equals(catalogItemId))
+    public PaintableComponent paintableComponent(String paintableComponentId) {
+        return paintableComponents.stream()
+                .filter(item -> item.id().equals(paintableComponentId))
                 .findFirst()
-                .orElseThrow(() -> new DomainException("not_found", "Catalog item not found: " + catalogItemId));
+                .orElseThrow(() -> new DomainException("not_found", "Paintable component not found: " + paintableComponentId));
     }
 
     public record Edition(String note, String url) {
@@ -82,9 +82,9 @@ public record PaintableProduct(
         }
     }
 
-    public record CatalogItem(
+    public record PaintableComponent(
             String id,
-            String productId,
+            String paintableProductId,
             String name,
             String kind,
             int quantity,
@@ -92,12 +92,12 @@ public record PaintableProduct(
             boolean assemblyRequired,
             List<ReferenceImage> referenceImages,
             List<Source> sources) {
-        public CatalogItem {
-            requireId(id, "catalog item id");
-            requireId(productId, "catalog item product id");
-            require(name, "catalog item name");
-            require(kind, "catalog item kind");
-            if (quantity < 1) throw invalid("Catalog item quantity must be positive for " + id + ".");
+        public PaintableComponent {
+            requireId(id, "paintable component id");
+            requireId(paintableProductId, "paintable component product id");
+            require(name, "paintable component name");
+            require(kind, "paintable component kind");
+            if (quantity < 1) throw invalid("Paintable component quantity must be positive for " + id + ".");
             description = description == null ? "" : description;
             referenceImages = referenceImages == null ? List.of() : List.copyOf(referenceImages);
             sources = sources == null ? List.of() : List.copyOf(sources);

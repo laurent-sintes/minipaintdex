@@ -9,8 +9,8 @@ public record WorkshopOverviewView(
         String id,
         List<PaintingProjectView> paintingProjects,
         int projectCount,
-        int itemCount,
-        int completedItemCount,
+        int paintableCount,
+        int completedPaintableCount,
         int progressPercentage,
         List<EventEnvelope> recentActivity) {
     public WorkshopOverviewView {

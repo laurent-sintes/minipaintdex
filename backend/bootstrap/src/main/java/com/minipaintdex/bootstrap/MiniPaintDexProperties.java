@@ -24,6 +24,7 @@ public record MiniPaintDexProperties(
         @Valid @NotNull Storage storage,
         @Valid @NotNull Eventing eventing,
         @Valid @NotNull PaintMatching paintMatching,
+        @NotNull com.minipaintdex.application.query.PaintSearchPolicy paintSearch,
         @Valid @NotNull Media media,
         @Valid @NotNull Web web) {
 
@@ -31,8 +32,7 @@ public record MiniPaintDexProperties(
 
     public record Storage(
             @NotNull Path siteConfiguration,
-            @NotNull Path marketPaintCatalogDirectory,
-            @NotNull Path workshopPaintInventory,
+            @NotNull Path paintProductCatalogDirectory,
             @NotNull Path shoppingList,
             @NotNull Path marketPaintableProductsDirectory,
             @NotNull Path paintingGuidesDirectory,

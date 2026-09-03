@@ -1,9 +1,9 @@
 metadata:
-  title: Mini Paint Dex — Atelier de peinture de figurines
-  short_title: Mini Paint Dex
+  title: MiniPaintDex — Atelier de peinture de figurines
+  short_title: MiniPaintDex
   description: Référentiel local de peintures et produits à peindre, avec suivi d’atelier.
 brand:
-  name: Mini Paint Dex
+  name: MiniPaintDex
   subtitle: Atelier de peinture
 units:
   color_singular: teinte
@@ -15,7 +15,7 @@ navigation:
   mobile_aria_label: Navigation mobile
   home: Accueil
   market_section: Marché
-  market_paints: Peintures
+  paint_products: Peintures
   market_paintable_products: Produits à peindre
   workshop_section: Mon atelier
   workshop_paints: Mes peintures
@@ -34,11 +34,11 @@ header:
   workshop_prefix: Mon atelier
 home:
   eyebrow: Votre atelier de peinture, au même endroit
-  title: Bienvenue dans Mini Paint Dex
+  title: Bienvenue dans MiniPaintDex
   description: Explorez les références du marché, organisez ce que vous possédez et suivez chaque figurine jusqu’aux finitions.
   services_title: Que souhaitez-vous faire ?
   services_description: Chaque service s’appuie sur les mêmes référentiels et le même journal d’atelier.
-  market_paints:
+  paint_products:
     title: Explorer les peintures
     description: Rechercher une teinte par marque, gamme, type, couleur ou propriétés techniques.
     action: Ouvrir le marché des peintures
@@ -130,7 +130,7 @@ workshop:
     workshop_item.photo_added: Photo d’avancement ajoutée
     shopping_item.status_changed: État d’un achat modifié
 about:
-  eyebrow: Mini Paint Dex
+  eyebrow: MiniPaintDex
   title: À propos
   description: Documentation utilisateur et administrateur embarquée avec cette version de l’application.
   user_title: Documentation utilisateur
@@ -154,9 +154,9 @@ about:
   image_quality_limitations: Raisons des qualités non optimales, par marque
   no_image_quality_limitations: Tous les visuels sont des photos officielles.
   api_title: API REST
-  api_description: Explorez le contrat OpenAPI et testez les services locaux de Mini Paint Dex.
+  api_description: Explorez le contrat OpenAPI et testez les services locaux de MiniPaintDex.
   version_title: Informations sur l’application
-  version_description: Consultez la version de Mini Paint Dex et son auteur.
+  version_description: Consultez la version de MiniPaintDex et son auteur.
   version_label: Version
   author_label: Auteur
   loading: Chargement de la documentation…
@@ -191,6 +191,11 @@ product_detail:
   paint_missing: Manquante
   paint_pending: À qualifier
 collection:
+  suggestions: Suggestions de peintures
+  no_suggestions: Aucune suggestion avec ces filtres.
+  suggestions_hint: Flèches pour choisir, Entrée pour ouvrir, Échap pour fermer.
+  suggestions_failed: Suggestions indisponibles. Tu peux continuer avec la liste des résultats.
+  sort_relevance: Pertinence
   brand_range_filter: Marque et gamme
   catalog_filter_hint: Une marque entière ou seulement certaines gammes.
   filter_logic_hint: Plusieurs choix dans un groupe élargissent la recherche. Les groupes se cumulent.
@@ -352,6 +357,29 @@ shopping:
     medium: Moyenne
     low: Basse
 paint_detail:
+  characteristics: Caractéristiques
+  document_language: Langue du mode d’emploi
+  french: Français
+  original: Original
+  shared_guide: Notice partagée
+  revision: Révision
+  sources: Sources documentaires
+  source: Source
+  knowledge_labels:
+    manufacturer: Notice fabricant
+    sourced-summary: Synthèse sourcée
+    generic-template: Conseils génériques
+    unverified: Instructions non vérifiées
+  translation_review_required: Traduction automatique française à relire ; consulter l’original en cas de doute.
+  translation_missing: Traduction française non disponible — texte original affiché.
+  translation_stale: La notice a évolué ; sa traduction doit être actualisée. Texte original affiché.
+  guide_load_failed: Impossible de charger le mode d’emploi.
+  retry: Réessayer
+  no_usage_guide: Aucune notice partagée associée.
+  specific_instructions: Compléments propres à ce produit
+  previous: Précédent
+  next: Suivant
+  image_provenance: Visuel et provenance
   catalog_editions: Catalogues documentés
   sheet: Fiche peinture
   close: Fermer la fiche
@@ -386,8 +414,61 @@ paint_detail:
     color_swatch: Rectangle de couleur
     none: Pas de photo
 errors:
+  unavailable: Service local indisponible
+  unavailable_help: Démarrez MiniPaintDex, puis rechargez cette page.
+  connection_lost: Connexion au service local interrompue. Reconnexion automatique en cours…
+  connection_detail: Le flux de mises à jour SSE (/api/v1/events) est interrompu. Le navigateur ne fournit pas de statut HTTP pour cette erreur. Le serveur peut être arrêté ou temporairement inaccessible ; les données affichées ne sont plus actualisées.
   loading: Chargement…
   product_not_found: Produit à peindre introuvable
   catalog_item_not_found: Élément du produit introuvable
   paint_not_found: Peinture introuvable
   request_failed: L’opération n’a pas abouti. Vérifiez que le service local est disponible.
+paint_pots:
+  title: Mes pots
+  description: Chaque pot a son identité, ses observations et ses photos.
+  add: Ajouter un nouveau pot
+  all: Tous mes pots
+  back: Retour aux peintures
+  empty: Aucun pot enregistré pour cette sélection.
+  include_removed: Inclure les pots donnés ou jetés
+  personal_photo: Photo de mon pot
+  catalog_photo: Visuel catalogue — pas une photo de ce pot
+  no_photo: Aucun visuel
+  condition: État de la peinture
+  remaining: Niveau restant estimé
+  possession: Possession
+  available: Disponible pour peindre
+  unavailable: Non disponible pour peindre
+  available_count: Disponibles
+  observation_help: Estimation manuelle. Une photo ne permet pas de déduire automatiquement le niveau.
+  save: Enregistrer
+  opened: Ouvert le
+  acquired: Acquis le
+  unknown: Non renseigné
+  open: Signaler l’ouverture aujourd’hui
+  notes: Notes personnelles
+  add_note: Ajouter une note
+  photos: Photos personnelles
+  add_photo: Ajouter la photo
+  caption: Légende
+  add_help: À utiliser uniquement pour un nouveau pot physique, pas pour le photographier à nouveau.
+  saved: Modification enregistrée.
+  pending: Modification acceptée, en cours d’enregistrement. Ne la renvoie pas.
+  failed: Impossible d’enregistrer cette modification.
+  previous: Précédent
+  next: Suivant
+  conditions:
+    unknown: Non évalué
+    usable: Utilisable
+    thickened: Épaissi
+    dried: Sec
+  levels:
+    unknown: Non évalué
+    full: Plein
+    half: Environ la moitié
+    low: Presque vide
+    empty: Vide
+  possessions:
+    owned: Dans mon atelier
+    given_away: Donné
+    discarded: Jeté

@@ -13,5 +13,5 @@ public record WorkshopRecipeSuperseded(
     }
     @Override public String eventType() { return "workshop_recipe.superseded"; }
     @Override public String aggregateId() { return recipeId; }
-    @Override public String projectId() { return paintingProjectId; }
+    @Override public String scopePaintingProjectId() { return paintingProjectId; }
 }

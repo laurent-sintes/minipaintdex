@@ -11,6 +11,6 @@ public record RebuildProjectionResult(
         int paints,
         int marketPaintableProducts,
         int paintingProjects,
-        int workshopItems,
+        int workshopPaintables,
         int marketPaintingGuides,
         int workshopRecipes) {}

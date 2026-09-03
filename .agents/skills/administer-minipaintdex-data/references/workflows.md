@@ -2,7 +2,7 @@
 
 ## Import de peintures par photo
 
-Lire `paint-import-schema.md`, puis `source-strategy.md` après identification visuelle, et `paint-taxonomy.md` pour la classification. Utiliser le pipeline `paint hash-photos`, `paint normalize`, `paint enrich`, `changeset build-paints`, validation, dry-run Java puis application explicite.
+Lire `paint-import-schema.md`, puis `source-strategy.md` après identification visuelle, et `paint-taxonomy.md` pour la classification. Utiliser `paint hash-photos`, `paint normalize` et `paint enrich` pour qualifier les produits. `changeset build-paints` enrichit exclusivement le marché, sans quantités. Inscrire ensuite chaque pot explicitement identifié via `paint-pots build-import`, puis `workshop paint-pots import` Java (simulation puis `--apply`). Réutiliser l’ID d’un pot rephotographié ; ne jamais en créer un deuxième. Les photos personnelles s’attachent via `workshop paint-pots photo`, jamais via le catalogue.
 
 ## Import d’un produit à peindre
 

@@ -3,11 +3,10 @@ package com.minipaintdex.adapter.file;
 import com.minipaintdex.application.document.StructuredDocument;
 import com.minipaintdex.application.port.DataSnapshot;
 import com.minipaintdex.application.port.EventLedger;
-import com.minipaintdex.application.port.MarketPaintCatalogWriter;
+import com.minipaintdex.application.port.PaintProductCatalogWriter;
 import com.minipaintdex.application.port.PaintableProductCatalogWriter;
 import com.minipaintdex.application.port.PersistenceLifecycle;
 import com.minipaintdex.application.port.SnapshotRepository;
-import com.minipaintdex.application.port.WorkshopPaintInventoryWriter;
 import com.minipaintdex.application.validation.DataSnapshotValidator;
 import com.minipaintdex.application.port.WorkshopMediaStorage;
 import com.minipaintdex.domain.event.EventEnvelope;
@@ -50,8 +49,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Supplier;
 
-final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedger, MarketPaintCatalogWriter,
-        WorkshopPaintInventoryWriter, PaintableProductCatalogWriter, WorkshopMediaStorage, PersistenceLifecycle {
+final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedger, PaintProductCatalogWriter,
+        PaintableProductCatalogWriter, WorkshopMediaStorage, PersistenceLifecycle {
     private static final DateTimeFormatter MONTH = DateTimeFormatter.ofPattern("yyyy-MM").withZone(ZoneOffset.UTC);
     private static final TypeReference<Map<String, Object>> MAP_TYPE = new TypeReference<>() {};
 
@@ -62,9 +61,10 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
     private final ReentrantReadWriteLock stateLock = new ReentrantReadWriteLock();
     private final Path writeLockPath;
     private final AtomicVersionedCache<StructuredDocument> siteCache = new AtomicVersionedCache<>("site configuration");
-    private final AtomicVersionedCache<List<StructuredDocument>> marketPaintCache = new AtomicVersionedCache<>("market paints");
+    private final AtomicVersionedCache<List<StructuredDocument>> paintProductCache = new AtomicVersionedCache<>("market paints");
+    private final AtomicVersionedCache<List<StructuredDocument>> paintUsageGuideCache = new AtomicVersionedCache<>("paint usage guides");
     private final AtomicVersionedCache<List<StructuredDocument>> paintCatalogEditionCache = new AtomicVersionedCache<>("paint catalog editions");
-    private final AtomicVersionedCache<List<StructuredDocument>> workshopPaintCache = new AtomicVersionedCache<>("workshop paints");
+    private final AtomicVersionedCache<com.minipaintdex.domain.workshop.WorkshopPaintInventory> workshopPaintCache = new AtomicVersionedCache<>("workshop paints");
     private final AtomicVersionedCache<List<PaintableProduct>> paintableProductCache = new AtomicVersionedCache<>("paintable products");
     private final AtomicVersionedCache<List<StructuredDocument>> paintingGuideCache = new AtomicVersionedCache<>("painting guides");
     private final AtomicVersionedCache<List<StructuredDocument>> shoppingCache = new AtomicVersionedCache<>("shopping list");
@@ -77,7 +77,7 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
     FileMiniPaintDexRepository(FileRepositoryLayout layout) {
         this.layout = Objects.requireNonNull(layout);
         this.writeLockPath = commonAncestor(
-                layout.marketPaintCatalogDirectory(), layout.workshopPaintInventory(), layout.marketPaintableProductsDirectory(),
+                layout.paintProductCatalogDirectory(), layout.marketPaintableProductsDirectory(),
                 layout.paintingGuidesDirectory(), layout.ledgerDirectory()).resolve(".write.lock");
     }
 
@@ -103,7 +103,7 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
                 validateSnapshot(loaded.snapshot());
                 publish(loaded.snapshot(), loaded.metadataFingerprint(), loaded.contentFingerprint(), now);
                 return new InitializationReport(
-                        persistenceStatus.get(), loaded.snapshot().marketPaints().size(),
+                        persistenceStatus.get(), loaded.snapshot().paintProducts().size(),
                         loaded.snapshot().paintableProducts().size(), loaded.snapshot().events().size());
             });
         } catch (RuntimeException exception) {
@@ -128,14 +128,12 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
     }
 
     private DataSnapshot loadFromDisk() {
-        var paintCatalogs = yamlDocuments(layout.marketPaintCatalogDirectory());
+        var paintCatalogs = yamlDocuments(layout.paintProductCatalogDirectory());
         paintCatalogs.forEach(document -> requireSchemaVersion(document, "market paint catalog"));
         var paints = paintCatalogs.stream()
                 .flatMap(document -> listOfMaps(document.get("paints")).stream())
                 .toList();
-        var inventory = yaml(layout.workshopPaintInventory());
         var shopping = yaml(layout.shoppingList());
-        requireSchemaVersion(inventory, "workshop paint inventory");
         requireSchemaVersion(shopping, "shopping list");
         var productDocuments = yamlDocuments(layout.marketPaintableProductsDirectory());
         productDocuments.forEach(document -> requireSchemaVersion(document, "paintable product"));
@@ -146,13 +144,13 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
         return new DataSnapshot(
                 structuredDocument(yaml(layout.siteConfiguration())),
                 structuredDocuments(paints),
-                structuredDocuments(listOfMaps(inventory.get("paints"))),
                 products,
                 structuredDocuments(guides),
                 structuredDocuments(listOfMaps(shopping.get("items"))),
                 readEvents(layout.ledgerDirectory()),
                 structuredDocuments(paintCatalogs.stream()
-                        .flatMap(document -> listOfMaps(document.get("catalog_editions")).stream()).toList()));
+                        .flatMap(document -> listOfMaps(document.get("catalog_editions")).stream()).toList()),
+                structuredDocuments(paintCatalogs.stream().flatMap(document -> listOfMaps(document.get("paint_usage_guides")).stream()).toList()));
     }
 
     @Override
@@ -193,11 +191,11 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
                 }
                 var updatedEvents = new ArrayList<>(existing);
                 updatedEvents.addAll(events);
-                updatedEvents.sort(Comparator.comparing(EventEnvelope::recordedAt).thenComparing(EventEnvelope::eventId));
+                // Ledger append order is authoritative; timestamps and IDs do not order a batch.
                 publishAfterWrite(new DataSnapshot(
-                        currentSnapshot.site(), currentSnapshot.marketPaints(), currentSnapshot.paintInventory(),
+                        currentSnapshot.site(), currentSnapshot.paintProducts(),
                         currentSnapshot.paintableProducts(), currentSnapshot.marketPaintingGuides(),
-                        currentSnapshot.shopping(), List.copyOf(updatedEvents), currentSnapshot.paintCatalogEditions()), "Event ledger updated.");
+                        currentSnapshot.shopping(), List.copyOf(updatedEvents), currentSnapshot.paintCatalogEditions(), currentSnapshot.paintUsageGuides()), "Event ledger updated.");
                 return List.copyOf(events);
             } catch (IOException exception) {
                 throw new FileStorageException("Unable to append event to " + path, exception);
@@ -227,19 +225,19 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
     }
 
     @Override
-    public void replaceMarketPaints(List<StructuredDocument> paints) {
-        replaceMarketPaintCatalog(paints, () -> cachedSnapshot().paintCatalogEditions());
+    public void replacePaintProducts(List<StructuredDocument> paints) {
+        replacePaintProductCatalog(paints, () -> cachedSnapshot().paintCatalogEditions(), () -> cachedSnapshot().paintUsageGuides());
     }
 
     @Override
-    public void replaceMarketPaintCatalog(List<StructuredDocument> paints, List<StructuredDocument> editions) {
-        replaceMarketPaintCatalog(paints, () -> editions);
+    public void replacePaintProductCatalog(List<StructuredDocument> paints, List<StructuredDocument> editions, List<StructuredDocument> usageGuides) {
+        replacePaintProductCatalog(paints, () -> editions, () -> usageGuides);
     }
 
     // Resolve preserved editions under the same write lock as paints, not from an older cache generation.
-    private void replaceMarketPaintCatalog(List<StructuredDocument> paints, Supplier<List<StructuredDocument>> editions) {
+    private void replacePaintProductCatalog(List<StructuredDocument> paints, Supplier<List<StructuredDocument>> editions, Supplier<List<StructuredDocument>> usageGuides) {
         withWriteLock(() -> {
-            var paintDocuments = paintCatalogDocuments(paints, editions.get());
+            var paintDocuments = paintCatalogDocuments(paints, editions.get(), usageGuides.get());
             replaceYamlBatch(changedPaintCatalogDocuments(paintDocuments));
             removeStalePaintCatalogs(paintDocuments.keySet());
             reloadAfterWrite("Market paint catalogue updated.");
@@ -247,44 +245,10 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
     }
 
     @Override
-    public void replaceWorkshopPaints(List<StructuredDocument> paints) {
-        var document = new LinkedHashMap<String, Object>();
-        document.put("schema_version", 1);
-        document.put("paints", documentMaps(paints));
-        withWriteLock(() -> {
-            replaceYamlBatch(Map.of(layout.workshopPaintInventory(), document));
-            reloadAfterWrite("Workshop paint inventory updated.");
-        });
-    }
-
-    @Override
-    public void replaceMarketPaintsAndWorkshopInventory(
+    public void replacePaintProductIdentities(
             List<StructuredDocument> paints,
-            List<StructuredDocument> inventory,
-            WorkshopPaintInventoryWriter ignored) {
-        var workshop = new LinkedHashMap<String, Object>();
-        workshop.put("schema_version", 1);
-        workshop.put("paints", documentMaps(inventory));
-        withWriteLock(() -> {
-            var documents = new LinkedHashMap<Path, Map<String, Object>>();
-            var paintDocuments = paintCatalogDocuments(paints);
-            documents.putAll(changedPaintCatalogDocuments(paintDocuments));
-            documents.put(layout.workshopPaintInventory(), workshop);
-            replaceYamlBatch(documents);
-            removeStalePaintCatalogs(paintDocuments.keySet());
-            reloadAfterWrite("Market paints and workshop inventory updated.");
-        });
-    }
-
-    @Override
-    public void replaceMarketPaintIdentities(
-            List<StructuredDocument> paints,
-            List<StructuredDocument> inventory,
             List<StructuredDocument> paintingGuides,
             List<StructuredDocument> shopping) {
-        var workshop = new LinkedHashMap<String, Object>();
-        workshop.put("schema_version", 1);
-        workshop.put("paints", documentMaps(inventory));
         var shoppingDocument = new LinkedHashMap<String, Object>();
         shoppingDocument.put("schema_version", 1);
         shoppingDocument.put("items", documentMaps(shopping));
@@ -292,7 +256,6 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
             var documents = new LinkedHashMap<Path, Map<String, Object>>();
             var paintDocuments = paintCatalogDocuments(paints);
             documents.putAll(changedPaintCatalogDocuments(paintDocuments));
-            documents.put(layout.workshopPaintInventory(), workshop);
             documents.put(layout.shoppingList(), shoppingDocument);
             documents.putAll(paintingGuideDocuments(paintingGuides));
             replaceYamlBatch(documents);
@@ -303,16 +266,16 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
 
     @Override
     public void replaceProduct(
-            String productId,
+            String paintableProductId,
             StructuredDocument product,
             List<StructuredDocument> paintingGuides) {
         var guideDocument = new LinkedHashMap<String, Object>();
         guideDocument.put("schema_version", 1);
-        guideDocument.put("product_id", productId);
+        guideDocument.put("product_id", paintableProductId);
         guideDocument.put("painting_guides", documentMaps(paintingGuides));
         var documents = new LinkedHashMap<Path, Map<String, Object>>();
-        documents.put(layout.marketPaintableProductsDirectory().resolve(productId + ".yaml"), documentMap(product));
-        documents.put(layout.paintingGuidesDirectory().resolve(productId + ".yaml"), guideDocument);
+        documents.put(layout.marketPaintableProductsDirectory().resolve(paintableProductId + ".yaml"), documentMap(product));
+        documents.put(layout.paintingGuidesDirectory().resolve(paintableProductId + ".yaml"), guideDocument);
         withWriteLock(() -> {
             replaceYamlBatch(documents);
             reloadAfterWrite("Paintable product and painting guides updated.");
@@ -320,8 +283,8 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
     }
 
     @Override
-    public StoredMedia store(String itemId, String mediaId, String originalFilename, String contentType, byte[] content) {
-        var safeItemId = safeSegment(itemId);
+    public StoredMedia store(String ownerAggregateId, String mediaId, String originalFilename, String contentType, byte[] content) {
+        var safeItemId = safeSegment(ownerAggregateId);
         var extension = switch (contentType) {
             case "image/jpeg" -> ".jpg";
             case "image/png" -> ".png";
@@ -359,9 +322,9 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
 
     private PaintableProduct product(Map<String, Object> document) {
         var edition = map(document.get("edition"));
-        var productId = text(document.get("id"));
+        var paintableProductId = text(document.get("id"));
         var sources = listOfMaps(document.get("sources")).stream().map(this::source).toList();
-        var items = listOfMaps(document.get("catalog_items")).stream().map(item -> new PaintableProduct.CatalogItem(
+        var items = listOfMaps(document.get("catalog_items")).stream().map(item -> new PaintableProduct.PaintableComponent(
                 text(item.get("id")),
                 defaultText(text(item.get("product_id")), text(item.get("game_id"))),
                 text(item.get("name")), text(item.get("kind")), number(item.get("quantity")),
@@ -370,7 +333,7 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
                         text(image.get("url")), text(image.get("page_url")), text(image.get("credit")), text(image.get("license")))).toList(),
                 listOfMaps(item.get("sources")).stream().map(this::source).toList())).toList();
         return new PaintableProduct(
-                number(document.get("schema_version")), productId, text(document.get("name")),
+                number(document.get("schema_version")), paintableProductId, text(document.get("name")),
                 text(document.get("line")), text(document.get("product_type")), text(document.get("scope")),
                 number(document.get("expected_paintable_count")),
                 new PaintableProduct.Edition(text(edition.get("note")), text(edition.get("url"))), sources, items);
@@ -421,10 +384,10 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
     }
 
     private Map<Path, Map<String, Object>> paintCatalogDocuments(List<StructuredDocument> paints) {
-        return paintCatalogDocuments(paints, cachedSnapshot().paintCatalogEditions());
+        return paintCatalogDocuments(paints, cachedSnapshot().paintCatalogEditions(), cachedSnapshot().paintUsageGuides());
     }
 
-    private Map<Path, Map<String, Object>> paintCatalogDocuments(List<StructuredDocument> paints, List<StructuredDocument> editions) {
+    private Map<Path, Map<String, Object>> paintCatalogDocuments(List<StructuredDocument> paints, List<StructuredDocument> editions, List<StructuredDocument> usageGuides) {
         var byBrand = new java.util.TreeMap<String, List<Map<String, Object>>>();
         for (var paint : documentMaps(paints)) {
             var brand = text(paint.get("brand"));
@@ -438,6 +401,12 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
             byBrand.computeIfAbsent(brand, ignored -> new ArrayList<>());
             editionsByBrand.computeIfAbsent(brand, ignored -> new ArrayList<>()).add(edition);
         }
+        var usageByBrand = new java.util.TreeMap<String, List<Map<String, Object>>>();
+        for (var guide : documentMaps(usageGuides)) {
+            var brand = text(guide.get("brand"));
+            byBrand.computeIfAbsent(brand, ignored -> new ArrayList<>());
+            usageByBrand.computeIfAbsent(brand, ignored -> new ArrayList<>()).add(guide);
+        }
         byBrand.forEach((brand, records) -> {
             records.sort(Comparator.comparing(record -> text(record.get("id"))));
             var document = new LinkedHashMap<String, Object>();
@@ -445,41 +414,43 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
             document.put("brand", brand);
             if (editionsByBrand.containsKey(brand)) document.put("catalog_editions", editionsByBrand.get(brand).stream()
                     .sorted(Comparator.comparing(edition -> text(edition.get("id")))).toList());
+            if (usageByBrand.containsKey(brand)) document.put("paint_usage_guides", usageByBrand.get(brand).stream()
+                    .sorted(Comparator.comparing(guide -> text(guide.get("id")))).toList());
             document.put("paints", records);
-            documents.put(layout.marketPaintCatalogDirectory().resolve(slug(brand) + ".yaml"), document);
+            documents.put(layout.paintProductCatalogDirectory().resolve(slug(brand) + ".yaml"), document);
         });
         return documents;
     }
 
     private Map<Path, Map<String, Object>> paintingGuideDocuments(List<StructuredDocument> guides) {
-        var productByCatalogItem = new java.util.HashMap<String, String>();
-        paintableProductCache.current().value().forEach(product -> product.catalogItems().forEach(
-                item -> productByCatalogItem.put(item.id(), product.id())));
+        var productByPaintableComponent = new java.util.HashMap<String, String>();
+        paintableProductCache.current().value().forEach(product -> product.paintableComponents().forEach(
+                item -> productByPaintableComponent.put(item.id(), product.id())));
         var byProduct = new java.util.TreeMap<String, List<Map<String, Object>>>();
         for (var guide : documentMaps(guides)) {
-            var catalogItemId = text(guide.get("catalog_item_id"));
-            var productId = productByCatalogItem.get(catalogItemId);
-            if (productId == null) {
+            var paintableComponentId = text(guide.get("catalog_item_id"));
+            var paintableProductId = productByPaintableComponent.get(paintableComponentId);
+            if (paintableProductId == null) {
                 throw new FileStorageException(
-                        "Painting guide references an unknown catalog item: " + catalogItemId, null);
+                        "Painting guide references an unknown paintable component: " + paintableComponentId, null);
             }
-            byProduct.computeIfAbsent(productId, ignored -> new ArrayList<>()).add(guide);
+            byProduct.computeIfAbsent(paintableProductId, ignored -> new ArrayList<>()).add(guide);
         }
         var documents = new LinkedHashMap<Path, Map<String, Object>>();
-        byProduct.forEach((productId, records) -> {
+        byProduct.forEach((paintableProductId, records) -> {
             records.sort(Comparator.comparing(record -> text(record.get("id"))));
             var document = new LinkedHashMap<String, Object>();
             document.put("schema_version", 1);
-            document.put("product_id", productId);
+            document.put("product_id", paintableProductId);
             document.put("painting_guides", records);
-            documents.put(layout.paintingGuidesDirectory().resolve(productId + ".yaml"), document);
+            documents.put(layout.paintingGuidesDirectory().resolve(paintableProductId + ".yaml"), document);
         });
         return documents;
     }
 
     private Map<Path, Map<String, Object>> changedPaintCatalogDocuments(
             Map<Path, Map<String, Object>> desiredDocuments) {
-        var currentDocuments = paintCatalogDocuments(marketPaintCache.current().value());
+        var currentDocuments = paintCatalogDocuments(paintProductCache.current().value());
         var changed = new LinkedHashMap<Path, Map<String, Object>>();
         desiredDocuments.forEach((path, document) -> {
             if (!document.equals(currentDocuments.get(path))) changed.put(path, document);
@@ -489,7 +460,7 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
 
     private void removeStalePaintCatalogs(java.util.Set<Path> catalogPaths) {
         var retained = catalogPaths.stream().map(path -> path.toAbsolutePath().normalize()).collect(java.util.stream.Collectors.toSet());
-        for (var existing : files(layout.marketPaintCatalogDirectory(), ".yaml")) {
+        for (var existing : files(layout.paintProductCatalogDirectory(), ".yaml")) {
             if (!retained.contains(existing.toAbsolutePath().normalize())) deleteQuietly(existing);
         }
     }
@@ -583,9 +554,10 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
             String detail) {
         generation++;
         siteCache.publish(generation, snapshot.site());
-        marketPaintCache.publish(generation, List.copyOf(snapshot.marketPaints()));
+        paintProductCache.publish(generation, List.copyOf(snapshot.paintProducts()));
         paintCatalogEditionCache.publish(generation, List.copyOf(snapshot.paintCatalogEditions()));
-        workshopPaintCache.publish(generation, List.copyOf(snapshot.paintInventory()));
+        paintUsageGuideCache.publish(generation, List.copyOf(snapshot.paintUsageGuides()));
+        workshopPaintCache.publish(generation, snapshot.paintInventory());
         paintableProductCache.publish(generation, List.copyOf(snapshot.paintableProducts()));
         paintingGuideCache.publish(generation, List.copyOf(snapshot.marketPaintingGuides()));
         shoppingCache.publish(generation, List.copyOf(snapshot.shopping()));
@@ -600,12 +572,11 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
     private DataSnapshot cachedSnapshot() {
         return new DataSnapshot(
                 siteCache.current().value(),
-                marketPaintCache.current().value(),
-                workshopPaintCache.current().value(),
+                paintProductCache.current().value(),
                 paintableProductCache.current().value(),
                 paintingGuideCache.current().value(),
                 shoppingCache.current().value(),
-                eventCache.current().value(), paintCatalogEditionCache.current().value());
+                eventCache.current().value(), paintCatalogEditionCache.current().value(), paintUsageGuideCache.current().value());
     }
 
     private void validateSnapshot(DataSnapshot snapshot) {
@@ -630,15 +601,15 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
 
     private List<Path> persistenceFiles() {
         var required = List.of(
-                layout.siteConfiguration(), layout.workshopPaintInventory(), layout.shoppingList());
+                layout.siteConfiguration(), layout.shoppingList());
         for (var path : required) {
             if (!Files.isRegularFile(path)) throw new FileStorageException("Required persistence file is missing: " + path, null);
         }
         var paths = new ArrayList<Path>(required);
-        var paintCatalogs = files(layout.marketPaintCatalogDirectory(), ".yaml");
+        var paintCatalogs = files(layout.paintProductCatalogDirectory(), ".yaml");
         if (paintCatalogs.isEmpty()) {
             throw new FileStorageException("No market paint brand catalog exists in: "
-                    + layout.marketPaintCatalogDirectory(), null);
+                    + layout.paintProductCatalogDirectory(), null);
         }
         paths.addAll(paintCatalogs);
         paths.addAll(files(layout.marketPaintableProductsDirectory(), ".yaml"));
@@ -749,7 +720,7 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
                 throw new FileStorageException("Unable to read ledger " + path, exception);
             }
         }
-        events.sort(Comparator.comparing(EventEnvelope::recordedAt).thenComparing(EventEnvelope::eventId));
+        // Ordered monthly partitions and their line order preserve the committed ledger sequence.
         return List.copyOf(events);
     }
 

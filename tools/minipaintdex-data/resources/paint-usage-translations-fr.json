@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "method": "machine",
+  "review_required": true,
+  "already_french": [
+    "Il fluidifie vos teintes. Versez quelques gouttes sur une palette…",
+    "Protégez de manière optimale vos réalisations avec ce vernis brillant…",
+    "Protégez de manière optimale vos réalisations avec ce vernis qui…",
+    "Protégez de manière optimale vos réalisations tout en apportant un…"
+  ],
+  "exact": {
+    "Allow the product to dry or cure before the next operation.": "Laisser sécher ou durcir le produit avant l’opération suivante.",
+    "Allow the texture to dry fully before painting or drybrushing.": "Laisser sécher complètement la texture avant de peindre ou de brosser à sec.",
+    "Allow to dry fully before painting.": "Laisser sécher complètement avant de peindre.",
+    "Apply a controlled coat over a light undercoat.": "Appliquer une couche maîtrisée sur une sous-couche claire.",
+    "Apply a generous controlled coat over a light undercoat.": "Appliquer une couche généreuse, en maîtrisant la quantité, sur une sous-couche claire.",
+    "Apply a thin controlled layer.": "Appliquer une fine couche en maîtrisant la quantité.",
+    "Apply a thin even coat.": "Appliquer une couche fine et régulière.",
+    "Apply in thin coats with a slightly damp brush.": "Appliquer en couches fines avec un pinceau légèrement humide.",
+    "Apply one or more thin coats.": "Appliquer une ou plusieurs couches fines.",
+    "Apply selectively to recesses or the target area.": "Appliquer de manière ciblée dans les creux ou sur la zone souhaitée.",
+    "Apply sparingly into recesses and remove excess pooling.": "Appliquer avec parcimonie dans les creux et retirer les accumulations excessives.",
+    "Apply thin, even coats to a clean model.": "Appliquer des couches fines et régulières sur une figurine propre.",
+    "Avoid one heavy coat so fine detail remains sharp.": "Éviter une couche épaisse pour conserver la netteté des détails.",
+    "Build several controlled layers instead of flooding fine details.": "Superposer plusieurs couches maîtrisées plutôt que de noyer les détails.",
+    "Check compatibility on a test surface and follow label precautions.": "Vérifier la compatibilité sur une surface d’essai et respecter les précautions de l’étiquette.",
+    "Contrast paint formulated to base, shade and highlight over a light undercoat in one application, or to glaze and tint.": "Peinture Contrast conçue pour réaliser la couleur de base, les ombres et les éclaircissements en une application sur une sous-couche claire, ou pour réaliser des glacis et teinter.",
+    "Contrast paint formulated to create a muted dirty base and shading over a light undercoat.": "Peinture Contrast conçue pour créer une base terne et salie ainsi que des ombres sur une sous-couche claire.",
+    "Contrast paint formulated to create base colour and shading over a light undercoat in one controlled coat.": "Peinture Contrast conçue pour créer la couleur de base et les ombres en une couche maîtrisée sur une sous-couche claire.",
+    "Generic acrylic-wash guidance; manufacturer-specific instructions require review.": "Conseils génériques pour les lavis acryliques ; les consignes propres au fabricant restent à vérifier.",
+    "Generic basing-texture guidance; manufacturer-specific instructions require review.": "Conseils génériques pour les textures de soclage ; les consignes propres au fabricant restent à vérifier.",
+    "Guide excess away from flat areas and let the coat dry fully.": "Éloigner l’excédent des surfaces planes et laisser sécher complètement.",
+    "Guide excess into recesses and let the coat dry fully.": "Diriger l’excédent vers les creux et laisser sécher complètement.",
+    "High-pigment opaque base paint for a solid black foundation.": "Peinture de base opaque, riche en pigments, pour obtenir une base noire uniforme.",
+    "It can also be used as a glaze or tint; avoid uncontrolled pooling.": "Peut également servir de glacis ou de teinte ; éviter les accumulations non maîtrisées.",
+    "Keep raised areas lighter to preserve the spectral effect.": "Conserver des reliefs plus clairs pour préserver l’effet spectral.",
+    "Keep surface detail visible and follow the safety directions on the label.": "Préserver les détails de surface et respecter les consignes de sécurité de l’étiquette.",
+    "Keep the lid closed between uses.": "Garder le couvercle fermé entre les utilisations.",
+    "Let each coat dry before adding another coat or a final highlight.": "Laisser sécher chaque couche avant d’en ajouter une autre ou de réaliser un éclaircissement final.",
+    "Let each coat dry before highlighting.": "Laisser sécher chaque couche avant de réaliser les éclaircissements.",
+    "Let it dry and add a second thin coat if required.": "Laisser sécher et ajouter une seconde couche fine si nécessaire.",
+    "Let it dry before evaluating colour intensity.": "Laisser sécher avant d’évaluer l’intensité de la couleur.",
+    "Let the coat dry before adding another.": "Laisser sécher la couche avant d’en ajouter une autre.",
+    "Let the effect set before adding another layer.": "Laisser l’effet prendre avant d’ajouter une nouvelle couche.",
+    "Mix or shake the product as directed on its label.": "Mélanger ou agiter le produit conformément aux indications de l’étiquette.",
+    "Opaque layer paint for purple layers and highlights.": "Peinture opaque pour les couches et éclaircissements violets.",
+    "Opaque layer paint for smooth white layers and crisp final highlights.": "Peinture opaque pour des couches blanches lisses et des éclaircissements finaux nets.",
+    "Opaque layer paint for warm brown layers and highlights.": "Peinture opaque pour les couches et éclaircissements brun chaud.",
+    "Opaque layer paint for warm dark-grey layers and highlights.": "Peinture opaque pour les couches et éclaircissements gris foncé chaud.",
+    "Primer intended to provide an even surface for subsequent paint layers.": "Sous-couche destinée à offrir une surface uniforme pour les couches de peinture suivantes.",
+    "Read the manufacturer directions and shake if required.": "Lire les consignes du fabricant et agiter si nécessaire.",
+    "Reduce or dilute only with a compatible medium.": "Fluidifier ou diluer uniquement avec un médium compatible.",
+    "Remove excess from flat areas and let the coat dry fully.": "Retirer l’excédent des surfaces planes et laisser sécher complètement.",
+    "Remove unwanted pooling and let the layer dry.": "Retirer les accumulations indésirables et laisser sécher la couche.",
+    "Several thin coats give a smoother white than one thick coat.": "Plusieurs couches fines donnent un blanc plus lisse qu’une seule couche épaisse.",
+    "Shake the bottle thoroughly.": "Agiter soigneusement le flacon.",
+    "Shake thoroughly.": "Agiter soigneusement.",
+    "Spread a small amount on the base with a suitable tool, avoiding the miniature.": "Étaler une petite quantité sur le socle avec un outil adapté, en évitant la figurine.",
+    "Test on a spare base first.": "Faire d’abord un essai sur un socle de réserve.",
+    "Test on a spare miniature first.": "Faire d’abord un essai sur une figurine de réserve.",
+    "Test the effect, then apply it to the intended area.": "Tester l’effet, puis l’appliquer sur la zone souhaitée.",
+    "Thin the paint slightly to preserve surface detail.": "Diluer légèrement la peinture pour préserver les détails de surface.",
+    "Transparent spectral colour for shading and tinting a light undercoat.": "Couleur spectrale transparente destinée à ombrer et teinter une sous-couche claire.",
+    "Use a controlled amount for the stated purpose.": "Utiliser une quantité maîtrisée pour l’usage indiqué.",
+    "Use controlled pooling to reinforce grime only where it is wanted.": "Maîtriser les accumulations pour renforcer la salissure uniquement aux endroits souhaités.",
+    "Use dedicated tools when required and consult the manufacturer page for product-specific precautions.": "Employer des outils dédiés si nécessaire et consulter la page du fabricant pour les précautions propres au produit.",
+    "Work one connected area at a time and avoid uncontrolled pooling.": "Travailler une zone continue à la fois et éviter les accumulations non maîtrisées.",
+    "Airbrush-ready paints right from the bottle No thinning required. Pre-loaded Mixing Balls. Developed in a Colour Triad System.": "Peintures prêtes pour l’aérographe dès la sortie du flacon, sans dilution nécessaire. Billes de mélange préinstallées. Gamme organisée en triades de couleurs.",
+    "All Warpaints Air are pre-mixed and airbrush-ready right out of the bottle and made from ultra-filtered vibrant pigment. The Warpaints Air range has been developed in a unique and innovative Triad System - each matching Warpaints Acrylics colour has a corresponding Base and Highlight colour. This makes highlighting and zenithal shading a breeze and army painting even faster and more cohesive. To make things easier Warpaints Air comes pre-loaded with two steel Mixing Balls .": "Toutes les Warpaints Air sont prémélangées et prêtes pour l’aérographe dès la sortie du flacon, avec des pigments intenses ultrafiltrés. La gamme utilise un système de triades : à chaque couleur correspondant aux Warpaints Acrylics sont associées une teinte de base et une teinte d’éclaircissement. Ce système facilite les éclaircissements et les ombrages zénithaux, pour peindre les armées plus rapidement et de façon plus cohérente. Chaque flacon contient deux billes de mélange en acier.",
+    "A real quality of this product is that the Airbrush Medium not only works as a thinner for acrylic paints - but also as a flow improver! Thinner and flow-improver in one Precision dropper bottle - No spill! Enables you to use any Warpaint in your airbrush Works with other brands of high quality acrylic paints": "Airbrush Medium sert à la fois de diluant pour peintures acryliques et d’améliorant de fluidité. Son flacon compte-gouttes facilite un dosage précis sans renversement. Il permet d’utiliser les Warpaints à l’aérographe et convient également à d’autres marques de peintures acryliques de qualité.",
+    "High-quality acrylic airbrush varnish Protects your miniatures from chipping Non-toxic and water-based Available in three finishes from matt to gloss": "Vernis acrylique de qualité pour aérographe. Protège les figurines contre l’écaillage. Présenté par la source comme non toxique et à base d’eau. Disponible en trois finitions, du mat au brillant.",
+    "History’s Seal of Approval Warpaints Historical is a revolutionary new range designed for historical gaming and collecting, delivering a level of accuracy never before seen in wargaming. These are the world's first-ever historian-approved miniature paints. Instituting a new standard for a new era of historical wargaming.": "Warpaints Historical est présentée comme une nouvelle gamme destinée au jeu et à la collection historiques, avec un niveau de fidélité inédit dans le jeu de figurines. La source la décrit comme la première gamme de peintures pour figurines approuvée par des historiens, établissant un nouveau standard pour le jeu historique.",
+    "The Airbrush Cleaner ensures optimal long term performance of your airbrush Clean and care for your airbrush Avoid clogs in your airbrush Specially formulated to be used with our high-quality Warpaints Air Non-toxic and water-based": "Airbrush Cleaner nettoie et entretient l’aérographe afin de préserver ses performances dans la durée et d’éviter les obstructions. Il est spécialement formulé pour les Warpaints Air. La source le présente comme non toxique et à base d’eau.",
+    "The Warpaints Air Primer range are high-quality water-based acrylic surface primers for airbrush use High-quality acrylic surface primer Ready to use consistency for your airbrush Prime your miniatures in-doors Fine pigments retain every detail": "Les Warpaints Air Primer sont des sous-couches acryliques à base d’eau pour aérographe. Leur consistance est prête à l’emploi. La source indique un usage en intérieur et des pigments fins préservant les détails.",
+    "The Warpaints Fanatic Effects: Brush-On Primer is a neutral grey brush-on primer for priming on the go or when it's not possible to spray.": "Warpaints Fanatic Effects: Brush-On Primer est une sous-couche gris neutre à appliquer au pinceau, pour sous-coucher en déplacement ou lorsqu’une pulvérisation n’est pas possible.",
+    "The Warpaints Fanatic Effects: Dark Rust is an ultra-matt rusty brown effect that features small particles for realistic texture.": "Warpaints Fanatic Effects: Dark Rust produit un effet brun rouille ultra-mat, avec de petites particules pour une texture réaliste.",
+    "The Warpaints Fanatic Effects: Disgusting Slime is an ultra-glossy, toxic neon green for creating xenos slime and toxic waste effects.": "Warpaints Fanatic Effects: Disgusting Slime est un vert néon d’aspect toxique, ultra-brillant, pour créer des effets de bave extraterrestre et de déchets toxiques.",
+    "The Warpaints Fanatic Effects: Dry Blood is a semi-glossy coagulated blood effect featuring small particles for realistic gory texture.": "Warpaints Fanatic Effects: Dry Blood produit un effet de sang coagulé semi-brillant, avec de petites particules pour une texture sanglante réaliste.",
+    "The Warpaints Fanatic Effects: Fresh Rust is a fresh rusty orange effect that dries matt and features small particles for realistic texture.": "Warpaints Fanatic Effects: Fresh Rust produit un effet orange de rouille récente, mat après séchage, avec de petites particules pour une texture réaliste.",
+    "The Warpaints Fanatic Effects: Gloss Varnish is a shiny gloss coat to add a textural element to your models. Dries clear.": "Warpaints Fanatic Effects: Gloss Varnish ajoute une finition brillante aux figurines pour varier leur aspect de surface. Il devient transparent après séchage.",
+    "The Warpaints Fanatic Effects: Matt Varnish is a dull coat for adding a matt finish and protecting your miniatures.": "Warpaints Fanatic Effects: Matt Varnish apporte une finition mate et protège les figurines.",
+    "The Warpaints Fanatic Effects: Oil Stains is a glossy and semi-transparent paint meant for streaking and adding grime to vehicles and scenery.": "Warpaints Fanatic Effects: Oil Stains est une peinture brillante et semi-transparente destinée aux coulures et aux salissures sur les véhicules et les décors.",
+    "The Warpaints Fanatic Effects: Oozing Vomit is grosser than gross. This pungent green features small particles for a disgusting, necrotic ooze.": "Warpaints Fanatic Effects: Oozing Vomit est un vert particulièrement répugnant contenant de petites particules pour créer des écoulements nécrotiques.",
+    "The Warpaints Fanatic Effects: True Blood is an ultra-glossy and bright red blood effect replicating the look of fresh blood.": "Warpaints Fanatic Effects: True Blood produit un effet de sang rouge vif et ultra-brillant, reproduisant l’aspect du sang frais.",
+    "The Warpaints Fanatic Effects: Verdigris is a matt verdigris that delivers a patina effect paint that features small particles for realistic texture.": "Warpaints Fanatic Effects: Verdigris crée une patine vert-de-gris mate, avec de petites particules pour une texture réaliste.",
+    "The Warpaints Fanatic Effects: Warpaints Stabilizer is for thinning your paints down to extreme levels and still retaining consistent pigment dispersion.": "Warpaints Fanatic Effects: Warpaints Stabilizer permet de diluer fortement les peintures tout en conservant une dispersion homogène des pigments.",
+    "The Warpaints Fanatic Wash: Wash Medium is a colourless medium to thin and desaturate your washes for ultimate control.": "Warpaints Fanatic Wash: Wash Medium est un médium incolore permettant de diluer et de désaturer les lavis pour mieux les maîtriser.",
+    "With the Warpaints Fanatic Effects: Warpaints Retarder you can prolong drying time and make beautiful blends with the help of this drying retarder.": "Warpaints Fanatic Effects: Warpaints Retarder prolonge le temps de séchage pour faciliter la réalisation de fondus.",
+    "The Warpaints Fanatic: Enchanted Pink is a light reddish purple that is suited for light, bright layers and highlights. It’s the second-lightest tone from the “Magentas” Flexible Colour Triad and its Practical Colour Name is “Light Reddish Purple”.": "Warpaints Fanatic: Enchanted Pink est un violet rougeâtre clair adapté aux couches et éclaircissements lumineux. C’est la deuxième teinte la plus claire de la triade flexible « Magentas ». Son nom descriptif est « violet rougeâtre clair ».",
+    "The Warpaints Fanatic: Figgy Pink is a pale purplish red perfectly tuned as a light, bright layer and highlight colour. It’s the second-lightest tone from the “Desaturated Violets” Flexible Colour Triad and its Practical Colour Name is “Pale Purplish Red”.": "Warpaints Fanatic: Figgy Pink est un rouge violacé pâle adapté aux couches et éclaircissements lumineux. C’est la deuxième teinte la plus claire de la triade flexible « Desaturated Violets ». Son nom descriptif est « rouge violacé pâle ».",
+    "The Warpaints Fanatic: Pink Potion is a light purplish pink that is well suited for light, bright layers and highlights. It’s the second-lightest tone from the “Pinks” Flexible Colour Triad and its Practical Colour Name is “Light Purplish Pink”.": "Warpaints Fanatic: Pink Potion est un rose violacé clair adapté aux couches et éclaircissements lumineux. C’est la deuxième teinte la plus claire de la triade flexible « Pinks ». Son nom descriptif est « rose violacé clair ».",
+    "The Warpaints Fanatic: Pixie Pink is a vivid purplish pink that is a match to the Warpaint Air of the same name. It’s one of the two middle tones from the “Pinks” Flexible Colour Triad and its Practical Colour Name is “Vivid Purplish Pink”.": "Warpaints Fanatic: Pixie Pink est un rose violacé vif correspondant à la Warpaint Air du même nom. C’est l’une des deux teintes intermédiaires de la triade flexible « Pinks ». Son nom descriptif est « rose violacé vif ».",
+    "The Warpaints Fanatic: Wicked Pink is a wicked strong purplish red that works nicely as a pink base tone. It’s the darkest tone from the “Pinks” Flexible Colour Triad and its Practical Colour Name is “Strong Purplish Red”.": "Warpaints Fanatic: Wicked Pink est un rouge violacé intense qui convient comme base rose. C’est la teinte la plus sombre de la triade flexible « Pinks ». Son nom descriptif est « rouge violacé intense ».",
+    "A Colour Primer originally designed for WWII desert vehicles and uniforms.": "Sous-couche colorée initialement conçue pour les véhicules et uniformes désertiques de la Seconde Guerre mondiale.",
+    "A rich purple suited for a multitude of purposes.": "Un violet soutenu adapté à de nombreux usages.",
+    "A truly groundbreaking spray. The pigment in the Colour Primer is such a good quality that it will easily cover even previous black undercoated models!": "La source présente cette bombe comme particulièrement innovante : ses pigments permettraient de couvrir facilement même des figurines déjà sous-couchées en noir.",
+    "A truly unique spray. It has the look of hardened steel yet still being so matt that other acrylic paints cover it perfectly.": "Cette bombe reproduit l’aspect de l’acier trempé tout en restant suffisamment mate pour être recouverte par d’autres peintures acryliques.",
+    "A very fine pigment makes the Matt White Undercoat a perfect primer for all paint jobs.": "Les pigments très fins de Matt White Undercoat en font, selon la source, une sous-couche adaptée à tous les travaux de peinture.",
+    "Another ideal spray for historical miniatures and those savage Space Wolves or guardsmen.": "Une bombe adaptée aux figurines historiques, aux Space Wolves et aux gardes impériaux.",
+    "As the name suggests, this Colour Primer has been designed to look exactly like Bleached Bone making it an absolute must for armies of shambling dead.": "Comme son nom l’indique, cette sous-couche colorée reproduit l’aspect de Bleached Bone et convient notamment aux armées de morts-vivants.",
+    "As the name suggests, this Colour Primer is great for historical miniatures representing armed forces.": "Comme son nom l’indique, cette sous-couche colorée convient aux figurines historiques représentant des forces armées.",
+    "Greedy Gold is a new addition to the Colour Primer range, featuring a unique formulation specially designed to make the fine golden metal flake shimmer.": "Greedy Gold enrichit la gamme Colour Primer avec une formulation conçue pour faire scintiller ses fines particules métalliques dorées.",
+    "Is ideal for the rotten skin of Ghouls, zombies, vampires, pestilence demons and plague warshipping ratmen etc.": "Convient aux peaux putréfiées des goules, zombies, vampires, démons de la pestilence et hommes-rats adorateurs de la peste.",
+    "Like it’s matching Warpaint, this Colour Primer is a light grey tone which is a perfect basecoat for historical uniforms and vehicles, and even chaff infantry of far-off futuristic forces.": "Comme la Warpaint correspondante, cette sous-couche gris clair convient aux uniformes et véhicules historiques, ainsi qu’à l’infanterie de masse de forces futuristes.",
+    "Like it’s matching Warpaint, this Colour primer is a warm white tone.": "Comme la Warpaint correspondante, cette sous-couche est d’un blanc chaud.",
+    "Oak Brown is a rich, dark brown that is designed to work specifically for earthen forces of fur and wood.": "Oak Brown est un brun foncé soutenu, conçu notamment pour les armées aux teintes terreuses, les fourrures et le bois.",
+    "Quite simply the best Black Spray on the market.": "Présentée par la source comme la meilleure bombe noire du marché.",
+    "The Gun Metal is a rich and dark metal and is nothing but the perfect basecoat for Knights and dark Sci-Fi & Fantasy.": "Gun Metal est une teinte métallique sombre et soutenue, adaptée aux chevaliers et aux univers sombres de science-fiction et de fantasy.",
+    "The name says it all... But apart from Space Marines, this is also the perfect colour for Lizardmen, Imp. guard, Cygnar or American Civil War for instance.": "Outre les Space Marines, cette couleur convient notamment aux hommes-lézards, à la Garde impériale, à Cygnar ou aux figurines de la guerre de Sécession.",
+    "The name says it all... The perfect primer for all Orcs and Goblin armies.": "Une sous-couche destinée notamment aux armées d’orques et de gobelins.",
+    "This Colour Primer has a clear and crisp colour and is imminent for Space Marines, Daemons, Eldar, Lizards, Dragons or any army with a striking colour scheme.": "Cette sous-couche colorée offre une teinte nette et vive, adaptée aux Space Marines, démons, Eldars, lézards, dragons ou à toute armée au schéma de couleurs marqué.",
+    "This Colour Primer is great for spraying miniatures with exposed skin, saving you loads of time.": "Cette sous-couche colorée convient aux figurines présentant de grandes zones de peau apparente et permet de gagner du temps.",
+    "This colour will look fantastic on Skaven, Beastmen and any creature with fur on it. Allied with this Colour Primer you will save endless time base coating a horde army.": "Cette couleur convient aux Skavens, hommes-bêtes et autres créatures à fourrure. La source la recommande pour accélérer la mise en couleur de base d’une armée de horde.",
+    "This spray has a beautiful deep and dark green which is absolutely perfect for Dark Angel Space Marines, Wood elves or even scenery.": "Cette bombe offre un vert foncé profond, adapté aux Space Marines Dark Angels, aux elfes sylvains et aux décors.",
+    "This spray is a very dark and deep red and is the ultimate basecoat for those Blood Angels, Khorne Bezerkers or any Khorne Daemons, Dragons or Warmachine Khador.": "Cette bombe offre un rouge très sombre et profond, adapté comme base aux Blood Angels, Berserkers de Khorne, démons de Khorne, dragons et à Khador dans Warmachine.",
+    "This spray is ideal for wood (warmachines and Chariots), leather and brown skin and fur.": "Cette bombe convient au bois, notamment aux machines de guerre et chars, au cuir ainsi qu’aux peaux et fourrures brunes.",
+    "Wolf Grey is a beautiful greyish blue colour, perfect for Space Wolves or Urban fatigues, furs, monsters or as a great alternative to blue.": "Wolf Grey est un bleu grisé adapté aux Space Wolves, uniformes urbains, fourrures et monstres, ou comme variante du bleu.",
+    "Practical Colour Name: Purplish Blue One-coat painting solution Consistent flow across all colours Perfect contrast Intense shading and highlighting effect One-coat painting solution 18ml spill-free dropper bottles Mixing balls pre-loaded in each bottle GET MORE TIME FOR GAMING!": "Nom descriptif de la couleur : bleu violacé. Solution de peinture monocouche, avec une fluidité homogène entre les couleurs et des effets de contraste, d’ombre et d’éclaircissement intenses. Flacon compte-gouttes de 18 ml limitant les renversements, avec billes de mélange préinstallées. Gagner du temps pour jouer !",
+    "Practical Colour Name: Very Light Pink One-coat painting solution Consistent flow across all colours Perfect contrast Intense shading and highlighting effect One-coat painting solution 18ml spill-free dropper bottles Mixing balls pre-loaded in each bottle GET MORE TIME FOR GAMING!": "Nom descriptif de la couleur : rose très clair. Solution de peinture monocouche, avec une fluidité homogène entre les couleurs et des effets de contraste, d’ombre et d’éclaircissement intenses. Flacon compte-gouttes de 18 ml limitant les renversements, avec billes de mélange préinstallées. Gagner du temps pour jouer !",
+    "Practical Colour Name: Vivid Pink One-coat painting solution Consistent flow across all colours Perfect contrast Intense shading and highlighting effect One-coat painting solution 18ml spill-free dropper bottles Mixing balls pre-loaded in each bottle GET MORE TIME FOR GAMING!": "Nom descriptif de la couleur : rose vif. Solution de peinture monocouche, avec une fluidité homogène entre les couleurs et des effets de contraste, d’ombre et d’éclaircissement intenses. Flacon compte-gouttes de 18 ml limitant les renversements, avec billes de mélange préinstallées. Gagner du temps pour jouer !"
+  },
+  "templates": [
+    {
+      "source": "Auxiliary product ({name}) used to modify, protect or support the painting process.",
+      "french": "Produit auxiliaire ({name}) destiné à modifier, protéger ou faciliter le travail de peinture."
+    },
+    {
+      "source": "Special-effect product ({name}) for controlled finishing and weathering work.",
+      "french": "Produit à effets spéciaux ({name}) pour des finitions et un vieillissement maîtrisés."
+    },
+    {
+      "source": "Official Vallejo 2026 catalogue, {range} chart, page {page}.",
+      "french": "Catalogue officiel Vallejo 2026, nuancier {range}, page {page}."
+    },
+    {
+      "source": "The Warpaints Fanatic Effects: {name} is a one-coat fluorescent paint that makes it easy to create glowing lenses, power weapons, and magical spells.",
+      "french": "Warpaints Fanatic Effects: {name} est une peinture fluorescente monocouche facilitant la création de lentilles lumineuses, d’armes énergétiques et de sortilèges."
+    },
+    {
+      "source": "Thin your Speedpaints to your desired consistency {volume}ml spill-free dropper bottle Mixing balls pre-loaded in each bottle GET MORE TIME FOR GAMING!",
+      "french": "Diluer les Speedpaints jusqu’à la consistance souhaitée. Flacon compte-gouttes de {volume} ml limitant les renversements, avec billes de mélange préinstallées. Gagner du temps pour jouer !"
+    },
+    {
+      "source": "100% Match to {name} Warpaint Contains 300ml",
+      "french": "Correspondance annoncée de 100 % avec la Warpaint {name}. Contenance : 300 ml."
+    },
+    {
+      "source": "100% Match to Warpaints Fanatic {name} Contains 300ml",
+      "french": "Correspondance annoncée de 100 % avec Warpaints Fanatic {name}. Contenance : 300 ml."
+    },
+    {
+      "source": "Contains {volume}ml",
+      "french": "Contenance : {volume} ml."
+    },
+    {
+      "source": "The Warpaints Fanatic Wash: {name} is a blue wash for applying a shade and reinforcing details on your miniature.",
+      "french": "Warpaints Fanatic Wash: {name} est un lavis bleu destiné à créer des ombres et à accentuer les détails de la figurine."
+    },
+    {
+      "source": "The Warpaints Fanatic Wash: {name} is a dark blue wash for applying a shade and reinforcing details on your miniature.",
+      "french": "Warpaints Fanatic Wash: {name} est un lavis bleu foncé destiné à créer des ombres et à accentuer les détails de la figurine."
+    },
+    {
+      "source": "The Warpaints Fanatic Wash: {name} is a dark red wash for applying a shade and reinforcing details on your miniature.",
+      "french": "Warpaints Fanatic Wash: {name} est un lavis rouge foncé destiné à créer des ombres et à accentuer les détails de la figurine."
+    },
+    {
+      "source": "The Warpaints Fanatic Wash: {name} is a deep reddish-brown wash for applying a shade and reinforcing details on your miniature.",
+      "french": "Warpaints Fanatic Wash: {name} est un lavis brun rougeâtre profond destiné à créer des ombres et à accentuer les détails de la figurine."
+    },
+    {
+      "source": "The Warpaints Fanatic Wash: {name} is a black wash for applying a shade and reinforcing details on your miniature.",
+      "french": "Warpaints Fanatic Wash: {name} est un lavis noir destiné à créer des ombres et à accentuer les détails de la figurine."
+    },
+    {
+      "source": "The Warpaints Fanatic Wash: {name} is a green wash for applying a shade and reinforcing details on your miniature.",
+      "french": "Warpaints Fanatic Wash: {name} est un lavis vert destiné à créer des ombres et à accentuer les détails de la figurine."
+    },
+    {
+      "source": "The Warpaints Fanatic Wash: {name} is a light brown wash for applying a shade and reinforcing details on your miniature.",
+      "french": "Warpaints Fanatic Wash: {name} est un lavis brun clair destiné à créer des ombres et à accentuer les détails de la figurine."
+    },
+    {
+      "source": "The Warpaints Fanatic Wash: {name} is a magenta wash for applying a shade and reinforcing details on your miniature.",
+      "french": "Warpaints Fanatic Wash: {name} est un lavis magenta destiné à créer des ombres et à accentuer les détails de la figurine."
+    },
+    {
+      "source": "The Warpaints Fanatic Wash: {name} is a brownish green wash for applying a shade and reinforcing details on your miniature.",
+      "french": "Warpaints Fanatic Wash: {name} est un lavis vert brunâtre destiné à créer des ombres et à accentuer les détails de la figurine."
+    },
+    {
+      "source": "The Warpaints Fanatic Wash: {name} is a yellow wash for applying a shade and reinforcing details on your miniature.",
+      "french": "Warpaints Fanatic Wash: {name} est un lavis jaune destiné à créer des ombres et à accentuer les détails de la figurine."
+    },
+    {
+      "source": "The Warpaints Fanatic Wash: {name} is a purple wash for applying a shade and reinforcing details on your miniature.",
+      "french": "Warpaints Fanatic Wash: {name} est un lavis violet destiné à créer des ombres et à accentuer les détails de la figurine."
+    },
+    {
+      "source": "The Warpaints Fanatic Wash: {name} is a red wash for applying a shade and reinforcing details on your miniature.",
+      "french": "Warpaints Fanatic Wash: {name} est un lavis rouge destiné à créer des ombres et à accentuer les détails de la figurine."
+    },
+    {
+      "source": "The Warpaints Fanatic Wash: {name} is a rusty orange wash for applying a shade and reinforcing details on your miniature.",
+      "french": "Warpaints Fanatic Wash: {name} est un lavis orange rouille destiné à créer des ombres et à accentuer les détails de la figurine."
+    },
+    {
+      "source": "The Warpaints Fanatic Wash: {name} is a sepia wash for applying a shade and reinforcing details on your miniature.",
+      "french": "Warpaints Fanatic Wash: {name} est un lavis sépia destiné à créer des ombres et à accentuer les détails de la figurine."
+    },
+    {
+      "source": "The Warpaints Fanatic Wash: {name} is a soft brown wash for applying a shade and reinforcing details on your miniature.",
+      "french": "Warpaints Fanatic Wash: {name} est un lavis brun doux destiné à créer des ombres et à accentuer les détails de la figurine."
+    },
+    {
+      "source": "The Warpaints Fanatic Wash: {name} is a reddish-brown wash for applying a shade and reinforcing details on your miniature.",
+      "french": "Warpaints Fanatic Wash: {name} est un lavis brun rougeâtre destiné à créer des ombres et à accentuer les détails de la figurine."
+    },
+    {
+      "source": "The Warpaints Fanatic Wash: {name} is a dark brown wash for applying a shade and reinforcing details on your miniature.",
+      "french": "Warpaints Fanatic Wash: {name} est un lavis brun foncé destiné à créer des ombres et à accentuer les détails de la figurine."
+    }
+  ],
+  "suffixes": [
+    {
+      "source": " Saves time painting - Prime your model with your chosen base colour Precision nozzle and fast drying acrylic primer = Perfect coverage! 24 Colours, with a 100% matching Warpaint Leaves every detail on the miniature in excellent condition.",
+      "french": "Gagner du temps en sous-couchant directement dans la couleur de base choisie. La source met en avant une buse de précision, une sous-couche acrylique à séchage rapide et une couverture uniforme. Elle annonce 24 couleurs, chacune correspondant à une Warpaint, tout en préservant les détails de la figurine."
+    }
+  ]
+}

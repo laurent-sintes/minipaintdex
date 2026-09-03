@@ -11,7 +11,7 @@ import java.util.List;
 public final class WorkshopRecipe extends EventSourcedAggregateRoot {
     private String id;
     private String paintingProjectId;
-    private String catalogItemId;
+    private String paintableComponentId;
     private String basedOnGuideId;
     private String supersedesRecipeId;
     private String successorRecipeId;
@@ -24,11 +24,11 @@ public final class WorkshopRecipe extends EventSourcedAggregateRoot {
     private WorkshopRecipe() {}
 
     public static WorkshopRecipe create(
-            String id, String paintingProjectId, String catalogItemId,
+            String id, String paintingProjectId, String paintableComponentId,
             String basedOnGuideId, String supersedesRecipeId, String displayName,
             int recipeVersion, List<RecipeSolution> solutions, Instant occurredAt) {
         var recipe = new WorkshopRecipe();
-        recipe.raise(new WorkshopRecipeCreated(id, paintingProjectId, catalogItemId,
+        recipe.raise(new WorkshopRecipeCreated(id, paintingProjectId, paintableComponentId,
                 basedOnGuideId, supersedesRecipeId, displayName, recipeVersion, solutions, occurredAt));
         return recipe;
     }
@@ -67,7 +67,7 @@ public final class WorkshopRecipe extends EventSourcedAggregateRoot {
             case WorkshopRecipeCreated created -> {
                 id = created.recipeId();
                 paintingProjectId = created.paintingProjectId();
-                catalogItemId = created.catalogItemId();
+                paintableComponentId = created.paintableComponentId();
                 basedOnGuideId = created.basedOnGuideId();
                 supersedesRecipeId = created.supersedesRecipeId();
                 displayName = created.displayName();
@@ -114,7 +114,7 @@ public final class WorkshopRecipe extends EventSourcedAggregateRoot {
 
     @Override public String id() { return id; }
     public String paintingProjectId() { return paintingProjectId; }
-    public String catalogItemId() { return catalogItemId; }
+    public String paintableComponentId() { return paintableComponentId; }
     public String basedOnGuideId() { return basedOnGuideId; }
     public String supersedesRecipeId() { return supersedesRecipeId; }
     public String successorRecipeId() { return successorRecipeId; }

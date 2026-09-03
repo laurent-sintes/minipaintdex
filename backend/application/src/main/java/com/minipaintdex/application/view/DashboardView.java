@@ -6,5 +6,5 @@ public record DashboardView(
         int paintableProductCount,
         WorkshopStats workshop) {
     public record PaintStats(int total, int owned, long brands) {}
-    public record WorkshopStats(int projectCount, int itemCount, long completedItemCount, int progressPercentage) {}
+    public record WorkshopStats(int projectCount, int paintableCount, long completedPaintableCount, int progressPercentage) {}
 }

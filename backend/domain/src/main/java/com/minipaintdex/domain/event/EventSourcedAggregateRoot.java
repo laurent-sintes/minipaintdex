@@ -35,7 +35,7 @@ public abstract class EventSourcedAggregateRoot implements AggregateRoot {
             throw invalidHistory("First event must be " + creationType.getSimpleName() + ".");
         }
         var aggregateId = first.aggregateId();
-        var projectId = first.projectId();
+        var paintingProjectId = first.scopePaintingProjectId();
         for (var index = 0; index < history.size(); index++) {
             var event = Objects.requireNonNull(history.get(index), "History event is required.");
             if (index > 0 && creationType.isInstance(event)) {
@@ -48,7 +48,7 @@ public abstract class EventSourcedAggregateRoot implements AggregateRoot {
                 throw invalidHistory("Aggregate identity changed from " + aggregateId
                         + " to " + event.aggregateId() + ".");
             }
-            if (!Objects.equals(projectId, event.projectId())) {
+            if (!Objects.equals(paintingProjectId, event.scopePaintingProjectId())) {
                 throw invalidHistory("Project identity changed in aggregate " + aggregateId + ".");
             }
             replay(event);

@@ -18,7 +18,7 @@ public final class WorkshopRecipeProjector {
             }
         }
         return histories.values().stream().map(WorkshopRecipe::rehydrate).map(recipe -> new WorkshopRecipeState(
-                recipe.id(), recipe.catalogItemId(), recipe.basedOnGuideId(), recipe.supersedesRecipeId(),
+                recipe.id(), recipe.paintableComponentId(), recipe.basedOnGuideId(), recipe.supersedesRecipeId(),
                 recipe.displayName(), recipe.recipeVersion(), recipe.status(), recipe.solutions(), recipe.updatedAt())).toList();
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 public interface PaintableProductCatalogWriter {
     /** Replaces product and guide documents together; partial replacement is forbidden. */
     void replaceProduct(
-            String productId,
+            String paintableProductId,
             StructuredDocument product,
             List<StructuredDocument> paintingGuides);
 }

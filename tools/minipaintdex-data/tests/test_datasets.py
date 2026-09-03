@@ -16,10 +16,12 @@ class DatasetTests(unittest.TestCase):
         from minipaintdex_data.datasets import build_payload
         edition = {"schema_version": 1, "id": "brand-a-2019", "brand": "Brand A", "title": "Catalogue",
                    "edition_label": "2019", "ranges": ["Range"], "source_urls": ["https://example.com/catalog"]}
-        self._yaml("data/market/paints/brand-a.yaml", {"schema_version": 1, "brand": "Brand A", "catalog_editions": [edition],
+        guide = {"id": "brand-a-usage", "brand": "Brand A"}
+        self._yaml("data/market/paints/brand-a.yaml", {"schema_version": 1, "brand": "Brand A", "catalog_editions": [edition], "paint_usage_guides": [guide],
                    "paints": [{"schema_version": 1, "id": "brand-a-red", "brand": "Brand A", "name": "Red"}]})
         payload, _ = build_payload(self.root, "market.paint-brand", brand="Brand A")
         self.assertEqual(payload["catalog_editions"], [edition])
+        self.assertEqual(payload["paint_usage_guides"], [guide])
 
     def setUp(self) -> None:
         run_id = f"{os.getpid()}-{self._testMethodName}"
@@ -40,10 +42,10 @@ class DatasetTests(unittest.TestCase):
                 {"schema_version": 1, "id": "brand-b-blue", "brand": "Brand B", "name": "Blue"},
             ]},
         )
-        self._yaml(
-            "data/workshop/paints.yaml",
-            {"schema_version": 1, "paints": [{"paint_id": "brand-a-red", "quantity": 2}]},
-        )
+        ledger = self.root / "data/ledger/events/2026-09.jsonl"
+        ledger.parent.mkdir(parents=True)
+        ledger.write_text("\n".join(json.dumps({"event_type": "paint_pot.registered", "aggregate_id": f"pot-{i}",
+            "payload": {"paint_product_id": "brand-a-red"}}) for i in (1, 2)) + "\n", encoding="utf-8")
         self._yaml(
             "data/market/paintable-products/game.yaml",
             {"schema_version": 1, "id": "game", "name": "Game", "catalog_items": []},
@@ -60,7 +62,7 @@ class DatasetTests(unittest.TestCase):
         created = [
             create_dataset(self.root, self.datasets, "market.paint-brand", "Brand A", brand="Brand A"),
             create_dataset(self.root, self.datasets, "market.paintable-product", "Game", product_id="game"),
-            create_dataset(self.root, self.datasets, "workshop.paints", "My paints"),
+            create_dataset(self.root, self.datasets, "workshop.paint-pots", "My paints"),
             create_dataset(
                 self.root, self.datasets, "workshop.painting-project", "Game project",
                 product_id="game", project_id="paint-game", project_name="Paint Game",
@@ -73,16 +75,16 @@ class DatasetTests(unittest.TestCase):
         self.assertEqual(["brand-a-red"], [operation["record"]["id"] for operation in payload["operations"]])
 
     def test_detects_payload_tampering(self) -> None:
-        dataset = create_dataset(self.root, self.datasets, "workshop.paints", "My paints")
+        dataset = create_dataset(self.root, self.datasets, "workshop.paint-pots", "My paints")
         payload = dataset / "payload/change-set.json"
         payload.write_text(payload.read_text(encoding="utf-8") + " ", encoding="utf-8")
 
         self.assertIn("payload sha256 does not match", validate_dataset(dataset))
 
     def test_refuses_to_overwrite_without_explicit_replace(self) -> None:
-        create_dataset(self.root, self.datasets, "workshop.paints", "My paints")
+        create_dataset(self.root, self.datasets, "workshop.paint-pots", "My paints")
         with self.assertRaisesRegex(ValueError, "already exists"):
-            create_dataset(self.root, self.datasets, "workshop.paints", "My paints")
+            create_dataset(self.root, self.datasets, "workshop.paint-pots", "My paints")
 
     def _yaml(self, relative: str, value: object) -> None:
         path = self.root / relative

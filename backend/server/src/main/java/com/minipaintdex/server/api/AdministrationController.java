@@ -1,12 +1,10 @@
 package com.minipaintdex.server.api;
 
-import com.minipaintdex.application.command.ApplyMarketPaintChangeSetCommand;
+import com.minipaintdex.application.command.ApplyPaintProductChangeSetCommand;
 import com.minipaintdex.application.command.ApplyMarketPaintableProductChangeSetCommand;
-import com.minipaintdex.application.command.ReplaceWorkshopPaintInventoryCommand;
 import com.minipaintdex.application.document.StructuredDocument;
-import com.minipaintdex.application.result.ApplyMarketPaintChangeSetResult;
+import com.minipaintdex.application.result.ApplyPaintProductChangeSetResult;
 import com.minipaintdex.application.result.ApplyMarketPaintableProductChangeSetResult;
-import com.minipaintdex.application.result.ReplaceWorkshopPaintInventoryResult;
 import com.minipaintdex.application.usecase.AdministrationUseCases;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,18 +25,19 @@ final class AdministrationController {
     }
 
     @PostMapping("/market/paint-changesets")
-    ResultResponse<ApplyMarketPaintChangeSetResult> applyPaintChangeSet(
+    ResultResponse<ApplyPaintProductChangeSetResult> applyPaintChangeSet(
             @Valid @RequestBody ApplyPaintChangeSetRequest request,
             @RequestParam(defaultValue = "true") boolean dryRun) {
         var operations = request.operations().stream()
-                .map(operation -> new ApplyMarketPaintChangeSetCommand.Operation(
+                .map(operation -> new ApplyPaintProductChangeSetCommand.Operation(
                         operation.action(), operation.previousId(), document(operation.record()),
                         operation.workshopQuantityDelta() == null ? 0 : operation.workshopQuantityDelta(),
                         Boolean.TRUE.equals(operation.confirmedRemoval())))
                 .toList();
-        return new ResultResponse<>(administration.applyMarketPaintChangeSet(new ApplyMarketPaintChangeSetCommand(
+        return new ResultResponse<>(administration.applyPaintProductChangeSet(new ApplyPaintProductChangeSetCommand(
                 request.schemaVersion(), request.kind(), operations, dryRun,
-                request.catalogEditions().stream().map(AdministrationController::document).toList())));
+                request.catalogEditions().stream().map(AdministrationController::document).toList(),
+                request.paintUsageGuides().stream().map(AdministrationController::document).toList())));
     }
 
     @PostMapping("/market/paintable-product-changesets")
@@ -50,18 +49,6 @@ final class AdministrationController {
                         request.schemaVersion(), request.kind(), document(request.product()),
                         request.paintingGuides().stream().map(AdministrationController::document).toList(),
                         dryRun, request.actorId(), request.correlationId())));
-    }
-
-    @PostMapping("/workshop/paint-inventory-imports")
-    ResultResponse<ReplaceWorkshopPaintInventoryResult> replaceWorkshopPaintInventory(
-            @Valid @RequestBody ReplaceWorkshopPaintInventoryRequest request,
-            @RequestParam(defaultValue = "true") boolean dryRun) {
-        var entries = request.paints().stream()
-                .map(entry -> new ReplaceWorkshopPaintInventoryCommand.Entry(entry.paintId(), entry.quantity()))
-                .toList();
-        return new ResultResponse<>(administration.replaceWorkshopPaintInventory(
-                new ReplaceWorkshopPaintInventoryCommand(
-                        request.schemaVersion(), request.kind(), entries, dryRun)));
     }
 
     @PostMapping("/projections/rebuild")

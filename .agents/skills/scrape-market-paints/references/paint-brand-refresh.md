@@ -16,7 +16,7 @@
 
 1. Les collecteurs de marque restent séparés sous `official_sources/`; ne pas remettre de logique fournisseur dans l'orchestrateur.
 2. Lancer `assets cache-paint-images` avec un journal et un change set de sortie. Le programme qualifie la provenance, contrôle les redirections, le poids, les dimensions, les aplats, les damiers et le niveau de détail, puis produit du WebP sur un canevas carré homogène ou conserve un SVG sanitisé. Utiliser `--normalize-local` pour remettre également les rasters déjà en cache au format de présentation courant sans retéléchargement. Les manifestes revendeur doivent déclarer `image_quality: retailer_photo`, un crédit, des URL HTTPS traçables et la raison structurée qui explique l'absence d'une photo officielle.
-3. Valider et simuler le change set avec `minipaintdex market paints apply --input <change-set>`, puis l'appliquer explicitement avec `--apply` par le même cas d'usage Java.
+3. Valider et simuler le change set avec `minipaintdex market paint-products apply --input <change-set>`, puis l'appliquer explicitement avec `--apply` par le même cas d'usage Java.
 4. Pour un site protégé comme Vallejo, observer les cartes produits dans le navigateur normal et exporter un manifeste exact `reference`, `name`, `page_url`, `image_url`. Ne pas contourner le challenge et ne pas déduire les URL.
 5. Transformer ce manifeste avec `assets import-paint-image-sources`. `--allow-unmatched` conserve dans le change set la liste des nouvelles références officielles absentes du catalogue au lieu de bloquer les correspondances exactes.
 6. Relancer le cache puis `assets audit`. Une image locale hors cache n'est conservée que lorsqu'aucune source officielle validée ne permet de la remplacer.
@@ -32,7 +32,7 @@ Conserver éditions et appartenances existantes ; ne pas déduire l’année de 
 d’un pot, une équivalence de formulation ou un retrait à partir de ces appartenances.
 Pour Warhammer Colour, contrôler l'exhaustivité de l'index officiel de la boutique : le nombre de résultats annoncé doit être égal au nombre de fiches effectivement collectées et toute chute brutale de volume doit bloquer l'application.
 
-Le chemin opérateur recommandé est `catalog refresh-official-paints --brand <marque|all> --output <change-set> --audit-log <audit>`. Il orchestre la collecte, la comparaison, la validation et l'estimation des images à rechallenger sans écrire dans `data/`. Le change set obtenu est ensuite simulé par `minipaintdex market paints apply --input <change-set>` et appliqué uniquement avec `--apply` après lecture de l'audit.
+Le chemin opérateur recommandé est `catalog refresh-official-paints --brand <marque|all> --output <change-set> --audit-log <audit>`. Il orchestre la collecte, la comparaison, la validation et l'estimation des images à rechallenger sans écrire dans `data/`. Le change set obtenu est ensuite simulé par `minipaintdex market paint-products apply --input <change-set>` et appliqué uniquement avec `--apply` après lecture de l'audit.
 
 ## Enrichissement des couleurs
 

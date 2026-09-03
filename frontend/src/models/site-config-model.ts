@@ -1,17 +1,26 @@
 export type SiteConfig = {
+  paintPots: {
+    title: string; description: string; add: string; all: string; back: string; empty: string;
+    includeRemoved: string; personalPhoto: string; catalogPhoto: string; noPhoto: string;
+    condition: string; remaining: string; possession: string; available: string; unavailable: string; availableCount: string;
+    observationHelp: string; save: string; opened: string; acquired: string; unknown: string; open: string;
+    notes: string; addNote: string; photos: string; addPhoto: string; caption: string; addHelp: string;
+    saved: string; pending: string; failed: string; previous: string; next: string;
+    conditions: Record<string,string>; levels: Record<string,string>; possessions: Record<string,string>;
+  };
   metadata: { title: string; shortTitle: string; description: string };
   brand: { name: string; subtitle: string };
   units: { colorSingular: string; colorPlural: string; paintSingular: string; paintPlural: string };
   navigation: {
     ariaLabel: string; mobileAriaLabel: string; home: string; marketSection: string;
-    marketPaints: string; marketPaintableProducts: string; workshopSection: string;
+    paintProducts: string; marketPaintableProducts: string; workshopSection: string;
     workshopPaints: string; workshopAdmin: string; shopping: string; aboutSection: string;
     userDocumentation: string; adminDocumentation: string; paintModel: string; restApi: string; version: string;
   };
   header: { searchPlaceholder: string; searchShortPlaceholder: string; searchAriaLabel: string; workshopPrefix: string };
   home: {
     eyebrow: string; title: string; description: string; servicesTitle: string; servicesDescription: string;
-    marketPaints: ServiceLabel; marketPaintableProducts: ServiceLabel;
+    paintProducts: ServiceLabel; marketPaintableProducts: ServiceLabel;
     workshopPaints: ServiceLabel; workshopAdmin: ServiceLabel; shopping: ServiceLabel;
   };
   workflow: Record<string, string>;
@@ -49,6 +58,7 @@ export type SiteConfig = {
     paintAvailable: string; paintMissing: string; paintPending: string;
   };
   collection: {
+    suggestions: string; noSuggestions: string; suggestionsHint: string; suggestionsFailed: string; sortRelevance: string;
     brandRangeFilter: string; catalogFilterHint: string; filterLogicHint: string; advancedFilters: string;
     showMore: string; showLess: string; closeFilters: string; showResults: string;
     pagination: string; previousPage: string; nextPage: string;
@@ -75,6 +85,11 @@ export type SiteConfig = {
   };
   paintDetail: {
     catalogEditions: string;
+    characteristics: string; documentLanguage: string; french: string; original: string;
+    sharedGuide: string; revision: string; sources: string; source: string; knowledgeLabels: Record<string, string>;
+    translationReviewRequired: string; translationMissing: string; translationStale: string;
+    guideLoadFailed: string; retry: string; noUsageGuide: string; specificInstructions: string;
+    previous: string; next: string; imageProvenance: string;
     sheet: string; close: string; colorFamily: string; toQualify: string; manufacturerFeatures: string;
     noManufacturerDescription: string; recommendedUses: string; usageInstructions: string; usageSteps: string;
     usageTips: string; openSheet: string; openManufacturerSheet: string; verifiedOn: string;
@@ -84,7 +99,7 @@ export type SiteConfig = {
     imageQuality: string; imageQualityLimitation: string; imageQualityLimitationObservedOn: string;
     imageQualityLabels: Record<string, string>;
   };
-  errors: { loading: string; productNotFound: string; catalogItemNotFound: string; paintNotFound: string; requestFailed: string };
+  errors: { loading: string; productNotFound: string; catalogItemNotFound: string; paintNotFound: string; requestFailed: string; connectionLost: string; connectionDetail: string };
 };
 
 type ServiceLabel = { title: string; description: string; action: string };

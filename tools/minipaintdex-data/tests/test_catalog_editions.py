@@ -13,7 +13,7 @@ class CatalogEditionTests(unittest.TestCase):
         self.assertEqual(validate_changeset({"schema_version": 1, "kind": "market_paints",
                          "operations": [], "catalog_editions": [edition]}), [])
         changeset = build_paint_changeset({"paints": [], "catalog_editions": [edition]},
-                                         source="publication.json", include_workshop=False)
+                                         source="publication.json")
         self.assertEqual(changeset["catalog_editions"], [edition])
 
     def test_membership_needs_identity_source_and_locator(self):

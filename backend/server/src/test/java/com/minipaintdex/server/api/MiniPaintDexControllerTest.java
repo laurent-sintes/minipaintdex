@@ -6,22 +6,22 @@ import com.minipaintdex.application.port.MarketCatalogReader;
 import com.minipaintdex.application.usecase.MarketCatalogUseCases;
 import com.minipaintdex.application.usecase.SiteQueries;
 import com.minipaintdex.application.usecase.WorkshopUseCases;
-import com.minipaintdex.application.command.ApplyMarketPaintChangeSetCommand;
+import com.minipaintdex.application.command.ApplyPaintProductChangeSetCommand;
 import com.minipaintdex.application.command.CreateWorkshopRecipeCommand;
 import com.minipaintdex.application.command.CreatePaintingProjectCommand;
-import com.minipaintdex.application.query.SearchMarketPaintsQuery;
+import com.minipaintdex.application.query.SearchPaintProductsQuery;
 import com.minipaintdex.application.query.PageQuery;
 import com.minipaintdex.application.result.PageResult;
-import com.minipaintdex.application.result.ApplyMarketPaintChangeSetResult;
+import com.minipaintdex.application.result.ApplyPaintProductChangeSetResult;
 import com.minipaintdex.application.result.CreatePaintingProjectResult;
 import com.minipaintdex.application.event.EventPublicationStatus;
 import com.minipaintdex.application.event.PublicationReceipt;
-import com.minipaintdex.application.view.MarketPaintView;
+import com.minipaintdex.application.view.PaintProductView;
 import com.minipaintdex.application.view.PaintableProductSummaryView;
 import com.minipaintdex.application.view.WorkshopOverviewView;
 import com.minipaintdex.application.view.GuideReconciliationView;
 import com.minipaintdex.application.view.MarketPaintingGuideView;
-import com.minipaintdex.application.view.WorkshopPaintView;
+import com.minipaintdex.application.view.WorkshopPaintStockView;
 import com.minipaintdex.domain.shared.DomainException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,15 +59,91 @@ class MiniPaintDexControllerTest {
         workshop = mock(WorkshopUseCases.class);
         administration = mock(AdministrationUseCases.class);
         site = mock(SiteQueries.class);
-        mvc = MockMvcBuilders.standaloneSetup(
+        mvc = MockMvcBuilders.standaloneSetup(new PaintUsageGuideController(market),
                         new SiteController(site),
                         new MarketCatalogController(market),
                         new PaintCatalogEditionController(market),
                         new AdministrationController(administration),
-                        new WorkshopController(workshop))
+                        new WorkshopController(workshop), new PaintPotController(workshop))
                 .setControllerAdvice(new ApiExceptionHandler())
                 .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
                 .build();
+    }
+
+    @Test
+    void exposesBoundedSharedGuidesWithExplicitLanguageAndProductScope() throws Exception {
+        when(market.searchPaintUsageGuides(any())).thenReturn(new com.minipaintdex.application.result.PaintUsageGuidesResult(new PageResult<>(List.of(), 0, 2, 0), "test"));
+        mvc.perform(get("/api/v1/market/paint-usage-guides").queryParam("paintProductId", "paint").queryParam("language", "original")
+                .queryParam("size", "2").header("X-Correlation-Id", "test"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.guides").isArray()).andExpect(jsonPath("$.correlationId").value("test"));
+        var capture = ArgumentCaptor.forClass(com.minipaintdex.application.query.SearchPaintUsageGuidesQuery.class);
+        verify(market).searchPaintUsageGuides(capture.capture());
+        assertEquals("paint", capture.getValue().paintProductId()); assertEquals("original", capture.getValue().language());
+        mvc.perform(get("/api/v1/market/paint-usage-guides").queryParam("language", "de")).andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void searchEndpointsSelectSuggestionsWithLinksAndFilters() throws Exception {
+        var suggestions = List.of(new com.minipaintdex.application.view.PaintProductSuggestion("karak", "Karak Stone", "Citadel", "Layer", "22-17", "", ""));
+        when(market.searchPaintProducts(any(com.minipaintdex.application.query.PaintSearchQuery.class)))
+                .thenReturn(new com.minipaintdex.application.result.PaintSearchResult<>(null, suggestions, "test"));
+        when(workshop.searchWorkshopPaintStocks(any()))
+                .thenReturn(new com.minipaintdex.application.result.PaintSearchResult<>(null, suggestions, "test"));
+        for (var path : List.of("/api/v1/market/paint-products/search", "/api/v1/workshop/paint-stocks/search")) {
+            mvc.perform(post(path).contentType(MediaType.APPLICATION_JSON).header("X-Correlation-Id", "test")
+                    .content("""
+                        {"query":"kar","include":["suggestions"],"suggestionLimit":3,
+                         "filters":{"brand":["A","B"],"range":["Citadel::Layer"],"manufacturerSheetOnly":true}}
+                        """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.suggestions[0].paintProductId").value("karak"))
+                .andExpect(jsonPath("$.suggestions[0].range").value("Layer"))
+                .andExpect(jsonPath("$.results").doesNotExist())
+                .andExpect(jsonPath("$.correlationId").value("test"));
+        }
+        var captor = ArgumentCaptor.forClass(com.minipaintdex.application.query.PaintSearchQuery.class);
+        verify(market).searchPaintProducts(captor.capture());
+        assertEquals(3, captor.getValue().suggestionLimit());
+        assertEquals(List.of("A", "B"), captor.getValue().filters().brand());
+        assertEquals("Citadel::Layer", captor.getValue().filters().range().getFirst().selectionKey());
+        assertEquals(true, captor.getValue().manufacturerSheetOnly());
+        verify(workshop).searchWorkshopPaintStocks(captor.capture());
+        assertEquals("kar", captor.getValue().filters().query());
+    }
+
+    @Test
+    void searchRejectsInvalidSelectionAndDoesNotHideFailures() throws Exception {
+        for (var body : List.of("{\"suggestionLimit\":0}", "{\"include\":[]}", "{\"include\":[\"aggs\"]}")) {
+            mvc.perform(post("/api/v1/market/paint-products/search").contentType(MediaType.APPLICATION_JSON).content(body))
+                    .andExpect(status().isUnprocessableEntity());
+        }
+        org.mockito.Mockito.verifyNoInteractions(market);
+        when(market.searchPaintProducts(any(com.minipaintdex.application.query.PaintSearchQuery.class)))
+                .thenThrow(new DomainException("search_unavailable", "Unavailable"));
+        mvc.perform(post("/api/v1/market/paint-products/search").contentType(MediaType.APPLICATION_JSON).content("{\"query\":\"kar\"}"))
+                .andExpect(status().isServiceUnavailable()).andExpect(jsonPath("$.code").value("search_unavailable"));
+    }
+
+    @Test
+    void registersAndObservesPotsThroughTheWorkshopPort() throws Exception {
+        var receipt = new PublicationReceipt("publication-pot", EventPublicationStatus.PENDING, Instant.parse("2026-09-01T12:00:00Z"), "pot-request");
+        when(workshop.registerPaintPot(any())).thenReturn(new com.minipaintdex.application.result.ImportPaintPotsResult(1, 0, true, receipt));
+        when(workshop.observePaintPot(any())).thenReturn(receipt);
+        mvc.perform(post("/api/v1/workshop/paint-pots").contentType(MediaType.APPLICATION_JSON)
+                .header("Idempotency-Key", "pot-add")
+                .content("{\"paintPotId\":\"pot-one\",\"paintProductId\":\"paint-red\"}"))
+                .andExpect(status().isAccepted()).andExpect(jsonPath("$.result.added").value(1));
+        var registration = ArgumentCaptor.forClass(com.minipaintdex.application.command.RegisterPaintPotCommand.class);
+        verify(workshop).registerPaintPot(registration.capture());
+        assertEquals("paint-red", registration.getValue().paintProductId());
+        assertEquals("pot-add", registration.getValue().idempotencyKey());
+        mvc.perform(post("/api/v1/workshop/paint-pots/pot-one/observations").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"condition\":\"thickened\",\"remainingLevel\":\"low\"}"))
+                .andExpect(status().isAccepted());
+        var observation = ArgumentCaptor.forClass(com.minipaintdex.application.command.ObservePaintPotCommand.class);
+        verify(workshop).observePaintPot(observation.capture());
+        assertEquals("pot-one", observation.getValue().paintPotId());
+        assertEquals("low", observation.getValue().remainingLevel());
     }
 
     @Test
@@ -93,53 +169,47 @@ class MiniPaintDexControllerTest {
 
     @Test
     void forwardsAllMarketSearchFacetsToTheApplication() throws Exception {
-        when(market.searchMarketPaintPage(any(), anyBoolean(), anyBoolean(), any()))
-                .thenReturn(new PageResult<>(List.of(paint("paint", "Paint")), 2, 10, 21));
-
-        mvc.perform(get("/api/v1/market/paints")
-                        .queryParam("page", "2")
-                        .queryParam("size", "10")
-                        .queryParam("sort", "brand,desc")
-                        .queryParam("finish", "matte")
-                        .queryParam("brand", "Vallejo", "AK Interactive")
-                        .queryParam("range", "Warhammer Colour::Contrast", "Warhammer Colour::Layer")
-                        .queryParam("color", "blue", "red")
-                        .queryParam("coverage", "transparent")
-                        .queryParam("applicationSystem", "one_coat_shading")
-                        .queryParam("effect", "metallic"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.paints[0].id").value("paint"));
-
-        var query = ArgumentCaptor.forClass(SearchMarketPaintsQuery.class);
-        var page = ArgumentCaptor.forClass(PageQuery.class);
-        verify(market).searchMarketPaintPage(query.capture(), anyBoolean(), anyBoolean(), page.capture());
-        assertEquals(List.of("matte"), query.getValue().finish());
-        assertEquals(List.of("Vallejo", "AK Interactive"), query.getValue().brand());
-        assertEquals(List.of("blue", "red"), query.getValue().color());
+        when(market.searchPaintProducts(any(com.minipaintdex.application.query.PaintSearchQuery.class)))
+                .thenReturn(new com.minipaintdex.application.result.PaintSearchResult<>(
+                        new PageResult<>(List.of(paint("paint", "Paint")), 2, 10, 21), null, "test"));
+        mvc.perform(post("/api/v1/market/paint-products/search").queryParam("page", "2").queryParam("size", "10")
+                        .queryParam("sort", "brand,desc").contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {"filters":{"finish":["matte"],"brand":["Vallejo","AK Interactive"],
+                            "range":["Warhammer Colour::Contrast","Warhammer Colour::Layer"],"color":["blue","red"],
+                            "coverage":["transparent"],"applicationSystem":["one_coat_shading"],"effect":["metallic"]}}
+                            """))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.results.content[0].id").value("paint"));
+        var capture = ArgumentCaptor.forClass(com.minipaintdex.application.query.PaintSearchQuery.class);
+        verify(market).searchPaintProducts(capture.capture());
+        var query = capture.getValue().filters();
+        var page = capture.getValue().page();
+        assertEquals(List.of("matte"), query.finish());
+        assertEquals(List.of("Vallejo", "AK Interactive"), query.brand());
+        assertEquals(List.of("blue", "red"), query.color());
         assertEquals(List.of("Warhammer Colour::Contrast", "Warhammer Colour::Layer"),
-                query.getValue().range().stream().map(com.minipaintdex.application.query.PaintRangeSelection::selectionKey).toList());
-        assertEquals(List.of("transparent"), query.getValue().coverage());
-        assertEquals(List.of("one_coat_shading"), query.getValue().applicationSystem());
-        assertEquals(List.of("metallic"), query.getValue().effect());
-        assertEquals(2, page.getValue().page());
-        assertEquals(10, page.getValue().size());
-        assertEquals("brand", page.getValue().sort().getFirst().property());
+                query.range().stream().map(com.minipaintdex.application.query.PaintRangeSelection::selectionKey).toList());
+        assertEquals(List.of("transparent"), query.coverage());
+        assertEquals(List.of("one_coat_shading"), query.applicationSystem());
+        assertEquals(List.of("metallic"), query.effect());
+        assertEquals(2, page.page()); assertEquals(10, page.size()); assertEquals("brand", page.sort().getFirst().property());
     }
 
     @Test
     void rejectsAnUnqualifiedRangeBeforeInvokingTheApplication() throws Exception {
-        mvc.perform(get("/api/v1/market/paints").queryParam("range", "Contrast"))
-                .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("$.code").value("invalid_input"));
+        mvc.perform(post("/api/v1/market/paint-products/search").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"filters\":{\"range\":[\"Contrast\"]}}"))
+                .andExpect(status().isUnprocessableEntity()).andExpect(jsonPath("$.code").value("invalid_input"));
         org.mockito.Mockito.verifyNoInteractions(market);
     }
 
     @Test
     void publishesTheCanonicalPaintModelAsJsonSchema() throws Exception {
-        when(market.marketPaintModel()).thenReturn(
-                new MarketCatalogApplicationService(mock(MarketCatalogReader.class)).marketPaintModel());
+        when(market.paintProductModel()).thenReturn(
+                new MarketCatalogApplicationService(mock(MarketCatalogReader.class), mock(com.minipaintdex.application.port.PaintProductSearchIndex.class),
+                        new com.minipaintdex.application.query.PaintSearchPolicy(8, 20, 200, 16, 5, 1, 50, 2000, 1000, 8, 3, 1, 0.8f, 0.2f)).paintProductModel());
 
-        mvc.perform(get("/api/v1/market/paint-model"))
+        mvc.perform(get("/api/v1/market/paint-product-model"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$['$schema']").value("https://json-schema.org/draft/2020-12/schema"))
                 .andExpect(jsonPath("$['x-model-version']").value(1))
@@ -156,27 +226,25 @@ class MiniPaintDexControllerTest {
                 .andExpect(jsonPath("$['x-filters'][0].control").value("checkbox"))
                 .andExpect(jsonPath("$['x-filters'][0].group").value("primary"))
                 .andExpect(jsonPath("$['x-filters'][12].control").value("toggle"))
-                .andExpect(jsonPath("$['x-sort-options'][0].queryValue").value("name,asc"))
+                .andExpect(jsonPath("$['x-sort-options'][0].queryValue").value("relevance,desc"))
                 .andExpect(jsonPath("$['x-vocabularies']['paint-role'][1]").value("primer"));
     }
 
     @Test
     void exposesOwnedPaintsOnlyThroughTheWorkshopContext() throws Exception {
-        when(workshop.searchWorkshopPaintPage(any(), anyBoolean(), anyBoolean(), any()))
-                .thenReturn(new PageResult<>(List.of(new WorkshopPaintView(paint("paint", "Paint"), 2)), 0, 10, 1));
-
-        mvc.perform(get("/api/v1/workshop/paints").queryParam("page", "0").queryParam("size", "10"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.paints[0].marketPaint.id").value("paint"))
-                .andExpect(jsonPath("$.paints[0].quantity").value(2));
-
-        verify(workshop).searchWorkshopPaintPage(any(), anyBoolean(), anyBoolean(), any());
+        when(workshop.searchWorkshopPaintStocks(any())).thenReturn(new com.minipaintdex.application.result.PaintSearchResult<>(
+                new PageResult<>(List.of(new WorkshopPaintStockView(paint("paint", "Paint"), 2, 2, null)), 0, 10, 1), null, "test"));
+        mvc.perform(post("/api/v1/workshop/paint-stocks/search").queryParam("page", "0").queryParam("size", "10")
+                .contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.results.content[0].paintProduct.id").value("paint"))
+                .andExpect(jsonPath("$.results.content[0].quantity").value(2));
+        verify(workshop).searchWorkshopPaintStocks(any());
     }
 
     @Test
     void exposesPaintChangeSetDryRuns() throws Exception {
-        when(administration.applyMarketPaintChangeSet(any())).thenReturn(
-                new ApplyMarketPaintChangeSetResult(1, 0, 0, 0, 0, 0, 1, 48, false));
+        when(administration.applyPaintProductChangeSet(any())).thenReturn(
+                new ApplyPaintProductChangeSetResult(1, 0, 0, 0, 0, 0, 1, 48, false));
 
         mvc.perform(post("/api/v1/market/paint-changesets")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -193,15 +261,15 @@ class MiniPaintDexControllerTest {
                 .andExpect(jsonPath("$.result.added").value(1))
                 .andExpect(jsonPath("$.result.applied").value(false));
 
-        var command = ArgumentCaptor.forClass(ApplyMarketPaintChangeSetCommand.class);
-        verify(administration).applyMarketPaintChangeSet(command.capture());
+        var command = ArgumentCaptor.forClass(ApplyPaintProductChangeSetCommand.class);
+        verify(administration).applyPaintProductChangeSet(command.capture());
         assertEquals(true, command.getValue().dryRun());
     }
 
     @Test
     void forwardsEditionOnlyChangeSetsWithoutInventoryOperations() throws Exception {
-        when(administration.applyMarketPaintChangeSet(any())).thenReturn(
-                new ApplyMarketPaintChangeSetResult(0, 0, 0, 0, 0, 0, 0, 48, false));
+        when(administration.applyPaintProductChangeSet(any())).thenReturn(
+                new ApplyPaintProductChangeSetResult(0, 0, 0, 0, 0, 0, 0, 48, false));
         mvc.perform(post("/api/v1/market/paint-changesets")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -211,8 +279,8 @@ class MiniPaintDexControllerTest {
                                  "source_urls":["https://example.com/catalog.pdf"]}]}
                                 """))
                 .andExpect(status().isOk());
-        var command = ArgumentCaptor.forClass(ApplyMarketPaintChangeSetCommand.class);
-        verify(administration).applyMarketPaintChangeSet(command.capture());
+        var command = ArgumentCaptor.forClass(ApplyPaintProductChangeSetCommand.class);
+        verify(administration).applyPaintProductChangeSet(command.capture());
         assertEquals(true, command.getValue().dryRun());
         assertEquals(0, command.getValue().operations().size());
         assertEquals(new com.minipaintdex.application.document.StructuredDocument.Text("brand-2019"),
@@ -263,7 +331,7 @@ class MiniPaintDexControllerTest {
                                 {"paintableProductId":"reichbusters-reloaded","paintingProjectId":"paint-reichbusters"}
                                 """))
                 .andExpect(status().isAccepted())
-                .andExpect(jsonPath("$.result.workshopItemsAdded").value(198));
+                .andExpect(jsonPath("$.result.workshopPaintablesAdded").value(198));
 
         var command = ArgumentCaptor.forClass(CreatePaintingProjectCommand.class);
         verify(workshop).createPaintingProject(command.capture());
@@ -279,12 +347,12 @@ class MiniPaintDexControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                  "recipe_id": "recipe-1",
-                                  "catalog_item_id": "game-hero",
-                                  "display_name": "My hero",
+                                  "recipeId": "recipe-1",
+                                  "paintableComponentId": "game-hero",
+                                  "displayName": "My hero",
                                   "version": 1,
                                   "solutions": [
-                                    {"type": "single_paint", "paint_id": "paint-1"}
+                                    {"type": "single_paint", "paintProductId": "paint-1"}
                                   ]
                                 }
                                 """))
@@ -293,16 +361,16 @@ class MiniPaintDexControllerTest {
 
         var command = ArgumentCaptor.forClass(CreateWorkshopRecipeCommand.class);
         verify(workshop).createWorkshopRecipe(command.capture());
-        assertEquals("game-hero", command.getValue().catalogItemId());
+        assertEquals("game-hero", command.getValue().paintableComponentId());
         assertEquals("recipe-create", command.getValue().idempotencyKey());
     }
 
     @Test
     void translatesDomainFailuresToProblemDetails() throws Exception {
-        when(market.getMarketPaint("missing")).thenThrow(
+        when(market.getPaintProduct("missing")).thenThrow(
                 new DomainException("not_found", "Paint not found: missing"));
 
-        mvc.perform(get("/api/v1/market/paints/missing"))
+        mvc.perform(get("/api/v1/market/paint-products/missing"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.type").value("urn:minipaintdex:problem:not_found"))
                 .andExpect(jsonPath("$.code").value("not_found"));
@@ -313,15 +381,15 @@ class MiniPaintDexControllerTest {
                 Instant.parse("2026-08-30T10:00:00Z"), "correlation");
     }
 
-    static MarketPaintView paint(String id, String name) {
-        return new MarketPaintView(
+    static PaintProductView paint(String id, String name) {
+        return new PaintProductView(
                 id, "Brand", "Manufacturer", List.of(), "Range",
-                new MarketPaintView.Profile(
+                new PaintProductView.Profile(
                         List.of("color_paint"), List.of("brush"), "conventional_layering",
                         "opaque", "matte", List.of(), "any", false, "acrylic"),
                 "", name, "#000000", "current", "confirmed", "", List.of(),
                 "", "", "", "", "", "", "", "none", 6, "", "", "", "", 18, "Black", "", List.of(),
-                new MarketPaintView.UsageInstructions("", List.of(), List.of(), "", false),
-                "", "", "", "", "", "", List.of());
+                new PaintProductView.UsageInstructions("", List.of(), List.of(), "", false),
+                "", "", "", "", "", "", List.of(), java.util.List.of());
     }
 }

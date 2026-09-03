@@ -23,7 +23,7 @@ class AboutControllerTest {
     void setUp() {
         var properties = mock(MiniPaintDexProperties.class);
         when(properties.application()).thenReturn(
-                new MiniPaintDexProperties.Application("Mini Paint Dex", "Laurent Sintès"));
+                new MiniPaintDexProperties.Application("MiniPaintDex", "Laurent Sintès"));
 
         var values = new Properties();
         values.setProperty("version", "test-version");
@@ -38,7 +38,7 @@ class AboutControllerTest {
     void exposesConfiguredIdentityAndBuildVersion() throws Exception {
         mvc.perform(get("/api/v1/about"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Mini Paint Dex"))
+                .andExpect(jsonPath("$.name").value("MiniPaintDex"))
                 .andExpect(jsonPath("$.version").value("test-version"))
                 .andExpect(jsonPath("$.author").value("Laurent Sintès"));
     }

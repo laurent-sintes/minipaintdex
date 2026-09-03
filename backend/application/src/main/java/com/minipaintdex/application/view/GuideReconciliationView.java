@@ -11,14 +11,14 @@ public record GuideReconciliationView(
 
     public record SlotReconciliationView(
             MarketPaintingGuideView.SlotView slot,
-            MarketPaintView sourcePaint,
+            PaintProductView sourcePaint,
             List<PaintMatchView> candidates,
             boolean requiresManualReview) {
         public SlotReconciliationView { candidates = List.copyOf(candidates); }
     }
 
     public record PaintMatchView(
-            MarketPaintView paint,
+            PaintProductView paint,
             double score,
             double deltaE2000,
             boolean requiresManualReview,

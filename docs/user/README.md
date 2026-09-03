@@ -1,6 +1,6 @@
 # Guide utilisateur
 
-Mini Paint Dex est une application locale pour préparer et suivre la peinture de figurines et de décors.
+MiniPaintDex est une application locale pour préparer et suivre la peinture de figurines et de décors.
 
 ## Marché
 
@@ -43,3 +43,44 @@ Avant de créer un projet, la prévisualisation compare les peintures demandées
 ## Jeux de données
 
 Un dataset est un paquet portable créé depuis les références locales. Son import est d’abord simulé, puis appliqué explicitement avec le CLI d’administration.
+## Mes pots
+
+Dans **Mes peintures**, clique une référence pour voir chacun de tes pots. La fiche d'un pot permet
+d'ajouter une photo personnelle et des notes, de signaler son ouverture, son état et le niveau restant.
+Sans photo personnelle, le visuel catalogue est explicitement indiqué comme tel.
+
+Le niveau est une estimation manuelle, jamais une mesure déduite de l'image. Un pot sec ou vide reste
+dans ta collection mais ne compte plus comme disponible. « Donné » ou « Jeté » le sort du stock sans
+effacer son histoire. Les catalogues des marques et les éditions ne datent pas tes pots.
+
+Pour un nouveau pot physique, utilise **Ajouter un nouveau pot** depuis la liste des pots du produit
+(accessible aussi depuis la fiche du catalogue). Pour une nouvelle photo du même pot, ouvre sa fiche :
+ne crée pas un deuxième pot. Les imports réutilisent les identifiants déjà enregistrés.
+
+Les datasets `workshop.paint-pots` transportent les inscriptions des pots possédés, pas leurs notes,
+observations ou fichiers photo. Pour une sauvegarde complète, conserver `data/` et `media/`.
+
+
+## Suggestions de peintures
+
+Dans le catalogue et dans « Mes peintures », commence à saisir un nom ou une référence :
+une liste courte propose des peintures avec leur marque, leur gamme et leur référence.
+Les filtres actifs restent appliqués ; dans ton atelier, seules les références possédées
+sont proposées, quel que soit le nombre de pots.
+
+Utilise les flèches puis Entrée pour ouvrir une suggestion, ou clique dessus. Échap ferme
+les suggestions sans effacer ta recherche. Entrée sans sélection conserve la liste de résultats.
+Le tri « Pertinence » privilégie les correspondances proches de ta saisie ; les autres tris restent disponibles.
+La recherche ignore accents et majuscules et tolère certaines petites fautes dans les noms,
+mais ne corrige pas approximativement les références numériques.
+
+## Lire une fiche peinture
+
+La fiche présente les caractéristiques sans texte tronqué. Les sections absentes ne réservent
+pas d’espace. Les détails de qualité du visuel sont accessibles sous « Visuel et provenance ».
+
+Le mode d’emploi peut provenir d’une notice partagée entre plusieurs références, ou de
+compléments propres au produit. Le bouton « Français » affiche une traduction courante quand
+elle existe ; « Original » permet de consulter la source. Les traductions automatiques et les
+conseils génériques sont explicitement signalés comme à relire. Une traduction périmée n’est
+pas présentée comme actuelle. Les conseils, précautions et liens vers les sources restent accessibles.

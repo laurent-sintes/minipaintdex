@@ -1,18 +1,15 @@
 package com.minipaintdex.application;
 
-import com.minipaintdex.application.command.ApplyMarketPaintChangeSetCommand;
+import com.minipaintdex.application.command.ApplyPaintProductChangeSetCommand;
 import com.minipaintdex.application.command.ApplyMarketPaintableProductChangeSetCommand;
-import com.minipaintdex.application.command.ReplaceWorkshopPaintInventoryCommand;
 import com.minipaintdex.application.document.StructuredDocument;
 import com.minipaintdex.application.validation.StructuredDocuments;
-import com.minipaintdex.application.port.MarketPaintCatalogWriter;
+import com.minipaintdex.application.port.PaintProductCatalogWriter;
 import com.minipaintdex.application.port.DataSnapshot;
 import com.minipaintdex.application.port.PaintableProductCatalogWriter;
 import com.minipaintdex.application.port.SnapshotRepository;
-import com.minipaintdex.application.port.WorkshopPaintInventoryWriter;
-import com.minipaintdex.application.result.ApplyMarketPaintChangeSetResult;
+import com.minipaintdex.application.result.ApplyPaintProductChangeSetResult;
 import com.minipaintdex.application.result.ApplyMarketPaintableProductChangeSetResult;
-import com.minipaintdex.application.result.ReplaceWorkshopPaintInventoryResult;
 import com.minipaintdex.application.usecase.AdministrationUseCases;
 import com.minipaintdex.application.validation.MarketCatalogFactory;
 import com.minipaintdex.application.validation.DataSnapshotValidator;
@@ -22,7 +19,7 @@ import com.minipaintdex.domain.market.guide.MarketPaintingGuide;
 import com.minipaintdex.domain.market.product.PaintableProduct;
 import com.minipaintdex.domain.shared.DomainException;
 import com.minipaintdex.domain.workshop.PaintingProjectProjector;
-import com.minipaintdex.domain.workshop.WorkshopItemProjector;
+import com.minipaintdex.domain.workshop.WorkshopPaintableProjector;
 import com.minipaintdex.domain.workshop.WorkshopRecipeCreated;
 import com.minipaintdex.domain.workshop.WorkshopRecipeProjector;
 
@@ -41,35 +38,33 @@ import java.util.Set;
  */
 public final class AdministrationApplicationService implements AdministrationUseCases {
     private final SnapshotRepository snapshots;
-    private final MarketPaintCatalogWriter marketPaints;
-    private final WorkshopPaintInventoryWriter workshopPaints;
+    private final PaintProductCatalogWriter paintProducts;
     private final PaintableProductCatalogWriter paintableProducts;
 
     public AdministrationApplicationService(
             SnapshotRepository snapshots,
-            MarketPaintCatalogWriter marketPaints,
-            WorkshopPaintInventoryWriter workshopPaints,
+            PaintProductCatalogWriter paintProducts,
             PaintableProductCatalogWriter paintableProducts) {
         this.snapshots = Objects.requireNonNull(snapshots);
-        this.marketPaints = Objects.requireNonNull(marketPaints);
-        this.workshopPaints = Objects.requireNonNull(workshopPaints);
+        this.paintProducts = Objects.requireNonNull(paintProducts);
         this.paintableProducts = Objects.requireNonNull(paintableProducts);
     }
 
     @Override
-    public synchronized ApplyMarketPaintChangeSetResult applyMarketPaintChangeSet(
-            ApplyMarketPaintChangeSetCommand command) {
+    public synchronized ApplyPaintProductChangeSetResult applyPaintProductChangeSet(
+            ApplyPaintProductChangeSetCommand command) {
         Objects.requireNonNull(command, "command is required");
         requireEnvelope(command.schemaVersion(), command.kind(), "market_paints");
-        if (command.operations().isEmpty() && command.catalogEditions().isEmpty()) throw invalid("At least one paint or catalog edition is required.");
+        if (command.operations().isEmpty() && command.catalogEditions().isEmpty() && command.paintUsageGuides().isEmpty()) throw invalid("At least one paint or catalog edition is required.");
 
         var snapshot = snapshots.load();
         var currentCatalog = MarketCatalogFactory.create(
-                snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions());
+                snapshot.paintProducts(), snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions(), snapshot.paintUsageGuides());
         var byId = new LinkedHashMap<String, Map<String, Object>>();
-        StructuredDocuments.toMaps(snapshot.marketPaints())
+        StructuredDocuments.toMaps(snapshot.paintProducts())
                 .forEach(paint -> byId.put(StructuredDocuments.text(paint.get("id")), paint));
-        var quantities = inventory(snapshot.paintInventory());
+        var quantities = snapshot.paintInventory().stocks().stream().collect(java.util.stream.Collectors.toMap(
+                com.minipaintdex.domain.workshop.WorkshopPaintStock::paintProductId, com.minipaintdex.domain.workshop.WorkshopPaintStock::quantity));
         var editions = new LinkedHashMap<String, StructuredDocument>();
         snapshot.paintCatalogEditions().forEach(document -> editions.put(MarketCatalogFactory.catalogEdition(document).id(), document));
         var updatedEditionIds = new HashSet<String>();
@@ -83,7 +78,20 @@ public final class AdministrationApplicationService implements AdministrationUse
             editions.put(edition.id(), document);
         }
         var editionDocuments = List.copyOf(editions.values());
-        var referencedPaintIds = referencedPaintIds(currentCatalog.paintingGuides(), snapshot.events());
+        var usageGuides = new LinkedHashMap<String, StructuredDocument>();
+        snapshot.paintUsageGuides().forEach(document -> usageGuides.put(MarketCatalogFactory.paintUsageGuide(document).id(), document));
+        var operatedGuideIds = new HashSet<String>();
+        for (var document : command.paintUsageGuides()) {
+            var guide = MarketCatalogFactory.paintUsageGuide(document);
+            if (!operatedGuideIds.add(guide.id())) throw invalid("Duplicate usage guide: " + guide.id());
+            var previous = usageGuides.get(guide.id());
+            if (previous != null) MarketCatalogFactory.paintUsageGuide(previous).validateReplacement(guide);
+            else if (guide.revision() != 1) throw invalid("A new usage guide starts at revision 1");
+            usageGuides.put(guide.id(), document);
+        }
+        var usageGuideDocuments = List.copyOf(usageGuides.values());
+        var referencedPaintIds = new HashSet<>(referencedPaintIds(currentCatalog.paintingGuides(), snapshot.events()));
+        com.minipaintdex.domain.workshop.PaintPotProjector.project(snapshot.events()).forEach(pot -> referencedPaintIds.add(pot.paintProductId()));
         var operatedIds = new HashSet<String>();
         var identityMigrations = new LinkedHashMap<String, String>();
         var added = 0;
@@ -116,13 +124,8 @@ public final class AdministrationApplicationService implements AdministrationUse
                     if (byId.containsKey(id)) throw conflict("Rekey target already exists: " + id);
                     if (byId.remove(previousId) == null) throw notFound("Paint not found: " + previousId);
                     byId.put(id, new LinkedHashMap<>(record));
-                    var ownedQuantity = quantities.remove(previousId);
-                    if (ownedQuantity != null) {
-                        if (quantities.putIfAbsent(id, ownedQuantity) != null) {
-                            throw conflict("Workshop inventory already contains rekey target: " + id);
-                        }
-                        inventoryChanged++;
-                    }
+                    if (referencedPaintIds(List.of(), snapshot.events()).contains(previousId)
+                            || com.minipaintdex.domain.workshop.PaintPotProjector.project(snapshot.events()).stream().anyMatch(pot -> pot.paintProductId().equals(previousId))) throw conflict("A product referenced by pot or recipe history cannot be rekeyed: " + previousId);
                     rekeyed++;
                 }
                 case "retire" -> {
@@ -152,24 +155,13 @@ public final class AdministrationApplicationService implements AdministrationUse
                 }
                 default -> throw invalid("Unsupported paint operation: " + operation.action());
             }
-            if (operation.workshopQuantityDelta() < 0) {
-                throw invalid("workshopQuantityDelta cannot be negative.");
-            }
-            if ("rekey".equals(operation.action()) && operation.workshopQuantityDelta() != 0) {
-                throw invalid("A paint rekey cannot change workshop quantity.");
-            }
-            if (operation.workshopQuantityDelta() > 0 && !"delete".equals(operation.action())) {
-                quantities.compute(id, (ignored, quantity) -> Math.addExact(
-                        quantity == null ? 0 : quantity, operation.workshopQuantityDelta()));
-                inventoryChanged++;
-            }
+            if (operation.workshopQuantityDelta() != 0) throw invalid("Catalog changes cannot change pot quantities; use paint-pots import.");
         }
 
         var result = byId.values().stream()
                 .sorted(Comparator.comparing(paint -> StructuredDocuments.text(paint.get("id"))))
                 .map(paint -> java.util.Collections.unmodifiableMap(new LinkedHashMap<>(paint))).toList();
         var resultDocuments = StructuredDocuments.fromMaps(result);
-        var normalizedInventory = inventoryDocuments(quantities);
         var rewrittenGuides = rewritePaintReferences(snapshot.marketPaintingGuides(), identityMigrations);
         var rewrittenShopping = rewritePaintReferences(snapshot.shopping(), identityMigrations);
         if (!identityMigrations.isEmpty()) {
@@ -180,50 +172,22 @@ public final class AdministrationApplicationService implements AdministrationUse
             }
         }
         DataSnapshotValidator.validate(new DataSnapshot(
-                snapshot.site(), resultDocuments, normalizedInventory, snapshot.paintableProducts(),
-                rewrittenGuides, rewrittenShopping, snapshot.events(), editionDocuments));
-        if (!command.catalogEditions().isEmpty() && (!identityMigrations.isEmpty() || inventoryChanged > 0)) {
+                snapshot.site(), resultDocuments, snapshot.paintableProducts(),
+                rewrittenGuides, rewrittenShopping, snapshot.events(), editionDocuments, usageGuideDocuments));
+        if ((!command.catalogEditions().isEmpty() || !command.paintUsageGuides().isEmpty()) && (!identityMigrations.isEmpty() || inventoryChanged > 0)) {
             throw invalid("Catalog editions are market knowledge: apply their updates separately from inventory changes or rekeys.");
         }
         if (!command.dryRun()) {
             if (!identityMigrations.isEmpty()) {
-                marketPaints.replaceMarketPaintIdentities(
-                        resultDocuments, normalizedInventory, rewrittenGuides, rewrittenShopping);
-            } else if (inventoryChanged > 0) {
-                marketPaints.replaceMarketPaintsAndWorkshopInventory(
-                        resultDocuments, normalizedInventory, workshopPaints);
+                paintProducts.replacePaintProductIdentities(
+                        resultDocuments, rewrittenGuides, rewrittenShopping);
             } else {
-                marketPaints.replaceMarketPaintCatalog(resultDocuments, editionDocuments);
+                paintProducts.replacePaintProductCatalog(resultDocuments, editionDocuments, usageGuideDocuments);
             }
         }
-        return new ApplyMarketPaintChangeSetResult(
+        return new ApplyPaintProductChangeSetResult(
                 added, updated, rekeyed, retired, deleted, unchanged,
                 inventoryChanged, result.size(), !command.dryRun());
-    }
-
-    @Override
-    public synchronized ReplaceWorkshopPaintInventoryResult replaceWorkshopPaintInventory(
-            ReplaceWorkshopPaintInventoryCommand command) {
-        Objects.requireNonNull(command, "command is required");
-        requireEnvelope(command.schemaVersion(), command.kind(), "workshop_paints");
-        var snapshot = snapshots.load();
-        var marketIds = MarketCatalogFactory.create(
-                snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions())
-                .paints().stream().map(paint -> paint.id()).collect(java.util.stream.Collectors.toSet());
-        var inventory = new LinkedHashMap<String, Integer>();
-        for (var entry : command.paints()) {
-            if (entry == null) throw invalid("Paint inventory cannot contain null entries.");
-            var paintId = required(entry.paintId(), "paints.paintId");
-            if (!marketIds.contains(paintId)) throw notFound("Market paint not found: " + paintId);
-            if (entry.quantity() < 0) throw invalid("Paint quantity cannot be negative: " + paintId);
-            if (inventory.putIfAbsent(paintId, entry.quantity()) != null) {
-                throw invalid("Duplicate workshop paint: " + paintId);
-            }
-        }
-        var normalized = inventoryDocuments(inventory);
-        if (!command.dryRun()) workshopPaints.replaceWorkshopPaints(normalized);
-        return new ReplaceWorkshopPaintInventoryResult(
-                normalized.size(), inventory.values().stream().mapToInt(Integer::intValue).sum(), !command.dryRun());
     }
 
     @Override
@@ -238,52 +202,32 @@ public final class AdministrationApplicationService implements AdministrationUse
         products.removeIf(candidate -> product.id().equals(candidate.id()));
         products.add(product);
 
-        var replacedCatalogItems = previous == null ? Set.<String>of() : previous.catalogItems().stream()
-                .map(PaintableProduct.CatalogItem::id).collect(java.util.stream.Collectors.toSet());
+        var replacedPaintableComponents = previous == null ? Set.<String>of() : previous.paintableComponents().stream()
+                .map(PaintableProduct.PaintableComponent::id).collect(java.util.stream.Collectors.toSet());
         var guides = new java.util.ArrayList<>(snapshot.marketPaintingGuides().stream()
-                .filter(document -> !replacedCatalogItems.contains(StructuredDocuments.text(
+                .filter(document -> !replacedPaintableComponents.contains(StructuredDocuments.text(
                         StructuredDocuments.toMap(document).get("catalog_item_id"))))
                 .toList());
         guides.addAll(command.paintingGuides());
-        MarketCatalogFactory.create(snapshot.marketPaints(), products, guides, snapshot.paintCatalogEditions());
+        MarketCatalogFactory.create(snapshot.paintProducts(), products, guides, snapshot.paintCatalogEditions(), snapshot.paintUsageGuides());
 
         if (!command.dryRun()) {
             paintableProducts.replaceProduct(product.id(), command.product(), command.paintingGuides());
         }
         return new ApplyMarketPaintableProductChangeSetResult(
-                product.id(), product.catalogItems().size(), command.paintingGuides().size(), !command.dryRun());
+                product.id(), product.paintableComponents().size(), command.paintingGuides().size(), !command.dryRun());
     }
 
     @Override
     public synchronized RebuildProjectionResult rebuildProjections() {
         var snapshot = snapshots.load();
         var catalog = MarketCatalogFactory.create(
-                snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions());
+                snapshot.paintProducts(), snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions(), snapshot.paintUsageGuides());
         return new RebuildProjectionResult(
                 "rebuilt", "in_memory", snapshot.events().size(), Instant.now(), catalog.paints().size(),
                 catalog.paintableProducts().size(), PaintingProjectProjector.project(snapshot.events()).size(),
-                WorkshopItemProjector.project(snapshot.events()).size(), catalog.paintingGuides().size(),
+                WorkshopPaintableProjector.project(snapshot.events()).size(), catalog.paintingGuides().size(),
                 WorkshopRecipeProjector.project(snapshot.events()).size());
-    }
-
-    private static LinkedHashMap<String, Integer> inventory(List<StructuredDocument> documents) {
-        var quantities = new LinkedHashMap<String, Integer>();
-        for (var entry : StructuredDocuments.toMaps(documents)) {
-            var paintId = required(StructuredDocuments.text(entry.get("paint_id")), "paint_inventory.paint_id");
-            var quantity = StructuredDocuments.integer(entry.get("quantity"), "paint_inventory.quantity");
-            if (quantity < 0) throw invalid("Paint quantity cannot be negative: " + paintId);
-            if (quantities.putIfAbsent(paintId, quantity) != null) {
-                throw invalid("Duplicate workshop paint: " + paintId);
-            }
-        }
-        return quantities;
-    }
-
-    private static List<StructuredDocument> inventoryDocuments(Map<String, Integer> quantities) {
-        return StructuredDocuments.fromMaps(quantities.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .map(entry -> Map.<String, Object>of("paint_id", entry.getKey(), "quantity", entry.getValue()))
-                .toList());
     }
 
     private static List<StructuredDocument> rewritePaintReferences(
@@ -325,7 +269,7 @@ public final class AdministrationApplicationService implements AdministrationUse
             List<EventEnvelope> events) {
         var result = new java.util.LinkedHashSet<String>();
         guides.stream().flatMap(guide -> guide.slots().stream())
-                .map(slot -> slot.marketPaintId()).filter(Objects::nonNull).forEach(result::add);
+                .map(slot -> slot.paintProductId()).filter(Objects::nonNull).forEach(result::add);
         events.stream().map(EventEnvelope::event).filter(WorkshopRecipeCreated.class::isInstance)
                 .map(WorkshopRecipeCreated.class::cast).flatMap(event -> event.solutions().stream())
                 .flatMap(solution -> solution.referencedPaintIds().stream()).forEach(result::add);

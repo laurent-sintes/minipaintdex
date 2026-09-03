@@ -24,9 +24,9 @@ class AggregateInvariantTest {
 
     @Test
     void rehydrationRejectsAggregateIdentityChangesAndIllegalProjectTransitions() {
-        assertThrows(DomainException.class, () -> WorkshopItem.rehydrate(List.of(
-                new WorkshopItemAdded("item-one", "catalog-item", "paint-project", "One", 1, AT),
-                new WorkshopItemCommentAdded("item-two", "paint-project", "wrong aggregate", AT.plusSeconds(1)))));
+        assertThrows(DomainException.class, () -> WorkshopPaintable.rehydrate(List.of(
+                new WorkshopPaintableAdded("item-one", "catalog-item", "paint-project", "One", 1, AT),
+                new WorkshopPaintableCommentAdded("item-two", "paint-project", "wrong aggregate", AT.plusSeconds(1)))));
 
         assertThrows(DomainException.class, () -> PaintingProject.rehydrate(List.of(
                 new PaintingProjectCreated("paint-project", Workshop.DEFAULT_ID, "paintable-product", "Project", 1, AT),
@@ -57,7 +57,7 @@ class AggregateInvariantTest {
 
     @Test
     void onlyExplicitlyOptionalWorkflowStagesCanBeSkipped() {
-        var item = WorkshopItem.create("item-one", "catalog-item", "paint-project", "One", 1, AT);
+        var item = WorkshopPaintable.create("item-one", "catalog-item", "paint-project", "One", 1, AT);
         assertThrows(DomainException.class, () -> item.transition(
                 WorkflowStage.PREPARATION, StageAction.SKIP, "Already clean", AT.plusSeconds(1)));
 
@@ -70,7 +70,7 @@ class AggregateInvariantTest {
 
     @Test
     void progressPhotoMetadataIsStructurallyValidated() {
-        assertThrows(DomainException.class, () -> new WorkshopItemPhotoAdded(
+        assertThrows(DomainException.class, () -> new WorkshopPaintablePhotoAdded(
                 "item-one", "paint-project", "media-one", "/media/one", WorkflowStage.PAINTING,
                 "Progress", "photo.png", "image/png", 12, "not-a-sha", AT));
     }
@@ -78,10 +78,10 @@ class AggregateInvariantTest {
     @Test
     void workshopReferenceFilesUseTypedOwnerModels() {
         assertThrows(DomainException.class, () -> new WorkshopPaintInventory(List.of(
-                new WorkshopPaintInventory.Stock("paint-one", 1),
-                new WorkshopPaintInventory.Stock("paint-one", 2))));
+                new com.minipaintdex.domain.workshop.WorkshopPaintStock("paint-one", 1, 1),
+                new com.minipaintdex.domain.workshop.WorkshopPaintStock("paint-one", 2, 2))));
         assertThrows(DomainException.class, () -> new WorkshopShoppingPlan(List.of(
-                new WorkshopShoppingPlan.Intent(
+                new WorkshopShoppingPlan.PaintPurchaseIntent(
                         "buy-one", null, null, null, null, null, null,
                         WorkshopShoppingPlan.Priority.LOW))));
     }

@@ -1,10 +1,10 @@
 package com.minipaintdex.server.api;
 
 import com.minipaintdex.application.query.PageQuery;
-import com.minipaintdex.application.query.SearchMarketPaintsQuery;
+import com.minipaintdex.application.query.SearchPaintProductsQuery;
 import com.minipaintdex.application.query.SortOrder;
 import com.minipaintdex.application.usecase.MarketCatalogUseCases;
-import com.minipaintdex.application.view.MarketPaintView;
+import com.minipaintdex.application.view.PaintProductView;
 import com.minipaintdex.application.view.PaintFacetsView;
 import com.minipaintdex.application.view.PaintCatalogQualityView;
 import org.springframework.data.domain.Pageable;
@@ -35,45 +35,24 @@ final class MarketCatalogController {
         this.market = market;
     }
 
-    @GetMapping("/market/paints")
-    EntityModel<PaintPageResponse> paints(
-            @RequestParam(required = false) String query,
-            @RequestParam(required = false) List<String> brand,
-            @io.swagger.v3.oas.annotations.Parameter(description = "Repeatable brand::range selection; OR with brands. Escape literal colons and backslashes with a backslash.") @RequestParam(required = false) List<String> range,
-            @RequestParam(required = false) List<String> role,
-            @RequestParam(required = false) List<String> applicationMethod,
-            @RequestParam(required = false) List<String> applicationSystem,
-            @RequestParam(required = false) List<String> color,
-            @RequestParam(required = false) List<String> finish,
-            @RequestParam(required = false) List<String> medium,
-            @RequestParam(required = false) List<String> coverage,
-            @RequestParam(required = false) List<String> effect,
-            @RequestParam(required = false) List<String> undercoat,
-            @RequestParam(required = false) List<String> lifecycle,
-            @RequestParam(defaultValue = "false") boolean manufacturerSheetOnly,
-            @RequestParam(defaultValue = "false") boolean realResultOnly,
-            @ParameterObject Pageable pageable) {
-        var filters = SearchMarketPaintsQuery.fromSelections(
-                query, brand, range, role, applicationMethod, applicationSystem,
-                color, finish, medium, coverage, effect, undercoat, lifecycle);
-        var pageQuery = new PageQuery(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().stream()
-                .map(order -> new SortOrder(order.getProperty(), order.isAscending()
-                        ? SortOrder.Direction.ASCENDING : SortOrder.Direction.DESCENDING))
-                .toList());
-        var result = market.searchMarketPaintPage(
-                filters, manufacturerSheetOnly, realResultOnly, pageQuery);
-        var response = new PaintPageResponse(
-                result.content(), result.totalElements(), result.page(), result.size(), result.totalPages());
-        var model = EntityModel.of(response, pageLink(result.page(), result.size()).withSelfRel());
-        model.add(pageLink(0, result.size()).withRel("first"));
-        if (result.hasPrevious()) model.add(pageLink(result.page() - 1, result.size()).withRel("prev"));
-        if (result.hasNext()) model.add(pageLink(result.page() + 1, result.size()).withRel("next"));
-        model.add(pageLink(Math.max(0, result.totalPages() - 1), result.size()).withRel("last"));
-        model.add(Link.of("/api/v1/market/paints/stream").withRel("stream"));
-        return model;
+    @org.springframework.web.bind.annotation.PostMapping(value = "/market/paint-products/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE, "application/hal+json"})
+    @io.swagger.v3.oas.annotations.Operation(operationId = "searchPaintProducts", summary = "Search results and/or suggestions",
+            description = "Read-only MiniPaintDex contract, not Elasticsearch DSL. Body selects results, suggestions, or both. Pagination uses page/size/sort; replay the same body when following POST page links. Suggestions stay relevance-ordered and empty for blank query. Unrequested parts are null.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Search response", useReturnTypeSchema = true)
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Malformed or unknown JSON fields",
+            content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/problem+json", schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = org.springframework.http.ProblemDetail.class)))
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "422", description = "Invalid selection, text, filters, sorting or limit",
+            content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/problem+json", schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = org.springframework.http.ProblemDetail.class)))
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "503", description = "Search unavailable",
+            content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/problem+json", schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = org.springframework.http.ProblemDetail.class)))
+    EntityModel<PaintSearchResponse<com.minipaintdex.application.view.PaintProductView>> paintSearch(
+            @jakarta.validation.Valid @org.springframework.web.bind.annotation.RequestBody PaintSearchRequest request,
+            @ParameterObject Pageable pageable,
+            @org.springframework.web.bind.annotation.RequestHeader(value = "X-Correlation-Id", required = false) String correlationId) {
+        return PaintSearchResponse.from(market.searchPaintProducts(request.toQuery(pageable, correlationId)), false);
     }
 
-    @GetMapping("/market/paints/facets")
+    @GetMapping("/market/paint-products/facets")
     PaintFacetsView paintFacets(
             @RequestParam(required = false) String query,
             @RequestParam(required = false) List<String> brand,
@@ -90,29 +69,30 @@ final class MarketCatalogController {
             @RequestParam(required = false) List<String> lifecycle,
             @RequestParam(defaultValue = "false") boolean manufacturerSheetOnly,
             @RequestParam(defaultValue = "false") boolean realResultOnly) {
-        return market.marketPaintFacets(SearchMarketPaintsQuery.fromSelections(
+        return market.paintProductFacets(SearchPaintProductsQuery.fromSelections(
                 query, brand, range, role, applicationMethod, applicationSystem,
                 color, finish, medium, coverage, effect, undercoat, lifecycle),
                 manufacturerSheetOnly, realResultOnly);
     }
 
-    @GetMapping(value = "/market/paint-model", produces = "application/schema+json")
+    @GetMapping(value = "/market/paint-product-model", produces = "application/schema+json")
     ResponseEntity<PaintModelSchemaResponse> paintModel() {
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/schema+json"))
-                .body(schema(market.marketPaintModel()));
+                .body(schema(market.paintProductModel()));
     }
 
-    @GetMapping("/market/paints/quality")
+    @GetMapping("/market/paint-products/quality")
     PaintCatalogQualityView paintQuality() {
-        return market.marketPaintQuality();
+        return market.paintProductQuality();
     }
 
-    @GetMapping("/market/paints/{paintId}")
-    EntityModel<MarketPaintView> paint(@PathVariable String paintId) {
-        return EntityModel.of(market.getMarketPaint(paintId),
-                Link.of("/api/v1/market/paints/" + paintId).withSelfRel(),
-                Link.of("/api/v1/market/paints").withRel("collection"));
+    @GetMapping("/market/paint-products/{paintProductId}")
+    EntityModel<PaintProductView> paint(@PathVariable String paintProductId) {
+        return EntityModel.of(market.getPaintProduct(paintProductId),
+                Link.of("/api/v1/market/paint-products/" + paintProductId).withSelfRel(),
+                PaintSearchResponse.postLink("/api/v1/market/paint-products/search").withRel("search"),
+                Link.of("/api/v1/market/paint-usage-guides?paintProductId=" + paintProductId).withRel("usage-guides"));
     }
 
     @GetMapping("/market/paintable-products")
@@ -120,13 +100,13 @@ final class MarketCatalogController {
         return new PaintableProductsResponse(market.listMarketPaintableProducts());
     }
 
-    @GetMapping("/market/paintable-products/{productId}")
-    EntityModel<PaintableProductResponse> paintableProduct(@PathVariable String productId) {
-        var product = market.getMarketPaintableProduct(productId);
+    @GetMapping("/market/paintable-products/{paintableProductId}")
+    EntityModel<PaintableProductResponse> paintableProduct(@PathVariable String paintableProductId) {
+        var product = market.getMarketPaintableProduct(paintableProductId);
         var model = EntityModel.of(new PaintableProductResponse(product),
-                Link.of("/api/v1/market/paintable-products/" + productId).withSelfRel(),
+                Link.of("/api/v1/market/paintable-products/" + paintableProductId).withSelfRel(),
                 Link.of("/api/v1/market/paintable-products").withRel("collection"),
-                Link.of("/api/v1/workshop/painting-project-import-previews/" + productId)
+                Link.of("/api/v1/workshop/painting-project-import-previews/" + paintableProductId)
                         .withRel("workshop-import-preview"),
                 Link.of("/api/v1/market/painting-guides").withRel("painting-guides"));
         model.add(Link.of("/api/v1/workshop/painting-projects").withRel("create-painting-project"));
@@ -134,8 +114,8 @@ final class MarketCatalogController {
     }
 
     @GetMapping("/market/painting-guides")
-    PaintingGuidesResponse paintingGuides(@RequestParam(required = false) String catalogItemId) {
-        return new PaintingGuidesResponse(market.listMarketPaintingGuides(catalogItemId));
+    PaintingGuidesResponse paintingGuides(@RequestParam(required = false) String paintableComponentId) {
+        return new PaintingGuidesResponse(market.listMarketPaintingGuides(paintableComponentId));
     }
 
     @GetMapping("/exports/{format}")
@@ -145,14 +125,6 @@ final class MarketCatalogController {
                 .header(HttpHeaders.CONTENT_TYPE, mediaType + "; charset=utf-8")
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"paints." + format + "\"")
                 .body(market.exportPaints(format));
-    }
-
-    private static Link pageLink(int page, int size) {
-        var uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .replaceQueryParam("page", page)
-                .replaceQueryParam("size", size)
-                .build(true).toUriString();
-        return Link.of(uri);
     }
 
     private static PaintModelSchemaResponse schema(com.minipaintdex.application.view.PaintModelView model) {
@@ -210,6 +182,7 @@ final class MarketCatalogController {
         properties.put("volume_ml", Map.of("type", "integer", "minimum", 0));
         properties.put("recommended_uses", stringArrayProperty());
         properties.put("usage_instructions", usageInstructionsProperty());
+        properties.put("usage_guide_ids", stringArrayProperty());
         properties.put("verified_at", Map.of("type", "string", "format", "date"));
         properties.put("result_image", imageProperty(vocabularies, false));
         properties.put("confidence", Map.of("type", "number", "minimum", 0, "maximum", 1));
@@ -229,7 +202,7 @@ final class MarketCatalogController {
         return new PaintModelSchemaResponse(
                 model.jsonSchemaDraft(),
                 "urn:minipaintdex:schema:market-paint:" + model.modelVersion(),
-                "Mini Paint Dex canonical market paint",
+                "MiniPaintDex canonical market paint",
                 "object",
                 false,
                 List.of("schema_version", "id", "brand", "manufacturer", "range", "name", "profile",

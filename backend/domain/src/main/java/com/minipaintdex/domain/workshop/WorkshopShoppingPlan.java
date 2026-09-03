@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 
 /** Explicit owner purchase intentions; calculated missing paints remain projections. */
-public record WorkshopShoppingPlan(List<Intent> intents) {
+public record WorkshopShoppingPlan(List<PaintPurchaseIntent> intents) {
     public WorkshopShoppingPlan {
         intents = intents == null ? List.of() : List.copyOf(intents);
         var ids = new HashSet<String>();
@@ -16,25 +16,25 @@ public record WorkshopShoppingPlan(List<Intent> intents) {
         }
     }
 
-    public record Intent(
+    public record PaintPurchaseIntent(
             String id,
-            String marketPaintId,
+            String paintProductId,
             String brand,
             String name,
             String reference,
             String colorHex,
             String reason,
             Priority priority) {
-        public Intent {
+        public PaintPurchaseIntent {
             id = DomainFields.id(id, "shoppingIntentId");
-            marketPaintId = optionalId(marketPaintId);
+            paintProductId = optionalId(paintProductId);
             brand = optional(brand);
             name = optional(name);
             reference = optional(reference);
             colorHex = optional(colorHex);
             reason = optional(reason);
             priority = priority == null ? Priority.LOW : priority;
-            if (marketPaintId == null && (brand == null || name == null)) {
+            if (paintProductId == null && (brand == null || name == null)) {
                 throw invalid("A shopping intent without a Market paint requires brand and name.");
             }
             if (colorHex != null && !colorHex.matches("#[0-9A-Fa-f]{6}")) {
@@ -56,7 +56,7 @@ public record WorkshopShoppingPlan(List<Intent> intents) {
     }
 
     private static String optionalId(String value) {
-        return value == null || value.isBlank() ? null : DomainFields.id(value, "marketPaintId");
+        return value == null || value.isBlank() ? null : DomainFields.id(value, "paintProductId");
     }
 
     private static String optional(String value) {

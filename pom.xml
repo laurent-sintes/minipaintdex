@@ -21,6 +21,7 @@
     <module>backend/domain</module>
     <module>backend/application</module>
     <module>backend/adapter-file</module>
+    <module>backend/adapter-lucene</module>
     <module>backend/adapter-spring-events</module>
     <module>backend/bootstrap</module>
     <module>backend/server</module>
@@ -33,6 +34,7 @@
     <picocli.version>4.7.7</picocli.version>
     <springdoc.version>3.1.0</springdoc.version>
     <archunit.version>1.4.1</archunit.version>
+    <lucene.version>10.5.1</lucene.version>
     <jacoco.version>0.8.14</jacoco.version>
     <frontend-maven-plugin.version>2.0.1</frontend-maven-plugin.version>
     <node.version>v24.11.1</node.version>

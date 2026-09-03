@@ -11,5 +11,5 @@ public record WorkshopRecipeValidated(
     }
     @Override public String eventType() { return "workshop_recipe.validated"; }
     @Override public String aggregateId() { return recipeId; }
-    @Override public String projectId() { return paintingProjectId; }
+    @Override public String scopePaintingProjectId() { return paintingProjectId; }
 }

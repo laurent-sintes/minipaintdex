@@ -22,7 +22,7 @@ class WorkshopRecipeProjectorTest {
 
         var state = WorkshopRecipeProjector.project(recipe.releaseEvents()).getFirst();
         assertEquals(WorkshopRecipeStatus.ACTIVE, state.status());
-        assertEquals("game-hero", state.catalogItemId());
+        assertEquals("game-hero", state.paintableComponentId());
         assertEquals(1, state.version());
     }
 

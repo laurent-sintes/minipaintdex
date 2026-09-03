@@ -33,7 +33,7 @@ export function SiteNavigation({ config, route, navigate }: {
 
   const labels = config.navigation;
   const market: Destination[] = [
-    { view: 'marketPaints', label: labels.marketPaints, icon: <Droplets size={17} /> },
+    { view: 'paintProducts', label: labels.paintProducts, icon: <Droplets size={17} /> },
     { view: 'marketProducts', label: labels.marketPaintableProducts, icon: <PackageOpen size={17} /> },
   ];
   const workshop: Destination[] = [

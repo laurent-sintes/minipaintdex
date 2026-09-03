@@ -18,13 +18,13 @@ SCHEMA_VERSION = 1
 CATEGORY_PATHS = {
     "market.paint-brand": Path("market/paint-brands"),
     "market.paintable-product": Path("market/paintable-products"),
-    "workshop.paints": Path("workshop/paints"),
+    "workshop.paint-pots": Path("workshop/paint-pots"),
     "workshop.painting-project": Path("workshop/painting-projects"),
 }
 CATEGORY_KINDS = {
     "market.paint-brand": "market_paints",
     "market.paintable-product": "market_product",
-    "workshop.paints": "workshop_paints",
+    "workshop.paint-pots": "workshop_paint_pots",
     "workshop.painting-project": "painting_project",
 }
 
@@ -83,6 +83,9 @@ def _market_brand(root: Path, brand: str | None) -> tuple[dict[str, Any], list[s
     return {
         "schema_version": 1,
         "kind": "market_paints",
+        "paint_usage_guides": [guide for path in _catalog_paths(root)
+                              for guide in load_yaml(path).get("paint_usage_guides", [])
+                              if guide.get("brand") == brand],
         "catalog_editions": [edition for path in _catalog_paths(root)
                              for edition in load_yaml(path).get("catalog_editions", [])
                              if edition.get("brand") == brand],
@@ -113,29 +116,11 @@ def _market_product(root: Path, product_id: str | None) -> tuple[dict[str, Any],
     }, sources
 
 
-def _workshop_paints(root: Path) -> tuple[dict[str, Any], list[str]]:
-    inventory_path = root / "data/workshop/paints.yaml"
-    inventory = load_yaml(inventory_path).get("paints", [])
-    if not isinstance(inventory, list):
-        raise ValueError("Workshop paint inventory must contain a paints list")
-    market_ids = {str(paint.get("id")) for paint in _catalog(root)}
-    normalized: list[dict[str, Any]] = []
-    for entry in inventory:
-        if not isinstance(entry, dict):
-            continue
-        paint_id = str(entry.get("paint_id", ""))
-        quantity = int(entry.get("quantity", 0))
-        if paint_id not in market_ids:
-            raise ValueError(f"Workshop inventory references unknown market paint: {paint_id}")
-        if quantity < 0:
-            raise ValueError(f"Workshop paint quantity cannot be negative: {paint_id}")
-        normalized.append({"paint_id": paint_id, "quantity": quantity})
-    normalized.sort(key=lambda entry: entry["paint_id"])
-    return {
-        "schema_version": 1,
-        "kind": "workshop_paints",
-        "paints": normalized,
-    }, ["data/workshop/paints.yaml", *_catalog_sources(root)]
+def _workshop_pots(root: Path) -> tuple[dict[str, Any], list[str]]:
+    from .paint_pots import ledger_snapshot, build_import
+    snapshot = ledger_snapshot(root)
+    owned = [pot for pot in snapshot["pots"] if pot["possession"] == "owned"]
+    return build_import({"pots": owned}), ["data/ledger/events", *_catalog_sources(root)]
 
 
 def _workshop_project(
@@ -176,8 +161,8 @@ def build_payload(
         return _market_brand(root, brand)
     if category == "market.paintable-product":
         return _market_product(root, product_id)
-    if category == "workshop.paints":
-        return _workshop_paints(root)
+    if category == "workshop.paint-pots":
+        return _workshop_pots(root)
     if category == "workshop.painting-project":
         return _workshop_project(root, product_id, project_id, project_name)
     raise ValueError(f"Unsupported dataset category: {category}")
@@ -222,7 +207,7 @@ def create_dataset(
             "id": dataset_id,
             "name": name.strip(),
             "category": category,
-            "mode": "replace" if category == "workshop.paints" else "merge",
+            "mode": "merge",
             "source_files": sorted(sources),
             "payload": {
                 "path": "payload/change-set.json",
@@ -284,7 +269,7 @@ def validate_dataset(path: Path) -> list[str]:
         expected_kind = CATEGORY_KINDS.get(category)
         if expected_kind and document.get("kind") != expected_kind:
             errors.append(f"payload kind must be {expected_kind}")
-        if document.get("schema_version") != SCHEMA_VERSION:
+        if document.get("schemaVersion" if category == "workshop.paint-pots" else "schema_version") != SCHEMA_VERSION:
             errors.append(f"payload schema_version must be {SCHEMA_VERSION}")
     except (OSError, json.JSONDecodeError) as error:
         errors.append(str(error))

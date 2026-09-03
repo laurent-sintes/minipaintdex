@@ -13,7 +13,7 @@ public interface PersistenceLifecycle {
     /** Returns the latest lock-free operational status and synchronization metadata. */
     PersistenceStatus status();
 
-    record InitializationReport(PersistenceStatus status, int marketPaintCount, int paintableProductCount, int eventCount) {}
+    record InitializationReport(PersistenceStatus status, int paintProductCount, int paintableProductCount, int eventCount) {}
 
     record RefreshResult(boolean changed, PersistenceStatus status) {}
 

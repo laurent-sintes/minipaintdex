@@ -14,7 +14,7 @@ class PaintableProductTest {
         var error = assertThrows(DomainException.class, () -> new PaintableProduct(
                 1, "starter", "Starter", "Line", "boxed_set", "core box", 2,
                 new PaintableProduct.Edition("", ""), List.of(),
-                List.of(new PaintableProduct.CatalogItem(
+                List.of(new PaintableProduct.PaintableComponent(
                         "starter-hero", "starter", "Hero", "hero", 1, "", false, List.of(), List.of()))));
         assertEquals("invalid_product", error.code());
     }

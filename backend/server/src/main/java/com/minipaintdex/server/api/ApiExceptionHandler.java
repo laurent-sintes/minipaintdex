@@ -19,9 +19,16 @@ class ApiExceptionHandler {
             case "not_found" -> HttpStatus.NOT_FOUND;
             case "conflict", "invalid_transition" -> HttpStatus.CONFLICT;
             case "invalid_input" -> HttpStatus.UNPROCESSABLE_CONTENT;
+            case "search_unavailable" -> HttpStatus.SERVICE_UNAVAILABLE;
             default -> HttpStatus.BAD_REQUEST;
         };
         return ResponseEntity.status(status).body(problem(status, exception.code(), exception.getMessage()));
+    }
+
+    @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)
+    ResponseEntity<ProblemDetail> unreadableJson() {
+        return ResponseEntity.badRequest().body(problem(HttpStatus.BAD_REQUEST, "invalid_json",
+                "Malformed JSON or unsupported request fields. Check the API contract."));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

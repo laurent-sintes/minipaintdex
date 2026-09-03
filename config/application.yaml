@@ -41,12 +41,11 @@ spring:
 minipaintdex:
   root: "${MINIPAINTDEX_ROOT:${user.dir}}"
   application:
-    name: Mini Paint Dex
+    name: MiniPaintDex
     author: Laurent Sintès
   storage:
     site-configuration: data/site/fr.yaml
-    market-paint-catalog-directory: data/market/paints
-    workshop-paint-inventory: data/workshop/paints.yaml
+    paint-product-catalog-directory: data/market/paints
     shopping-list: data/workshop/shopping.yaml
     market-paintable-products-directory: data/market/paintable-products
     painting-guides-directory: data/market/painting-guides
@@ -61,6 +60,21 @@ minipaintdex:
     max-attempts: 5
     retry-delay: 250ms
     shutdown-timeout: 25s
+  paint-search:
+    default-suggestion-limit: 8
+    max-suggestion-limit: 20
+    max-query-length: 200
+    max-terms: 16
+    fuzzy-min-length: 5
+    max-edits: 1
+    max-expansions: 50
+    exact-reference-boost: 2000
+    exact-name-boost: 1000
+    name-boost: 8
+    catalog-boost: 3
+    metadata-boost: 1
+    prefix-boost: 0.8
+    fuzzy-boost: 0.2
   paint-matching:
     candidate-limit: 5
     behavioral-systems:

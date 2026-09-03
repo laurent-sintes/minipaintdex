@@ -6,13 +6,13 @@ import java.net.URI;
 import java.util.HashSet;
 import java.util.List;
 
-/** Versioned aggregate root for sourced Market painting knowledge targeting one catalog item. */
+/** Versioned aggregate root for sourced Market painting knowledge targeting one paintable component. */
 public record MarketPaintingGuide(
         int schemaVersion,
         String id,
         int version,
         KnowledgeStatus knowledgeStatus,
-        String catalogItemId,
+        String paintableComponentId,
         List<String> sourceReferences,
         Provenance provenance,
         List<Source> sources,
@@ -25,7 +25,7 @@ public record MarketPaintingGuide(
         id = stableId(id, "id");
         if (version < 1) throw invalid("version must be positive.");
         if (knowledgeStatus == null) throw invalid("knowledgeStatus is required.");
-        catalogItemId = stableId(catalogItemId, "catalogItemId");
+        paintableComponentId = stableId(paintableComponentId, "paintableComponentId");
         sourceReferences = strings(sourceReferences);
         provenance = provenance == null ? new Provenance(null, true) : provenance;
         sources = sources == null ? List.of() : List.copyOf(sources);
@@ -66,15 +66,15 @@ public record MarketPaintingGuide(
     public record Slot(
             String id,
             String role,
-            String marketPaintId,
+            String paintProductId,
             boolean pendingImport,
             RequestedPaint requestedPaint) {
         public Slot {
             id = stableId(id, "slot.id");
             role = required(role, "slot.role");
-            marketPaintId = optionalId(marketPaintId, "slot.marketPaintId");
+            paintProductId = optionalId(paintProductId, "slot.paintProductId");
             requestedPaint = requestedPaint == null ? RequestedPaint.empty() : requestedPaint;
-            if (marketPaintId == null && !pendingImport) {
+            if (paintProductId == null && !pendingImport) {
                 throw invalid("Slot " + id + " must reference a market paint or be pending import.");
             }
         }

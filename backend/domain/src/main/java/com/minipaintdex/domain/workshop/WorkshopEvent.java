@@ -4,5 +4,5 @@ import com.minipaintdex.domain.event.DomainEvent;
 
 public sealed interface WorkshopEvent extends DomainEvent permits WorkshopCreated, PaintingProjectRegistered {
     @Override default String aggregateType() { return "workshop"; }
-    @Override default String projectId() { return null; }
+    @Override default String scopePaintingProjectId() { return null; }
 }

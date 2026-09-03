@@ -2,18 +2,18 @@ package com.minipaintdex.server.api;
 
 import java.util.List;
 
-import com.minipaintdex.application.command.AddWorkshopItemCommand;
-import com.minipaintdex.application.command.AddWorkshopItemCommentCommand;
-import com.minipaintdex.application.command.AddWorkshopItemPhotoCommand;
+import com.minipaintdex.application.command.AddWorkshopPaintableCommand;
+import com.minipaintdex.application.command.AddWorkshopPaintableCommentCommand;
+import com.minipaintdex.application.command.AddWorkshopPaintablePhotoCommand;
 import com.minipaintdex.application.command.AssignWorkshopRecipeCommand;
 import com.minipaintdex.application.command.CreatePaintingProjectCommand;
 import com.minipaintdex.application.command.CreateWorkshopRecipeCommand;
-import com.minipaintdex.application.command.SetShoppingItemStatusCommand;
-import com.minipaintdex.application.command.TransitionStageCommand;
+import com.minipaintdex.application.command.SetShoppingListEntryCheckedCommand;
+import com.minipaintdex.application.command.TransitionWorkshopPaintableStageCommand;
 import com.minipaintdex.application.command.TransitionPaintingProjectCommand;
 import com.minipaintdex.application.command.TransitionWorkshopRecipeCommand;
 import com.minipaintdex.application.query.PageQuery;
-import com.minipaintdex.application.query.SearchMarketPaintsQuery;
+import com.minipaintdex.application.query.SearchPaintProductsQuery;
 import com.minipaintdex.application.query.SortOrder;
 import com.minipaintdex.application.result.CreatePaintingProjectResult;
 import com.minipaintdex.application.usecase.WorkshopUseCases;
@@ -55,52 +55,31 @@ final class WorkshopController {
         return EntityModel.of(new WorkshopResponse(WorkshopOverviewResponse.from(workshop.workshopOverview())),
                 Link.of("/api/v1/workshop").withSelfRel(),
                 Link.of("/api/v1/workshop/painting-projects").withRel("painting-projects"),
-                Link.of("/api/v1/workshop/paints").withRel("paints"),
-                Link.of("/api/v1/workshop/items").withRel("items"),
+                PaintSearchResponse.postLink("/api/v1/workshop/paint-stocks/search").withRel("paint-stock-search"),
+                Link.of("/api/v1/workshop/paintables").withRel("paintables"),
                 Link.of("/api/v1/workshop/recipes").withRel("recipes"),
-                Link.of("/api/v1/shopping/items").withRel("shopping"),
+                Link.of("/api/v1/workshop/shopping-list/entries").withRel("shopping"),
                 Link.of("/api/v1/activity").withRel("activity"));
     }
 
-    @GetMapping("/workshop/paints")
-    EntityModel<WorkshopPaintPageResponse> paints(
-            @RequestParam(required = false) String query,
-            @RequestParam(required = false) List<String> brand,
-            @io.swagger.v3.oas.annotations.Parameter(description = "Repeatable brand::range selection; OR with brands. Escape literal colons and backslashes with a backslash.") @RequestParam(required = false) List<String> range,
-            @RequestParam(required = false) List<String> role,
-            @RequestParam(required = false) List<String> applicationMethod,
-            @RequestParam(required = false) List<String> applicationSystem,
-            @RequestParam(required = false) List<String> color,
-            @RequestParam(required = false) List<String> finish,
-            @RequestParam(required = false) List<String> medium,
-            @RequestParam(required = false) List<String> coverage,
-            @RequestParam(required = false) List<String> effect,
-            @RequestParam(required = false) List<String> undercoat,
-            @RequestParam(required = false) List<String> lifecycle,
-            @RequestParam(defaultValue = "false") boolean manufacturerSheetOnly,
-            @RequestParam(defaultValue = "false") boolean realResultOnly,
-            @ParameterObject Pageable pageable) {
-        var filters = SearchMarketPaintsQuery.fromSelections(
-                query, brand, range, role, applicationMethod, applicationSystem,
-                color, finish, medium, coverage, effect, undercoat, lifecycle);
-        var pageQuery = new PageQuery(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().stream()
-                .map(order -> new SortOrder(order.getProperty(), order.isAscending()
-                        ? SortOrder.Direction.ASCENDING : SortOrder.Direction.DESCENDING))
-                .toList());
-        var result = workshop.searchWorkshopPaintPage(
-                filters, manufacturerSheetOnly, realResultOnly, pageQuery);
-        var response = new WorkshopPaintPageResponse(
-                result.content(), result.totalElements(), result.page(), result.size(), result.totalPages());
-        var model = EntityModel.of(response, pageLink(result.page(), result.size()).withSelfRel());
-        model.add(pageLink(0, result.size()).withRel("first"));
-        if (result.hasPrevious()) model.add(pageLink(result.page() - 1, result.size()).withRel("prev"));
-        if (result.hasNext()) model.add(pageLink(result.page() + 1, result.size()).withRel("next"));
-        model.add(pageLink(Math.max(0, result.totalPages() - 1), result.size()).withRel("last"));
-        model.add(Link.of("/api/v1/market/paints").withRel("market-catalog"));
-        return model;
+    @org.springframework.web.bind.annotation.PostMapping(value = "/workshop/paint-stocks/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE, "application/hal+json"})
+    @io.swagger.v3.oas.annotations.Operation(operationId = "searchWorkshopPaintStocks", summary = "Search results and/or suggestions",
+            description = "Read-only MiniPaintDex contract, not Elasticsearch DSL. Body selects results, suggestions, or both. Pagination uses page/size/sort; replay the same body when following POST page links. Suggestions stay relevance-ordered and empty for blank query. Unrequested parts are null.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Search response", useReturnTypeSchema = true)
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Malformed or unknown JSON fields",
+            content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/problem+json", schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = org.springframework.http.ProblemDetail.class)))
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "422", description = "Invalid selection, text, filters, sorting or limit",
+            content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/problem+json", schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = org.springframework.http.ProblemDetail.class)))
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "503", description = "Search unavailable",
+            content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/problem+json", schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = org.springframework.http.ProblemDetail.class)))
+    EntityModel<PaintSearchResponse<com.minipaintdex.application.view.WorkshopPaintStockView>> paintSearch(
+            @jakarta.validation.Valid @org.springframework.web.bind.annotation.RequestBody PaintSearchRequest request,
+            @ParameterObject Pageable pageable,
+            @org.springframework.web.bind.annotation.RequestHeader(value = "X-Correlation-Id", required = false) String correlationId) {
+        return PaintSearchResponse.from(workshop.searchWorkshopPaintStocks(request.toQuery(pageable, correlationId)), true);
     }
 
-    @GetMapping("/workshop/paints/facets")
+    @GetMapping("/workshop/paint-stocks/facets")
     PaintFacetsView paintFacets(
             @RequestParam(required = false) String query,
             @RequestParam(required = false) List<String> brand,
@@ -117,7 +96,7 @@ final class WorkshopController {
             @RequestParam(required = false) List<String> lifecycle,
             @RequestParam(defaultValue = "false") boolean manufacturerSheetOnly,
             @RequestParam(defaultValue = "false") boolean realResultOnly) {
-        return workshop.workshopPaintFacets(SearchMarketPaintsQuery.fromSelections(
+        return workshop.workshopPaintStockFacets(SearchPaintProductsQuery.fromSelections(
                 query, brand, range, role, applicationMethod, applicationSystem,
                 color, finish, medium, coverage, effect, undercoat, lifecycle),
                 manufacturerSheetOnly, realResultOnly);
@@ -131,9 +110,9 @@ final class WorkshopController {
                 Link.of("/api/v1/workshop").withRel("workshop"));
     }
 
-    @GetMapping("/workshop/painting-project-import-previews/{productId}")
-    ProductImportPreviewResponse paintingProjectImportPreview(@PathVariable String productId) {
-        return new ProductImportPreviewResponse(workshop.previewProductImport(productId));
+    @GetMapping("/workshop/painting-project-import-previews/{paintableProductId}")
+    PaintingProjectImportPreviewResponse paintingProjectImportPreview(@PathVariable String paintableProductId) {
+        return new PaintingProjectImportPreviewResponse(workshop.previewPaintingProjectImport(paintableProductId));
     }
 
     @GetMapping("/workshop/painting-guide-reconciliations/{guideId}")
@@ -144,14 +123,14 @@ final class WorkshopController {
     @GetMapping("/workshop/painting-projects/{paintingProjectId}")
     EntityModel<PaintingProjectResponse> paintingProject(@PathVariable String paintingProjectId) {
         var project = workshop.listPaintingProjects().stream()
-                .filter(candidate -> paintingProjectId.equals(candidate.projectId()))
+                .filter(candidate -> paintingProjectId.equals(candidate.paintingProjectId()))
                 .findFirst()
                 .orElseThrow(() -> new com.minipaintdex.domain.shared.DomainException(
                         "not_found", "Painting project not found: " + paintingProjectId));
         var model = EntityModel.of(new PaintingProjectResponse(project),
                 Link.of("/api/v1/workshop/painting-projects/" + paintingProjectId).withSelfRel(),
                 Link.of("/api/v1/workshop/painting-projects").withRel("collection"),
-                Link.of("/api/v1/workshop/items?paintingProjectId=" + paintingProjectId).withRel("items"));
+                Link.of("/api/v1/workshop/paintables?paintingProjectId=" + paintingProjectId).withRel("paintables"));
         var transition = Link.of("/api/v1/workshop/painting-projects/" + paintingProjectId + "/transitions");
         switch (project.status()) {
             case "planned" -> model.add(
@@ -190,36 +169,36 @@ final class WorkshopController {
                 correlationId, idempotencyKey)));
     }
 
-    @GetMapping("/workshop/items")
-    WorkshopItemsResponse workshopItems(@RequestParam(required = false) String paintingProjectId) {
-        return new WorkshopItemsResponse(workshop.listWorkshopItems(paintingProjectId));
+    @GetMapping("/workshop/paintables")
+    WorkshopPaintablesResponse workshopPaintables(@RequestParam(required = false) String paintingProjectId) {
+        return new WorkshopPaintablesResponse(workshop.listWorkshopPaintables(paintingProjectId));
     }
 
-    @PostMapping("/workshop/items")
-    ResponseEntity<PublicationResponse> addWorkshopItem(
-            @Valid @RequestBody AddWorkshopItemRequest request,
+    @PostMapping("/workshop/paintables")
+    ResponseEntity<PublicationResponse> addWorkshopPaintable(
+            @Valid @RequestBody AddWorkshopPaintableRequest request,
             @RequestHeader(value = "Idempotency-Key", required = false) String idempotencyKey,
             @RequestHeader(value = "X-Correlation-Id", required = false) String correlationId) {
-        return ApiResponses.accepted(workshop.addWorkshopItem(new AddWorkshopItemCommand(
-                request.itemId(), request.catalogItemId(), request.paintingProjectId(), request.displayName(),
+        return ApiResponses.accepted(workshop.addWorkshopPaintable(new AddWorkshopPaintableCommand(
+                request.workshopPaintableId(), request.paintableComponentId(), request.paintingProjectId(), request.displayName(),
                 request.actorId(), request.occurredAt(), correlationId, idempotencyKey)));
     }
 
-    @GetMapping("/workshop/items/{itemId}")
-    EntityModel<WorkshopItemResponse> workshopItem(@PathVariable String itemId) {
-        var item = workshop.getWorkshopItem(itemId);
-        var itemView = item.item();
-        var projectId = itemView.paintingProjectId();
-        var model = EntityModel.of(WorkshopItemResponse.from(item),
-                Link.of("/api/v1/workshop/items/" + itemId).withSelfRel(),
-                Link.of("/api/v1/workshop/items?paintingProjectId=" + projectId).withRel("painting-project-items"),
-                Link.of("/api/v1/workshop/items/" + itemId + "/comments").withRel("add-comment"),
-                Link.of("/api/v1/workshop/items/" + itemId + "/photos").withRel("add-photo"),
-                Link.of("/api/v1/workshop/items/" + itemId + "/recipe-assignments").withRel("assign-recipe"));
+    @GetMapping("/workshop/paintables/{workshopPaintableId}")
+    EntityModel<WorkshopPaintableResponse> workshopPaintable(@PathVariable String workshopPaintableId) {
+        var item = workshop.getWorkshopPaintable(workshopPaintableId);
+        var itemView = item.paintable();
+        var paintingProjectId = itemView.paintingProjectId();
+        var model = EntityModel.of(WorkshopPaintableResponse.from(item),
+                Link.of("/api/v1/workshop/paintables/" + workshopPaintableId).withSelfRel(),
+                Link.of("/api/v1/workshop/paintables?paintingProjectId=" + paintingProjectId).withRel("painting-project-paintables"),
+                Link.of("/api/v1/workshop/paintables/" + workshopPaintableId + "/comments").withRel("add-comment"),
+                Link.of("/api/v1/workshop/paintables/" + workshopPaintableId + "/photos").withRel("add-photo"),
+                Link.of("/api/v1/workshop/paintables/" + workshopPaintableId + "/recipe-assignments").withRel("assign-recipe"));
         var stage = itemView.currentStage();
         if (stage != null) {
             var status = workflowStatus(itemView.workflow(), stage);
-            var transition = Link.of("/api/v1/workshop/items/" + itemId + "/stage-transitions");
+            var transition = Link.of("/api/v1/workshop/paintables/" + workshopPaintableId + "/stage-transitions");
             if ("pending".equals(status)) {
                 model.add(transition.withRel("start-stage"), transition.withRel("skip-stage"));
             }
@@ -230,19 +209,19 @@ final class WorkshopController {
         return model;
     }
 
-    @PostMapping("/workshop/items/{itemId}/comments")
-    ResponseEntity<PublicationResponse> addWorkshopItemComment(
-            @PathVariable String itemId,
-            @Valid @RequestBody AddWorkshopItemCommentRequest request,
+    @PostMapping("/workshop/paintables/{workshopPaintableId}/comments")
+    ResponseEntity<PublicationResponse> addWorkshopPaintableComment(
+            @PathVariable String workshopPaintableId,
+            @Valid @RequestBody AddWorkshopPaintableCommentRequest request,
             @RequestHeader(value = "Idempotency-Key", required = false) String idempotencyKey,
             @RequestHeader(value = "X-Correlation-Id", required = false) String correlationId) {
-        return ApiResponses.accepted(workshop.addWorkshopItemComment(new AddWorkshopItemCommentCommand(
-                itemId, request.comment(), request.actorId(), request.occurredAt(), correlationId, idempotencyKey)));
+        return ApiResponses.accepted(workshop.addWorkshopPaintableComment(new AddWorkshopPaintableCommentCommand(
+                workshopPaintableId, request.comment(), request.actorId(), request.occurredAt(), correlationId, idempotencyKey)));
     }
 
-    @PostMapping(value = "/workshop/items/{itemId}/photos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    ResponseEntity<PublicationResponse> addWorkshopItemPhoto(
-            @PathVariable String itemId,
+    @PostMapping(value = "/workshop/paintables/{workshopPaintableId}/photos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    ResponseEntity<PublicationResponse> addWorkshopPaintablePhoto(
+            @PathVariable String workshopPaintableId,
             @RequestPart("file") MultipartFile file,
             @RequestParam(required = false) String stage,
             @RequestParam(required = false) String caption,
@@ -250,25 +229,25 @@ final class WorkshopController {
             @RequestParam(required = false) Instant occurredAt,
             @RequestHeader(value = "Idempotency-Key", required = false) String idempotencyKey,
             @RequestHeader(value = "X-Correlation-Id", required = false) String correlationId) throws IOException {
-        return ApiResponses.accepted(workshop.addWorkshopItemPhoto(new AddWorkshopItemPhotoCommand(
-                itemId, file.getOriginalFilename(), file.getContentType(), file.getBytes(), stage, caption,
+        return ApiResponses.accepted(workshop.addWorkshopPaintablePhoto(new AddWorkshopPaintablePhotoCommand(
+                workshopPaintableId, file.getOriginalFilename(), file.getContentType(), file.getBytes(), stage, caption,
                 actorId, occurredAt, correlationId, idempotencyKey)));
     }
 
-    @PostMapping("/workshop/items/{itemId}/stage-transitions")
-    ResponseEntity<PublicationResponse> transitionStage(
-            @PathVariable String itemId,
-            @Valid @RequestBody TransitionStageRequest request,
+    @PostMapping("/workshop/paintables/{workshopPaintableId}/stage-transitions")
+    ResponseEntity<PublicationResponse> transitionWorkshopPaintableStage(
+            @PathVariable String workshopPaintableId,
+            @Valid @RequestBody TransitionWorkshopPaintableStageRequest request,
             @RequestHeader(value = "Idempotency-Key", required = false) String idempotencyKey,
             @RequestHeader(value = "X-Correlation-Id", required = false) String correlationId) {
-        return ApiResponses.accepted(workshop.transitionStage(new TransitionStageCommand(
-                itemId, request.stage(), request.action(), request.comment(), request.reason(),
+        return ApiResponses.accepted(workshop.transitionWorkshopPaintableStage(new TransitionWorkshopPaintableStageCommand(
+                workshopPaintableId, request.stage(), request.action(), request.comment(), request.reason(),
                 request.actorId(), request.occurredAt(), correlationId, idempotencyKey)));
     }
 
     @GetMapping("/workshop/recipes")
-    WorkshopRecipesResponse workshopRecipes(@RequestParam(required = false) String catalogItemId) {
-        return new WorkshopRecipesResponse(workshop.listWorkshopRecipes(catalogItemId));
+    WorkshopRecipesResponse workshopRecipes(@RequestParam(required = false) String paintableComponentId) {
+        return new WorkshopRecipesResponse(workshop.listWorkshopRecipes(paintableComponentId));
     }
 
     @PostMapping("/workshop/recipes")
@@ -277,7 +256,7 @@ final class WorkshopController {
             @RequestHeader(value = "Idempotency-Key", required = false) String idempotencyKey,
             @RequestHeader(value = "X-Correlation-Id", required = false) String correlationId) {
         return ApiResponses.accepted(workshop.createWorkshopRecipe(new CreateWorkshopRecipeCommand(
-                request.recipeId(), request.catalogItemId(), request.basedOnGuideId(), request.supersedesRecipeId(),
+                request.recipeId(), request.paintableComponentId(), request.basedOnGuideId(), request.supersedesRecipeId(),
                 request.displayName(), request.version(),
                 request.solutions().stream().map(RecipeSolutionRequest::toDomain).toList(),
                 request.actorId(), request.occurredAt(), correlationId, idempotencyKey)));
@@ -295,14 +274,14 @@ final class WorkshopController {
                 correlationId, idempotencyKey)));
     }
 
-    @PostMapping("/workshop/items/{itemId}/recipe-assignments")
+    @PostMapping("/workshop/paintables/{workshopPaintableId}/recipe-assignments")
     ResponseEntity<PublicationResponse> assignWorkshopRecipe(
-            @PathVariable String itemId,
+            @PathVariable String workshopPaintableId,
             @Valid @RequestBody AssignWorkshopRecipeRequest request,
             @RequestHeader(value = "Idempotency-Key", required = false) String idempotencyKey,
             @RequestHeader(value = "X-Correlation-Id", required = false) String correlationId) {
         return ApiResponses.accepted(workshop.assignWorkshopRecipe(new AssignWorkshopRecipeCommand(
-                itemId, request.recipeId(), request.actorId(), request.occurredAt(), correlationId, idempotencyKey)));
+                workshopPaintableId, request.recipeId(), request.actorId(), request.occurredAt(), correlationId, idempotencyKey)));
     }
 
     @GetMapping("/activity")
@@ -311,23 +290,23 @@ final class WorkshopController {
                 .map(DomainEventResponse::from).toList());
     }
 
-    @GetMapping("/shopping/items")
-    ShoppingItemsResponse shoppingItems() {
-        return new ShoppingItemsResponse(workshop.listShoppingItems());
+    @GetMapping("/workshop/shopping-list/entries")
+    ShoppingListEntriesResponse shoppingListEntries() {
+        return new ShoppingListEntriesResponse(workshop.listShoppingListEntries());
     }
 
-    @PostMapping("/shopping/items/{itemId}/status")
-    ResponseEntity<PublicationResponse> setShoppingItemStatus(
-            @PathVariable String itemId,
-            @Valid @RequestBody SetShoppingItemStatusRequest request,
+    @PostMapping("/workshop/shopping-list/entries/{shoppingListEntryId}/checked")
+    ResponseEntity<PublicationResponse> setShoppingListEntryChecked(
+            @PathVariable String shoppingListEntryId,
+            @Valid @RequestBody SetShoppingListEntryCheckedRequest request,
             @RequestHeader(value = "Idempotency-Key", required = false) String idempotencyKey,
             @RequestHeader(value = "X-Correlation-Id", required = false) String correlationId) {
-        return ApiResponses.accepted(workshop.setShoppingItemStatus(new SetShoppingItemStatusCommand(
-                itemId, request.checked(), request.actorId(), request.occurredAt(), correlationId, idempotencyKey)));
+        return ApiResponses.accepted(workshop.setShoppingListEntryChecked(new SetShoppingListEntryCheckedCommand(
+                shoppingListEntryId, request.checked(), request.actorId(), request.occurredAt(), correlationId, idempotencyKey)));
     }
 
     private static String workflowStatus(
-            com.minipaintdex.application.view.WorkshopItemView.WorkflowView workflow, String stage) {
+            com.minipaintdex.application.view.WorkshopPaintableView.WorkflowView workflow, String stage) {
         return switch (stage) {
             case "preparation" -> workflow.preparation();
             case "priming" -> workflow.priming();

@@ -17,14 +17,13 @@ import com.minipaintdex.application.port.EventBus;
 import com.minipaintdex.application.port.EventPublicationStore;
 import com.minipaintdex.application.port.SnapshotRepository;
 import com.minipaintdex.application.port.EventLedger;
-import com.minipaintdex.application.port.MarketPaintCatalogWriter;
+import com.minipaintdex.application.port.PaintProductCatalogWriter;
 import com.minipaintdex.application.port.MarketCatalogReader;
 import com.minipaintdex.application.port.MarketCatalogSnapshot;
 import com.minipaintdex.application.validation.MarketCatalogFactory;
 import com.minipaintdex.application.port.PaintableProductCatalogWriter;
 import com.minipaintdex.application.port.PersistenceLifecycle;
 import com.minipaintdex.application.port.WorkshopMediaStorage;
-import com.minipaintdex.application.port.WorkshopPaintInventoryWriter;
 import com.minipaintdex.domain.market.paint.PaintMatchEngine;
 import com.minipaintdex.domain.market.paint.PaintMatchingPolicy;
 import com.minipaintdex.application.usecase.AdministrationUseCases;
@@ -51,8 +50,7 @@ public class MiniPaintDexSpringConfiguration {
         var storage = properties.storage();
         return new FileRepositoryLayout(
                 resolve(root, storage.siteConfiguration()),
-                resolve(root, storage.marketPaintCatalogDirectory()),
-                resolve(root, storage.workshopPaintInventory()),
+                resolve(root, storage.paintProductCatalogDirectory()),
                 resolve(root, storage.shoppingList()),
                 resolve(root, storage.marketPaintableProductsDirectory()),
                 resolve(root, storage.paintingGuidesDirectory()),
@@ -77,13 +75,8 @@ public class MiniPaintDexSpringConfiguration {
     }
 
     @Bean
-    MarketPaintCatalogWriter marketPaintCatalogWriter(FilePersistenceAdapters adapters) {
-        return adapters.marketPaints();
-    }
-
-    @Bean
-    WorkshopPaintInventoryWriter workshopPaintInventoryWriter(FilePersistenceAdapters adapters) {
-        return adapters.workshopPaints();
+    PaintProductCatalogWriter paintProductCatalogWriter(FilePersistenceAdapters adapters) {
+        return adapters.paintProducts();
     }
 
     @Bean
@@ -187,17 +180,33 @@ public class MiniPaintDexSpringConfiguration {
     }
 
     @Bean
-    MarketCatalogReader marketCatalogReader(SnapshotRepository snapshots) {
-        return () -> {
-            var snapshot = snapshots.load();
-            return MarketCatalogFactory.create(
-                    snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions());
-        };
+    MarketCatalogReader marketCatalogReader(@org.springframework.beans.factory.annotation.Qualifier("committedSnapshots") SnapshotRepository snapshots) {
+        return new CachedMarketCatalogReader(snapshots);
     }
 
     @Bean
-    MarketCatalogUseCases marketCatalogUseCases(MarketCatalogReader catalogs) {
-        return new MarketCatalogApplicationService(catalogs);
+    com.minipaintdex.application.query.PaintSearchPolicy paintSearchPolicy(MiniPaintDexProperties properties) {
+        return properties.paintSearch();
+    }
+
+    @Bean(destroyMethod = "close")
+    com.minipaintdex.adapter.lucene.LucenePaintProductSearchIndex paintProductSearchIndex(
+            MarketCatalogReader catalogs, com.minipaintdex.application.query.PaintSearchPolicy policy) {
+        var index = new com.minipaintdex.adapter.lucene.LucenePaintProductSearchIndex(policy);
+        try {
+            index.rank(catalogs.load().paints(), "");
+            return index;
+        } catch (RuntimeException failure) {
+            try { index.close(); } catch (java.io.IOException cleanup) { failure.addSuppressed(cleanup); }
+            throw failure;
+        }
+    }
+
+    @Bean
+    MarketCatalogUseCases marketCatalogUseCases(MarketCatalogReader catalogs,
+            com.minipaintdex.application.port.PaintProductSearchIndex index,
+            com.minipaintdex.application.query.PaintSearchPolicy policy) {
+        return new MarketCatalogApplicationService(catalogs, index, policy);
     }
 
     @Bean
@@ -205,18 +214,17 @@ public class MiniPaintDexSpringConfiguration {
             WorkshopCommandService commands,
             WorkshopQueryService queries,
             MarketCatalogUseCases market,
-            SnapshotRepository snapshots) {
-        return new WorkshopApplicationService(commands, queries, market, snapshots);
+            SnapshotRepository snapshots, com.minipaintdex.application.query.PaintSearchPolicy policy) {
+        return new WorkshopApplicationService(commands, queries, market, snapshots, policy);
     }
 
     @Bean
     AdministrationUseCases administrationUseCases(
             SnapshotRepository snapshots,
-            MarketPaintCatalogWriter marketPaints,
-            WorkshopPaintInventoryWriter workshopPaints,
+            PaintProductCatalogWriter paintProducts,
             PaintableProductCatalogWriter paintableProducts) {
         return new AdministrationApplicationService(
-                snapshots, marketPaints, workshopPaints, paintableProducts);
+                snapshots, paintProducts, paintableProducts);
     }
 
     private static PaintMatchingPolicy.Weights weights(MiniPaintDexProperties.Weights weights) {

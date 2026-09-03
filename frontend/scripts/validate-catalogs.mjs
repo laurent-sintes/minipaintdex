@@ -9,6 +9,7 @@ const warnings = [];
 const kebabId = /^[a-z0-9]+(?:-[a-z0-9]+)*$/u;
 const workflowStages = new Set(['preparation', 'priming', 'pre_highlight', 'painting', 'finishing', 'basing']);
 const eventTypes = new Set([
+  'paint_pot.registered', 'paint_pot.observed', 'paint_pot.opened', 'paint_pot.possession_changed', 'paint_pot.note_added', 'paint_pot.photo_added',
   'workshop.created', 'painting_project.created', 'workshop_item.added', 'workshop_item.named',
   'workflow.stage.started', 'workflow.stage.completed', 'workflow.stage.skipped', 'workflow.stage.reopened',
   'workshop_recipe.created', 'workshop_recipe.validated', 'workshop_recipe.activated',
@@ -57,7 +58,7 @@ const site = await readYaml(sitePath);
 for (const section of ['metadata', 'brand', 'units', 'navigation', 'header', 'home', 'workflow', 'market', 'workshop', 'product_detail', 'collection', 'shopping', 'paint_detail', 'errors']) {
   if (!site?.[section] || typeof site[section] !== 'object') errors.push(`${sitePath}:${section}: required section`);
 }
-for (const service of ['market_paints', 'market_paintable_products', 'workshop_paints', 'workshop_admin', 'shopping']) {
+for (const service of ['paint_products', 'market_paintable_products', 'workshop_paints', 'workshop_admin', 'shopping']) {
   for (const field of ['title', 'description', 'action']) requireValue(site?.home?.[service]?.[field], `${sitePath}:home.${service}`, `${field} required`);
 }
 for (const [location, value] of [
@@ -71,14 +72,20 @@ for (const [location, value] of [
 
 const paintCatalogPaths = await yamlFiles('data/market/paints');
 if (!paintCatalogPaths.length) errors.push('data/market/paints: at least one brand catalog is required');
-const marketPaints = [];
-const marketPaintIds = new Set();
+const paintProducts = [];
+const paintProductIds = new Set();
 for (const paintCatalogPath of paintCatalogPaths) {
   const paintCatalog = await readYaml(paintCatalogPath);
   if (paintCatalog?.schema_version !== 1) errors.push(`${paintCatalogPath}: schema_version must be 1`);
   requireValue(paintCatalog?.brand, paintCatalogPath, 'brand required');
+  const usageGuides = new Map((paintCatalog?.paint_usage_guides ?? []).map(guide => [guide.id, guide]));
+  if (usageGuides.size !== (paintCatalog?.paint_usage_guides ?? []).length) errors.push(`${paintCatalogPath}: duplicate usage guide`);
+  for (const guide of usageGuides.values()) {
+    if (guide.schema_version !== 1 || !Number.isInteger(guide.revision) || guide.revision < 1 || !kebabId.test(guide.id)) errors.push(`${paintCatalogPath}: invalid guide identity/revision`);
+    if (guide.brand !== paintCatalog.brand || !Array.isArray(guide.ranges) || !guide.ranges.length) errors.push(`${paintCatalogPath}: invalid guide scope`);
+  }
   const brandPaints = requireArray(paintCatalog?.paints, `${paintCatalogPath}:paints`);
-  marketPaints.push(...brandPaints);
+  paintProducts.push(...brandPaints);
   for (const [index, paint] of brandPaints.entries()) {
     const location = `${paintCatalogPath}:paints[${index}]`;
     if (paint?.schema_version !== 1) errors.push(`${location}: schema_version must be 1`);
@@ -99,7 +106,12 @@ for (const paintCatalogPath of paintCatalogPaths) {
     if (!undercoats.has(profile.undercoat?.tone)) errors.push(`${location}: unsupported undercoat ${profile.undercoat?.tone}`);
     if (typeof profile.undercoat?.pre_highlighted_surface_recommended !== 'boolean') errors.push(`${location}: profile.undercoat.pre_highlighted_surface_recommended must be boolean`);
     if (!mediums.has(profile.medium)) errors.push(`${location}: unsupported medium ${profile.medium}`);
-    if (roles.some((role) => technicalPaintRoles.has(role))) {
+    for (const guideId of paint.usage_guide_ids ?? []) {
+      const guide = usageGuides.get(guideId);
+      if (!guide || !guide.ranges.includes(paint.range)) errors.push(`${location}: unknown/out-of-scope usage guide ${guideId}`);
+    }
+    const hasGuideSteps = (paint.usage_guide_ids ?? []).some(id => usageGuides.get(id)?.original?.steps?.length > 0);
+    if (roles.some((role) => technicalPaintRoles.has(role)) && !hasGuideSteps) {
       requireValue(paint?.usage_instructions?.summary, location, 'usage_instructions.summary required for technical paint');
       if (requireArray(paint?.usage_instructions?.steps, `${location}:usage_instructions.steps`).length === 0) errors.push(`${location}: usage_instructions.steps must explain how to use a technical paint`);
       requireArray(paint?.usage_instructions?.tips, `${location}:usage_instructions.tips`);
@@ -138,8 +150,8 @@ for (const paintCatalogPath of paintCatalogPaths) {
       if (!String(snapshot?.url ?? '').startsWith('https://')) errors.push(`${snapshotLocation}: url must use HTTPS`);
       if (!snapshot?.payload || typeof snapshot.payload !== 'object' || Array.isArray(snapshot.payload)) errors.push(`${snapshotLocation}: payload must be an object`);
     }
-    if (paint?.id && marketPaintIds.has(paint.id)) errors.push(`${location}: duplicate id ${paint.id}`);
-    if (paint?.id) marketPaintIds.add(paint.id);
+    if (paint?.id && paintProductIds.has(paint.id)) errors.push(`${location}: duplicate id ${paint.id}`);
+    if (paint?.id) paintProductIds.add(paint.id);
   }
 }
 
@@ -173,19 +185,7 @@ for (const path of productFiles) {
   else if (quantity !== product.expected_paintable_count) errors.push(`${path}: catalog quantities total ${quantity}, expected ${product.expected_paintable_count}`);
 }
 
-const workshopPaintsPath = 'data/workshop/paints.yaml';
-const workshopPaintDocument = await readYaml(workshopPaintsPath);
-if (workshopPaintDocument?.schema_version !== 1) errors.push(`${workshopPaintsPath}: schema_version must be 1`);
-const workshopPaints = requireArray(workshopPaintDocument?.paints, `${workshopPaintsPath}:paints`);
-const ownedPaintIds = new Set();
-for (const [index, paint] of workshopPaints.entries()) {
-  const location = `${workshopPaintsPath}:paints[${index}]`;
-  requireValue(paint?.paint_id, location, 'paint_id required');
-  if (!Number.isInteger(paint?.quantity) || paint.quantity < 1) errors.push(`${location}: quantity must be a positive integer`);
-  if (paint?.paint_id && !marketPaintIds.has(paint.paint_id)) errors.push(`${location}: unknown market paint ${paint.paint_id}`);
-  if (paint?.paint_id && ownedPaintIds.has(paint.paint_id)) errors.push(`${location}: duplicate owned paint ${paint.paint_id}`);
-  if (paint?.paint_id) ownedPaintIds.add(paint.paint_id);
-}
+const paintPots = new Map();
 
 const guideFiles = await yamlFiles('data/market/painting-guides');
 const guideIds = new Set();
@@ -213,7 +213,7 @@ for (const path of guideFiles) {
       if (slot?.id && slotIds.has(slot.id)) errors.push(`${location}: duplicate slot id ${slot.id}`);
       if (slot?.id) slotIds.add(slot.id);
       if (slot?.market_paint_id) {
-        if (!marketPaintIds.has(slot.market_paint_id)) errors.push(`${location}: unknown market paint ${slot.market_paint_id}`);
+        if (!paintProductIds.has(slot.market_paint_id)) errors.push(`${location}: unknown market paint ${slot.market_paint_id}`);
       } else if (slot?.pending_import === true) {
         requireValue(slot?.requested_paint?.brand, location, 'requested_paint.brand required for pending import');
         requireValue(slot?.requested_paint?.name, location, 'requested_paint.name required for pending import');
@@ -229,7 +229,7 @@ for (const path of guideFiles) {
 }
 
 const jsonlFiles = (await readdir(join(projectRoot, 'data/ledger/events')))
-  .filter((name) => name.endsWith('.jsonl'))
+  .filter((name) => name.endsWith('.jsonl')).sort()
   .map((name) => join('data/ledger/events', name).replaceAll('\\', '/'));
 const eventIds = new Set();
 const workshopItemIds = new Set();
@@ -258,6 +258,23 @@ for (const path of jsonlFiles) {
     requireValue(event?.actor?.id, location, 'actor.id required');
     if (event?.event_id && eventIds.has(event.event_id)) errors.push(`${location}: duplicate event_id ${event.event_id}`);
     if (event?.event_id) eventIds.add(event.event_id);
+    if (event?.event_type?.startsWith('paint_pot.')) {
+      const id = event.aggregate_id;
+      if (event.aggregate_type !== 'paint_pot' || !kebabId.test(id)) errors.push(`${location}: invalid paint pot identity`);
+      if (event.event_type === 'paint_pot.registered') {
+        if (paintPots.has(id)) errors.push(`${location}: duplicate paint pot`);
+        if (!paintProductIds.has(event.payload.paint_product_id)) errors.push(`${location}: unknown paint product`);
+        paintPots.set(id, { productId: event.payload.paint_product_id, possession: 'owned' });
+      } else if (!paintPots.has(id)) errors.push(`${location}: unknown paint pot`);
+      if (event.event_type === 'paint_pot.possession_changed') {
+        if (!['owned', 'given-away', 'discarded'].includes(event.payload.possession)) errors.push(`${location}: invalid possession`);
+        if (paintPots.has(id)) paintPots.get(id).possession = event.payload.possession;
+      }
+      if (event.event_type === 'paint_pot.observed') {
+        if (!['unknown', 'usable', 'thickened', 'dried'].includes(event.payload.condition)) errors.push(`${location}: invalid condition`);
+        if (!['unknown', 'full', 'half', 'low', 'empty'].includes(event.payload.remaining_level)) errors.push(`${location}: invalid remaining level`);
+      }
+    }
     if (event?.event_type === 'painting_project.created') {
       requireValue(event?.payload?.workshop_id, location, 'payload.workshop_id required');
       requireValue(event?.payload?.paintable_product_id, location, 'payload.paintable_product_id required');
@@ -305,10 +322,11 @@ for (const [productId, product] of productsById) {
 
 if (guideCatalogItemIds.size !== catalogItemsById.size) warnings.push(`${catalogItemsById.size - guideCatalogItemIds.size} market catalog item(s) have no painting guide`);
 
+const ownedPaintIds = new Set([...paintPots.values()].filter(pot => pot.possession === 'owned').map(pot => pot.productId));
 for (const warning of warnings) console.warn(`WARNING ${warning}`);
 if (errors.length) {
   for (const error of errors) console.error(`ERROR ${error}`);
   process.exitCode = 1;
 } else {
-  console.log(`Valid repositories: ${marketPaints.length} market paints, ${ownedPaintIds.size} owned paints, ${productsById.size} paintable product(s), ${catalogItemsById.size} catalog items, ${guideCount} market painting guides, ${workshopRecipeIds.size} workshop recipes, ${eventCount} ledger events.`);
+  console.log(`Valid repositories: ${paintProducts.length} market paints, ${ownedPaintIds.size} owned paints, ${productsById.size} paintable product(s), ${catalogItemsById.size} catalog items, ${guideCount} market painting guides, ${workshopRecipeIds.size} workshop recipes, ${eventCount} ledger events.`);
 }

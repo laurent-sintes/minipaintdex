@@ -20,6 +20,7 @@ def read_catalog(path: Path) -> dict[str, Any]:
     paths = sorted(path.glob("*.yaml")) if path.is_dir() else [path]
     paints: list[dict[str, Any]] = []
     editions: list[dict[str, Any]] = []
+    usage_guides: list[dict[str, Any]] = []
     for source in paths:
         with source.open("r", encoding="utf-8-sig") as handle:
             value = yaml.safe_load(handle)
@@ -34,9 +35,10 @@ def read_catalog(path: Path) -> dict[str, Any]:
                 raise ValueError(f"Paint records in {source} must use schema_version 1")
             paints.append(paint)
         editions.extend(value.get("catalog_editions", []))
+        usage_guides.extend(value.get("paint_usage_guides", []))
     if not paths:
         raise ValueError(f"No paint brand catalog found in: {path}")
-    return {"schema_version": 1, "paints": paints, "catalog_editions": editions}
+    return {"schema_version": 1, "paints": paints, "catalog_editions": editions, "paint_usage_guides": usage_guides}
 
 
 def _casefold(value: Any) -> str:
@@ -50,7 +52,7 @@ def _canonical_record(record: dict[str, Any], verified_at: str) -> dict[str, Any
     else:
         result = canonical_paint(record, verified_at=verified_at)
     roles = set((result.get("profile") or {}).get("roles", []))
-    if roles.intersection(INSTRUCTION_ROLES):
+    if roles.intersection(INSTRUCTION_ROLES) and not result.get("usage_guide_ids"):
         instructions = result.get("usage_instructions")
         if not isinstance(instructions, dict) or not instructions.get("summary") or not instructions.get("steps"):
             raise ValueError(f"Technical paint {result.get('id')} requires explicit usage_instructions.summary and steps.")
@@ -105,7 +107,20 @@ def build_refresh_changeset(
     changed_fields: Counter[str] = Counter()
     for identifier in sorted(incoming):
         record = deepcopy(incoming[identifier])
-        previous_memberships = existing.get(identifier, {}).get("catalog_memberships", [])
+        previous = existing.get(identifier, {})
+        if previous.get("usage_guide_ids"):
+            from .paint_usage_guides import plain_text
+            record["usage_guide_ids"] = list(dict.fromkeys([*previous["usage_guide_ids"], *record.get("usage_guide_ids", [])]))
+            raw_usage = record.get("usage_instructions") or {}
+            content = {"summary": plain_text(raw_usage.get("summary", "")),
+                       "steps": [plain_text(x) for x in raw_usage.get("steps", [])],
+                       "tips": [plain_text(x) for x in raw_usage.get("tips", [])]}
+            matching = [g for g in catalog.get("paint_usage_guides", []) if g["id"] in previous["usage_guide_ids"]]
+            if any(g["original"] == content for g in matching) or not any(content.values()):
+                record.pop("usage_instructions", None)
+            elif raw_usage != previous.get("usage_instructions"):
+                raise ValueError(f"Changed shared instructions require explicit guide revision review: {identifier}")
+        previous_memberships = previous.get("catalog_memberships", [])
         memberships = {m["catalog_edition_id"]: m for m in previous_memberships}
         for membership in record.get("catalog_memberships", []):
             key = membership["catalog_edition_id"]
@@ -175,6 +190,9 @@ def build_refresh_changeset(
         },
         "operations": operations,
     }
+    guide_updates = [g for g in refreshed.get("paint_usage_guides", []) if _casefold(g.get("brand")) in selected]
+    if guide_updates:
+        changeset["paint_usage_guides"] = guide_updates
     previous_editions = {edition["id"]: edition for edition in catalog.get("catalog_editions", [])}
     edition_updates = [edition for edition in refreshed.get("catalog_editions", [])
                        if _casefold(edition.get("brand")) in selected and previous_editions.get(edition.get("id")) != edition]

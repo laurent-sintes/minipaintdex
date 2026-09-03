@@ -13,7 +13,7 @@ public final class PaintingProject extends EventSourcedAggregateRoot {
     private String workshopId;
     private String paintableProductId;
     private String name;
-    private int paintableItemCount;
+    private int paintableCount;
     private PaintingProjectStatus status;
     private Instant createdAt;
     private Instant updatedAt;
@@ -22,10 +22,10 @@ public final class PaintingProject extends EventSourcedAggregateRoot {
 
     public static PaintingProject create(
             String id, String workshopId, String paintableProductId, String name,
-            int paintableItemCount, Instant occurredAt) {
+            int paintableCount, Instant occurredAt) {
         var project = new PaintingProject();
         project.raise(new PaintingProjectCreated(
-                id, workshopId, paintableProductId, name, paintableItemCount, occurredAt));
+                id, workshopId, paintableProductId, name, paintableCount, occurredAt));
         return project;
     }
 
@@ -48,7 +48,7 @@ public final class PaintingProject extends EventSourcedAggregateRoot {
                 workshopId = created.workshopId();
                 paintableProductId = created.paintableProductId();
                 name = created.name();
-                paintableItemCount = created.paintableItemCount();
+                paintableCount = created.paintableCount();
                 status = PaintingProjectStatus.PLANNED;
                 createdAt = created.occurredAt();
                 updatedAt = created.occurredAt();
@@ -81,7 +81,7 @@ public final class PaintingProject extends EventSourcedAggregateRoot {
     public String workshopId() { return workshopId; }
     public String paintableProductId() { return paintableProductId; }
     public String name() { return name; }
-    public int paintableItemCount() { return paintableItemCount; }
+    public int paintableCount() { return paintableCount; }
     public PaintingProjectStatus status() { return status; }
     public Instant createdAt() { return createdAt; }
     public Instant updatedAt() { return updatedAt; }

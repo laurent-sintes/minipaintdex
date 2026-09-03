@@ -14,22 +14,28 @@ import java.util.List;
  */
 public record DataSnapshot(
         StructuredDocument site,
-        List<StructuredDocument> marketPaints,
-        List<StructuredDocument> paintInventory,
+        List<StructuredDocument> paintProducts,
         List<PaintableProduct> paintableProducts,
         List<StructuredDocument> marketPaintingGuides,
         List<StructuredDocument> shopping,
         List<EventEnvelope> events,
-        List<StructuredDocument> paintCatalogEditions) {
+        List<StructuredDocument> paintCatalogEditions,
+        List<StructuredDocument> paintUsageGuides) {
     public DataSnapshot {
         if (site == null) throw new IllegalArgumentException("site is required.");
-        marketPaints = copy(marketPaints);
-        paintInventory = copy(paintInventory);
+        paintProducts = copy(paintProducts);
         paintableProducts = copy(paintableProducts);
         marketPaintingGuides = copy(marketPaintingGuides);
         shopping = copy(shopping);
         events = copy(events);
         paintCatalogEditions = copy(paintCatalogEditions);
+        paintUsageGuides = copy(paintUsageGuides);
+    }
+
+    /** Typed stock derived from committed or effective pot history, never separately persisted. */
+    public com.minipaintdex.domain.workshop.WorkshopPaintInventory paintInventory() {
+        return com.minipaintdex.domain.workshop.WorkshopPaintInventory.fromPots(
+                com.minipaintdex.domain.workshop.PaintPotProjector.project(events));
     }
 
     private static <T> List<T> copy(List<T> values) {

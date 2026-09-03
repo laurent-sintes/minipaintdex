@@ -1,8 +1,8 @@
 package com.minipaintdex.application.result;
 
 public record ApplyMarketPaintableProductChangeSetResult(
-        String productId,
-        int catalogItems,
+        String paintableProductId,
+        int paintableComponents,
         int paintingGuides,
         boolean applied) {
 }
