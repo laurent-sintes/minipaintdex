@@ -503,11 +503,40 @@ class ApplicationServicesTest {
                 new PaintMatchingPolicy.Weights(.15, .35, .30, .10, .10, 0));
         var paintMatchEngine = new PaintMatchEngine(policy);
         var queries = new WorkshopQueryService(repository, paintMatchEngine);
+        var potPhotos = new PaintPotPhotoService(new WorkshopMediaPolicy(10 * 1024 * 1024, Set.of("image/png")),
+                (content, correlation) -> new com.minipaintdex.application.result.PaintPotPhotoPreview(new byte[]{4, 5, 6}, "test-cutout", correlation));
         var commands = new WorkshopCommandService(
                 repository, repository, repository,
                 new WorkshopMediaPolicy(10 * 1024 * 1024, Set.of("image/jpeg", "image/png", "image/webp")),
-                queries);
-        return new WorkshopApplicationService(commands, queries, marketService(repository), repository, searchPolicy());
+                queries, potPhotos);
+        return new WorkshopApplicationService(commands, queries, marketService(repository), repository, searchPolicy(), potPhotos);
+    }
+
+    @Test
+    void previewsWithoutWritesAndAttachesOriginalAndCutoutIdempotently() {
+        var repository = repository();
+        var service = service(repository);
+        service.registerPaintPot(new RegisterPaintPotCommand("pot-photo", "warhammer-colour-contrast-apothecary-white", null, "owner", "photos", "register-photo"));
+        var original = new byte[]{1, 2, 3};
+        var batchCount = repository.batches.size();
+        var preview = service.previewPaintPotPhoto(new com.minipaintdex.application.query.PreviewPaintPotPhotoQuery("pot-photo", "image/png", original, "preview"));
+        assertEquals("preview", preview.correlationId());
+        assertEquals(0, repository.mediaStored);
+        assertEquals(batchCount, repository.batches.size());
+        var command = new AddPaintPotPhotoCommand("pot-photo", "pot.png", "image/png", original, "Pot", "owner", AT, "photos", "attach-photo", true);
+        var receipt = service.addPaintPotPhoto(command);
+        service.addPaintPotPhoto(command);
+        assertEquals(2, repository.mediaStored);
+        assertEquals(batchCount + 1, repository.batches.size());
+        var photo = service.getPaintPot("pot-photo").photos().getFirst();
+        assertEquals("test-cutout", photo.processingMethod());
+        assertFalse(photo.url().equals(photo.originalUrl()));
+        assertEquals(1, service.getPaintPot("pot-photo").photos().size());
+        assertEquals("photos", receipt.correlationId());
+        assertThrows(DomainException.class, () -> service.previewPaintPotPhoto(
+                new com.minipaintdex.application.query.PreviewPaintPotPhotoQuery("missing", "image/png", original, "preview")));
+        assertThrows(DomainException.class, () -> service.previewPaintPotPhoto(
+                new com.minipaintdex.application.query.PreviewPaintPotPhotoQuery("pot-photo", "text/plain", original, "preview")));
     }
 
     private static PaintableProduct product() {
@@ -611,7 +640,7 @@ class ApplicationServicesTest {
         service.importPaintPots(new ImportPaintPotsCommand(1, "workshop_paint_pots", registrations, false, "owner", "pots", "batch-a"));
         service.observePaintPot(new ObservePaintPotCommand("pot-one", "thickened", "low", "owner", AT, "pots", "observation-a"));
         service.addPaintPotNote(new AddPaintPotNoteCommand("pot-one", "Needs stirring", "owner", AT, "pots", "note-a"));
-        var photo = new AddPaintPotPhotoCommand("pot-one", "my-pot.png", "image/png", new byte[]{1, 2, 3}, "My pot", "owner", AT, "pots", "photo-a");
+        var photo = new AddPaintPotPhotoCommand("pot-one", "my-pot.png", "image/png", new byte[]{1, 2, 3}, "My pot", "owner", AT, "pots", "photo-a", false);
         service.addPaintPotPhoto(photo);
         service.addPaintPotPhoto(photo);
         var before = service.getPaintPot("pot-one");

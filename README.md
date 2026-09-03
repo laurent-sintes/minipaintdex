@@ -7,6 +7,7 @@ MiniPaintDex est une application locale de suivi de peinture de figurines. Elle 
 Dans l’espace de travail actuel, le JDK portable, Maven, Node et pnpm sont déjà provisionnés localement sous `.tools` ou `target`.
 
 ```powershell
+.\scripts\install-photo-model.ps1
 .\scripts\minipaintdex.ps1 build
 .\scripts\minipaintdex.ps1 server
 ```
@@ -14,6 +15,10 @@ Dans l’espace de travail actuel, le JDK portable, Maven, Node et pnpm sont dé
 L’application complète est disponible sur [http://127.0.0.1:8080](http://127.0.0.1:8080). Arrêter le serveur avec `Ctrl+C`.
 
 Sur une nouvelle machine, seul un JDK 25 doit être disponible via `JAVA_HOME` ou placé dans `.tools\jdk25`. Le Maven Wrapper télécharge Maven ; le build Maven télécharge ensuite les versions verrouillées de Node et pnpm.
+
+Le modèle de détourage est téléchargé une seule fois, avec vérification SHA-256. Ensuite les
+photos sont traitées localement en Java, sans service externe. Voir [le détourage des pots](docs/admin/local-photo-processing.md)
+pour l’aperçu, la conservation des originaux et l’option de désactivation.
 
 ## Build Maven
 

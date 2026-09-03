@@ -26,9 +26,17 @@ public record MiniPaintDexProperties(
         @Valid @NotNull PaintMatching paintMatching,
         @NotNull com.minipaintdex.application.query.PaintSearchPolicy paintSearch,
         @Valid @NotNull Media media,
+        @Valid @NotNull PaintPotPhotos paintPotPhotos,
         @Valid @NotNull Web web) {
 
     public record Application(@NotEmpty String name, @NotEmpty String author) {}
+
+    public record PaintPotPhotos(boolean enabled, @NotNull Path modelPath,
+            @jakarta.validation.constraints.Pattern(regexp = "[a-f0-9]{64}") @NotNull String modelSha256,
+            @Min(1) long maxPixels, @Min(320) @Max(4096) int maxOutputSize,
+            @Min(1) @Max(8) int cpuThreads,
+            @DecimalMin(value = "0", inclusive = false) @DecimalMax(value = "1", inclusive = false) double foregroundThreshold,
+            @DecimalMin("0") @DecimalMax("0.5") double paddingRatio) {}
 
     public record Storage(
             @NotNull Path siteConfiguration,

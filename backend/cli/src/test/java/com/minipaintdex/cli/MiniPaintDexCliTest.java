@@ -94,7 +94,7 @@ class MiniPaintDexCliTest {
                 .thenReturn(new com.minipaintdex.application.event.PublicationReceipt("p", com.minipaintdex.application.event.EventPublicationStatus.COMPLETED, Instant.now(), "test"));
         var command = new CommandLine(new MiniPaintDexCli(mock(MarketCatalogUseCases.class), workshop,
                 mock(AdministrationUseCases.class), mock(EventBus.class), mock(PersistenceLifecycle.class)));
-        assertEquals(java.util.Set.of("search", "show", "add", "import", "observe", "open", "set-possession", "note", "photo"),
+        assertEquals(java.util.Set.of("search", "show", "add", "import", "observe", "open", "set-possession", "note", "photo", "photo-preview"),
                 command.getSubcommands().get("workshop").getSubcommands().get("paint-pots").getSubcommands().keySet());
         assertEquals(0, command.execute("--server-url", "http://127.0.0.1:0", "--format", "json", "workshop", "paint-pots", "observe",
                 "--paint-pot-id", "pot-one", "--condition", "thickened", "--remaining-level", "low", "--idempotency-key", "observation"));
@@ -102,6 +102,34 @@ class MiniPaintDexCliTest {
         org.mockito.Mockito.verify(workshop).observePaintPot(captor.capture());
         assertEquals("pot-one", captor.getValue().paintPotId());
         assertEquals("low", captor.getValue().remainingLevel());
+    }
+
+    @Test
+    void exposesPhotoPreviewAndBackgroundRemovalThroughTheSameWorkshopPort() throws Exception {
+        var directory = java.nio.file.Files.createTempDirectory(java.nio.file.Files.createDirectories(java.nio.file.Path.of("target")), "photo-cli-");
+        var file = directory.resolve("pot.png");
+        var output = directory.resolve("preview.png");
+        java.nio.file.Files.write(file, new byte[]{1, 2, 3});
+        var workshop = mock(WorkshopUseCases.class);
+        org.mockito.Mockito.when(workshop.previewPaintPotPhoto(org.mockito.ArgumentMatchers.any()))
+                .thenReturn(new com.minipaintdex.application.result.PaintPotPhotoPreview(new byte[]{4, 5, 6}, "test-cutout", "preview"));
+        org.mockito.Mockito.when(workshop.addPaintPotPhoto(org.mockito.ArgumentMatchers.any()))
+                .thenReturn(new com.minipaintdex.application.event.PublicationReceipt("photo", com.minipaintdex.application.event.EventPublicationStatus.COMPLETED, Instant.now(), "photo"));
+        var command = new CommandLine(new MiniPaintDexCli(mock(MarketCatalogUseCases.class), workshop,
+                mock(AdministrationUseCases.class), mock(EventBus.class), mock(PersistenceLifecycle.class)));
+        assertEquals(0, command.execute("--format", "json", "workshop", "paint-pots", "photo-preview", "--paint-pot-id", "pot-one",
+                "--file", file.toString(), "--output", output.toString(), "--correlation-id", "preview"));
+        org.junit.jupiter.api.Assertions.assertArrayEquals(new byte[]{4, 5, 6}, java.nio.file.Files.readAllBytes(output));
+        var capture = org.mockito.ArgumentCaptor.forClass(com.minipaintdex.application.query.PreviewPaintPotPhotoQuery.class);
+        org.mockito.Mockito.verify(workshop).previewPaintPotPhoto(capture.capture());
+        assertEquals("pot-one", capture.getValue().paintPotId());
+        assertEquals("preview", capture.getValue().correlationId());
+        assertEquals(0, command.execute("--server-url", "http://127.0.0.1:0", "--format", "json", "workshop", "paint-pots", "photo",
+                "--paint-pot-id", "pot-one", "--file", file.toString(), "--remove-background", "--idempotency-key", "photo-key"));
+        var upload = org.mockito.ArgumentCaptor.forClass(com.minipaintdex.application.command.AddPaintPotPhotoCommand.class);
+        org.mockito.Mockito.verify(workshop).addPaintPotPhoto(upload.capture());
+        assertTrue(upload.getValue().removeBackground());
+        assertEquals("photo-key", upload.getValue().idempotencyKey());
     }
 
     @Test

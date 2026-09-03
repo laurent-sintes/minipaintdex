@@ -66,6 +66,16 @@ public interface WorkshopUseCases {
     PublicationReceipt addPaintPotNote(AddPaintPotNoteCommand command);
     /** Stores a bounded personal photo and publishes its attachment; duplicate commands do not store another copy. Mutations return after durable acceptance; validation and not-found/conflict errors are transport independent. */
     PublicationReceipt addPaintPotPhoto(AddPaintPotPhotoCommand command);
+
+    /**
+     * Previews local background removal for an existing pot without media writes or events.
+     * Validates upload type/size and pot identity; corrupt/oversized images are invalid_input,
+     * missing pots are not_found, disabled/busy processing is photo_processing_unavailable.
+     * Concurrent work is bounded; results are transient PNG bytes carrying a correlation ID.
+     * No idempotency key or ordering guarantee is needed for this read-only operation.
+     */
+    com.minipaintdex.application.result.PaintPotPhotoPreview previewPaintPotPhoto(
+            com.minipaintdex.application.query.PreviewPaintPotPhotoQuery query);
     /** Returns a committed, immutable page in pot-ID order; removed pots are excluded unless requested. */
     PageResult<PaintPotView> searchPaintPots(SearchPaintPotsQuery query);
     /** Returns one committed pot and its product reference or raises not found; retains no resources. */

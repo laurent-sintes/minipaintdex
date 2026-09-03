@@ -50,7 +50,7 @@ public sealed interface PaintPotEvent extends DomainEvent {
         @Override public String eventType() { return "paint_pot.note_added"; }
     }
     record PaintPotPhotoAdded(String paintPotId, String mediaId, String url, String caption,
-            String originalFilename, String contentType, long size, String sha256, Instant occurredAt) implements PaintPotEvent {
+            String originalFilename, String contentType, long size, String sha256, PaintPotPhotoCutout cutout, Instant occurredAt) implements PaintPotEvent {
         public PaintPotPhotoAdded {
             paintPotId = DomainFields.id(paintPotId, "paintPotId");
             mediaId = DomainFields.id(mediaId, "mediaId");

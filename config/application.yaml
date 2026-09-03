@@ -110,6 +110,15 @@ minipaintdex:
       - image/jpeg
       - image/png
       - image/webp
+  paint-pot-photos:
+    enabled: true
+    model-path: .tools/models/u2netp.onnx
+    model-sha256: 309c8469258dda742793dce0ebea8e6dd393174f89934733ecc8b14c76f4ddd8
+    max-pixels: 24000000
+    max-output-size: 1200
+    cpu-threads: 2
+    foreground-threshold: 0.1
+    padding-ratio: 0.08
   web:
     allowed-origins:
       - http://127.0.0.1:5173

@@ -100,7 +100,7 @@ public final class DomainEventCodec {
             case "paint_pot.note_added" -> new PaintPotNoteAdded(aggregateId, text(payload.get("note")), at);
             case "paint_pot.photo_added" -> new PaintPotPhotoAdded(aggregateId, text(payload.get("media_id")), text(payload.get("url")),
                     text(payload.get("caption")), text(payload.get("original_filename")), text(payload.get("content_type")),
-                    longNumber(payload.get("size")), text(payload.get("sha256")), at);
+                    longNumber(payload.get("size")), text(payload.get("sha256")), readPotCutout(payload.get("cutout")), at);
             case "workshop.created" -> new WorkshopCreated(
                     aggregateId, text(payload.get("name")), at);
             case "workshop.painting_project_registered" -> new PaintingProjectRegistered(
@@ -165,6 +165,9 @@ public final class DomainEventCodec {
                 payload.put("media_id", value.mediaId()); payload.put("url", value.url()); payload.put("caption", value.caption());
                 payload.put("original_filename", value.originalFilename()); payload.put("content_type", value.contentType());
                 payload.put("size", value.size()); payload.put("sha256", value.sha256());
+                if (value.cutout() != null) payload.put("cutout", Map.of(
+                        "media_id", value.cutout().mediaId(), "url", value.cutout().url(), "size", value.cutout().size(),
+                        "sha256", value.cutout().sha256(), "processing_method", value.cutout().processingMethod()));
             }
             case WorkshopCreated value -> payload.put("name", value.name());
             case PaintingProjectRegistered value -> payload.put("painting_project_id", value.paintingProjectId());
@@ -262,6 +265,13 @@ public final class DomainEventCodec {
         payload.put("painting_project_id", paintingProjectId);
         payload.put("stage", stage.id());
         optional(payload, noteName, note);
+    }
+
+    private static com.minipaintdex.domain.workshop.PaintPotPhotoCutout readPotCutout(Object value) {
+        if (value == null) return null;
+        var fields = map(value);
+        return new com.minipaintdex.domain.workshop.PaintPotPhotoCutout(text(fields.get("media_id")), text(fields.get("url")),
+                longNumber(fields.get("size")), text(fields.get("sha256")), text(fields.get("processing_method")));
     }
 
     private static WorkflowStage stage(Map<String, Object> payload) {

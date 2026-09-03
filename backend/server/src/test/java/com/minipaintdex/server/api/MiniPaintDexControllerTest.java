@@ -83,6 +83,33 @@ class MiniPaintDexControllerTest {
     }
 
     @Test
+    void previewsBinaryPhotosAndForwardsAttachmentChoiceWithIdempotency() throws Exception {
+        var file = new org.springframework.mock.web.MockMultipartFile("file", "pot.png", "image/png", new byte[]{1, 2, 3});
+        when(workshop.previewPaintPotPhoto(any())).thenReturn(new com.minipaintdex.application.result.PaintPotPhotoPreview(new byte[]{4, 5, 6}, "test-cutout", "preview"));
+        mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart("/api/v1/workshop/paint-pots/pot-one/photo-preview")
+                        .file(file).header("X-Correlation-Id", "preview"))
+                .andExpect(status().isOk())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.content().contentType("image/png"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.content().bytes(new byte[]{4, 5, 6}))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.header().string("Cache-Control", "no-store"));
+        var preview = ArgumentCaptor.forClass(com.minipaintdex.application.query.PreviewPaintPotPhotoQuery.class);
+        verify(workshop).previewPaintPotPhoto(preview.capture());
+        assertEquals("pot-one", preview.getValue().paintPotId());
+        assertEquals("preview", preview.getValue().correlationId());
+        when(workshop.addPaintPotPhoto(any())).thenReturn(new PublicationReceipt("pub-photo", EventPublicationStatus.PENDING, Instant.now(), "upload"));
+        mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart("/api/v1/workshop/paint-pots/pot-one/photos")
+                        .file(file).param("removeBackground", "true").header("Idempotency-Key", "photo-key"))
+                .andExpect(status().isAccepted());
+        var capture = ArgumentCaptor.forClass(com.minipaintdex.application.command.AddPaintPotPhotoCommand.class);
+        verify(workshop).addPaintPotPhoto(capture.capture());
+        org.junit.jupiter.api.Assertions.assertTrue(capture.getValue().removeBackground());
+        assertEquals("photo-key", capture.getValue().idempotencyKey());
+        when(workshop.previewPaintPotPhoto(any())).thenThrow(new DomainException("photo_processing_unavailable", "Disabled"));
+        mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart("/api/v1/workshop/paint-pots/pot-one/photo-preview").file(file))
+                .andExpect(status().isServiceUnavailable()).andExpect(jsonPath("$.code").value("photo_processing_unavailable"));
+    }
+
+    @Test
     void searchEndpointsSelectSuggestionsWithLinksAndFilters() throws Exception {
         var suggestions = List.of(new com.minipaintdex.application.view.PaintProductSuggestion("karak", "Karak Stone", "Citadel", "Layer", "22-17", "", ""));
         when(market.searchPaintProducts(any(com.minipaintdex.application.query.PaintSearchQuery.class)))

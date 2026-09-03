@@ -1,5 +1,7 @@
 'use client';
 
+import { PaintProductPotPhotoUpload } from './paint-pot-photo-upload';
+
 import {
   BookOpen, Check, ChevronLeft, ChevronRight, Droplets, ExternalLink,
   FolderCog, Grid2X2, ListChecks, PackageOpen, Paintbrush,
@@ -775,6 +777,7 @@ function PaintDetail({ paint, config, onClose, onPots }: { paint: PaintCardModel
         </div>
       </section>
       {paint.manufacturerDescription && <p className="text-sm leading-6 text-muted-foreground">{paint.manufacturerDescription}</p>}
+      <PaintProductPotPhotoUpload paintProductId={paint.id} config={config} />
       {paint.recommendedUses.length > 0 && <section className="paint-detail-section"><h3>{labels.recommendedUses}</h3>
         <ul className="mt-3 flex flex-wrap gap-2">{paint.recommendedUses.map(use => <li key={use} className="rounded-lg border px-3 py-2 text-sm">{use}</li>)}</ul>
       </section>}

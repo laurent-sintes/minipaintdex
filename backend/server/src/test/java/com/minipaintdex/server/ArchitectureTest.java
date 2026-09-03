@@ -16,6 +16,11 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 @AnalyzeClasses(packages = "com.minipaintdex", importOptions = ImportOption.DoNotIncludeTests.class)
 class ArchitectureTest {
     @ArchTest
+    static final ArchRule onnx_is_confined_to_its_adapter = noClasses()
+            .that().resideOutsideOfPackage("com.minipaintdex.adapter.onnx..")
+            .should().dependOnClassesThat().resideInAPackage("ai.onnxruntime..");
+
+    @ArchTest
     static final ArchRule market_never_depends_on_workshop = noClasses()
             .that().resideInAnyPackage("..market..")
             .should().dependOnClassesThat().resideInAnyPackage("..workshop..");

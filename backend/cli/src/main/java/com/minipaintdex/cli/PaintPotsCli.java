@@ -17,7 +17,8 @@ import java.util.function.Supplier;
 
 @Command(name = "paint-pots", mixinStandardHelpOptions = true, subcommands = {
         PaintPotsCli.Search.class, PaintPotsCli.Show.class, PaintPotsCli.Add.class, PaintPotsCli.Import.class,
-        PaintPotsCli.Observe.class, PaintPotsCli.Open.class, PaintPotsCli.Possession.class, PaintPotsCli.Note.class, PaintPotsCli.Photo.class})
+        PaintPotsCli.Observe.class, PaintPotsCli.Open.class, PaintPotsCli.Possession.class, PaintPotsCli.Note.class, PaintPotsCli.Photo.class,
+        PaintPotsCli.PhotoPreview.class})
 final class PaintPotsCli implements Runnable {
     @ParentCommand MiniPaintDexCli.Workshop parent;
     MiniPaintDexCli root() { return parent.root; }
@@ -136,13 +137,34 @@ final class PaintPotsCli implements Runnable {
     static final class Photo extends Mutation implements Callable<Integer> {
         @Option(names = "--file", required = true) Path file;
         @Option(names = "--caption") String caption;
+        @Option(names = "--remove-background") boolean removeBackground;
         public Integer call() throws Exception {
             var type = Files.probeContentType(file);
             if (type == null) type = file.toString().toLowerCase(java.util.Locale.ROOT).endsWith(".webp") ? "image/webp" : "image/jpeg";
-            var command = new AddPaintPotPhotoCommand(id, file.getFileName().toString(), type, Files.readAllBytes(file), caption, actor, at, correlation, key);
+            var command = new AddPaintPotPhotoCommand(id, file.getFileName().toString(), type, Files.readAllBytes(file), caption, actor, at, correlation, key, removeBackground);
             parent.root().output(parent.root().mutatePhoto("/api/v1/workshop/paint-pots/" + id + "/photos",
-                    file, type, null, caption, actor, at, key, correlation,
+                    file, type, null, caption, actor, at, key, correlation, removeBackground,
                     () -> Map.of("publication", parent.root().workshop().addPaintPotPhoto(command))));
+            return 0;
+        }
+    }
+
+    @Command(name = "photo-preview", mixinStandardHelpOptions = true, description = "Write a transient transparent PNG without changing workshop data")
+    static final class PhotoPreview implements Callable<Integer> {
+        @ParentCommand PaintPotsCli parent;
+        @Option(names = "--paint-pot-id", required = true) String id;
+        @Option(names = "--file", required = true) Path file;
+        @Option(names = "--output", required = true) Path output;
+        @Option(names = "--correlation-id") String correlation;
+        public Integer call() throws Exception {
+            if (Files.exists(output)) throw new com.minipaintdex.domain.shared.DomainException("conflict", "Preview output already exists.");
+            var type = Files.probeContentType(file);
+            if (type == null) type = file.toString().toLowerCase(java.util.Locale.ROOT).endsWith(".webp") ? "image/webp" : "image/jpeg";
+            var preview = parent.root().workshop().previewPaintPotPhoto(
+                    new com.minipaintdex.application.query.PreviewPaintPotPhotoQuery(id, type, Files.readAllBytes(file), correlation));
+            Files.write(output, preview.content(), java.nio.file.StandardOpenOption.CREATE_NEW);
+            parent.root().output(Map.of("output", output.toAbsolutePath().toString(), "contentType", "image/png",
+                    "processingMethod", preview.processingMethod(), "correlationId", preview.correlationId(), "size", preview.content().length));
             return 0;
         }
     }

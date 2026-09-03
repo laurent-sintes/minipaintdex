@@ -9,6 +9,7 @@
     <dependency><groupId>com.minipaintdex</groupId><artifactId>minipaintdex-application</artifactId><version>${project.version}</version></dependency>
     <dependency><groupId>com.minipaintdex</groupId><artifactId>minipaintdex-adapter-file</artifactId><version>${project.version}</version></dependency>
     <dependency><groupId>com.minipaintdex</groupId><artifactId>minipaintdex-adapter-lucene</artifactId><version>${project.version}</version></dependency>
+    <dependency><groupId>com.minipaintdex</groupId><artifactId>minipaintdex-adapter-onnx</artifactId><version>${project.version}</version></dependency>
     <dependency><groupId>com.minipaintdex</groupId><artifactId>minipaintdex-adapter-spring-events</artifactId><version>${project.version}</version></dependency>
     <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter</artifactId></dependency>
     <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-validation</artifactId></dependency>

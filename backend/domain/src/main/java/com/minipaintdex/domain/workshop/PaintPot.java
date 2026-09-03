@@ -46,7 +46,10 @@ public final class PaintPot extends EventSourcedAggregateRoot {
     }
     public void addNote(String note, Instant at) { raise(new PaintPotNoteAdded(id, note, at)); }
     public void addPhoto(String mediaId, String url, String caption, String filename, String type, long size, String hash, Instant at) {
-        raise(new PaintPotPhotoAdded(id, mediaId, url, caption, filename, type, size, hash, at));
+        addPhoto(mediaId, url, caption, filename, type, size, hash, null, at);
+    }
+    public void addPhoto(String mediaId, String url, String caption, String filename, String type, long size, String hash, PaintPotPhotoCutout cutout, Instant at) {
+        raise(new PaintPotPhotoAdded(id, mediaId, url, caption, filename, type, size, hash, cutout, at));
     }
     private void requireOwned() {
         if (possession != PaintPotPossession.OWNED) throw DomainFields.invalid("The pot is no longer owned.");

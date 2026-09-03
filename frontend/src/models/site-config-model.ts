@@ -5,6 +5,8 @@ export type SiteConfig = {
     condition: string; remaining: string; possession: string; available: string; unavailable: string; availableCount: string;
     observationHelp: string; save: string; opened: string; acquired: string; unknown: string; open: string;
     notes: string; addNote: string; photos: string; addPhoto: string; caption: string; addHelp: string;
+    photoHelp: string; removeBackground: string; originalPhoto: string; cutoutPhoto: string; processingPhoto: string;
+    previewFailed: string; previewUnavailable: string; photoNeedsPot: string; choosePot: string;
     saved: string; pending: string; failed: string; previous: string; next: string;
     conditions: Record<string,string>; levels: Record<string,string>; possessions: Record<string,string>;
   };

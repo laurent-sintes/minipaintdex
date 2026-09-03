@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         webEnvironment = SpringBootTest.WebEnvironment.MOCK,
         properties = {
                 "minipaintdex.root=${user.dir}/../..",
+                "minipaintdex.paint-pot-photos.enabled=false",
                 "minipaintdex.paint-matching.standard.color=0.55",
                 "minipaintdex.paint-matching.standard.role=0.25"
         })
@@ -59,6 +60,13 @@ class MiniPaintDexConfigurationTest {
         assertTrue(properties.storage().paintProductCatalogDirectory().endsWith("data/market/paints"));
         assertEquals("files", persistence.status().storage());
         assertEquals(1, properties.eventing().workerCount());
+    }
+
+    @Test
+    void documentsPhotoPreviewAsBinaryPngRatherThanBase64() throws Exception {
+        mvc.perform(get("/v3/api-docs"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.paths['/api/v1/workshop/paint-pots/{paintPotId}/photo-preview'].post.responses['200'].content['image/png'].schema.format").value("binary"));
     }
 
     @Test

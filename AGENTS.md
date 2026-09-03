@@ -129,6 +129,7 @@ backend/
   application/            # Commands, queries, handlers, ports, DTO contracts
   adapter-file/           # YAML/JSONL outbound repositories
   adapter-lucene/         # Rebuildable embedded Market search index
+  adapter-onnx/           # Local CPU segmentation of personal paint-pot photos
   adapter-spring-events/  # Spring Events bus, asynchronous dispatch and lifecycle adapter
   bootstrap/              # Shared validated Spring configuration and bean wiring
   server/                 # Spring Boot and Spring MVC REST adapter
@@ -698,6 +699,19 @@ Keep the interaction model uniform across the SPA:
 ## Media and provenance
 
 Store personal photos under `media/workshop` through the server. Attach each to a `PaintPot` or a `WorkshopPaintable`; only a paintable photo may refer to a workflow stage.
+
+Paint-pot photo background removal is local Java/ONNX CPU inference behind the application
+`PaintPotPhotoProcessor` port; it never sends photos to an external service. Model installation is
+an explicit administration step, with a pinned SHA-256, separate from application startup. Keep
+ONNX classes in `adapter-onnx`, and bind limits/model settings in Spring bootstrap.
+`PreviewPaintPotPhotoQuery` produces transient PNG bytes without writes or domain events.
+`AddPaintPotPhotoCommand.removeBackground` optionally stores both the untouched original and a
+transparent derivative in one `PaintPotPhotoAdded` decision. Its optional `PaintPotPhotoCutout`
+value carries derivative identity, URL, size, hash and processing method; schema stays 1.
+Workshop views prefer the derivative and retain `originalUrl`. Market imagery is never changed
+by a personal upload. Do not infer paint condition or remaining quantity from segmentation.
+The photo preview and attachment remain aligned across REST, CLI and the workshop UI, including
+an explicit choice to retain the original without background removal.
 
 For internet images and manufacturer assets, retain source URLs, attribution, and usage status. Do not publish copied images without clear usage rights. Distinguish manufacturer packshots, sourced photos of actual painted results, user progress photos, and approximate generated or color-swatch previews.
 

@@ -158,6 +158,24 @@ public class MiniPaintDexSpringConfiguration {
     }
 
     @Bean
+    com.minipaintdex.application.port.PaintPotPhotoProcessor paintPotPhotoProcessor(MiniPaintDexProperties properties) {
+        var photos = properties.paintPotPhotos();
+        if (!photos.enabled()) return (content, correlation) -> {
+            throw new com.minipaintdex.domain.shared.DomainException("photo_processing_unavailable", "Local background removal is disabled.");
+        };
+        return new com.minipaintdex.adapter.onnx.OnnxPaintPotPhotoProcessor(
+                new com.minipaintdex.adapter.onnx.PaintPotPhotoPolicy(properties.root().resolve(photos.modelPath()),
+                        photos.modelSha256(), photos.maxPixels(), photos.maxOutputSize(), photos.cpuThreads(),
+                        photos.foregroundThreshold(), photos.paddingRatio()));
+    }
+
+    @Bean
+    com.minipaintdex.application.PaintPotPhotoService paintPotPhotoService(WorkshopMediaPolicy policy,
+            com.minipaintdex.application.port.PaintPotPhotoProcessor processor) {
+        return new com.minipaintdex.application.PaintPotPhotoService(policy, processor);
+    }
+
+    @Bean
     WorkshopQueryService workshopQueryService(
             SnapshotRepository snapshots,
             PaintMatchEngine paintMatchEngine) {
@@ -170,8 +188,8 @@ public class MiniPaintDexSpringConfiguration {
             EventBus eventBus,
             WorkshopMediaStorage media,
             WorkshopMediaPolicy mediaPolicy,
-            WorkshopQueryService queries) {
-        return new WorkshopCommandService(snapshots, eventBus, media, mediaPolicy, queries);
+            WorkshopQueryService queries, com.minipaintdex.application.PaintPotPhotoService potPhotos) {
+        return new WorkshopCommandService(snapshots, eventBus, media, mediaPolicy, queries, potPhotos);
     }
 
     @Bean
@@ -214,8 +232,9 @@ public class MiniPaintDexSpringConfiguration {
             WorkshopCommandService commands,
             WorkshopQueryService queries,
             MarketCatalogUseCases market,
-            SnapshotRepository snapshots, com.minipaintdex.application.query.PaintSearchPolicy policy) {
-        return new WorkshopApplicationService(commands, queries, market, snapshots, policy);
+            SnapshotRepository snapshots, com.minipaintdex.application.query.PaintSearchPolicy policy,
+            com.minipaintdex.application.PaintPotPhotoService potPhotos) {
+        return new WorkshopApplicationService(commands, queries, market, snapshots, policy, potPhotos);
     }
 
     @Bean

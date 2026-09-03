@@ -89,6 +89,7 @@ public final class WorkshopCommandService {
     private final WorkshopMediaStorage mediaStorage;
     private final WorkshopQueryService queries;
     private final WorkshopMediaPolicy mediaPolicy;
+    private final PaintPotPhotoService potPhotos;
     private final DomainEventEnvelopeFactory envelopeFactory = new DomainEventEnvelopeFactory();
 
     public WorkshopCommandService(
@@ -96,12 +97,13 @@ public final class WorkshopCommandService {
             EventBus eventBus,
             WorkshopMediaStorage mediaStorage,
             WorkshopMediaPolicy mediaPolicy,
-            WorkshopQueryService queries) {
+            WorkshopQueryService queries, PaintPotPhotoService potPhotos) {
         this.snapshots = Objects.requireNonNull(snapshots);
         this.eventBus = Objects.requireNonNull(eventBus);
         this.mediaStorage = Objects.requireNonNull(mediaStorage);
         this.mediaPolicy = Objects.requireNonNull(mediaPolicy);
         this.queries = Objects.requireNonNull(queries);
+        this.potPhotos = Objects.requireNonNull(potPhotos);
     }
 
 
@@ -188,7 +190,7 @@ public final class WorkshopCommandService {
                 .filter(pot -> pot.id().equals(id)).findFirst()
                 .orElseThrow(() -> new DomainException("not_found", "Paint pot not found: " + id));
     }
-    public synchronized PublicationReceipt addPaintPotPhoto(com.minipaintdex.application.command.AddPaintPotPhotoCommand command) {
+    public PublicationReceipt addPaintPotPhoto(com.minipaintdex.application.command.AddPaintPotPhotoCommand command) {
         require(command.originalFilename(), "originalFilename");
         var type = defaultText(command.contentType(), "").toLowerCase(Locale.ROOT);
         if (!mediaPolicy.allowedContentTypes().contains(type)) throw new DomainException("invalid_input", "Unsupported pot photo content type.");
@@ -197,13 +199,31 @@ public final class WorkshopCommandService {
         var snapshot = snapshots.load();
         var duplicate = idempotent(snapshot, command.idempotencyKey());
         if (duplicate != null) return existingReceipt(duplicate);
+        paintPot(snapshot, command.paintPotId());
+        // Inference must not hold the workshop command lock. Recheck idempotency and aggregate
+        // state under that lock before storing media and accepting the resulting event.
+        var preview = command.removeBackground() ? potPhotos.preview(type, content, command.correlationId()) : null;
+        return attachPaintPotPhoto(command, type, content, preview);
+    }
+
+    private synchronized PublicationReceipt attachPaintPotPhoto(com.minipaintdex.application.command.AddPaintPotPhotoCommand command,
+            String type, byte[] content, com.minipaintdex.application.result.PaintPotPhotoPreview preview) {
+        var snapshot = snapshots.load();
+        var duplicate = idempotent(snapshot, command.idempotencyKey());
+        if (duplicate != null) return existingReceipt(duplicate);
         var pot = paintPot(snapshot, command.paintPotId());
         var at = command.occurredAt() == null ? Instant.now() : command.occurredAt();
         var stored = mediaStorage.store(pot.id(), "media-" + Ulid.next(at).toLowerCase(Locale.ROOT), command.originalFilename(), type, content);
-        pot.addPhoto(stored.id(), stored.publicPath(), command.caption(), stored.originalFilename(), stored.contentType(), stored.size(), stored.sha256(), at);
+        WorkshopMediaStorage.StoredMedia derivative = null;
         try {
+            if (preview != null) derivative = mediaStorage.store(pot.id(), "media-" + Ulid.next(at).toLowerCase(Locale.ROOT),
+                    "cutout.png", "image/png", preview.content());
+            var cutout = derivative == null ? null : new com.minipaintdex.domain.workshop.PaintPotPhotoCutout(
+                    derivative.id(), derivative.publicPath(), derivative.size(), derivative.sha256(), preview.processingMethod());
+            pot.addPhoto(stored.id(), stored.publicPath(), command.caption(), stored.originalFilename(), stored.contentType(), stored.size(), stored.sha256(), cutout, at);
             return publish(pot, new Actor("user", defaultText(command.actorId(), "owner")), command.correlationId(), command.idempotencyKey());
         } catch (RuntimeException failure) {
+            if (derivative != null) mediaStorage.delete(derivative);
             mediaStorage.delete(stored);
             throw failure;
         }

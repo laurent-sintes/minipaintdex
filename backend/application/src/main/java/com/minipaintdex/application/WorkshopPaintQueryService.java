@@ -54,7 +54,7 @@ final class WorkshopPaintQueryService {
             var available = (int) owned.stream().filter(com.minipaintdex.domain.workshop.PaintPot::available).count();
             var photo = owned.stream().flatMap(pot -> pot.photos().stream())
                     .max(Comparator.comparing(com.minipaintdex.domain.workshop.PaintPotEvent.PaintPotPhotoAdded::occurredAt))
-                    .map(com.minipaintdex.domain.workshop.PaintPotEvent.PaintPotPhotoAdded::url).orElse(null);
+                    .map(photoEntry -> photoEntry.cutout() == null ? photoEntry.url() : photoEntry.cutout().url()).orElse(null);
             return new WorkshopPaintStockView(paint, owned.size(), available, photo);
         }).toList();
         return new PaintSearchResult<>(

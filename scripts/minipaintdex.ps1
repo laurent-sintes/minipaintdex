@@ -50,7 +50,7 @@ function Get-JvmMemoryOptions(
             throw "Invalid JVM memory size '$value'. Use a value such as 128m or 1g."
         }
     }
-    return @("-Xms$initial", "-Xmx$maximum", '-XX:+ExitOnOutOfMemoryError')
+    return @("-Xms$initial", "-Xmx$maximum", '-XX:+ExitOnOutOfMemoryError', '--enable-native-access=ALL-UNNAMED')
 }
 
 function Invoke-Build {

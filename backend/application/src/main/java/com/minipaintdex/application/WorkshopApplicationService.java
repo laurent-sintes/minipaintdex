@@ -48,13 +48,15 @@ public final class WorkshopApplicationService implements WorkshopUseCases {
     private final WorkshopQueryService queries;
     private final WorkshopPaintQueryService paintQueries;
     private final PaintPotQueryService potQueries;
+    private final PaintPotPhotoService potPhotos;
     private final com.minipaintdex.application.query.PaintSearchPolicy searchPolicy;
 
     public WorkshopApplicationService(
             WorkshopCommandService commands,
             WorkshopQueryService queries,
             MarketCatalogUseCases market,
-            SnapshotRepository snapshots, com.minipaintdex.application.query.PaintSearchPolicy searchPolicy) {
+            SnapshotRepository snapshots, com.minipaintdex.application.query.PaintSearchPolicy searchPolicy, PaintPotPhotoService potPhotos) {
+        this.potPhotos = Objects.requireNonNull(potPhotos);
         this.searchPolicy = Objects.requireNonNull(searchPolicy);
         this.commands = Objects.requireNonNull(commands);
         this.queries = Objects.requireNonNull(queries);
@@ -76,6 +78,11 @@ public final class WorkshopApplicationService implements WorkshopUseCases {
     @Override public PublicationReceipt changePaintPotPossession(ChangePaintPotPossessionCommand command) { return commands.changePaintPotPossession(command); }
     @Override public PublicationReceipt addPaintPotNote(AddPaintPotNoteCommand command) { return commands.addPaintPotNote(command); }
     @Override public PublicationReceipt addPaintPotPhoto(AddPaintPotPhotoCommand command) { return commands.addPaintPotPhoto(command); }
+    @Override public com.minipaintdex.application.result.PaintPotPhotoPreview previewPaintPotPhoto(
+            com.minipaintdex.application.query.PreviewPaintPotPhotoQuery query) {
+        potQueries.get(query.paintPotId());
+        return potPhotos.preview(query.contentType(), query.content(), query.correlationId());
+    }
     @Override public PageResult<PaintPotView> searchPaintPots(SearchPaintPotsQuery query) { return potQueries.search(query); }
     @Override public PaintPotView getPaintPot(String id) { return potQueries.get(id); }
     @Override public PaintFacetsView workshopPaintStockFacets(

@@ -49,7 +49,8 @@ final class PaintPotController {
         var pot = workshop.getPaintPot(paintPotId);
         var base = "/api/v1/workshop/paint-pots/" + pot.paintPotId();
         var result = EntityModel.of(pot, Link.of(base).withSelfRel(), Link.of("/api/v1/workshop/paint-pots").withRel("collection"),
-                Link.of("/api/v1/market/paint-products/" + pot.paintProductId()).withRel("paint-product"));
+                Link.of("/api/v1/market/paint-products/" + pot.paintProductId()).withRel("paint-product"),
+                Link.of(base + "/photo-preview").withRel("photo-preview"));
         for (var action : pot.allowedActions()) {
             var resource = switch (action) {
                 case "observe" -> "observations";
@@ -114,10 +115,25 @@ final class PaintPotController {
     ResponseEntity<PublicationResponse> addPaintPotPhoto(@PathVariable String paintPotId, @RequestPart("file") MultipartFile file,
             @RequestParam(required = false) String caption, @RequestParam(required = false) String actorId,
             @RequestParam(required = false) Instant occurredAt,
+            @RequestParam(defaultValue = "false") boolean removeBackground,
             @RequestHeader(value = "Idempotency-Key", required = false) String key,
             @RequestHeader(value = "X-Correlation-Id", required = false) String correlation) throws IOException {
         return ApiResponses.accepted(workshop.addPaintPotPhoto(new AddPaintPotPhotoCommand(paintPotId, file.getOriginalFilename(),
-                file.getContentType(), file.getBytes(), caption, actorId, occurredAt, correlation, key)));
+                file.getContentType(), file.getBytes(), caption, actorId, occurredAt, correlation, key, removeBackground)));
+    }
+
+    @io.swagger.v3.oas.annotations.Operation(summary = "Preview a locally processed pot photo without saving it")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Transient transparent PNG",
+            content = @io.swagger.v3.oas.annotations.media.Content(mediaType = MediaType.IMAGE_PNG_VALUE,
+                    schema = @io.swagger.v3.oas.annotations.media.Schema(type = "string", format = "binary")))
+    @PostMapping(value = "/paint-pots/{paintPotId}/photo-preview", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.IMAGE_PNG_VALUE)
+    ResponseEntity<byte[]> previewPaintPotPhoto(@PathVariable String paintPotId, @RequestPart("file") MultipartFile file,
+            @RequestHeader(value = "X-Correlation-Id", required = false) String correlation) throws IOException {
+        var preview = workshop.previewPaintPotPhoto(new com.minipaintdex.application.query.PreviewPaintPotPhotoQuery(
+                paintPotId, file.getContentType(), file.getBytes(), correlation));
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).cacheControl(org.springframework.http.CacheControl.noStore())
+                .header("X-Correlation-Id", preview.correlationId()).header("X-Photo-Processing-Method", preview.processingMethod())
+                .body(preview.content());
     }
 }
 record PaintPotPageResponse(List<PaintPotView> pots, long total, int page, int size, int totalPages) {}

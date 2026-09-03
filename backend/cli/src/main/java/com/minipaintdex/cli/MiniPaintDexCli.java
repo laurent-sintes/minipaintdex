@@ -217,6 +217,7 @@ public final class MiniPaintDexCli implements Runnable {
             Instant occurredAt,
             String idempotencyKey,
             String correlationId,
+            Boolean removeBackground,
         Supplier<Object> offline) throws Exception {
         if (!serverAvailable()) return awaitIfRequested(offline.get(), false);
         var query = new StringBuilder();
@@ -224,6 +225,7 @@ public final class MiniPaintDexCli implements Runnable {
         appendQuery(query, "caption", caption);
         appendQuery(query, "actorId", actor);
         appendQuery(query, "occurredAt", occurredAt == null ? null : occurredAt.toString());
+        if (removeBackground != null) appendQuery(query, "removeBackground", removeBackground.toString());
         var boundary = "MiniPaintDex-" + java.util.UUID.randomUUID();
         var filename = file.getFileName().toString().replace("\"", "");
         var prefix = ("--" + boundary + "\r\n"
@@ -778,7 +780,7 @@ public final class MiniPaintDexCli implements Runnable {
                             item, file.getFileName().toString(), contentType, Files.readAllBytes(file), stage, caption,
                             actor, occurredAt, correlationId, idempotencyKey);
                     root.output(root.mutatePhoto("/api/v1/workshop/paintables/" + item + "/photos", file, contentType, stage, caption, actor, occurredAt,
-                            idempotencyKey, correlationId,
+                            idempotencyKey, correlationId, null,
                             () -> Map.of("publication", root.workshop().addWorkshopPaintablePhoto(command))));
                     return 0;
                 }

@@ -450,6 +450,15 @@ paint_pots:
   add_note: Ajouter une note
   photos: Photos personnelles
   add_photo: Ajouter la photo
+  photo_help: Choisis une photo avec un seul pot bien visible. Le détourage est réalisé sur ton ordinateur. L’original est conservé et le visuel de ton atelier est mis à jour après validation.
+  remove_background: Détourer le pot et retirer le fond
+  original_photo: Photo originale
+  cutout_photo: Aperçu détouré
+  processing_photo: Détourage en cours…
+  preview_failed: Le détourage n’a pas abouti. Tu peux décocher l’option pour conserver la photo originale.
+  preview_unavailable: Aperçu indisponible
+  photo_needs_pot: Enregistre d’abord ce pot dans « Mes pots » pour lui associer une photo personnelle.
+  choose_pot: Pot à photographier
   caption: Légende
   add_help: À utiliser uniquement pour un nouveau pot physique, pas pour le photographier à nouveau.
   saved: Modification enregistrée.

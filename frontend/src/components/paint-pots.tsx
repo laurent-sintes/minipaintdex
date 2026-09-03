@@ -1,4 +1,5 @@
 import { AppNotice } from './app-notice';
+import { PaintPotPhotoUpload } from './paint-pot-photo-upload';
 import { apiFetch, failureNotice } from '@/utils/api-errors';
 import type { Notice } from '@/utils/api-errors';
 import { useEffect, useState } from 'react';
@@ -46,9 +47,6 @@ export function PaintPotsPage({ route, config, navigate, revision }: Props) {
   const [remainingLevel, setRemainingLevel] = useState('unknown');
   const [possession, setPossession] = useState('owned');
   const [note, setNote] = useState('');
-  const [caption, setCaption] = useState('');
-  const [photo, setPhoto] = useState<File | null>(null);
-  const [photoKey, setPhotoKey] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -161,12 +159,8 @@ export function PaintPotsPage({ route, config, navigate, revision }: Props) {
           <form onSubmit={event => { event.preventDefault(); void mutate(pot._links!['add-note'].href, { note }, () => setNote('')); }}><textarea aria-label={labels.notes} required value={note} onChange={event => setNote(event.target.value)} className={field + ' mt-3'} /><button disabled={busy || !note.trim()} className={button + ' mt-2'}>{labels.addNote}</button></form>
         </section>
         <section className="mt-7"><h3 className="font-semibold">{labels.photos}</h3>
-          <div className="mt-3 grid gap-3 sm:grid-cols-3">{pot.photos.map(entry => <figure key={entry.mediaId}><a href={entry.url} target="_blank" rel="noreferrer"><img src={entry.url} alt={entry.caption || labels.personalPhoto} className="aspect-square w-full rounded-xl border object-contain" /></a><figcaption className="mt-1 text-xs">{entry.caption} · {displayDate(entry.addedAt)}</figcaption></figure>)}</div>
-          <form className="mt-4" onSubmit={event => { event.preventDefault(); if (!photo) return; const body = new FormData(); body.append('file', photo); body.append('caption', caption); void mutate(pot._links!['add-photo'].href, body, () => { setPhoto(null); setCaption(''); setPhotoKey(value => value + 1); }); }}>
-            <label className="text-sm">{labels.personalPhoto}<input key={photoKey} type="file" required accept="image/jpeg,image/png,image/webp" className={field} onChange={event => setPhoto(event.target.files?.[0] ?? null)} /></label>
-            <label className="mt-3 block text-sm">{labels.caption}<input value={caption} onChange={event => setCaption(event.target.value)} className={field} /></label>
-            <button disabled={busy || !photo} className={button + ' mt-3'}>{labels.addPhoto}</button>
-          </form>
+          <div className="mt-3 grid gap-3 sm:grid-cols-3">{pot.photos.map(entry => <figure key={entry.mediaId}><a href={entry.url} target="_blank" rel="noreferrer"><img src={entry.url} alt={entry.caption || labels.personalPhoto} className="aspect-square w-full rounded-xl border object-contain" /></a><figcaption className="mt-1 text-xs">{entry.caption} · {displayDate(entry.addedAt)}{entry.processingMethod && <a href={entry.originalUrl} target="_blank" rel="noreferrer" className="mt-1 block underline">{labels.originalPhoto}</a>}</figcaption></figure>)}</div>
+          <PaintPotPhotoUpload key={pot.paintPotId} paintPotId={pot.paintPotId} config={config} onSaved={() => setRefresh(value => value + 1)} />
         </section>
       </div>
     </div>}
