@@ -13,7 +13,7 @@ export type FilterOptions = Record<string, PaintFacetValue[]>;
 
 type Props = {
   collection: string; revision: number; onSelectSuggestion: (suggestion: PaintProductSuggestion) => void;
-  paints: PaintCardModel[]; resultCount: number; offset: number; pageSize: number;
+  paints: PaintCardModel[]; resultCount: number; referenceTotal?: number; offset: number; pageSize: number;
   filters: PaintFilters; setFilters: (filters: PaintFilters) => void;
   filterOptions: FilterOptions; paintModel: PaintModelSchema;
   query: string; setQuery: (value: string) => void;
@@ -95,7 +95,7 @@ function CatalogFacet({ filters, options, setFilters, config }: {
 }
 
 export function PaintBrowser(props: Props) {
-  const { paints, resultCount, offset, pageSize, filters, setFilters, filterOptions, paintModel,
+  const { paints, resultCount, referenceTotal, offset, pageSize, filters, setFilters, filterOptions, paintModel,
     query, setQuery, sort, setSort, loading, clearFilters, config, onPage, renderPaint } = props;
   const [filtersOpen, setFiltersOpen] = useState(false);
   const drawer = useRef<HTMLDialogElement>(null);
@@ -153,7 +153,10 @@ export function PaintBrowser(props: Props) {
       </div>
       <div className="paint-results-toolbar">
         <output aria-live="polite" className="text-sm">
-          {loading ? config.errors.loading : <><strong>{resultCount.toLocaleString('fr-FR')}</strong> {config.collection.resultsTitle.toLowerCase()}</>}
+          {loading ? config.errors.loading : <>
+            <strong>{resultCount.toLocaleString('fr-FR')}</strong> {resultCount === 1 ? config.collection.resultSingular : config.collection.resultPlural}
+            {referenceTotal !== undefined && <span className="text-muted-foreground"> · <strong>{referenceTotal.toLocaleString('fr-FR')}</strong> {config.collection.referenceTotal}</span>}
+          </>}
         </output>
         <label className="flex items-center gap-2 text-xs"><span>{config.collection.sort}</span>
           <select className="paint-sort" value={sort} onChange={event => setSort(event.target.value)}>

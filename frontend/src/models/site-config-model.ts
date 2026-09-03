@@ -66,6 +66,7 @@ export type SiteConfig = {
     pagination: string; previousPage: string; nextPage: string;
     title: string; description: string; allBrands: string; manufacturerFilter: string; allManufacturers: string;
     potsMetric: string; colorsMetric: string; sheetsMetric: string; resultsTitle: string; allPaintsTitle: string;
+    resultSingular: string; resultPlural: string; referenceTotal: string;
     emptyTitle: string; emptyHint: string; manufacturerSheet: string; filters: string; filterPanelTitle: string;
     filterPanelDescription: string; filterAriaLabel: string; searchFilter: string; typeFilter: string;
     allTypes: string; colorFilter: string; allColors: string; brandFilter: string; rangeFilter: string;

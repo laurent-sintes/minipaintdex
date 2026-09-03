@@ -217,6 +217,9 @@ collection:
   sheets_metric: fiches fabricant
   results_title: Résultats
   all_paints_title: Toutes les peintures
+  result_singular: résultat
+  result_plural: résultats
+  reference_total: peintures dans le référentiel
   empty_title: Aucune peinture trouvée
   empty_hint: Essayez un autre terme ou retirez un filtre.
   manufacturer_sheet: Fiche fabricant
@@ -406,7 +409,7 @@ paint_detail:
   usage_steps: Étapes
   usage_tips: Conseils et précautions
   open_sheet: Ouvrir la fiche
-  open_manufacturer_sheet: Ouvrir la fiche fabricant
+  open_manufacturer_sheet: Fiche fabricant
   verified_on: Vérifié le
   product_visual: Visuel du produit
   applied_result: Rendu réel appliqué

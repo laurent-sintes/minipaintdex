@@ -200,7 +200,7 @@ export function PaintApp({ initialDashboard, config, paintModel }: { initialDash
   }, []);
 
   useEffect(() => {
-    if (route.view !== 'home' || serverRevision === 0) return;
+    if ((route.view !== 'home' && route.view !== 'paintProducts') || serverRevision === 0) return;
     const controller = new AbortController();
     apiFetch('/api/v1/dashboard', { signal: controller.signal, headers: { accept: 'application/json' } })
       .then((response) => { return response.json() as Promise<Dashboard>; })
@@ -541,7 +541,8 @@ export function PaintApp({ initialDashboard, config, paintModel }: { initialDash
             {route.view === 'workshopPaints' && <button type="button" className="mt-4 text-sm font-semibold text-primary" onClick={() => navigate({ view: 'paintPots' })}>{config.paintPots.all}</button>}
             {(route.view === 'paintPots' || route.view === 'paintPot') && <PaintPotsPage key={appRoutePath(route)} route={route} config={config} navigate={navigate} revision={serverRevision} />}
             {isPaintView && <PaintBrowser collection={route.view === 'workshopPaints' ? '/api/v1/workshop/paint-stocks' : '/api/v1/market/paint-products'}
-              revision={serverRevision} onSelectSuggestion={openPaintSuggestion} paints={paints} resultCount={paintResultCount} offset={paintOffset} pageSize={PAINT_PAGE_SIZE}
+              revision={serverRevision} onSelectSuggestion={openPaintSuggestion} paints={paints} resultCount={paintResultCount}
+              referenceTotal={route.view === 'paintProducts' ? dashboard.paintStats.total : undefined} offset={paintOffset} pageSize={PAINT_PAGE_SIZE}
               filters={filters} setFilters={changeFilters} filterOptions={filterOptions} paintModel={paintModel}
               query={query} setQuery={changeQuery} sort={paintSort} setSort={changePaintSort} loading={paintsLoading}
               clearFilters={clearFilters} config={config} onPage={changePaintPage}
@@ -787,11 +788,18 @@ function PaintDetail({ initialPaint, config, revision, onClose, onPhotoSaved }: 
     ...(paint.profile.preHighlightedSurfaceRecommended ? [[labels.preHighlight, labels.recommended]] : []),
   ];
   const localUsage = paint.usageInstructions;
+  const provenanceTitleId = `${titleId}-provenance`;
   return <dialog ref={dialog} aria-labelledby={titleId} className="paint-detail-dialog" onCancel={event => { event.preventDefault(); onClose(); }}>
     <header className="paint-detail-header">
-      <div><p className="eyebrow">{labels.sheet}</p><h2 id={titleId} className="mt-1 text-xl font-semibold">{paint.name}</h2>
+      <div className="paint-detail-heading"><p className="eyebrow">{labels.sheet}</p><h2 id={titleId} className="mt-1 text-xl font-semibold">{paint.name}</h2>
         <p className="mt-1 text-sm text-muted-foreground">{paint.brand} · {paint.range}</p></div>
-      <button type="button" onClick={onClose} aria-label={labels.close} className="grid size-10 shrink-0 place-items-center rounded-xl border"><X size={18} /></button>
+      <div className="paint-detail-actions">
+        {stock?.canReplacePhoto && !notice && <button ref={photoAction} type="button" disabled={loading} aria-expanded={replacing}
+          className="rounded-xl border px-3 py-2.5 text-sm font-semibold disabled:opacity-40"
+          onClick={() => { setReplacing(value => !value); setReplaced(false); }}>{replacing ? labels.cancelReplacement : photoLabel}</button>}
+        {paint.manufacturerUrl && <a href={paint.manufacturerUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border px-3 py-2.5 text-sm font-semibold text-primary"><ExternalLink size={16} />{labels.openManufacturerSheet}</a>}
+        <button type="button" onClick={onClose} aria-label={labels.close} className="grid size-10 shrink-0 place-items-center rounded-xl border"><X size={18} /></button>
+      </div>
     </header>
     <div className="paint-detail-body">
       <section className="paint-detail-overview" aria-label={labels.characteristics}>
@@ -803,8 +811,8 @@ function PaintDetail({ initialPaint, config, revision, onClose, onPhotoSaved }: 
         </div>
         <figcaption>
           <PaintVisualQuality quality={visual.quality} config={config} />
-          <details className="paint-detail-provenance">
-            <summary>{labels.imageProvenance}</summary>
+          <section className="paint-detail-provenance" aria-labelledby={provenanceTitleId}>
+            <h3 id={provenanceTitleId} className="font-semibold">{labels.imageProvenance}</h3>
             <p className="mt-3 text-muted-foreground">{labels.imageQualityHelp}</p>
             {visual.personalPhoto ? <>
               <p className="mt-3">{config.paintPots.personalPhoto} · {visual.personalPhoto.paintPotId}</p>
@@ -821,10 +829,7 @@ function PaintDetail({ initialPaint, config, revision, onClose, onPhotoSaved }: 
                 <p className="mt-2 text-muted-foreground">{metadataLabel(config, paint.manufacturerImageQualityLimitationCode)} · {labels.imageQualityLimitationObservedOn} {paint.manufacturerImageQualityLimitationObservedAt}</p>
               </div>}
             </> : <p className="mt-3">{labels.noProductVisual}</p>}
-          </details>
-          {stock?.canReplacePhoto && !notice && <button ref={photoAction} type="button" disabled={loading} aria-expanded={replacing}
-            className="mt-4 w-full rounded-xl border px-3 py-2.5 text-sm font-semibold disabled:opacity-40"
-            onClick={() => { setReplacing(value => !value); setReplaced(false); }}>{replacing ? labels.cancelReplacement : photoLabel}</button>}
+          </section>
           {replaced && <output className="mt-3 block text-sm">{labels.photoReplaced}</output>}
         </figcaption>
         </figure>
@@ -869,8 +874,5 @@ function PaintDetail({ initialPaint, config, revision, onClose, onPhotoSaved }: 
         {paint.resultReferenceUrl && <a href={paint.resultReferenceUrl} target="_blank" rel="noreferrer" className="mt-2 inline-flex text-sm underline">{labels.realResultSource}</a>}
       </section>}
     </div>
-    {paint.manufacturerUrl && <footer className="paint-detail-footer">
-      {paint.manufacturerUrl && <a href={paint.manufacturerUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-primary"><ExternalLink size={16} />{labels.openManufacturerSheet}</a>}
-    </footer>}
   </dialog>;
 }

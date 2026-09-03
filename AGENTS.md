@@ -706,12 +706,17 @@ Keep the interaction model uniform across the SPA:
 - Desktop navigation uses one horizontal row of direct destinations. The active destination remains visually distinct and keyboard accessible, including its nested detail pages; About documentation remains reachable through an accessible disclosure.
 - Paint filters occupy a left sidebar on desktop and a modal drawer on small screens. Brand and range form one hierarchical group: whole brands and brand-qualified ranges are combined with OR. Other facets use OR within each facet and AND across facets. Facet counts ignore their own selection (brand and range together), retain other criteria, and do not count workshop quantities as separate references.
 - Paint search, selections, sorting and pagination have URL state and support back/forward. Result cards show brand, range and manufacturer reference outside the image; omit the generic color-paint badge while retaining useful technical roles and application methods.
+- The Market paint result toolbar shows both the filtered match count and the total number of
+  PaintProduct references. The total comes from the lightweight server dashboard and refreshes
+  after committed invalidations; the browser never derives it by loading the complete catalog.
 - Every desktop destination must remain reachable on small screens, either directly in mobile navigation or through a visible local sub-navigation.
 - User-facing labels independent of market/workshop data come from `data/site`; components must not duplicate them.
 - Paint dialogs place image provenance directly below the displayed image. Their six-position,
   read-only gauge fills toward the best provenance without presenting the domain's rank as a score.
   Source details always describe the displayed image, including fallback. Catalog memberships are
   visible among paint characteristics; unknown membership is explicitly unrecorded, never invented.
+  Image provenance is always visible rather than hidden in a disclosure. The sticky dialog header
+  owns contextual actions such as replacing the workshop visual and opening the manufacturer sheet.
 
 ## Media and provenance
 
