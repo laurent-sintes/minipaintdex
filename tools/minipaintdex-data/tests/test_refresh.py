@@ -19,17 +19,40 @@ def paint(identifier: str, brand: str, name: str = "Paint") -> dict:
         },
         "name": name,
         "data_status": "confirmed",
-        "lifecycle_status": "current",
+        "lifecycle_status": "active",
         "verified_at": "2026-01-01",
     }
 
 
 class RefreshTests(unittest.TestCase):
+    @staticmethod
+    def coverage(**overrides):
+        return {"brand": "The Army Painter", "complete": True, "scope": "current", "ranges": ["Warpaints Fanatic"],
+                "source_urls": ["https://example.com/current"], **overrides}
+
+    def test_historical_unknown_or_out_of_scope_paints_are_never_retired(self):
+        for entry in [self.coverage(scope="historical"), self.coverage(scope="unspecified"),
+                      self.coverage(ranges=["Warpaints Air"]), self.coverage(source_urls=[]), self.coverage(complete=False)]:
+            with self.subTest(entry=entry):
+                result = build_refresh_changeset({"paints": [paint("a-old", "The Army Painter")]},
+                        {"paints": [], "coverage": [entry]}, brand="all")
+                self.assertEqual(result["operations"], [])
+        legacy = paint("a-old", "The Army Painter") | {"lifecycle_status": "unknown"}
+        result = build_refresh_changeset({"paints": [legacy]}, {"paints": [], "coverage": [self.coverage()]}, brand="all")
+        self.assertEqual(result["operations"], [])
+
+    def test_refresh_keeps_memberships_and_does_not_invent_editions(self):
+        membership = {"catalog_edition_id": "tap-2019", "source_url": "https://example.com/catalog.pdf", "locator": "page 2"}
+        previous = paint("a-old", "The Army Painter") | {"catalog_memberships": [membership]}
+        result = build_refresh_changeset({"paints": [previous]}, {"paints": [paint("a-old", "The Army Painter")]}, brand="all")
+        self.assertEqual(result["operations"][0]["record"]["catalog_memberships"], [membership])
+        self.assertNotIn("catalog_editions", result)
+
     def test_all_brands_only_retires_from_complete_coverage(self):
         catalog = {"schema_version": 1, "paints": [paint("a-old", "The Army Painter"), paint("b-old", "Vallejo")]}
         refreshed = {
             "coverage": [
-                {"brand": "The Army Painter", "complete": True},
+                self.coverage(),
                 {"brand": "Vallejo", "complete": False},
             ],
             "paints": [paint("a-new", "The Army Painter", "New")],
@@ -50,7 +73,7 @@ class RefreshTests(unittest.TestCase):
 
     def test_explicit_removal_produces_confirmed_delete_operations(self):
         catalog = {"schema_version": 1, "paints": [paint("a-old", "The Army Painter")]}
-        refreshed = {"coverage": [{"brand": "The Army Painter", "complete": True}], "paints": []}
+        refreshed = {"coverage": [self.coverage()], "paints": []}
 
         changeset = build_refresh_changeset(
             catalog, refreshed, brand="The Army Painter", verified_at="2026-08-30", remove_missing=True

@@ -43,6 +43,11 @@ public final class FilePersistenceAdapters {
     public MarketPaintCatalogWriter marketPaints() {
         return new MarketPaintCatalogWriter() {
             @Override
+            public void replaceMarketPaintCatalog(List<StructuredDocument> paints, List<StructuredDocument> editions) {
+                engine.replaceMarketPaintCatalog(paints, editions);
+            }
+
+            @Override
             public void replaceMarketPaints(List<StructuredDocument> paints) {
                 engine.replaceMarketPaints(paints);
             }

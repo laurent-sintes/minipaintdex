@@ -149,6 +149,8 @@ def canonical_paint(record: dict[str, Any], *, verified_at: str | None = None) -
         "source_observation": source_observation(record),
         "mapping_report": mapping_report,
     }
+    if record.get("catalog_memberships"):
+        paint["catalog_memberships"] = record["catalog_memberships"]
     return paint
 
 
@@ -176,6 +178,8 @@ def build_paint_changeset(
         "source": {"path": source, "generated_at": date.today().isoformat()},
         "operations": operations,
     }
+    if isinstance(payload, dict) and "catalog_editions" in payload:
+        changeset["catalog_editions"] = payload["catalog_editions"]
     errors = validate_changeset(changeset)
     if errors:
         raise ValueError("Invalid generated change set: " + "; ".join(errors))
@@ -183,6 +187,7 @@ def build_paint_changeset(
 
 
 def validate_changeset(changeset: Any, *, allow_empty: bool = False) -> list[str]:
+    from .catalog_editions import validate_editions, validate_memberships
     errors: list[str] = []
     if not isinstance(changeset, dict):
         return ["change set must be a JSON object"]
@@ -193,8 +198,10 @@ def validate_changeset(changeset: Any, *, allow_empty: bool = False) -> list[str
         errors.append(f"unsupported kind: {kind}")
         return errors
     if kind == "market_paints":
+        editions = changeset.get("catalog_editions", [])
+        errors.extend(validate_editions(editions))
         operations = changeset.get("operations")
-        if not isinstance(operations, list) or (not operations and not allow_empty):
+        if not isinstance(operations, list) or (not operations and not allow_empty and not editions):
             errors.append("operations must be a non-empty list")
             return errors
         seen: set[str] = set()
@@ -264,6 +271,7 @@ def validate_changeset(changeset: Any, *, allow_empty: bool = False) -> list[str
                     product_visual=False,
                 )
                 _validate_source_evidence(record, location, errors)
+                errors.extend(validate_memberships(record.get("catalog_memberships", [])))
             if identifier in seen:
                 errors.append(f"duplicate paint id: {identifier}")
             seen.add(identifier)

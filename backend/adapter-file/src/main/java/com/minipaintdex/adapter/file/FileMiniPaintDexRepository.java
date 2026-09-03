@@ -63,6 +63,7 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
     private final Path writeLockPath;
     private final AtomicVersionedCache<StructuredDocument> siteCache = new AtomicVersionedCache<>("site configuration");
     private final AtomicVersionedCache<List<StructuredDocument>> marketPaintCache = new AtomicVersionedCache<>("market paints");
+    private final AtomicVersionedCache<List<StructuredDocument>> paintCatalogEditionCache = new AtomicVersionedCache<>("paint catalog editions");
     private final AtomicVersionedCache<List<StructuredDocument>> workshopPaintCache = new AtomicVersionedCache<>("workshop paints");
     private final AtomicVersionedCache<List<PaintableProduct>> paintableProductCache = new AtomicVersionedCache<>("paintable products");
     private final AtomicVersionedCache<List<StructuredDocument>> paintingGuideCache = new AtomicVersionedCache<>("painting guides");
@@ -149,7 +150,9 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
                 products,
                 structuredDocuments(guides),
                 structuredDocuments(listOfMaps(shopping.get("items"))),
-                readEvents(layout.ledgerDirectory()));
+                readEvents(layout.ledgerDirectory()),
+                structuredDocuments(paintCatalogs.stream()
+                        .flatMap(document -> listOfMaps(document.get("catalog_editions")).stream()).toList()));
     }
 
     @Override
@@ -194,7 +197,7 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
                 publishAfterWrite(new DataSnapshot(
                         currentSnapshot.site(), currentSnapshot.marketPaints(), currentSnapshot.paintInventory(),
                         currentSnapshot.paintableProducts(), currentSnapshot.marketPaintingGuides(),
-                        currentSnapshot.shopping(), List.copyOf(updatedEvents)), "Event ledger updated.");
+                        currentSnapshot.shopping(), List.copyOf(updatedEvents), currentSnapshot.paintCatalogEditions()), "Event ledger updated.");
                 return List.copyOf(events);
             } catch (IOException exception) {
                 throw new FileStorageException("Unable to append event to " + path, exception);
@@ -225,8 +228,18 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
 
     @Override
     public void replaceMarketPaints(List<StructuredDocument> paints) {
+        replaceMarketPaintCatalog(paints, () -> cachedSnapshot().paintCatalogEditions());
+    }
+
+    @Override
+    public void replaceMarketPaintCatalog(List<StructuredDocument> paints, List<StructuredDocument> editions) {
+        replaceMarketPaintCatalog(paints, () -> editions);
+    }
+
+    // Resolve preserved editions under the same write lock as paints, not from an older cache generation.
+    private void replaceMarketPaintCatalog(List<StructuredDocument> paints, Supplier<List<StructuredDocument>> editions) {
         withWriteLock(() -> {
-            var paintDocuments = paintCatalogDocuments(paints);
+            var paintDocuments = paintCatalogDocuments(paints, editions.get());
             replaceYamlBatch(changedPaintCatalogDocuments(paintDocuments));
             removeStalePaintCatalogs(paintDocuments.keySet());
             reloadAfterWrite("Market paint catalogue updated.");
@@ -408,6 +421,10 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
     }
 
     private Map<Path, Map<String, Object>> paintCatalogDocuments(List<StructuredDocument> paints) {
+        return paintCatalogDocuments(paints, cachedSnapshot().paintCatalogEditions());
+    }
+
+    private Map<Path, Map<String, Object>> paintCatalogDocuments(List<StructuredDocument> paints, List<StructuredDocument> editions) {
         var byBrand = new java.util.TreeMap<String, List<Map<String, Object>>>();
         for (var paint : documentMaps(paints)) {
             var brand = text(paint.get("brand"));
@@ -415,11 +432,19 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
             byBrand.computeIfAbsent(brand, ignored -> new ArrayList<>()).add(paint);
         }
         var documents = new LinkedHashMap<Path, Map<String, Object>>();
+        var editionsByBrand = new java.util.TreeMap<String, List<Map<String, Object>>>();
+        for (var edition : documentMaps(editions)) {
+            var brand = text(edition.get("brand"));
+            byBrand.computeIfAbsent(brand, ignored -> new ArrayList<>());
+            editionsByBrand.computeIfAbsent(brand, ignored -> new ArrayList<>()).add(edition);
+        }
         byBrand.forEach((brand, records) -> {
             records.sort(Comparator.comparing(record -> text(record.get("id"))));
             var document = new LinkedHashMap<String, Object>();
             document.put("schema_version", 1);
             document.put("brand", brand);
+            if (editionsByBrand.containsKey(brand)) document.put("catalog_editions", editionsByBrand.get(brand).stream()
+                    .sorted(Comparator.comparing(edition -> text(edition.get("id")))).toList());
             document.put("paints", records);
             documents.put(layout.marketPaintCatalogDirectory().resolve(slug(brand) + ".yaml"), document);
         });
@@ -559,6 +584,7 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
         generation++;
         siteCache.publish(generation, snapshot.site());
         marketPaintCache.publish(generation, List.copyOf(snapshot.marketPaints()));
+        paintCatalogEditionCache.publish(generation, List.copyOf(snapshot.paintCatalogEditions()));
         workshopPaintCache.publish(generation, List.copyOf(snapshot.paintInventory()));
         paintableProductCache.publish(generation, List.copyOf(snapshot.paintableProducts()));
         paintingGuideCache.publish(generation, List.copyOf(snapshot.marketPaintingGuides()));
@@ -579,7 +605,7 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
                 paintableProductCache.current().value(),
                 paintingGuideCache.current().value(),
                 shoppingCache.current().value(),
-                eventCache.current().value());
+                eventCache.current().value(), paintCatalogEditionCache.current().value());
     }
 
     private void validateSnapshot(DataSnapshot snapshot) {

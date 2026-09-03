@@ -2,6 +2,7 @@ package com.minipaintdex.application.port;
 
 import com.minipaintdex.domain.market.guide.MarketPaintingGuide;
 import com.minipaintdex.domain.market.paint.MarketPaint;
+import com.minipaintdex.domain.market.paint.PaintCatalogEdition;
 import com.minipaintdex.domain.market.product.PaintableProduct;
 
 import java.util.List;
@@ -10,10 +11,12 @@ import java.util.List;
 public record MarketCatalogSnapshot(
         List<MarketPaint> paints,
         List<PaintableProduct> paintableProducts,
-        List<MarketPaintingGuide> paintingGuides) {
+        List<MarketPaintingGuide> paintingGuides,
+        List<PaintCatalogEdition> paintCatalogEditions) {
     public MarketCatalogSnapshot {
         paints = List.copyOf(paints);
         paintableProducts = List.copyOf(paintableProducts);
         paintingGuides = List.copyOf(paintingGuides);
+        paintCatalogEditions = List.copyOf(paintCatalogEditions);
     }
 }

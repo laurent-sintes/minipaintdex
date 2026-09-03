@@ -27,6 +27,7 @@ The domain model is the primary architectural driver. Before changing storage, R
 ```text
 MARKET (reference knowledge, file-versioned)
   MarketPaint                         aggregate root for one commercial paint reference
+  PaintCatalogEdition                 sourced commercial publication, independent of scrape runs
   PaintableProduct                    aggregate root for a box, range, expansion, or set
     └── CatalogItem                   entity describing one kind of paintable component
          └── quantity                 number supplied by the market product
@@ -342,6 +343,17 @@ The file module may share one internal storage engine to preserve a single cross
 
 Market catalogs contain reference data, not ownership state. They remain versioned file repositories rather than event-sourced aggregates.
 
+`PaintCatalogEdition` is a Market aggregate with a stable ID, brand, title, edition label,
+optional publication year, explicit range scope and source URLs. It is not a scrape run or a
+technical schema version. Brand YAML files store editions separately under `catalog_editions`;
+paint records reference them through sourced `catalog_memberships` (edition ID, source URL,
+locator). Membership is many-to-many, must reference an existing same-brand edition and never
+changes paint identity or workshop quantity. A collection date must never manufacture an edition.
+Unknown membership remains absent. Edition years do not date physical pots or establish retirement.
+Refresh coverage identifies current versus historical scope and explicit ranges; incomplete,
+historical or unspecified scope cannot retire a missing paint. Preserve existing memberships
+and editions on refresh. A documented manufacturer retirement may still be applied explicitly.
+
 ### Paints
 
 Maintain complete paint ranges by brand and range where sources permit. Store one schema-versioned YAML catalog per canonical brand under `data/market/paints/<brand>.yaml`; readers expose their union as one market catalog. A paint catalog record should have a stable ID and may include:
@@ -542,7 +554,7 @@ Generated projections are caches/read models, never manually maintained sources 
 
 ## Site navigation and configuration
 
-The left navigation must visually separate market references from personal data:
+The horizontal top navigation exposes Home and the Market and Workshop destinations directly, with subtle separators between contexts. Do not add a parent Market tab or a permanent contextual second row. About contains a compact disclosure of documentation pages. On small screens, the same links may wrap within the header:
 
 ```text
 MARKET
@@ -576,7 +588,9 @@ Keep the interaction model uniform across the SPA:
 - Abort obsolete requests when a route, filter or search changes. Reload the affected REST resource after a successful command; optimistic updates are acceptable only for a small reversible control and must still converge on the service.
 - Give every durable page a stable deep link and support browser back/forward navigation. Page-scale content such as documentation and application information belongs on pages, not in popups. Reserve dialogs for focused, temporary tasks or details.
 - Use consistent loading, empty, error and disabled states. Never label a resource “not found” merely because its request is still pending.
-- Desktop navigation groups are first-class visual hierarchy. `MARKET`, `MY WORKSHOP` and `ABOUT` use the same compact high-contrast section label with a subtle background and accent marker; child destinations remain visually dominant and keyboard accessible.
+- Desktop navigation uses one horizontal row of direct destinations. The active destination remains visually distinct and keyboard accessible, including its nested detail pages; About documentation remains reachable through an accessible disclosure.
+- Paint filters occupy a left sidebar on desktop and a modal drawer on small screens. Brand and range form one hierarchical group: whole brands and brand-qualified ranges are combined with OR. Other facets use OR within each facet and AND across facets. Facet counts ignore their own selection (brand and range together), retain other criteria, and do not count workshop quantities as separate references.
+- Paint search, selections, sorting and pagination have URL state and support back/forward. Result cards show brand, range and manufacturer reference outside the image; omit the generic color-paint badge while retaining useful technical roles and application methods.
 - Every desktop destination must remain reachable on small screens, either directly in mobile navigation or through a visible local sub-navigation.
 - User-facing labels independent of market/workshop data come from `data/site`; components must not duplicate them.
 
@@ -607,6 +621,15 @@ Stable IDs act as foreign keys across market catalogs, workshop membership, phys
 Each named dataset contains a versioned `dataset.yaml` manifest and a checksummed `payload/change-set.json`. Python may read application references and create or validate datasets, but only Java application use cases may import them. `minipaintdex datasets import` performs a dry run by default and requires `--apply` to mutate storage. Importing `workshop.paints` replaces the inventory; market and painting-project imports merge through their domain commands.
 
 Keep deterministic transformations in `tools/minipaintdex-data`. Human or agent reasoning identifies images, products, sources and ambiguity; Python performs hashing, normalization, comparison, packaging and validation. Do not encode visual identification or unverified web judgments in deterministic scripts.
+
+Owned-paint photo intake is `imports/workshop-paints/photos/`, with batch archives under
+`imports/workshop-paints/archive/<date>/<import-id>/` and processing evidence under
+`imports/workshop-paints/runs/<import-id>/`. Other import targets must use separate roots.
+Photo manifests declare `target: workshop.paints`, a stable import ID, source SHA-256 and a
+per-photo outcome. Archive only verified imports and confirmed duplicates; unresolved photos
+remain in intake. Never overwrite an archive or count a repeated photo twice. Retain original
+paths as historical evidence and maintain a relocation manifest with current locations and hashes.
+Historical run artifacts are evidence, not scripts to rerun against current stock.
 
 ## Validation and delivery
 

@@ -29,9 +29,13 @@ public record MarketPaint(
         List<String> recommendedUses,
         UsageInstructions usageInstructions,
         LocalDate verifiedAt,
-        ImageReference resultImage) {
+        ImageReference resultImage,
+        List<PaintCatalogEdition.Membership> catalogMemberships) {
 
     public MarketPaint {
+        catalogMemberships = List.copyOf(catalogMemberships);
+        if (catalogMemberships.stream().map(PaintCatalogEdition.Membership::catalogEditionId).distinct().count()
+                != catalogMemberships.size()) throw invalid("Duplicate catalog membership");
         if (schemaVersion != 1) throw invalid("schemaVersion must be 1.");
         id = stableId(id, "id");
         brand = required(brand, "brand");

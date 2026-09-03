@@ -47,8 +47,8 @@ final class WorkshopPaintQueryService {
     PaintFacetsView facets(
             SearchMarketPaintsQuery filters, boolean manufacturerSheetOnly, boolean realResultOnly) {
         var quantities = quantities();
-        var paints = filtered(filters, manufacturerSheetOnly, realResultOnly, quantities).toList();
-        return MarketPaintQueryService.facets(paints);
+        var paints = filtered(SearchMarketPaintsQuery.empty(), manufacturerSheetOnly, realResultOnly, quantities).toList();
+        return PaintSearch.facets(paints, filters);
     }
 
     private java.util.stream.Stream<MarketPaintView> filtered(

@@ -40,7 +40,7 @@ KNOWN_INPUT_FIELDS = {
     "result_image", "result_source_url", "result_credit", "result_license", "result_reference_url",
     "provenance", "source_photo", "source_hash", "verified_on", "verified_at", "notes", "dedupe_key",
     "deduplication_key", "quantity", "warnings", "source_observation", "mapping_report",
-    "source_snapshots",
+    "source_snapshots", "catalog_memberships",
 } | PROFILE_SOURCE_FIELDS
 
 

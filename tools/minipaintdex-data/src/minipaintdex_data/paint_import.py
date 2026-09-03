@@ -232,7 +232,7 @@ def command_hash_photos(args: argparse.Namespace) -> int:
                     "mtime_utc": datetime.fromtimestamp(stat.st_mtime, timezone.utc).isoformat(),
                 }
             )
-    write_json(Path(args.output), {"root": str(directory), "photos": manifest})
+    write_json(Path(args.output), {"schema_version": 1, "target": "workshop.paints", "root": str(directory), "photos": manifest})
     print(f"{len(manifest)} photo(s) indexée(s) dans {args.output}")
     return 0
 
@@ -578,9 +578,16 @@ def build_parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
 
     hash_parser = sub.add_parser("hash-photos", help="Calculer les empreintes SHA-256 des photos")
-    hash_parser.add_argument("directory")
+    hash_parser.add_argument("directory", nargs="?", default="imports/workshop-paints/photos")
     hash_parser.add_argument("--output", required=True)
     hash_parser.set_defaults(func=command_hash_photos)
+
+    from .photo_archive import command_archive_batch
+    archive_parser = sub.add_parser("archive-batch", help="Archiver un lot vérifié de peintures de l’atelier, simulation par défaut")
+    archive_parser.add_argument("--root", default=".")
+    archive_parser.add_argument("--manifest", required=True)
+    archive_parser.add_argument("--apply", action="store_true")
+    archive_parser.set_defaults(func=command_archive_batch)
 
     normalize_parser = sub.add_parser("normalize", help="Normaliser un fichier candidat JSON")
     normalize_parser.add_argument("input")

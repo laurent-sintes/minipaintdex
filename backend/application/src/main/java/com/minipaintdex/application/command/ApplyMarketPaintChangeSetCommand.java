@@ -8,10 +8,12 @@ public record ApplyMarketPaintChangeSetCommand(
         int schemaVersion,
         String kind,
         List<Operation> operations,
-        boolean dryRun) {
+        boolean dryRun,
+        List<StructuredDocument> catalogEditions) {
 
     public ApplyMarketPaintChangeSetCommand {
         operations = operations == null ? List.of() : List.copyOf(operations);
+        catalogEditions = catalogEditions == null ? List.of() : List.copyOf(catalogEditions);
     }
 
     public record Operation(

@@ -14,11 +14,55 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MarketCatalogFactoryTest {
     @Test
+    void keepsOnePaintWithTwoSourcedCatalogMemberships() {
+        var record = new java.util.LinkedHashMap<>(paint("paint"));
+        record.put("catalog_memberships", List.of(membership("edition-2026"), membership("edition-2027")));
+        var snapshot = MarketCatalogFactory.create(List.of(StructuredDocuments.fromMap(record)), List.of(), List.of(),
+                List.of(edition("edition-2026", "Brand"), edition("edition-2027", "Brand")));
+        assertEquals(1, snapshot.paints().size());
+        assertEquals(2, snapshot.paints().getFirst().catalogMemberships().size());
+        assertEquals(2, snapshot.paintCatalogEditions().size());
+    }
+
+    @Test
+    void rejectsUnknownCrossBrandAndDuplicateMemberships() {
+        var record = new java.util.LinkedHashMap<>(paint("paint"));
+        record.put("catalog_memberships", List.of(membership("edition-2026")));
+        var documents = List.of(StructuredDocuments.fromMap(record));
+        assertThrows(DomainException.class, () -> MarketCatalogFactory.create(documents, List.of(), List.of(), List.of()));
+        assertThrows(DomainException.class, () -> MarketCatalogFactory.create(documents, List.of(), List.of(),
+                List.of(edition("edition-2026", "Another brand"))));
+        record.put("catalog_memberships", List.of(membership("edition-2026"), membership("edition-2026")));
+        assertThrows(DomainException.class, () -> MarketCatalogFactory.create(List.of(StructuredDocuments.fromMap(record)),
+                List.of(), List.of(), List.of(edition("edition-2026", "Brand"))));
+    }
+
+    @Test
+    void rejectsUnsourcedEditionsAndMembershipsOutsideTheirScope() {
+        assertThrows(DomainException.class, () -> MarketCatalogFactory.catalogEdition(StructuredDocuments.fromMap(Map.of(
+                "schema_version", 1, "id", "edition", "brand", "Brand", "title", "Title", "edition_label", "Summer",
+                "ranges", List.of("Range"), "source_urls", List.of()))));
+        var record = new java.util.LinkedHashMap<>(paint("paint"));
+        record.put("catalog_memberships", List.of(Map.of("catalog_edition_id", "edition", "source_url", "https://other.example/catalog", "locator", "p. 2")));
+        assertThrows(DomainException.class, () -> MarketCatalogFactory.create(List.of(StructuredDocuments.fromMap(record)),
+                List.of(), List.of(), List.of(edition("edition", "Brand"))));
+    }
+
+    private static Map<String, Object> membership(String id) {
+        return Map.of("catalog_edition_id", id, "source_url", "https://example.com/catalog", "locator", "page 2");
+    }
+    private static StructuredDocument edition(String id, String brand) {
+        return StructuredDocuments.fromMap(Map.of("schema_version", 1, "id", id, "brand", brand,
+                "title", "Product catalogue", "edition_label", id, "ranges", List.of("Range"),
+                "source_urls", List.of("https://example.com/catalog")));
+    }
+
+    @Test
     void translatesOneCoherentGenerationIntoTypedAggregates() {
         var snapshot = MarketCatalogFactory.create(
                 List.of(StructuredDocuments.fromMap(paint("paint"))),
                 List.of(product()),
-                List.of(StructuredDocuments.fromMap(guide("paint"))));
+                List.of(StructuredDocuments.fromMap(guide("paint"))), List.of());
 
         assertEquals("paint", snapshot.paints().getFirst().id());
         assertEquals("one_coat_shading", snapshot.paints().getFirst().profile().applicationSystem().id());
@@ -30,7 +74,7 @@ class MarketCatalogFactoryTest {
         var failure = assertThrows(DomainException.class, () -> MarketCatalogFactory.create(
                 List.of(StructuredDocuments.fromMap(paint("paint"))),
                 List.of(product()),
-                List.of(StructuredDocuments.fromMap(guide("unknown-paint")))));
+                List.of(StructuredDocuments.fromMap(guide("unknown-paint"))), List.of()));
 
         assertEquals("invalid_market_catalog", failure.code());
     }
@@ -42,7 +86,7 @@ class MarketCatalogFactoryTest {
 
         assertThrows(DomainException.class, () -> MarketCatalogFactory.create(
                 List.of(StructuredDocuments.fromMap(malformed)), List.of(product()),
-                List.of(StructuredDocuments.fromMap(guide("paint")))));
+                List.of(StructuredDocuments.fromMap(guide("paint"))), List.of()));
     }
 
     @Test
@@ -52,7 +96,7 @@ class MarketCatalogFactoryTest {
 
         assertThrows(DomainException.class, () -> MarketCatalogFactory.create(
                 List.of(StructuredDocuments.fromMap(missingVersion)), List.of(product()),
-                List.of(StructuredDocuments.fromMap(guide("paint")))));
+                List.of(StructuredDocuments.fromMap(guide("paint"))), List.of()));
     }
 
     @Test
@@ -61,7 +105,7 @@ class MarketCatalogFactoryTest {
                 new StructuredDocument(List.of()), List.of(StructuredDocuments.fromMap(paint("paint"))),
                 List.of(StructuredDocuments.fromMap(Map.of("paint_id", "unknown", "quantity", 1))),
                 List.of(product()), List.of(StructuredDocuments.fromMap(guide("paint"))),
-                List.of(), List.of());
+                List.of(), List.of(), List.of());
 
         assertThrows(DomainException.class, () -> DataSnapshotValidator.validate(snapshot));
     }
@@ -71,7 +115,7 @@ class MarketCatalogFactoryTest {
         var snapshot = new DataSnapshot(
                 new StructuredDocument(List.of()), List.of(StructuredDocuments.fromMap(paint("paint"))),
                 List.of(), List.of(product()), List.of(StructuredDocuments.fromMap(guide("paint"))),
-                List.of(StructuredDocuments.fromMap(Map.of("id", "buy-1", "priority", "low"))), List.of());
+                List.of(StructuredDocuments.fromMap(Map.of("id", "buy-1", "priority", "low"))), List.of(), List.of());
 
         assertThrows(DomainException.class, () -> DataSnapshotValidator.validate(snapshot));
     }

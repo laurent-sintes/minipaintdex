@@ -1,5 +1,17 @@
 schema_version: 1
 brand: The Army Painter
+catalog_editions:
+- brand: The Army Painter
+  edition_label: '2019'
+  id: tap-product-catalogue-2019
+  publication_year: 2019
+  ranges:
+  - Warpaints
+  - Warpaints Washes
+  schema_version: 1
+  source_urls:
+  - https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  title: The Army Painter Product Catalogue
 paints:
 - brand: The Army Painter
   brand_aliases: [
@@ -36146,6 +36158,1331 @@ paints:
   warnings: [
     ]
 - brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  catalog_memberships:
+  - catalog_edition_id: tap-product-catalogue-2019
+    locator: page 2; WP1121; Desert Yellow
+    source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  color:
+    family: ''
+    hex: ''
+  confidence: 0.98
+  data_status: confirmed
+  deduplication_key: the-army-painter|warpaints|name:desert-yellow
+  id: tap-wp1121
+  lifecycle_status: unknown
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: ''
+    image_quality: none
+    license: ''
+    path: ''
+    quality_limitation:
+      code: better-source-not-found
+      detail: The import did not provide a better usable product image.
+      observed_at: '2026-09-03'
+    quality_verified_at: ''
+    reference_url: ''
+    source_url: ''
+  manufacturer_page: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields:
+    - functional_class
+    mapping: the-army-painter
+    mapping_version: 1
+    unmapped_fields:
+    - evidence
+    - needs_review
+    - position
+    - reference_observed
+  name: Desert Yellow
+  notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+    catalogue, page 2. Not a Fanatic or Air reference. Current availability, digital
+    colour and product-photo provenance remain unverified.
+  observed_brand: THE ARMY PAINTER
+  observed_range: WARPAINTS
+  profile:
+    application_methods:
+    - brush
+    application_system: conventional_layering
+    coverage: unknown
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes:
+    - cde790c5261cb8d16777a644c950823ce603e8d234e21abbbd9104b9b8084ad2
+    original_photo: imports/photos/IMG_5330.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-09-03-remaining/IMG_5330.jpeg
+    photo_id: photo-cde790c5261cb8d16777a644c950823ce603e8d234e21abbbd9104b9b8084ad2
+    sha256: cde790c5261cb8d16777a644c950823ce603e8d234e21abbbd9104b9b8084ad2
+  range: Warpaints
+  recommended_uses: [
+    ]
+  reference: WP1121
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: enrichment
+      value:
+        lifecycle_status: unknown
+        manufacturer_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+        notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+          catalogue, page 2. Not a Fanatic or Air reference. Current availability,
+          digital colour and product-photo provenance remain unverified.
+        verified_on: '2026-09-03'
+        volume_ml: 18
+    - name: evidence
+      value:
+      - Brand, range and name on the foreground pot label.
+    - name: functional_class
+      value: opaque_standard
+    - name: needs_review
+      value: false
+    - name: position
+      value: 5
+  source_snapshots:
+  - payload:
+      name: Desert Yellow
+      reference: WP1121
+      volume_ml: 18
+    provider: the-army-painter-2019-catalogue
+    url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  tags: [
+    ]
+  usage_instructions:
+    steps: [
+      ]
+    summary: ''
+    tips: [
+      ]
+  verified_at: '2026-09-03'
+  volume_ml: 18
+  warnings: [
+    ]
+- brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  catalog_memberships:
+  - catalog_edition_id: tap-product-catalogue-2019
+    locator: page 2; WP1124; Oak Brown
+    source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  color:
+    family: ''
+    hex: ''
+  confidence: 0.99
+  data_status: confirmed
+  deduplication_key: the-army-painter|warpaints|name:oak-brown
+  id: tap-wp1124
+  lifecycle_status: unknown
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: ''
+    image_quality: none
+    license: ''
+    path: ''
+    quality_limitation:
+      code: better-source-not-found
+      detail: The import did not provide a better usable product image.
+      observed_at: '2026-09-03'
+    quality_verified_at: ''
+    reference_url: ''
+    source_url: ''
+  manufacturer_page: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields:
+    - functional_class
+    mapping: the-army-painter
+    mapping_version: 1
+    unmapped_fields:
+    - evidence
+    - needs_review
+    - position
+    - reference_observed
+  name: Oak Brown
+  notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+    catalogue, page 2. Not a Fanatic or Air reference. Current availability, digital
+    colour and product-photo provenance remain unverified.
+  observed_brand: THE ARMY PAINTER
+  observed_range: WARPAINTS
+  profile:
+    application_methods:
+    - brush
+    application_system: conventional_layering
+    coverage: unknown
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes:
+    - b8a058f3c164dca25b8163aa23207056a9ec6a8974d926efa3f86fdb38b56f32
+    original_photo: imports/photos/IMG_5331.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-09-03-final/IMG_5331.jpeg
+    photo_id: photo-b8a058f3c164dca25b8163aa23207056a9ec6a8974d926efa3f86fdb38b56f32
+    sha256: b8a058f3c164dca25b8163aa23207056a9ec6a8974d926efa3f86fdb38b56f32
+  range: Warpaints
+  recommended_uses: [
+    ]
+  reference: WP1124
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: enrichment
+      value:
+        lifecycle_status: unknown
+        manufacturer_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+        notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+          catalogue, page 2. Not a Fanatic or Air reference. Current availability,
+          digital colour and product-photo provenance remain unverified.
+        verified_on: '2026-09-03'
+        volume_ml: 18
+    - name: evidence
+      value:
+      - Brand, range and Oak Brown label are readable on the foreground pot.
+    - name: functional_class
+      value: opaque_standard
+    - name: needs_review
+      value: false
+    - name: position
+      value: 7
+  source_snapshots:
+  - payload:
+      name: Oak Brown
+      reference: WP1124
+      volume_ml: 18
+    provider: the-army-painter-2019-catalogue
+    url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  tags: [
+    ]
+  usage_instructions:
+    steps: [
+      ]
+    summary: ''
+    tips: [
+      ]
+  verified_at: '2026-09-03'
+  volume_ml: 18
+  warnings: [
+    ]
+- brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  catalog_memberships:
+  - catalog_edition_id: tap-product-catalogue-2019
+    locator: page 2; WP1141; Hydra Turquoise
+    source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  color:
+    family: ''
+    hex: ''
+  confidence: 0.98
+  data_status: confirmed
+  deduplication_key: the-army-painter|warpaints|name:hydra-turquoise
+  id: tap-wp1141
+  lifecycle_status: unknown
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: ''
+    image_quality: none
+    license: ''
+    path: ''
+    quality_limitation:
+      code: better-source-not-found
+      detail: The import did not provide a better usable product image.
+      observed_at: '2026-09-03'
+    quality_verified_at: ''
+    reference_url: ''
+    source_url: ''
+  manufacturer_page: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields:
+    - functional_class
+    mapping: the-army-painter
+    mapping_version: 1
+    unmapped_fields:
+    - evidence
+    - needs_review
+    - position
+    - reference_observed
+  name: Hydra Turquoise
+  notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+    catalogue, page 2. Not a Fanatic or Air reference. Current availability, digital
+    colour and product-photo provenance remain unverified.
+  observed_brand: THE ARMY PAINTER
+  observed_range: WARPAINTS
+  profile:
+    application_methods:
+    - brush
+    application_system: conventional_layering
+    coverage: unknown
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes:
+    - 42daa55ec004a396675fc880d50b2e292d3c01869aaa57efbff93df4cd3a6b7e
+    original_photo: imports/photos/IMG_5326.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-09-03-remaining/IMG_5326.jpeg
+    photo_id: photo-42daa55ec004a396675fc880d50b2e292d3c01869aaa57efbff93df4cd3a6b7e
+    sha256: 42daa55ec004a396675fc880d50b2e292d3c01869aaa57efbff93df4cd3a6b7e
+  range: Warpaints
+  recommended_uses: [
+    ]
+  reference: WP1141
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: enrichment
+      value:
+        lifecycle_status: unknown
+        manufacturer_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+        notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+          catalogue, page 2. Not a Fanatic or Air reference. Current availability,
+          digital colour and product-photo provenance remain unverified.
+        verified_on: '2026-09-03'
+        volume_ml: 18
+    - name: evidence
+      value:
+      - Brand, range and name on the foreground pot label.
+    - name: functional_class
+      value: opaque_standard
+    - name: needs_review
+      value: false
+    - name: position
+      value: 1
+  source_snapshots:
+  - payload:
+      name: Hydra Turquoise
+      reference: WP1141
+      volume_ml: 18
+    provider: the-army-painter-2019-catalogue
+    url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  tags: [
+    ]
+  usage_instructions:
+    steps: [
+      ]
+    summary: ''
+    tips: [
+      ]
+  verified_at: '2026-09-03'
+  volume_ml: 18
+  warnings: [
+    ]
+- brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  catalog_memberships:
+  - catalog_edition_id: tap-product-catalogue-2019
+    locator: page 2; WP1404; Banshee Brown
+    source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  color:
+    family: ''
+    hex: ''
+  confidence: 0.98
+  data_status: confirmed
+  deduplication_key: the-army-painter|warpaints|name:banshee-brown
+  id: tap-wp1404
+  lifecycle_status: unknown
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: ''
+    image_quality: none
+    license: ''
+    path: ''
+    quality_limitation:
+      code: better-source-not-found
+      detail: The import did not provide a better usable product image.
+      observed_at: '2026-09-03'
+    quality_verified_at: ''
+    reference_url: ''
+    source_url: ''
+  manufacturer_page: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields:
+    - functional_class
+    mapping: the-army-painter
+    mapping_version: 1
+    unmapped_fields:
+    - evidence
+    - needs_review
+    - position
+    - reference_observed
+  name: Banshee Brown
+  notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+    catalogue, page 2. Not a Fanatic or Air reference. Current availability, digital
+    colour and product-photo provenance remain unverified.
+  observed_brand: THE ARMY PAINTER
+  observed_range: WARPAINTS
+  profile:
+    application_methods:
+    - brush
+    application_system: conventional_layering
+    coverage: unknown
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes:
+    - cde790c5261cb8d16777a644c950823ce603e8d234e21abbbd9104b9b8084ad2
+    original_photo: imports/photos/IMG_5330.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-09-03-remaining/IMG_5330.jpeg
+    photo_id: photo-cde790c5261cb8d16777a644c950823ce603e8d234e21abbbd9104b9b8084ad2
+    sha256: cde790c5261cb8d16777a644c950823ce603e8d234e21abbbd9104b9b8084ad2
+  range: Warpaints
+  recommended_uses: [
+    ]
+  reference: WP1404
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: enrichment
+      value:
+        lifecycle_status: unknown
+        manufacturer_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+        notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+          catalogue, page 2. Not a Fanatic or Air reference. Current availability,
+          digital colour and product-photo provenance remain unverified.
+        verified_on: '2026-09-03'
+        volume_ml: 18
+    - name: evidence
+      value:
+      - Brand, range and name on the foreground pot label.
+    - name: functional_class
+      value: opaque_standard
+    - name: needs_review
+      value: false
+    - name: position
+      value: 3
+  source_snapshots:
+  - payload:
+      name: Banshee Brown
+      reference: WP1404
+      volume_ml: 18
+    provider: the-army-painter-2019-catalogue
+    url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  tags: [
+    ]
+  usage_instructions:
+    steps: [
+      ]
+    summary: ''
+    tips: [
+      ]
+  verified_at: '2026-09-03'
+  volume_ml: 18
+  warnings: [
+    ]
+- brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  catalog_memberships:
+  - catalog_edition_id: tap-product-catalogue-2019
+    locator: page 2; WP1414; Cultist Robe
+    source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  color:
+    family: ''
+    hex: ''
+  confidence: 0.99
+  data_status: confirmed
+  deduplication_key: the-army-painter|warpaints|name:cultist-robe
+  id: tap-wp1414
+  lifecycle_status: unknown
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: ''
+    image_quality: none
+    license: ''
+    path: ''
+    quality_limitation:
+      code: better-source-not-found
+      detail: The import did not provide a better usable product image.
+      observed_at: '2026-09-03'
+    quality_verified_at: ''
+    reference_url: ''
+    source_url: ''
+  manufacturer_page: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields:
+    - functional_class
+    mapping: the-army-painter
+    mapping_version: 1
+    unmapped_fields:
+    - evidence
+    - needs_review
+    - position
+    - reference_observed
+  name: Cultist Robe
+  notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+    catalogue, page 2. Not a Fanatic or Air reference. Current availability, digital
+    colour and product-photo provenance remain unverified.
+  observed_brand: THE ARMY PAINTER
+  observed_range: WARPAINTS
+  profile:
+    application_methods:
+    - brush
+    application_system: conventional_layering
+    coverage: unknown
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes:
+    - c585f538eb152ad9642c4ca738ad7424ab483ab10636c1686d9b9172204dc722
+    original_photo: imports/photos/IMG_5334.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-09-03-final/IMG_5334.jpeg
+    photo_id: photo-c585f538eb152ad9642c4ca738ad7424ab483ab10636c1686d9b9172204dc722
+    sha256: c585f538eb152ad9642c4ca738ad7424ab483ab10636c1686d9b9172204dc722
+  range: Warpaints
+  recommended_uses: [
+    ]
+  reference: WP1414
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: enrichment
+      value:
+        lifecycle_status: unknown
+        manufacturer_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+        notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+          catalogue, page 2. Not a Fanatic or Air reference. Current availability,
+          digital colour and product-photo provenance remain unverified.
+        verified_on: '2026-09-03'
+        volume_ml: 18
+    - name: evidence
+      value:
+      - Brand, range and Cultist Robe label are readable on the foreground pot.
+    - name: functional_class
+      value: opaque_standard
+    - name: needs_review
+      value: false
+    - name: position
+      value: 2
+  source_snapshots:
+  - payload:
+      name: Cultist Robe
+      reference: WP1414
+      volume_ml: 18
+    provider: the-army-painter-2019-catalogue
+    url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  tags: [
+    ]
+  usage_instructions:
+    steps: [
+      ]
+    summary: ''
+    tips: [
+      ]
+  verified_at: '2026-09-03'
+  volume_ml: 18
+  warnings: [
+    ]
+- brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  catalog_memberships:
+  - catalog_edition_id: tap-product-catalogue-2019
+    locator: page 2; WP1428; Gorgon Hide
+    source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  color:
+    family: ''
+    hex: ''
+  confidence: 0.98
+  data_status: confirmed
+  deduplication_key: the-army-painter|warpaints|name:gorgon-hide
+  id: tap-wp1428
+  lifecycle_status: unknown
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: ''
+    image_quality: none
+    license: ''
+    path: ''
+    quality_limitation:
+      code: better-source-not-found
+      detail: The import did not provide a better usable product image.
+      observed_at: '2026-09-03'
+    quality_verified_at: ''
+    reference_url: ''
+    source_url: ''
+  manufacturer_page: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields:
+    - functional_class
+    mapping: the-army-painter
+    mapping_version: 1
+    unmapped_fields:
+    - evidence
+    - needs_review
+    - position
+    - reference_observed
+  name: Gorgon Hide
+  notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+    catalogue, page 2. Not a Fanatic or Air reference. Current availability, digital
+    colour and product-photo provenance remain unverified.
+  observed_brand: THE ARMY PAINTER
+  observed_range: WARPAINTS
+  profile:
+    application_methods:
+    - brush
+    application_system: conventional_layering
+    coverage: unknown
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes:
+    - a3722ff9021d7d5e5521fc2ff496af9f9c66686f57baee2a883353d8c7da6333
+    original_photo: imports/photos/IMG_5323.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-09-03-remaining/IMG_5323.jpeg
+    photo_id: photo-a3722ff9021d7d5e5521fc2ff496af9f9c66686f57baee2a883353d8c7da6333
+    sha256: a3722ff9021d7d5e5521fc2ff496af9f9c66686f57baee2a883353d8c7da6333
+  range: Warpaints
+  recommended_uses: [
+    ]
+  reference: WP1428
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: enrichment
+      value:
+        lifecycle_status: unknown
+        manufacturer_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+        notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+          catalogue, page 2. Not a Fanatic or Air reference. Current availability,
+          digital colour and product-photo provenance remain unverified.
+        verified_on: '2026-09-03'
+        volume_ml: 18
+    - name: evidence
+      value:
+      - Brand, range and name on the foreground pot label.
+    - name: functional_class
+      value: opaque_standard
+    - name: needs_review
+      value: false
+    - name: position
+      value: 1
+  source_snapshots:
+  - payload:
+      name: Gorgon Hide
+      reference: WP1428
+      volume_ml: 18
+    provider: the-army-painter-2019-catalogue
+    url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  tags: [
+    ]
+  usage_instructions:
+    steps: [
+      ]
+    summary: ''
+    tips: [
+      ]
+  verified_at: '2026-09-03'
+  volume_ml: 18
+  warnings: [
+    ]
+- brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  catalog_memberships:
+  - catalog_edition_id: tap-product-catalogue-2019
+    locator: page 2; WP1439; Mouldy Clothes
+    source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  color:
+    family: ''
+    hex: ''
+  confidence: 0.99
+  data_status: confirmed
+  deduplication_key: the-army-painter|warpaints|name:mouldy-clothes
+  id: tap-wp1439
+  lifecycle_status: unknown
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: ''
+    image_quality: none
+    license: ''
+    path: ''
+    quality_limitation:
+      code: better-source-not-found
+      detail: The import did not provide a better usable product image.
+      observed_at: '2026-09-03'
+    quality_verified_at: ''
+    reference_url: ''
+    source_url: ''
+  manufacturer_page: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields:
+    - functional_class
+    mapping: the-army-painter
+    mapping_version: 1
+    unmapped_fields:
+    - evidence
+    - needs_review
+    - position
+    - reference_observed
+  name: Mouldy Clothes
+  notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+    catalogue, page 2. Not a Fanatic or Air reference. Current availability, digital
+    colour and product-photo provenance remain unverified.
+  observed_brand: THE ARMY PAINTER
+  observed_range: WARPAINTS
+  profile:
+    application_methods:
+    - brush
+    application_system: conventional_layering
+    coverage: unknown
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes:
+    - b8a058f3c164dca25b8163aa23207056a9ec6a8974d926efa3f86fdb38b56f32
+    original_photo: imports/photos/IMG_5331.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-09-03-final/IMG_5331.jpeg
+    photo_id: photo-b8a058f3c164dca25b8163aa23207056a9ec6a8974d926efa3f86fdb38b56f32
+    sha256: b8a058f3c164dca25b8163aa23207056a9ec6a8974d926efa3f86fdb38b56f32
+  range: Warpaints
+  recommended_uses: [
+    ]
+  reference: WP1439
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: enrichment
+      value:
+        lifecycle_status: unknown
+        manufacturer_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+        notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+          catalogue, page 2. Not a Fanatic or Air reference. Current availability,
+          digital colour and product-photo provenance remain unverified.
+        verified_on: '2026-09-03'
+        volume_ml: 18
+    - name: evidence
+      value:
+      - Brand, range and Mouldy Clothes label are readable on the foreground pot.
+    - name: functional_class
+      value: opaque_standard
+    - name: needs_review
+      value: false
+    - name: position
+      value: 6
+  source_snapshots:
+  - payload:
+      name: Mouldy Clothes
+      reference: WP1439
+      volume_ml: 18
+    provider: the-army-painter-2019-catalogue
+    url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  tags: [
+    ]
+  usage_instructions:
+    steps: [
+      ]
+    summary: ''
+    tips: [
+      ]
+  verified_at: '2026-09-03'
+  volume_ml: 18
+  warnings: [
+    ]
+- brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  catalog_memberships:
+  - catalog_edition_id: tap-product-catalogue-2019
+    locator: page 2; WP1455; Stone Golem
+    source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  color:
+    family: ''
+    hex: ''
+  confidence: 0.98
+  data_status: confirmed
+  deduplication_key: the-army-painter|warpaints|name:stone-golem
+  id: tap-wp1455
+  lifecycle_status: unknown
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: ''
+    image_quality: none
+    license: ''
+    path: ''
+    quality_limitation:
+      code: better-source-not-found
+      detail: The import did not provide a better usable product image.
+      observed_at: '2026-09-03'
+    quality_verified_at: ''
+    reference_url: ''
+    source_url: ''
+  manufacturer_page: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields:
+    - functional_class
+    mapping: the-army-painter
+    mapping_version: 1
+    unmapped_fields:
+    - evidence
+    - needs_review
+    - position
+    - reference_observed
+  name: Stone Golem
+  notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+    catalogue, page 2. Not a Fanatic or Air reference. Current availability, digital
+    colour and product-photo provenance remain unverified.
+  observed_brand: THE ARMY PAINTER
+  observed_range: WARPAINTS
+  profile:
+    application_methods:
+    - brush
+    application_system: conventional_layering
+    coverage: unknown
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes:
+    - a3722ff9021d7d5e5521fc2ff496af9f9c66686f57baee2a883353d8c7da6333
+    original_photo: imports/photos/IMG_5323.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-09-03-remaining/IMG_5323.jpeg
+    photo_id: photo-a3722ff9021d7d5e5521fc2ff496af9f9c66686f57baee2a883353d8c7da6333
+    sha256: a3722ff9021d7d5e5521fc2ff496af9f9c66686f57baee2a883353d8c7da6333
+  range: Warpaints
+  recommended_uses: [
+    ]
+  reference: WP1455
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: enrichment
+      value:
+        lifecycle_status: unknown
+        manufacturer_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+        notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+          catalogue, page 2. Not a Fanatic or Air reference. Current availability,
+          digital colour and product-photo provenance remain unverified.
+        verified_on: '2026-09-03'
+        volume_ml: 18
+    - name: evidence
+      value:
+      - Brand, range and name on the foreground pot label.
+    - name: functional_class
+      value: opaque_standard
+    - name: needs_review
+      value: false
+    - name: position
+      value: 5
+  source_snapshots:
+  - payload:
+      name: Stone Golem
+      reference: WP1455
+      volume_ml: 18
+    provider: the-army-painter-2019-catalogue
+    url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  tags: [
+    ]
+  usage_instructions:
+    steps: [
+      ]
+    summary: ''
+    tips: [
+      ]
+  verified_at: '2026-09-03'
+  volume_ml: 18
+  warnings: [
+    ]
+- brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  catalog_memberships:
+  - catalog_edition_id: tap-product-catalogue-2019
+    locator: page 2; WP1464; Werewolf Fur
+    source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  color:
+    family: ''
+    hex: ''
+  confidence: 0.99
+  data_status: confirmed
+  deduplication_key: the-army-painter|warpaints|name:werewolf-fur
+  id: tap-wp1464
+  lifecycle_status: unknown
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: ''
+    image_quality: none
+    license: ''
+    path: ''
+    quality_limitation:
+      code: better-source-not-found
+      detail: The import did not provide a better usable product image.
+      observed_at: '2026-09-03'
+    quality_verified_at: ''
+    reference_url: ''
+    source_url: ''
+  manufacturer_page: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields:
+    - functional_class
+    mapping: the-army-painter
+    mapping_version: 1
+    unmapped_fields:
+    - evidence
+    - needs_review
+    - position
+    - reference_observed
+  name: Werewolf Fur
+  notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+    catalogue, page 2. Not a Fanatic or Air reference. Current availability, digital
+    colour and product-photo provenance remain unverified.
+  observed_brand: THE ARMY PAINTER
+  observed_range: WARPAINTS
+  profile:
+    application_methods:
+    - brush
+    application_system: conventional_layering
+    coverage: unknown
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes:
+    - b8a058f3c164dca25b8163aa23207056a9ec6a8974d926efa3f86fdb38b56f32
+    original_photo: imports/photos/IMG_5331.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-09-03-final/IMG_5331.jpeg
+    photo_id: photo-b8a058f3c164dca25b8163aa23207056a9ec6a8974d926efa3f86fdb38b56f32
+    sha256: b8a058f3c164dca25b8163aa23207056a9ec6a8974d926efa3f86fdb38b56f32
+  range: Warpaints
+  recommended_uses: [
+    ]
+  reference: WP1464
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: enrichment
+      value:
+        lifecycle_status: unknown
+        manufacturer_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+        notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+          catalogue, page 2. Not a Fanatic or Air reference. Current availability,
+          digital colour and product-photo provenance remain unverified.
+        verified_on: '2026-09-03'
+        volume_ml: 18
+    - name: evidence
+      value:
+      - Brand, range and Werewolf Fur label are readable on the foreground pot.
+    - name: functional_class
+      value: opaque_standard
+    - name: needs_review
+      value: false
+    - name: position
+      value: 5
+  source_snapshots:
+  - payload:
+      name: Werewolf Fur
+      reference: WP1464
+      volume_ml: 18
+    provider: the-army-painter-2019-catalogue
+    url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  tags: [
+    ]
+  usage_instructions:
+    steps: [
+      ]
+    summary: ''
+    tips: [
+      ]
+  verified_at: '2026-09-03'
+  volume_ml: 18
+  warnings: [
+    ]
+- brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  catalog_memberships:
+  - catalog_edition_id: tap-product-catalogue-2019
+    locator: page 2; WP1470; Light Tone
+    source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  color:
+    family: ''
+    hex: ''
+  confidence: 0.98
+  data_status: confirmed
+  deduplication_key: the-army-painter|quickshade-washes|name:light-tone
+  id: tap-wp1470
+  lifecycle_status: unknown
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: ''
+    image_quality: none
+    license: ''
+    path: ''
+    quality_limitation:
+      code: better-source-not-found
+      detail: The import did not provide a better usable product image.
+      observed_at: '2026-09-03'
+    quality_verified_at: ''
+    reference_url: ''
+    source_url: ''
+  manufacturer_page: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields:
+    - functional_class
+    mapping: the-army-painter
+    mapping_version: 1
+    unmapped_fields:
+    - evidence
+    - needs_review
+    - position
+    - reference_observed
+  name: Light Tone
+  notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+    catalogue, page 2. Not a Fanatic or Air reference. Current availability, digital
+    colour and product-photo provenance remain unverified.
+  observed_brand: THE ARMY PAINTER
+  observed_range: QUICKSHADE WASHES
+  profile:
+    application_methods:
+    - brush
+    application_system: washing
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - wash
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes:
+    - 92eb53c9bb2635fa1d214ee2dee3e00f14ce80b43dd1d526a27cd3f441336def
+    original_photo: imports/photos/IMG_5322.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-09-03-remaining/IMG_5322.jpeg
+    photo_id: photo-92eb53c9bb2635fa1d214ee2dee3e00f14ce80b43dd1d526a27cd3f441336def
+    sha256: 92eb53c9bb2635fa1d214ee2dee3e00f14ce80b43dd1d526a27cd3f441336def
+  range: Warpaints Washes
+  recommended_uses: [
+    ]
+  reference: WP1470
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: enrichment
+      value:
+        lifecycle_status: unknown
+        manufacturer_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+        notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+          catalogue, page 2. Not a Fanatic or Air reference. Current availability,
+          digital colour and product-photo provenance remain unverified.
+        usage_instructions:
+          instruction_status: generic_template
+          review_required: true
+          steps:
+          - Shake the bottle thoroughly.
+          - Apply sparingly into recesses and remove excess pooling.
+          - Let the coat dry before adding another.
+          summary: Generic acrylic-wash guidance; manufacturer-specific instructions
+            require review.
+          tips:
+          - Test on a spare miniature first.
+        verified_on: '2026-09-03'
+        volume_ml: 18
+    - name: evidence
+      value:
+      - Brand, range and name on the foreground pot label.
+    - name: functional_class
+      value: wash_shade
+    - name: needs_review
+      value: false
+    - name: position
+      value: 2
+  source_snapshots:
+  - payload:
+      name: Light Tone
+      reference: WP1470
+      volume_ml: 18
+    provider: the-army-painter-2019-catalogue
+    url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  tags: [
+    ]
+  usage_instructions:
+    instruction_status: generic_template
+    review_required: true
+    steps:
+    - Shake the bottle thoroughly.
+    - Apply sparingly into recesses and remove excess pooling.
+    - Let the coat dry before adding another.
+    summary: Generic acrylic-wash guidance; manufacturer-specific instructions require
+      review.
+    tips:
+    - Test on a spare miniature first.
+  verified_at: '2026-09-03'
+  volume_ml: 18
+  warnings: [
+    ]
+- brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  catalog_memberships:
+  - catalog_edition_id: tap-product-catalogue-2019
+    locator: page 2; WP1481; Field Grey
+    source_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  color:
+    family: ''
+    hex: ''
+  confidence: 0.98
+  data_status: confirmed
+  deduplication_key: the-army-painter|warpaints|name:field-grey
+  id: tap-wp1481
+  lifecycle_status: unknown
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: ''
+    image_quality: none
+    license: ''
+    path: ''
+    quality_limitation:
+      code: better-source-not-found
+      detail: The import did not provide a better usable product image.
+      observed_at: '2026-09-03'
+    quality_verified_at: ''
+    reference_url: ''
+    source_url: ''
+  manufacturer_page: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields:
+    - functional_class
+    mapping: the-army-painter
+    mapping_version: 1
+    unmapped_fields:
+    - evidence
+    - needs_review
+    - position
+    - reference_observed
+  name: Field Grey
+  notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+    catalogue, page 2. Not a Fanatic or Air reference. Current availability, digital
+    colour and product-photo provenance remain unverified.
+  observed_brand: THE ARMY PAINTER
+  observed_range: WARPAINTS
+  profile:
+    application_methods:
+    - brush
+    application_system: conventional_layering
+    coverage: unknown
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes:
+    - a3722ff9021d7d5e5521fc2ff496af9f9c66686f57baee2a883353d8c7da6333
+    original_photo: imports/photos/IMG_5323.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-09-03-remaining/IMG_5323.jpeg
+    photo_id: photo-a3722ff9021d7d5e5521fc2ff496af9f9c66686f57baee2a883353d8c7da6333
+    sha256: a3722ff9021d7d5e5521fc2ff496af9f9c66686f57baee2a883353d8c7da6333
+  range: Warpaints
+  recommended_uses: [
+    ]
+  reference: WP1481
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: enrichment
+      value:
+        lifecycle_status: unknown
+        manufacturer_url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+        notes: Original Warpaints identity and reference verified in the 2019 manufacturer/distributor
+          catalogue, page 2. Not a Fanatic or Air reference. Current availability,
+          digital colour and product-photo provenance remain unverified.
+        verified_on: '2026-09-03'
+        volume_ml: 18
+    - name: evidence
+      value:
+      - Brand, range and name on the foreground pot label.
+    - name: functional_class
+      value: opaque_standard
+    - name: needs_review
+      value: false
+    - name: position
+      value: 2
+  source_snapshots:
+  - payload:
+      name: Field Grey
+      reference: WP1481
+      volume_ml: 18
+    provider: the-army-painter-2019-catalogue
+    url: https://freesia-enterprise.com/wp-content/uploads/2020/07/APcatalogue2019WEB.pdf
+  tags: [
+    ]
+  usage_instructions:
+    steps: [
+      ]
+    summary: ''
+    tips: [
+      ]
+  verified_at: '2026-09-03'
+  volume_ml: 18
+  warnings: [
+    ]
+- brand: The Army Painter
   brand_aliases: [
     ]
   color:
@@ -37018,13 +38355,25 @@ paints:
   volume_ml: 18
   warnings: [
     ]
-- observed_brand: ARMY PAINTER
-  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
-    dure recommandée.
-  recommended_uses:
-  - Carnations claires
-  - Visages et mains
-  - Cuir rose-brun
+- brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  color:
+    family: skin
+    hex: '#C1846C'
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: tap|ref:wp2004p
+  id: tap-wp2004p
+  lifecycle_status: active
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: Official The Army Painter catalogue
+    image_quality: official_photo
+    path: /media/market/paints/the-army-painter/tap-wp2004p.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2004P_0.jpg?v=1750957887
+  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-crusader-skin-wp2004p
   mapping_report:
     ignored_fields: [
       ]
@@ -37034,6 +38383,45 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
+  name: Crusader Skin
+  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
+    dure recommandée.
+  observed_brand: ARMY PAINTER
+  observed_range: SPEED PAINT
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes:
+    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    original_photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5311.jpeg
+    photo_id: photo-641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    sha256: 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+  range: Speedpaint
+  recommended_uses:
+  - Carnations claires
+  - Visages et mains
+  - Cuir rose-brun
+  reference: WP2004P
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -37045,9 +38433,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  volume_ml: 18
-  reference: WP2004P
-  schema_version: 1
   source_snapshots:
   - payload:
       body_html: |-
@@ -37170,60 +38555,15 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-crusader-skin-wp2004p
-  id: tap-wp2004p
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-crusader-skin-wp2004p
-  deduplication_key: tap|ref:wp2004p
-  data_status: confirmed
-  range: Speedpaint
-  confidence: 1.0
-  brand_aliases:
-  - Army Painter
-  manufacturer_image:
-    credit: Official The Army Painter catalogue
-    image_quality: official_photo
-    path: /media/market/paints/the-army-painter/tap-wp2004p.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2004P_0.jpg?v=1750957887
-  warnings: [
-    ]
-  manufacturer: The Army Painter
-  lifecycle_status: active
-  brand: The Army Painter
-  provenance:
-    hashes:
-    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
-    photo: imports/archive/2026-08-30/IMG_5311.jpeg
-  observed_range: SPEED PAINT
-  name: Crusader Skin
-  color:
-    family: skin
-    hex: '#C1846C'
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
   tags:
   - chair
   - peau
   - Speedpaint
   - une couche
   verified_at: '2026-08-31'
+  volume_ml: 18
+  warnings: [
+    ]
 - brand: The Army Painter
   brand_aliases: [
     ]
@@ -37449,13 +38789,25 @@ paints:
   volume_ml: 18
   warnings: [
     ]
-- observed_brand: ARMY PAINTER
-  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
-    dure recommandée.
-  recommended_uses:
-  - Os et squelettes
-  - Parchemins
-  - Toiles et tissus beiges
+- brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  color:
+    family: white
+    hex: '#C4B486'
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: tap|ref:wp2006p
+  id: tap-wp2006p
+  lifecycle_status: active
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: Official The Army Painter catalogue
+    image_quality: official_photo
+    path: /media/market/paints/the-army-painter/tap-wp2006p.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2006P_0.jpg?v=1750957887
+  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-pallid-bone-wp2006p
   mapping_report:
     ignored_fields: [
       ]
@@ -37465,6 +38817,45 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
+  name: Pallid Bone
+  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
+    dure recommandée.
+  observed_brand: ARMY PAINTER
+  observed_range: SPEED PAINT
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes:
+    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    original_photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5311.jpeg
+    photo_id: photo-641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    sha256: 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+  range: Speedpaint
+  recommended_uses:
+  - Os et squelettes
+  - Parchemins
+  - Toiles et tissus beiges
+  reference: WP2006P
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -37476,9 +38867,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  volume_ml: 18
-  reference: WP2006P
-  schema_version: 1
   source_snapshots:
   - payload:
       body_html: |-
@@ -37602,60 +38990,15 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-pallid-bone-wp2006p
-  id: tap-wp2006p
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-pallid-bone-wp2006p
-  deduplication_key: tap|ref:wp2006p
-  data_status: confirmed
-  range: Speedpaint
-  confidence: 1.0
-  brand_aliases:
-  - Army Painter
-  manufacturer_image:
-    credit: Official The Army Painter catalogue
-    image_quality: official_photo
-    path: /media/market/paints/the-army-painter/tap-wp2006p.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2006P_0.jpg?v=1750957887
-  warnings: [
-    ]
-  manufacturer: The Army Painter
-  lifecycle_status: active
-  brand: The Army Painter
-  provenance:
-    hashes:
-    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
-    photo: imports/archive/2026-08-30/IMG_5311.jpeg
-  observed_range: SPEED PAINT
-  name: Pallid Bone
-  color:
-    family: white
-    hex: '#C4B486'
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
   tags:
   - os
   - beige
   - Speedpaint
   - une couche
   verified_at: '2026-08-31'
+  volume_ml: 18
+  warnings: [
+    ]
 - brand: The Army Painter
   brand_aliases: [
     ]
@@ -38108,13 +39451,25 @@ paints:
   volume_ml: 18
   warnings: [
     ]
-- observed_brand: ARMY PAINTER
-  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
-    dure recommandée.
-  recommended_uses:
-  - Peaux d’orcs et de créatures
-  - Tissus verts
-  - Végétation sombre
+- brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  color:
+    family: skin
+    hex: '#4E7C43'
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: tap|ref:wp2009p
+  id: tap-wp2009p
+  lifecycle_status: active
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: Official The Army Painter catalogue
+    image_quality: official_photo
+    path: /media/market/paints/the-army-painter/tap-wp2009p.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2009P_0.jpg?v=1750957887
+  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-orc-skin-wp2009p
   mapping_report:
     ignored_fields: [
       ]
@@ -38124,6 +39479,45 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
+  name: Orc Skin
+  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
+    dure recommandée.
+  observed_brand: ARMY PAINTER
+  observed_range: SPEED PAINT
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes:
+    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    original_photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5311.jpeg
+    photo_id: photo-641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    sha256: 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+  range: Speedpaint
+  recommended_uses:
+  - Peaux d’orcs et de créatures
+  - Tissus verts
+  - Végétation sombre
+  reference: WP2009P
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -38135,9 +39529,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  volume_ml: 18
-  reference: WP2009P
-  schema_version: 1
   source_snapshots:
   - payload:
       body_html: |-
@@ -38261,40 +39652,48 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-orc-skin-wp2009p
-  id: tap-wp2009p
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-orc-skin-wp2009p
-  deduplication_key: tap|ref:wp2009p
-  data_status: confirmed
-  range: Speedpaint
-  confidence: 1.0
+  tags:
+  - vert
+  - peau
+  - Speedpaint
+  - une couche
+  verified_at: '2026-08-31'
+  volume_ml: 18
+  warnings: [
+    ]
+- brand: The Army Painter
   brand_aliases:
   - Army Painter
+  color:
+    family: red
+    hex: '#A42E31'
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: tap|ref:wp2010p
+  id: tap-wp2010p
+  lifecycle_status: active
+  manufacturer: The Army Painter
   manufacturer_image:
     credit: Official The Army Painter catalogue
     image_quality: official_photo
-    path: /media/market/paints/the-army-painter/tap-wp2009p.webp
+    path: /media/market/paints/the-army-painter/tap-wp2010p.webp
     quality_verified_at: '2026-09-01'
-    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2009P_0.jpg?v=1750957887
-  warnings: [
-    ]
-  manufacturer: The Army Painter
-  lifecycle_status: active
-  brand: The Army Painter
-  provenance:
-    hashes:
-    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
-    photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2010P_0.jpg?v=1750957887
+  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-blood-red-wp2010p
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields: [
+      ]
+    mapping: the-army-painter
+    mapping_version: 1
+    unmapped_fields: [
+      ]
+  name: Blood Red
+  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
+    dure recommandée.
+  observed_brand: ARMY PAINTER
   observed_range: SPEED PAINT
-  name: Orc Skin
-  color:
-    family: skin
-    hex: '#4E7C43'
   profile:
     application_methods:
     - brush
@@ -38309,28 +39708,26 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: true
       tone: light
-  tags:
-  - vert
-  - peau
-  - Speedpaint
-  - une couche
-  verified_at: '2026-08-31'
-- observed_brand: ARMY PAINTER
-  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
-    dure recommandée.
+  provenance:
+    hashes:
+    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    original_photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5311.jpeg
+    photo_id: photo-641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    sha256: 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+  range: Speedpaint
   recommended_uses:
   - Uniformes rouges
   - Peaux et tissus
   - Zones organiques
-  mapping_report:
-    ignored_fields: [
-      ]
-    mapped_fields: [
-      ]
-    mapping: the-army-painter
-    mapping_version: 1
-    unmapped_fields: [
-      ]
+  reference: WP2010P
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: https://thearmypainter.com/blogs/explore/the-army-painter-academy-how-to-paint-red-three-ways
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -38342,9 +39739,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  volume_ml: 18
-  reference: WP2010P
-  schema_version: 1
   source_snapshots:
   - payload:
       body_html: |-
@@ -38468,60 +39862,15 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-blood-red-wp2010p
-  id: tap-wp2010p
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: https://thearmypainter.com/blogs/explore/the-army-painter-academy-how-to-paint-red-three-ways
-    source_url: ''
-  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-blood-red-wp2010p
-  deduplication_key: tap|ref:wp2010p
-  data_status: confirmed
-  range: Speedpaint
-  confidence: 1.0
-  brand_aliases:
-  - Army Painter
-  manufacturer_image:
-    credit: Official The Army Painter catalogue
-    image_quality: official_photo
-    path: /media/market/paints/the-army-painter/tap-wp2010p.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2010P_0.jpg?v=1750957887
-  warnings: [
-    ]
-  manufacturer: The Army Painter
-  lifecycle_status: active
-  brand: The Army Painter
-  provenance:
-    hashes:
-    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
-    photo: imports/archive/2026-08-30/IMG_5311.jpeg
-  observed_range: SPEED PAINT
-  name: Blood Red
-  color:
-    family: red
-    hex: '#A42E31'
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
   tags:
   - rouge
   - sang
   - Speedpaint
   - une couche
   verified_at: '2026-08-31'
+  volume_ml: 18
+  warnings: [
+    ]
 - brand: The Army Painter
   brand_aliases: [
     ]
@@ -38975,13 +40324,25 @@ paints:
   volume_ml: 18
   warnings: [
     ]
-- observed_brand: ARMY PAINTER
-  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
-    dure recommandée.
-  recommended_uses:
-  - Marquages jaunes
-  - Tissus
-  - Lumières chaudes
+- brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  color:
+    family: yellow
+    hex: '#D4B12F'
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: tap|ref:wp2013p
+  id: tap-wp2013p
+  lifecycle_status: active
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: Official The Army Painter catalogue
+    image_quality: official_photo
+    path: /media/market/paints/the-army-painter/tap-wp2013p.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2013P_0.jpg?v=1750957887
+  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-zealot-yellow-wp2013p
   mapping_report:
     ignored_fields: [
       ]
@@ -38991,6 +40352,45 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
+  name: Zealot Yellow
+  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
+    dure recommandée.
+  observed_brand: ARMY PAINTER
+  observed_range: SPEED PAINT
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes:
+    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    original_photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5311.jpeg
+    photo_id: photo-641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    sha256: 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+  range: Speedpaint
+  recommended_uses:
+  - Marquages jaunes
+  - Tissus
+  - Lumières chaudes
+  reference: WP2013P
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -39002,9 +40402,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  volume_ml: 18
-  reference: WP2013P
-  schema_version: 1
   source_snapshots:
   - payload:
       body_html: |-
@@ -39128,60 +40525,15 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-zealot-yellow-wp2013p
-  id: tap-wp2013p
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-zealot-yellow-wp2013p
-  deduplication_key: tap|ref:wp2013p
-  data_status: confirmed
-  range: Speedpaint
-  confidence: 1.0
-  brand_aliases:
-  - Army Painter
-  manufacturer_image:
-    credit: Official The Army Painter catalogue
-    image_quality: official_photo
-    path: /media/market/paints/the-army-painter/tap-wp2013p.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2013P_0.jpg?v=1750957887
-  warnings: [
-    ]
-  manufacturer: The Army Painter
-  lifecycle_status: active
-  brand: The Army Painter
-  provenance:
-    hashes:
-    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
-    photo: imports/archive/2026-08-30/IMG_5311.jpeg
-  observed_range: SPEED PAINT
-  name: Zealot Yellow
-  color:
-    family: yellow
-    hex: '#D4B12F'
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
   tags:
   - jaune
   - signalétique
   - Speedpaint
   - une couche
   verified_at: '2026-08-31'
+  volume_ml: 18
+  warnings: [
+    ]
 - brand: The Army Painter
   brand_aliases: [
     ]
@@ -39407,13 +40759,25 @@ paints:
   volume_ml: 18
   warnings: [
     ]
-- observed_brand: ARMY PAINTER
-  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
-    dure recommandée.
-  recommended_uses:
-  - Uniformes bleus
-  - Armures
-  - Énergie et tissus
+- brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  color:
+    family: blue
+    hex: '#335991'
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: tap|ref:wp2015p
+  id: tap-wp2015p
+  lifecycle_status: active
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: Official The Army Painter catalogue
+    image_quality: official_photo
+    path: /media/market/paints/the-army-painter/tap-wp2015p.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2015P_0.jpg?v=1750957887
+  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-highlord-blue-wp2015p
   mapping_report:
     ignored_fields: [
       ]
@@ -39423,6 +40787,45 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
+  name: Highlord Blue
+  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
+    dure recommandée.
+  observed_brand: ARMY PAINTER
+  observed_range: SPEED PAINT
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes:
+    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    original_photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5311.jpeg
+    photo_id: photo-641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    sha256: 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+  range: Speedpaint
+  recommended_uses:
+  - Uniformes bleus
+  - Armures
+  - Énergie et tissus
+  reference: WP2015P
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -39434,9 +40837,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  volume_ml: 18
-  reference: WP2015P
-  schema_version: 1
   source_snapshots:
   - payload:
       body_html: |-
@@ -39559,60 +40959,15 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-highlord-blue-wp2015p
-  id: tap-wp2015p
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-highlord-blue-wp2015p
-  deduplication_key: tap|ref:wp2015p
-  data_status: confirmed
-  range: Speedpaint
-  confidence: 1.0
-  brand_aliases:
-  - Army Painter
-  manufacturer_image:
-    credit: Official The Army Painter catalogue
-    image_quality: official_photo
-    path: /media/market/paints/the-army-painter/tap-wp2015p.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2015P_0.jpg?v=1750957887
-  warnings: [
-    ]
-  manufacturer: The Army Painter
-  lifecycle_status: active
-  brand: The Army Painter
-  provenance:
-    hashes:
-    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
-    photo: imports/archive/2026-08-30/IMG_5311.jpeg
-  observed_range: SPEED PAINT
-  name: Highlord Blue
-  color:
-    family: blue
-    hex: '#335991'
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
   tags:
   - bleu
   - uniforme
   - Speedpaint
   - une couche
   verified_at: '2026-08-31'
+  volume_ml: 18
+  warnings: [
+    ]
 - brand: The Army Painter
   brand_aliases: [
     ]
@@ -39839,13 +41194,25 @@ paints:
   volume_ml: 18
   warnings: [
     ]
-- observed_brand: ARMY PAINTER
-  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
-    dure recommandée.
-  recommended_uses:
-  - Flammes et lueurs
-  - Cuir roux
-  - Tissus orange
+- brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  color:
+    family: orange
+    hex: '#D1662D'
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: tap|ref:wp2017p
+  id: tap-wp2017p
+  lifecycle_status: active
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: Official The Army Painter catalogue
+    image_quality: official_photo
+    path: /media/market/paints/the-army-painter/tap-wp2017p.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2017P_0.jpg?v=1750957887
+  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-fire-giant-orange-wp2017p
   mapping_report:
     ignored_fields: [
       ]
@@ -39855,6 +41222,45 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
+  name: Fire Giant Orange
+  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
+    dure recommandée.
+  observed_brand: ARMY PAINTER
+  observed_range: SPEED PAINT
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes:
+    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    original_photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5311.jpeg
+    photo_id: photo-641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    sha256: 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+  range: Speedpaint
+  recommended_uses:
+  - Flammes et lueurs
+  - Cuir roux
+  - Tissus orange
+  reference: WP2017P
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -39866,9 +41272,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  volume_ml: 18
-  reference: WP2017P
-  schema_version: 1
   source_snapshots:
   - payload:
       body_html: |-
@@ -39992,40 +41395,48 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-fire-giant-orange-wp2017p
-  id: tap-wp2017p
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-fire-giant-orange-wp2017p
-  deduplication_key: tap|ref:wp2017p
-  data_status: confirmed
-  range: Speedpaint
-  confidence: 1.0
+  tags:
+  - orange
+  - feu
+  - Speedpaint
+  - une couche
+  verified_at: '2026-08-31'
+  volume_ml: 18
+  warnings: [
+    ]
+- brand: The Army Painter
   brand_aliases:
   - Army Painter
+  color:
+    family: purple
+    hex: '#533B65'
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: tap|ref:wp2018p
+  id: tap-wp2018p
+  lifecycle_status: active
+  manufacturer: The Army Painter
   manufacturer_image:
     credit: Official The Army Painter catalogue
     image_quality: official_photo
-    path: /media/market/paints/the-army-painter/tap-wp2017p.webp
+    path: /media/market/paints/the-army-painter/tap-wp2018p.webp
     quality_verified_at: '2026-09-01'
-    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2017P_0.jpg?v=1750957887
-  warnings: [
-    ]
-  manufacturer: The Army Painter
-  lifecycle_status: active
-  brand: The Army Painter
-  provenance:
-    hashes:
-    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
-    photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2018P_0.jpg?v=1750957887
+  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-hive-dweller-purple-wp2018p
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields: [
+      ]
+    mapping: the-army-painter
+    mapping_version: 1
+    unmapped_fields: [
+      ]
+  name: Hive Dweller Purple
+  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
+    dure recommandée.
+  observed_brand: ARMY PAINTER
   observed_range: SPEED PAINT
-  name: Fire Giant Orange
-  color:
-    family: orange
-    hex: '#D1662D'
   profile:
     application_methods:
     - brush
@@ -40040,28 +41451,26 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: true
       tone: light
-  tags:
-  - orange
-  - feu
-  - Speedpaint
-  - une couche
-  verified_at: '2026-08-31'
-- observed_brand: ARMY PAINTER
-  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
-    dure recommandée.
+  provenance:
+    hashes:
+    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    original_photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5311.jpeg
+    photo_id: photo-641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    sha256: 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+  range: Speedpaint
   recommended_uses:
   - Peaux extraterrestres
   - Tissus violets
   - Ombres surnaturelles
-  mapping_report:
-    ignored_fields: [
-      ]
-    mapped_fields: [
-      ]
-    mapping: the-army-painter
-    mapping_version: 1
-    unmapped_fields: [
-      ]
+  reference: WP2018P
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -40073,9 +41482,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  volume_ml: 18
-  reference: WP2018P
-  schema_version: 1
   source_snapshots:
   - payload:
       body_html: |-
@@ -40199,60 +41605,15 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-hive-dweller-purple-wp2018p
-  id: tap-wp2018p
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-hive-dweller-purple-wp2018p
-  deduplication_key: tap|ref:wp2018p
-  data_status: confirmed
-  range: Speedpaint
-  confidence: 1.0
-  brand_aliases:
-  - Army Painter
-  manufacturer_image:
-    credit: Official The Army Painter catalogue
-    image_quality: official_photo
-    path: /media/market/paints/the-army-painter/tap-wp2018p.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2018P_0.jpg?v=1750957887
-  warnings: [
-    ]
-  manufacturer: The Army Painter
-  lifecycle_status: active
-  brand: The Army Painter
-  provenance:
-    hashes:
-    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
-    photo: imports/archive/2026-08-30/IMG_5311.jpeg
-  observed_range: SPEED PAINT
-  name: Hive Dweller Purple
-  color:
-    family: purple
-    hex: '#533B65'
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
   tags:
   - violet
   - sombre
   - Speedpaint
   - une couche
   verified_at: '2026-08-31'
+  volume_ml: 18
+  warnings: [
+    ]
 - brand: The Army Painter
   brand_aliases: [
     ]
@@ -41159,13 +42520,25 @@ paints:
   volume_ml: 18
   warnings: [
     ]
-- observed_brand: ARMY PAINTER
-  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
-    dure recommandée.
-  recommended_uses:
-  - Cuir
-  - Sangles
-  - Bois clair et textures naturelles
+- brand: The Army Painter
+  brand_aliases:
+  - Army Painter
+  color:
+    family: brown
+    hex: '#76513A'
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: tap|ref:wp2023p
+  id: tap-wp2023p
+  lifecycle_status: active
+  manufacturer: The Army Painter
+  manufacturer_image:
+    credit: Official The Army Painter catalogue
+    image_quality: official_photo
+    path: /media/market/paints/the-army-painter/tap-wp2023p.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2023P_0.jpg?v=1750957887
+  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-hardened-leather-wp2023p
   mapping_report:
     ignored_fields: [
       ]
@@ -41175,6 +42548,45 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
+  name: Hardened Leather
+  notes: Appliquer généreusement en une couche sur une sous-couche claire ; palette
+    dure recommandée.
+  observed_brand: ARMY PAINTER
+  observed_range: SPEED PAINT
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes:
+    - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    original_photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+    photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+  range: Speedpaint
+  recommended_uses:
+  - Cuir
+  - Sangles
+  - Bois clair et textures naturelles
+  reference: WP2023P
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -41186,9 +42598,6 @@ paints:
       value: acrylic
     - name: opacity
       value: transparent
-  volume_ml: 18
-  reference: WP2023P
-  schema_version: 1
   source_snapshots:
   - payload:
       body_html: |-
@@ -41312,60 +42721,15 @@ paints:
       vendor: The Army Painter
     provider: army_painter_shopify_product
     url: https://thearmypainter.com/products/speedpaint-speedpaint-hardened-leather-wp2023p
-  id: tap-wp2023p
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  manufacturer_page: https://thearmypainter.com/products/speedpaint-speedpaint-hardened-leather-wp2023p
-  deduplication_key: tap|ref:wp2023p
-  data_status: confirmed
-  range: Speedpaint
-  confidence: 1.0
-  brand_aliases:
-  - Army Painter
-  manufacturer_image:
-    credit: Official The Army Painter catalogue
-    image_quality: official_photo
-    path: /media/market/paints/the-army-painter/tap-wp2023p.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://cdn.shopify.com/s/files/1/0781/9850/5747/files/WP2023P_0.jpg?v=1750957887
-  warnings: [
-    ]
-  manufacturer: The Army Painter
-  lifecycle_status: active
-  brand: The Army Painter
-  provenance:
-    hashes:
-    - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
-    photo: imports/archive/2026-08-30/IMG_5312.jpeg
-  observed_range: SPEED PAINT
-  name: Hardened Leather
-  color:
-    family: brown
-    hex: '#76513A'
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
   tags:
   - brun
   - cuir
   - Speedpaint
   - une couche
   verified_at: '2026-08-31'
+  volume_ml: 18
+  warnings: [
+    ]
 - brand: The Army Painter
   brand_aliases: [
     ]

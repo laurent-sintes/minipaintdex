@@ -49,6 +49,9 @@ export type SiteConfig = {
     paintAvailable: string; paintMissing: string; paintPending: string;
   };
   collection: {
+    brandRangeFilter: string; catalogFilterHint: string; filterLogicHint: string; advancedFilters: string;
+    showMore: string; showLess: string; closeFilters: string; showResults: string;
+    pagination: string; previousPage: string; nextPage: string;
     title: string; description: string; allBrands: string; manufacturerFilter: string; allManufacturers: string;
     potsMetric: string; colorsMetric: string; sheetsMetric: string; resultsTitle: string; allPaintsTitle: string;
     emptyTitle: string; emptyHint: string; manufacturerSheet: string; filters: string; filterPanelTitle: string;
@@ -71,6 +74,7 @@ export type SiteConfig = {
     requiredTitle: string; plannedTitle: string; requiredBy: string; derivedHint: string; plannedHint: string;
   };
   paintDetail: {
+    catalogEditions: string;
     sheet: string; close: string; colorFamily: string; toQualify: string; manufacturerFeatures: string;
     noManufacturerDescription: string; recommendedUses: string; usageInstructions: string; usageSteps: string;
     usageTips: string; openSheet: string; openManufacturerSheet: string; verifiedOn: string;

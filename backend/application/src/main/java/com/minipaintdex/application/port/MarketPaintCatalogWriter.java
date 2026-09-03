@@ -6,6 +6,14 @@ import java.util.List;
 
 /** Atomic mutation boundary for the market paint reference catalog. */
 public interface MarketPaintCatalogWriter {
+    /**
+     * Atomically replaces validated paint and edition documents as one generation. Ordering is
+     * canonicalized by identity; replaying identical contents is idempotent. Implementations share
+     * the storage write lock, preserve the previous generation on failure, publish reads only after
+     * durable replacement and retain no caller-owned mutable resources. No workshop data is changed.
+     */
+    void replaceMarketPaintCatalog(List<StructuredDocument> paints, List<StructuredDocument> editions);
+
     /** Replaces the validated catalog as one persistence generation or leaves the old generation intact. */
     void replaceMarketPaints(List<StructuredDocument> paints);
 

@@ -44,6 +44,21 @@ class FileMiniPaintDexRepositoryTest {
     }
 
     @Test
+    void preservesEditionsAcrossPaintReplacementAndRestart() throws IOException {
+        createFixture();
+        var repository = new FileMiniPaintDexRepository(layout());
+        repository.initialize();
+        var edition = document(Map.of("schema_version", 1, "id", "brand-2019", "brand", "Brand", "title", "Catalogue",
+                "edition_label", "2019", "ranges", List.of("Range"), "source_urls", List.of("https://example.com/catalog.pdf")));
+        repository.replaceMarketPaintCatalog(repository.load().marketPaints(), List.of(edition));
+        repository.replaceMarketPaints(repository.load().marketPaints());
+        var restarted = new FileMiniPaintDexRepository(layout());
+        restarted.initialize();
+        assertEquals(List.of(edition), restarted.load().paintCatalogEditions());
+        assertEquals(1, restarted.load().marketPaints().size());
+    }
+
+    @Test
     void supportsConcurrentSnapshotReads() throws Exception {
         createFixture();
         var repository = new FileMiniPaintDexRepository(layout());

@@ -143,7 +143,10 @@ def collect_official_refresh(
         paint["verified_at"] = verification_date
     return {
         "coverage": [
-            {"brand": brand, "complete": OFFICIAL_PROVIDERS[brand].coverage_complete, "scope": OFFICIAL_PROVIDERS[brand].scope}
+            {"brand": brand, "complete": OFFICIAL_PROVIDERS[brand].coverage_complete,
+             "scope": "current", "description": OFFICIAL_PROVIDERS[brand].scope,
+             "ranges": sorted({paint["range"] for paint in unique.values() if paint["brand"] == brand}),
+             "source_urls": list(OFFICIAL_PROVIDERS[brand].official_urls)}
             for brand in selected
         ],
         "source": {

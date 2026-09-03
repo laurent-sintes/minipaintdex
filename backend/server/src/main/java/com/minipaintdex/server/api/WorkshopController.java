@@ -1,5 +1,7 @@
 package com.minipaintdex.server.api;
 
+import java.util.List;
+
 import com.minipaintdex.application.command.AddWorkshopItemCommand;
 import com.minipaintdex.application.command.AddWorkshopItemCommentCommand;
 import com.minipaintdex.application.command.AddWorkshopItemPhotoCommand;
@@ -63,22 +65,22 @@ final class WorkshopController {
     @GetMapping("/workshop/paints")
     EntityModel<WorkshopPaintPageResponse> paints(
             @RequestParam(required = false) String query,
-            @RequestParam(required = false) String brand,
-            @RequestParam(required = false) String range,
-            @RequestParam(required = false) String role,
-            @RequestParam(required = false) String applicationMethod,
-            @RequestParam(required = false) String applicationSystem,
-            @RequestParam(required = false) String color,
-            @RequestParam(required = false) String finish,
-            @RequestParam(required = false) String medium,
-            @RequestParam(required = false) String coverage,
-            @RequestParam(required = false) String effect,
-            @RequestParam(required = false) String undercoat,
-            @RequestParam(required = false) String lifecycle,
+            @RequestParam(required = false) List<String> brand,
+            @io.swagger.v3.oas.annotations.Parameter(description = "Repeatable brand::range selection; OR with brands. Escape literal colons and backslashes with a backslash.") @RequestParam(required = false) List<String> range,
+            @RequestParam(required = false) List<String> role,
+            @RequestParam(required = false) List<String> applicationMethod,
+            @RequestParam(required = false) List<String> applicationSystem,
+            @RequestParam(required = false) List<String> color,
+            @RequestParam(required = false) List<String> finish,
+            @RequestParam(required = false) List<String> medium,
+            @RequestParam(required = false) List<String> coverage,
+            @RequestParam(required = false) List<String> effect,
+            @RequestParam(required = false) List<String> undercoat,
+            @RequestParam(required = false) List<String> lifecycle,
             @RequestParam(defaultValue = "false") boolean manufacturerSheetOnly,
             @RequestParam(defaultValue = "false") boolean realResultOnly,
             @ParameterObject Pageable pageable) {
-        var filters = new SearchMarketPaintsQuery(
+        var filters = SearchMarketPaintsQuery.fromSelections(
                 query, brand, range, role, applicationMethod, applicationSystem,
                 color, finish, medium, coverage, effect, undercoat, lifecycle);
         var pageQuery = new PageQuery(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().stream()
@@ -101,21 +103,21 @@ final class WorkshopController {
     @GetMapping("/workshop/paints/facets")
     PaintFacetsView paintFacets(
             @RequestParam(required = false) String query,
-            @RequestParam(required = false) String brand,
-            @RequestParam(required = false) String range,
-            @RequestParam(required = false) String role,
-            @RequestParam(required = false) String applicationMethod,
-            @RequestParam(required = false) String applicationSystem,
-            @RequestParam(required = false) String color,
-            @RequestParam(required = false) String finish,
-            @RequestParam(required = false) String medium,
-            @RequestParam(required = false) String coverage,
-            @RequestParam(required = false) String effect,
-            @RequestParam(required = false) String undercoat,
-            @RequestParam(required = false) String lifecycle,
+            @RequestParam(required = false) List<String> brand,
+            @io.swagger.v3.oas.annotations.Parameter(description = "Repeatable brand::range selection; OR with brands. Escape literal colons and backslashes with a backslash.") @RequestParam(required = false) List<String> range,
+            @RequestParam(required = false) List<String> role,
+            @RequestParam(required = false) List<String> applicationMethod,
+            @RequestParam(required = false) List<String> applicationSystem,
+            @RequestParam(required = false) List<String> color,
+            @RequestParam(required = false) List<String> finish,
+            @RequestParam(required = false) List<String> medium,
+            @RequestParam(required = false) List<String> coverage,
+            @RequestParam(required = false) List<String> effect,
+            @RequestParam(required = false) List<String> undercoat,
+            @RequestParam(required = false) List<String> lifecycle,
             @RequestParam(defaultValue = "false") boolean manufacturerSheetOnly,
             @RequestParam(defaultValue = "false") boolean realResultOnly) {
-        return workshop.workshopPaintFacets(new SearchMarketPaintsQuery(
+        return workshop.workshopPaintFacets(SearchMarketPaintsQuery.fromSelections(
                 query, brand, range, role, applicationMethod, applicationSystem,
                 color, finish, medium, coverage, effect, undercoat, lifecycle),
                 manufacturerSheetOnly, realResultOnly);

@@ -23,6 +23,7 @@ export type ManufacturerInfo = {
 };
 
 export type Paint = ManufacturerInfo & {
+  catalogMemberships: Array<{ catalogEditionId: string; title: string; editionLabel: string; publicationYear: number | null; sourceUrl: string; locator: string }>;
   id: string;
   brand: string;
   manufacturer: string;
@@ -60,7 +61,8 @@ export type PaintModelFilter = {
   facetId?: string;
   labelKey: string;
   vocabularyId?: string;
-  control: 'select' | 'toggle';
+  control: 'checkbox' | 'toggle';
+  group: 'catalog' | 'primary' | 'advanced';
   order: number;
 };
 
@@ -83,9 +85,11 @@ export type PaintModelSchema = {
   properties: Record<string, unknown>;
 };
 
+export type PaintFacetValue = { value: string; count: number; label: string; parentValue: string | null };
+
 export type PaintFacets = {
   total: number;
-  facets: Array<{ id: string; values: Array<{ value: string; count: number }> }>;
+  facets: Array<{ id: string; values: PaintFacetValue[] }>;
 };
 
 export type PaintCatalogQuality = {

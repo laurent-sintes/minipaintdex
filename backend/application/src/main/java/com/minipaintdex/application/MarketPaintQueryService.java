@@ -7,8 +7,6 @@ import com.minipaintdex.application.query.SearchMarketPaintsQuery;
 import com.minipaintdex.application.query.SortOrder;
 import com.minipaintdex.application.result.PageResult;
 import com.minipaintdex.application.view.MarketPaintView;
-import com.minipaintdex.application.view.PaintFacetValue;
-import com.minipaintdex.application.view.PaintFacetView;
 import com.minipaintdex.application.view.PaintFacetsView;
 import com.minipaintdex.application.view.PaintCatalogQualityView;
 import com.minipaintdex.domain.market.paint.MarketPaint;
@@ -16,9 +14,7 @@ import com.minipaintdex.domain.shared.DomainException;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 /** Read-only market-paint application service over the canonical paint profile. */
@@ -35,31 +31,9 @@ final class MarketPaintQueryService {
     }
 
     Stream<MarketPaintView> stream(SearchMarketPaintsQuery filters) {
-        var query = string(filters.query()).toLowerCase(Locale.ROOT);
-        return catalogs.load().paints().stream().map(MarketPaintQueryService::view).filter(paint -> {
-            var profile = paint.profile();
-            if (!matches(filters.brand(), paint.brand())) return false;
-            if (!matches(filters.range(), paint.range())) return false;
-            if (!contains(filters.role(), profile.roles())) return false;
-            if (!contains(filters.applicationMethod(), profile.applicationMethods())) return false;
-            if (!matches(filters.applicationSystem(), profile.applicationSystem())) return false;
-            if (!matches(filters.color(), paint.colorFamily())) return false;
-            if (!matches(filters.finish(), profile.finish())) return false;
-            if (!matches(filters.medium(), profile.medium())) return false;
-            if (!matches(filters.coverage(), profile.coverage())) return false;
-            if (!contains(filters.effect(), profile.effects())) return false;
-            if (!matches(filters.undercoat(), profile.undercoatTone())) return false;
-            if (!matches(filters.lifecycle(), paint.lifecycleStatus())) return false;
-            if (!query.isBlank()) {
-                var haystack = String.join(" ", paint.name(), paint.brand(), paint.manufacturer(), paint.range(),
-                        paint.reference(), paint.colorFamily(), String.join(" ", paint.tags()),
-                        String.join(" ", profile.roles()), String.join(" ", profile.effects()),
-                        profile.applicationSystem(), profile.coverage(), profile.finish(), profile.medium())
-                        .toLowerCase(Locale.ROOT);
-                if (!haystack.contains(query)) return false;
-            }
-            return true;
-        });
+        var snapshot = catalogs.load();
+        return snapshot.paints().stream().map(paint -> view(paint, snapshot))
+                .filter(paint -> PaintSearch.matches(paint, filters));
     }
 
     PageResult<MarketPaintView> page(
@@ -76,7 +50,7 @@ final class MarketPaintQueryService {
 
     PaintFacetsView facets(
             SearchMarketPaintsQuery filters, boolean manufacturerSheetOnly, boolean realResultOnly) {
-        return facets(filtered(filters, manufacturerSheetOnly, realResultOnly).toList());
+        return PaintSearch.facets(filtered(SearchMarketPaintsQuery.empty(), manufacturerSheetOnly, realResultOnly).toList(), filters);
     }
 
     PaintCatalogQualityView quality() {
@@ -120,28 +94,12 @@ final class MarketPaintQueryService {
                 .filter(paint -> !realResultOnly || present(paint.resultImage()));
     }
 
-    static PaintFacetsView facets(List<MarketPaintView> paints) {
-        return new PaintFacetsView(paints.size(), List.of(
-                facet("roles", paints, paint -> paint.profile().roles()),
-                facet("applicationMethods", paints, paint -> paint.profile().applicationMethods()),
-                facet("applicationSystems", paints, paint -> List.of(paint.profile().applicationSystem())),
-                facet("colors", paints, paint -> List.of(paint.colorFamily())),
-                facet("brands", paints, paint -> List.of(paint.brand())),
-                facet("ranges", paints, paint -> List.of(paint.range())),
-                facet("coverages", paints, paint -> List.of(paint.profile().coverage())),
-                facet("finishes", paints, paint -> List.of(paint.profile().finish())),
-                facet("effects", paints, paint -> paint.profile().effects()),
-                facet("undercoats", paints, paint -> List.of(paint.profile().undercoatTone())),
-                facet("mediums", paints, paint -> List.of(paint.profile().medium())),
-                facet("lifecycles", paints, paint -> List.of(paint.lifecycleStatus()))));
-    }
-
     List<MarketPaintView> views(MarketCatalogSnapshot snapshot) {
-        return snapshot.paints().stream().map(MarketPaintQueryService::view)
+        return snapshot.paints().stream().map(paint -> view(paint, snapshot))
                 .sorted(Comparator.comparing(MarketPaintView::name, String.CASE_INSENSITIVE_ORDER)).toList();
     }
 
-    private static MarketPaintView view(MarketPaint paint) {
+    private static MarketPaintView view(MarketPaint paint, MarketCatalogSnapshot snapshot) {
         var usage = paint.usageInstructions();
         var profile = paint.profile();
         var technical = profile.requiresUsageInstructions();
@@ -176,7 +134,12 @@ final class MarketPaintQueryService {
                         usage.reviewRequired() || technical && usage.instructionStatus() == null),
                 verifiedAt, image(paint.resultImage()), string(paint.resultImage().credit()),
                 uri(paint.resultImage().sourceUrl()), string(paint.resultImage().license()),
-                uri(paint.resultImage().referenceUrl()));
+                uri(paint.resultImage().referenceUrl()), paint.catalogMemberships().stream().map(membership -> {
+                    var edition = snapshot.paintCatalogEditions().stream()
+                            .filter(e -> e.id().equals(membership.catalogEditionId())).findFirst().orElseThrow();
+                    return new MarketPaintView.CatalogMembership(edition.id(), edition.title(), edition.editionLabel(),
+                            edition.publicationYear(), membership.sourceUrl().toString(), membership.locator());
+                }).toList());
     }
 
     private static Comparator<MarketPaintView> comparator(List<SortOrder> orders) {
@@ -195,17 +158,6 @@ final class MarketPaintQueryService {
         return comparator.thenComparing(MarketPaintView::id, String.CASE_INSENSITIVE_ORDER);
     }
 
-    private static PaintFacetView facet(
-            String id,
-            List<MarketPaintView> paints,
-            Function<MarketPaintView, List<String>> values) {
-        var counts = new java.util.TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
-        paints.forEach(paint -> values.apply(paint).stream().filter(MarketPaintQueryService::present)
-                .forEach(value -> counts.merge(value, 1, Integer::sum)));
-        return new PaintFacetView(id, counts.entrySet().stream()
-                .map(entry -> new PaintFacetValue(entry.getKey(), entry.getValue())).toList());
-    }
-
     private static String sortableValue(MarketPaintView value, String property) {
         return switch (property) {
             case "name" -> value.name();
@@ -217,14 +169,6 @@ final class MarketPaintQueryService {
             case "verifiedAt" -> value.manufacturerVerifiedAt();
             default -> throw new IllegalArgumentException("Unsupported paint sort property: " + property);
         };
-    }
-
-    private static boolean contains(String expected, List<String> actual) {
-        return !present(expected) || actual.stream().anyMatch(value -> value.equalsIgnoreCase(expected));
-    }
-
-    private static boolean matches(String expected, Object actual) {
-        return !present(expected) || expected.equalsIgnoreCase(string(actual));
     }
 
     private static String uri(java.net.URI value) { return value == null ? "" : value.toString(); }

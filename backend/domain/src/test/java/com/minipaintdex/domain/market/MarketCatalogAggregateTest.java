@@ -102,7 +102,7 @@ class MarketCatalogAggregateTest {
                 null, new MarketPaint.ImageReference(
                         null, null, null, null, null, MarketPaintImageQuality.NONE, null, limitation()),
                 18, List.of(), instructions, null,
-                MarketPaint.ImageReference.empty());
+                MarketPaint.ImageReference.empty(), List.of());
     }
 
     private static MarketPaint paintWithManufacturerImage(MarketPaint.ImageReference image) {
@@ -118,7 +118,7 @@ class MarketCatalogAggregateTest {
                 "001", "Paint", new MarketPaint.Color("Blue", "#aabbcc"),
                 MarketPaintLifecycle.ACTIVE, "verified", List.of(), List.of(), null,
                 null, image, 18, List.of(), MarketPaint.UsageInstructions.empty(), null,
-                MarketPaint.ImageReference.empty());
+                MarketPaint.ImageReference.empty(), List.of());
     }
 
     private static MarketPaint.ImageQualityLimitation limitation() {

@@ -62,11 +62,33 @@ class MiniPaintDexControllerTest {
         mvc = MockMvcBuilders.standaloneSetup(
                         new SiteController(site),
                         new MarketCatalogController(market),
+                        new PaintCatalogEditionController(market),
                         new AdministrationController(administration),
                         new WorkshopController(workshop))
                 .setControllerAdvice(new ApiExceptionHandler())
                 .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
                 .build();
+    }
+
+    @Test
+    void exposesSourcedEditionPagesAndDetails() throws Exception {
+        var edition = new com.minipaintdex.domain.market.paint.PaintCatalogEdition(1, "brand-2019", "Brand", "Catalogue",
+                "2019", 2019, List.of("Range"), List.of(java.net.URI.create("https://example.com/catalog.pdf")));
+        when(market.searchPaintCatalogEditions(any())).thenReturn(new PageResult<>(List.of(edition), 0, 1, 2));
+        when(market.getPaintCatalogEdition(any())).thenReturn(edition);
+        mvc.perform(get("/api/v1/market/paint-catalog-editions").param("brand", "Brand").param("size", "1")
+                        .header("X-Correlation-Id", "edition-test"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.editions[0].id").value("brand-2019"))
+                .andExpect(jsonPath("$.totalPages").value(2));
+        var query = ArgumentCaptor.forClass(com.minipaintdex.application.query.SearchPaintCatalogEditionsQuery.class);
+        verify(market).searchPaintCatalogEditions(query.capture());
+        assertEquals("Brand", query.getValue().brand());
+        assertEquals("edition-test", query.getValue().correlationId());
+        mvc.perform(get("/api/v1/market/paint-catalog-editions/brand-2019"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.publicationYear").value(2019));
+        var controller = new PaintCatalogEditionController(market);
+        assertEquals("/api/v1/market/paint-catalog-editions/brand-2019",
+                controller.edition("brand-2019", "test").getRequiredLink("self").getHref());
     }
 
     @Test
@@ -79,6 +101,9 @@ class MiniPaintDexControllerTest {
                         .queryParam("size", "10")
                         .queryParam("sort", "brand,desc")
                         .queryParam("finish", "matte")
+                        .queryParam("brand", "Vallejo", "AK Interactive")
+                        .queryParam("range", "Warhammer Colour::Contrast", "Warhammer Colour::Layer")
+                        .queryParam("color", "blue", "red")
                         .queryParam("coverage", "transparent")
                         .queryParam("applicationSystem", "one_coat_shading")
                         .queryParam("effect", "metallic"))
@@ -88,13 +113,25 @@ class MiniPaintDexControllerTest {
         var query = ArgumentCaptor.forClass(SearchMarketPaintsQuery.class);
         var page = ArgumentCaptor.forClass(PageQuery.class);
         verify(market).searchMarketPaintPage(query.capture(), anyBoolean(), anyBoolean(), page.capture());
-        assertEquals("matte", query.getValue().finish());
-        assertEquals("transparent", query.getValue().coverage());
-        assertEquals("one_coat_shading", query.getValue().applicationSystem());
-        assertEquals("metallic", query.getValue().effect());
+        assertEquals(List.of("matte"), query.getValue().finish());
+        assertEquals(List.of("Vallejo", "AK Interactive"), query.getValue().brand());
+        assertEquals(List.of("blue", "red"), query.getValue().color());
+        assertEquals(List.of("Warhammer Colour::Contrast", "Warhammer Colour::Layer"),
+                query.getValue().range().stream().map(com.minipaintdex.application.query.PaintRangeSelection::selectionKey).toList());
+        assertEquals(List.of("transparent"), query.getValue().coverage());
+        assertEquals(List.of("one_coat_shading"), query.getValue().applicationSystem());
+        assertEquals(List.of("metallic"), query.getValue().effect());
         assertEquals(2, page.getValue().page());
         assertEquals(10, page.getValue().size());
         assertEquals("brand", page.getValue().sort().getFirst().property());
+    }
+
+    @Test
+    void rejectsAnUnqualifiedRangeBeforeInvokingTheApplication() throws Exception {
+        mvc.perform(get("/api/v1/market/paints").queryParam("range", "Contrast"))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.code").value("invalid_input"));
+        org.mockito.Mockito.verifyNoInteractions(market);
     }
 
     @Test
@@ -116,6 +153,8 @@ class MiniPaintDexControllerTest {
                 .andExpect(jsonPath("$.properties.manufacturer_image.properties.quality_limitation.required[0]").value("code"))
                 .andExpect(jsonPath("$['x-vocabularies']['image-quality-limitation'][0]").value("official-photo-not-published"))
                 .andExpect(jsonPath("$['x-filters'][0].queryParameter").value("role"))
+                .andExpect(jsonPath("$['x-filters'][0].control").value("checkbox"))
+                .andExpect(jsonPath("$['x-filters'][0].group").value("primary"))
                 .andExpect(jsonPath("$['x-filters'][12].control").value("toggle"))
                 .andExpect(jsonPath("$['x-sort-options'][0].queryValue").value("name,asc"))
                 .andExpect(jsonPath("$['x-vocabularies']['paint-role'][1]").value("primer"));
@@ -157,6 +196,28 @@ class MiniPaintDexControllerTest {
         var command = ArgumentCaptor.forClass(ApplyMarketPaintChangeSetCommand.class);
         verify(administration).applyMarketPaintChangeSet(command.capture());
         assertEquals(true, command.getValue().dryRun());
+    }
+
+    @Test
+    void forwardsEditionOnlyChangeSetsWithoutInventoryOperations() throws Exception {
+        when(administration.applyMarketPaintChangeSet(any())).thenReturn(
+                new ApplyMarketPaintChangeSetResult(0, 0, 0, 0, 0, 0, 0, 48, false));
+        mvc.perform(post("/api/v1/market/paint-changesets")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"schema_version":1,"kind":"market_paints","operations":[],
+                                 "catalog_editions":[{"schema_version":1,"id":"brand-2019","brand":"Brand",
+                                 "title":"Catalogue","edition_label":"2019","ranges":["Range"],
+                                 "source_urls":["https://example.com/catalog.pdf"]}]}
+                                """))
+                .andExpect(status().isOk());
+        var command = ArgumentCaptor.forClass(ApplyMarketPaintChangeSetCommand.class);
+        verify(administration).applyMarketPaintChangeSet(command.capture());
+        assertEquals(true, command.getValue().dryRun());
+        assertEquals(0, command.getValue().operations().size());
+        assertEquals(new com.minipaintdex.application.document.StructuredDocument.Text("brand-2019"),
+                command.getValue().catalogEditions().getFirst().fields().stream()
+                        .filter(field -> field.name().equals("id")).findFirst().orElseThrow().value());
     }
 
     @Test
@@ -261,6 +322,6 @@ class MiniPaintDexControllerTest {
                 "", name, "#000000", "current", "confirmed", "", List.of(),
                 "", "", "", "", "", "", "", "none", 6, "", "", "", "", 18, "Black", "", List.of(),
                 new MarketPaintView.UsageInstructions("", List.of(), List.of(), "", false),
-                "", "", "", "", "", "");
+                "", "", "", "", "", "", List.of());
     }
 }

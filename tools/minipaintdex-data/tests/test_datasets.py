@@ -12,6 +12,15 @@ from minipaintdex_data.datasets import create_dataset, validate_dataset
 
 
 class DatasetTests(unittest.TestCase):
+    def test_brand_dataset_preserves_commercial_editions(self):
+        from minipaintdex_data.datasets import build_payload
+        edition = {"schema_version": 1, "id": "brand-a-2019", "brand": "Brand A", "title": "Catalogue",
+                   "edition_label": "2019", "ranges": ["Range"], "source_urls": ["https://example.com/catalog"]}
+        self._yaml("data/market/paints/brand-a.yaml", {"schema_version": 1, "brand": "Brand A", "catalog_editions": [edition],
+                   "paints": [{"schema_version": 1, "id": "brand-a-red", "brand": "Brand A", "name": "Red"}]})
+        payload, _ = build_payload(self.root, "market.paint-brand", brand="Brand A")
+        self.assertEqual(payload["catalog_editions"], [edition])
+
     def setUp(self) -> None:
         run_id = f"{os.getpid()}-{self._testMethodName}"
         self.root = Path("tools/minipaintdex-data/target/test-datasets") / run_id

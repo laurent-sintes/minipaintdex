@@ -25,15 +25,40 @@ import com.minipaintdex.domain.market.paint.MarketPaintProfile;
 public final class MarketCatalogApplicationService implements MarketCatalogUseCases {
     private final MarketPaintQueryService paints;
     private final MarketProductQueryService products;
+    private final MarketCatalogReader catalogs;
 
     public MarketCatalogApplicationService(MarketCatalogReader catalogs) {
         var reader = Objects.requireNonNull(catalogs);
+        this.catalogs = reader;
         this.paints = new MarketPaintQueryService(reader);
         this.products = new MarketProductQueryService(reader, paints);
     }
 
     @Override public List<MarketPaintView> searchMarketPaints(SearchMarketPaintsQuery query) {
         return paints.search(query);
+    }
+
+    @Override public PageResult<com.minipaintdex.domain.market.paint.PaintCatalogEdition> searchPaintCatalogEditions(
+            com.minipaintdex.application.query.SearchPaintCatalogEditionsQuery query) {
+        Objects.requireNonNull(query);
+        var comparator = java.util.Comparator.comparing(com.minipaintdex.domain.market.paint.PaintCatalogEdition::id);
+        if (query.page().sort().size() > 1 || query.page().sort().stream().anyMatch(order -> !"id".equals(order.property()))) {
+            throw new com.minipaintdex.domain.shared.DomainException("invalid_input", "Catalog editions support id sorting only");
+        }
+        if (!query.page().sort().isEmpty() && query.page().sort().getFirst().direction()
+                == com.minipaintdex.application.query.SortOrder.Direction.DESCENDING) comparator = comparator.reversed();
+        var rows = catalogs.load().paintCatalogEditions().stream()
+                .filter(edition -> query.brand() == null || query.brand().isBlank() || edition.brand().equalsIgnoreCase(query.brand()))
+                .sorted(comparator).toList();
+        var start = Math.min(query.page().offset(), rows.size());
+        return new PageResult<>(rows.subList(start, Math.min(start + query.page().size(), rows.size())),
+                query.page().page(), query.page().size(), rows.size());
+    }
+
+    @Override public com.minipaintdex.domain.market.paint.PaintCatalogEdition getPaintCatalogEdition(
+            com.minipaintdex.application.query.GetPaintCatalogEditionQuery query) {
+        return catalogs.load().paintCatalogEditions().stream().filter(edition -> edition.id().equals(query.id()))
+                .findFirst().orElseThrow(() -> new com.minipaintdex.domain.shared.DomainException("not_found", "Catalog edition not found: " + query.id()));
     }
     @Override public Stream<MarketPaintView> streamMarketPaints(SearchMarketPaintsQuery query) {
         return paints.stream(query);
@@ -143,12 +168,17 @@ public final class MarketCatalogApplicationService implements MarketCatalogUseCa
 
     private static PaintModelView.Filter filter(
             String id, String parameter, String facet, String labelKey, String vocabulary, int order) {
-        return new PaintModelView.Filter(id, parameter, facet, labelKey, vocabulary, "select", order);
+        var group = switch (id) {
+            case "brand", "range" -> "catalog";
+            case "role", "applicationMethod", "color" -> "primary";
+            default -> "advanced";
+        };
+        return new PaintModelView.Filter(id, parameter, facet, labelKey, vocabulary, "checkbox", group, order);
     }
 
     private static PaintModelView.Filter toggle(
             String id, String parameter, String labelKey, int order) {
-        return new PaintModelView.Filter(id, parameter, null, labelKey, null, "toggle", order);
+        return new PaintModelView.Filter(id, parameter, null, labelKey, null, "toggle", "advanced", order);
     }
 
     private static PaintModelView.SortOption sort(

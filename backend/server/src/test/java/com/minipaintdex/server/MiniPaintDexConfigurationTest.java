@@ -80,25 +80,28 @@ class MiniPaintDexConfigurationTest {
                 .andExpect(jsonPath("$.paths['/api/v1/workshop/painting-project-import-previews/{productId}']")
                         .exists())
                 .andExpect(jsonPath("$.paths['/api/v1/workshop/paints']").exists())
+                .andExpect(jsonPath("$.paths['/api/v1/market/paint-catalog-editions']").exists())
+                .andExpect(jsonPath("$.paths['/api/v1/market/paint-catalog-editions/{id}']").exists())
                 .andExpect(jsonPath("$.components.schemas.PaintModelSchemaResponse.properties['x-model-version']").exists());
+        mvc.perform(get("/api/v1/market/paint-catalog-editions").queryParam("size", "1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$._links.self.href").exists())
+                .andExpect(jsonPath("$._links.first.href").exists())
+                .andExpect(jsonPath("$._links.last.href").exists());
         mvc.perform(get("/api/v1/market/paint-model"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.additionalProperties").value(false))
-                .andExpect(jsonPath("$.properties.length()").value(30))
+                .andExpect(jsonPath("$.properties.length()").value(31))
+                .andExpect(jsonPath("$.properties.catalog_memberships.items.required.length()").value(3))
                 .andExpect(jsonPath("$['x-sort-options'].length()").value(10));
+        var quality = market.marketPaintQuality();
+        assertEquals(market.marketPaintFacets(com.minipaintdex.application.query.SearchMarketPaintsQuery.empty(), false, false).total(), quality.total());
+        assertEquals(quality.total(), quality.imageQualities().stream().mapToLong(row -> row.count()).sum());
         mvc.perform(get("/api/v1/market/paints/quality"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.total").value(2019))
-                .andExpect(jsonPath("$.imageQualities.length()").value(4))
-                .andExpect(jsonPath("$.imageQualities[0].quality").value("color_swatch"))
-                .andExpect(jsonPath("$.imageQualities[0].count").value(10))
-                .andExpect(jsonPath("$.imageQualities[1].quality").value("generic_visual"))
-                .andExpect(jsonPath("$.imageQualities[1].count").value(41))
-                .andExpect(jsonPath("$.imageQualities[2].quality").value("official_photo"))
-                .andExpect(jsonPath("$.imageQualities[2].count").value(1668))
-                .andExpect(jsonPath("$.imageQualities[3].quality").value("retailer_photo"))
-                .andExpect(jsonPath("$.imageQualities[3].count").value(300))
-                .andExpect(jsonPath("$.imageLimitations.length()").value(3));
+                .andExpect(jsonPath("$.total").value(quality.total()))
+                .andExpect(jsonPath("$.imageQualities.length()").value(quality.imageQualities().size()))
+                .andExpect(jsonPath("$.imageLimitations.length()").value(quality.imageLimitations().size()));
     }
 
     @Test

@@ -37,7 +37,8 @@ final class AdministrationController {
                         Boolean.TRUE.equals(operation.confirmedRemoval())))
                 .toList();
         return new ResultResponse<>(administration.applyMarketPaintChangeSet(new ApplyMarketPaintChangeSetCommand(
-                request.schemaVersion(), request.kind(), operations, dryRun)));
+                request.schemaVersion(), request.kind(), operations, dryRun,
+                request.catalogEditions().stream().map(AdministrationController::document).toList())));
     }
 
     @PostMapping("/market/paintable-product-changesets")

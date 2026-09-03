@@ -8,6 +8,12 @@ export type AppRoute = {
   itemId?: string;
 };
 
+export function isNavigationDestinationCurrent(route: AppRoute, destination: AppView) {
+  if (route.view === destination) return true;
+  if (route.view === 'product') return destination === (route.paintingProjectId ? 'workshop' : 'marketProducts');
+  return route.view === 'item' && destination === 'workshop';
+}
+
 export function parseAppRoute(pathname: string): AppRoute {
   const parts = pathname.split('/').filter(Boolean);
   if (parts[0] === 'market' && parts[1] === 'paints') return { view: 'marketPaints' };

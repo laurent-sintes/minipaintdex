@@ -91,9 +91,11 @@ record SetShoppingItemStatusRequest(boolean checked, String actorId, Instant occ
 record ApplyPaintChangeSetRequest(
         @JsonProperty("schema_version") int schemaVersion,
         @NotBlank String kind,
-        List<PaintOperationRequest> operations) {
+        List<PaintOperationRequest> operations,
+        @JsonProperty("catalog_editions") List<Map<String, Object>> catalogEditions) {
     ApplyPaintChangeSetRequest {
         operations = operations == null ? List.of() : List.copyOf(operations);
+        catalogEditions = catalogEditions == null ? List.of() : List.copyOf(catalogEditions);
     }
 }
 

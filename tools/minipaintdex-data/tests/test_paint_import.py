@@ -107,17 +107,17 @@ class PaintInventoryTests(unittest.TestCase):
         row.update({
             "id": "paint", "marque_canonique": "Vallejo", "gamme_canonique": "Xpress Color",
             "classe_fonctionnelle": "one_coat_contrast", "nom": "Test", "quantite": "2",
-            "source_photo": "imports/photos/test.jpg", "cle_dedoublonnage": "paint",
+            "source_photo": "imports/workshop-paints/photos/test.jpg", "cle_dedoublonnage": "paint",
         })
         try:
             paint_inventory.write_csv(source, [row])
             args = type("Args", (), {
-                "inventory": str(source), "old": "imports/photos/test.jpg", "new": "imports/archive/test.jpg",
+                "inventory": str(source), "old": "imports/workshop-paints/photos/test.jpg", "new": "imports/workshop-paints/archive/2026-09-03/test/test.jpg",
                 "output_csv": str(output_csv), "output_yaml": str(output_yaml),
             })()
             self.assertEqual(paint_inventory.command_relocate_source(args), 0)
             relocated = paint_inventory.read_csv(output_csv)[0]
-            self.assertEqual(relocated["source_photo"], "imports/archive/test.jpg")
+            self.assertEqual(relocated["source_photo"], "imports/workshop-paints/archive/2026-09-03/test/test.jpg")
             self.assertEqual(relocated["quantite"], "2")
         finally:
             source.unlink(missing_ok=True)

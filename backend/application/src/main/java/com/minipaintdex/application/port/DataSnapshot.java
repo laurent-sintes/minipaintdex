@@ -19,7 +19,8 @@ public record DataSnapshot(
         List<PaintableProduct> paintableProducts,
         List<StructuredDocument> marketPaintingGuides,
         List<StructuredDocument> shopping,
-        List<EventEnvelope> events) {
+        List<EventEnvelope> events,
+        List<StructuredDocument> paintCatalogEditions) {
     public DataSnapshot {
         if (site == null) throw new IllegalArgumentException("site is required.");
         marketPaints = copy(marketPaints);
@@ -28,6 +29,7 @@ public record DataSnapshot(
         marketPaintingGuides = copy(marketPaintingGuides);
         shopping = copy(shopping);
         events = copy(events);
+        paintCatalogEditions = copy(paintCatalogEditions);
     }
 
     private static <T> List<T> copy(List<T> values) {

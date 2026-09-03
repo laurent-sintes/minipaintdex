@@ -4,6 +4,7 @@ import com.minipaintdex.application.document.StructuredDocument;
 import com.minipaintdex.application.port.MarketCatalogSnapshot;
 import com.minipaintdex.domain.market.guide.MarketPaintingGuide;
 import com.minipaintdex.domain.market.paint.MarketPaint;
+import com.minipaintdex.domain.market.paint.PaintCatalogEdition;
 import com.minipaintdex.domain.market.paint.MarketPaintLifecycle;
 import com.minipaintdex.domain.market.paint.MarketPaintImageQuality;
 import com.minipaintdex.domain.market.paint.MarketPaintImageLimitationCode;
@@ -27,11 +28,34 @@ public final class MarketCatalogFactory {
     public static MarketCatalogSnapshot create(
             List<StructuredDocument> paintDocuments,
             List<PaintableProduct> products,
-            List<StructuredDocument> guideDocuments) {
+            List<StructuredDocument> guideDocuments,
+            List<StructuredDocument> editionDocuments) {
         var paints = paintDocuments.stream().map(MarketCatalogFactory::paint).toList();
         var guides = guideDocuments.stream().map(MarketCatalogFactory::guide).toList();
         validateGeneration(paints, products, guides);
-        return new MarketCatalogSnapshot(paints, products, guides);
+        var editions = editionDocuments.stream().map(MarketCatalogFactory::catalogEdition).toList();
+        uniqueIds(editions.stream().map(PaintCatalogEdition::id).toList(), "paint catalog edition");
+        var byId = editions.stream().collect(java.util.stream.Collectors.toMap(PaintCatalogEdition::id, e -> e));
+        for (var paint : paints) for (var membership : paint.catalogMemberships()) {
+            var edition = byId.get(membership.catalogEditionId());
+            if (edition == null || !edition.brand().equals(paint.brand())) {
+                throw invalid("Unknown or cross-brand catalog edition for paint " + paint.id());
+            }
+            if (!edition.ranges().contains(paint.range()) || !edition.sourceUrls().contains(membership.sourceUrl())) {
+                throw invalid("Catalog membership is outside documented source/range scope: " + paint.id());
+            }
+        }
+        return new MarketCatalogSnapshot(paints, products, guides, editions);
+    }
+
+    public static PaintCatalogEdition catalogEdition(StructuredDocument document) {
+        var value = map(document);
+        return new PaintCatalogEdition(number(value.get("schema_version"), null, "catalog.schema_version"),
+                text(value.get("id")), text(value.get("brand")), text(value.get("title")),
+                text(value.get("edition_label")), value.get("publication_year") == null ? null
+                    : number(value.get("publication_year"), null, "catalog.publication_year"),
+                strings(value.get("ranges")), strings(value.get("source_urls")).stream()
+                    .map(url -> uri(url, "catalog.source_urls")).toList());
     }
 
     /** Converts and validates one complete paintable-product import document. */
@@ -96,7 +120,10 @@ public final class MarketCatalogFactory {
                         text(usage.get("summary")), strings(usage.get("steps")), strings(usage.get("tips")),
                         text(usage.get("instruction_status")), Boolean.TRUE.equals(usage.get("review_required"))),
                 date(value.get("verified_at"), "paint.verified_at"),
-                image(map(value.get("result_image")), "paint.result_image"));
+                image(map(value.get("result_image")), "paint.result_image"),
+                maps(value.get("catalog_memberships")).stream().map(m -> new PaintCatalogEdition.Membership(
+                        text(m.get("catalog_edition_id")), uri(m.get("source_url"), "membership.source_url"),
+                        text(m.get("locator")))).toList());
     }
 
     private static MarketPaint.ImageReference image(Map<String, Object> value, String field) {

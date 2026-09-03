@@ -31260,45 +31260,25 @@ paints:
   volume_ml: 18
   warnings: [
     ]
-- range: Model Color
+- brand: Vallejo
+  brand_aliases:
+  - Acrylicos Vallejo
+  color:
+    family: yellow
+    hex: '#C49432'
+  confidence: 1.0
   data_status: confirmed
   deduplication_key: val|ref:70-913
-  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/model-color-en/yellow-ochre-70913/
-  source_snapshots:
-  - payload:
-      name: Yellow Ochre
-      page: 13
-      range: Model Color
-      reference: '70.913'
-    provider: vallejo_catalogue_pdf
-    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
-  - payload:
-      image_url: https://acrylicosvallejo.com/wp-content/uploads/2024/02/vallejo-model-color-70913-newIC.jpg
-      name: Yellow Ochre
-      reference: '70.913'
-    provider: official_image_manifest
-    url: https://acrylicosvallejo.com/en/product/hobby/model-color-en/yellow-ochre-70913/
   id: val-70-913
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  schema_version: 1
-  reference: '70.913'
-  volume_ml: 18
-  source_observation:
-    adapter: brand_mapping
-    fields:
-    - name: functional_type
-      value: opaque_standard
-    - name: finish
-      value: matte
-    - name: medium
-      value: water-based acrylic
-    - name: opacity
-      value: opaque
+  lifecycle_status: active
+  manufacturer: Acrylicos Vallejo
+  manufacturer_image:
+    credit: Official Acrylicos Vallejo catalogue
+    image_quality: official_photo
+    path: /media/market/paints/vallejo/val-70-913.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/02/vallejo-model-color-70913-newIC.jpg
+  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/model-color-en/yellow-ochre-70913/
   mapping_report:
     ignored_fields: [
       ]
@@ -31308,19 +31288,11 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  recommended_uses:
-  - Tissus ocres
-  - Terres et poussières
-  - Éclaircissements chauds
+  name: Yellow Ochre
   notes: Yellow Ochre 70.913 confirmé dans le catalogue Vallejo. Couleur d’interface
     indicative.
-  verified_at: '2026-08-31'
   observed_brand: VALLEJO
-  tags:
-  - ocre
-  - jaune
-  - terre
-  - Vallejo
+  observed_range: MODEL COLOR
   profile:
     application_methods:
     - brush
@@ -31335,29 +31307,60 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: false
       tone: any
-  color:
-    family: yellow
-    hex: '#C49432'
-  observed_range: MODEL COLOR
-  name: Yellow Ochre
   provenance:
     hashes:
     - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
-    photo: imports/archive/2026-08-30/IMG_5312.jpeg
-  brand: Vallejo
-  lifecycle_status: active
-  manufacturer: Acrylicos Vallejo
+    original_photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+    photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+  range: Model Color
+  recommended_uses:
+  - Tissus ocres
+  - Terres et poussières
+  - Éclaircissements chauds
+  reference: '70.913'
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: functional_type
+      value: opaque_standard
+    - name: finish
+      value: matte
+    - name: medium
+      value: water-based acrylic
+    - name: opacity
+      value: opaque
+  source_snapshots:
+  - payload:
+      name: Yellow Ochre
+      page: 13
+      range: Model Color
+      reference: '70.913'
+    provider: vallejo_catalogue_pdf
+    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
+  - payload:
+      image_url: https://acrylicosvallejo.com/wp-content/uploads/2024/02/vallejo-model-color-70913-newIC.jpg
+      name: Yellow Ochre
+      reference: '70.913'
+    provider: official_image_manifest
+    url: https://acrylicosvallejo.com/en/product/hobby/model-color-en/yellow-ochre-70913/
+  tags:
+  - ocre
+  - jaune
+  - terre
+  - Vallejo
+  verified_at: '2026-08-31'
+  volume_ml: 18
   warnings: [
     ]
-  manufacturer_image:
-    credit: Official Acrylicos Vallejo catalogue
-    image_quality: official_photo
-    path: /media/market/paints/vallejo/val-70-913.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/02/vallejo-model-color-70913-newIC.jpg
-  brand_aliases:
-  - Acrylicos Vallejo
-  confidence: 1.0
 - brand: Vallejo
   brand_aliases: [
     ]
@@ -69627,45 +69630,25 @@ paints:
   volume_ml: 18
   warnings: [
     ]
-- range: Game Color
+- brand: Vallejo
+  brand_aliases:
+  - Acrylicos Vallejo
+  color:
+    family: Violet lichen
+    hex: '#56345F'
+  confidence: 1.0
   data_status: confirmed
   deduplication_key: val|ref:72-015
-  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/game-color-en/hexed-lichen-72015/
-  source_snapshots:
-  - payload:
-      name: Hexed Lichen
-      page: 52
-      range: Game Color
-      reference: '72.015'
-    provider: vallejo_catalogue_pdf
-    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
-  - payload:
-      image_url: https://acrylicosvallejo.com/wp-content/uploads/2024/01/vallejo-game-color-72015-1.jpg
-      name: Hexed Lichen
-      reference: '72.015'
-    provider: official_image_manifest
-    url: https://acrylicosvallejo.com/en/product/hobby/game-color-en/hexed-lichen-72015/
   id: val-72-015
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  schema_version: 1
-  reference: '72.015'
-  volume_ml: 18
-  source_observation:
-    adapter: brand_mapping
-    fields:
-    - name: functional_type
-      value: opaque_standard
-    - name: finish
-      value: matte
-    - name: medium
-      value: water-based acrylic
-    - name: opacity
-      value: opaque
+  lifecycle_status: active
+  manufacturer: Acrylicos Vallejo
+  manufacturer_image:
+    credit: Official Acrylicos Vallejo catalogue
+    image_quality: official_photo
+    path: /media/market/paints/vallejo/val-72-015.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/01/vallejo-game-color-72015-1.jpg
+  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/game-color-en/hexed-lichen-72015/
   mapping_report:
     ignored_fields: [
       ]
@@ -69675,19 +69658,11 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  recommended_uses:
-  - Tissus violets
-  - Peaux fantastiques
-  - Ombres colorées
+  name: Hexed Lichen
   notes: Hexed Lichen 72.015 confirmé dans le nuancier Game Color. Couleur d’interface
     indicative.
-  verified_at: '2026-08-31'
   observed_brand: VALLEJO
-  tags:
-  - violet
-  - lichen
-  - fantasy
-  - Vallejo
+  observed_range: GAME COLOR
   profile:
     application_methods:
     - brush
@@ -69702,29 +69677,60 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: false
       tone: any
-  color:
-    family: Violet lichen
-    hex: '#56345F'
-  observed_range: GAME COLOR
-  name: Hexed Lichen
   provenance:
     hashes:
     - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
-    photo: imports/archive/2026-08-30/IMG_5312.jpeg
-  brand: Vallejo
-  lifecycle_status: active
-  manufacturer: Acrylicos Vallejo
+    original_photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+    photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+  range: Game Color
+  recommended_uses:
+  - Tissus violets
+  - Peaux fantastiques
+  - Ombres colorées
+  reference: '72.015'
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: functional_type
+      value: opaque_standard
+    - name: finish
+      value: matte
+    - name: medium
+      value: water-based acrylic
+    - name: opacity
+      value: opaque
+  source_snapshots:
+  - payload:
+      name: Hexed Lichen
+      page: 52
+      range: Game Color
+      reference: '72.015'
+    provider: vallejo_catalogue_pdf
+    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
+  - payload:
+      image_url: https://acrylicosvallejo.com/wp-content/uploads/2024/01/vallejo-game-color-72015-1.jpg
+      name: Hexed Lichen
+      reference: '72.015'
+    provider: official_image_manifest
+    url: https://acrylicosvallejo.com/en/product/hobby/game-color-en/hexed-lichen-72015/
+  tags:
+  - violet
+  - lichen
+  - fantasy
+  - Vallejo
+  verified_at: '2026-08-31'
+  volume_ml: 18
   warnings: [
     ]
-  manufacturer_image:
-    credit: Official Acrylicos Vallejo catalogue
-    image_quality: official_photo
-    path: /media/market/paints/vallejo/val-72-015.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/01/vallejo-game-color-72015-1.jpg
-  brand_aliases:
-  - Acrylicos Vallejo
-  confidence: 1.0
 - brand: Vallejo
   brand_aliases: [
     ]
@@ -73235,10 +73241,84 @@ paints:
   volume_ml: 18
   warnings: [
     ]
-- range: Game Color
+- brand: Vallejo
+  brand_aliases:
+  - Acrylicos Vallejo
+  color:
+    family: silver
+    hex: '#B9BEC1'
+  confidence: 1.0
   data_status: confirmed
   deduplication_key: val|ref:72-052
+  id: val-72-052
+  lifecycle_status: active
+  manufacturer: Acrylicos Vallejo
+  manufacturer_image:
+    credit: Official Acrylicos Vallejo catalogue
+    image_quality: official_photo
+    path: /media/market/paints/vallejo/val-72-052.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/01/vallejo-game-color-metallic-72052-1.jpg
   manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/game-color-en/silver-72052/
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields: [
+      ]
+    mapping: vallejo
+    mapping_version: 1
+    unmapped_fields: [
+      ]
+  name: Silver
+  notes: Couleur d’interface indicative. Référence et contenance confirmées dans la
+    documentation Vallejo.
+  observed_brand: VALLEJO
+  observed_range: GAME COLOR METALLIC
+  profile:
+    application_methods:
+    - brush
+    application_system: conventional_layering
+    coverage: opaque
+    effects: [
+      ]
+    finish: matte
+    medium: water_based_acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes:
+    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    original_photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5311.jpeg
+    photo_id: photo-641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    sha256: 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+  range: Game Color
+  recommended_uses:
+  - Arêtes métalliques
+  - Armes et armures claires
+  - Éclats et usure
+  reference: '72.052'
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: functional_type
+      value: opaque_standard
+    - name: finish
+      value: matte
+    - name: medium
+      value: water-based acrylic
+    - name: opacity
+      value: opaque
   source_snapshots:
   - payload:
       name: Silver
@@ -73253,27 +73333,34 @@ paints:
       reference: '72.052'
     provider: official_image_manifest
     url: https://acrylicosvallejo.com/en/product/hobby/game-color-en/silver-72052/
-  id: val-72-052
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  schema_version: 1
-  reference: '72.052'
+  tags:
+  - argent
+  - métal
+  - éclaircissement
+  - Vallejo
+  verified_at: '2026-08-31'
   volume_ml: 18
-  source_observation:
-    adapter: brand_mapping
-    fields:
-    - name: functional_type
-      value: opaque_standard
-    - name: finish
-      value: matte
-    - name: medium
-      value: water-based acrylic
-    - name: opacity
-      value: opaque
+  warnings: [
+    ]
+- brand: Vallejo
+  brand_aliases:
+  - Acrylicos Vallejo
+  color:
+    family: Acier moyen
+    hex: '#818A90'
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: val|ref:72-053
+  id: val-72-053
+  lifecycle_status: active
+  manufacturer: Acrylicos Vallejo
+  manufacturer_image:
+    credit: Official Acrylicos Vallejo catalogue
+    image_quality: official_photo
+    path: /media/market/paints/vallejo/val-72-053.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/01/vallejo-game-color-metallic-72053-1.jpg
+  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/game-color-en/chainmail-72053/
   mapping_report:
     ignored_fields: [
       ]
@@ -73283,19 +73370,11 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  recommended_uses:
-  - Arêtes métalliques
-  - Armes et armures claires
-  - Éclats et usure
+  name: Chainmail
   notes: Couleur d’interface indicative. Référence et contenance confirmées dans la
     documentation Vallejo.
-  verified_at: '2026-08-31'
   observed_brand: VALLEJO
-  tags:
-  - argent
-  - métal
-  - éclaircissement
-  - Vallejo
+  observed_range: GAME COLOR METALLIC
   profile:
     application_methods:
     - brush
@@ -73310,33 +73389,37 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: false
       tone: any
-  color:
-    family: silver
-    hex: '#B9BEC1'
-  observed_range: GAME COLOR METALLIC
-  name: Silver
   provenance:
     hashes:
     - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
-    photo: imports/archive/2026-08-30/IMG_5311.jpeg
-  brand: Vallejo
-  lifecycle_status: active
-  manufacturer: Acrylicos Vallejo
-  warnings: [
-    ]
-  manufacturer_image:
-    credit: Official Acrylicos Vallejo catalogue
-    image_quality: official_photo
-    path: /media/market/paints/vallejo/val-72-052.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/01/vallejo-game-color-metallic-72052-1.jpg
-  brand_aliases:
-  - Acrylicos Vallejo
-  confidence: 1.0
-- range: Game Color
-  data_status: confirmed
-  deduplication_key: val|ref:72-053
-  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/game-color-en/chainmail-72053/
+    original_photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5311.jpeg
+    photo_id: photo-641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    sha256: 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+  range: Game Color
+  recommended_uses:
+  - Cottes de mailles
+  - Armes
+  - Armures et machines
+  reference: '72.053'
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: functional_type
+      value: opaque_standard
+    - name: finish
+      value: matte
+    - name: medium
+      value: water-based acrylic
+    - name: opacity
+      value: opaque
   source_snapshots:
   - payload:
       name: Chainmail
@@ -73351,27 +73434,34 @@ paints:
       reference: '72.053'
     provider: official_image_manifest
     url: https://acrylicosvallejo.com/en/product/hobby/game-color-en/chainmail-72053/
-  id: val-72-053
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  schema_version: 1
-  reference: '72.053'
+  tags:
+  - acier
+  - métal
+  - armure
+  - Vallejo
+  verified_at: '2026-08-31'
   volume_ml: 18
-  source_observation:
-    adapter: brand_mapping
-    fields:
-    - name: functional_type
-      value: opaque_standard
-    - name: finish
-      value: matte
-    - name: medium
-      value: water-based acrylic
-    - name: opacity
-      value: opaque
+  warnings: [
+    ]
+- brand: Vallejo
+  brand_aliases:
+  - Acrylicos Vallejo
+  color:
+    family: silver
+    hex: '#51595A'
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: val|ref:72-054
+  id: val-72-054
+  lifecycle_status: active
+  manufacturer: Acrylicos Vallejo
+  manufacturer_image:
+    credit: Official Acrylicos Vallejo catalogue
+    image_quality: official_photo
+    path: /media/market/paints/vallejo/val-72-054.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/01/vallejo-game-color-metallic-72054-1.jpg
+  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/game-color-en/dark-gunmetal-72054/
   mapping_report:
     ignored_fields: [
       ]
@@ -73381,19 +73471,11 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  recommended_uses:
-  - Cottes de mailles
-  - Armes
-  - Armures et machines
-  notes: Couleur d’interface indicative. Référence et contenance confirmées dans la
-    documentation Vallejo.
-  verified_at: '2026-08-31'
+  name: Dark Gunmetal
+  notes: Nom Dark Gunmetal et référence confirmés dans le catalogue Vallejo. Couleur
+    d’interface indicative.
   observed_brand: VALLEJO
-  tags:
-  - acier
-  - métal
-  - armure
-  - Vallejo
+  observed_range: GAME COLOR METALLIC
   profile:
     application_methods:
     - brush
@@ -73408,33 +73490,37 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: false
       tone: any
-  color:
-    family: Acier moyen
-    hex: '#818A90'
-  observed_range: GAME COLOR METALLIC
-  name: Chainmail
   provenance:
     hashes:
-    - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
-    photo: imports/archive/2026-08-30/IMG_5311.jpeg
-  brand: Vallejo
-  lifecycle_status: active
-  manufacturer: Acrylicos Vallejo
-  warnings: [
-    ]
-  manufacturer_image:
-    credit: Official Acrylicos Vallejo catalogue
-    image_quality: official_photo
-    path: /media/market/paints/vallejo/val-72-053.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/01/vallejo-game-color-metallic-72053-1.jpg
-  brand_aliases:
-  - Acrylicos Vallejo
-  confidence: 1.0
-- range: Game Color
-  data_status: confirmed
-  deduplication_key: val|ref:72-054
-  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/game-color-en/dark-gunmetal-72054/
+    - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    original_photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+    photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+  range: Game Color
+  recommended_uses:
+  - Armes sombres
+  - Armures
+  - Machines
+  reference: '72.054'
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: functional_type
+      value: opaque_standard
+    - name: finish
+      value: matte
+    - name: medium
+      value: water-based acrylic
+    - name: opacity
+      value: opaque
   source_snapshots:
   - payload:
       name: Dark Gunmetal
@@ -73449,86 +73535,15 @@ paints:
       reference: '72.054'
     provider: official_image_manifest
     url: https://acrylicosvallejo.com/en/product/hobby/game-color-en/dark-gunmetal-72054/
-  id: val-72-054
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  schema_version: 1
-  reference: '72.054'
-  volume_ml: 18
-  source_observation:
-    adapter: brand_mapping
-    fields:
-    - name: functional_type
-      value: opaque_standard
-    - name: finish
-      value: matte
-    - name: medium
-      value: water-based acrylic
-    - name: opacity
-      value: opaque
-  mapping_report:
-    ignored_fields: [
-      ]
-    mapped_fields: [
-      ]
-    mapping: vallejo
-    mapping_version: 1
-    unmapped_fields: [
-      ]
-  recommended_uses:
-  - Armes sombres
-  - Armures
-  - Machines
-  notes: Nom Dark Gunmetal et référence confirmés dans le catalogue Vallejo. Couleur
-    d’interface indicative.
-  verified_at: '2026-08-31'
-  observed_brand: VALLEJO
   tags:
   - acier
   - métal
   - sombre
   - Vallejo
-  profile:
-    application_methods:
-    - brush
-    application_system: conventional_layering
-    coverage: opaque
-    effects: [
-      ]
-    finish: matte
-    medium: water_based_acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: false
-      tone: any
-  color:
-    family: silver
-    hex: '#51595A'
-  observed_range: GAME COLOR METALLIC
-  name: Dark Gunmetal
-  provenance:
-    hashes:
-    - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
-    photo: imports/archive/2026-08-30/IMG_5312.jpeg
-  brand: Vallejo
-  lifecycle_status: active
-  manufacturer: Acrylicos Vallejo
+  verified_at: '2026-08-31'
+  volume_ml: 18
   warnings: [
     ]
-  manufacturer_image:
-    credit: Official Acrylicos Vallejo catalogue
-    image_quality: official_photo
-    path: /media/market/paints/vallejo/val-72-054.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/01/vallejo-game-color-metallic-72054-1.jpg
-  brand_aliases:
-  - Acrylicos Vallejo
-  confidence: 1.0
 - brand: Vallejo
   brand_aliases: [
     ]
@@ -82772,45 +82787,25 @@ paints:
   volume_ml: 18
   warnings: [
     ]
-- range: Xpress Color
+- brand: Vallejo
+  brand_aliases:
+  - Acrylicos Vallejo
+  color:
+    family: green
+    hex: '#315A3B'
+  confidence: 1.0
   data_status: confirmed
   deduplication_key: val|ref:72-418
-  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/lizard-green-72418/
-  source_snapshots:
-  - payload:
-      name: Lizard Green
-      page: 68
-      range: Xpress Color
-      reference: '72.418'
-    provider: vallejo_catalogue_pdf
-    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
-  - payload:
-      image_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72418-NewIC.jpg
-      name: Lizard Green
-      reference: '72.418'
-    provider: official_image_manifest
-    url: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/lizard-green-72418/
   id: val-72-418
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  schema_version: 1
-  reference: '72.418'
-  volume_ml: 18
-  source_observation:
-    adapter: brand_mapping
-    fields:
-    - name: functional_type
-      value: one_coat_contrast
-    - name: finish
-      value: transparent contrast
-    - name: medium
-      value: water-based acrylic
-    - name: opacity
-      value: transparent
+  lifecycle_status: active
+  manufacturer: Acrylicos Vallejo
+  manufacturer_image:
+    credit: Official Acrylicos Vallejo catalogue
+    image_quality: official_photo
+    path: /media/market/paints/vallejo/val-72-418.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72418-NewIC.jpg
+  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/lizard-green-72418/
   mapping_report:
     ignored_fields: [
       ]
@@ -82820,19 +82815,11 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  recommended_uses:
-  - Écailles
-  - Peaux vert sombre
-  - Feuillages et uniformes
+  name: Lizard Green
   notes: Appliquer sur une sous-couche blanche, grise ou claire. Couleur d’interface
     indicative.
-  verified_at: '2026-08-31'
   observed_brand: VALLEJO
-  tags:
-  - vert
-  - Xpress Color
-  - une couche
-  - écailles
+  observed_range: XPRESS COLOR
   profile:
     application_methods:
     - brush
@@ -82847,29 +82834,60 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: true
       tone: light
-  color:
-    family: green
-    hex: '#315A3B'
-  observed_range: XPRESS COLOR
-  name: Lizard Green
   provenance:
     hashes:
     - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
-    photo: imports/archive/2026-08-30/IMG_5311.jpeg
-  brand: Vallejo
-  lifecycle_status: active
-  manufacturer: Acrylicos Vallejo
+    original_photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5311.jpeg
+    photo_id: photo-641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    sha256: 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+  range: Xpress Color
+  recommended_uses:
+  - Écailles
+  - Peaux vert sombre
+  - Feuillages et uniformes
+  reference: '72.418'
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: functional_type
+      value: one_coat_contrast
+    - name: finish
+      value: transparent contrast
+    - name: medium
+      value: water-based acrylic
+    - name: opacity
+      value: transparent
+  source_snapshots:
+  - payload:
+      name: Lizard Green
+      page: 68
+      range: Xpress Color
+      reference: '72.418'
+    provider: vallejo_catalogue_pdf
+    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
+  - payload:
+      image_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72418-NewIC.jpg
+      name: Lizard Green
+      reference: '72.418'
+    provider: official_image_manifest
+    url: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/lizard-green-72418/
+  tags:
+  - vert
+  - Xpress Color
+  - une couche
+  - écailles
+  verified_at: '2026-08-31'
+  volume_ml: 18
   warnings: [
     ]
-  manufacturer_image:
-    credit: Official Acrylicos Vallejo catalogue
-    image_quality: official_photo
-    path: /media/market/paints/vallejo/val-72-418.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72418-NewIC.jpg
-  brand_aliases:
-  - Acrylicos Vallejo
-  confidence: 1.0
 - brand: Vallejo
   brand_aliases: [
     ]
@@ -83221,45 +83239,25 @@ paints:
   volume_ml: 18
   warnings: [
     ]
-- range: Xpress Color
+- brand: Vallejo
+  brand_aliases:
+  - Acrylicos Vallejo
+  color:
+    family: grey
+    hex: '#607383'
+  confidence: 1.0
   data_status: confirmed
   deduplication_key: val|ref:72-422
-  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/space-grey-72422/
-  source_snapshots:
-  - payload:
-      name: Space Grey
-      page: 68
-      range: Xpress Color
-      reference: '72.422'
-    provider: vallejo_catalogue_pdf
-    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
-  - payload:
-      image_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72422-NewIC.jpg
-      name: Space Grey
-      reference: '72.422'
-    provider: official_image_manifest
-    url: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/space-grey-72422/
   id: val-72-422
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  schema_version: 1
-  reference: '72.422'
-  volume_ml: 18
-  source_observation:
-    adapter: brand_mapping
-    fields:
-    - name: functional_type
-      value: one_coat_contrast
-    - name: finish
-      value: transparent contrast
-    - name: medium
-      value: water-based acrylic
-    - name: opacity
-      value: transparent
+  lifecycle_status: active
+  manufacturer: Acrylicos Vallejo
+  manufacturer_image:
+    credit: Official Acrylicos Vallejo catalogue
+    image_quality: official_photo
+    path: /media/market/paints/vallejo/val-72-422.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72422-NewIC.jpg
+  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/space-grey-72422/
   mapping_report:
     ignored_fields: [
       ]
@@ -83269,19 +83267,11 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  recommended_uses:
-  - Uniformes gris-bleu
-  - Armures froides
-  - Fourrures et tissus
+  name: Space Grey
   notes: Appliquer sur une sous-couche blanche, grise ou claire. Couleur d’interface
     indicative.
-  verified_at: '2026-08-31'
   observed_brand: VALLEJO
-  tags:
-  - gris bleu
-  - uniforme
-  - Xpress Color
-  - une couche
+  observed_range: XPRESS COLOR
   profile:
     application_methods:
     - brush
@@ -83296,29 +83286,60 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: true
       tone: light
-  color:
-    family: grey
-    hex: '#607383'
-  observed_range: XPRESS COLOR
-  name: Space Grey
   provenance:
     hashes:
     - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
-    photo: imports/archive/2026-08-30/IMG_5311.jpeg
-  brand: Vallejo
-  lifecycle_status: active
-  manufacturer: Acrylicos Vallejo
+    original_photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5311.jpeg
+    photo_id: photo-641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    sha256: 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+  range: Xpress Color
+  recommended_uses:
+  - Uniformes gris-bleu
+  - Armures froides
+  - Fourrures et tissus
+  reference: '72.422'
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: functional_type
+      value: one_coat_contrast
+    - name: finish
+      value: transparent contrast
+    - name: medium
+      value: water-based acrylic
+    - name: opacity
+      value: transparent
+  source_snapshots:
+  - payload:
+      name: Space Grey
+      page: 68
+      range: Xpress Color
+      reference: '72.422'
+    provider: vallejo_catalogue_pdf
+    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
+  - payload:
+      image_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72422-NewIC.jpg
+      name: Space Grey
+      reference: '72.422'
+    provider: official_image_manifest
+    url: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/space-grey-72422/
+  tags:
+  - gris bleu
+  - uniforme
+  - Xpress Color
+  - une couche
+  verified_at: '2026-08-31'
+  volume_ml: 18
   warnings: [
     ]
-  manufacturer_image:
-    credit: Official Acrylicos Vallejo catalogue
-    image_quality: official_photo
-    path: /media/market/paints/vallejo/val-72-422.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72422-NewIC.jpg
-  brand_aliases:
-  - Acrylicos Vallejo
-  confidence: 1.0
 - brand: Vallejo
   brand_aliases: [
     ]
@@ -83538,45 +83559,25 @@ paints:
   volume_ml: 18
   warnings: [
     ]
-- range: Xpress Color
+- brand: Vallejo
+  brand_aliases:
+  - Acrylicos Vallejo
+  color:
+    family: white
+    hex: '#D8D5C5'
+  confidence: 1.0
   data_status: confirmed
   deduplication_key: val|ref:72-449
-  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/mummy-white-72449/
-  source_snapshots:
-  - payload:
-      name: Mummy White
-      page: 68
-      range: Xpress Color
-      reference: '72.449'
-    provider: vallejo_catalogue_pdf
-    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
-  - payload:
-      image_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72449-NewIC.jpg
-      name: Mummy White
-      reference: '72.449'
-    provider: official_image_manifest
-    url: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/mummy-white-72449/
   id: val-72-449
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  schema_version: 1
-  reference: '72.449'
-  volume_ml: 18
-  source_observation:
-    adapter: brand_mapping
-    fields:
-    - name: functional_type
-      value: one_coat_contrast
-    - name: finish
-      value: transparent contrast
-    - name: medium
-      value: water-based acrylic
-    - name: opacity
-      value: transparent
+  lifecycle_status: active
+  manufacturer: Acrylicos Vallejo
+  manufacturer_image:
+    credit: Official Acrylicos Vallejo catalogue
+    image_quality: official_photo
+    path: /media/market/paints/vallejo/val-72-449.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72449-NewIC.jpg
+  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/mummy-white-72449/
   mapping_report:
     ignored_fields: [
       ]
@@ -83586,19 +83587,11 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  recommended_uses:
-  - Tissus blancs ombrés
-  - Os pâle
-  - Bandages et parchemins
+  name: Mummy White
   notes: Appliquer sur une sous-couche blanche, grise ou claire. Couleur d’interface
     indicative.
-  verified_at: '2026-08-31'
   observed_brand: VALLEJO
-  tags:
-  - blanc cassé
-  - os
-  - Xpress Color
-  - une couche
+  observed_range: XPRESS COLOR
   profile:
     application_methods:
     - brush
@@ -83613,29 +83606,60 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: true
       tone: light
-  color:
-    family: white
-    hex: '#D8D5C5'
-  observed_range: XPRESS COLOR
-  name: Mummy White
   provenance:
     hashes:
     - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
-    photo: imports/archive/2026-08-30/IMG_5311.jpeg
-  brand: Vallejo
-  lifecycle_status: active
-  manufacturer: Acrylicos Vallejo
+    original_photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5311.jpeg
+    photo_id: photo-641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    sha256: 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+  range: Xpress Color
+  recommended_uses:
+  - Tissus blancs ombrés
+  - Os pâle
+  - Bandages et parchemins
+  reference: '72.449'
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: functional_type
+      value: one_coat_contrast
+    - name: finish
+      value: transparent contrast
+    - name: medium
+      value: water-based acrylic
+    - name: opacity
+      value: transparent
+  source_snapshots:
+  - payload:
+      name: Mummy White
+      page: 68
+      range: Xpress Color
+      reference: '72.449'
+    provider: vallejo_catalogue_pdf
+    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
+  - payload:
+      image_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72449-NewIC.jpg
+      name: Mummy White
+      reference: '72.449'
+    provider: official_image_manifest
+    url: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/mummy-white-72449/
+  tags:
+  - blanc cassé
+  - os
+  - Xpress Color
+  - une couche
+  verified_at: '2026-08-31'
+  volume_ml: 18
   warnings: [
     ]
-  manufacturer_image:
-    credit: Official Acrylicos Vallejo catalogue
-    image_quality: official_photo
-    path: /media/market/paints/vallejo/val-72-449.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72449-NewIC.jpg
-  brand_aliases:
-  - Acrylicos Vallejo
-  confidence: 1.0
 - brand: Vallejo
   brand_aliases: [
     ]
@@ -83753,45 +83777,25 @@ paints:
   volume_ml: 18
   warnings: [
     ]
-- range: Xpress Color
+- brand: Vallejo
+  brand_aliases:
+  - Acrylicos Vallejo
+  color:
+    family: beige
+    hex: '#766F48'
+  confidence: 1.0
   data_status: confirmed
   deduplication_key: val|ref:72-451
-  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/khaki-drill-72451/
-  source_snapshots:
-  - payload:
-      name: Khaki Drill
-      page: 68
-      range: Xpress Color
-      reference: '72.451'
-    provider: vallejo_catalogue_pdf
-    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
-  - payload:
-      image_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72451-NewIC.jpg
-      name: Khaki Drill
-      reference: '72.451'
-    provider: official_image_manifest
-    url: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/khaki-drill-72451/
   id: val-72-451
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  schema_version: 1
-  reference: '72.451'
-  volume_ml: 18
-  source_observation:
-    adapter: brand_mapping
-    fields:
-    - name: functional_type
-      value: one_coat_contrast
-    - name: finish
-      value: transparent contrast
-    - name: medium
-      value: water-based acrylic
-    - name: opacity
-      value: transparent
+  lifecycle_status: active
+  manufacturer: Acrylicos Vallejo
+  manufacturer_image:
+    credit: Official Acrylicos Vallejo catalogue
+    image_quality: official_photo
+    path: /media/market/paints/vallejo/val-72-451.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72451-NewIC.jpg
+  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/khaki-drill-72451/
   mapping_report:
     ignored_fields: [
       ]
@@ -83801,19 +83805,11 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  recommended_uses:
-  - Uniformes
-  - Sangles et paquetages
-  - Toiles et tissus militaires
+  name: Khaki Drill
   notes: Appliquer sur une sous-couche blanche, grise ou claire. Couleur d’interface
     indicative.
-  verified_at: '2026-08-31'
   observed_brand: VALLEJO
-  tags:
-  - kaki
-  - uniforme
-  - Xpress Color
-  - une couche
+  observed_range: XPRESS COLOR
   profile:
     application_methods:
     - brush
@@ -83828,29 +83824,60 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: true
       tone: light
-  color:
-    family: beige
-    hex: '#766F48'
-  observed_range: XPRESS COLOR
-  name: Khaki Drill
   provenance:
     hashes:
     - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
-    photo: imports/archive/2026-08-30/IMG_5311.jpeg
-  brand: Vallejo
-  lifecycle_status: active
-  manufacturer: Acrylicos Vallejo
+    original_photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5311.jpeg
+    photo_id: photo-641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    sha256: 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+  range: Xpress Color
+  recommended_uses:
+  - Uniformes
+  - Sangles et paquetages
+  - Toiles et tissus militaires
+  reference: '72.451'
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: functional_type
+      value: one_coat_contrast
+    - name: finish
+      value: transparent contrast
+    - name: medium
+      value: water-based acrylic
+    - name: opacity
+      value: transparent
+  source_snapshots:
+  - payload:
+      name: Khaki Drill
+      page: 68
+      range: Xpress Color
+      reference: '72.451'
+    provider: vallejo_catalogue_pdf
+    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
+  - payload:
+      image_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72451-NewIC.jpg
+      name: Khaki Drill
+      reference: '72.451'
+    provider: official_image_manifest
+    url: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/khaki-drill-72451/
+  tags:
+  - kaki
+  - uniforme
+  - Xpress Color
+  - une couche
+  verified_at: '2026-08-31'
+  volume_ml: 18
   warnings: [
     ]
-  manufacturer_image:
-    credit: Official Acrylicos Vallejo catalogue
-    image_quality: official_photo
-    path: /media/market/paints/vallejo/val-72-451.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72451-NewIC.jpg
-  brand_aliases:
-  - Acrylicos Vallejo
-  confidence: 1.0
 - brand: Vallejo
   brand_aliases: [
     ]
@@ -84436,45 +84463,25 @@ paints:
   volume_ml: 18
   warnings: [
     ]
-- range: Xpress Color
+- brand: Vallejo
+  brand_aliases:
+  - Acrylicos Vallejo
+  color:
+    family: skin
+    hex: '#CA8774'
+  confidence: 1.0
   data_status: confirmed
   deduplication_key: val|ref:72-457
-  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/fairy-skin-72457/
-  source_snapshots:
-  - payload:
-      name: Fairy Skin
-      page: 68
-      range: Xpress Color
-      reference: '72.457'
-    provider: vallejo_catalogue_pdf
-    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
-  - payload:
-      image_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72457-NewIC.jpg
-      name: Fairy Skin
-      reference: '72.457'
-    provider: official_image_manifest
-    url: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/fairy-skin-72457/
   id: val-72-457
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  schema_version: 1
-  reference: '72.457'
-  volume_ml: 18
-  source_observation:
-    adapter: brand_mapping
-    fields:
-    - name: functional_type
-      value: one_coat_contrast
-    - name: finish
-      value: transparent contrast
-    - name: medium
-      value: water-based acrylic
-    - name: opacity
-      value: transparent
+  lifecycle_status: active
+  manufacturer: Acrylicos Vallejo
+  manufacturer_image:
+    credit: Official Acrylicos Vallejo catalogue
+    image_quality: official_photo
+    path: /media/market/paints/vallejo/val-72-457.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72457-NewIC.jpg
+  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/fairy-skin-72457/
   mapping_report:
     ignored_fields: [
       ]
@@ -84484,19 +84491,11 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  recommended_uses:
-  - Carnations rosées
-  - Créatures pâles
-  - Tissus rose terre cuite
+  name: Fairy Skin
   notes: Appliquer sur une sous-couche blanche, grise ou claire. Couleur d’interface
     indicative.
-  verified_at: '2026-08-31'
   observed_brand: VALLEJO
-  tags:
-  - chair
-  - rose
-  - Xpress Color
-  - une couche
+  observed_range: XPRESS COLOR
   profile:
     application_methods:
     - brush
@@ -84511,29 +84510,60 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: true
       tone: light
-  color:
-    family: skin
-    hex: '#CA8774'
-  observed_range: XPRESS COLOR
-  name: Fairy Skin
   provenance:
     hashes:
     - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
-    photo: imports/archive/2026-08-30/IMG_5311.jpeg
-  brand: Vallejo
-  lifecycle_status: active
-  manufacturer: Acrylicos Vallejo
+    original_photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5311.jpeg
+    photo_id: photo-641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    sha256: 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+  range: Xpress Color
+  recommended_uses:
+  - Carnations rosées
+  - Créatures pâles
+  - Tissus rose terre cuite
+  reference: '72.457'
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: functional_type
+      value: one_coat_contrast
+    - name: finish
+      value: transparent contrast
+    - name: medium
+      value: water-based acrylic
+    - name: opacity
+      value: transparent
+  source_snapshots:
+  - payload:
+      name: Fairy Skin
+      page: 68
+      range: Xpress Color
+      reference: '72.457'
+    provider: vallejo_catalogue_pdf
+    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
+  - payload:
+      image_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72457-NewIC.jpg
+      name: Fairy Skin
+      reference: '72.457'
+    provider: official_image_manifest
+    url: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/fairy-skin-72457/
+  tags:
+  - chair
+  - rose
+  - Xpress Color
+  - une couche
+  verified_at: '2026-08-31'
+  volume_ml: 18
   warnings: [
     ]
-  manufacturer_image:
-    credit: Official Acrylicos Vallejo catalogue
-    image_quality: official_photo
-    path: /media/market/paints/vallejo/val-72-457.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72457-NewIC.jpg
-  brand_aliases:
-  - Acrylicos Vallejo
-  confidence: 1.0
 - brand: Vallejo
   brand_aliases: [
     ]
@@ -87461,45 +87491,25 @@ paints:
   volume_ml: 18
   warnings: [
     ]
-- range: Xpress Color
+- brand: Vallejo
+  brand_aliases:
+  - Acrylicos Vallejo
+  color:
+    family: grey
+    hex: '#46515A'
+  confidence: 1.0
   data_status: confirmed
   deduplication_key: val|ref:72-483
-  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/viking-grey-72483/
-  source_snapshots:
-  - payload:
-      name: Viking Grey
-      page: 68
-      range: Xpress Color
-      reference: '72.483'
-    provider: vallejo_catalogue_pdf
-    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
-  - payload:
-      image_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72483-NewIC.jpg
-      name: Viking Grey
-      reference: '72.483'
-    provider: official_image_manifest
-    url: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/viking-grey-72483/
   id: val-72-483
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  schema_version: 1
-  reference: '72.483'
-  volume_ml: 18
-  source_observation:
-    adapter: brand_mapping
-    fields:
-    - name: functional_type
-      value: one_coat_contrast
-    - name: finish
-      value: transparent contrast
-    - name: medium
-      value: water-based acrylic
-    - name: opacity
-      value: transparent
+  lifecycle_status: active
+  manufacturer: Acrylicos Vallejo
+  manufacturer_image:
+    credit: Official Acrylicos Vallejo catalogue
+    image_quality: official_photo
+    path: /media/market/paints/vallejo/val-72-483.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72483-NewIC.jpg
+  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/viking-grey-72483/
   mapping_report:
     ignored_fields: [
       ]
@@ -87509,19 +87519,11 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  recommended_uses:
-  - Armures gris froid
-  - Uniformes
-  - Ombres bleutées
+  name: Viking Grey
   notes: Xpress Color Intense, plus pigmentée que la gamme Xpress standard. Couleur
     d’interface indicative.
-  verified_at: '2026-08-31'
   observed_brand: VALLEJO
-  tags:
-  - gris
-  - bleu froid
-  - Xpress Color Intense
-  - une couche
+  observed_range: XPRESS COLOR INTENSE
   profile:
     application_methods:
     - brush
@@ -87536,29 +87538,60 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: true
       tone: light
-  color:
-    family: grey
-    hex: '#46515A'
-  observed_range: XPRESS COLOR INTENSE
-  name: Viking Grey
   provenance:
     hashes:
     - 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
-    photo: imports/archive/2026-08-30/IMG_5311.jpeg
-  brand: Vallejo
-  lifecycle_status: active
-  manufacturer: Acrylicos Vallejo
+    original_photo: imports/archive/2026-08-30/IMG_5311.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5311.jpeg
+    photo_id: photo-641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+    sha256: 641b8a6d2d343f183064b457ec5812024a79e804e1cceb00f2012a13fac9f775
+  range: Xpress Color
+  recommended_uses:
+  - Armures gris froid
+  - Uniformes
+  - Ombres bleutées
+  reference: '72.483'
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: functional_type
+      value: one_coat_contrast
+    - name: finish
+      value: transparent contrast
+    - name: medium
+      value: water-based acrylic
+    - name: opacity
+      value: transparent
+  source_snapshots:
+  - payload:
+      name: Viking Grey
+      page: 68
+      range: Xpress Color
+      reference: '72.483'
+    provider: vallejo_catalogue_pdf
+    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
+  - payload:
+      image_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72483-NewIC.jpg
+      name: Viking Grey
+      reference: '72.483'
+    provider: official_image_manifest
+    url: https://acrylicosvallejo.com/en/product/hobby/xpress-color-en/viking-grey-72483/
+  tags:
+  - gris
+  - bleu froid
+  - Xpress Color Intense
+  - une couche
+  verified_at: '2026-08-31'
+  volume_ml: 18
   warnings: [
     ]
-  manufacturer_image:
-    credit: Official Acrylicos Vallejo catalogue
-    image_quality: official_photo
-    path: /media/market/paints/vallejo/val-72-483.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://acrylicosvallejo.com/wp-content/uploads/2024/04/vallejo-xpress-color-72483-NewIC.jpg
-  brand_aliases:
-  - Acrylicos Vallejo
-  confidence: 1.0
 - brand: Vallejo
   brand_aliases: [
     ]
@@ -105659,45 +105692,25 @@ paints:
   volume_ml: 18
   warnings: [
     ]
-- range: True Metallic Metal
+- brand: Vallejo
+  brand_aliases:
+  - Acrylicos Vallejo
+  color:
+    family: Métal vieilli brun
+    hex: '#665C4D'
+  confidence: 1.0
   data_status: confirmed
   deduplication_key: val|ref:77-139
-  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/true-metallic-metal-en/aged-metal-77139/
-  source_snapshots:
-  - payload:
-      name: Aged Metal
-      page: 76
-      range: True Metallic Metal
-      reference: '77.139'
-    provider: vallejo_catalogue_pdf
-    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
-  - payload:
-      image_url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/vallejo-true-metallic-metal-77139.jpg
-      name: Aged Metal
-      reference: '77.139'
-    provider: official_image_manifest
-    url: https://acrylicosvallejo.com/en/product/hobby/true-metallic-metal-en/aged-metal-77139/
   id: val-77-139
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  schema_version: 1
-  reference: '77.139'
-  volume_ml: 18
-  source_observation:
-    adapter: brand_mapping
-    fields:
-    - name: functional_type
-      value: metallic
-    - name: finish
-      value: metallic
-    - name: medium
-      value: water-based acrylic
-    - name: opacity
-      value: opaque
+  lifecycle_status: active
+  manufacturer: Acrylicos Vallejo
+  manufacturer_image:
+    credit: Official Acrylicos Vallejo catalogue
+    image_quality: official_photo
+    path: /media/market/paints/vallejo/val-77-139.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/vallejo-true-metallic-metal-77139.jpg
+  manufacturer_page: https://acrylicosvallejo.com/en/product/hobby/true-metallic-metal-en/aged-metal-77139/
   mapping_report:
     ignored_fields: [
       ]
@@ -105707,20 +105720,11 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  recommended_uses:
-  - Métal ancien
-  - Armures patinées
-  - Machines et décors
+  name: Aged Metal
   notes: Aged Metal (Base) confirmé par la fiche fabricant du set 77.258. Couleur
     d’interface indicative.
-  verified_at: '2026-08-31'
   observed_brand: VALLEJO
-  tags:
-  - métal
-  - vieilli
-  - brun
-  - base
-  - Vallejo
+  observed_range: TRUE METALLIC METAL
   profile:
     application_methods:
     - brush
@@ -105735,29 +105739,61 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: false
       tone: any
-  color:
-    family: Métal vieilli brun
-    hex: '#665C4D'
-  observed_range: TRUE METALLIC METAL
-  name: Aged Metal
   provenance:
     hashes:
     - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
-    photo: imports/archive/2026-08-30/IMG_5312.jpeg
-  brand: Vallejo
-  lifecycle_status: active
-  manufacturer: Acrylicos Vallejo
+    original_photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+    photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+  range: True Metallic Metal
+  recommended_uses:
+  - Métal ancien
+  - Armures patinées
+  - Machines et décors
+  reference: '77.139'
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: functional_type
+      value: metallic
+    - name: finish
+      value: metallic
+    - name: medium
+      value: water-based acrylic
+    - name: opacity
+      value: opaque
+  source_snapshots:
+  - payload:
+      name: Aged Metal
+      page: 76
+      range: True Metallic Metal
+      reference: '77.139'
+    provider: vallejo_catalogue_pdf
+    url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/Catalogo_2026-R02.pdf
+  - payload:
+      image_url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/vallejo-true-metallic-metal-77139.jpg
+      name: Aged Metal
+      reference: '77.139'
+    provider: official_image_manifest
+    url: https://acrylicosvallejo.com/en/product/hobby/true-metallic-metal-en/aged-metal-77139/
+  tags:
+  - métal
+  - vieilli
+  - brun
+  - base
+  - Vallejo
+  verified_at: '2026-08-31'
+  volume_ml: 18
   warnings: [
     ]
-  manufacturer_image:
-    credit: Official Acrylicos Vallejo catalogue
-    image_quality: official_photo
-    path: /media/market/paints/vallejo/val-77-139.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://acrylicosvallejo.com/wp-content/uploads/2025/10/vallejo-true-metallic-metal-77139.jpg
-  brand_aliases:
-  - Acrylicos Vallejo
-  confidence: 1.0
 - brand: Vallejo
   brand_aliases: [
     ]

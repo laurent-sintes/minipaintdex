@@ -83,6 +83,9 @@ def _market_brand(root: Path, brand: str | None) -> tuple[dict[str, Any], list[s
     return {
         "schema_version": 1,
         "kind": "market_paints",
+        "catalog_editions": [edition for path in _catalog_paths(root)
+                             for edition in load_yaml(path).get("catalog_editions", [])
+                             if edition.get("brand") == brand],
         "operations": [
             {"action": "upsert", "record": paint, "workshop_quantity_delta": 0}
             for paint in selected

@@ -36,11 +36,14 @@ yarn-error.log*
 .env*
 
 # local paint import sources
-/imports/archive/
 /imports/runs/
-/imports/photo-manifest.json
-/imports/photos/*
-!/imports/photos/README.md
+/imports/workshop-paints/archive/
+/imports/workshop-paints/runs/*
+!/imports/workshop-paints/runs/initial-import/
+/imports/workshop-paints/runs/initial-import/*
+!/imports/workshop-paints/runs/initial-import/analyses/
+/imports/workshop-paints/photos/*
+!/imports/workshop-paints/photos/README.md
 
 # deployment and generated files
 .vercel

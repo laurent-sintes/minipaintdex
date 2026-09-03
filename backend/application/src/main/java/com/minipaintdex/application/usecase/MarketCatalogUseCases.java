@@ -17,6 +17,17 @@ import java.util.stream.Stream;
 
 /** Queries the immutable market knowledge base without exposing its storage strategy. */
 public interface MarketCatalogUseCases {
+    /**
+     * Reads a bounded, brand-filtered edition page from one immutable generation. Default ordering
+     * is by stable ID; only id sorting is supported. Invalid queries fail without mutation. Reads
+     * are repeatable for the same generation, need no idempotency key and hold no resource open.
+     */
+    PageResult<com.minipaintdex.domain.market.paint.PaintCatalogEdition> searchPaintCatalogEditions(
+            com.minipaintdex.application.query.SearchPaintCatalogEditionsQuery query);
+    /** Returns one edition from a single immutable generation or raises not_found; read-only, no resources retained. */
+    com.minipaintdex.domain.market.paint.PaintCatalogEdition getPaintCatalogEdition(
+            com.minipaintdex.application.query.GetPaintCatalogEditionQuery query);
+
     /** Returns all matching paint views in stable name order for CLI-sized reads. */
     List<MarketPaintView> searchMarketPaints(SearchMarketPaintsQuery filters);
     /** Opens a lazy, storage-independent stream; callers must close it after consumption. */
@@ -24,7 +35,10 @@ public interface MarketCatalogUseCases {
     /** Returns one bounded page and rejects unsupported sort fields or excessive sizes. */
     PageResult<MarketPaintView> searchMarketPaintPage(SearchMarketPaintsQuery filters,
             boolean manufacturerSheetOnly, boolean realResultOnly, PageQuery page);
-    /** Counts available filter values in the market catalog. */
+    /** Counts reference alternatives with other filters retained and the counted facet excluded.
+     * Brand and range share one OR group, excluded together; zero-count values remain present.
+     * The total applies all filters. Reads are side-effect free and use one catalog snapshot.
+     */
     PaintFacetsView marketPaintFacets(SearchMarketPaintsQuery filters,
             boolean manufacturerSheetOnly, boolean realResultOnly);
     /** Publishes the versioned canonical paint model and its supported search facets. */

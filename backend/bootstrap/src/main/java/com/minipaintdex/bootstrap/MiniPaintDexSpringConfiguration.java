@@ -191,7 +191,7 @@ public class MiniPaintDexSpringConfiguration {
         return () -> {
             var snapshot = snapshots.load();
             return MarketCatalogFactory.create(
-                    snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides());
+                    snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions());
         };
     }
 

@@ -24,7 +24,7 @@ export function sameMetadata(left: string, right: string) {
 }
 
 export function paintPageSearchParams(
-  query: string, filters: Record<string, string>, sort: string, page: number, size: number,
+  query: string, filters: PaintFilters, sort: string, page: number, size: number,
 ) {
   const params = paintFacetSearchParams(query, filters);
   params.set('page', String(page));
@@ -33,9 +33,39 @@ export function paintPageSearchParams(
   return params;
 }
 
-export function paintFacetSearchParams(query: string, filters: Record<string, string>) {
+export function paintFacetSearchParams(query: string, filters: PaintFilters) {
   const params = new URLSearchParams();
   if (query.trim()) params.set('query', query.trim());
-  Object.entries(filters).forEach(([key, value]) => { if (value) params.set(key, value); });
+  Object.entries(filters).forEach(([key, values]) => values.forEach(value => { if (value) params.append(key, value); }));
+  return params;
+}
+
+export type PaintFilters = Record<string, string[]>;
+export type PaintSearchState = { query: string; filters: PaintFilters; sort: string; page: number };
+
+export function togglePaintFilter(filters: PaintFilters, key: string, value: string): PaintFilters {
+  const selected = filters[key] ?? [];
+  const next = selected.includes(value) ? selected.filter(entry => entry !== value) : [...selected, value];
+  const result = { ...filters, [key]: next };
+  if (!next.length) delete result[key];
+  return result;
+}
+
+export function readPaintSearch(search: string, keys: string[], sorts: string[]): PaintSearchState {
+  const params = new URLSearchParams(search);
+  const page = Number(params.get('page') ?? 0);
+  const filters = Object.fromEntries(keys.map(key => [key, [...new Set(params.getAll(key).filter(Boolean))]])
+    .filter(([, values]) => values.length > 0));
+  return {
+    query: params.get('query') ?? '', filters,
+    sort: sorts.includes(params.get('sort') ?? '') ? params.get('sort')! : sorts[0] ?? 'name,asc',
+    page: Number.isSafeInteger(page) && page >= 0 && page <= 100000 ? page : 0,
+  };
+}
+
+export function paintBrowserSearchParams(state: PaintSearchState) {
+  const params = paintFacetSearchParams(state.query, state.filters);
+  if (state.sort !== 'name,asc') params.set('sort', state.sort);
+  if (state.page > 0) params.set('page', String(state.page));
   return params;
 }

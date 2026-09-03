@@ -40,13 +40,18 @@ public record MarketPaintView(
         String resultImageCredit,
         String resultImageSource,
         String resultImageLicense,
-        String resultReferenceUrl) {
+        String resultReferenceUrl,
+        List<CatalogMembership> catalogMemberships) {
 
     public MarketPaintView {
         brandAliases = List.copyOf(brandAliases);
         tags = List.copyOf(tags);
         recommendedUses = List.copyOf(recommendedUses);
+        catalogMemberships = List.copyOf(catalogMemberships);
     }
+
+    public record CatalogMembership(String catalogEditionId, String title, String editionLabel,
+            Integer publicationYear, String sourceUrl, String locator) {}
 
     /** Brand-independent characteristics used by search, facets and matching. */
     public record Profile(

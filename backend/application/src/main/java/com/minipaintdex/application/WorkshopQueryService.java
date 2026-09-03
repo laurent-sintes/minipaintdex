@@ -141,7 +141,7 @@ public final class WorkshopQueryService {
 
     MarketCatalogSnapshot marketCatalog(DataSnapshot snapshot) {
         return MarketCatalogFactory.create(
-                snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides());
+                snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions());
     }
 
     List<ShoppingItemView> shoppingViews(DataSnapshot snapshot) {

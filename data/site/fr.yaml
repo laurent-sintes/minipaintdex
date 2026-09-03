@@ -191,6 +191,17 @@ product_detail:
   paint_missing: Manquante
   paint_pending: À qualifier
 collection:
+  brand_range_filter: Marque et gamme
+  catalog_filter_hint: Une marque entière ou seulement certaines gammes.
+  filter_logic_hint: Plusieurs choix dans un groupe élargissent la recherche. Les groupes se cumulent.
+  advanced_filters: Plus de filtres
+  show_more: Voir plus
+  show_less: Voir moins
+  close_filters: Fermer les filtres
+  show_results: Voir les résultats
+  pagination: Pages de peintures
+  previous_page: Page précédente
+  next_page: Page suivante
   title: Ma collection
   description: Retrouvez vos teintes, combinez les filtres et exportez le référentiel.
   all_brands: Toutes les marques
@@ -341,6 +352,7 @@ shopping:
     medium: Moyenne
     low: Basse
 paint_detail:
+  catalog_editions: Catalogues documentés
   sheet: Fiche peinture
   close: Fermer la fiche
   color_family: Famille de couleur

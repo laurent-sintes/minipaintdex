@@ -23,7 +23,7 @@ public final class DataSnapshotValidator {
     public static ValidatedSnapshot validate(DataSnapshot snapshot) {
         Objects.requireNonNull(snapshot, "snapshot is required");
         var catalog = MarketCatalogFactory.create(
-                snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides());
+                snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions());
         var inventory = inventory(snapshot);
         var shopping = shopping(snapshot);
         validateReferences(snapshot, catalog, inventory, shopping);

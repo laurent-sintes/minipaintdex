@@ -23,6 +23,7 @@ public record PaintModelView(
             String labelKey,
             String vocabularyId,
             String control,
+            String group,
             int order) {}
 
     public record SortOption(

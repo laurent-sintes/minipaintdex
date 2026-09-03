@@ -66,10 +66,10 @@ class ApplicationServicesTest {
 
     @Test
     void searchesEverySupportedMarketFacet() {
-        var result = marketService(repository()).searchMarketPaints(new SearchMarketPaintsQuery(
-                "white", "Warhammer Colour", "Contrast", "color_paint", "brush",
-                "one_coat_shading", "White", "matte", "water_based_acrylic", "transparent",
-                null, "light", "active"));
+        var result = marketService(repository()).searchMarketPaints(SearchMarketPaintsQuery.fromSelections(
+                "white", null, List.of("Warhammer Colour::Contrast"), List.of("color_paint"), List.of("brush"),
+                List.of("one_coat_shading"), List.of("White"), List.of("matte"), List.of("water_based_acrylic"), List.of("transparent"),
+                null, List.of("light"), List.of("active")));
         assertEquals(1, result.size());
         assertEquals("Apothecary White", result.getFirst().name());
     }
@@ -81,14 +81,33 @@ class ApplicationServicesTest {
         var repository = repository();
         repository.snapshot = new DataSnapshot(
                 document(Map.of()), documents(List.of(chromaticWithoutHex, auxiliaryPaint())),
-                List.of(), List.of(product()), List.of(), List.of(), List.of());
+                List.of(), List.of(product()), List.of(), List.of(), List.of(), List.of());
         var market = marketService(repository);
 
         assertEquals(1, market.marketPaintQuality().missingColorHex());
         var filtered = market.searchMarketPaints(new SearchMarketPaintsQuery(
-                null, null, null, null, null, null, "auxiliary",
+                null, null, null, null, null, null, List.of("auxiliary"),
                 null, null, null, null, null, null));
         assertEquals(List.of("paint-auxiliary"), filtered.stream().map(MarketPaintView::id).toList());
+    }
+
+    @Test
+    void workshopFacetsCountOnlyOwnedReferencesButKeepAlternativesSelectable() {
+        var blue = new LinkedHashMap<>(paint("paint-blue", "Blue"));
+        blue.put("color", Map.of("hex", "#0000FF", "family", "blue"));
+        var red = new LinkedHashMap<>(paint("paint-red", "Red"));
+        red.put("color", Map.of("hex", "#FF0000", "family", "red"));
+        var repository = repository();
+        repository.snapshot = new DataSnapshot(document(Map.of()), documents(List.of(blue, red, auxiliaryPaint())),
+                documents(List.of(Map.of("paint_id", "paint-blue", "quantity", 2), Map.of("paint_id", "paint-red", "quantity", 1))),
+                List.of(product()), List.of(), List.of(), List.of(), List.of());
+        var filters = SearchMarketPaintsQuery.fromSelections("", null, null, null, null, null, List.of("blue"), null, null, null, null, null, null);
+        var facets = service(repository).workshopPaintFacets(filters, false, false);
+        assertEquals(1, facets.total());
+        var colors = facets.facets().stream().filter(facet -> facet.id().equals("colors")).findFirst().orElseThrow().values();
+        assertEquals(List.of("blue", "red"), colors.stream().map(value -> value.value()).toList());
+        assertEquals(List.of(1, 1), colors.stream().map(value -> value.count()).toList());
+        assertEquals(3, marketService(repository).marketPaintFacets(SearchMarketPaintsQuery.empty(), false, false).total());
     }
 
     @Test
@@ -128,7 +147,7 @@ class ApplicationServicesTest {
         repository.snapshot = new DataSnapshot(
                 document(Map.of()), repository.snapshot.marketPaints(),
                 documents(List.of(Map.of("paint_id", "warhammer-colour-contrast-apothecary-white", "quantity", 1))),
-                repository.snapshot.paintableProducts(), List.of(), List.of(), repository.snapshot.events());
+                repository.snapshot.paintableProducts(), List.of(), List.of(), repository.snapshot.events(), List.of());
         var service = service(repository);
         var solution = new RecipeSolution(
                 RecipeSolutionType.SINGLE_PAINT, null,
@@ -154,12 +173,12 @@ class ApplicationServicesTest {
         var operation = new ApplyMarketPaintChangeSetCommand.Operation(
                 "upsert", null, document(paint("new-paint", "New Paint")), 2, false);
         var preview = service.applyMarketPaintChangeSet(
-                new ApplyMarketPaintChangeSetCommand(1, "market_paints", List.of(operation), true));
+                new ApplyMarketPaintChangeSetCommand(1, "market_paints", List.of(operation), true, List.of()));
         assertFalse(preview.applied());
         assertTrue(repository.replaced.isEmpty());
 
         var applied = service.applyMarketPaintChangeSet(
-                new ApplyMarketPaintChangeSetCommand(1, "market_paints", List.of(operation), false));
+                new ApplyMarketPaintChangeSetCommand(1, "market_paints", List.of(operation), false, List.of()));
         assertTrue(applied.applied());
         assertEquals(2, documentMap(repository.inventory.getFirst()).get("quantity"));
     }
@@ -173,7 +192,7 @@ class ApplicationServicesTest {
 
         assertThrows(DomainException.class, () -> service.applyMarketPaintChangeSet(
                 new ApplyMarketPaintChangeSetCommand(
-                        1, "market_paints", List.of(operation, operation), false)));
+                        1, "market_paints", List.of(operation, operation), false, List.of())));
         assertTrue(repository.replaced.isEmpty());
     }
 
@@ -191,14 +210,14 @@ class ApplicationServicesTest {
                 documents(List.of(Map.of("paint_id", oldId, "quantity", 2))),
                 repository.snapshot.paintableProducts(), documents(List.of(guide)),
                 documents(List.of(Map.of("id", "buy", "market_paint_id", oldId, "reason", "Need", "priority", "high"))),
-                List.of());
+                List.of(), List.of());
         var migrated = new LinkedHashMap<>(paint(newId, "Apothecary White"));
         var operation = new ApplyMarketPaintChangeSetCommand.Operation(
                 "rekey", oldId, document(migrated), 0, false);
         var service = new AdministrationApplicationService(repository, repository, repository, repository);
 
         var result = service.applyMarketPaintChangeSet(
-                new ApplyMarketPaintChangeSetCommand(1, "market_paints", List.of(operation), false));
+                new ApplyMarketPaintChangeSetCommand(1, "market_paints", List.of(operation), false, List.of()));
 
         assertEquals(1, result.rekeyed());
         assertEquals(newId, documentMap(repository.replaced.getFirst()).get("id"));
@@ -249,7 +268,7 @@ class ApplicationServicesTest {
         repository.snapshot = new DataSnapshot(
                 document(Map.of()), repository.snapshot.marketPaints(), List.of(), List.of(product()), List.of(),
                 documents(List.of(Map.of("id", "buy-1", "market_paint_id", "warhammer-colour-contrast-apothecary-white"))),
-                List.of());
+                List.of(), List.of());
         var service = service(repository);
         service.setShoppingItemStatus(new SetShoppingItemStatusCommand(
                 "buy-1", true, "owner", AT, "shopping", "buy-1-done"));
@@ -262,7 +281,7 @@ class ApplicationServicesTest {
         var repository = repository();
         repository.snapshot = new DataSnapshot(
                 document(Map.of()), documents(List.of(paint("paint-1", "A"), paint("paint-2", "B"))),
-                List.of(), List.of(product()), List.of(), List.of(), List.of());
+                List.of(), List.of(product()), List.of(), List.of(), List.of(), List.of());
         var page = marketService(repository).searchMarketPaintPage(
                 SearchMarketPaintsQuery.empty(), false, false, new PageQuery(1, 1, List.of()));
         assertEquals(2, page.totalElements());
@@ -280,7 +299,7 @@ class ApplicationServicesTest {
         var repository = repository();
         repository.snapshot = new DataSnapshot(
                 document(Map.of()), documents(List.of(linkedOnly, illustrated)),
-                List.of(), List.of(product()), List.of(), List.of(), List.of());
+                List.of(), List.of(product()), List.of(), List.of(), List.of(), List.of());
         var market = marketService(repository);
 
         var page = market.searchMarketPaintPage(
@@ -300,7 +319,7 @@ class ApplicationServicesTest {
         var repository = repository();
         repository.snapshot = new DataSnapshot(
                 document(Map.of()), documents(List.of(older, newer)),
-                List.of(), List.of(product()), List.of(), List.of(), List.of());
+                List.of(), List.of(product()), List.of(), List.of(), List.of(), List.of());
         var market = marketService(repository);
 
         var page = market.searchMarketPaintPage(
@@ -315,14 +334,38 @@ class ApplicationServicesTest {
     private static FakeRepository repository() {
         return new FakeRepository(new DataSnapshot(
                 document(Map.of()), documents(List.of(paint("warhammer-colour-contrast-apothecary-white", "Apothecary White"))),
-                List.of(), List.of(product()), List.of(), List.of(), List.of()));
+                List.of(), List.of(product()), List.of(), List.of(), List.of(), List.of()));
+    }
+
+    @Test
+    void appliesEditionsIdempotentlyWithoutChangingInventoryAndExposesBoundedQueries() {
+        var repository = repository();
+        var before = repository.snapshot.paintInventory();
+        var edition = document(Map.of("schema_version", 1, "id", "catalog-2019", "brand", "Warhammer Colour",
+                "title", "Catalogue", "edition_label", "2019", "publication_year", 2019,
+                "ranges", List.of("Contrast"), "source_urls", List.of("https://example.com/catalog.pdf")));
+        var administration = new AdministrationApplicationService(repository, repository, repository, repository);
+        administration.applyMarketPaintChangeSet(new ApplyMarketPaintChangeSetCommand(1, "market_paints", List.of(), true, List.of(edition)));
+        assertTrue(repository.snapshot.paintCatalogEditions().isEmpty());
+        var command = new ApplyMarketPaintChangeSetCommand(1, "market_paints", List.of(), false, List.of(edition));
+        administration.applyMarketPaintChangeSet(command);
+        administration.applyMarketPaintChangeSet(command);
+        assertEquals(List.of(edition), repository.snapshot.paintCatalogEditions());
+        assertEquals(before, repository.snapshot.paintInventory());
+        var market = marketService(repository);
+        var page = market.searchPaintCatalogEditions(new com.minipaintdex.application.query.SearchPaintCatalogEditionsQuery(
+                "Warhammer Colour", new PageQuery(0, 1, List.of()), "test"));
+        assertEquals(1, page.totalElements());
+        assertEquals("catalog-2019", page.content().getFirst().id());
+        assertEquals(2019, market.getPaintCatalogEdition(new com.minipaintdex.application.query.GetPaintCatalogEditionQuery("catalog-2019", "test")).publicationYear());
+        assertThrows(DomainException.class, () -> market.getPaintCatalogEdition(new com.minipaintdex.application.query.GetPaintCatalogEditionQuery("unknown", "test")));
     }
 
     private static MarketCatalogApplicationService marketService(FakeRepository repository) {
         return new MarketCatalogApplicationService(() -> {
             var snapshot = repository.load();
             return MarketCatalogFactory.create(
-                    snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides());
+                    snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions());
         });
     }
 
@@ -339,7 +382,7 @@ class ApplicationServicesTest {
                         envelope("workshop-register", 2, "register", new PaintingProjectRegistered(
                                 "my-workshop", "paint-game", AT)),
                         envelope("item", 1, "item", new WorkshopItemAdded(
-                                "ws-game-hero-001", "game-hero", "paint-game", "Hero", 1, AT))));
+                                "ws-game-hero-001", "game-hero", "paint-game", "Hero", 1, AT))), List.of());
         return repository;
     }
 
@@ -469,7 +512,7 @@ class ApplicationServicesTest {
             var events = new ArrayList<>(snapshot.events());
             events.addAll(batch.events());
             snapshot = new DataSnapshot(snapshot.site(), snapshot.marketPaints(), snapshot.paintInventory(),
-                    snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.shopping(), List.copyOf(events));
+                    snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.shopping(), List.copyOf(events), snapshot.paintCatalogEditions());
             var publication = new EventPublication(
                     batch.batchId(), EventPublicationStatus.COMPLETED, batch, batch.acceptedAt(), batch.acceptedAt(), 1, null);
             publications.put(batch.batchId(), publication);
@@ -482,6 +525,11 @@ class ApplicationServicesTest {
         @Override public RefreshResult refreshIfChanged() { return new RefreshResult(false, status()); }
         @Override public PersistenceStatus status() { return new PersistenceStatus("ready", "test", 1, "fixture", AT, AT, AT, null); }
         @Override public void replaceMarketPaints(List<StructuredDocument> paints) { replaced = List.copyOf(paints); }
+        @Override public void replaceMarketPaintCatalog(List<StructuredDocument> paints, List<StructuredDocument> editions) {
+            replaced = List.copyOf(paints);
+            snapshot = new DataSnapshot(snapshot.site(), paints, snapshot.paintInventory(), snapshot.paintableProducts(),
+                    snapshot.marketPaintingGuides(), snapshot.shopping(), snapshot.events(), editions);
+        }
         @Override public void replaceMarketPaintsAndWorkshopInventory(
                 List<StructuredDocument> paints,
                 List<StructuredDocument> inventory,

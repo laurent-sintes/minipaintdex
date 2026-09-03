@@ -61,15 +61,28 @@ public final class AdministrationApplicationService implements AdministrationUse
             ApplyMarketPaintChangeSetCommand command) {
         Objects.requireNonNull(command, "command is required");
         requireEnvelope(command.schemaVersion(), command.kind(), "market_paints");
-        if (command.operations().isEmpty()) throw invalid("At least one operation is required.");
+        if (command.operations().isEmpty() && command.catalogEditions().isEmpty()) throw invalid("At least one paint or catalog edition is required.");
 
         var snapshot = snapshots.load();
         var currentCatalog = MarketCatalogFactory.create(
-                snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides());
+                snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions());
         var byId = new LinkedHashMap<String, Map<String, Object>>();
         StructuredDocuments.toMaps(snapshot.marketPaints())
                 .forEach(paint -> byId.put(StructuredDocuments.text(paint.get("id")), paint));
         var quantities = inventory(snapshot.paintInventory());
+        var editions = new LinkedHashMap<String, StructuredDocument>();
+        snapshot.paintCatalogEditions().forEach(document -> editions.put(MarketCatalogFactory.catalogEdition(document).id(), document));
+        var updatedEditionIds = new HashSet<String>();
+        for (var document : command.catalogEditions()) {
+            var edition = MarketCatalogFactory.catalogEdition(document);
+            if (!updatedEditionIds.add(edition.id())) throw invalid("Duplicate catalog edition: " + edition.id());
+            var previous = editions.get(edition.id());
+            if (previous != null && !MarketCatalogFactory.catalogEdition(previous).brand().equals(edition.brand())) {
+                throw conflict("A catalog edition cannot change brand: " + edition.id());
+            }
+            editions.put(edition.id(), document);
+        }
+        var editionDocuments = List.copyOf(editions.values());
         var referencedPaintIds = referencedPaintIds(currentCatalog.paintingGuides(), snapshot.events());
         var operatedIds = new HashSet<String>();
         var identityMigrations = new LinkedHashMap<String, String>();
@@ -168,7 +181,10 @@ public final class AdministrationApplicationService implements AdministrationUse
         }
         DataSnapshotValidator.validate(new DataSnapshot(
                 snapshot.site(), resultDocuments, normalizedInventory, snapshot.paintableProducts(),
-                rewrittenGuides, rewrittenShopping, snapshot.events()));
+                rewrittenGuides, rewrittenShopping, snapshot.events(), editionDocuments));
+        if (!command.catalogEditions().isEmpty() && (!identityMigrations.isEmpty() || inventoryChanged > 0)) {
+            throw invalid("Catalog editions are market knowledge: apply their updates separately from inventory changes or rekeys.");
+        }
         if (!command.dryRun()) {
             if (!identityMigrations.isEmpty()) {
                 marketPaints.replaceMarketPaintIdentities(
@@ -177,7 +193,7 @@ public final class AdministrationApplicationService implements AdministrationUse
                 marketPaints.replaceMarketPaintsAndWorkshopInventory(
                         resultDocuments, normalizedInventory, workshopPaints);
             } else {
-                marketPaints.replaceMarketPaints(resultDocuments);
+                marketPaints.replaceMarketPaintCatalog(resultDocuments, editionDocuments);
             }
         }
         return new ApplyMarketPaintChangeSetResult(
@@ -192,7 +208,7 @@ public final class AdministrationApplicationService implements AdministrationUse
         requireEnvelope(command.schemaVersion(), command.kind(), "workshop_paints");
         var snapshot = snapshots.load();
         var marketIds = MarketCatalogFactory.create(
-                snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides())
+                snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions())
                 .paints().stream().map(paint -> paint.id()).collect(java.util.stream.Collectors.toSet());
         var inventory = new LinkedHashMap<String, Integer>();
         for (var entry : command.paints()) {
@@ -229,7 +245,7 @@ public final class AdministrationApplicationService implements AdministrationUse
                         StructuredDocuments.toMap(document).get("catalog_item_id"))))
                 .toList());
         guides.addAll(command.paintingGuides());
-        MarketCatalogFactory.create(snapshot.marketPaints(), products, guides);
+        MarketCatalogFactory.create(snapshot.marketPaints(), products, guides, snapshot.paintCatalogEditions());
 
         if (!command.dryRun()) {
             paintableProducts.replaceProduct(product.id(), command.product(), command.paintingGuides());
@@ -242,7 +258,7 @@ public final class AdministrationApplicationService implements AdministrationUse
     public synchronized RebuildProjectionResult rebuildProjections() {
         var snapshot = snapshots.load();
         var catalog = MarketCatalogFactory.create(
-                snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides());
+                snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions());
         return new RebuildProjectionResult(
                 "rebuilt", "in_memory", snapshot.events().size(), Instant.now(), catalog.paints().size(),
                 catalog.paintableProducts().size(), PaintingProjectProjector.project(snapshot.events()).size(),

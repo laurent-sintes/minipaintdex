@@ -38,22 +38,22 @@ final class MarketCatalogController {
     @GetMapping("/market/paints")
     EntityModel<PaintPageResponse> paints(
             @RequestParam(required = false) String query,
-            @RequestParam(required = false) String brand,
-            @RequestParam(required = false) String range,
-            @RequestParam(required = false) String role,
-            @RequestParam(required = false) String applicationMethod,
-            @RequestParam(required = false) String applicationSystem,
-            @RequestParam(required = false) String color,
-            @RequestParam(required = false) String finish,
-            @RequestParam(required = false) String medium,
-            @RequestParam(required = false) String coverage,
-            @RequestParam(required = false) String effect,
-            @RequestParam(required = false) String undercoat,
-            @RequestParam(required = false) String lifecycle,
+            @RequestParam(required = false) List<String> brand,
+            @io.swagger.v3.oas.annotations.Parameter(description = "Repeatable brand::range selection; OR with brands. Escape literal colons and backslashes with a backslash.") @RequestParam(required = false) List<String> range,
+            @RequestParam(required = false) List<String> role,
+            @RequestParam(required = false) List<String> applicationMethod,
+            @RequestParam(required = false) List<String> applicationSystem,
+            @RequestParam(required = false) List<String> color,
+            @RequestParam(required = false) List<String> finish,
+            @RequestParam(required = false) List<String> medium,
+            @RequestParam(required = false) List<String> coverage,
+            @RequestParam(required = false) List<String> effect,
+            @RequestParam(required = false) List<String> undercoat,
+            @RequestParam(required = false) List<String> lifecycle,
             @RequestParam(defaultValue = "false") boolean manufacturerSheetOnly,
             @RequestParam(defaultValue = "false") boolean realResultOnly,
             @ParameterObject Pageable pageable) {
-        var filters = new SearchMarketPaintsQuery(
+        var filters = SearchMarketPaintsQuery.fromSelections(
                 query, brand, range, role, applicationMethod, applicationSystem,
                 color, finish, medium, coverage, effect, undercoat, lifecycle);
         var pageQuery = new PageQuery(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().stream()
@@ -76,21 +76,21 @@ final class MarketCatalogController {
     @GetMapping("/market/paints/facets")
     PaintFacetsView paintFacets(
             @RequestParam(required = false) String query,
-            @RequestParam(required = false) String brand,
-            @RequestParam(required = false) String range,
-            @RequestParam(required = false) String role,
-            @RequestParam(required = false) String applicationMethod,
-            @RequestParam(required = false) String applicationSystem,
-            @RequestParam(required = false) String color,
-            @RequestParam(required = false) String finish,
-            @RequestParam(required = false) String medium,
-            @RequestParam(required = false) String coverage,
-            @RequestParam(required = false) String effect,
-            @RequestParam(required = false) String undercoat,
-            @RequestParam(required = false) String lifecycle,
+            @RequestParam(required = false) List<String> brand,
+            @io.swagger.v3.oas.annotations.Parameter(description = "Repeatable brand::range selection; OR with brands. Escape literal colons and backslashes with a backslash.") @RequestParam(required = false) List<String> range,
+            @RequestParam(required = false) List<String> role,
+            @RequestParam(required = false) List<String> applicationMethod,
+            @RequestParam(required = false) List<String> applicationSystem,
+            @RequestParam(required = false) List<String> color,
+            @RequestParam(required = false) List<String> finish,
+            @RequestParam(required = false) List<String> medium,
+            @RequestParam(required = false) List<String> coverage,
+            @RequestParam(required = false) List<String> effect,
+            @RequestParam(required = false) List<String> undercoat,
+            @RequestParam(required = false) List<String> lifecycle,
             @RequestParam(defaultValue = "false") boolean manufacturerSheetOnly,
             @RequestParam(defaultValue = "false") boolean realResultOnly) {
-        return market.marketPaintFacets(new SearchMarketPaintsQuery(
+        return market.marketPaintFacets(SearchMarketPaintsQuery.fromSelections(
                 query, brand, range, role, applicationMethod, applicationSystem,
                 color, finish, medium, coverage, effect, undercoat, lifecycle),
                 manufacturerSheetOnly, realResultOnly);
@@ -218,6 +218,11 @@ final class MarketCatalogController {
         properties.put("mapping_report", mappingReportProperty());
         properties.put("source_observation", sourceObservationProperty());
         properties.put("source_snapshots", sourceSnapshotsProperty());
+        properties.put("catalog_memberships", Map.of("type", "array", "items", Map.of(
+                "type", "object", "additionalProperties", false,
+                "required", List.of("catalog_edition_id", "source_url", "locator"),
+                "properties", Map.of("catalog_edition_id", Map.of("type", "string", "pattern", "^[a-z0-9]+(?:-[a-z0-9]+)*$"),
+                        "source_url", uriProperty(), "locator", Map.of("type", "string", "minLength", 1)))));
         properties.put("observed_brand", Map.of("type", "string"));
         properties.put("observed_range", Map.of("type", "string"));
 

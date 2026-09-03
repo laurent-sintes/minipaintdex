@@ -336,7 +336,9 @@ public final class MiniPaintDexCli implements Runnable {
                         Boolean.TRUE.equals(value.get("confirmed_removal"))))
                 .toList();
         return new ApplyMarketPaintChangeSetCommand(
-                number(payload.get("schema_version")), String.valueOf(payload.get("kind")), operations, dryRun);
+                number(payload.get("schema_version")), String.valueOf(payload.get("kind")), operations, dryRun,
+                (payload.get("catalog_editions") instanceof List<?> editions ? editions : List.of()).stream()
+                    .map(value -> document(stringMap(value))).toList());
     }
 
     ApplyMarketPaintableProductChangeSetCommand readPaintableProductChangeSet(Path path, boolean dryRun) throws Exception {
@@ -449,10 +451,44 @@ public final class MiniPaintDexCli implements Runnable {
     }
 
     @Command(name = "market", mixinStandardHelpOptions = true,
-            subcommands = {Market.Paints.class, Market.PaintableProducts.class, Market.Guides.class})
+            subcommands = {Market.Paints.class, Market.CatalogEditions.class, Market.PaintableProducts.class, Market.Guides.class})
     static final class Market implements Runnable {
         @ParentCommand MiniPaintDexCli root;
         public void run() { CommandLine.usage(this, System.out); }
+
+        @Command(name = "paint-catalog-editions", mixinStandardHelpOptions = true,
+                subcommands = {CatalogEditions.ListEditions.class, CatalogEditions.Show.class})
+        static final class CatalogEditions implements Runnable {
+            @ParentCommand Market parent;
+            public void run() { CommandLine.usage(this, System.out); }
+            @Command(name = "list", mixinStandardHelpOptions = true)
+            static final class ListEditions implements Callable<Integer> {
+                @ParentCommand CatalogEditions parent;
+                @Option(names = "--brand") String brand;
+                @Option(names = "--page", defaultValue = "0") int page;
+                @Option(names = "--size", defaultValue = "50") int size;
+                @Option(names = "--correlation-id") String correlationId;
+                public Integer call() {
+                    var root = parent.parent.root;
+                    root.output(root.market().searchPaintCatalogEditions(new com.minipaintdex.application.query.SearchPaintCatalogEditionsQuery(
+                            brand, new com.minipaintdex.application.query.PageQuery(page, size, List.of()),
+                            correlationId == null ? java.util.UUID.randomUUID().toString() : correlationId)));
+                    return 0;
+                }
+            }
+            @Command(name = "show", mixinStandardHelpOptions = true)
+            static final class Show implements Callable<Integer> {
+                @ParentCommand CatalogEditions parent;
+                @Option(names = "--id", required = true) String id;
+                @Option(names = "--correlation-id") String correlationId;
+                public Integer call() {
+                    var root = parent.parent.root;
+                    root.output(root.market().getPaintCatalogEdition(new com.minipaintdex.application.query.GetPaintCatalogEditionQuery(
+                            id, correlationId == null ? java.util.UUID.randomUUID().toString() : correlationId)));
+                    return 0;
+                }
+            }
+        }
 
         @Command(name = "paints", mixinStandardHelpOptions = true,
                 subcommands = {Paints.Search.class, Paints.Model.class, Paints.Apply.class})
@@ -465,21 +501,21 @@ public final class MiniPaintDexCli implements Runnable {
             static final class Search implements Callable<Integer> {
                 @ParentCommand Paints parent;
                 @Option(names = "--query") String query;
-                @Option(names = "--brand") String brand;
-                @Option(names = "--range") String range;
-                @Option(names = "--role") String role;
-                @Option(names = "--application-method") String applicationMethod;
-                @Option(names = "--application-system") String applicationSystem;
-                @Option(names = "--color") String color;
-                @Option(names = "--finish") String finish;
-                @Option(names = "--medium") String medium;
-                @Option(names = "--coverage") String coverage;
-                @Option(names = "--effect") String effect;
-                @Option(names = "--undercoat") String undercoat;
-                @Option(names = "--lifecycle") String lifecycle;
+                @Option(names = "--brand") List<String> brand;
+                @Option(names = "--range", description = "Repeatable brand::range selection; OR with selected brands") List<String> range;
+                @Option(names = "--role") List<String> role;
+                @Option(names = "--application-method") List<String> applicationMethod;
+                @Option(names = "--application-system") List<String> applicationSystem;
+                @Option(names = "--color") List<String> color;
+                @Option(names = "--finish") List<String> finish;
+                @Option(names = "--medium") List<String> medium;
+                @Option(names = "--coverage") List<String> coverage;
+                @Option(names = "--effect") List<String> effect;
+                @Option(names = "--undercoat") List<String> undercoat;
+                @Option(names = "--lifecycle") List<String> lifecycle;
                 public Integer call() {
                     var root = parent.parent.root;
-                    root.output(Map.of("paints", root.market().searchMarketPaints(new SearchMarketPaintsQuery(
+                    root.output(Map.of("paints", root.market().searchMarketPaints(SearchMarketPaintsQuery.fromSelections(
                             query, brand, range, role, applicationMethod, applicationSystem, color,
                             finish, medium, coverage, effect, undercoat, lifecycle))));
                     return 0;

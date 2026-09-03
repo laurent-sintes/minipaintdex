@@ -1,6 +1,23 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { appRoutePath, parseAppRoute } from './app-routing.ts';
+import { appRoutePath, parseAppRoute, isNavigationDestinationCurrent } from './app-routing.ts';
+
+test('highlights the direct destination without selecting a neighboring context', () => {
+  const destinations = ['home', 'marketPaints', 'marketProducts', 'workshopPaints', 'workshop', 'shopping', 'aboutUser', 'aboutAdmin', 'aboutPaintModel', 'aboutApi', 'aboutVersion'];
+  for (const view of destinations) {
+    assert.deepEqual(destinations.filter(destination => isNavigationDestinationCurrent({ view }, destination)), [view]);
+  }
+});
+
+test('keeps market details and personal project details under distinct destinations', () => {
+  const product = { view: 'product', productId: 'game' };
+  assert.equal(isNavigationDestinationCurrent(product, 'marketProducts'), true);
+  assert.equal(isNavigationDestinationCurrent(product, 'workshop'), false);
+  const project = { ...product, paintingProjectId: 'my-game' };
+  assert.equal(isNavigationDestinationCurrent(project, 'marketProducts'), false);
+  assert.equal(isNavigationDestinationCurrent(project, 'workshop'), true);
+  assert.equal(isNavigationDestinationCurrent({ view: 'item', itemId: 'copy-1' }, 'workshop'), true);
+});
 
 test('round-trips a direct market paintable-product item URL', () => {
   const route = parseAppRoute('/market/paintable-products/reichbusters-reloaded/items/red-hawk');

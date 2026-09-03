@@ -34,7 +34,7 @@ public final class SiteApplicationService implements SiteQueries {
     public DashboardView dashboard() {
         var snapshot = snapshots.load();
         var catalog = MarketCatalogFactory.create(
-                snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides());
+                snapshot.marketPaints(), snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions());
         var items = WorkshopItemProjector.project(snapshot.events());
         var projects = PaintingProjectProjector.project(snapshot.events());
         var ownedPaintIds = StructuredDocuments.toMaps(snapshot.paintInventory()).stream()

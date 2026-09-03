@@ -6,6 +6,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 from collections import Counter, defaultdict
+from copy import deepcopy
 
 import yaml
 
@@ -18,6 +19,7 @@ INSTRUCTION_ROLES = {"technical_effect", "primer", "wash", "ink", "varnish", "me
 def read_catalog(path: Path) -> dict[str, Any]:
     paths = sorted(path.glob("*.yaml")) if path.is_dir() else [path]
     paints: list[dict[str, Any]] = []
+    editions: list[dict[str, Any]] = []
     for source in paths:
         with source.open("r", encoding="utf-8-sig") as handle:
             value = yaml.safe_load(handle)
@@ -31,9 +33,10 @@ def read_catalog(path: Path) -> dict[str, Any]:
             if not isinstance(paint, dict) or paint.get("schema_version") != 1:
                 raise ValueError(f"Paint records in {source} must use schema_version 1")
             paints.append(paint)
+        editions.extend(value.get("catalog_editions", []))
     if not paths:
         raise ValueError(f"No paint brand catalog found in: {path}")
-    return {"schema_version": 1, "paints": paints}
+    return {"schema_version": 1, "paints": paints, "catalog_editions": editions}
 
 
 def _casefold(value: Any) -> str:
@@ -74,11 +77,14 @@ def build_refresh_changeset(
         selected = {key}
 
     coverage_entries = refreshed.get("coverage", [])
-    coverage = {
-        _casefold(entry.get("brand")): bool(entry.get("complete"))
-        for entry in coverage_entries
-        if isinstance(entry, dict) and entry.get("brand")
-    }
+    def covered_current_paint(paint):
+        return paint.get("lifecycle_status") == "active" and any(
+            isinstance(entry, dict) and _casefold(entry.get("brand")) == _casefold(paint.get("brand"))
+            and entry.get("complete") is True and entry.get("scope") == "current"
+            and isinstance(entry.get("ranges"), list) and paint.get("range") in entry["ranges"]
+            and isinstance(entry.get("source_urls"), list) and bool(entry["source_urls"])
+            and all(isinstance(url, str) and url.startswith("https://") for url in entry["source_urls"])
+            for entry in coverage_entries)
     incoming_records = refreshed.get("paints", [])
     if not isinstance(incoming_records, list):
         raise ValueError("Refreshed data must contain a paints list.")
@@ -98,7 +104,16 @@ def build_refresh_changeset(
     operations: list[dict[str, Any]] = []
     changed_fields: Counter[str] = Counter()
     for identifier in sorted(incoming):
-        record = incoming[identifier]
+        record = deepcopy(incoming[identifier])
+        previous_memberships = existing.get(identifier, {}).get("catalog_memberships", [])
+        memberships = {m["catalog_edition_id"]: m for m in previous_memberships}
+        for membership in record.get("catalog_memberships", []):
+            key = membership["catalog_edition_id"]
+            if key in memberships and memberships[key] != membership:
+                raise ValueError(f"Conflicting catalog membership requires explicit review: {identifier}/{key}")
+            memberships[key] = membership
+        if memberships:
+            record["catalog_memberships"] = [memberships[key] for key in sorted(memberships)]
         if existing.get(identifier) != record:
             previous = existing.get(identifier, {})
             changed_fields.update(
@@ -114,9 +129,8 @@ def build_refresh_changeset(
 
     warnings: list[str] = []
     for identifier in sorted(set(existing) - set(incoming)):
-        brand_key = _casefold(existing[identifier].get("brand"))
-        if not coverage.get(brand_key, False):
-            warnings.append(f"{identifier}: missing from an incomplete refresh; no retirement proposed")
+        if not covered_current_paint(existing[identifier]):
+            warnings.append(f"{identifier}: outside proven complete current-range coverage or not known active; no retirement proposed")
             continue
         action = "delete" if remove_missing else "retire"
         operations.append({
@@ -161,6 +175,11 @@ def build_refresh_changeset(
         },
         "operations": operations,
     }
+    previous_editions = {edition["id"]: edition for edition in catalog.get("catalog_editions", [])}
+    edition_updates = [edition for edition in refreshed.get("catalog_editions", [])
+                       if _casefold(edition.get("brand")) in selected and previous_editions.get(edition.get("id")) != edition]
+    if edition_updates:
+        changeset["catalog_editions"] = edition_updates
     errors = validate_changeset(changeset, allow_empty=True)
     if errors:
         raise ValueError("Invalid refresh change set: " + "; ".join(errors))

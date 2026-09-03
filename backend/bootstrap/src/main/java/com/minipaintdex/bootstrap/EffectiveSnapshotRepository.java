@@ -31,6 +31,6 @@ final class EffectiveSnapshotRepository implements SnapshotRepository {
                 .toList();
         return new DataSnapshot(
                 snapshot.site(), snapshot.marketPaints(), snapshot.paintInventory(),
-                snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.shopping(), events);
+                snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.shopping(), events, snapshot.paintCatalogEditions());
     }
 }

@@ -1,8 +1,8 @@
 'use client';
 
 import {
-  BookOpen, Check, ChevronDown, ChevronLeft, ChevronRight, CircleAlert, Droplets, ExternalLink,
-  FolderCog, Grid2X2, House, Info, ListChecks, ListFilter, PackageOpen, Paintbrush, Search,
+  BookOpen, Check, ChevronLeft, ChevronRight, CircleAlert, Droplets, ExternalLink,
+  FolderCog, Grid2X2, ListChecks, PackageOpen, Paintbrush,
   ShoppingBasket, Sparkles, X,
 } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
@@ -16,10 +16,13 @@ import type {
 import type { SiteConfig } from '@/models/site-config-model';
 import { appRoutePath, parseAppRoute } from '@/utils/app-routing';
 import type { AppRoute as Route } from '@/utils/app-routing';
-import { formatMetadata, paintFacetSearchParams, paintPageSearchParams } from '@/utils/paint-search';
+import { formatMetadata, paintFacetSearchParams, paintPageSearchParams, readPaintSearch, paintBrowserSearchParams } from '@/utils/paint-search';
+import type { PaintFilters, PaintSearchState } from '@/utils/paint-search';
+import { configuredLabel, metadataLabel } from '@/utils/site-labels';
+import { PaintBrowser } from './paint-browser';
+import { SiteNavigation } from './site-navigation';
+import type { FilterOptions } from './paint-browser';
 
-type PaintFilters = Record<string, string>;
-type FilterOptions = Record<string, { value: string; count: number }[]>;
 type AboutData = { name: string; version: string; author: string };
 type DocumentationData = { documents: Array<{ id: string; audience: 'user' | 'administrator'; markdown: string }> };
 
@@ -41,47 +44,6 @@ function swatchStyle(colorHex: string): CSSProperties | undefined {
 function workflowLabel(config: SiteConfig, coreId: string) {
   const configKey = coreId.replace(/_([a-z])/g, (_, letter: string) => letter.toUpperCase());
   return config.workflow[configKey] ?? config.workflow[coreId] ?? formatMetadata(coreId);
-}
-
-function configuredLabel(config: SiteConfig, labelKey: string) {
-  const [section, key] = labelKey.split('.');
-  const configKey = key?.replace(/_([a-z])/g, (_, letter: string) => letter.toUpperCase());
-  const values = (config as unknown as Record<string, Record<string, unknown>>)[section];
-  const label = values?.[configKey];
-  return typeof label === 'string' ? label : formatMetadata(key ?? labelKey);
-}
-
-function metadataLabel(config: SiteConfig, value: string) {
-  const configKey = value.replace(/_([a-z])/g, (_, letter: string) => letter.toUpperCase());
-  return config.collection.valueLabels[configKey] ?? config.collection.valueLabels[value] ?? formatMetadata(value);
-}
-
-function NavButton({ icon, label, active, badge, onClick }: {
-  icon: ReactNode; label: string; active: boolean; badge?: string; onClick: () => void;
-}) {
-  return (
-    <button type="button" className={'nav-item w-full ' + (active ? 'nav-item-active' : '')} onClick={onClick}>
-      {icon}<span className="truncate">{label}</span>
-      {badge && <span className="ml-auto rounded-full bg-current/10 px-2 py-0.5 text-[11px]">{badge}</span>}
-    </button>
-  );
-}
-
-function FacetSelect({ label, allLabel, value, options, config, onChange }: {
-  label: string; allLabel: string; value: string; options: { value: string; count: number }[]; config: SiteConfig; onChange: (value: string) => void;
-}) {
-  return (
-    <label className="form-field">
-      <span>{label}</span>
-      <span className="relative">
-        <select value={value} onChange={(event) => onChange(event.target.value)} className="h-11 w-full appearance-none rounded-xl border bg-card px-3 pr-9 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10">
-          <option value="">{allLabel}</option>
-          {options.map((option) => <option key={option.value} value={option.value}>{metadataLabel(config, option.value)} ({option.count})</option>)}
-        </select>
-        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
-      </span>
-    </label>
-  );
 }
 
 function ResilientPaintImage({ primary, fallback, alt }: { primary: string; fallback: string; alt: string }) {
@@ -109,13 +71,15 @@ function PaintCard({ paint, config, onOpen }: { paint: Paint; config: SiteConfig
         {image
           ? <ResilientPaintImage key={`${image}|${paint.manufacturerImageSource}`} primary={image} fallback={paint.manufacturerImageSource} alt={`${config.paintDetail.productVisual} ${paint.brand} ${paint.name}`} />
           : hasColor ? <span className="absolute inset-0" style={{ background: paint.colorHex }} /> : <span className="absolute inset-0 grid place-items-center px-2 text-center text-[10px] font-semibold text-muted-foreground">{config.paintDetail.toQualify}</span>}
-        <span className="absolute bottom-3 left-3 z-[1] rounded-full bg-black/35 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-white backdrop-blur-sm">{paint.reference || paint.range}</span>
       </div>
       <div className="min-w-0 flex-1 py-0.5">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">{paint.brand}</p>
-        <h3 className="mt-0.5 truncate text-[15px] font-semibold tracking-tight">{paint.name}</h3>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">{paint.brand} · {paint.range}</p>
+        <h3 className="mt-1 text-[15px] font-semibold leading-5 tracking-tight">{paint.name}</h3>
+        {paint.reference && <p className="paint-reference">{config.paintDetail.referenceLabel} {paint.reference}</p>}
         <div className="mt-3 flex flex-wrap gap-1.5">
-          <span className="rounded-full bg-secondary px-2.5 py-1 text-[11px] font-medium">{metadataLabel(config, paint.profile.roles[0] ?? paint.profile.applicationSystem)}</span>
+          {[...paint.profile.applicationMethods, ...paint.profile.roles.filter(role => role !== 'color_paint'),
+            ...(paint.profile.applicationSystem === 'one_coat_shading' ? ['one_coat_shading'] : [])].map(value =>
+            <span key={value} className="rounded-full bg-secondary px-2.5 py-1 text-[11px] font-medium">{metadataLabel(config, value)}</span>)}
           {(paint.quantity ?? 0) > 0 && <span className="rounded-full bg-primary/8 px-2.5 py-1 text-[11px] font-semibold text-primary">× {paint.quantity}</span>}
         </div>
         {paint.manufacturerUrl && <span className="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-primary"><BookOpen size={12} />{config.collection.manufacturerSheet}</span>}
@@ -141,11 +105,14 @@ const emptyWorkshop: WorkshopOverview = {
 
 export function PaintApp({ initialDashboard, config, paintModel }: { initialDashboard: Dashboard; config: SiteConfig; paintModel: PaintModelSchema }) {
   const [route, setRoute] = useState<Route>(() => parseAppRoute(window.location.pathname));
+  const readSearch = useCallback(() => readPaintSearch(window.location.search,
+    paintModel['x-filters'].map(filter => filter.queryParameter),
+    paintModel['x-sort-options'].map(sort => sort.queryValue)), [paintModel]);
   const [dashboard, setDashboard] = useState(initialDashboard);
   const [paints, setPaints] = useState<Paint[]>([]);
   const [paintResultCount, setPaintResultCount] = useState(0);
-  const [paintOffset, setPaintOffset] = useState(0);
-  const [paintSort, setPaintSort] = useState(() => paintModel['x-sort-options'][0]?.queryValue ?? 'name,asc');
+  const [paintOffset, setPaintOffset] = useState(() => readSearch().page * PAINT_PAGE_SIZE);
+  const [paintSort, setPaintSort] = useState(() => readSearch().sort);
   const [paintsLoading, setPaintsLoading] = useState(isPaintRoute(route));
   const [filterOptions, setFilterOptions] = useState<FilterOptions>(emptyFacets);
   const [productSummaries, setProductSummaries] = useState<PaintableProductSummary[]>([]);
@@ -153,9 +120,8 @@ export function PaintApp({ initialDashboard, config, paintModel }: { initialDash
   const [loadingProduct, setLoadingProduct] = useState(route.view === 'product');
   const [workshop, setWorkshop] = useState<WorkshopOverview>(emptyWorkshop);
   const [workshopItems, setWorkshopItems] = useState<WorkshopItem[]>([]);
-  const [query, setQuery] = useState('');
-  const [filters, setFilters] = useState<PaintFilters>(emptyPaintFilters);
-  const [filtersOpen, setFiltersOpen] = useState(() => !window.matchMedia('(max-width: 639px)').matches);
+  const [query, setQuery] = useState(() => readSearch().query);
+  const [filters, setFilters] = useState<PaintFilters>(() => readSearch().filters);
   const [selectedPaint, setSelectedPaint] = useState<Paint | null>(null);
   const [shoppingItems, setShoppingItems] = useState<ShoppingItem[]>([]);
   const [importPreviewState, setImportPreviewState] = useState<{ productId: string; preview: PaintableProductImportPreview } | null>(null);
@@ -182,9 +148,11 @@ export function PaintApp({ initialDashboard, config, paintModel }: { initialDash
     if (!sameView || (next.view !== 'aboutUser' && next.view !== 'aboutAdmin')) setDocumentation(null);
     if (!sameView || next.view !== 'aboutVersion') setAboutData(null);
     if (!sameView || next.view !== 'aboutPaintModel') setPaintQuality(null);
-    setPaintOffset(0);
+    const search = readSearch();
+    setPaintOffset(search.page * PAINT_PAGE_SIZE);
+    setQuery(search.query); setFilters(search.filters); setPaintSort(search.sort);
     setRoute(next);
-  }, [route]);
+  }, [route, readSearch]);
 
   function navigate(next: Route) {
     window.history.pushState({}, '', appRoutePath(next));
@@ -397,8 +365,6 @@ export function PaintApp({ initialDashboard, config, paintModel }: { initialDash
     return () => { window.clearTimeout(timer); controller.abort(); };
   }, [config.errors.requestFailed, isPaintView, paintFacetUrl, serverRevision]);
 
-  const brands = filterOptions.brands?.length ?? 0;
-  const activeFilterCount = Object.values(filters).filter(Boolean).length;
   const title = route.view === 'home' ? config.home.title
     : route.view === 'marketPaints' ? config.market.paintsTitle
       : route.view === 'marketProducts' ? config.market.paintableProductsTitle
@@ -508,75 +474,41 @@ export function PaintApp({ initialDashboard, config, paintModel }: { initialDash
     } catch { setNotice(config.errors.requestFailed); }
   }
 
-  function clearFilters() {
-    setPaintsLoading(true); setQuery(''); setFilters(emptyPaintFilters); setPaintOffset(0); setSelectedPaint(null);
+  function changeSearch(patch: Partial<PaintSearchState>, replace = false) {
+    const state = { query, filters, sort: paintSort, page: Math.floor(paintOffset / PAINT_PAGE_SIZE), ...patch };
+    if (state.query === query && state.filters === filters && state.sort === paintSort && state.page * PAINT_PAGE_SIZE === paintOffset) return;
+    const params = paintBrowserSearchParams(state).toString();
+    window.history[replace ? 'replaceState' : 'pushState']({}, '', appRoutePath(route) + (params ? '?' + params : ''));
+    setPaintsLoading(true); setSelectedPaint(null); setNotice('');
+    setQuery(state.query); setFilters(state.filters); setPaintSort(state.sort); setPaintOffset(state.page * PAINT_PAGE_SIZE);
   }
-
-  function changeQuery(value: string) { setPaintsLoading(true); setQuery(value); setPaintOffset(0); setSelectedPaint(null); }
-  function changeFilters(value: PaintFilters) { setPaintsLoading(true); setFilters(value); setPaintOffset(0); setSelectedPaint(null); }
-  function changePaintSort(value: string) { setPaintsLoading(true); setPaintSort(value); setPaintOffset(0); setSelectedPaint(null); }
-  function changePaintPage(value: number) { setPaintsLoading(true); setPaintOffset(value); }
-
-  const marketNavigation = [
-    { route: { view: 'marketPaints' } as Route, icon: <Droplets size={18} />, label: config.navigation.marketPaints, badge: String(dashboard.paintStats.total) },
-    { route: { view: 'marketProducts' } as Route, icon: <PackageOpen size={18} />, label: config.navigation.marketPaintableProducts, badge: String(dashboard.paintableProductCount) },
-  ];
-  const workshopNavigation = [
-    { route: { view: 'workshopPaints' } as Route, icon: <Paintbrush size={18} />, label: config.navigation.workshopPaints },
-    { route: { view: 'workshop' } as Route, icon: <FolderCog size={18} />, label: config.navigation.workshopAdmin, badge: String(dashboard.workshop.projectCount) },
-    { route: { view: 'shopping' } as Route, icon: <ShoppingBasket size={18} />, label: config.navigation.shopping },
-  ];
-  const aboutNavigation = [
-    { route: { view: 'aboutUser' } as Route, icon: <BookOpen size={18} />, label: config.navigation.userDocumentation },
-    { route: { view: 'aboutAdmin' } as Route, icon: <FolderCog size={18} />, label: config.navigation.adminDocumentation },
-    { route: { view: 'aboutPaintModel' } as Route, icon: <ListFilter size={18} />, label: config.navigation.paintModel },
-    { route: { view: 'aboutApi' } as Route, icon: <ExternalLink size={18} />, label: config.navigation.restApi },
-    { route: { view: 'aboutVersion' } as Route, icon: <Info size={18} />, label: config.navigation.version },
-  ];
-  const mobileNavigation = [
-    { route: { view: 'home' } as Route, icon: <House size={18} />, label: config.navigation.home },
-    marketNavigation[0],
-    workshopNavigation[0],
-    workshopNavigation[1],
-    { ...aboutNavigation[0], label: config.navigation.aboutSection },
-  ];
+  function clearFilters() { changeSearch({ query: '', filters: emptyPaintFilters, page: 0 }); }
+  function changeQuery(value: string) { changeSearch({ query: value, page: 0 }, true); }
+  function changeFilters(value: PaintFilters) { changeSearch({ filters: value, page: 0 }); }
+  function changePaintSort(value: string) { changeSearch({ sort: value, page: 0 }); }
+  function changePaintPage(value: number) {
+    changeSearch({ page: Math.floor(value / PAINT_PAGE_SIZE) });
+    window.scrollTo({ top: 0 });
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-30 border-b bg-card/92 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-[1600px] items-center gap-3 px-4 lg:px-6">
-          <button type="button" onClick={() => navigate({ view: 'home' })} className="flex min-w-0 items-center gap-3 text-left">
-            <span className="grid size-10 flex-none place-items-center rounded-2xl bg-primary text-primary-foreground"><Paintbrush size={20} /></span>
-            <span className="hidden min-w-0 sm:block"><strong className="block truncate text-sm">{config.brand.name}</strong><span className="block truncate text-[11px] text-muted-foreground">{config.brand.subtitle}</span></span>
-          </button>
-          {isPaintView && <label className="relative ml-auto w-full max-w-xl"><Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" /><input value={query} onChange={(event) => changeQuery(event.target.value)} placeholder={config.header.searchShortPlaceholder} aria-label={config.header.searchAriaLabel} className="h-10 w-full rounded-xl border bg-background pl-9 pr-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10" /></label>}
-        </div>
-      </header>
+      <SiteNavigation config={config} route={route} navigate={navigate} />
 
-      <div className="mx-auto flex max-w-[1600px]">
-        <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-64 flex-none border-r bg-card/55 p-4 lg:block">
-          <nav aria-label={config.navigation.ariaLabel}>
-            <NavButton icon={<House size={18} />} label={config.navigation.home} active={route.view === 'home'} onClick={() => navigate({ view: 'home' })} />
-            <p className="nav-section-label">{config.navigation.marketSection}</p>
-            {marketNavigation.map((item) => <NavButton key={item.route.view} {...item} active={route.view === item.route.view || (route.view === 'product' && !route.paintingProjectId && item.route.view === 'marketProducts')} onClick={() => navigate(item.route)} />)}
-            <p className="nav-section-label">{config.navigation.workshopSection}</p>
-            {workshopNavigation.map((item) => <NavButton key={item.route.view} {...item} active={route.view === item.route.view || (route.view === 'product' && Boolean(route.paintingProjectId) && item.route.view === 'workshop')} onClick={() => navigate(item.route)} />)}
-            <p className="nav-section-label">{config.navigation.aboutSection}</p>
-            {aboutNavigation.map((item) => <NavButton key={item.route.view} {...item} active={route.view === item.route.view} onClick={() => navigate(item.route)} />)}
-          </nav>
-          {dashboard.workshop.projectCount > 0 && <div className="mt-8 rounded-2xl border bg-background p-4"><p className="text-xs font-semibold">{config.workshop.progress}</p><div className="mt-3 h-2 overflow-hidden rounded-full bg-secondary"><div className="h-full rounded-full bg-primary" style={{ width: `${dashboard.workshop.progressPercentage}%` }} /></div><p className="mt-2 text-[11px] text-muted-foreground">{dashboard.workshop.completedItemCount} / {dashboard.workshop.itemCount} · {dashboard.workshop.progressPercentage}%</p></div>}
-        </aside>
-
-        <main className="min-w-0 flex-1 px-4 pb-24 pt-8 sm:px-6 lg:px-10 lg:pb-10">
-          <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-[1600px]">
+        <main className="min-w-0 px-4 py-7 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1440px]">
             <p className="eyebrow">{route.view === 'home' ? config.home.eyebrow : route.view.startsWith('about') ? config.navigation.aboutSection : route.paintingProjectId || ['workshopPaints', 'workshop', 'shopping', 'item'].includes(route.view) ? config.navigation.workshopSection : config.navigation.marketSection}</p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h1>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground">{description}</p>
             {notice && <div className="mt-5 flex items-start gap-2 rounded-2xl border border-primary/20 bg-primary/5 p-4 text-sm"><CircleAlert className="mt-0.5 size-4 flex-none text-primary" /><span>{notice}</span></div>}
-            {route.view.startsWith('about') && <div className="mt-6 flex flex-wrap gap-2 lg:hidden">{aboutNavigation.map((item) => <button type="button" key={item.route.view} onClick={() => navigate(item.route)} className={'rounded-xl border px-3 py-2 text-xs font-semibold ' + (route.view === item.route.view ? 'bg-primary text-primary-foreground' : 'bg-card text-foreground')}>{item.label}</button>)}</div>}
 
             {route.view === 'home' && <HomePage dashboard={dashboard} config={config} navigate={navigate} />}
-            {isPaintView && <PaintBrowser paints={paints} resultCount={paintResultCount} brands={brands} offset={paintOffset} pageSize={PAINT_PAGE_SIZE} filters={filters} setFilters={changeFilters} filterOptions={filterOptions} paintModel={paintModel} filtersOpen={filtersOpen} setFiltersOpen={setFiltersOpen} activeFilterCount={activeFilterCount} sort={paintSort} setSort={changePaintSort} loading={paintsLoading} clearFilters={clearFilters} config={config} onOpen={setSelectedPaint} onPage={changePaintPage} />}
+            {isPaintView && <PaintBrowser paints={paints} resultCount={paintResultCount} offset={paintOffset} pageSize={PAINT_PAGE_SIZE}
+              filters={filters} setFilters={changeFilters} filterOptions={filterOptions} paintModel={paintModel}
+              query={query} setQuery={changeQuery} sort={paintSort} setSort={changePaintSort} loading={paintsLoading}
+              clearFilters={clearFilters} config={config} onPage={changePaintPage}
+              renderPaint={paint => <PaintCard key={paint.id} paint={paint} config={config} onOpen={() => setSelectedPaint(paint)} />} />}
             {route.view === 'marketProducts' && <MarketProducts products={productSummaries} ownedProductIds={new Set(workshop.paintingProjects.map((project) => project.productId))} config={config} navigate={navigate} />}
             {route.view === 'workshop' && <WorkshopAdmin workshop={workshop} config={config} navigate={navigate} />}
             {route.view === 'shopping' && <ShoppingPage items={shoppingItems} onToggle={setShoppingStatus} config={config} />}
@@ -591,10 +523,6 @@ export function PaintApp({ initialDashboard, config, paintModel }: { initialDash
           </div>
         </main>
       </div>
-
-      <nav aria-label={config.navigation.mobileAriaLabel} className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 border-t bg-card/95 px-1 py-1.5 backdrop-blur-xl lg:hidden">
-        {mobileNavigation.map((item) => <button type="button" key={item.route.view} onClick={() => navigate(item.route)} className={'grid min-w-0 place-items-center gap-1 rounded-xl py-1.5 text-[9px] ' + (route.view === item.route.view || (route.view.startsWith('about') && item.route.view === 'aboutUser') ? 'bg-primary text-primary-foreground' : 'text-muted-foreground')}><span>{item.icon}</span><span className="w-full truncate px-0.5">{item.label}</span></button>)}
-      </nav>
 
       {selectedPaint && <PaintDetail paint={selectedPaint} config={config} onClose={() => setSelectedPaint(null)} />}
     </div>
@@ -614,30 +542,6 @@ function HomePage({ dashboard, config, navigate }: {
   return <>
     <div className="mt-8 grid gap-3 sm:grid-cols-3"><Metric icon={<Droplets size={20} />} value={dashboard.paintStats.total} label={config.market.paintsMetric} /><Metric icon={<PackageOpen size={20} />} value={dashboard.paintableProductCount} label={config.navigation.marketPaintableProducts} /><Metric icon={<Grid2X2 size={20} />} value={dashboard.workshop.itemCount} label={config.workshop.items} /></div>
     <section className="mt-10"><h2 className="text-xl font-semibold">{config.home.servicesTitle}</h2><p className="mt-2 text-sm text-muted-foreground">{config.home.servicesDescription}</p><div className="mt-5 grid gap-4 md:grid-cols-2">{services.map(([route, icon, service]) => <button type="button" key={route.view} onClick={() => navigate(route)} className="group rounded-[24px] border bg-card p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg"><span className="grid size-10 place-items-center rounded-2xl bg-primary/8 text-primary">{icon}</span><h3 className="mt-4 font-semibold">{service.title}</h3><p className="mt-2 text-xs leading-5 text-muted-foreground">{service.description}</p><span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-primary">{service.action}<ChevronRight size={14} /></span></button>)}</div></section>
-  </>;
-}
-
-function PaintBrowser({ paints, resultCount, brands, offset, pageSize, filters, setFilters, filterOptions, paintModel, filtersOpen, setFiltersOpen, activeFilterCount, sort, setSort, loading, clearFilters, config, onOpen, onPage }: {
-  paints: Paint[]; resultCount: number; brands: number; offset: number; pageSize: number; filters: PaintFilters; setFilters: (filters: PaintFilters) => void; filterOptions: FilterOptions; paintModel: PaintModelSchema;
-  filtersOpen: boolean; setFiltersOpen: (value: boolean) => void; activeFilterCount: number; sort: string; setSort: (value: string) => void; loading: boolean;
-  clearFilters: () => void; config: SiteConfig; onOpen: (paint: Paint) => void; onPage: (offset: number) => void;
-}) {
-  const setFilter = (key: string, value: string) => setFilters({ ...filters, [key]: value });
-  const publishedFilters = [...paintModel['x-filters']].sort((left, right) => left.order - right.order);
-  const facets = publishedFilters.filter((filter) => filter.control === 'select');
-  const toggles = publishedFilters.filter((filter) => filter.control === 'toggle');
-  const sortOptions = [...paintModel['x-sort-options']].sort((left, right) => left.order - right.order);
-  return <>
-    <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3"><Metric icon={<ListChecks size={19} />} value={resultCount} label={config.collection.resultsTitle} /><Metric icon={<Sparkles size={19} />} value={brands} label={config.market.brandsMetric} /><div className="col-span-2 sm:col-span-1"><Metric icon={<Droplets size={19} />} value={paints.length} label={config.collection.displayedMetric} /></div></div>
-    <section className="mt-6 rounded-[24px] border bg-card p-4 sm:p-5">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div className="flex items-center gap-3"><button type="button" onClick={() => setFiltersOpen(!filtersOpen)} className="inline-flex items-center gap-2 text-sm font-semibold"><ListFilter size={17} />{config.collection.filters}{activeFilterCount > 0 && <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] text-primary-foreground">{activeFilterCount}</span>}</button>{activeFilterCount > 0 && <button type="button" onClick={clearFilters} className="text-xs font-semibold text-primary">{config.collection.resetFilters}</button>}</div>
-        <label className="form-field min-w-52"><span>{config.collection.sort}</span><span className="relative"><select value={sort} onChange={(event) => setSort(event.target.value)} className="h-10 w-full appearance-none rounded-xl border bg-card px-3 pr-9 text-xs outline-none focus:border-primary focus:ring-4 focus:ring-primary/10">{sortOptions.map((option) => <option key={option.id} value={option.queryValue}>{configuredLabel(config, option.labelKey)}</option>)}</select><ChevronDown className="pointer-events-none absolute right-3 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" /></span></label>
-      </div>
-      {filtersOpen && <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{facets.map((facet) => <FacetSelect key={facet.id} label={configuredLabel(config, facet.labelKey)} allLabel={config.collection.allValues} value={filters[facet.queryParameter] ?? ''} options={facet.facetId ? filterOptions[facet.facetId] ?? [] : []} config={config} onChange={(value) => setFilter(facet.queryParameter, value)} />)}{toggles.map((filter) => <label key={filter.id} className="need-chip"><input type="checkbox" checked={filters[filter.queryParameter] === 'true'} onChange={(event) => setFilter(filter.queryParameter, event.target.checked ? 'true' : '')} />{configuredLabel(config, filter.labelKey)}</label>)}</div>}
-    </section>
-    {loading ? <section className="mt-6 rounded-[24px] border bg-card px-6 py-12 text-center text-sm text-muted-foreground" aria-live="polite">{config.errors.loading}</section> : <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{paints.map((paint) => <PaintCard key={paint.id} paint={paint} config={config} onOpen={() => onOpen(paint)} />)}{resultCount === 0 && <div className="col-span-full"><EmptyState title={config.collection.emptyTitle} description={config.collection.emptyHint} /></div>}</div>}
-    {!loading && resultCount > pageSize && <div className="mt-6 flex items-center justify-center gap-3"><button type="button" disabled={offset === 0} onClick={() => onPage(Math.max(0, offset - pageSize))} className="inline-flex size-11 items-center justify-center rounded-xl border bg-card text-primary disabled:opacity-35"><ChevronLeft size={17} /></button><span className="text-xs font-semibold text-muted-foreground">{offset + 1}–{Math.min(offset + paints.length, resultCount)} / {resultCount}</span><button type="button" disabled={offset + paints.length >= resultCount} onClick={() => onPage(offset + pageSize)} className="inline-flex size-11 items-center justify-center rounded-xl border bg-card text-primary disabled:opacity-35"><ChevronRight size={17} /></button></div>}
   </>;
 }
 
@@ -840,6 +744,7 @@ function PaintDetail({ paint, config, onClose }: { paint: Paint; config: SiteCon
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{paint.brand} · {paint.range}</p>
             <p className="mt-4 text-sm leading-6 text-muted-foreground">{paint.manufacturerDescription || config.paintDetail.noManufacturerDescription}</p>
             {paint.manufacturerImageQualityLimitationDetail && <section className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-amber-950"><h3 className="text-sm font-semibold">{config.paintDetail.imageQualityLimitation}</h3><p className="mt-2 text-xs leading-5">{paint.manufacturerImageQualityLimitationDetail}</p><p className="mt-2 text-[10px] text-amber-800">{metadataLabel(config, paint.manufacturerImageQualityLimitationCode)} · {config.paintDetail.imageQualityLimitationObservedOn} {paint.manufacturerImageQualityLimitationObservedAt}</p></section>}
+            {paint.catalogMemberships.length > 0 && <section className="mt-5"><h3 className="text-sm font-semibold">{config.paintDetail.catalogEditions}</h3><ul className="mt-2 space-y-2 text-xs">{paint.catalogMemberships.map((membership) => <li key={membership.catalogEditionId}><a href={membership.sourceUrl} target="_blank" rel="noreferrer" className="underline">{membership.title} · {membership.editionLabel}</a><span className="text-muted-foreground"> — {membership.locator}</span></li>)}</ul></section>}
             {paint.recommendedUses.length > 0 && <section className="mt-5"><h3 className="text-sm font-semibold">{config.paintDetail.recommendedUses}</h3><div className="mt-2 flex flex-wrap gap-2">{paint.recommendedUses.map((use) => <span key={use} className="rounded-full bg-secondary px-3 py-1 text-xs">{use}</span>)}</div></section>}
             {paint.usageInstructions.summary && <section className="mt-5 rounded-2xl bg-secondary/60 p-4">
               <div className="flex flex-wrap items-center justify-between gap-2"><h3 className="text-sm font-semibold">{config.paintDetail.usageInstructions}</h3>{paint.usageInstructions.reviewRequired && <span className="rounded-full bg-[#fff0cf] px-2 py-1 text-[9px] font-semibold text-[#8a5a00]">{config.paintDetail.instructionsReviewRequired}</span>}</div>

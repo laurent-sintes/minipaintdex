@@ -2,6 +2,139 @@ schema_version: 1
 brand: Warhammer Colour
 paints:
 - brand: Warhammer Colour
+  brand_aliases:
+  - Citadel
+  - Citadel Colour
+  - Games Workshop
+  color:
+    family: ''
+    hex: ''
+  confidence: 0.98
+  data_status: confirmed
+  deduplication_key: warhammer-colour|technical|name:armageddon-dunes
+  id: cit-27-29
+  lifecycle_status: unknown
+  manufacturer: Games Workshop
+  manufacturer_image:
+    credit: ''
+    image_quality: none
+    license: ''
+    path: ''
+    quality_limitation:
+      code: better-source-not-found
+      detail: The import did not provide a better usable product image.
+      observed_at: '2026-09-03'
+    quality_verified_at: ''
+    reference_url: ''
+    source_url: ''
+  manufacturer_page: https://www.frontlinegames.de/Citadel-Technical-Armageddon-Dunes-24ml_3
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields:
+    - functional_class
+    mapping: warhammer-colour
+    mapping_version: 1
+    unmapped_fields:
+    - evidence
+    - needs_review
+    - position
+    - reference_observed
+  name: Armageddon Dunes
+  notes: Legacy Citadel pot identified from the owned photo. Reference 27-29 and 24ml
+    volume corroborated by Frontline Games and Les Des masKes. Current manufacturer
+    listing, exact colour and product-photo provenance remain unverified.
+  observed_brand: CITADEL COLOUR
+  observed_range: TECHNICAL
+  profile:
+    application_methods:
+    - brush
+    application_system: effect_application
+    coverage: unknown
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - technical_effect
+    undercoat:
+      pre_highlighted_surface_recommended: false
+      tone: any
+  provenance:
+    hashes:
+    - 92eb53c9bb2635fa1d214ee2dee3e00f14ce80b43dd1d526a27cd3f441336def
+    original_photo: imports/photos/IMG_5322.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-09-03-remaining/IMG_5322.jpeg
+    photo_id: photo-92eb53c9bb2635fa1d214ee2dee3e00f14ce80b43dd1d526a27cd3f441336def
+    sha256: 92eb53c9bb2635fa1d214ee2dee3e00f14ce80b43dd1d526a27cd3f441336def
+  range: Technical
+  recommended_uses: [
+    ]
+  reference: 27-29
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: enrichment
+      value:
+        lifecycle_status: unknown
+        manufacturer_url: https://www.frontlinegames.de/Citadel-Technical-Armageddon-Dunes-24ml_3
+        notes: Legacy Citadel pot identified from the owned photo. Reference 27-29
+          and 24ml volume corroborated by Frontline Games and Les Des masKes. Current
+          manufacturer listing, exact colour and product-photo provenance remain unverified.
+        usage_instructions:
+          instruction_status: generic_template
+          review_required: true
+          steps:
+          - Test on a spare base first.
+          - Spread a small amount on the base with a suitable tool, avoiding the miniature.
+          - Allow the texture to dry fully before painting or drybrushing.
+          summary: Generic basing-texture guidance; manufacturer-specific instructions
+            require review.
+          tips:
+          - Keep the lid closed between uses.
+        verified_on: '2026-09-03'
+        volume_ml: 24
+    - name: evidence
+      value:
+      - Brand, range and name on the foreground pot label.
+    - name: functional_class
+      value: technical_effect
+    - name: needs_review
+      value: false
+    - name: position
+      value: 7
+  source_snapshots:
+  - payload:
+      name: Armageddon Dunes
+      reference: 27-29
+      volume_ml: 24
+    provider: frontline-games-product-page
+    url: https://www.frontlinegames.de/Citadel-Technical-Armageddon-Dunes-24ml_3
+  tags: [
+    ]
+  usage_instructions:
+    instruction_status: generic_template
+    review_required: true
+    steps:
+    - Test on a spare base first.
+    - Spread a small amount on the base with a suitable tool, avoiding the miniature.
+    - Allow the texture to dry fully before painting or drybrushing.
+    summary: Generic basing-texture guidance; manufacturer-specific instructions require
+      review.
+    tips:
+    - Keep the lid closed between uses.
+  verified_at: '2026-09-03'
+  volume_ml: 24
+  warnings: [
+    ]
+- brand: Warhammer Colour
   brand_aliases: [
     ]
   color:
@@ -17241,7 +17374,10 @@ paints:
   provenance:
     hashes: [
       ]
-    photo: IMG_5310.jpeg
+    original_photo: IMG_5310.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5310.jpeg
+    photo_id: photo-e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+    sha256: e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
   range: Contrast
   recommended_uses:
   - Armures bleu nuit
@@ -17968,7 +18104,10 @@ paints:
   provenance:
     hashes: [
       ]
-    photo: IMG_5310.jpeg
+    original_photo: IMG_5310.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5310.jpeg
+    photo_id: photo-e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+    sha256: e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
   range: Contrast
   recommended_uses:
   - Jaunes ombrés
@@ -18138,7 +18277,10 @@ paints:
   provenance:
     hashes:
     - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
-    photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    original_photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+    photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
   range: Contrast
   recommended_uses:
   - Peaux d’orques
@@ -18309,7 +18451,10 @@ paints:
   provenance:
     hashes:
     - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
-    photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    original_photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+    photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
   range: Contrast
   recommended_uses:
   - Uniformes
@@ -18481,7 +18626,10 @@ paints:
   provenance:
     hashes:
     - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
-    photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    original_photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+    photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
   range: Contrast
   recommended_uses:
   - Uniformes
@@ -18652,7 +18800,10 @@ paints:
   provenance:
     hashes: [
       ]
-    photo: IMG_5310.jpeg
+    original_photo: IMG_5310.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5310.jpeg
+    photo_id: photo-e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+    sha256: e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
   range: Contrast
   recommended_uses:
   - Sable et terre
@@ -19002,7 +19153,10 @@ paints:
   provenance:
     hashes:
     - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
-    photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    original_photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+    photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
   range: Contrast
   recommended_uses:
   - Cuir
@@ -19173,7 +19327,10 @@ paints:
   provenance:
     hashes: [
       ]
-    photo: IMG_5310.jpeg
+    original_photo: IMG_5310.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5310.jpeg
+    photo_id: photo-e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+    sha256: e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
   range: Contrast
   recommended_uses:
   - Fourrures
@@ -19343,7 +19500,10 @@ paints:
   provenance:
     hashes: [
       ]
-    photo: IMG_5310.jpeg
+    original_photo: IMG_5310.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5310.jpeg
+    photo_id: photo-e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+    sha256: e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
   range: Contrast
   recommended_uses:
   - Bois très sombre
@@ -19513,7 +19673,10 @@ paints:
   provenance:
     hashes: [
       ]
-    photo: IMG_5310.jpeg
+    original_photo: IMG_5310.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5310.jpeg
+    photo_id: photo-e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+    sha256: e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
   range: Contrast
   recommended_uses:
   - Bois
@@ -19684,7 +19847,10 @@ paints:
   provenance:
     hashes:
     - 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
-    photo: imports/photos/IMG_5315.jpeg
+    original_photo: imports/photos/IMG_5315.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-08-31-img-5315/IMG_5315.jpeg
+    photo_id: photo-52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
+    sha256: 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
   range: Contrast
   recommended_uses:
   - Warm skin
@@ -19875,7 +20041,10 @@ paints:
   provenance:
     hashes: [
       ]
-    photo: IMG_5310.jpeg
+    original_photo: IMG_5310.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5310.jpeg
+    photo_id: photo-e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+    sha256: e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
   range: Contrast
   recommended_uses:
   - Carnations claires
@@ -20044,7 +20213,17 @@ paints:
   provenance:
     hashes:
     - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
-    photo: IMG_5310.jpeg|imports/archive/2026-08-30/IMG_5312.jpeg
+    original_photo: IMG_5310.jpeg|imports/archive/2026-08-30/IMG_5312.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+    photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    photos:
+    - photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5310.jpeg
+      photo_id: photo-e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+      sha256: e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+    - photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+      photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+      sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
   range: Contrast
   recommended_uses:
   - Carnations hâlées
@@ -20214,7 +20393,10 @@ paints:
   provenance:
     hashes:
     - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
-    photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    original_photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+    photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
   range: Contrast
   recommended_uses:
   - Armures blanches
@@ -20385,7 +20567,10 @@ paints:
   provenance:
     hashes:
     - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
-    photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    original_photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+    photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
   range: Contrast
   recommended_uses:
   - Armures gris bleu
@@ -21101,7 +21286,10 @@ paints:
   provenance:
     hashes: [
       ]
-    photo: IMG_5310.jpeg
+    original_photo: IMG_5310.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5310.jpeg
+    photo_id: photo-e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+    sha256: e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
   range: Contrast
   recommended_uses:
   - Armures bleues vives
@@ -21643,7 +21831,10 @@ paints:
   provenance:
     hashes:
     - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
-    photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    original_photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+    photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
   range: Contrast
   recommended_uses:
   - Peaux maladives
@@ -21814,7 +22005,10 @@ paints:
   provenance:
     hashes: [
       ]
-    photo: IMG_5310.jpeg
+    original_photo: IMG_5310.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5310.jpeg
+    photo_id: photo-e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+    sha256: e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
   range: Contrast
   recommended_uses:
   - Écailles
@@ -22165,7 +22359,10 @@ paints:
   provenance:
     hashes:
     - 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
-    photo: imports/photos/IMG_5315.jpeg
+    original_photo: imports/photos/IMG_5315.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-08-31-img-5315/IMG_5315.jpeg
+    photo_id: photo-52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
+    sha256: 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
   range: Base
   recommended_uses:
   - Black basecoat
@@ -33422,7 +33619,10 @@ paints:
   provenance:
     hashes:
     - 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
-    photo: imports/photos/IMG_5315.jpeg
+    original_photo: imports/photos/IMG_5315.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-08-31-img-5315/IMG_5315.jpeg
+    photo_id: photo-52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
+    sha256: 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
   range: Layer
   recommended_uses:
   - Purple layers
@@ -36866,7 +37066,10 @@ paints:
   provenance:
     hashes:
     - 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
-    photo: imports/photos/IMG_5315.jpeg
+    original_photo: imports/photos/IMG_5315.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-08-31-img-5315/IMG_5315.jpeg
+    photo_id: photo-52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
+    sha256: 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
   range: Layer
   recommended_uses:
   - Warm grey layers
@@ -37049,7 +37252,10 @@ paints:
   provenance:
     hashes:
     - 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
-    photo: imports/photos/IMG_5315.jpeg
+    original_photo: imports/photos/IMG_5315.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-08-31-img-5315/IMG_5315.jpeg
+    photo_id: photo-52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
+    sha256: 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
   range: Layer
   recommended_uses:
   - Warm brown highlights
@@ -41396,7 +41602,10 @@ paints:
   provenance:
     hashes:
     - 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
-    photo: imports/photos/IMG_5315.jpeg
+    original_photo: imports/photos/IMG_5315.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-08-31-img-5315/IMG_5315.jpeg
+    photo_id: photo-52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
+    sha256: 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
   range: Layer
   recommended_uses:
   - Final white highlights
@@ -48632,7 +48841,10 @@ paints:
   provenance:
     hashes:
     - 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
-    photo: imports/photos/IMG_5315.jpeg
+    original_photo: imports/photos/IMG_5315.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-08-31-img-5315/IMG_5315.jpeg
+    photo_id: photo-52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
+    sha256: 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
   range: Technical
   recommended_uses:
   - Energy glow
@@ -52643,7 +52855,10 @@ paints:
   provenance:
     hashes:
     - 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
-    photo: imports/photos/IMG_5315.jpeg
+    original_photo: imports/photos/IMG_5315.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-08-31-img-5315/IMG_5315.jpeg
+    photo_id: photo-52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
+    sha256: 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
   range: Shade
   recommended_uses:
   - Dark recess shading
@@ -53744,7 +53959,10 @@ paints:
   provenance:
     hashes:
     - 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
-    photo: imports/photos/IMG_5315.jpeg
+    original_photo: imports/photos/IMG_5315.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-08-31-img-5315/IMG_5315.jpeg
+    photo_id: photo-52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
+    sha256: 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
   range: Shade
   recommended_uses:
   - Warm recess shading
@@ -55215,7 +55433,10 @@ paints:
   provenance:
     hashes:
     - 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
-    photo: imports/photos/IMG_5315.jpeg
+    original_photo: imports/photos/IMG_5315.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-08-31-img-5315/IMG_5315.jpeg
+    photo_id: photo-52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
+    sha256: 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
   range: Contrast
   recommended_uses:
   - Dirty metal
@@ -55348,26 +55569,34 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-- lifecycle_status: active
-  name: Mantis Warriors Green
-  manufacturer: Games Workshop
+- brand: Warhammer Colour
+  brand_aliases:
+  - Citadel
+  - Citadel Colour
+  - Games Workshop
+  color:
+    family: green
+    hex: '#587B2B'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960263-99189960038
+  id: cit-prod4960263-99189960038
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960263-99189960038.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/mantis-warriors-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Mantis_Warrior_Green_Contrast_18ml_2022_New.png?v=1656682914
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960263-99189960038
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/mantis-warriors-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Mantis_Warrior_Green_Contrast_18ml_2022_New.png?v=1656682914
   manufacturer_page: https://eirehobbies.com/products/mantis-warriors-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -55377,15 +55606,44 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  brand_aliases:
-  - Citadel
-  - Citadel Colour
-  - Games Workshop
-  tags:
-  - vert
-  - nature
-  - Contrast
-  - une couche
+  name: Mantis Warriors Green
+  notes: Référence confirmée par une liste de distribution. Couleur d’interface indicative.
+  observed_brand: CITADEL COLOUR
+  observed_range: CONTRAST
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes:
+    - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    original_photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+    photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+  range: Contrast
+  recommended_uses:
+  - Peaux vertes
+  - Végétation
+  - Armures et tissus verts
+  reference: PROD4960263-99189960038
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -55395,9 +55653,6 @@ paints:
       value: transparent contrasté
     - name: medium
       value: acrylique à l’eau
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -55462,22 +55717,11 @@ paints:
       reference: PROD4960263-99189960038
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/mantis-warriors-pre-order
-  deduplication_key: cit|ref:prod4960263-99189960038
-  id: cit-prod4960263-99189960038
-  provenance:
-    hashes:
-    - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
-    photo: imports/archive/2026-08-30/IMG_5312.jpeg
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: green
-    hex: '#587B2B'
-  data_status: confirmed
+  tags:
+  - vert
+  - nature
+  - Contrast
+  - une couche
   usage_instructions:
     steps:
     - Shake thoroughly.
@@ -55487,30 +55731,10 @@ paints:
       in one application, or to glaze and tint.
     tips:
     - It can also be used as a glaze or tint; avoid uncontrolled pooling.
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: Référence confirmée par une liste de distribution. Couleur d’interface indicative.
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: CITADEL COLOUR
-  recommended_uses:
-  - Peaux vertes
-  - Végétation
-  - Armures et tissus verts
-  observed_range: CONTRAST
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -55696,26 +55920,34 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-- lifecycle_status: active
-  name: Gutrippa Flesh
-  manufacturer: Games Workshop
+- brand: Warhammer Colour
+  brand_aliases:
+  - Citadel
+  - Citadel Colour
+  - Games Workshop
+  color:
+    family: green
+    hex: '#87934E'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960265-99189960040
+  id: cit-prod4960265-99189960040
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960265-99189960040.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/gutrippa-flesh-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Gutrippa_Flesh_Contrast_18ml_2022_New.png?v=1656682766
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960265-99189960040
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/gutrippa-flesh-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Gutrippa_Flesh_Contrast_18ml_2022_New.png?v=1656682766
   manufacturer_page: https://eirehobbies.com/products/gutrippa-flesh-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -55725,16 +55957,44 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  brand_aliases:
-  - Citadel
-  - Citadel Colour
-  - Games Workshop
-  tags:
-  - vert
-  - peau
-  - orque
-  - Contrast
-  - une couche
+  name: Gutrippa Flesh
+  notes: Référence confirmée par une liste de distribution. Couleur d’interface indicative.
+  observed_brand: CITADEL COLOUR
+  observed_range: CONTRAST
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes:
+    - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    original_photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+    photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+  range: Contrast
+  recommended_uses:
+  - Peaux d’orques
+  - Créatures
+  - Végétation claire
+  reference: PROD4960265-99189960040
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -55744,9 +56004,6 @@ paints:
       value: transparent contrasté
     - name: medium
       value: acrylique à l’eau
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -55811,22 +56068,12 @@ paints:
       reference: PROD4960265-99189960040
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/gutrippa-flesh-pre-order
-  deduplication_key: cit|ref:prod4960265-99189960040
-  id: cit-prod4960265-99189960040
-  provenance:
-    hashes:
-    - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
-    photo: imports/archive/2026-08-30/IMG_5312.jpeg
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: green
-    hex: '#87934E'
-  data_status: confirmed
+  tags:
+  - vert
+  - peau
+  - orque
+  - Contrast
+  - une couche
   usage_instructions:
     steps:
     - Shake thoroughly.
@@ -55836,30 +56083,10 @@ paints:
       in one application, or to glaze and tint.
     tips:
     - It can also be used as a glaze or tint; avoid uncontrolled pooling.
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: Référence confirmée par une liste de distribution. Couleur d’interface indicative.
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: CITADEL COLOUR
-  recommended_uses:
-  - Peaux d’orques
-  - Créatures
-  - Végétation claire
-  observed_range: CONTRAST
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -56230,26 +56457,34 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-- lifecycle_status: active
-  name: Ironjawz Yellow
-  manufacturer: Games Workshop
+- brand: Warhammer Colour
+  brand_aliases:
+  - Citadel
+  - Citadel Colour
+  - Games Workshop
+  color:
+    family: yellow
+    hex: '#d6a800'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960268-99189960043
+  id: cit-prod4960268-99189960043
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960268-99189960043.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/ironjawz-yellow-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Ironjawz_Yellow_Contrast_18ml_2022_New.png?v=1656682476
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960268-99189960043
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/ironjawz-yellow-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Ironjawz_Yellow_Contrast_18ml_2022_New.png?v=1656682476
   manufacturer_page: https://eirehobbies.com/products/ironjawz-yellow-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -56259,14 +56494,44 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  brand_aliases:
-  - Citadel
-  - Citadel Colour
-  - Games Workshop
-  tags:
-  - jaune
-  - ocre
-  - contrast
+  name: Ironjawz Yellow
+  notes: ''
+  observed_brand: Citadel
+  observed_range: Contrast
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    original_photo: IMG_5310.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5310.jpeg
+    photo_id: photo-e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+    sha256: e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+  range: Contrast
+  recommended_uses:
+  - Armures jaunes
+  - Cuir ocre
+  - Grandes surfaces texturées
+  reference: PROD4960268-99189960043
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -56276,9 +56541,6 @@ paints:
       value: transparent
     - name: medium
       value: acrylique
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -56343,22 +56605,10 @@ paints:
       reference: PROD4960268-99189960043
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/ironjawz-yellow-pre-order
-  deduplication_key: cit|ref:prod4960268-99189960043
-  id: cit-prod4960268-99189960043
-  provenance:
-    hashes: [
-      ]
-    photo: IMG_5310.jpeg
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: yellow
-    hex: '#d6a800'
-  data_status: confirmed
+  tags:
+  - jaune
+  - ocre
+  - contrast
   usage_instructions:
     steps:
     - Shake thoroughly.
@@ -56368,30 +56618,10 @@ paints:
       in one application, or to glaze and tint.
     tips:
     - It can also be used as a glaze or tint; avoid uncontrolled pooling.
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: Citadel
-  recommended_uses:
-  - Armures jaunes
-  - Cuir ocre
-  - Grandes surfaces texturées
-  observed_range: Contrast
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -56577,26 +56807,34 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-- lifecycle_status: active
-  name: Imperial Fist
-  manufacturer: Games Workshop
+- brand: Warhammer Colour
+  brand_aliases:
+  - Citadel
+  - Citadel Colour
+  - Games Workshop
+  color:
+    family: yellow
+    hex: '#ffb300'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960270-99189960045
+  id: cit-prod4960270-99189960045
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960270-99189960045.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/imperial-fist-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Imperial_Fist_Contrast_18ml_2022_New.png?v=1656682172
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960270-99189960045
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/imperial-fist-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Imperial_Fist_Contrast_18ml_2022_New.png?v=1656682172
   manufacturer_page: https://eirehobbies.com/products/imperial-fist-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -56606,14 +56844,44 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  brand_aliases:
-  - Citadel
-  - Citadel Colour
-  - Games Workshop
-  tags:
-  - jaune
-  - vif
-  - contrast
+  name: Imperial Fist
+  notes: ''
+  observed_brand: Citadel
+  observed_range: Contrast
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    original_photo: IMG_5310.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5310.jpeg
+    photo_id: photo-e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+    sha256: e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+  range: Contrast
+  recommended_uses:
+  - Armures jaune vif
+  - Héraldiques
+  - Aplats saturés sur sous-couche claire
+  reference: PROD4960270-99189960045
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -56623,9 +56891,6 @@ paints:
       value: transparent
     - name: medium
       value: acrylique
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -56690,22 +56955,10 @@ paints:
       reference: PROD4960270-99189960045
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/imperial-fist-pre-order
-  deduplication_key: cit|ref:prod4960270-99189960045
-  id: cit-prod4960270-99189960045
-  provenance:
-    hashes: [
-      ]
-    photo: IMG_5310.jpeg
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: yellow
-    hex: '#ffb300'
-  data_status: confirmed
+  tags:
+  - jaune
+  - vif
+  - contrast
   usage_instructions:
     steps:
     - Shake thoroughly.
@@ -56715,6 +56968,51 @@ paints:
       in one application, or to glaze and tint.
     tips:
     - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  verified_at: '2026-09-01'
+  volume_ml: 18
+  warnings:
+  - Official store artwork is a colour swatch, not a product packshot.
+- brand: Warhammer Colour
+  brand_aliases:
+  - Citadel
+  - Citadel Colour
+  - Games Workshop
+  color:
+    family: blue
+    hex: '#0b7f91'
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960271-99189960046
+  id: cit-prod4960271-99189960046
+  lifecycle_status: active
+  manufacturer: Games Workshop
+  manufacturer_image:
+    credit: EireHobbies
+    image_quality: retailer_photo
+    license: ''
+    path: /media/market/paints/warhammer-colour/cit-prod4960271-99189960046.webp
+    quality_limitation:
+      code: official-photo-not-published
+      detail: The official catalog publishes a color swatch rather than a usable product
+        photo.
+      observed_at: '2026-09-02'
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/kroxigor-scales-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Kroxigor_Scales_Contrast_18ml_2022_New.png?v=1656681251
+  manufacturer_page: https://eirehobbies.com/products/kroxigor-scales-pre-order
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields: [
+      ]
+    mapping: warhammer-colour
+    mapping_version: 1
+    unmapped_fields: [
+      ]
+  name: Kroxigor Scales
+  notes: ''
+  observed_brand: Citadel
+  observed_range: Contrast
   profile:
     application_methods:
     - brush
@@ -56729,53 +57027,26 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: true
       tone: light
-  notes: ''
-  schema_version: 1
-  warnings:
-  - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: Citadel
+  provenance:
+    hashes: [
+      ]
+    original_photo: IMG_5310.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5310.jpeg
+    photo_id: photo-e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+    sha256: e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+  range: Contrast
   recommended_uses:
-  - Armures jaune vif
-  - Héraldiques
-  - Aplats saturés sur sous-couche claire
-  observed_range: Contrast
-- lifecycle_status: active
-  name: Kroxigor Scales
-  manufacturer: Games Workshop
-  confidence: 1.0
-  manufacturer_image:
-    credit: EireHobbies
-    image_quality: retailer_photo
-    license: ''
-    path: /media/market/paints/warhammer-colour/cit-prod4960271-99189960046.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/kroxigor-scales-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Kroxigor_Scales_Contrast_18ml_2022_New.png?v=1656681251
-    quality_limitation:
-      code: official-photo-not-published
-      detail: The official catalog publishes a color swatch rather than a usable product
-        photo.
-      observed_at: '2026-09-02'
+  - Peaux et écailles
+  - Gemmes et fumées
+  - Vert-de-gris dilué
   reference: PROD4960271-99189960046
-  manufacturer_page: https://eirehobbies.com/products/kroxigor-scales-pre-order
-  brand: Warhammer Colour
-  mapping_report:
-    ignored_fields: [
-      ]
-    mapped_fields: [
-      ]
-    mapping: warhammer-colour
-    mapping_version: 1
-    unmapped_fields: [
-      ]
-  brand_aliases:
-  - Citadel
-  - Citadel Colour
-  - Games Workshop
-  tags:
-  - turquoise
-  - bleu
-  - contrast
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -56785,9 +57056,6 @@ paints:
       value: transparent
     - name: medium
       value: acrylique
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -56852,22 +57120,10 @@ paints:
       reference: PROD4960271-99189960046
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/kroxigor-scales-pre-order
-  deduplication_key: cit|ref:prod4960271-99189960046
-  id: cit-prod4960271-99189960046
-  provenance:
-    hashes: [
-      ]
-    photo: IMG_5310.jpeg
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: blue
-    hex: '#0b7f91'
-  data_status: confirmed
+  tags:
+  - turquoise
+  - bleu
+  - contrast
   usage_instructions:
     steps:
     - Shake thoroughly.
@@ -56877,6 +57133,51 @@ paints:
       in one application, or to glaze and tint.
     tips:
     - It can also be used as a glaze or tint; avoid uncontrolled pooling.
+  verified_at: '2026-09-01'
+  volume_ml: 18
+  warnings:
+  - Official store artwork is a colour swatch, not a product packshot.
+- brand: Warhammer Colour
+  brand_aliases:
+  - Citadel
+  - Citadel Colour
+  - Games Workshop
+  color:
+    family: blue
+    hex: '#74c4c9'
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960272-99189960047
+  id: cit-prod4960272-99189960047
+  lifecycle_status: active
+  manufacturer: Games Workshop
+  manufacturer_image:
+    credit: EireHobbies
+    image_quality: retailer_photo
+    license: ''
+    path: /media/market/paints/warhammer-colour/cit-prod4960272-99189960047.webp
+    quality_limitation:
+      code: official-photo-not-published
+      detail: The official catalog publishes a color swatch rather than a usable product
+        photo.
+      observed_at: '2026-09-02'
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/briar-queen-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Briar_Queen_Chill_Contrast_18ml_2022_New.png?v=1656681179
+  manufacturer_page: https://eirehobbies.com/products/briar-queen-pre-order
+  mapping_report:
+    ignored_fields: [
+      ]
+    mapped_fields: [
+      ]
+    mapping: warhammer-colour
+    mapping_version: 1
+    unmapped_fields: [
+      ]
+  name: Briar Queen Chill
+  notes: ''
+  observed_brand: Citadel
+  observed_range: Contrast
   profile:
     application_methods:
     - brush
@@ -56891,54 +57192,26 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: true
       tone: light
-  notes: ''
-  schema_version: 1
-  warnings:
-  - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: Citadel
+  provenance:
+    hashes: [
+      ]
+    original_photo: IMG_5310.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5310.jpeg
+    photo_id: photo-e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+    sha256: e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+  range: Contrast
   recommended_uses:
-  - Peaux et écailles
-  - Gemmes et fumées
-  - Vert-de-gris dilué
-  observed_range: Contrast
-- lifecycle_status: active
-  name: Briar Queen Chill
-  manufacturer: Games Workshop
-  confidence: 1.0
-  manufacturer_image:
-    credit: EireHobbies
-    image_quality: retailer_photo
-    license: ''
-    path: /media/market/paints/warhammer-colour/cit-prod4960272-99189960047.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/briar-queen-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Briar_Queen_Chill_Contrast_18ml_2022_New.png?v=1656681179
-    quality_limitation:
-      code: official-photo-not-published
-      detail: The official catalog publishes a color swatch rather than a usable product
-        photo.
-      observed_at: '2026-09-02'
+  - Fantômes
+  - Fumées et apparitions
+  - Glace et blancs corrompus
   reference: PROD4960272-99189960047
-  manufacturer_page: https://eirehobbies.com/products/briar-queen-pre-order
-  brand: Warhammer Colour
-  mapping_report:
-    ignored_fields: [
-      ]
-    mapped_fields: [
-      ]
-    mapping: warhammer-colour
-    mapping_version: 1
-    unmapped_fields: [
-      ]
-  brand_aliases:
-  - Citadel
-  - Citadel Colour
-  - Games Workshop
-  tags:
-  - bleu clair
-  - spectral
-  - glace
-  - contrast
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -56948,9 +57221,6 @@ paints:
       value: transparent
     - name: medium
       value: acrylique
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -57015,22 +57285,11 @@ paints:
       reference: PROD4960272-99189960047
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/briar-queen-pre-order
-  deduplication_key: cit|ref:prod4960272-99189960047
-  id: cit-prod4960272-99189960047
-  provenance:
-    hashes: [
-      ]
-    photo: IMG_5310.jpeg
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: blue
-    hex: '#74c4c9'
-  data_status: confirmed
+  tags:
+  - bleu clair
+  - spectral
+  - glace
+  - contrast
   usage_instructions:
     steps:
     - Shake thoroughly.
@@ -57040,30 +57299,10 @@ paints:
       in one application, or to glaze and tint.
     tips:
     - It can also be used as a glaze or tint; avoid uncontrolled pooling.
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: Citadel
-  recommended_uses:
-  - Fantômes
-  - Fumées et apparitions
-  - Glace et blancs corrompus
-  observed_range: Contrast
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -57249,26 +57488,34 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-- lifecycle_status: active
-  name: Pylar Glacier
-  manufacturer: Games Workshop
+- brand: Warhammer Colour
+  brand_aliases:
+  - Citadel
+  - Citadel Colour
+  - Games Workshop
+  color:
+    family: blue
+    hex: '#45c5e9'
   confidence: 1.0
+  data_status: confirmed
+  deduplication_key: cit|ref:prod4960274-99189960049
+  id: cit-prod4960274-99189960049
+  lifecycle_status: active
+  manufacturer: Games Workshop
   manufacturer_image:
     credit: EireHobbies
     image_quality: retailer_photo
     license: ''
     path: /media/market/paints/warhammer-colour/cit-prod4960274-99189960049.webp
-    quality_verified_at: '2026-09-01'
-    reference_url: https://eirehobbies.com/products/pylar-glacier-pre-order
-    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Pylar_Glacier_Contrast_18ml_2022_New.png?v=1656680484
     quality_limitation:
       code: official-photo-not-published
       detail: The official catalog publishes a color swatch rather than a usable product
         photo.
       observed_at: '2026-09-02'
-  reference: PROD4960274-99189960049
+    quality_verified_at: '2026-09-01'
+    reference_url: https://eirehobbies.com/products/pylar-glacier-pre-order
+    source_url: https://cdn.shopify.com/s/files/1/0588/4444/6927/products/https___trade.games-workshop.com_assets_2022_06_Pylar_Glacier_Contrast_18ml_2022_New.png?v=1656680484
   manufacturer_page: https://eirehobbies.com/products/pylar-glacier-pre-order
-  brand: Warhammer Colour
   mapping_report:
     ignored_fields: [
       ]
@@ -57278,14 +57525,44 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  brand_aliases:
-  - Citadel
-  - Citadel Colour
-  - Games Workshop
-  tags:
-  - bleu clair
-  - glace
-  - contrast
+  name: Pylar Glacier
+  notes: ''
+  observed_brand: Citadel
+  observed_range: Contrast
+  profile:
+    application_methods:
+    - brush
+    application_system: one_coat_shading
+    coverage: transparent
+    effects: [
+      ]
+    finish: unknown
+    medium: acrylic
+    roles:
+    - color_paint
+    undercoat:
+      pre_highlighted_surface_recommended: true
+      tone: light
+  provenance:
+    hashes: [
+      ]
+    original_photo: IMG_5310.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5310.jpeg
+    photo_id: photo-e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+    sha256: e5ff0513c86e1ba98d67a8306c9b3e3df188c4173e24994605f29d5968b3a170
+  range: Contrast
+  recommended_uses:
+  - Glace et givre
+  - Lueurs sur métal
+  - Effets énergétiques pâles
+  reference: PROD4960274-99189960049
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
   source_observation:
     adapter: brand_mapping
     fields:
@@ -57295,9 +57572,6 @@ paints:
       value: transparent
     - name: medium
       value: acrylique
-  range: Contrast
-  volume_ml: 18
-  verified_at: '2026-09-01'
   source_snapshots:
   - payload:
       colourVariants: [
@@ -57362,22 +57636,10 @@ paints:
       reference: PROD4960274-99189960049
     provider: retailer_image_manifest
     url: https://eirehobbies.com/products/pylar-glacier-pre-order
-  deduplication_key: cit|ref:prod4960274-99189960049
-  id: cit-prod4960274-99189960049
-  provenance:
-    hashes: [
-      ]
-    photo: IMG_5310.jpeg
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
-  color:
-    family: blue
-    hex: '#45c5e9'
-  data_status: confirmed
+  tags:
+  - bleu clair
+  - glace
+  - contrast
   usage_instructions:
     steps:
     - Shake thoroughly.
@@ -57387,30 +57649,10 @@ paints:
       in one application, or to glaze and tint.
     tips:
     - It can also be used as a glaze or tint; avoid uncontrolled pooling.
-  profile:
-    application_methods:
-    - brush
-    application_system: one_coat_shading
-    coverage: transparent
-    effects: [
-      ]
-    finish: unknown
-    medium: acrylic
-    roles:
-    - color_paint
-    undercoat:
-      pre_highlighted_surface_recommended: true
-      tone: light
-  notes: ''
-  schema_version: 1
+  verified_at: '2026-09-01'
+  volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
-  observed_brand: Citadel
-  recommended_uses:
-  - Glace et givre
-  - Lueurs sur métal
-  - Effets énergétiques pâles
-  observed_range: Contrast
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -59504,7 +59746,10 @@ paints:
   provenance:
     hashes:
     - 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
-    photo: imports/photos/IMG_5315.jpeg
+    original_photo: imports/photos/IMG_5315.jpeg
+    photo: imports/workshop-paints/archive/2026-09-03/2026-08-31-img-5315/IMG_5315.jpeg
+    photo_id: photo-52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
+    sha256: 52821ce40a17f1bc329d753e65d4b305f2e0fb4bc48bf5110ebaabe5f0e61006
   range: Contrast
   recommended_uses:
   - Spectral cloth

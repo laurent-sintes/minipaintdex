@@ -27,6 +27,40 @@ class MiniPaintDexCliTest {
     Path temporaryDirectory;
 
     @Test
+    void forwardsCatalogEditionQueriesAndReadsEditionImports() throws Exception {
+        var market = mock(MarketCatalogUseCases.class);
+        org.mockito.Mockito.when(market.searchPaintCatalogEditions(org.mockito.ArgumentMatchers.any()))
+                .thenReturn(new com.minipaintdex.application.result.PageResult<>(List.of(), 2, 5, 0));
+        var root = new MiniPaintDexCli(market, mock(WorkshopUseCases.class), mock(AdministrationUseCases.class),
+                mock(EventBus.class), mock(PersistenceLifecycle.class));
+        assertEquals(0, new CommandLine(root).execute("--format", "json", "market", "paint-catalog-editions", "list",
+                "--brand", "Brand", "--page", "2", "--size", "5", "--correlation-id", "test"));
+        var query = org.mockito.ArgumentCaptor.forClass(com.minipaintdex.application.query.SearchPaintCatalogEditionsQuery.class);
+        org.mockito.Mockito.verify(market).searchPaintCatalogEditions(query.capture());
+        assertEquals(2, query.getValue().page().page());
+        assertEquals("Brand", query.getValue().brand());
+        var input = temporaryDirectory.resolve("editions.json");
+        Files.writeString(input, "{\"schema_version\":1,\"kind\":\"market_paints\",\"operations\":[],\"catalog_editions\":[{\"id\":\"brand-2019\"}]}");
+        assertEquals(1, root.readPaintChangeSet(input, true).catalogEditions().size());
+    }
+
+    @Test
+    void forwardsRepeatedPaintFiltersAndQualifiedRangesToTheSharedQuery() {
+        var market = mock(MarketCatalogUseCases.class);
+        var command = new CommandLine(new MiniPaintDexCli(market, mock(WorkshopUseCases.class),
+                mock(AdministrationUseCases.class), mock(EventBus.class), mock(PersistenceLifecycle.class)));
+        org.mockito.Mockito.when(market.searchMarketPaints(org.mockito.ArgumentMatchers.any())).thenReturn(List.of());
+        assertEquals(0, command.execute("--format", "json", "market", "paints", "search",
+                "--brand", "Vallejo", "--brand", "AK Interactive", "--range", "Warhammer Colour::Contrast",
+                "--color", "blue", "--color", "red"));
+        var query = org.mockito.ArgumentCaptor.forClass(com.minipaintdex.application.query.SearchMarketPaintsQuery.class);
+        org.mockito.Mockito.verify(market).searchMarketPaints(query.capture());
+        assertEquals(List.of("Vallejo", "AK Interactive"), query.getValue().brand());
+        assertEquals(List.of("blue", "red"), query.getValue().color());
+        assertEquals("Warhammer Colour::Contrast", query.getValue().range().getFirst().selectionKey());
+    }
+
+    @Test
     void healthHasDeterministicJsonOutputAndExitCode() {
         var output = new ByteArrayOutputStream();
         var previous = System.out;

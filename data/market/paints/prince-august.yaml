@@ -3206,39 +3206,25 @@ paints:
   volume_ml: 17
   warnings: [
     ]
-- manufacturer_page: https://www.prince-august.net/peintures/classic/105-uniforme-luftwaffe
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
+- brand: Prince August
+  brand_aliases:
+  - Prince Auguste
+  color:
+    family: Gris bleu uniforme
+    hex: '#4D5A63'
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: pau|ref:p816
   id: pau-p816
-  source_snapshots:
-  - payload:
-      description: Prince August Classic 210 teintes, vernis, médiums, mastic plastique,
-        masque…
-      image: https://www.prince-august.net/wp-content/uploads/2019/05/P816-1.jpg
-      name: Uniforme Luftwaffe
-      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/06/PMP816_0000.png
-      reference: P816
-      url: https://www.prince-august.net/peintures/classic/105-uniforme-luftwaffe
-    provider: prince_august_product_card
-    url: https://www.prince-august.net/peintures/classic/105-uniforme-luftwaffe
-  schema_version: 1
-  reference: P816
-  volume_ml: 17
-  source_observation:
-    adapter: brand_mapping
-    fields:
-    - name: functional_type
-      value: opaque_standard
-    - name: finish
-      value: matte
-    - name: medium
-      value: acrylic
-    - name: opacity
-      value: opaque
+  lifecycle_status: active
+  manufacturer: Prince August
+  manufacturer_image:
+    credit: Official Prince August catalogue
+    image_quality: official_photo
+    path: /media/market/paints/prince-august/pau-p816.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://www.prince-august.net/wp-content/uploads/2019/06/PMP816_0000.png
+  manufacturer_page: https://www.prince-august.net/peintures/classic/105-uniforme-luftwaffe
   mapping_report:
     ignored_fields: [
       ]
@@ -3248,19 +3234,11 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  recommended_uses:
-  - Uniformes Luftwaffe
-  - Tissus gris bleu
-  - Équipements militaires
+  name: Uniforme Luftwaffe
   notes: P816 – 105 – Uniforme Luftwaffe confirmé par le catalogue Prince August.
     Couleur d’interface indicative.
   observed_brand: PRINCE AUGUST
-  verified_at: '2026-09-01'
-  tags:
-  - gris bleu
-  - uniforme
-  - Luftwaffe
-  - WWII
+  observed_range: CLASSIC
   profile:
     application_methods:
     - brush
@@ -3275,32 +3253,57 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: false
       tone: any
-  color:
-    family: Gris bleu uniforme
-    hex: '#4D5A63'
-  name: Uniforme Luftwaffe
-  observed_range: CLASSIC
   provenance:
     hashes:
     - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
-    photo: imports/archive/2026-08-30/IMG_5312.jpeg
-  brand: Prince August
-  lifecycle_status: active
-  manufacturer: Prince August
+    original_photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+    photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+  range: CLASSIC
+  recommended_uses:
+  - Uniformes Luftwaffe
+  - Tissus gris bleu
+  - Équipements militaires
+  reference: P816
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: functional_type
+      value: opaque_standard
+    - name: finish
+      value: matte
+    - name: medium
+      value: acrylic
+    - name: opacity
+      value: opaque
+  source_snapshots:
+  - payload:
+      description: Prince August Classic 210 teintes, vernis, médiums, mastic plastique,
+        masque…
+      image: https://www.prince-august.net/wp-content/uploads/2019/05/P816-1.jpg
+      name: Uniforme Luftwaffe
+      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/06/PMP816_0000.png
+      reference: P816
+      url: https://www.prince-august.net/peintures/classic/105-uniforme-luftwaffe
+    provider: prince_august_product_card
+    url: https://www.prince-august.net/peintures/classic/105-uniforme-luftwaffe
+  tags:
+  - gris bleu
+  - uniforme
+  - Luftwaffe
+  - WWII
+  verified_at: '2026-09-01'
+  volume_ml: 17
   warnings: [
     ]
-  manufacturer_image:
-    credit: Official Prince August catalogue
-    image_quality: official_photo
-    path: /media/market/paints/prince-august/pau-p816.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://www.prince-august.net/wp-content/uploads/2019/06/PMP816_0000.png
-  brand_aliases:
-  - Prince Auguste
-  confidence: 1.0
-  range: CLASSIC
-  data_status: confirmed
-  deduplication_key: pau|ref:p816
 - brand: Prince August
   brand_aliases: [
     ]
@@ -4669,39 +4672,25 @@ paints:
   volume_ml: 17
   warnings: [
     ]
-- manufacturer_page: https://www.prince-august.net/peintures/classic/102-vert-allem-wwii
-  result_image:
-    credit: ''
-    license: ''
-    path: ''
-    reference_url: ''
-    source_url: ''
+- brand: Prince August
+  brand_aliases:
+  - Prince Auguste
+  color:
+    family: Vert allemand grisé
+    hex: '#667566'
+  confidence: 1.0
+  data_status: confirmed
+  deduplication_key: pau|ref:p830
   id: pau-p830
-  source_snapshots:
-  - payload:
-      description: Prince August Classic 210 teintes, vernis, médiums, mastic plastique,
-        masque…
-      image: https://www.prince-august.net/wp-content/uploads/2019/05/P830-1.jpg
-      name: Vert Allem. WWII
-      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/06/PMP830_0000.png
-      reference: P830
-      url: https://www.prince-august.net/peintures/classic/102-vert-allem-wwii
-    provider: prince_august_product_card
-    url: https://www.prince-august.net/peintures/classic/102-vert-allem-wwii
-  schema_version: 1
-  reference: P830
-  volume_ml: 17
-  source_observation:
-    adapter: brand_mapping
-    fields:
-    - name: functional_type
-      value: opaque_standard
-    - name: finish
-      value: matte
-    - name: medium
-      value: acrylic
-    - name: opacity
-      value: opaque
+  lifecycle_status: active
+  manufacturer: Prince August
+  manufacturer_image:
+    credit: Official Prince August catalogue
+    image_quality: official_photo
+    path: /media/market/paints/prince-august/pau-p830.webp
+    quality_verified_at: '2026-09-01'
+    source_url: https://www.prince-august.net/wp-content/uploads/2019/06/PMP830_0000.png
+  manufacturer_page: https://www.prince-august.net/peintures/classic/102-vert-allem-wwii
   mapping_report:
     ignored_fields: [
       ]
@@ -4711,19 +4700,11 @@ paints:
     mapping_version: 1
     unmapped_fields: [
       ]
-  recommended_uses:
-  - Uniformes allemands WWII
-  - Équipements militaires
-  - Tissus vert grisé
+  name: Vert Allem. WWII
   notes: P830 – 102 – Vert Allemand WWII confirmé par la fiche Prince August. Couleur
     d’interface indicative.
   observed_brand: PRINCE AUGUST
-  verified_at: '2026-09-01'
-  tags:
-  - vert
-  - uniforme
-  - allemand
-  - WWII
+  observed_range: CLASSIC
   profile:
     application_methods:
     - brush
@@ -4738,32 +4719,57 @@ paints:
     undercoat:
       pre_highlighted_surface_recommended: false
       tone: any
-  color:
-    family: Vert allemand grisé
-    hex: '#667566'
-  name: Vert Allem. WWII
-  observed_range: CLASSIC
   provenance:
     hashes:
     - 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
-    photo: imports/archive/2026-08-30/IMG_5312.jpeg
-  brand: Prince August
-  lifecycle_status: active
-  manufacturer: Prince August
+    original_photo: imports/archive/2026-08-30/IMG_5312.jpeg
+    photo: imports/workshop-paints/archive/2026-08-30/initial-import/IMG_5312.jpeg
+    photo_id: photo-91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+    sha256: 91ce084c40a55be16b811e9f56685e7249539445ec68314468e5bd2bb2a9317f
+  range: CLASSIC
+  recommended_uses:
+  - Uniformes allemands WWII
+  - Équipements militaires
+  - Tissus vert grisé
+  reference: P830
+  result_image:
+    credit: ''
+    license: ''
+    path: ''
+    reference_url: ''
+    source_url: ''
+  schema_version: 1
+  source_observation:
+    adapter: brand_mapping
+    fields:
+    - name: functional_type
+      value: opaque_standard
+    - name: finish
+      value: matte
+    - name: medium
+      value: acrylic
+    - name: opacity
+      value: opaque
+  source_snapshots:
+  - payload:
+      description: Prince August Classic 210 teintes, vernis, médiums, mastic plastique,
+        masque…
+      image: https://www.prince-august.net/wp-content/uploads/2019/05/P830-1.jpg
+      name: Vert Allem. WWII
+      packshot_image: https://www.prince-august.net/wp-content/uploads/2019/06/PMP830_0000.png
+      reference: P830
+      url: https://www.prince-august.net/peintures/classic/102-vert-allem-wwii
+    provider: prince_august_product_card
+    url: https://www.prince-august.net/peintures/classic/102-vert-allem-wwii
+  tags:
+  - vert
+  - uniforme
+  - allemand
+  - WWII
+  verified_at: '2026-09-01'
+  volume_ml: 17
   warnings: [
     ]
-  manufacturer_image:
-    credit: Official Prince August catalogue
-    image_quality: official_photo
-    path: /media/market/paints/prince-august/pau-p830.webp
-    quality_verified_at: '2026-09-01'
-    source_url: https://www.prince-august.net/wp-content/uploads/2019/06/PMP830_0000.png
-  brand_aliases:
-  - Prince Auguste
-  confidence: 1.0
-  range: CLASSIC
-  data_status: confirmed
-  deduplication_key: pau|ref:p830
 - brand: Prince August
   brand_aliases: [
     ]
