@@ -10,6 +10,7 @@ import java.util.List;
 public final class PaintPot extends EventSourcedAggregateRoot {
     private String id;
     private String paintProductId;
+    private com.minipaintdex.domain.workshop.storage.PaintContainerIdentification containerIdentification;
     private Instant acquiredAt;
     private Instant registeredAt;
     private Instant openedAt;
@@ -44,6 +45,10 @@ public final class PaintPot extends EventSourcedAggregateRoot {
         if (value == possession) throw DomainFields.invalid("Pot possession is unchanged.");
         raise(new PaintPotPossessionChanged(id, value, at));
     }
+    public void identifyContainer(com.minipaintdex.domain.workshop.storage.PaintContainerIdentification identification, Instant at) {
+        requireOwned(); raise(new PaintPotContainerIdentified(id, identification, at));
+    }
+    public com.minipaintdex.domain.workshop.storage.PaintContainerIdentification containerIdentification() { return containerIdentification; }
     public void addNote(String note, Instant at) { raise(new PaintPotNoteAdded(id, note, at)); }
     public void addPhoto(String mediaId, String url, String caption, String filename, String type, long size, String hash, Instant at) {
         addPhoto(mediaId, url, caption, filename, type, size, hash, null, at);
@@ -56,6 +61,7 @@ public final class PaintPot extends EventSourcedAggregateRoot {
     }
     @Override protected void apply(DomainEvent event) {
         switch (event) {
+            case PaintPotContainerIdentified value -> { requireOwned(); containerIdentification = value.identification(); }
             case PaintPotRegistered value -> {
                 id = value.paintPotId(); paintProductId = value.paintProductId();
                 acquiredAt = value.acquiredAt(); registeredAt = value.occurredAt();

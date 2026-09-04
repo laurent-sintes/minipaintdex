@@ -149,7 +149,7 @@ class MarketCatalogFactoryTest {
                         "finish", "matte", "effects", List.of(),
                         "undercoat", Map.of("tone", "light", "pre_highlighted_surface_recommended", true),
                         "medium", "acrylic")),
-                Map.entry("name", "Paint"), Map.entry("volume_ml", 18),
+                Map.entry("name", "Paint"), Map.entry("container_format_id", "standard"), Map.entry("volume_ml", 18),
                 Map.entry("tags", List.of("smooth")),
                 Map.entry("manufacturer_image", Map.of(
                         "image_quality", "none",
@@ -199,7 +199,7 @@ class MarketCatalogFactoryTest {
             }
         }
         events.addAll(history);
-        return new DataSnapshot(site, paints, products, guides, shopping, events, editions, java.util.List.of());
+        return new DataSnapshot(site, paints, products, guides, shopping, events, editions, java.util.List.of(), new com.minipaintdex.domain.market.storage.RackCatalog(1, 1, List.of(new com.minipaintdex.domain.market.storage.PaintContainerFormat(1, "standard", "Standard", "Test", "dropper", null, com.minipaintdex.domain.shared.storage.ContainerDimensions.unknown(), "unknown", List.of(), "")), List.of()));
     }
 
 }

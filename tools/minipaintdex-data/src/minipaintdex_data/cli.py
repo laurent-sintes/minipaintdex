@@ -98,6 +98,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="Collect, compare and audit one official brand refresh without applying it",
     )
     refresh_official.add_argument("--catalog", default="data/market/paints")
+    refresh_official.add_argument("--container-evidence", help="Reviewed packaging evidence keyed by exact paint ID, collected during this brand scrape")
     refresh_official.add_argument("--vallejo-pdf", help="Downloaded official Vallejo catalogue PDF; required only for Vallejo")
     refresh_official.add_argument("--verified-at")
     refresh_official.add_argument("--brand", default="all", help="Canonical brand name or 'all'")
@@ -294,6 +295,7 @@ def main(argv: list[str] | None = None) -> int:
             payload = collect_official_refresh(
                 Path(args.catalog), Path(args.vallejo_pdf) if args.vallejo_pdf else None,
                 verified_at=args.verified_at, brands=selected_brands,
+                container_evidence=load_json(Path(args.container_evidence)) if args.container_evidence else None,
             )
             changeset = build_refresh_changeset(
                 current_catalog, payload, brand=args.brand,
@@ -316,6 +318,7 @@ def main(argv: list[str] | None = None) -> int:
                 "generated_at": verification_date,
                 "brand": args.brand,
                 "collection": payload["audit"],
+                "containers": payload["container_audit"],
                 "comparison": changeset["refresh"]["audit"],
                 "warnings": changeset["refresh"]["warnings"],
                 "image_rechallenge": image_plan,

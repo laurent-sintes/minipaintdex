@@ -29,6 +29,7 @@ public final class FilePersistenceAdapters {
     public SnapshotRepository snapshots() {
         return engine::load;
     }
+    public com.minipaintdex.application.port.RackCatalogWriter rackCatalog() { return engine::replaceRackCatalog; }
 
     public EventLedger ledger() {
         return new EventLedger() {
@@ -42,8 +43,9 @@ public final class FilePersistenceAdapters {
     public PaintProductCatalogWriter paintProducts() {
         return new PaintProductCatalogWriter() {
             @Override
-            public void replacePaintProductCatalog(List<StructuredDocument> paints, List<StructuredDocument> editions, List<StructuredDocument> usageGuides) {
-                engine.replacePaintProductCatalog(paints, editions, usageGuides);
+            public void replacePaintProductCatalog(List<StructuredDocument> paints, List<StructuredDocument> editions, List<StructuredDocument> usageGuides,
+                    com.minipaintdex.domain.market.storage.RackCatalog rackCatalog) {
+                engine.replacePaintProductCatalog(paints, editions, usageGuides, rackCatalog);
             }
 
             @Override

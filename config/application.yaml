@@ -46,6 +46,10 @@ minipaintdex:
   storage:
     site-configuration: data/site/fr.yaml
     paint-product-catalog-directory: data/market/paints
+    rack-catalog: data/market/racks/catalog.yaml
+    paint-storage:
+      gap-mm: 2.0
+      maximum-proposal-pots: 500
     shopping-list: data/workshop/shopping.yaml
     market-paintable-products-directory: data/market/paintable-products
     painting-guides-directory: data/market/painting-guides

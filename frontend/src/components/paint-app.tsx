@@ -28,6 +28,7 @@ import { AppNotice } from './app-notice';
 import { apiFetch, failureNotice } from '@/utils/api-errors';
 import type { Notice } from '@/utils/api-errors';
 import { PaintPotsPage } from './paint-pots';
+import { RacksPage } from './racks';
 import { PaintUsageGuides, UsageContent } from './paint-usage-guides';
 import { PaintBrowser } from './paint-browser';
 import { SiteNavigation } from './site-navigation';
@@ -387,7 +388,7 @@ export function PaintApp({ initialDashboard, config, paintModel }: { initialDash
     return () => { window.clearTimeout(timer); controller.abort(); };
   }, [config.errors.requestFailed, isPaintView, paintFacetUrl, serverRevision]);
 
-  const title = route.view === 'paintPots' || route.view === 'paintPot' ? config.paintPots.title : route.view === 'home' ? config.home.title
+  const title = route.view === 'marketRacks' ? config.racks.marketTitle : route.view === 'workshopRacks' || route.view === 'workshopRack' ? config.racks.workshopTitle : route.view === 'paintPots' || route.view === 'paintPot' ? config.paintPots.title : route.view === 'home' ? config.home.title
     : route.view === 'paintProducts' ? config.market.paintsTitle
       : route.view === 'marketProducts' ? config.market.paintableProductsTitle
         : route.view === 'workshopPaints' ? config.collection.title
@@ -531,13 +532,14 @@ export function PaintApp({ initialDashboard, config, paintModel }: { initialDash
       <div className="mx-auto max-w-[1600px]">
         <main className="min-w-0 px-4 py-7 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[1440px]">
-            <p className="eyebrow">{route.view === 'home' ? config.home.eyebrow : route.view.startsWith('about') ? config.navigation.aboutSection : route.paintingProjectId || ['workshopPaints', 'paintPots', 'paintPot', 'workshop', 'shopping', 'workshopPaintable'].includes(route.view) ? config.navigation.workshopSection : config.navigation.marketSection}</p>
+            <p className="eyebrow">{route.view === 'home' ? config.home.eyebrow : route.view.startsWith('about') ? config.navigation.aboutSection : route.paintingProjectId || ['workshopRacks', 'workshopRack', 'workshopPaints', 'paintPots', 'paintPot', 'workshop', 'shopping', 'workshopPaintable'].includes(route.view) ? config.navigation.workshopSection : config.navigation.marketSection}</p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h1>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground">{description}</p>
             {connectionError && <AppNotice className="mt-5" notice={{ message: config.errors.connectionLost, detail: config.errors.connectionDetail }} />}
             <AppNotice className="mt-5" notice={notice} />
 
             {route.view === 'home' && <HomePage dashboard={dashboard} config={config} navigate={navigate} />}
+            {['marketRacks', 'workshopRacks', 'workshopRack'].includes(route.view) && <RacksPage key={appRoutePath(route)} route={route} config={config} navigate={navigate} revision={serverRevision} />}
             {route.view === 'workshopPaints' && <button type="button" className="mt-4 text-sm font-semibold text-primary" onClick={() => navigate({ view: 'paintPots' })}>{config.paintPots.all}</button>}
             {(route.view === 'paintPots' || route.view === 'paintPot') && <PaintPotsPage key={appRoutePath(route)} route={route} config={config} navigate={navigate} revision={serverRevision} />}
             {isPaintView && <PaintBrowser collection={route.view === 'workshopPaints' ? '/api/v1/workshop/paint-stocks' : '/api/v1/market/paint-products'}

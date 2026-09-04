@@ -4,6 +4,16 @@ import com.minipaintdex.domain.event.DomainEvent;
 import java.time.Instant;
 
 public sealed interface PaintPotEvent extends DomainEvent {
+    record PaintPotContainerIdentified(String paintPotId,
+            com.minipaintdex.domain.workshop.storage.PaintContainerIdentification identification,
+            Instant occurredAt) implements PaintPotEvent {
+        public PaintPotContainerIdentified {
+            paintPotId = DomainFields.id(paintPotId, "paintPotId");
+            java.util.Objects.requireNonNull(identification);
+            occurredAt = DomainFields.required(occurredAt, "occurredAt");
+        }
+        @Override public String eventType() { return "paint_pot.container_identified"; }
+    }
     String paintPotId();
     @Override default String aggregateId() { return paintPotId(); }
     @Override default String aggregateType() { return "paint_pot"; }

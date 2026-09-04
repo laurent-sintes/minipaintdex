@@ -221,7 +221,7 @@ class ApplicationServicesTest {
     @Test
     void previewsThenAppliesAPaintProductChangeSet() {
         var repository = repository();
-        var service = new AdministrationApplicationService(repository, repository, repository);
+        var service = new AdministrationApplicationService(repository, repository, repository, (catalog, revision) -> { throw new UnsupportedOperationException(); }, new RackReferenceWriteScope());
         var operation = new ApplyPaintProductChangeSetCommand.Operation(
                 "upsert", null, document(paint("new-paint", "New Paint")), 0, false);
         var preview = service.applyPaintProductChangeSet(
@@ -239,7 +239,7 @@ class ApplicationServicesTest {
     @Test
     void rejectsAmbiguousPaintChangeSetsBeforeAnyWrite() {
         var repository = repository();
-        var service = new AdministrationApplicationService(repository, repository, repository);
+        var service = new AdministrationApplicationService(repository, repository, repository, (catalog, revision) -> { throw new UnsupportedOperationException(); }, new RackReferenceWriteScope());
         var operation = new ApplyPaintProductChangeSetCommand.Operation(
                 "upsert", null, document(paint("new-paint", "New Paint")), 0, false);
 
@@ -252,7 +252,7 @@ class ApplicationServicesTest {
     @Test
     void rejectsUnreviewedHexReplacementInDryRunAndApplyBeforeAnyWrite() {
         var repository = repository();
-        var service = new AdministrationApplicationService(repository, repository, repository);
+        var service = new AdministrationApplicationService(repository, repository, repository, (catalog, revision) -> { throw new UnsupportedOperationException(); }, new RackReferenceWriteScope());
         var changed = new LinkedHashMap<>(documentMap(repository.snapshot.paintProducts().getFirst()));
         changed.put("color", Map.of("hex", "#123456", "family", "blue"));
         var operation = new ApplyPaintProductChangeSetCommand.Operation("upsert", null, document(changed), 0, false);
@@ -283,7 +283,7 @@ class ApplicationServicesTest {
         var migrated = new LinkedHashMap<>(paint(newId, "Apothecary White"));
         var operation = new ApplyPaintProductChangeSetCommand.Operation(
                 "rekey", oldId, document(migrated), 0, false);
-        var service = new AdministrationApplicationService(repository, repository, repository);
+        var service = new AdministrationApplicationService(repository, repository, repository, (catalog, revision) -> { throw new UnsupportedOperationException(); }, new RackReferenceWriteScope());
 
         var result = service.applyPaintProductChangeSet(
                 new ApplyPaintProductChangeSetCommand(1, "market_paints", List.of(operation), false, List.of(), List.of()));
@@ -423,7 +423,7 @@ class ApplicationServicesTest {
         var edition = document(Map.of("schema_version", 1, "id", "catalog-2019", "brand", "Warhammer Colour",
                 "title", "Catalogue", "edition_label", "2019", "publication_year", 2019,
                 "ranges", List.of("Contrast"), "source_urls", List.of("https://example.com/catalog.pdf")));
-        var administration = new AdministrationApplicationService(repository, repository, repository);
+        var administration = new AdministrationApplicationService(repository, repository, repository, (catalog, revision) -> { throw new UnsupportedOperationException(); }, new RackReferenceWriteScope());
         administration.applyPaintProductChangeSet(new ApplyPaintProductChangeSetCommand(1, "market_paints", List.of(), true, List.of(edition), List.of()));
         assertTrue(repository.snapshot.paintCatalogEditions().isEmpty());
         var command = new ApplyPaintProductChangeSetCommand(1, "market_paints", List.of(), false, List.of(edition), List.of());
@@ -452,7 +452,7 @@ class ApplicationServicesTest {
         raw.put("translations", List.of(Map.of("language", "fr", "source_revision", 1, "method", "machine", "review_required", true,
                 "content", Map.of("summary", "Utilisation", "steps", List.of("Agiter"), "tips", List.of("Prudence")))));
         var guide = document(raw);
-        var administration = new AdministrationApplicationService(repository, repository, repository);
+        var administration = new AdministrationApplicationService(repository, repository, repository, (catalog, revision) -> { throw new UnsupportedOperationException(); }, new RackReferenceWriteScope());
         administration.applyPaintProductChangeSet(new ApplyPaintProductChangeSetCommand(1, "market_paints", List.of(), true, List.of(), List.of(guide)));
         assertTrue(repository.snapshot.paintUsageGuides().isEmpty());
         var command = new ApplyPaintProductChangeSetCommand(1, "market_paints", List.of(), false, List.of(), List.of(guide));
@@ -524,8 +524,9 @@ class ApplicationServicesTest {
         var commands = new WorkshopCommandService(
                 repository, repository, repository,
                 new WorkshopMediaPolicy(10 * 1024 * 1024, Set.of("image/jpeg", "image/png", "image/webp")),
-                queries, potPhotos);
-        return new WorkshopApplicationService(commands, queries, marketService(repository), repository, searchPolicy(), potPhotos);
+                queries, potPhotos, new RackReferenceWriteScope());
+        return new WorkshopApplicationService(commands, queries, marketService(repository), repository, searchPolicy(), potPhotos,
+                new com.minipaintdex.domain.workshop.storage.PaintStoragePolicy(2, 500));
     }
 
     @Test
@@ -595,7 +596,7 @@ class ApplicationServicesTest {
                         "undercoat", Map.of("tone", "light", "pre_highlighted_surface_recommended", true),
                         "medium", "water_based_acrylic")),
                 Map.entry("reference", "29-34"), Map.entry("name", name),
-                Map.entry("color", Map.of("hex", "#D9DEDA", "family", "White")), Map.entry("volume_ml", 18),
+                Map.entry("color", Map.of("hex", "#D9DEDA", "family", "White")), Map.entry("volume_ml", 18), Map.entry("container_format_id", "standard"),
                 Map.entry("lifecycle_status", "active"), Map.entry("tags", List.of("cold")),
                 Map.entry("manufacturer_image", Map.of(
                         "image_quality", "none",
@@ -709,13 +710,121 @@ class ApplicationServicesTest {
                         new ImportPaintPotsCommand.Registration("pot-bad", "missing-product", null)),
                 false, null, "test", "invalid")));
         assertTrue(repository.batches.isEmpty());
-        var admin = new AdministrationApplicationService(repository, repository, repository);
+        var admin = new AdministrationApplicationService(repository, repository, repository, (catalog, revision) -> { throw new UnsupportedOperationException(); }, new RackReferenceWriteScope());
         assertThrows(DomainException.class, () -> admin.applyPaintProductChangeSet(new ApplyPaintProductChangeSetCommand(1, "market_paints",
                 List.of(new ApplyPaintProductChangeSetCommand.Operation("upsert", null, document(paint("new-paint", "New Paint")), 1, false)), false, List.of(), List.of())));
         service.registerPaintPot(new RegisterPaintPotCommand("pot-owned", productId, null, null, "test", "owned"));
         assertThrows(DomainException.class, () -> admin.applyPaintProductChangeSet(new ApplyPaintProductChangeSetCommand(1, "market_paints",
                 List.of(new ApplyPaintProductChangeSetCommand.Operation("rekey", productId, document(paint("new-paint", "New Paint")), 0, false)), false, List.of(), List.of())));
         assertTrue(repository.replaced.isEmpty());
+    }
+
+    @Test
+    void rackCommandsPreserveCalibrationRejectStaleConfirmationsAndKeepLocks() {
+        var repository = repository();
+        var previous = repository.snapshot;
+        var format = new com.minipaintdex.domain.market.storage.PaintContainerFormat(1, "standard", "Standard", "Test", "dropper", null,
+                com.minipaintdex.domain.shared.storage.ContainerDimensions.unknown(), "unknown", List.of(), "Fixture");
+        var row = new com.minipaintdex.domain.shared.storage.RackRowDefinition("row-1", "Row 1", "continuous", null, null, null, false, "unknown", List.of(),
+                List.of(new com.minipaintdex.domain.shared.storage.RackRowDefinition.CapacityCalibration(List.of("standard"), 14, true, "Observed")));
+        var product = new com.minipaintdex.domain.market.storage.RackProduct(1, "wood", "Wood", "Test", "wood", "desktop", "tiered", List.of(row), List.of("https://example.org/rack"), "", List.of());
+        var catalog = new com.minipaintdex.domain.market.storage.RackCatalog(1, 1, List.of(format), List.of(product));
+        repository.snapshot = new DataSnapshot(previous.site(), previous.paintProducts(), previous.paintableProducts(), previous.marketPaintingGuides(),
+                previous.shopping(), previous.events(), previous.paintCatalogEditions(), previous.paintUsageGuides(), catalog);
+        var service = service(repository);
+        var save = new com.minipaintdex.application.storage.StorageContracts.SaveRack("rack-one",
+                new com.minipaintdex.domain.workshop.storage.WorkshopRack.Configuration("wood", "Wood", "Desk", true, List.of()), 0, false, "test", "rack-save");
+        var receipt = service.saveWorkshopRack(save);
+        assertEquals(receipt, service.saveWorkshopRack(save));
+        for (int i = 0; i < 15; i++) {
+            String id = "storage-pot-" + i;
+            service.registerPaintPot(new RegisterPaintPotCommand(id, "warhammer-colour-contrast-apothecary-white", null, null, "test", "register-" + id));
+            service.identifyPaintPotContainer(new com.minipaintdex.application.storage.StorageContracts.IdentifyContainer(id,
+                    new com.minipaintdex.domain.workshop.storage.PaintContainerIdentification("standard", null, "estimated", "Selected"), 1, false, "test", "identify-" + id));
+        }
+        var query = new com.minipaintdex.application.storage.StorageContracts.Preview(Set.of(), Set.of("rack-one"), true, "brand-range", true, false, "test");
+        int beforePreview = repository.batches.size();
+        var proposal = service.previewPaintStorage(query);
+        assertEquals(beforePreview, repository.batches.size());
+        assertEquals(14, proposal.arrangement().placements().size());
+        var confirm = new com.minipaintdex.application.storage.StorageContracts.Confirm(proposal.snapshotToken(), proposal.arrangement().placements(), true, "test", "confirm");
+        var confirmation = service.confirmPaintStorage(confirm);
+        assertEquals(confirmation, service.confirmPaintStorage(confirm));
+        assertThrows(DomainException.class, () -> service.confirmPaintStorage(new com.minipaintdex.application.storage.StorageContracts.Confirm(
+                proposal.snapshotToken(), proposal.arrangement().placements(), true, "test", "stale")));
+        var detail = service.getWorkshopRack(new com.minipaintdex.application.storage.StorageContracts.GetRack("rack-one", "test"));
+        var first = detail.pots().getFirst();
+        assertThrows(DomainException.class, () -> service.identifyPaintPotContainer(new com.minipaintdex.application.storage.StorageContracts.IdentifyContainer(
+                first.paintPotId(), first.containerIdentification(), first.version(), false, "test", "identify-placed")));
+        var p = first.placement();
+        var locked = new com.minipaintdex.domain.workshop.storage.PaintPotPlacement(p.paintPotId(), p.workshopRackId(), p.rackRowId(), p.offsetMm(), p.slotId(), true, p.offsetFraction());
+        service.setPaintPotPlacement(new com.minipaintdex.application.storage.StorageContracts.SetPlacement(first.paintPotId(), locked, detail.snapshotToken(), true, "test", "lock"));
+        assertTrue(service.previewPaintStorage(query).arrangement().placements().contains(locked));
+        var refreshed = service.getWorkshopRack(new com.minipaintdex.application.storage.StorageContracts.GetRack("rack-one", "test"));
+        assertThrows(DomainException.class, () -> service.confirmPaintStorage(new com.minipaintdex.application.storage.StorageContracts.Confirm(
+                refreshed.snapshotToken(), List.of(), true, "test", "remove-locked")));
+        service.setPaintPotPlacement(new com.minipaintdex.application.storage.StorageContracts.SetPlacement(first.paintPotId(), null, refreshed.snapshotToken(), true, "test", "remove"));
+        assertEquals(13, service.getWorkshopRack(new com.minipaintdex.application.storage.StorageContracts.GetRack("rack-one", "test")).pots().size());
+    }
+
+    @Test
+    void acquiresMultipleMarketRacksAtomicallyAndUsesProductContainersWithoutPersonalIdentification() {
+        var repository = repository();
+        var previous = repository.snapshot;
+        var row = new com.minipaintdex.domain.shared.storage.RackRowDefinition("row-1", "Row 1", "continuous", null, null, null, false, "unknown", List.of(),
+                List.of(new com.minipaintdex.domain.shared.storage.RackRowDefinition.CapacityCalibration(List.of("standard"), 14, true, "Observed")));
+        var product = new com.minipaintdex.domain.market.storage.RackProduct(1, "wood", "Wood", "Test", "wood", "desktop", "tiered", List.of(row), List.of("https://example.org/rack"), "", List.of());
+        var catalog = new com.minipaintdex.domain.market.storage.RackCatalog(1, 1, previous.rackCatalog().containerFormats(), List.of(product));
+        repository.snapshot = new DataSnapshot(previous.site(), previous.paintProducts(), previous.paintableProducts(), previous.marketPaintingGuides(),
+                previous.shopping(), previous.events(), previous.paintCatalogEditions(), previous.paintUsageGuides(), catalog);
+        var service = service(repository);
+        var command = new com.minipaintdex.application.storage.StorageContracts.AddRacks("wood", 2, "Desk", "test", "add-two");
+        var receipt = service.addWorkshopRacks(command);
+        assertEquals(receipt, service.addWorkshopRacks(command));
+        assertEquals(1, repository.batches.size());
+        assertEquals(2, repository.batches.getFirst().events().size());
+        var racks = service.listWorkshopRacks(new com.minipaintdex.application.storage.StorageContracts.ListRacks(
+                new com.minipaintdex.application.query.PageQuery(0, 20, List.of()), "test"));
+        assertEquals(2, racks.totalElements());
+        assertFalse(racks.content().get(0).workshopRackId().equals(racks.content().get(1).workshopRackId()));
+        assertTrue(racks.content().stream().allMatch(rack -> rack.configuration().rackProductId().equals("wood") && rack.configuration().rowOverrides().isEmpty()));
+        assertThrows(DomainException.class, () -> service.addWorkshopRacks(new com.minipaintdex.application.storage.StorageContracts.AddRacks("wood", 0, "Desk", "test", "zero")));
+        assertThrows(DomainException.class, () -> service.addWorkshopRacks(new com.minipaintdex.application.storage.StorageContracts.AddRacks("missing", 1, "Desk", "test", "missing")));
+        assertThrows(DomainException.class, () -> service.saveWorkshopRack(new com.minipaintdex.application.storage.StorageContracts.SaveRack("custom",
+                new com.minipaintdex.domain.workshop.storage.WorkshopRack.Configuration(null, "Custom", "Desk", true, List.of(row)), 0, false, "test", "custom")));
+        assertEquals(1, repository.batches.size());
+        for (int i = 0; i < 20; i++) service.registerPaintPot(new RegisterPaintPotCommand("pot-" + i,
+                "warhammer-colour-contrast-apothecary-white", null, null, "test", "pot-" + i));
+        int beforePreview = repository.batches.size();
+        for (String mode : List.of("brand-range", "color", "usage")) {
+            var proposal = service.previewPaintStorage(new com.minipaintdex.application.storage.StorageContracts.Preview(Set.of(), Set.of(), true, mode, true, false, "test"));
+            assertEquals(20, proposal.arrangement().placements().size());
+            assertEquals(2, proposal.arrangement().placements().stream().map(value -> value.workshopRackId()).distinct().count());
+        }
+        assertEquals(beforePreview, repository.batches.size());
+    }
+
+    @Test
+    void importsPaintAndContainerTogetherWithoutPartialWrites() {
+        var repository = repository();
+        var admin = new AdministrationApplicationService(repository, repository, repository, (catalog, revision) -> { throw new UnsupportedOperationException(); }, new RackReferenceWriteScope());
+        var values = new LinkedHashMap<String, Object>(paint("new-paint", "New Paint"));
+        values.put("container_format_id", "new-container");
+        var operation = new ApplyPaintProductChangeSetCommand.Operation("upsert", null, document(values), 0, false);
+        var format = document(Map.of("schema_version", 1, "id", "new-container", "name", "Bottle", "brand", "Test",
+                "family", "dropper", "dimensions", Map.of("width_mm", 25, "depth_mm", 25, "height_mm", 80),
+                "evidence_status", "confirmed", "sources", List.of("https://example.org/bottle")));
+        assertThrows(DomainException.class, () -> admin.applyPaintProductChangeSet(new ApplyPaintProductChangeSetCommand(1, "market_paints",
+                List.of(operation), false, List.of(), List.of(), List.of())));
+        assertTrue(repository.replaced.isEmpty());
+        long revision = repository.snapshot.rackCatalog().revision();
+        admin.applyPaintProductChangeSet(new ApplyPaintProductChangeSetCommand(1, "market_paints", List.of(operation), true, List.of(), List.of(), List.of(format)));
+        assertTrue(repository.replaced.isEmpty());
+        assertEquals(revision, repository.snapshot.rackCatalog().revision());
+        admin.applyPaintProductChangeSet(new ApplyPaintProductChangeSetCommand(1, "market_paints", List.of(operation), false, List.of(), List.of(), List.of(format)));
+        assertEquals(revision + 1, repository.snapshot.rackCatalog().revision());
+        assertTrue(repository.snapshot.rackCatalog().containerFormats().stream().anyMatch(value -> value.id().equals("new-container")));
+        assertTrue(repository.replaced.stream().anyMatch(value -> value.equals(document(values))));
     }
 
     private static final class FakeRepository implements SnapshotRepository, EventBus, PaintProductCatalogWriter,
@@ -737,7 +846,7 @@ class ApplicationServicesTest {
             var events = new ArrayList<>(snapshot.events());
             events.addAll(batch.events());
             snapshot = new DataSnapshot(snapshot.site(), snapshot.paintProducts(),
-                    snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.shopping(), List.copyOf(events), snapshot.paintCatalogEditions(), snapshot.paintUsageGuides());
+                    snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.shopping(), List.copyOf(events), snapshot.paintCatalogEditions(), snapshot.paintUsageGuides(), snapshot.rackCatalog());
             var publication = new EventPublication(
                     batch.batchId(), EventPublicationStatus.COMPLETED, batch, batch.acceptedAt(), batch.acceptedAt(), 1, null);
             publications.put(batch.batchId(), publication);
@@ -750,10 +859,11 @@ class ApplicationServicesTest {
         @Override public RefreshResult refreshIfChanged() { return new RefreshResult(false, status()); }
         @Override public PersistenceStatus status() { return new PersistenceStatus("ready", "test", 1, "fixture", AT, AT, AT, null); }
         @Override public void replacePaintProducts(List<StructuredDocument> paints) { replaced = List.copyOf(paints); }
-        @Override public void replacePaintProductCatalog(List<StructuredDocument> paints, List<StructuredDocument> editions, List<StructuredDocument> usageGuides) {
+        @Override public void replacePaintProductCatalog(List<StructuredDocument> paints, List<StructuredDocument> editions, List<StructuredDocument> usageGuides,
+                com.minipaintdex.domain.market.storage.RackCatalog rackCatalog) {
             replaced = List.copyOf(paints);
             snapshot = new DataSnapshot(snapshot.site(), paints, snapshot.paintableProducts(),
-                    snapshot.marketPaintingGuides(), snapshot.shopping(), snapshot.events(), editions, usageGuides);
+                    snapshot.marketPaintingGuides(), snapshot.shopping(), snapshot.events(), editions, usageGuides, rackCatalog == null ? snapshot.rackCatalog() : rackCatalog);
         }
         @Override public void replacePaintProductIdentities(
                 List<StructuredDocument> paints,
@@ -795,7 +905,7 @@ class ApplicationServicesTest {
             }
         }
         events.addAll(history);
-        return new DataSnapshot(site, paints, products, guides, shopping, events, editions, java.util.List.of());
+        return new DataSnapshot(site, paints, products, guides, shopping, events, editions, java.util.List.of(), new com.minipaintdex.domain.market.storage.RackCatalog(1, 1, List.of(new com.minipaintdex.domain.market.storage.PaintContainerFormat(1, "standard", "Standard", "Test", "dropper", null, com.minipaintdex.domain.shared.storage.ContainerDimensions.unknown(), "unknown", List.of(), "")), List.of()));
     }
 
 }

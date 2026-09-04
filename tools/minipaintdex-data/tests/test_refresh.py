@@ -7,6 +7,7 @@ def paint(identifier: str, brand: str, name: str = "Paint") -> dict:
     return {
         "schema_version": 1,
         "id": identifier,
+        "container_format_id": "test-container",
         "brand": brand,
         "manufacturer": brand,
         "range": "Warpaints Fanatic" if brand == "The Army Painter" else "Model Color",

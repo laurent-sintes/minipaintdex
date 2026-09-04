@@ -104,12 +104,17 @@ def build_refresh_changeset(
         if isinstance(paint, dict) and _casefold(paint.get("brand")) in selected
     }
 
+    from .paint_containers import associate_containers
+    associated, container_updates = associate_containers(list(incoming.values()), list(existing.values()))
+    incoming = {paint["id"]: paint for paint in associated}
     operations: list[dict[str, Any]] = []
     changed_fields: Counter[str] = Counter()
     for identifier in sorted(incoming):
         record = deepcopy(incoming[identifier])
         previous = existing.get(identifier, {})
         record = preserve_qualified_data(record, previous)
+        if not record.get("container_format_id") and previous.get("container_format_id"):
+            record["container_format_id"] = previous["container_format_id"]
         if previous.get("usage_guide_ids"):
             from .paint_usage_guides import plain_text
             record["usage_guide_ids"] = list(dict.fromkeys([*previous["usage_guide_ids"], *record.get("usage_guide_ids", [])]))
@@ -195,6 +200,9 @@ def build_refresh_changeset(
     guide_updates = [g for g in refreshed.get("paint_usage_guides", []) if _casefold(g.get("brand")) in selected]
     if guide_updates:
         changeset["paint_usage_guides"] = guide_updates
+    formats = {value["id"]: value for value in [*container_updates, *refreshed.get("container_formats", [])]}
+    if formats:
+        changeset["container_formats"] = [formats[key] for key in sorted(formats)]
     previous_editions = {edition["id"]: edition for edition in catalog.get("catalog_editions", [])}
     edition_updates = [edition for edition in refreshed.get("catalog_editions", [])
                        if _casefold(edition.get("brand")) in selected and previous_editions.get(edition.get("id")) != edition]

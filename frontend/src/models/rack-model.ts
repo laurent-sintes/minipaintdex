@@ -1,0 +1,12 @@
+export type Dimensions = { widthMm: number | null; depthMm: number | null; heightMm: number | null };
+export type ContainerFormat = { schemaVersion: number; id: string; name: string; brand: string; family: string; volumeMl: number | null; dimensions: Dimensions; evidenceStatus: string; sources: string[]; notes: string };
+export type RackRow = { id: string; name: string; support: string; widthMm: number | null; depthMm: number | null; clearanceHeightMm: number | null; openTop: boolean; evidenceStatus: string; slots: Array<{ id: string; widthMm: number | null; depthMm: number | null; acceptedFormatIds: string[] }>; capacityCalibrations: Array<{ containerFormatIds: string[]; potCount: number; heightVerified: boolean; note: string }> };
+export type RackProduct = { schemaVersion: number; id: string; name: string; brand: string; reference: string; installation: string; arrangement: string; rows: RackRow[]; sources: string[]; notes: string; photos: Array<{ url: string; pageUrl: string; credit: string; usageStatus: string }> };
+export type RackConfiguration = { rackProductId: string | null; name: string; location: string; owned: boolean; rowOverrides: RackRow[] };
+export type Rack = { workshopRackId: string; version: number; configuration: RackConfiguration; rows: RackRow[]; placedPotCount: number };
+export type Placement = { paintPotId: string; workshopRackId: string; rackRowId: string; offsetMm: number | null; offsetFraction: number | null; slotId: string | null; locked: boolean };
+export type StoragePot = { paintPotId: string; version: number; paintProductId: string; name: string; brand: string; range: string; colorHex: string | null; containerIdentification: { containerFormatId: string | null; measuredDimensions: Dimensions | null; evidenceStatus: string; note: string } | null; placement: Placement | null; compatibility: { status: string; reason: string } | null };
+export type Page<T> = { content: T[]; page: number; size: number; totalElements: number; totalPages?: number };
+export type CatalogPage<T> = { results: Page<T>; catalogRevision: number; correlationId: string };
+export type RackDetail = { rack: Rack; pots: StoragePot[]; snapshotToken: string; correlationId: string };
+export type StorageProposal = { snapshotToken: string; arrangement: { placements: Placement[]; unplaced: Array<{ paintPotId: string; reason: string }>; movedCount: number; displacedCount: number }; pots: StoragePot[]; correlationId: string };

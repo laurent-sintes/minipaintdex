@@ -33,10 +33,12 @@ export function SiteNavigation({ config, route, navigate }: {
 
   const labels = config.navigation;
   const market: Destination[] = [
+    { view: 'marketRacks', label: config.racks.marketTitle, icon: <PackageOpen size={17} /> },
     { view: 'paintProducts', label: labels.paintProducts, icon: <Droplets size={17} /> },
     { view: 'marketProducts', label: labels.marketPaintableProducts, icon: <PackageOpen size={17} /> },
   ];
   const workshop: Destination[] = [
+    { view: 'workshopRacks', label: config.racks.workshopTitle, icon: <PackageOpen size={17} /> },
     { view: 'workshopPaints', label: labels.workshopPaints, icon: <Paintbrush size={17} /> },
     { view: 'workshop', label: labels.workshopSection, icon: <FolderCog size={17} /> },
     { view: 'shopping', label: labels.shopping, icon: <ShoppingBasket size={17} /> },

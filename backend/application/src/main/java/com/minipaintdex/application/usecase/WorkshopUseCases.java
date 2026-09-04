@@ -39,7 +39,7 @@ import com.minipaintdex.application.view.PaintFacetsView;
 import java.util.List;
 
 /** Commands and queries for the owner's workshop aggregates. */
-public interface WorkshopUseCases {
+public interface WorkshopUseCases extends WorkshopStorageUseCases {
     /**
      * Reads one product's committed stock, including zero owned pots, or raises not_found for an
      * unknown Market reference. Invalid identity/correlation raises invalid_input. Selects the latest

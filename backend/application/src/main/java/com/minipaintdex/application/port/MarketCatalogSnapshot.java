@@ -13,12 +13,20 @@ public record MarketCatalogSnapshot(
         List<PaintableProduct> paintableProducts,
         List<MarketPaintingGuide> paintingGuides,
         List<PaintCatalogEdition> paintCatalogEditions,
-        List<com.minipaintdex.domain.market.paint.PaintUsageGuide> paintUsageGuides) {
+        List<com.minipaintdex.domain.market.paint.PaintUsageGuide> paintUsageGuides,
+        com.minipaintdex.domain.market.storage.RackCatalog rackCatalog) {
+    public MarketCatalogSnapshot(List<PaintProduct> paints, List<PaintableProduct> paintableProducts,
+            List<MarketPaintingGuide> paintingGuides, List<PaintCatalogEdition> paintCatalogEditions,
+            List<com.minipaintdex.domain.market.paint.PaintUsageGuide> paintUsageGuides) {
+        this(paints, paintableProducts, paintingGuides, paintCatalogEditions, paintUsageGuides,
+                com.minipaintdex.domain.market.storage.RackCatalog.empty());
+    }
     public MarketCatalogSnapshot {
         paints = List.copyOf(paints);
         paintableProducts = List.copyOf(paintableProducts);
         paintingGuides = List.copyOf(paintingGuides);
         paintCatalogEditions = List.copyOf(paintCatalogEditions);
         paintUsageGuides = List.copyOf(paintUsageGuides);
+        java.util.Objects.requireNonNull(rackCatalog);
     }
 }

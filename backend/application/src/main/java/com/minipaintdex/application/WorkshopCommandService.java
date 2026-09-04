@@ -68,6 +68,9 @@ import com.minipaintdex.domain.workshop.WorkshopRecipeEvent;
 import com.minipaintdex.domain.workshop.WorkshopRecipeCreated;
 
 import java.time.Instant;
+import com.minipaintdex.application.storage.StorageContracts.*;
+import com.minipaintdex.application.storage.StorageProjection;
+import com.minipaintdex.domain.workshop.storage.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -85,6 +88,7 @@ import java.util.stream.Collectors;
  */
 public final class WorkshopCommandService {
     private final SnapshotRepository snapshots;
+    private final RackReferenceWriteScope rackWrites;
     private final EventBus eventBus;
     private final WorkshopMediaStorage mediaStorage;
     private final WorkshopQueryService queries;
@@ -97,7 +101,8 @@ public final class WorkshopCommandService {
             EventBus eventBus,
             WorkshopMediaStorage mediaStorage,
             WorkshopMediaPolicy mediaPolicy,
-            WorkshopQueryService queries, PaintPotPhotoService potPhotos) {
+            WorkshopQueryService queries, PaintPotPhotoService potPhotos, RackReferenceWriteScope rackWrites) {
+        this.rackWrites = Objects.requireNonNull(rackWrites);
         this.snapshots = Objects.requireNonNull(snapshots);
         this.eventBus = Objects.requireNonNull(eventBus);
         this.mediaStorage = Objects.requireNonNull(mediaStorage);
@@ -168,6 +173,9 @@ public final class WorkshopCommandService {
                 (pot, at) -> pot.open(at));
     }
     public synchronized PublicationReceipt changePaintPotPossession(com.minipaintdex.application.command.ChangePaintPotPossessionCommand command) {
+        var storage = StorageProjection.storage(snapshots.load());
+        if (storage.placements().stream().anyMatch(value -> value.paintPotId().equals(command.paintPotId())))
+            throw new DomainException("conflict", "Remove the pot placement before changing possession.");
         return changePaintPot(command.paintPotId(), command.actorId(), command.occurredAt(), command.correlationId(), command.idempotencyKey(),
                 (pot, at) -> pot.changePossession(com.minipaintdex.domain.workshop.PaintPotPossession.fromId(command.possession()), at));
     }
@@ -189,6 +197,139 @@ public final class WorkshopCommandService {
         return com.minipaintdex.domain.workshop.PaintPotProjector.project(snapshot.events()).stream()
                 .filter(pot -> pot.id().equals(id)).findFirst()
                 .orElseThrow(() -> new DomainException("not_found", "Paint pot not found: " + id));
+    }
+
+    public synchronized PublicationReceipt saveWorkshopRack(SaveRack command, PaintStoragePolicy policy) {
+        return rackWrites.run(() -> saveWorkshopRackWithinScope(command, policy));
+    }
+    public synchronized PublicationReceipt addWorkshopRacks(AddRacks command) {
+        return rackWrites.run(() -> {
+            require(command.idempotencyKey(), "idempotencyKey");
+            var prior = storageReceipt(command.idempotencyKey());
+            if (prior != null) return prior;
+            var snapshot = snapshots.load();
+            var duplicate = idempotent(snapshot, command.idempotencyKey());
+            if (duplicate != null) return existingReceipt(duplicate);
+            if (command.quantity() < 1 || command.quantity() > 100)
+                throw new DomainException("invalid_input", "Rack quantity must be between 1 and 100.");
+            var product = snapshot.rackCatalog().rackProducts().stream().filter(value -> value.id().equals(command.rackProductId()))
+                    .findFirst().orElseThrow(() -> new DomainException("not_found", "Rack product not found."));
+            var at = Instant.now();
+            var aggregates = new ArrayList<AggregateRoot>();
+            for (int index = 0; index < command.quantity(); index++) {
+                var id = "rack-" + java.util.UUID.nameUUIDFromBytes((command.idempotencyKey() + ":" + index).getBytes(java.nio.charset.StandardCharsets.UTF_8));
+                var configuration = new WorkshopRack.Configuration(product.id(), product.name() + (command.quantity() > 1 ? " " + (index + 1) : ""),
+                        command.location(), true, List.of());
+                aggregates.add(WorkshopRack.register(id, configuration, at));
+            }
+            return publishStorage(aggregates, command.correlationId(), command.idempotencyKey());
+        });
+    }
+    private PublicationReceipt saveWorkshopRackWithinScope(SaveRack command, PaintStoragePolicy policy) {
+        require(command.idempotencyKey(), "idempotencyKey");
+        var prior = storageReceipt(command.idempotencyKey());
+        if (prior != null) return prior;
+        var snapshot = snapshots.load();
+        var duplicate = idempotent(snapshot, command.idempotencyKey());
+        if (duplicate != null) return existingReceipt(duplicate);
+        StorageProjection.validateConfiguration(command.configuration(), snapshot);
+        var context = StorageProjection.context(snapshot);
+        var rack = context.rackAggregates().stream().filter(value -> value.id().equals(command.workshopRackId())).findFirst().orElse(null);
+        if ((rack == null ? 0 : rack.version()) != command.expectedVersion()) throw new DomainException("conflict", "Rack version changed.");
+        if (command.configuration().rackProductId() == null || !command.configuration().rowOverrides().isEmpty())
+            throw new DomainException("invalid_input", "Choose a market rack product; custom configurations are not supported.");
+        var at = Instant.now();
+        if (rack == null) rack = WorkshopRack.register(command.workshopRackId(), command.configuration(), at);
+        else rack.configure(command.configuration(), at);
+        var remaining = context.storage().placements().stream().filter(value -> !command.removePlacements()
+                || !value.workshopRackId().equals(command.workshopRackId())).toList();
+        var shapes = new ArrayList<>(context.racks().stream().filter(value -> !value.workshopRackId().equals(command.workshopRackId())).toList());
+        shapes.add(new StorageCompatibility.Rack(rack.id(), rack.configuration().owned(), StorageProjection.rows(rack.configuration(), snapshot)));
+        StorageCompatibility.validate(remaining, context.pots(), shapes, policy, true);
+        var aggregates = new ArrayList<AggregateRoot>(); aggregates.add(rack);
+        if (!remaining.equals(context.storage().placements())) {
+            context.storage().arrange(remaining, context.pots(), shapes, policy, true, at);
+            aggregates.add(context.storage());
+        }
+        return publishStorage(aggregates, command.correlationId(), command.idempotencyKey());
+    }
+    public synchronized PublicationReceipt identifyPaintPotContainer(IdentifyContainer command) {
+        return rackWrites.run(() -> identifyPaintPotContainerWithinScope(command));
+    }
+    private PublicationReceipt identifyPaintPotContainerWithinScope(IdentifyContainer command) {
+        require(command.idempotencyKey(), "idempotencyKey");
+        var prior = storageReceipt(command.idempotencyKey());
+        if (prior != null) return prior;
+        var snapshot = snapshots.load();
+        var duplicate = idempotent(snapshot, command.idempotencyKey());
+        if (duplicate != null) return existingReceipt(duplicate);
+        var pot = paintPot(snapshot, command.paintPotId());
+        if (pot.version() != command.expectedVersion()) throw new DomainException("conflict", "Pot version changed.");
+        var identification = Objects.requireNonNull(command.identification());
+        if (identification.containerFormatId() != null && snapshot.rackCatalog().containerFormats().stream()
+                .noneMatch(value -> value.id().equals(identification.containerFormatId()))) throw new DomainException("not_found", "Container format not found.");
+        var storage = StorageProjection.storage(snapshot);
+        boolean placed = storage.placements().stream().anyMatch(value -> value.paintPotId().equals(pot.id()));
+        if (placed && !command.removePlacement()) throw new DomainException("conflict", "Explicitly remove the placement before changing the container.");
+        var at = Instant.now(); pot.identifyContainer(identification, at);
+        var aggregates = new ArrayList<AggregateRoot>(); aggregates.add(pot);
+        if (placed) { storage.removePot(pot.id(), at); aggregates.add(storage); }
+        return publishStorage(aggregates, command.correlationId(), command.idempotencyKey());
+    }
+    public synchronized PublicationReceipt confirmPaintStorage(Confirm command, PaintStoragePolicy policy) {
+        return rackWrites.run(() -> confirmPaintStorageWithinScope(command, policy));
+    }
+    private PublicationReceipt confirmPaintStorageWithinScope(Confirm command, PaintStoragePolicy policy) {
+        require(command.idempotencyKey(), "idempotencyKey");
+        var prior = storageReceipt(command.idempotencyKey());
+        if (prior != null) return prior;
+        var snapshot = snapshots.load();
+        var duplicate = idempotent(snapshot, command.idempotencyKey());
+        if (duplicate != null) return existingReceipt(duplicate);
+        var context = StorageProjection.context(snapshot);
+        requireStorageToken(context, command.snapshotToken());
+        for (var placement : context.storage().placements()) if (placement.locked() && !command.placements().contains(placement))
+            throw new DomainException("conflict", "Unlock a placement explicitly before reorganizing it.");
+        context.storage().arrange(command.placements(), context.pots(), context.racks(), policy, command.allowEstimates(), Instant.now());
+        return publishStorage(List.of(context.storage()), command.correlationId(), command.idempotencyKey());
+    }
+    public synchronized PublicationReceipt setPaintPotPlacement(SetPlacement command, PaintStoragePolicy policy) {
+        return rackWrites.run(() -> setPaintPotPlacementWithinScope(command, policy));
+    }
+    private PublicationReceipt setPaintPotPlacementWithinScope(SetPlacement command, PaintStoragePolicy policy) {
+        require(command.idempotencyKey(), "idempotencyKey");
+        var prior = storageReceipt(command.idempotencyKey());
+        if (prior != null) return prior;
+        var snapshot = snapshots.load();
+        var duplicate = idempotent(snapshot, command.idempotencyKey());
+        if (duplicate != null) return existingReceipt(duplicate);
+        paintPot(snapshot, command.paintPotId());
+        var context = StorageProjection.context(snapshot);
+        requireStorageToken(context, command.snapshotToken());
+        if (command.placement() != null && !command.paintPotId().equals(command.placement().paintPotId()))
+            throw new DomainException("invalid_input", "Placement targets another pot.");
+        var next = new ArrayList<>(context.storage().placements().stream().filter(value -> !value.paintPotId().equals(command.paintPotId())).toList());
+        if (command.placement() != null) next.add(command.placement());
+        if (command.placement() == null) context.storage().removePot(command.paintPotId(), Instant.now());
+        else context.storage().arrange(next, context.pots(), context.racks(), policy, command.allowEstimates(), Instant.now());
+        return publishStorage(List.of(context.storage()), command.correlationId(), command.idempotencyKey());
+    }
+    private static void requireStorageToken(StorageProjection.Context context, String token) {
+        if (!context.token().equals(token)) throw new DomainException("conflict", "Storage changed. Refresh the proposal.");
+    }
+    private PublicationReceipt publishStorage(List<AggregateRoot> aggregates, String requestedCorrelation, String key) {
+        var at = Instant.now(); var correlation = defaultText(requestedCorrelation, Ulid.next(at));
+        var events = new ArrayList<EventEnvelope>();
+        for (var aggregate : aggregates) events.addAll(envelopeFactory.envelop(aggregate, new Actor("user", "owner"), correlation, null, key, at));
+        if (events.isEmpty()) throw new DomainException("no_change", "No placement to remove.");
+        return eventBus.publish(new EventBatch(storagePublicationId(key), correlation, key, at, events));
+    }
+    private static String storagePublicationId(String key) {
+        return "storage-" + java.util.UUID.nameUUIDFromBytes(key.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+    }
+    private PublicationReceipt storageReceipt(String key) {
+        return eventBus.publication(storagePublicationId(key)).map(value -> new PublicationReceipt(
+                value.publicationId(), value.status(), value.batch().acceptedAt(), value.batch().correlationId())).orElse(null);
     }
     public PublicationReceipt addPaintPotPhoto(com.minipaintdex.application.command.AddPaintPotPhotoCommand command) {
         require(command.originalFilename(), "originalFilename");

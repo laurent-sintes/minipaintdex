@@ -27,7 +27,27 @@ public final class DataSnapshotValidator {
         var inventory = inventory(snapshot);
         var shopping = shopping(snapshot);
         validateReferences(snapshot, catalog, inventory, shopping);
+        validateStorageReferences(snapshot);
         return new ValidatedSnapshot(catalog, inventory, shopping);
+    }
+    private static void validateStorageReferences(DataSnapshot snapshot) {
+        var formats = snapshot.rackCatalog().containerFormats().stream().map(value -> value.id()).collect(Collectors.toSet());
+        snapshot.paintProducts().forEach(document -> {
+            var id = StructuredDocuments.text(StructuredDocuments.toMap(document).get("container_format_id"));
+            requireReference(formats.contains(id), "Paint product container", id);
+        });
+        var pots = com.minipaintdex.domain.workshop.PaintPotProjector.project(snapshot.events()).stream().collect(Collectors.toMap(value -> value.id(), value -> value));
+        pots.values().forEach(pot -> {
+            if (pot.containerIdentification() != null && pot.containerIdentification().containerFormatId() != null)
+                requireReference(formats.contains(pot.containerIdentification().containerFormatId()), "Paint pot container", pot.containerIdentification().containerFormatId());
+        });
+        var racks = com.minipaintdex.application.storage.StorageProjection.racks(snapshot);
+        racks.forEach(rack -> com.minipaintdex.application.storage.StorageProjection.validateConfiguration(rack.configuration(), snapshot));
+        var rackIds = racks.stream().map(value -> value.id()).collect(Collectors.toSet());
+        com.minipaintdex.application.storage.StorageProjection.storage(snapshot).placements().forEach(placement -> {
+            requireReference(pots.containsKey(placement.paintPotId()), "Placement pot", placement.paintPotId());
+            requireReference(rackIds.contains(placement.workshopRackId()), "Placement rack", placement.workshopRackId());
+        });
     }
 
     private static WorkshopPaintInventory inventory(DataSnapshot snapshot) {

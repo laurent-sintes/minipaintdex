@@ -906,6 +906,8 @@ paints:
   volume_ml: 24
   warnings: [
     ]
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -1087,6 +1089,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -1268,6 +1272,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -1449,6 +1455,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -1630,6 +1638,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -1811,6 +1821,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -1992,6 +2004,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -2173,6 +2187,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -2355,6 +2371,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -2536,6 +2554,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -2717,6 +2737,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -2898,6 +2920,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -3092,6 +3116,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -3280,6 +3306,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -3461,6 +3489,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -3642,6 +3672,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -3823,6 +3855,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -4004,6 +4038,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -4185,6 +4221,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -4366,6 +4404,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -4547,6 +4587,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -4728,6 +4770,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -4909,6 +4953,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -5090,6 +5136,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -5271,6 +5319,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -5452,6 +5502,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -5633,6 +5685,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -5814,6 +5868,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -5995,6 +6051,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -6176,6 +6234,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -6357,6 +6417,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -6538,6 +6600,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -6719,6 +6783,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -6890,6 +6956,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4190184-99189956067
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -7061,6 +7128,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4190185-99189956038
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -7232,6 +7300,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4190186-99189956069
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -7410,6 +7479,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4190187-99189956070
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -7581,6 +7651,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4190188-99189956071
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -7752,6 +7823,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4190189-99189956096
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -7923,6 +7995,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4190191-99189956044
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -8094,6 +8167,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4190193-99189956076
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -8272,6 +8346,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4190195-99189956078
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -8423,6 +8498,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4190196-99189956049
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -8574,6 +8650,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4190198-99189956081
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -8725,6 +8802,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4190199-99189956082
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -8906,6 +8984,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -9087,6 +9167,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -9268,6 +9350,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -9449,6 +9533,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -9630,6 +9716,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -9811,6 +9899,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -9992,6 +10082,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -10173,6 +10265,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -10354,6 +10448,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -10535,6 +10631,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -10716,6 +10814,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -10899,6 +10999,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -11082,6 +11184,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -11263,6 +11367,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -11444,6 +11550,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -11625,6 +11733,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -11806,6 +11916,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -11987,6 +12099,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -12168,6 +12282,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -12349,6 +12465,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -12530,6 +12648,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -12711,6 +12831,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -12892,6 +13014,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -13047,6 +13171,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -13228,6 +13354,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -13409,6 +13537,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -13591,6 +13721,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -13772,6 +13904,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -13953,6 +14087,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -14134,6 +14270,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -14317,6 +14455,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -14498,6 +14638,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -14679,6 +14821,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -14860,6 +15004,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -15041,6 +15187,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -15222,6 +15370,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -15403,6 +15553,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -15584,6 +15736,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -15765,6 +15919,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -15947,6 +16103,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -16128,6 +16286,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -16309,6 +16469,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -16491,6 +16653,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -16673,6 +16837,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -16859,6 +17025,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -17045,6 +17213,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -17231,6 +17401,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -17417,6 +17589,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -17603,6 +17777,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -17789,6 +17965,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -17975,6 +18153,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -18179,6 +18359,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -18365,6 +18547,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -18551,6 +18735,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -18737,6 +18923,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -18941,6 +19129,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -19108,6 +19298,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -19276,6 +19468,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -19483,6 +19677,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -19681,6 +19877,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -19867,6 +20065,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -20074,6 +20274,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -20279,6 +20481,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -20484,6 +20688,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -20689,6 +20895,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -20877,6 +21085,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -21081,6 +21291,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -21292,6 +21504,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -21498,6 +21712,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -21704,6 +21920,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -21890,6 +22108,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -22070,6 +22290,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -22250,6 +22472,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -22454,6 +22678,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -22640,6 +22866,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -22826,6 +23054,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -23033,6 +23263,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -23237,6 +23469,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -23418,6 +23652,8 @@ paints:
   volume_ml: 24
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-24ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -23598,6 +23834,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -23779,6 +24017,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -23966,6 +24206,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -24147,6 +24389,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -24328,6 +24572,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -24509,6 +24755,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -24690,6 +24938,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -24871,6 +25121,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -25052,6 +25304,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -25233,6 +25487,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -25414,6 +25670,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -25595,6 +25853,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -25776,6 +26036,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -25957,6 +26219,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -26138,6 +26402,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -26320,6 +26586,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -26501,6 +26769,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -26682,6 +26952,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -26863,6 +27135,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -27044,6 +27318,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -27225,6 +27501,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -27406,6 +27684,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -27594,6 +27874,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -27776,6 +28058,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -27957,6 +28241,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -28138,6 +28424,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -28320,6 +28608,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -28501,6 +28791,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -28682,6 +28974,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -28863,6 +29157,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -29044,6 +29340,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -29225,6 +29523,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -29407,6 +29707,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -29588,6 +29890,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -29769,6 +30073,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -29950,6 +30256,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -30132,6 +30440,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -30313,6 +30623,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -30494,6 +30806,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -30675,6 +30989,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -30856,6 +31172,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -31038,6 +31356,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -31219,6 +31539,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -31400,6 +31722,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -31581,6 +31905,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -31763,6 +32089,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -31944,6 +32272,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -32125,6 +32455,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -32306,6 +32638,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -32487,6 +32821,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -32668,6 +33004,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -32849,6 +33187,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -33030,6 +33370,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -33211,6 +33553,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -33398,6 +33742,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -33579,6 +33925,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -33760,6 +34108,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -33941,6 +34291,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -34122,6 +34474,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -34303,6 +34657,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -34485,6 +34841,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -34672,6 +35030,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -34852,6 +35212,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -35033,6 +35395,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -35214,6 +35578,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -35396,6 +35762,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -35577,6 +35945,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -35758,6 +36128,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -35939,6 +36311,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -36121,6 +36495,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -36302,6 +36678,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -36483,6 +36861,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -36664,6 +37044,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -36845,6 +37227,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -37026,6 +37410,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -37207,6 +37593,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -37388,6 +37776,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -37570,6 +37960,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -37751,6 +38143,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -37932,6 +38326,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -38113,6 +38509,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -38293,6 +38691,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -38473,6 +38873,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -38654,6 +39056,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -38835,6 +39239,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -39016,6 +39422,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -39197,6 +39605,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -39379,6 +39789,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -39560,6 +39972,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -39741,6 +40155,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -39922,6 +40338,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -40104,6 +40522,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -40285,6 +40705,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -40466,6 +40888,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -40647,6 +41071,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -40828,6 +41254,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -41009,6 +41437,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -41190,6 +41620,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -41371,6 +41803,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -41552,6 +41986,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -41733,6 +42169,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -41914,6 +42352,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -42095,6 +42535,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -42275,6 +42717,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -42456,6 +42900,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -42637,6 +43083,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -42817,6 +43265,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -42998,6 +43448,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -43179,6 +43631,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -43360,6 +43814,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -43541,6 +43997,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -43712,6 +44170,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4210385-99189956065
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -43883,6 +44342,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4210386-99189956064
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -44054,6 +44514,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4210388-99189956061
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -44231,6 +44692,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4210389-99189956062
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -44402,6 +44864,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4210392-99189956063
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -44573,6 +45036,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4210393-99189956066
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -44755,6 +45219,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -44936,6 +45402,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -45087,6 +45555,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4210414-99189956080
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -45258,6 +45727,7 @@ paints:
   volume_ml: 0
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4210415-99189956060
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -45439,6 +45909,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -45620,6 +46092,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -45801,6 +46275,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -45989,6 +46465,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -46170,6 +46648,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -46351,6 +46831,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -46532,6 +47014,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -46713,6 +47197,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -46894,6 +47380,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -47075,6 +47563,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -47257,6 +47747,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -47438,6 +47930,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -47619,6 +48113,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -47800,6 +48296,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -47981,6 +48479,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -48162,6 +48662,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -48343,6 +48845,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -48524,6 +49028,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -48705,6 +49211,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -48893,6 +49401,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -49074,6 +49584,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -49255,6 +49767,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -49436,6 +49950,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -49617,6 +50133,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -49799,6 +50317,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -49981,6 +50501,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -50157,6 +50679,7 @@ paints:
   volume_ml: 400
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4540248-99209999090
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -50332,6 +50855,7 @@ paints:
   volume_ml: 400
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4540249-99209999099
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -50507,6 +51031,7 @@ paints:
   volume_ml: 400
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4540250-99209999092
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -50682,6 +51207,7 @@ paints:
   volume_ml: 400
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4540251-99209999091
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -50859,6 +51385,7 @@ paints:
   volume_ml: 400
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4540253-99209999097
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -51035,6 +51562,7 @@ paints:
   volume_ml: 400
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4540254-99209999095
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -51210,6 +51738,7 @@ paints:
   volume_ml: 400
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4540255-99209999098
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -51385,6 +51914,7 @@ paints:
   volume_ml: 400
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4540256-99209999094
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -51540,6 +52070,7 @@ paints:
   volume_ml: 400
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4540257-99209999107
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -51716,6 +52247,7 @@ paints:
   volume_ml: 400
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4540258-99209999100
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -51891,6 +52423,7 @@ paints:
   volume_ml: 400
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4540259-99209999096
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -52072,6 +52605,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -52253,6 +52788,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -52434,6 +52971,8 @@ paints:
   volume_ml: 12
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-12ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -52608,6 +53147,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -52783,6 +53324,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -52958,6 +53501,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -53134,6 +53679,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -53309,6 +53856,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -53484,6 +54033,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -53659,6 +54210,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -53840,6 +54393,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -54015,6 +54570,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -54190,6 +54747,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -54365,6 +54924,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -54540,6 +55101,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -54715,6 +55278,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -54896,6 +55461,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -55071,6 +55638,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -55252,6 +55821,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -55427,6 +55998,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -55602,6 +56175,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -55777,6 +56352,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -55962,6 +56539,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -56141,6 +56720,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -56329,6 +56910,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -56527,6 +57110,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -56712,6 +57297,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -56911,6 +57498,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -57096,6 +57685,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -57281,6 +57872,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -57478,6 +58071,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -57663,6 +58258,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -57860,6 +58457,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -58057,6 +58656,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -58255,6 +58856,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -58440,6 +59043,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -58637,6 +59242,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -58821,6 +59428,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -59006,6 +59615,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -59191,6 +59802,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -59376,6 +59989,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -59561,6 +60176,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -59746,6 +60363,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -59931,6 +60550,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -60116,6 +60737,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -60301,6 +60924,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -60486,6 +61111,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -60671,6 +61298,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases:
   - Citadel
@@ -60858,6 +61487,8 @@ paints:
   volume_ml: 18
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: citadel-18ml-flip-top
+  container_assignment_status: estimated
 - brand: Warhammer Colour
   brand_aliases: [
     ]
@@ -61039,3 +61670,4 @@ paints:
   volume_ml: 400
   warnings:
   - Official store artwork is a colour swatch, not a product packshot.
+  container_format_id: unidentified-cit-prod4960287-99209999102

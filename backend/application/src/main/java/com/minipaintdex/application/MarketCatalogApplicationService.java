@@ -14,6 +14,10 @@ import com.minipaintdex.application.view.PaintableProductSummaryView;
 import com.minipaintdex.application.view.PaintableProductView;
 
 import java.util.List;
+import com.minipaintdex.domain.market.storage.*;
+import com.minipaintdex.application.query.RackCatalogQuery;
+import com.minipaintdex.application.query.GetRackReferenceQuery;
+import com.minipaintdex.application.result.RackCatalogPage;
 import java.util.Objects;
 import java.util.stream.Stream;
 import com.minipaintdex.domain.market.paint.PaintProductLifecycle;
@@ -23,6 +27,33 @@ import com.minipaintdex.domain.market.paint.PaintProductProfile;
 
 /** Cohesive read service for the market knowledge bounded context. */
 public final class MarketCatalogApplicationService implements MarketCatalogUseCases {
+    @Override public RackCatalogPage<RackProduct> searchRackProducts(RackCatalogQuery query) {
+        var catalog = catalogs.load().rackCatalog();
+        return rackPage(catalog.rackProducts().stream().sorted(java.util.Comparator.comparing(RackProduct::id))
+                .filter(value -> rackMatches(value.name() + " " + value.brand(), query.query())).toList(), catalog.revision(), query);
+    }
+    @Override public RackCatalogPage<PaintContainerFormat> searchContainerFormats(RackCatalogQuery query) {
+        var catalog = catalogs.load().rackCatalog();
+        return rackPage(catalog.containerFormats().stream().sorted(java.util.Comparator.comparing(PaintContainerFormat::id))
+                .filter(value -> rackMatches(value.name() + " " + value.brand(), query.query())).toList(), catalog.revision(), query);
+    }
+    @Override public RackProduct getRackProduct(GetRackReferenceQuery query) {
+        return catalogs.load().rackCatalog().rackProducts().stream().filter(value -> value.id().equals(query.id())).findFirst()
+                .orElseThrow(() -> new com.minipaintdex.domain.shared.DomainException("not_found", "Rack product not found."));
+    }
+    @Override public PaintContainerFormat getContainerFormat(GetRackReferenceQuery query) {
+        return catalogs.load().rackCatalog().containerFormats().stream().filter(value -> value.id().equals(query.id())).findFirst()
+                .orElseThrow(() -> new com.minipaintdex.domain.shared.DomainException("not_found", "Container format not found."));
+    }
+    private static boolean rackMatches(String text, String query) {
+        return text.toLowerCase(java.util.Locale.ROOT).contains(Objects.toString(query, "").toLowerCase(java.util.Locale.ROOT));
+    }
+    private static <T> RackCatalogPage<T> rackPage(List<T> values, long revision, RackCatalogQuery query) {
+        if (!query.page().sort().isEmpty()) throw new com.minipaintdex.domain.shared.DomainException("invalid_input", "Use stable identity ordering.");
+        var from = Math.min(query.page().offset(), values.size());
+        return new RackCatalogPage<>(new PageResult<>(values.subList(from, Math.min(from + query.page().size(), values.size())),
+                query.page().page(), query.page().size(), values.size()), revision, query.correlationId());
+    }
     private final PaintProductQueryService paints;
     private final MarketPaintableProductQueryService products;
     private final MarketCatalogReader catalogs;

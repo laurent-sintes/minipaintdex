@@ -21,15 +21,17 @@ final class CachedMarketCatalogReader implements MarketCatalogReader {
     @Override public synchronized MarketCatalogSnapshot load() {
         var snapshot = snapshots.load();
         var current = new Sources(snapshot.paintProducts(), snapshot.paintableProducts(),
-                snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions(), snapshot.paintUsageGuides());
+                snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions(), snapshot.paintUsageGuides(), snapshot.rackCatalog());
         if (!current.equals(sources)) {
             var replacement = MarketCatalogFactory.create(current.paints(), current.products(), current.guides(), current.editions(), current.usageGuides());
-            catalog = replacement;
+            catalog = new MarketCatalogSnapshot(replacement.paints(), replacement.paintableProducts(), replacement.paintingGuides(),
+                    replacement.paintCatalogEditions(), replacement.paintUsageGuides(), current.rackCatalog());
             sources = current;
         }
         return catalog;
     }
 
     private record Sources(List<StructuredDocument> paints, List<PaintableProduct> products,
-            List<StructuredDocument> guides, List<StructuredDocument> editions, List<StructuredDocument> usageGuides) {}
+            List<StructuredDocument> guides, List<StructuredDocument> editions, List<StructuredDocument> usageGuides,
+            com.minipaintdex.domain.market.storage.RackCatalog rackCatalog) {}
 }

@@ -41,24 +41,59 @@ public final class AdministrationApplicationService implements AdministrationUse
     private final SnapshotRepository snapshots;
     private final PaintProductCatalogWriter paintProducts;
     private final PaintableProductCatalogWriter paintableProducts;
+    private final com.minipaintdex.application.port.RackCatalogWriter rackCatalog;
+    private final RackReferenceWriteScope rackWrites;
 
     public AdministrationApplicationService(
             SnapshotRepository snapshots,
             PaintProductCatalogWriter paintProducts,
-            PaintableProductCatalogWriter paintableProducts) {
+            PaintableProductCatalogWriter paintableProducts, com.minipaintdex.application.port.RackCatalogWriter rackCatalog, RackReferenceWriteScope rackWrites) {
+        this.rackWrites = Objects.requireNonNull(rackWrites);
+        this.rackCatalog = Objects.requireNonNull(rackCatalog);
         this.snapshots = Objects.requireNonNull(snapshots);
         this.paintProducts = Objects.requireNonNull(paintProducts);
         this.paintableProducts = Objects.requireNonNull(paintableProducts);
+    }
+    @Override public synchronized long saveRackReference(com.minipaintdex.application.command.SaveRackReferenceCommand command) {
+        return rackWrites.run(() -> saveRackReferenceWithinScope(command));
+    }
+    private long saveRackReferenceWithinScope(com.minipaintdex.application.command.SaveRackReferenceCommand command) {
+        var current = snapshots.load().rackCatalog();
+        if ((command.containerFormat() != null && current.containerFormats().contains(command.containerFormat()))
+                || (command.rackProduct() != null && current.rackProducts().contains(command.rackProduct()))) return current.revision();
+        var formats = new java.util.ArrayList<>(current.containerFormats());
+        var racks = new java.util.ArrayList<>(current.rackProducts());
+        if (command.containerFormat() != null) { formats.removeIf(value -> value.id().equals(command.containerFormat().id())); formats.add(command.containerFormat()); }
+        else { racks.removeIf(value -> value.id().equals(command.rackProduct().id())); racks.add(command.rackProduct()); }
+        var next = new com.minipaintdex.domain.market.storage.RackCatalog(1, current.revision() + 1, formats, racks);
+        current.validateReplacement(next);
+        if (current.revision() != command.expectedRevision()) throw conflict("Rack catalog revision changed.");
+        if (command.dryRun()) return current.revision();
+        return rackCatalog.replace(next, command.expectedRevision()).revision();
     }
 
     @Override
     public synchronized ApplyPaintProductChangeSetResult applyPaintProductChangeSet(
             ApplyPaintProductChangeSetCommand command) {
+        return rackWrites.run(() -> applyPaintProductChangeSetWithinScope(command));
+    }
+    private ApplyPaintProductChangeSetResult applyPaintProductChangeSetWithinScope(ApplyPaintProductChangeSetCommand command) {
         Objects.requireNonNull(command, "command is required");
         requireEnvelope(command.schemaVersion(), command.kind(), "market_paints");
-        if (command.operations().isEmpty() && command.catalogEditions().isEmpty() && command.paintUsageGuides().isEmpty()) throw invalid("At least one paint or catalog edition is required.");
+        if (command.operations().isEmpty() && command.catalogEditions().isEmpty() && command.paintUsageGuides().isEmpty() && command.containerFormats().isEmpty()) throw invalid("At least one market entry is required.");
 
         var snapshot = snapshots.load();
+        var containers = new LinkedHashMap<String, com.minipaintdex.domain.market.storage.PaintContainerFormat>();
+        snapshot.rackCatalog().containerFormats().forEach(format -> containers.put(format.id(), format));
+        var operatedContainers = new HashSet<String>();
+        for (var document : command.containerFormats()) {
+            var format = MarketCatalogFactory.containerFormat(document);
+            if (!operatedContainers.add(format.id())) throw invalid("Duplicate container format: " + format.id());
+            containers.put(format.id(), format);
+        }
+        var containerValues = List.copyOf(containers.values());
+        var nextRackCatalog = containerValues.equals(snapshot.rackCatalog().containerFormats()) ? snapshot.rackCatalog()
+                : new com.minipaintdex.domain.market.storage.RackCatalog(1, snapshot.rackCatalog().revision() + 1, containerValues, snapshot.rackCatalog().rackProducts());
         var currentCatalog = MarketCatalogFactory.create(
                 snapshot.paintProducts(), snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.paintCatalogEditions(), snapshot.paintUsageGuides());
         var byId = new LinkedHashMap<String, Map<String, Object>>();
@@ -178,7 +213,8 @@ public final class AdministrationApplicationService implements AdministrationUse
         }
         DataSnapshotValidator.validate(new DataSnapshot(
                 snapshot.site(), resultDocuments, snapshot.paintableProducts(),
-                rewrittenGuides, rewrittenShopping, snapshot.events(), editionDocuments, usageGuideDocuments));
+                rewrittenGuides, rewrittenShopping, snapshot.events(), editionDocuments, usageGuideDocuments, nextRackCatalog));
+        if (!identityMigrations.isEmpty() && !command.containerFormats().isEmpty()) throw invalid("Container updates cannot be combined with paint identity rekeys.");
         if ((!command.catalogEditions().isEmpty() || !command.paintUsageGuides().isEmpty()) && (!identityMigrations.isEmpty() || inventoryChanged > 0)) {
             throw invalid("Catalog editions are market knowledge: apply their updates separately from inventory changes or rekeys.");
         }
@@ -187,7 +223,7 @@ public final class AdministrationApplicationService implements AdministrationUse
                 paintProducts.replacePaintProductIdentities(
                         resultDocuments, rewrittenGuides, rewrittenShopping);
             } else {
-                paintProducts.replacePaintProductCatalog(resultDocuments, editionDocuments, usageGuideDocuments);
+                paintProducts.replacePaintProductCatalog(resultDocuments, editionDocuments, usageGuideDocuments, nextRackCatalog);
             }
         }
         return new ApplyPaintProductChangeSetResult(

@@ -1,6 +1,7 @@
-export type AppView = 'home' | 'paintProducts' | 'marketProducts' | 'workshopPaints' | 'paintPots' | 'paintPot' | 'workshop' | 'shopping' | 'paintableProduct' | 'workshopPaintable' | 'aboutUser' | 'aboutAdmin' | 'aboutPaintModel' | 'aboutApi' | 'aboutVersion';
+export type AppView = 'home' | 'paintProducts' | 'marketProducts' | 'marketRacks' | 'workshopRacks' | 'workshopRack' | 'workshopPaints' | 'paintPots' | 'paintPot' | 'workshop' | 'shopping' | 'paintableProduct' | 'workshopPaintable' | 'aboutUser' | 'aboutAdmin' | 'aboutPaintModel' | 'aboutApi' | 'aboutVersion';
 
 export type AppRoute = {
+  workshopRackId?: string;
   view: AppView;
   paintPotId?: string;
   paintProductId?: string;
@@ -11,6 +12,7 @@ export type AppRoute = {
 };
 
 export function isNavigationDestinationCurrent(route: AppRoute, destination: AppView) {
+  if (route.view === 'workshopRack') return destination === 'workshopRacks';
   if (route.view === 'paintPots' || route.view === 'paintPot') return destination === 'workshopPaints';
   if (route.view === destination) return true;
   if (route.view === 'paintableProduct') return destination === (route.paintingProjectId ? 'workshop' : 'marketProducts');
@@ -19,6 +21,8 @@ export function isNavigationDestinationCurrent(route: AppRoute, destination: App
 
 export function parseAppRoute(pathname: string): AppRoute {
   const parts = pathname.split('/').filter(Boolean);
+  if (parts[0] === 'market' && parts[1] === 'racks') return { view: 'marketRacks' };
+  if (parts[0] === 'workshop' && parts[1] === 'racks') return parts[2] ? { view: 'workshopRack', workshopRackId: parts[2] } : { view: 'workshopRacks' };
   if (parts[0] === 'market' && parts[1] === 'paint-products') return { view: 'paintProducts' };
   if (parts[0] === 'market' && parts[1] === 'paintable-products' && parts[2]) {
     return { view: 'paintableProduct', paintableProductId: parts[2], paintableComponentId: parts[4] };
@@ -42,6 +46,9 @@ export function parseAppRoute(pathname: string): AppRoute {
 }
 
 export function appRoutePath(route: AppRoute) {
+  if (route.view === 'marketRacks') return '/market/racks';
+  if (route.view === 'workshopRacks') return '/workshop/racks';
+  if (route.view === 'workshopRack') return '/workshop/racks/' + (route.workshopRackId ?? '');
   if (route.view === 'paintPot') return `/workshop/paint-pots/${route.paintPotId ?? ''}`;
   if (route.view === 'paintPots') return route.paintProductId ? `/workshop/paint-stocks/${route.paintProductId}/pots` : '/workshop/paint-pots';
   if (route.view === 'home') return '/';

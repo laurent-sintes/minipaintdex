@@ -44,6 +44,11 @@ import java.util.Objects;
 
 /** Cohesive command/query service for workshop aggregates and their ledger projections. */
 public final class WorkshopApplicationService implements WorkshopUseCases {
+    @Override public PublicationReceipt addWorkshopRacks(com.minipaintdex.application.storage.StorageContracts.AddRacks command) {
+        return commands.addWorkshopRacks(command);
+    }
+    private final WorkshopStorageQueries storageQueries;
+    private final com.minipaintdex.domain.workshop.storage.PaintStoragePolicy storagePolicy;
     private final WorkshopCommandService commands;
     private final WorkshopQueryService queries;
     private final WorkshopPaintQueryService paintQueries;
@@ -55,7 +60,10 @@ public final class WorkshopApplicationService implements WorkshopUseCases {
             WorkshopCommandService commands,
             WorkshopQueryService queries,
             MarketCatalogUseCases market,
-            SnapshotRepository snapshots, com.minipaintdex.application.query.PaintSearchPolicy searchPolicy, PaintPotPhotoService potPhotos) {
+            SnapshotRepository snapshots, com.minipaintdex.application.query.PaintSearchPolicy searchPolicy, PaintPotPhotoService potPhotos,
+            com.minipaintdex.domain.workshop.storage.PaintStoragePolicy storagePolicy) {
+        this.storagePolicy = Objects.requireNonNull(storagePolicy);
+        this.storageQueries = new WorkshopStorageQueries(snapshots, storagePolicy);
         this.potPhotos = Objects.requireNonNull(potPhotos);
         this.searchPolicy = Objects.requireNonNull(searchPolicy);
         this.commands = Objects.requireNonNull(commands);
@@ -74,6 +82,14 @@ public final class WorkshopApplicationService implements WorkshopUseCases {
             com.minipaintdex.application.query.GetWorkshopPaintStockQuery query) { return paintQueries.get(query); }
 
     @Override public WorkshopOverviewView workshopOverview() { return queries.workshopOverview(); }
+    @Override public PageResult<com.minipaintdex.application.storage.StorageContracts.RackView> listWorkshopRacks(com.minipaintdex.application.storage.StorageContracts.ListRacks query) { return storageQueries.list(query); }
+    @Override public com.minipaintdex.application.storage.StorageContracts.RackDetail getWorkshopRack(com.minipaintdex.application.storage.StorageContracts.GetRack query) { return storageQueries.get(query); }
+    @Override public PageResult<com.minipaintdex.application.storage.StorageContracts.PotView> searchStoragePots(com.minipaintdex.application.storage.StorageContracts.SearchPots query) { return storageQueries.search(query); }
+    @Override public com.minipaintdex.application.storage.StorageContracts.Proposal previewPaintStorage(com.minipaintdex.application.storage.StorageContracts.Preview query) { return storageQueries.preview(query); }
+    @Override public PublicationReceipt saveWorkshopRack(com.minipaintdex.application.storage.StorageContracts.SaveRack command) { return commands.saveWorkshopRack(command, storagePolicy); }
+    @Override public PublicationReceipt identifyPaintPotContainer(com.minipaintdex.application.storage.StorageContracts.IdentifyContainer command) { return commands.identifyPaintPotContainer(command); }
+    @Override public PublicationReceipt confirmPaintStorage(com.minipaintdex.application.storage.StorageContracts.Confirm command) { return commands.confirmPaintStorage(command, storagePolicy); }
+    @Override public PublicationReceipt setPaintPotPlacement(com.minipaintdex.application.storage.StorageContracts.SetPlacement command) { return commands.setPaintPotPlacement(command, storagePolicy); }
     @Override public ImportPaintPotsResult importPaintPots(ImportPaintPotsCommand command) { return commands.importPaintPots(command); }
     @Override public ImportPaintPotsResult registerPaintPot(RegisterPaintPotCommand command) { return commands.registerPaintPot(command); }
     @Override public PublicationReceipt observePaintPot(ObservePaintPotCommand command) { return commands.observePaintPot(command); }

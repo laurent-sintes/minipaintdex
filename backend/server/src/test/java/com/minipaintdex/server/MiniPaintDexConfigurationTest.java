@@ -228,7 +228,7 @@ class MiniPaintDexConfigurationTest {
         var storage = new MiniPaintDexProperties.Storage(
                 Path.of("site"), Path.of("paints"), Path.of("shopping"),
                 Path.of("products"), Path.of("guides"), Path.of("ledger"), Path.of("publications"),
-                Path.of("media"), true, Duration.ZERO);
+                Path.of("media"), Path.of("racks"), new com.minipaintdex.domain.workshop.storage.PaintStoragePolicy(2, 500), true, Duration.ZERO);
         var eventing = new MiniPaintDexProperties.Eventing(
                 1, 1, 1, Duration.ZERO, Duration.ZERO);
 
@@ -236,6 +236,15 @@ class MiniPaintDexConfigurationTest {
                 violation.getPropertyPath().toString().equals("sentinelIntervalPositive")));
         assertTrue(validator.validate(eventing).stream().anyMatch(violation ->
                 violation.getPropertyPath().toString().equals("shutdownTimeoutPositive")));
+    }
+
+    @Test
+    void exposesRackCatalogHalPagingAndProvisionalFormats() throws Exception {
+        mvc.perform(get("/api/v1/market/container-formats").param("size", "2").accept("application/hal+json"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.results.content").isArray())
+                .andExpect(jsonPath("$._links.first.href").exists()).andExpect(jsonPath("$._links.next.href").exists());
+        mvc.perform(get("/api/v1/workshop/racks").param("size", "2").accept("application/hal+json"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.content").isArray());
     }
 
     @Test

@@ -159,7 +159,7 @@ class FileMiniPaintDexRepositoryTest {
                         "finish", "matte", "effects", List.of(),
                         "undercoat", Map.of("tone", "any", "pre_highlighted_surface_recommended", false),
                         "medium", "acrylic"),
-                "name", "New Paint", "manufacturer_image", missingImage()))));
+                "name", "New Paint", "manufacturer_image", missingImage(), "container_format_id", "standard"))));
 
         var snapshot = repository.load();
         assertEquals("New Paint", text(snapshot.paintProducts().getFirst(), "name"));
@@ -189,6 +189,7 @@ class FileMiniPaintDexRepositoryTest {
                       roles: [color_paint]
                     range: Other Range
                     manufacturer: Other Maker
+                    container_format_id: standard
                     brand: Other Brand
                     id: other-paint
                     manufacturer_image:
@@ -212,7 +213,7 @@ class FileMiniPaintDexRepositoryTest {
                         "finish", "matte", "effects", List.of(),
                         "undercoat", Map.of("tone", "any", "pre_highlighted_surface_recommended", false),
                         "medium", "acrylic"),
-                "name", "Updated Paint", "manufacturer_image", missingImage())));
+                "name", "Updated Paint", "manufacturer_image", missingImage(), "container_format_id", "standard")));
 
         repository.replacePaintProducts(paints);
 
@@ -284,6 +285,7 @@ class FileMiniPaintDexRepositoryTest {
                     id: paint
                     brand: Brand
                     manufacturer: Maker
+                    container_format_id: standard
                     range: Range
                     profile: &profile
                       roles: [color_paint]
@@ -346,6 +348,7 @@ class FileMiniPaintDexRepositoryTest {
 
     private void createFixture() throws IOException {
         write("data/site/fr.yaml", "metadata: {}\n");
+        write("data/market/racks/catalog.yaml", "schema_version: 1\nrevision: 1\nrack_products: []\ncontainer_formats:\n  - schema_version: 1\n    id: standard\n    name: Standard\n    brand: Brand\n    family: unidentified\n    evidence_status: unknown\n    sources: []\n");
         write("data/market/paints/brand.yaml", """
                 schema_version: 1
                 brand: Brand
@@ -354,6 +357,7 @@ class FileMiniPaintDexRepositoryTest {
                     id: paint
                     brand: Brand
                     manufacturer: Maker
+                    container_format_id: standard
                     range: Range
                     profile:
                       roles: [color_paint]
@@ -461,7 +465,7 @@ class FileMiniPaintDexRepositoryTest {
                 root.resolve("data/market/painting-guides"),
                 root.resolve("data/ledger/events"),
                 root.resolve("data/ledger/publications"),
-                root.resolve("media"));
+                root.resolve("media"), root.resolve("data/market/racks/catalog.yaml"));
     }
 
     private void write(String relativePath, String content) throws IOException {

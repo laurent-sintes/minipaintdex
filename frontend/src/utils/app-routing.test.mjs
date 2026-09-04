@@ -1,4 +1,14 @@
 import assert from 'node:assert/strict';
+import { test as rackRouteTest } from 'node:test';
+import { appRoutePath as rackRoutePath, parseAppRoute as parseRackRoute, isNavigationDestinationCurrent as rackNavigation } from './app-routing.ts';
+
+rackRouteTest('round-trips market and workshop racks without changing the paint context', () => {
+  for (const route of [{ view: 'marketRacks' }, { view: 'workshopRacks' }, { view: 'workshopRack', workshopRackId: 'rack-one' }]) {
+    assert.deepEqual(parseRackRoute(rackRoutePath(route)), route);
+  }
+  assert.equal(rackNavigation({ view: 'workshopRack', workshopRackId: 'rack-one' }, 'workshopRacks'), true);
+  assert.equal(rackNavigation({ view: 'workshopRack', workshopRackId: 'rack-one' }, 'workshopPaints'), false);
+});
 import test from 'node:test';
 import { appRoutePath, parseAppRoute, isNavigationDestinationCurrent } from './app-routing.ts';
 

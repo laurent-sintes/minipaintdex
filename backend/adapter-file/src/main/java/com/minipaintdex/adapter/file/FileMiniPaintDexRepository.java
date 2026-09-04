@@ -57,6 +57,8 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
     private final FileRepositoryLayout layout;
     private final JsonMapper json = JsonMapper.builder().build();
     private final DomainEventCodec eventCodec = new DomainEventCodec();
+    private final RackDataCodec rackCodec = new RackDataCodec();
+    private final AtomicVersionedCache<com.minipaintdex.domain.market.storage.RackCatalog> rackCache = new AtomicVersionedCache<>("rack catalog");
     private final Object writeMutex = new Object();
     private final ReentrantReadWriteLock stateLock = new ReentrantReadWriteLock();
     private final Path writeLockPath;
@@ -150,7 +152,8 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
                 readEvents(layout.ledgerDirectory()),
                 structuredDocuments(paintCatalogs.stream()
                         .flatMap(document -> listOfMaps(document.get("catalog_editions")).stream()).toList()),
-                structuredDocuments(paintCatalogs.stream().flatMap(document -> listOfMaps(document.get("paint_usage_guides")).stream()).toList()));
+                structuredDocuments(paintCatalogs.stream().flatMap(document -> listOfMaps(document.get("paint_usage_guides")).stream()).toList()),
+                Files.exists(layout.rackCatalog()) ? rackCodec.catalog(yaml(layout.rackCatalog())) : com.minipaintdex.domain.market.storage.RackCatalog.empty());
     }
 
     @Override
@@ -195,7 +198,7 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
                 publishAfterWrite(new DataSnapshot(
                         currentSnapshot.site(), currentSnapshot.paintProducts(),
                         currentSnapshot.paintableProducts(), currentSnapshot.marketPaintingGuides(),
-                        currentSnapshot.shopping(), List.copyOf(updatedEvents), currentSnapshot.paintCatalogEditions(), currentSnapshot.paintUsageGuides()), "Event ledger updated.");
+                        currentSnapshot.shopping(), List.copyOf(updatedEvents), currentSnapshot.paintCatalogEditions(), currentSnapshot.paintUsageGuides(), currentSnapshot.rackCatalog()), "Event ledger updated.");
                 return List.copyOf(events);
             } catch (IOException exception) {
                 throw new FileStorageException("Unable to append event to " + path, exception);
@@ -226,19 +229,37 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
 
     @Override
     public void replacePaintProducts(List<StructuredDocument> paints) {
-        replacePaintProductCatalog(paints, () -> cachedSnapshot().paintCatalogEditions(), () -> cachedSnapshot().paintUsageGuides());
+        replacePaintProductCatalog(paints, () -> cachedSnapshot().paintCatalogEditions(), () -> cachedSnapshot().paintUsageGuides(), null);
+    }
+    public com.minipaintdex.domain.market.storage.RackCatalog replaceRackCatalog(com.minipaintdex.domain.market.storage.RackCatalog catalog, long expectedRevision) {
+        return withWriteLock(() -> {
+            var current = cachedSnapshot().rackCatalog();
+            if (current.equals(catalog)) return current;
+            if (current.revision() != expectedRevision || catalog.revision() != expectedRevision + 1)
+                throw new com.minipaintdex.domain.shared.DomainException("conflict", "Rack catalog revision changed.");
+            current.validateReplacement(catalog);
+            replaceYamlBatch(Map.of(layout.rackCatalog(), rackCodec.encode(catalog)));
+            reloadAfterWrite("Rack catalog updated."); return catalog;
+        });
     }
 
     @Override
-    public void replacePaintProductCatalog(List<StructuredDocument> paints, List<StructuredDocument> editions, List<StructuredDocument> usageGuides) {
-        replacePaintProductCatalog(paints, () -> editions, () -> usageGuides);
+    public void replacePaintProductCatalog(List<StructuredDocument> paints, List<StructuredDocument> editions, List<StructuredDocument> usageGuides,
+            com.minipaintdex.domain.market.storage.RackCatalog rackCatalog) {
+        replacePaintProductCatalog(paints, () -> editions, () -> usageGuides, rackCatalog);
     }
 
     // Resolve preserved editions under the same write lock as paints, not from an older cache generation.
-    private void replacePaintProductCatalog(List<StructuredDocument> paints, Supplier<List<StructuredDocument>> editions, Supplier<List<StructuredDocument>> usageGuides) {
+    private void replacePaintProductCatalog(List<StructuredDocument> paints, Supplier<List<StructuredDocument>> editions, Supplier<List<StructuredDocument>> usageGuides,
+            com.minipaintdex.domain.market.storage.RackCatalog rackCatalog) {
         withWriteLock(() -> {
             var paintDocuments = paintCatalogDocuments(paints, editions.get(), usageGuides.get());
-            replaceYamlBatch(changedPaintCatalogDocuments(paintDocuments));
+            var documents = new LinkedHashMap<>(changedPaintCatalogDocuments(paintDocuments));
+            if (rackCatalog != null && !cachedSnapshot().rackCatalog().equals(rackCatalog)) {
+                cachedSnapshot().rackCatalog().validateReplacement(rackCatalog);
+                documents.put(layout.rackCatalog(), rackCodec.encode(rackCatalog));
+            }
+            replaceYamlBatch(documents);
             removeStalePaintCatalogs(paintDocuments.keySet());
             reloadAfterWrite("Market paint catalogue updated.");
         });
@@ -557,6 +578,7 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
         paintProductCache.publish(generation, List.copyOf(snapshot.paintProducts()));
         paintCatalogEditionCache.publish(generation, List.copyOf(snapshot.paintCatalogEditions()));
         paintUsageGuideCache.publish(generation, List.copyOf(snapshot.paintUsageGuides()));
+        rackCache.publish(generation, snapshot.rackCatalog());
         workshopPaintCache.publish(generation, snapshot.paintInventory());
         paintableProductCache.publish(generation, List.copyOf(snapshot.paintableProducts()));
         paintingGuideCache.publish(generation, List.copyOf(snapshot.marketPaintingGuides()));
@@ -576,7 +598,7 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
                 paintableProductCache.current().value(),
                 paintingGuideCache.current().value(),
                 shoppingCache.current().value(),
-                eventCache.current().value(), paintCatalogEditionCache.current().value(), paintUsageGuideCache.current().value());
+                eventCache.current().value(), paintCatalogEditionCache.current().value(), paintUsageGuideCache.current().value(), rackCache.current().value());
     }
 
     private void validateSnapshot(DataSnapshot snapshot) {
@@ -606,6 +628,7 @@ final class FileMiniPaintDexRepository implements SnapshotRepository, EventLedge
             if (!Files.isRegularFile(path)) throw new FileStorageException("Required persistence file is missing: " + path, null);
         }
         var paths = new ArrayList<Path>(required);
+        if (Files.exists(layout.rackCatalog())) paths.add(layout.rackCatalog());
         var paintCatalogs = files(layout.paintProductCatalogDirectory(), ".yaml");
         if (paintCatalogs.isEmpty()) {
             throw new FileStorageException("No market paint brand catalog exists in: "

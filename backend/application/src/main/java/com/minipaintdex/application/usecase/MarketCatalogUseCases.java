@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /** Queries the immutable market knowledge base without exposing its storage strategy. */
-public interface MarketCatalogUseCases {
+public interface MarketCatalogUseCases extends MarketRackQueries {
     /**
      * Reads a bounded guide page in stable ID order, optionally filtered by brand, range and explicit
      * product links. Only id/title sorting and en/fr languages are supported. Missing products raise

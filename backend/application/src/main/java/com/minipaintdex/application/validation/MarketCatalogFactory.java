@@ -24,6 +24,19 @@ import java.util.Map;
 /** Translates extensible import documents into one strictly validated typed Market generation. */
 public final class MarketCatalogFactory {
     private MarketCatalogFactory() {}
+    public static com.minipaintdex.domain.market.storage.PaintContainerFormat containerFormat(StructuredDocument document) {
+        var value = map(document); var dimensions = map(value.get("dimensions"));
+        return new com.minipaintdex.domain.market.storage.PaintContainerFormat(
+                number(value.get("schema_version"), null, "container.schema_version"), text(value.get("id")), text(value.get("name")),
+                text(value.get("brand")), text(value.get("family")), value.get("volume_ml") == null ? null : number(value.get("volume_ml"), null, "container.volume_ml"),
+                new com.minipaintdex.domain.shared.storage.ContainerDimensions(dimension(dimensions.get("width_mm")), dimension(dimensions.get("depth_mm")), dimension(dimensions.get("height_mm"))),
+                text(value.get("evidence_status")), strings(value.get("sources")), text(value.get("notes")));
+    }
+    private static Double dimension(Object value) {
+        if (value == null) return null;
+        if (!(value instanceof Number number)) throw invalid("Container dimensions must be numeric millimetres.");
+        return number.doubleValue();
+    }
 
     public static MarketCatalogSnapshot create(
             List<StructuredDocument> paintDocuments,
@@ -153,7 +166,7 @@ public final class MarketCatalogFactory {
                 image(map(value.get("result_image")), "paint.result_image"),
                 maps(value.get("catalog_memberships")).stream().map(m -> new PaintCatalogEdition.Membership(
                         text(m.get("catalog_edition_id")), uri(m.get("source_url"), "membership.source_url"),
-                        text(m.get("locator")))).toList(), strings(value.get("usage_guide_ids")));
+                        text(m.get("locator")))).toList(), strings(value.get("usage_guide_ids")), text(value.get("container_format_id")));
     }
 
     private static PaintProduct.ImageReference image(Map<String, Object> value, String field) {

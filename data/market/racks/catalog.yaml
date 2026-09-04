@@ -1,0 +1,6035 @@
+schema_version: 1
+revision: 369
+container_formats:
+- schema_version: 1
+  id: citadel-12ml-flip-top
+  name: Citadel 12 ml — couvercle articulé
+  brand: Citadel
+  family: citadel-flip-top
+  volume_ml: 12
+  dimensions:
+    width_mm: 34.94
+    depth_mm: 32.3
+    height_mm: 42.0
+  evidence_status: estimated
+  sources:
+  - https://cults3d.com/en/3d-model/tool/citadel-paint-pods-models-for-modeling-holders-and-such
+  notes: Enveloppe approximative issue d’un modèle CAO communautaire de 2021, pas
+    une mesure certifiée. Vérifier le conditionnement du pot réel.
+- schema_version: 1
+  id: citadel-18ml-flip-top
+  name: Citadel 18 ml — couvercle articulé
+  brand: Citadel
+  family: citadel-flip-top
+  volume_ml: 18
+  dimensions:
+    width_mm: 34.94
+    depth_mm: 32.3
+    height_mm: 50.0
+  evidence_status: estimated
+  sources:
+  - https://cults3d.com/en/3d-model/tool/citadel-paint-pods-models-for-modeling-holders-and-such
+  notes: Enveloppe approximative issue d’un modèle CAO communautaire de 2021. Même
+    famille d’empreinte, hauteur différente. Conditionnement à identifier.
+- schema_version: 1
+  id: citadel-24ml-flip-top
+  name: Citadel 24 ml — couvercle articulé
+  brand: Citadel
+  family: citadel-flip-top
+  volume_ml: 24
+  dimensions:
+    width_mm: 34.94
+    depth_mm: 32.3
+    height_mm: 59.0
+  evidence_status: estimated
+  sources:
+  - https://cults3d.com/en/3d-model/tool/citadel-paint-pods-models-for-modeling-holders-and-such
+  notes: Enveloppe approximative issue d’un modèle CAO communautaire de 2021. Ne pas
+    attribuer automatiquement à tous les pots Citadel de 24 ml.
+- schema_version: 1
+  id: vallejo-18ml-dropper
+  name: Vallejo 18 ml — compte-gouttes
+  brand: Vallejo
+  family: dropper
+  volume_ml: 18
+  dimensions:
+    width_mm: 24.75
+    depth_mm: 24.75
+    height_mm: 78.5
+  evidence_status: estimated
+  sources:
+  - https://cults3d.com/it/modello-3d/gioco/paint-pro-tower-modular-rotatable-paint-pot-holder/commenti
+  notes: Mesure communautaire publiée en janvier 2026. Génération, référence et état
+    du bouchon non précisés. Ne couvre pas automatiquement les anciens 17 ml.
+- schema_version: 1
+  id: army-painter-18ml-dropper
+  name: Army Painter 18 ml — compte-gouttes
+  brand: The Army Painter
+  family: dropper
+  volume_ml: 18
+  dimensions:
+    width_mm: 24.75
+    depth_mm: 24.75
+    height_mm: 76.5
+  evidence_status: estimated
+  sources:
+  - https://cults3d.com/it/modello-3d/gioco/paint-pro-tower-modular-rotatable-paint-pot-holder/commenti
+  notes: Mesure communautaire publiée en janvier 2026. Gamme, génération et état du
+    bouchon non précisés. Identification explicite du pot nécessaire.
+- schema_version: 1
+  id: unidentified-cit-prod4190184-99189956067
+  name: Unidentified packaging — cit-prod4190184-99189956067
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/mordant-earth
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4190185-99189956038
+  name: Unidentified packaging — cit-prod4190185-99189956038
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/citadel-agrellan-earth
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4190186-99189956069
+  name: Unidentified packaging — cit-prod4190186-99189956069
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://elementgames.co.uk/games-workshop/warhammer-40k/tyranids/games-workshop/citadel-games-workshop-paints/technical-agrellan-badland-24ml
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4190187-99189956070
+  name: Unidentified packaging — cit-prod4190187-99189956070
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/citadel-martian-ironearth
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4190188-99189956071
+  name: Unidentified packaging — cit-prod4190188-99189956071
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/martian-ironcrust
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4190189-99189956096
+  name: Unidentified packaging — cit-prod4190189-99189956096
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/citadel-stirland-mud
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4190191-99189956044
+  name: Unidentified packaging — cit-prod4190191-99189956044
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/citadel-armageddon-dust
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4190193-99189956076
+  name: Unidentified packaging — cit-prod4190193-99189956076
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/citadel-astrogranite
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4190195-99189956078
+  name: Unidentified packaging — cit-prod4190195-99189956078
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/citadel-valhallan-blizzard-technical
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4190196-99189956049
+  name: Unidentified packaging — cit-prod4190196-99189956049
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/citadel-lahmian-medium
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4190198-99189956081
+  name: Unidentified packaging — cit-prod4190198-99189956081
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://wulfgaming.com/products/citadel-technical-contrast-medium-24ml
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4190199-99189956082
+  name: Unidentified packaging — cit-prod4190199-99189956082
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://wulfgaming.com/products/citadel-technical-stormshield-24ml
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4210385-99189956065
+  name: Unidentified packaging — cit-prod4210385-99189956065
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/soulstone-blue
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4210386-99189956064
+  name: Unidentified packaging — cit-prod4210386-99189956064
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/citadel-spiritstone-red
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4210388-99189956061
+  name: Unidentified packaging — cit-prod4210388-99189956061
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/citadel-nihilakh-oxide
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4210389-99189956062
+  name: Unidentified packaging — cit-prod4210389-99189956062
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/citadel-nurgles-rot
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4210392-99189956063
+  name: Unidentified packaging — cit-prod4210392-99189956063
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/citadel-typhus-corrosion
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4210393-99189956066
+  name: Unidentified packaging — cit-prod4210393-99189956066
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/waystone-green
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4210414-99189956080
+  name: Unidentified packaging — cit-prod4210414-99189956080
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/citadel-ardcoat
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4210415-99189956060
+  name: Unidentified packaging — cit-prod4210415-99189956060
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: null
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/citadel-blood-for-the-blood-god
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4540248-99209999090
+  name: Unidentified packaging — cit-prod4540248-99209999090
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-chaos-black-spray
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4540249-99209999099
+  name: Unidentified packaging — cit-prod4540249-99209999099
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/death-guard-green-spray
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4540250-99209999092
+  name: Unidentified packaging — cit-prod4540250-99209999092
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-grey-seer-spray
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4540251-99209999091
+  name: Unidentified packaging — cit-prod4540251-99209999091
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-wraithbone-spray
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4540253-99209999097
+  name: Unidentified packaging — cit-prod4540253-99209999097
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-leadbelcher-spray
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4540254-99209999095
+  name: Unidentified packaging — cit-prod4540254-99209999095
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-macragge-blue-spray
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4540255-99209999098
+  name: Unidentified packaging — cit-prod4540255-99209999098
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-mechanicus-standard-grey-1
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4540256-99209999094
+  name: Unidentified packaging — cit-prod4540256-99209999094
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/copy-of-macragge-blue-spray
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4540257-99209999107
+  name: Unidentified packaging — cit-prod4540257-99209999107
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/munitorum-varnish-spray
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4540258-99209999100
+  name: Unidentified packaging — cit-prod4540258-99209999100
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/citadel-retributor-armour
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4540259-99209999096
+  name: Unidentified packaging — cit-prod4540259-99209999096
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/zandri-dust
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-cit-prod4960287-99209999102
+  name: Unidentified packaging — cit-prod4960287-99209999102
+  brand: Warhammer Colour
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/collections/warhammer-colour-sprays/products/white-scar-spray-pre-order
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p400
+  name: Unidentified packaging — pau-p400
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/199-mastic-plastique
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p470
+  name: Unidentified packaging — pau-p470
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/190-medium-brillant
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p510
+  name: Unidentified packaging — pau-p510
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/193-vernis-brillant
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p520
+  name: Unidentified packaging — pau-p520
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/192-vernis-mat
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p521
+  name: Unidentified packaging — pau-p521
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/191-medium-metal
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p522
+  name: Unidentified packaging — pau-p522
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/194-vernis-satine
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p523
+  name: Unidentified packaging — pau-p523
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/197-masque-liquide
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p524
+  name: Unidentified packaging — pau-p524
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/200-diluant
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p540
+  name: Unidentified packaging — pau-p540
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/189-medium-mat
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p596
+  name: Unidentified packaging — pau-p596
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/195-medium-glacis
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p597
+  name: Unidentified packaging — pau-p597
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/196-retardateur
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p598
+  name: Unidentified packaging — pau-p598
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/198-medium-a-craqueler
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p730
+  name: Unidentified packaging — pau-p730
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/206-jaune-fluo
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p733
+  name: Unidentified packaging — pau-p733
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/207-orange-fluo
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p736
+  name: Unidentified packaging — pau-p736
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/209-bleu-fluo
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p737
+  name: Unidentified packaging — pau-p737
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/210-vert-fluo
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p800
+  name: Unidentified packaging — pau-p800
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/180-gunmetal-bleu
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p801
+  name: Unidentified packaging — pau-p801
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/174-laiton
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p802
+  name: Unidentified packaging — pau-p802
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/41-rouge-sunset
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p803
+  name: Unidentified packaging — pau-p803
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/38-rose-marron
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p804
+  name: Unidentified packaging — pau-p804
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/36-beige-rouge
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p805
+  name: Unidentified packaging — pau-p805
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/23-orange-allemand
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p806
+  name: Unidentified packaging — pau-p806
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/12-jaune-allemand
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p807
+  name: Unidentified packaging — pau-p807
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/49-bleu-sali-fonce
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p808
+  name: Unidentified packaging — pau-p808
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/70-bleu-vert
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p809
+  name: Unidentified packaging — pau-p809
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/54-bleu-roi
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p810
+  name: Unidentified packaging — pau-p810
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/45-pourpre-royal
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p811
+  name: Unidentified packaging — pau-p811
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/46-violet-bleute
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p814
+  name: Unidentified packaging — pau-p814
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/34-rouge-cad-brule
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p815
+  name: Unidentified packaging — pau-p815
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/17-chair-de-base
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p816
+  name: Unidentified packaging — pau-p816
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/105-uniforme-luftwaffe
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p817
+  name: Unidentified packaging — pau-p817
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/26-ecarlate-1er-empire-gb
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p818
+  name: Unidentified packaging — pau-p818
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/136-cuir-rouge
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p819
+  name: Unidentified packaging — pau-p819
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/124-sable-irakien
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p820
+  name: Unidentified packaging — pau-p820
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/4-blanc-casse
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p821
+  name: Unidentified packaging — pau-p821
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/103-beige-cam-allem-wwii
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p822
+  name: Unidentified packaging — pau-p822
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/150-cam-allem-brun-fonce
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p823
+  name: Unidentified packaging — pau-p823
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/86-vert-cam-luftwaffe
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p824
+  name: Unidentified packaging — pau-p824
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/128-orange-cam-allem
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p825
+  name: Unidentified packaging — pau-p825
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/144-cam-allem-brun-clair
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p826
+  name: Unidentified packaging — pau-p826
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/145-cam-allem-brun-moyen
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p827
+  name: Unidentified packaging — pau-p827
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/77-vert-citron
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p829
+  name: Unidentified packaging — pau-p829
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/130-rouge-amarante
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p830
+  name: Unidentified packaging — pau-p830
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/102-vert-allem-wwii
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p831
+  name: Unidentified packaging — pau-p831
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/203-patine-ocre
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p832
+  name: Unidentified packaging — pau-p832
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/202-patine-vert-de-gris
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p833
+  name: Unidentified packaging — pau-p833
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/80-cam-allem-vert-clair
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p834
+  name: Unidentified packaging — pau-p834
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/183-bois-naturel-transp
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p835
+  name: Unidentified packaging — pau-p835
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/37-rose-saumon
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p836
+  name: Unidentified packaging — pau-p836
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/161-gris-fonce
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p837
+  name: Unidentified packaging — pau-p837
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/7-sable-clair
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p838
+  name: Unidentified packaging — pau-p838
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/71-emeraude
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p839
+  name: Unidentified packaging — pau-p839
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/55-bleu-outre-mer
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p840
+  name: Unidentified packaging — pau-p840
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/68-turquoise-clair
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p841
+  name: Unidentified packaging — pau-p841
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/65-bleu-ciel-intense
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p842
+  name: Unidentified packaging — pau-p842
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/3-blanc-brillant
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p844
+  name: Unidentified packaging — pau-p844
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/66-bleu-ciel-profond
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p845
+  name: Unidentified packaging — pau-p845
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/20-chair-bronzee
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p846
+  name: Unidentified packaging — pau-p846
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/139-marron-acajou
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p847
+  name: Unidentified packaging — pau-p847
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/123-sable-fonce
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p850
+  name: Unidentified packaging — pau-p850
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/81-vert-olive-moyen
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p851
+  name: Unidentified packaging — pau-p851
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/24-orange-intense
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p853
+  name: Unidentified packaging — pau-p853
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/201-patine-blanche
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p854
+  name: Unidentified packaging — pau-p854
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/204-patine-marron
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p855
+  name: Unidentified packaging — pau-p855
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/205-patine-noire
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p856
+  name: Unidentified packaging — pau-p856
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/127-ocre-marron
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p857
+  name: Unidentified packaging — pau-p857
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/79-vert-olive-dore
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p858
+  name: Unidentified packaging — pau-p858
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/13-jaune-creme
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p859
+  name: Unidentified packaging — pau-p859
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/35-rouge-noir
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p860
+  name: Unidentified packaging — pau-p860
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/21-chair-moyen
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p862
+  name: Unidentified packaging — pau-p862
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/168-gris-noir
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p863
+  name: Unidentified packaging — pau-p863
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/179-gun-metal-gris
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p864
+  name: Unidentified packaging — pau-p864
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/178-acier-naturel-metal-poli
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p865
+  name: Unidentified packaging — pau-p865
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/177-acier-graisse
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p866
+  name: Unidentified packaging — pau-p866
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/165-gris-vert
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p867
+  name: Unidentified packaging — pau-p867
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/164-bleu-gris-fonce
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p868
+  name: Unidentified packaging — pau-p868
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/163-vert-marine-fonce
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p869
+  name: Unidentified packaging — pau-p869
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/162-gris-basalte
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p870
+  name: Unidentified packaging — pau-p870
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/158-gris-marine-moyen
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p871
+  name: Unidentified packaging — pau-p871
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/147-marron-cuir-fonce
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p872
+  name: Unidentified packaging — pau-p872
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/149-marron-chocolat
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p873
+  name: Unidentified packaging — pau-p873
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/142-terre
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p874
+  name: Unidentified packaging — pau-p874
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/134-terre-foncee
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p875
+  name: Unidentified packaging — pau-p875
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/135-marron-beige
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p877
+  name: Unidentified packaging — pau-p877
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/126-marron-dore-alezan-dore
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p878
+  name: Unidentified packaging — pau-p878
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/173-vieil-or
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p879
+  name: Unidentified packaging — pau-p879
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/114-marron-vert
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p880
+  name: Unidentified packaging — pau-p880
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/113-gris-kaki
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p881
+  name: Unidentified packaging — pau-p881
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/112-vert-jaune
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p882
+  name: Unidentified packaging — pau-p882
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/118-jaune-pierre
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p883
+  name: Unidentified packaging — pau-p883
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/152-gris-argente
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p884
+  name: Unidentified packaging — pau-p884
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/104-gris-pierre
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p885
+  name: Unidentified packaging — pau-p885
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/109-vert-pastel
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p886
+  name: Unidentified packaging — pau-p886
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/101-vert-gris
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p887
+  name: Unidentified packaging — pau-p887
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/93-marron-violet
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p888
+  name: Unidentified packaging — pau-p888
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/92-gris-olive
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p889
+  name: Unidentified packaging — pau-p889
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/91-olive-drab
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p890
+  name: Unidentified packaging — pau-p890
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/90-vert-refractaire
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p892
+  name: Unidentified packaging — pau-p892
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/87-jaune-olive
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p893
+  name: Unidentified packaging — pau-p893
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/95-vert-americain
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p894
+  name: Unidentified packaging — pau-p894
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/96-vert-russe
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p895
+  name: Unidentified packaging — pau-p895
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/88-vert-panzer
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p896
+  name: Unidentified packaging — pau-p896
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/99-vert-cam-allemand
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p897
+  name: Unidentified packaging — pau-p897
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/98-vert-bronze
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p898
+  name: Unidentified packaging — pau-p898
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/48-bleu-marine-fonce
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p899
+  name: Unidentified packaging — pau-p899
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/50-bleu-de-prusse-fonce-emp-fr
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p900
+  name: Unidentified packaging — pau-p900
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/59-bleu-mirage-france
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p901
+  name: Unidentified packaging — pau-p901
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/63-bleu-pastel
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p902
+  name: Unidentified packaging — pau-p902
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/62-bleu-azur
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p903
+  name: Unidentified packaging — pau-p903
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/60-bleu-us
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p904
+  name: Unidentified packaging — pau-p904
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/157-gris-bleu-fonce
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p905
+  name: Unidentified packaging — pau-p905
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/156-gris-bleu-clair
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p907
+  name: Unidentified packaging — pau-p907
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/153-bleu-gris-clair
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p908
+  name: Unidentified packaging — pau-p908
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/30-rouge-carmin
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p909
+  name: Unidentified packaging — pau-p909
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/28-rouge-cad-vermillon
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p910
+  name: Unidentified packaging — pau-p910
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/27-rouge-cadmium-clair
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p911
+  name: Unidentified packaging — pau-p911
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/22-aurore
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p912
+  name: Unidentified packaging — pau-p912
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/122-marron-jaune
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p913
+  name: Unidentified packaging — pau-p913
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/121-ocre-jaune
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p914
+  name: Unidentified packaging — pau-p914
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/119-ocre-vert
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p915
+  name: Unidentified packaging — pau-p915
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/14-jaune-intense-secession-dist
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p916
+  name: Unidentified packaging — pau-p916
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/9-jaune-sable
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p917
+  name: Unidentified packaging — pau-p917
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/8-beige
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p918
+  name: Unidentified packaging — pau-p918
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/5-ivoire-os
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p919
+  name: Unidentified packaging — pau-p919
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/2-base-blanche
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p920
+  name: Unidentified packaging — pau-p920
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/85-uniforme-allemand
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p922
+  name: Unidentified packaging — pau-p922
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/84-uniforme-us
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p923
+  name: Unidentified packaging — pau-p923
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/117-uniforme-japonais-wwii
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p924
+  name: Unidentified packaging — pau-p924
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/94-uniforme-russe-wwii
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p925
+  name: Unidentified packaging — pau-p925
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/52-bleu-intense-regl-secession
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p926
+  name: Unidentified packaging — pau-p926
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/33-rouge
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p927
+  name: Unidentified packaging — pau-p927
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/19-chair-foncee
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p928
+  name: Unidentified packaging — pau-p928
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/6-chair-claire
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p929
+  name: Unidentified packaging — pau-p929
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/129-marron-clair
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p930
+  name: Unidentified packaging — pau-p930
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/53-bleu-fonce
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p934
+  name: Unidentified packaging — pau-p934
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/186-rouge-transparent
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p935
+  name: Unidentified packaging — pau-p935
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/185-orange-transparent
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p936
+  name: Unidentified packaging — pau-p936
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/188-vert-transparent
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p937
+  name: Unidentified packaging — pau-p937
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/184-jaune-transparent
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p938
+  name: Unidentified packaging — pau-p938
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/187-bleu-transparent
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p940
+  name: Unidentified packaging — pau-p940
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/138-marron-cuir
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p941
+  name: Unidentified packaging — pau-p941
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/148-ombre-brulee
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p942
+  name: Unidentified packaging — pau-p942
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/75-vert-clair
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p943
+  name: Unidentified packaging — pau-p943
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/61-bleu-horizon-regl-secession
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p944
+  name: Unidentified packaging — pau-p944
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/39-vieux-rose
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p945
+  name: Unidentified packaging — pau-p945
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/42-magenta
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p946
+  name: Unidentified packaging — pau-p946
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/32-rouge-fonce
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p947
+  name: Unidentified packaging — pau-p947
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/29-vermillon-rouge-sang
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p948
+  name: Unidentified packaging — pau-p948
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/16-jaune-or
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p949
+  name: Unidentified packaging — pau-p949
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/10-jaune-clair
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p950
+  name: Unidentified packaging — pau-p950
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/169-noir
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p951
+  name: Unidentified packaging — pau-p951
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/1-blanc
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p952
+  name: Unidentified packaging — pau-p952
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/11-jaune-citron
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p953
+  name: Unidentified packaging — pau-p953
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/15-jaune-mat
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p955
+  name: Unidentified packaging — pau-p955
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/18-chair-mat
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p956
+  name: Unidentified packaging — pau-p956
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/25-orange
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p957
+  name: Unidentified packaging — pau-p957
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/31-garance
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p958
+  name: Unidentified packaging — pau-p958
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/40-rose
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p959
+  name: Unidentified packaging — pau-p959
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/44-pourpre
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p960
+  name: Unidentified packaging — pau-p960
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/47-violet
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p961
+  name: Unidentified packaging — pau-p961
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/67-bleu-ciel
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p962
+  name: Unidentified packaging — pau-p962
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/56-bleu-mat
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p963
+  name: Unidentified packaging — pau-p963
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/57-bleu-moyen
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p964
+  name: Unidentified packaging — pau-p964
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/58-bleu-militaire-espagne
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p965
+  name: Unidentified packaging — pau-p965
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/51-bleu-de-prusse
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p966
+  name: Unidentified packaging — pau-p966
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/69-turquoise
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p967
+  name: Unidentified packaging — pau-p967
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/82-vert-olive
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p968
+  name: Unidentified packaging — pau-p968
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/83-vert-olive-fonce
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p970
+  name: Unidentified packaging — pau-p970
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/72-vert-1er-empire-chasseur-dragon
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p971
+  name: Unidentified packaging — pau-p971
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/106-vert-gris-pale
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p972
+  name: Unidentified packaging — pau-p972
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/107-vert-bleu-pale
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p973
+  name: Unidentified packaging — pau-p973
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/108-vert-gris-moyen
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p974
+  name: Unidentified packaging — pau-p974
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/76-vert-bleu
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p975
+  name: Unidentified packaging — pau-p975
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/89-vert-militaire
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p976
+  name: Unidentified packaging — pau-p976
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/120-jaune-kaki
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p977
+  name: Unidentified packaging — pau-p977
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/125-jaune-desert
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p978
+  name: Unidentified packaging — pau-p978
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/116-jaune-camouflage
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p979
+  name: Unidentified packaging — pau-p979
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/97-vert-camouflage
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p980
+  name: Unidentified packaging — pau-p980
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/100-vert-noir-emp-russe-chasseur
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p981
+  name: Unidentified packaging — pau-p981
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/131-marron-orange
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p982
+  name: Unidentified packaging — pau-p982
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/137-marron-rouge
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p983
+  name: Unidentified packaging — pau-p983
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/143-terre-mat
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p985
+  name: Unidentified packaging — pau-p985
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/146-marron-royal-navy
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p986
+  name: Unidentified packaging — pau-p986
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/110-agate-pont-royal-navy
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p987
+  name: Unidentified packaging — pau-p987
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/111-gris-moyen
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p988
+  name: Unidentified packaging — pau-p988
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/115-marron-kaki
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p989
+  name: Unidentified packaging — pau-p989
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/154-gris-ciel
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p990
+  name: Unidentified packaging — pau-p990
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/155-gris-pale
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p991
+  name: Unidentified packaging — pau-p991
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/159-gris-marine
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p992
+  name: Unidentified packaging — pau-p992
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/160-gris-neutre-1er-empire
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p993
+  name: Unidentified packaging — pau-p993
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/151-aluminium-mat
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p994
+  name: Unidentified packaging — pau-p994
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/166-gris-sombre
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p995
+  name: Unidentified packaging — pau-p995
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/167-gris-allemand
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p996
+  name: Unidentified packaging — pau-p996
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/172-or
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p997
+  name: Unidentified packaging — pau-p997
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/171-argent
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-pau-p998
+  name: Unidentified packaging — pau-p998
+  brand: Prince August
+  family: unidentified
+  volume_ml: 17
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://www.prince-august.net/peintures/classic/175-bronze
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3001s
+  name: Unidentified packaging — tap-cp3001s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-matt-black-cp3001s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3002s
+  name: Unidentified packaging — tap-cp3002s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-matt-white-cp3002s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3004s
+  name: Unidentified packaging — tap-cp3004s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-leather-brown-cp3004s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3005s
+  name: Unidentified packaging — tap-cp3005s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-army-green-cp3005s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3006s
+  name: Unidentified packaging — tap-cp3006s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-pure-red-cp3006s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3007s
+  name: Unidentified packaging — tap-cp3007s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-barbarian-flesh-cp3007s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3008s
+  name: Unidentified packaging — tap-cp3008s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-plate-mail-metal-cp3008s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3010s
+  name: Unidentified packaging — tap-cp3010s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-uniform-grey-cp3010s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3011s
+  name: Unidentified packaging — tap-cp3011s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-desert-yellow-cp3011s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3012s
+  name: Unidentified packaging — tap-cp3012s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-skeleton-bone-cp3012s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3013s
+  name: Unidentified packaging — tap-cp3013s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-necrotic-flesh-cp3013s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3014s
+  name: Unidentified packaging — tap-cp3014s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-greenskin-cp3014s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3015s
+  name: Unidentified packaging — tap-cp3015s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-daemonic-yellow-cp3015s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3016s
+  name: Unidentified packaging — tap-cp3016s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-fur-brown-cp3016s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3018s
+  name: Unidentified packaging — tap-cp3018s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-dragon-red-cp3018s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3019s
+  name: Unidentified packaging — tap-cp3019s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-alien-purple-cp3019s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3020s
+  name: Unidentified packaging — tap-cp3020s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-angel-green-cp3020s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3021s
+  name: Unidentified packaging — tap-cp3021s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-wolf-grey-cp3021s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3022s
+  name: Unidentified packaging — tap-cp3022s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-ultramarine-blue-cp3022s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3025s
+  name: Unidentified packaging — tap-cp3025s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-gun-metal-cp3025s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3028s
+  name: Unidentified packaging — tap-cp3028s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-greedy-gold-cp3028s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3029s
+  name: Unidentified packaging — tap-cp3029s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-ash-grey-cp3029s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3030s
+  name: Unidentified packaging — tap-cp3030s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-oak-brown-cp3030s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-cp3031s
+  name: Unidentified packaging — tap-cp3031s
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/colour-primers-colour-primer-brainmatter-beige-cp3031s
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-gm3001p
+  name: Unidentified packaging — tap-gm3001p
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/gamemaster-gamemaster-terrain-primer-dungeon-subterrain-gm3001p
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-gm3002p
+  name: Unidentified packaging — tap-gm3002p
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/gamemaster-gamemaster-terrain-primer-ruins-cliffs-gm3002p
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-gm3003p
+  name: Unidentified packaging — tap-gm3003p
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/gamemaster-gamemaster-terrain-primer-wilderness-woodlands-gm3003p
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-gm3004p
+  name: Unidentified packaging — tap-gm3004p
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/gamemaster-gamemaster-terrain-primer-snow-tundra-gm3004p
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-tap-gm3005p
+  name: Unidentified packaging — tap-gm3005p
+  brand: The Army Painter
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://thearmypainter.com/products/gamemaster-gamemaster-terrain-primer-desert-arid-wastes-gm3005p
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-26-233
+  name: Unidentified packaging — val-26-233
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/pigment-binder-26233/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-001
+  name: Unidentified packaging — val-28-001
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/panzer-yellow-28001/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-002
+  name: Unidentified packaging — val-28-002
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/panzer-grey-28002/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-003
+  name: Unidentified packaging — val-28-003
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/russian-green-4bo-28003/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-004
+  name: Unidentified packaging — val-28-004
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/uk-bronze-green-28004/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-005
+  name: Unidentified packaging — val-28-005
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/us-olive-drab-28005/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-006
+  name: Unidentified packaging — val-28-006
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/german-field-grey-28006/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-007
+  name: Unidentified packaging — val-28-007
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/russian-uniform-28007/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-008
+  name: Unidentified packaging — val-28-008
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/english-uniform-28008/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-009
+  name: Unidentified packaging — val-28-009
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/us-khaki-28009/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-010
+  name: Unidentified packaging — val-28-010
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/white-28010/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-011
+  name: Unidentified packaging — val-28-011
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/grey-28011/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-012
+  name: Unidentified packaging — val-28-012
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/black-28012/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-013
+  name: Unidentified packaging — val-28-013
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/bone-white-28013/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-014
+  name: Unidentified packaging — val-28-014
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/leather-brown-28014/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-015
+  name: Unidentified packaging — val-28-015
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/desert-yellow-28015/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-016
+  name: Unidentified packaging — val-28-016
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/scarlet-red-28016/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-017
+  name: Unidentified packaging — val-28-017
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/ultramarine-blue-28017/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-018
+  name: Unidentified packaging — val-28-018
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/sun-yellow-28018/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-019
+  name: Unidentified packaging — val-28-019
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/beasty-brown-28019/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-020
+  name: Unidentified packaging — val-28-020
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/wolf-grey-28020/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-021
+  name: Unidentified packaging — val-28-021
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/silver-28021/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-022
+  name: Unidentified packaging — val-28-022
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/dead-flesh-28022/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-023
+  name: Unidentified packaging — val-28-023
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/bloody-red-28023/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-024
+  name: Unidentified packaging — val-28-024
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/pale-flesh-28024/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-025
+  name: Unidentified packaging — val-28-025
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/alien-purple-28025/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-026
+  name: Unidentified packaging — val-28-026
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/dark-green-28026/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-027
+  name: Unidentified packaging — val-28-027
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/goblin-green-28027/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-028
+  name: Unidentified packaging — val-28-028
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/sick-green-28028/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-029
+  name: Unidentified packaging — val-28-029
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/gory-red-28029/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-030
+  name: Unidentified packaging — val-28-030
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/magic-blue-28030/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-031
+  name: Unidentified packaging — val-28-031
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/hobby-paint/gunmetal-28031/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-530
+  name: Unidentified packaging — val-28-530
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/auxiliary-products-hobby/acrylic-gloss-spray-varnish-28530/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-531
+  name: Unidentified packaging — val-28-531
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/auxiliary-products-hobby/acrylic-matt-spray-varnish-28531/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-28-532
+  name: Unidentified packaging — val-28-532
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 400
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/auxiliary-products-hobby/acrylic-satin-spray-varnish-28532/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-70-790
+  name: Unidentified packaging — val-70-790
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/liquid-metal-en/silver-70790-2/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-70-791
+  name: Unidentified packaging — val-70-791
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/liquid-metal-en/gold-70791/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-70-792
+  name: Unidentified packaging — val-70-792
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/liquid-metal-en/old-gold-70792/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-70-793
+  name: Unidentified packaging — val-70-793
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/liquid-metal-en/rich-gold-70793/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-70-794
+  name: Unidentified packaging — val-70-794
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/liquid-metal-en/red-gold-70794/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-70-795
+  name: Unidentified packaging — val-70-795
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/liquid-metal-en/green-gold-70795/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-70-796
+  name: Unidentified packaging — val-70-796
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/liquid-metal-en/white-gold-70796/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-70-797
+  name: Unidentified packaging — val-70-797
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/liquid-metal-en/copper-70797/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-101
+  name: Unidentified packaging — val-73-101
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/titanium-white-73101/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-102
+  name: Unidentified packaging — val-73-102
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/light-yellow-ochre-73102/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-103
+  name: Unidentified packaging — val-73-103
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/dark-yellow-ocre-73103/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-104
+  name: Unidentified packaging — val-73-104
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/light-sienna-73104/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-105
+  name: Unidentified packaging — val-73-105
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/natural-sienna-73105/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-106
+  name: Unidentified packaging — val-73-106
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/burnt-sienna-73106/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-107
+  name: Unidentified packaging — val-73-107
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/dark-red-ochre-73107/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-108
+  name: Unidentified packaging — val-73-108
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/brown-iron-oxide-73108/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-109
+  name: Unidentified packaging — val-73-109
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/natural-umber-73109/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-110
+  name: Unidentified packaging — val-73-110
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/burnt-umber-73110/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-111
+  name: Unidentified packaging — val-73-111
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/green-earth-73111/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-112
+  name: Unidentified packaging — val-73-112
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/chrome-oxide-green-73112/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-113
+  name: Unidentified packaging — val-73-113
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/light-slate-grey-73113/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-114
+  name: Unidentified packaging — val-73-114
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/dark-slate-grey-73114/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-115
+  name: Unidentified packaging — val-73-115
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/natural-iron-oxide-73115/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-116
+  name: Unidentified packaging — val-73-116
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/carbon-black-smoke-black-73116/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-117
+  name: Unidentified packaging — val-73-117
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/rust-73117/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-118
+  name: Unidentified packaging — val-73-118
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/new-rust-73118/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-119
+  name: Unidentified packaging — val-73-119
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/european-earth-73119/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-120
+  name: Unidentified packaging — val-73-120
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/old-rust-73120/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-121
+  name: Unidentified packaging — val-73-121
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/desert-dust-73121/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-122
+  name: Unidentified packaging — val-73-122
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/faded-olive-green-73122/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-123
+  name: Unidentified packaging — val-73-123
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/dark-steel-73123/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-124
+  name: Unidentified packaging — val-73-124
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/mid-orient-dust-73124/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-125
+  name: Unidentified packaging — val-73-125
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/loam-brown-73125/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-126
+  name: Unidentified packaging — val-73-126
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/wood-green-73126/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-127
+  name: Unidentified packaging — val-73-127
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/khaki-green-73127/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-128
+  name: Unidentified packaging — val-73-128
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/blue-grey-73128/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-73-129
+  name: Unidentified packaging — val-73-129
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/pigment-fx-en/brown-drown-leaves-73129/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-501
+  name: Unidentified packaging — val-76-501
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/white-76501/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-503
+  name: Unidentified packaging — val-76-503
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/dark-yellow-76503/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-505
+  name: Unidentified packaging — val-76-505
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/light-rust-76505/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-506
+  name: Unidentified packaging — val-76-506
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/rust-76506/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-507
+  name: Unidentified packaging — val-76-507
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/dark-rust-76507/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-512
+  name: Unidentified packaging — val-76-512
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/dark-green-76512/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-513
+  name: Unidentified packaging — val-76-513
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/brown-76513/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-514
+  name: Unidentified packaging — val-76-514
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/dark-brown-76514/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-515
+  name: Unidentified packaging — val-76-515
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/light-grey-76515/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-516
+  name: Unidentified packaging — val-76-516
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/off-grey-76516/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-517
+  name: Unidentified packaging — val-76-517
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/dark-grey-76517/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-518
+  name: Unidentified packaging — val-76-518
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/black-76518/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-519
+  name: Unidentified packaging — val-76-519
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/olive-green-76519/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-520
+  name: Unidentified packaging — val-76-520
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/dark-khaki-green-76520/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-521
+  name: Unidentified packaging — val-76-521
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/oiled-earth-76521/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-522
+  name: Unidentified packaging — val-76-522
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/desert-dust-76522/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-523
+  name: Unidentified packaging — val-76-523
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/european-dust-76523/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-524
+  name: Unidentified packaging — val-76-524
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/wash-fx-en/blue-grey-76524/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-76-550
+  name: Unidentified packaging — val-76-550
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 35
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://eirehobbies.com/products/vallejo-model-wash-chipping-medium-35ml
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-657
+  name: Unidentified packaging — val-77-657
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/gloss-metal-varnish-77657/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-701
+  name: Unidentified packaging — val-77-701
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/aluminium-77701/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-702
+  name: Unidentified packaging — val-77-702
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/duraluminium-77702/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-703
+  name: Unidentified packaging — val-77-703
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/dark-aluminium-77703/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-704
+  name: Unidentified packaging — val-77-704
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/pale-burnt-metal-77704/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-706
+  name: Unidentified packaging — val-77-706
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/white-aluminium-77706/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-707
+  name: Unidentified packaging — val-77-707
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/chrome-77707/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-710
+  name: Unidentified packaging — val-77-710
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/copper-77710/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-711
+  name: Unidentified packaging — val-77-711
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/magnesium-77711/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-712
+  name: Unidentified packaging — val-77-712
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/steel-77712/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-713
+  name: Unidentified packaging — val-77-713
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/jet-exhaust-77713/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-716
+  name: Unidentified packaging — val-77-716
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/semi-matt-aluminium-77716/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-717
+  name: Unidentified packaging — val-77-717
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/dull-aluminium-77717/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-720
+  name: Unidentified packaging — val-77-720
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/gunmetal-grey-77720/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-721
+  name: Unidentified packaging — val-77-721
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/burnt-iron-77721/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-723
+  name: Unidentified packaging — val-77-723
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/exhaust-manifold-77723/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-724
+  name: Unidentified packaging — val-77-724
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/silver-77724/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+- schema_version: 1
+  id: unidentified-val-77-725
+  name: Unidentified packaging — val-77-725
+  brand: Vallejo
+  family: unidentified
+  volume_ml: 32
+  dimensions:
+    width_mm: null
+    depth_mm: null
+    height_mm: null
+  evidence_status: unknown
+  sources:
+  - https://acrylicosvallejo.com/en/product/hobby/metal-color-en/gold-77725/
+  notes: Commercial reference recorded; packaging geometry is not documented. Not
+    eligible for automatic placement.
+rack_products:
+- schema_version: 1
+  id: hobbyzone-om05s
+  name: OM05s - Paints Module 26mm
+  brand: HobbyZone
+  reference: HZ-om05s
+  installation: desktop
+  arrangement: tiered
+  rows:
+  - id: row-1
+    name: Row 1
+    support: fixed-slots
+    width_mm: null
+    depth_mm: null
+    clearance_height_mm: null
+    open_top: true
+    evidence_status: confirmed
+    slots:
+    - id: slot-1
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-2
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-3
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-4
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-5
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-6
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-7
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-8
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-9
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    capacity_calibrations: [
+      ]
+  - id: row-2
+    name: Row 2
+    support: fixed-slots
+    width_mm: null
+    depth_mm: null
+    clearance_height_mm: null
+    open_top: true
+    evidence_status: confirmed
+    slots:
+    - id: slot-1
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-2
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-3
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-4
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-5
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-6
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-7
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-8
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-9
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    capacity_calibrations: [
+      ]
+  - id: row-3
+    name: Row 3
+    support: fixed-slots
+    width_mm: null
+    depth_mm: null
+    clearance_height_mm: null
+    open_top: true
+    evidence_status: confirmed
+    slots:
+    - id: slot-1
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-2
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-3
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-4
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-5
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-6
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-7
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-8
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-9
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    capacity_calibrations: [
+      ]
+  - id: row-4
+    name: Row 4
+    support: fixed-slots
+    width_mm: null
+    depth_mm: null
+    clearance_height_mm: null
+    open_top: true
+    evidence_status: confirmed
+    slots:
+    - id: slot-1
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-2
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-3
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-4
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-5
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-6
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-7
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-8
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    - id: slot-9
+      width_mm: 26.0
+      depth_mm: 26.0
+      accepted_format_ids:
+      - army-painter-18ml-dropper
+    capacity_calibrations: [
+      ]
+  sources:
+  - https://www.hobbyzone.pl/en/modular-workshop-system/46-om05s-paints-module-26mm.html
+  notes: 'Manufacturer: 36 round 26 mm slots. Exterior size: 300 × 150 × 150 mm (not
+    usable storage dimensions). Rows numbered from rear/top to front/bottom; distribution
+    checked against official photo on 2026-09-04. Must be placed on top of the modular
+    system. Assembly required. Paints and other pictured accessories not included.
+    Only explicitly documented container formats are listed; other formats remain
+    unverified.'
+  photos:
+  - url: https://www.hobbyzone.pl/data/offer//tg46_1100x550.jpg
+    page_url: https://www.hobbyzone.pl/en/modular-workshop-system/46-om05s-paints-module-26mm.html
+    credit: HobbyZone
+    usage_status: Copyright manufacturer; remote source, not redistributed
+- schema_version: 1
+  id: hobbyzone-om05b
+  name: OM05b - Paints Module 36mm
+  brand: HobbyZone
+  reference: HZ-om05b
+  installation: desktop
+  arrangement: tiered
+  rows:
+  - id: row-1
+    name: Row 1
+    support: fixed-slots
+    width_mm: null
+    depth_mm: null
+    clearance_height_mm: null
+    open_top: true
+    evidence_status: confirmed
+    slots:
+    - id: slot-1
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-2
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-3
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-4
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-5
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-6
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-7
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    capacity_calibrations: [
+      ]
+  - id: row-2
+    name: Row 2
+    support: fixed-slots
+    width_mm: null
+    depth_mm: null
+    clearance_height_mm: null
+    open_top: true
+    evidence_status: confirmed
+    slots:
+    - id: slot-1
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-2
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-3
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-4
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-5
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-6
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    capacity_calibrations: [
+      ]
+  - id: row-3
+    name: Row 3
+    support: fixed-slots
+    width_mm: null
+    depth_mm: null
+    clearance_height_mm: null
+    open_top: true
+    evidence_status: confirmed
+    slots:
+    - id: slot-1
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-2
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-3
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-4
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-5
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-6
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-7
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    capacity_calibrations: [
+      ]
+  - id: row-4
+    name: Row 4
+    support: fixed-slots
+    width_mm: null
+    depth_mm: null
+    clearance_height_mm: null
+    open_top: true
+    evidence_status: confirmed
+    slots:
+    - id: slot-1
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-2
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-3
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-4
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-5
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    - id: slot-6
+      width_mm: 36.0
+      depth_mm: 36.0
+      accepted_format_ids:
+      - citadel-12ml-flip-top
+      - citadel-24ml-flip-top
+    capacity_calibrations: [
+      ]
+  sources:
+  - https://www.hobbyzone.pl/en/modular-workshop-system/45-om05b-paints-module-36mm.html
+  notes: 'Manufacturer: 26 round 36 mm slots. Exterior size: 300 × 150 × 150 mm (not
+    usable storage dimensions). Rows numbered from rear/top to front/bottom; distribution
+    checked against official photo on 2026-09-04. Must be placed on top of the modular
+    system. Assembly required. Paints and other pictured accessories not included.
+    Only explicitly documented container formats are listed; other formats remain
+    unverified.'
+  photos:
+  - url: https://www.hobbyzone.pl/data/offer//tg45_1100x550.jpg
+    page_url: https://www.hobbyzone.pl/en/modular-workshop-system/45-om05b-paints-module-36mm.html
+    credit: HobbyZone
+    usage_status: Copyright manufacturer; remote source, not redistributed

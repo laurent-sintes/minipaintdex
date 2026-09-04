@@ -39,6 +39,8 @@ MARKET (reference knowledge, file-versioned)
   PaintProduct                        aggregate root for one commercial paint reference
   PaintCatalogEdition                 sourced commercial publication, independent of scrape runs
   PaintUsageGuide                     shared, sourced usage document with revision-bound translations
+  PaintContainerFormat                sourced container geometry, separate from paint chemistry
+  RackProduct                         commercial rack reference owning RackRowDefinition values
   PaintableProduct                    aggregate root for a box, range, expansion, or set
     └── PaintableComponent             entity describing one kind of paintable component
          └── quantity                 number supplied by the market product
@@ -57,6 +59,8 @@ WORKSHOP (owner state; aggregates event-sourced, stock projected, shopping plan 
   WorkshopShoppingPlan               explicit personal purchase intentions
     └── PaintPurchaseIntent            intention, distinct from a calculated paint requirement
   ShoppingListEntry                  aggregate owning a list entry's checked marker
+  WorkshopRack                        one owned physical rack referencing a RackProduct
+  WorkshopPaintStorage                aggregate owning the workshop's confirmed PaintPotPlacement values
 
 SITE (supporting configuration, file-versioned)
   SiteConfiguration                   localized labels and application presentation settings
@@ -96,6 +100,19 @@ SITE (supporting configuration, file-versioned)
 - Every physical copy is a separate `WorkshopPaintable` aggregate root with its own workflow, recipe assignment, photos, notes, and history. It references both a `paintableComponentId` and a `paintingProjectId`; persisted encodings are documented below.
 - `WorkshopRecipe` has an independent lifecycle. It may be inspired by a market guide, but the owner's substitutions, mixtures, layers, and techniques belong only to the workshop.
 - Use `PaintingProject` in the core and technical contracts, and the French label “Projet” in the UI. Never use the ambiguous bare Java type `Project`.
+
+### Relative rack capacities
+
+A continuous row may carry `CapacityCalibration` observations: supported container-format IDs,
+homogeneous full-row pot count, separately verified height, and provenance note. They belong to the
+specific rack/row, not universal brand dimensions. A row calibrated to 14 standard droppers or 11
+Citadel pots uses occupied fractions `1/14` and `1/11`; mixed-row capacity remains an estimate.
+Relative placements use `offsetFraction`, never fabricated millimetres. One row cannot mix
+relative and millimetre positions. Observed capacity already includes the observed spacing.
+Known incompatible dimensions still reject placement; verified height applies only to the named
+formats. The owner's four-row rack has these capacities and no height issue for the discussed formats.
+Geometry and calibration value objects live in `domain.shared.storage`; they contain no Market or
+Workshop lifecycle. Workshop aggregates do not depend on concrete Market aggregates or validators.
 
 ### Relationships and read models
 
@@ -517,6 +534,50 @@ For ordinary opaque paints, rank candidates primarily with CIE Lab and CIEDE2000
 The matcher may propose a single paint candidate, but the workshop solution may instead be a mixture, ordered layer stack, or technique. Persist only the user's explicit workshop choice through the recipe command.
 
 ## Workshop inventory
+
+### Racks and paint storage
+
+`RackProduct` and `PaintContainerFormat` are file-versioned Market references. A rack
+describes continuous shelves or fixed slots, usable dimensions and explicit open-top
+clearance. Container geometry distinguishes width, depth and closed height. Unknown
+dimensions are not zero or unlimited. Evidence is `confirmed`, `estimated` or `unknown`,
+with sources; community/CAD research seeds remain estimated, never manufacturer-certified.
+Every PaintProduct references one PaintContainerFormat through containerFormatId. Brand scraping
+collects the packaging association and container evidence in the same change set as paints.
+Unknown geometry remains explicit; a source that does not identify packaging produces a dedicated
+unidentified format for that commercial reference, never guessed standard dimensions.
+The registry is internal: no container-format catalogue, editor or selector is exposed in the UI.
+PaintPot uses its market product's format by default; explicit personal measurements/identification
+take precedence when a physical pot differs from current commercial packaging.
+
+`WorkshopRack` is event-sourced, identifies one owned physical rack and references a
+`RackProduct`. New custom racks and personal row overrides are not offered. Existing historical
+custom configurations remain readable. RackProduct owns sourced photos and row geometry/capacity.
+Adding a quantity creates that many independently identified WorkshopRack aggregates in one
+idempotent atomic event batch; quantity is not a replacement for physical identity.
+`PaintPot` owns its identified container format
+and optional personal measurements. `WorkshopPaintStorage` (`my-workshop-paint-storage`)
+alone owns confirmed placements; neither pots nor racks duplicate placement state.
+Placements identify a pot, rack and stable row, with a slot ID or horizontal offset.
+One pot has at most one placement. Rack edits, possession changes and container edits
+must preserve or explicitly remove affected placements, never silently move them.
+
+Organization previews are read-only deterministic Workshop queries, not confirmed
+physical moves. They retain locked placements, respect dimensions and classify
+uncertainty. A confirmation revalidates all constraints and source/aggregate revisions
+before an atomic arrangement event is durably accepted. Counts and occupancy are
+projections. Empty/dried owned pots still occupy physical space. Market never consumes
+Workshop state. All capabilities are shared by REST and CLI.
+
+The storage application commands are `AddRacks`, `SaveRack`, `IdentifyContainer`, `SetPlacement`
+and `Confirm`; `Preview` is strictly read-only. A removed/discarded pot must first be
+explicitly unplaced. `SaveRack.removePlacements` and `IdentifyContainer.removePlacement`
+publish the affected aggregate decisions in one batch. Relative proposals disclose
+displaced pots separately. Catalog updates use `SaveRackReferenceCommand`, a revision-
+guarded, content-idempotent upsert without deleting historical reference identities.
+Market rack collections and workshop pot/rack collections are pageable. Personal rack
+creation does not manufacture a commercial rack reference. Organization may target all owned
+racks or an explicit subset; every strategy uses the same compatibility and locking invariants.
 
 Workshop paint inventory references market paint IDs rather than duplicating product metadata.
 

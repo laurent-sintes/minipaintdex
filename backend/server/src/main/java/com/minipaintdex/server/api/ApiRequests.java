@@ -88,8 +88,10 @@ record ApplyPaintChangeSetRequest(
         @NotBlank String kind,
         List<PaintOperationRequest> operations,
         @JsonProperty("catalog_editions") List<Map<String, Object>> catalogEditions,
-        @JsonProperty("paint_usage_guides") List<Map<String, Object>> paintUsageGuides) {
+        @JsonProperty("paint_usage_guides") List<Map<String, Object>> paintUsageGuides,
+        @JsonProperty("container_formats") List<Map<String, Object>> containerFormats) {
     ApplyPaintChangeSetRequest {
+        containerFormats = containerFormats == null ? List.of() : List.copyOf(containerFormats);
         operations = operations == null ? List.of() : List.copyOf(operations);
         catalogEditions = catalogEditions == null ? List.of() : List.copyOf(catalogEditions);
         paintUsageGuides = paintUsageGuides == null ? List.of() : List.copyOf(paintUsageGuides);

@@ -104,6 +104,6 @@ class LucenePaintProductSearchIndexTest {
                 new PaintProduct.Color("grey", null), PaintProductLifecycle.ACTIVE, "confirmed", List.of(), List.of(), "private-note-secret",
                 null, new PaintProduct.ImageReference(null, java.net.URI.create("https://example.org/paint.jpg"), "Manufacturer",
                         null, null, PaintProductImageQuality.OFFICIAL_PHOTO, java.time.LocalDate.of(2026, 1, 1), null),
-                18, List.of(), null, null, null, List.of(), java.util.List.of());
+                18, List.of(), null, null, null, List.of(), java.util.List.of(), "test-container");
     }
 }

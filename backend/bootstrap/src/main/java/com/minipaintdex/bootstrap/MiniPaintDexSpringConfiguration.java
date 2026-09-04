@@ -45,6 +45,8 @@ import java.nio.file.Path;
 @EnableScheduling
 public class MiniPaintDexSpringConfiguration {
     @Bean
+    com.minipaintdex.application.RackReferenceWriteScope rackReferenceWriteScope() { return new com.minipaintdex.application.RackReferenceWriteScope(); }
+    @Bean
     FileRepositoryLayout fileRepositoryLayout(MiniPaintDexProperties properties) {
         var root = properties.root().toAbsolutePath().normalize();
         var storage = properties.storage();
@@ -56,7 +58,7 @@ public class MiniPaintDexSpringConfiguration {
                 resolve(root, storage.paintingGuidesDirectory()),
                 resolve(root, storage.ledgerDirectory()),
                 resolve(root, storage.eventPublicationsDirectory()),
-                resolve(root, storage.mediaDirectory()));
+                resolve(root, storage.mediaDirectory()), resolve(root, storage.rackCatalog()));
     }
 
     @Bean(initMethod = "initialize")
@@ -188,8 +190,8 @@ public class MiniPaintDexSpringConfiguration {
             EventBus eventBus,
             WorkshopMediaStorage media,
             WorkshopMediaPolicy mediaPolicy,
-            WorkshopQueryService queries, com.minipaintdex.application.PaintPotPhotoService potPhotos) {
-        return new WorkshopCommandService(snapshots, eventBus, media, mediaPolicy, queries, potPhotos);
+            WorkshopQueryService queries, com.minipaintdex.application.PaintPotPhotoService potPhotos, com.minipaintdex.application.RackReferenceWriteScope rackWrites) {
+        return new WorkshopCommandService(snapshots, eventBus, media, mediaPolicy, queries, potPhotos, rackWrites);
     }
 
     @Bean
@@ -232,18 +234,18 @@ public class MiniPaintDexSpringConfiguration {
             WorkshopCommandService commands,
             WorkshopQueryService queries,
             MarketCatalogUseCases market,
-            SnapshotRepository snapshots, com.minipaintdex.application.query.PaintSearchPolicy policy,
-            com.minipaintdex.application.PaintPotPhotoService potPhotos) {
-        return new WorkshopApplicationService(commands, queries, market, snapshots, policy, potPhotos);
+            @Qualifier("committedSnapshots") SnapshotRepository snapshots, com.minipaintdex.application.query.PaintSearchPolicy policy,
+            com.minipaintdex.application.PaintPotPhotoService potPhotos, MiniPaintDexProperties properties) {
+        return new WorkshopApplicationService(commands, queries, market, snapshots, policy, potPhotos, properties.storage().paintStorage());
     }
 
     @Bean
     AdministrationUseCases administrationUseCases(
             SnapshotRepository snapshots,
             PaintProductCatalogWriter paintProducts,
-            PaintableProductCatalogWriter paintableProducts) {
+            PaintableProductCatalogWriter paintableProducts, FilePersistenceAdapters adapters, com.minipaintdex.application.RackReferenceWriteScope rackWrites) {
         return new AdministrationApplicationService(
-                snapshots, paintProducts, paintableProducts);
+                snapshots, paintProducts, paintableProducts, adapters.rackCatalog(), rackWrites);
     }
 
     private static PaintMatchingPolicy.Weights weights(MiniPaintDexProperties.Weights weights) {

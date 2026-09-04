@@ -20,7 +20,14 @@ public record DataSnapshot(
         List<StructuredDocument> shopping,
         List<EventEnvelope> events,
         List<StructuredDocument> paintCatalogEditions,
-        List<StructuredDocument> paintUsageGuides) {
+        List<StructuredDocument> paintUsageGuides,
+        com.minipaintdex.domain.market.storage.RackCatalog rackCatalog) {
+    public DataSnapshot(StructuredDocument site, List<StructuredDocument> paintProducts, List<PaintableProduct> paintableProducts,
+            List<StructuredDocument> marketPaintingGuides, List<StructuredDocument> shopping, List<EventEnvelope> events,
+            List<StructuredDocument> paintCatalogEditions, List<StructuredDocument> paintUsageGuides) {
+        this(site, paintProducts, paintableProducts, marketPaintingGuides, shopping, events, paintCatalogEditions, paintUsageGuides,
+                com.minipaintdex.domain.market.storage.RackCatalog.empty());
+    }
     public DataSnapshot {
         if (site == null) throw new IllegalArgumentException("site is required.");
         paintProducts = copy(paintProducts);
@@ -30,6 +37,7 @@ public record DataSnapshot(
         events = copy(events);
         paintCatalogEditions = copy(paintCatalogEditions);
         paintUsageGuides = copy(paintUsageGuides);
+        java.util.Objects.requireNonNull(rackCatalog);
     }
 
     /** Typed stock derived from committed or effective pot history, never separately persisted. */

@@ -47,6 +47,8 @@ public record MiniPaintDexProperties(
             @NotNull Path ledgerDirectory,
             @NotNull Path eventPublicationsDirectory,
             @NotNull Path mediaDirectory,
+            @NotNull Path rackCatalog,
+            @NotNull com.minipaintdex.domain.workshop.storage.PaintStoragePolicy paintStorage,
             boolean sentinelEnabled,
             @NotNull Duration sentinelInterval) {
         @AssertTrue(message = "minipaintdex.storage.sentinel-interval must be positive")

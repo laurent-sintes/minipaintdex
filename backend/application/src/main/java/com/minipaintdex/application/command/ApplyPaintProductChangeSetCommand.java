@@ -9,12 +9,18 @@ public record ApplyPaintProductChangeSetCommand(
         String kind,
         List<Operation> operations,
         boolean dryRun,
-        List<StructuredDocument> catalogEditions, List<StructuredDocument> paintUsageGuides) {
+        List<StructuredDocument> catalogEditions, List<StructuredDocument> paintUsageGuides,
+        List<StructuredDocument> containerFormats) {
 
     public ApplyPaintProductChangeSetCommand {
+        containerFormats = containerFormats == null ? List.of() : List.copyOf(containerFormats);
         paintUsageGuides = paintUsageGuides == null ? List.of() : List.copyOf(paintUsageGuides);
         operations = operations == null ? List.of() : List.copyOf(operations);
         catalogEditions = catalogEditions == null ? List.of() : List.copyOf(catalogEditions);
+    }
+    public ApplyPaintProductChangeSetCommand(int schemaVersion, String kind, List<Operation> operations, boolean dryRun,
+            List<StructuredDocument> catalogEditions, List<StructuredDocument> paintUsageGuides) {
+        this(schemaVersion, kind, operations, dryRun, catalogEditions, paintUsageGuides, List.of());
     }
 
     public record Operation(

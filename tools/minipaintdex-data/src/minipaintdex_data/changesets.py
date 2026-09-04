@@ -149,6 +149,10 @@ def canonical_paint(record: dict[str, Any], *, verified_at: str | None = None) -
         "source_observation": source_observation(record),
         "mapping_report": mapping_report,
     }
+    if record.get("container_format_id"):
+        paint["container_format_id"] = record["container_format_id"]
+    if record.get("container_format"):
+        paint["container_format"] = record["container_format"]
     if record.get("usage_guide_ids"):
         paint["usage_guide_ids"] = record["usage_guide_ids"]
     if record.get("catalog_memberships"):
@@ -165,13 +169,15 @@ def build_paint_changeset(
     records = payload.get("paints", payload) if isinstance(payload, dict) else payload
     if not isinstance(records, list):
         raise ValueError("The paint input must be a list or an object containing a paints list.")
+    from .paint_containers import associate_containers
+    canonical, container_formats = associate_containers([canonical_paint(record, verified_at=verified_at) for record in records])
     operations = [
         {
             "action": "upsert",
-            "record": canonical_paint(record, verified_at=verified_at),
+            "record": record,
             "workshop_quantity_delta": 0,
         }
-        for record in records
+        for record in canonical
     ]
     changeset = {
         "schema_version": 1,
@@ -179,6 +185,10 @@ def build_paint_changeset(
         "source": {"path": source, "generated_at": date.today().isoformat()},
         "operations": operations,
     }
+    supplied_formats = payload.get("container_formats", []) if isinstance(payload, dict) else []
+    formats = {value["id"]: value for value in [*container_formats, *supplied_formats]}
+    if formats:
+        changeset["container_formats"] = [formats[key] for key in sorted(formats)]
     if isinstance(payload, dict) and "catalog_editions" in payload:
         changeset["catalog_editions"] = payload["catalog_editions"]
     if isinstance(payload, dict) and "paint_usage_guides" in payload:

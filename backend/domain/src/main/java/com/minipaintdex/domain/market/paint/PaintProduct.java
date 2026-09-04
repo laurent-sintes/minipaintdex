@@ -31,9 +31,11 @@ public record PaintProduct(
         LocalDate verifiedAt,
         ImageReference resultImage,
         List<PaintCatalogEdition.Membership> catalogMemberships,
-        List<String> usageGuideIds) {
+        List<String> usageGuideIds,
+        String containerFormatId) {
 
     public PaintProduct {
+        containerFormatId = stableId(containerFormatId, "containerFormatId");
         catalogMemberships = List.copyOf(catalogMemberships);
         usageGuideIds = immutableStrings(usageGuideIds);
         if (usageGuideIds.stream().distinct().count() != usageGuideIds.size()) throw invalid("Duplicate usage guide reference");

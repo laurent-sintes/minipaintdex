@@ -37,7 +37,8 @@ final class AdministrationController {
         return new ResultResponse<>(administration.applyPaintProductChangeSet(new ApplyPaintProductChangeSetCommand(
                 request.schemaVersion(), request.kind(), operations, dryRun,
                 request.catalogEditions().stream().map(AdministrationController::document).toList(),
-                request.paintUsageGuides().stream().map(AdministrationController::document).toList())));
+                request.paintUsageGuides().stream().map(AdministrationController::document).toList(),
+                request.containerFormats().stream().map(AdministrationController::document).toList())));
     }
 
     @PostMapping("/market/paintable-product-changesets")

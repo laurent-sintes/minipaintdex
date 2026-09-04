@@ -11,7 +11,8 @@ public record FileRepositoryLayout(
         Path paintingGuidesDirectory,
         Path ledgerDirectory,
         Path eventPublicationsDirectory,
-        Path mediaDirectory) {
+        Path mediaDirectory,
+        Path rackCatalog) {
 
     public FileRepositoryLayout {
         siteConfiguration = normalized(siteConfiguration);
@@ -22,6 +23,7 @@ public record FileRepositoryLayout(
         ledgerDirectory = normalized(ledgerDirectory);
         eventPublicationsDirectory = normalized(eventPublicationsDirectory);
         mediaDirectory = normalized(mediaDirectory);
+        rackCatalog = normalized(rackCatalog);
     }
 
     private static Path normalized(Path path) {

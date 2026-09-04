@@ -1,3 +1,69 @@
+racks:
+  quantity: Nombre d’exemplaires à ajouter
+  all_racks_help: Répartir les pots possédés entre tous les racks de l’atelier. Les placements verrouillés restent en place.
+  market_description: Choisis un rack du marché et indique combien d’exemplaires tu possèdes.
+  choose_market_rack: Ajouter des racks du marché
+  no_market_racks: Aucun rack du marché référencé pour le moment. Le référentiel est alimenté par le scraping.
+  empty_workshop: Aucun rack dans ton atelier. Choisis un modèle dans le référentiel du marché.
+  manufacturer_source: Fiche fabricant
+  positions: emplacements
+  market_title: Racks du marché
+  workshop_title: Mes racks
+  description: Organise les pots physiques de ton atelier, rangée par rangée.
+  rack_products: Racks du marché
+  add_to_workshop: Ajouter à mon atelier
+  name: Nom
+  location: Emplacement dans l’atelier
+  row_count: Nombre de rangées
+  row: Rangée
+  capacity: Capacité par rangée
+  save: Enregistrer
+  cancel: Annuler
+  open: Ouvrir
+  previous: Précédent
+  next: Suivant
+  search: Rechercher
+  empty: Aucun résultat.
+  loading: Chargement…
+  saved: Enregistré.
+  pending: Enregistrement accepté, en attente du journal…
+  failed: L’enregistrement a échoué.
+  owned: Rack présent dans mon atelier
+  pots: Pots de l’atelier
+  unplaced_only: Seulement les pots non rangés
+  propose: Proposer un rangement
+  mode: Regroupement
+  brand_range: Marque puis gamme
+  color: Famille de couleur
+  usage: Usage
+  allow_estimates: Accepter les estimations de dimensions et de capacité mixte
+  preserve_existing: Conserver les placements existants
+  preview: Proposition — aucun pot n’a encore été déplacé
+  confirm: Confirmer après rangement physique
+  unplaced: Pots non placés
+  changed: Placements proposés ou modifiés
+  displaced: Attention, pots actuellement rangés qui seront retirés sans nouveau placement
+  unknown_reason: Dimensions, format ou place disponibles à vérifier
+  full_reason: Capacité insuffisante
+  estimated: Estimé
+  compatible: Compatible
+  incompatible: Incompatible
+  unknown: Inconnu
+  confirmed: Confirmé
+  unavailable: Retiré de l’atelier
+  no_height_issue: Hauteur vérifiée
+  height_to_verify: Hauteur à vérifier
+  relative_capacity: Capacité relative
+  remove: Retirer du rack
+  lock: Verrouiller
+  unlock: Déverrouiller
+  locked: Verrouillé
+  back: Retour aux racks
+  placement: Placement
+  offset: Position
+  no_proposal: Aucun placement proposé.
+  single_rack_help: La proposition remplit ce rack avec les pots possédés. Les pots verrouillés ou conservés sur d’autres racks restent en place.
+  reload: Actualiser
 metadata:
   title: MiniPaintDex — Atelier de peinture de figurines
   short_title: MiniPaintDex

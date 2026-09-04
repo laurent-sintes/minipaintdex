@@ -10,6 +10,7 @@ from typing import Any, Callable, Iterable
 
 from .official_sources import army_painter, prince_august, vallejo, warhammer
 from .refresh import read_catalog
+from .paint_containers import associate_containers
 
 
 Collector = Callable[[dict[str, Any], Path], list[dict[str, Any]]]
@@ -87,6 +88,7 @@ def collect_official_refresh(
     *,
     verified_at: str | None = None,
     brands: Iterable[str] | None = None,
+    container_evidence: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     verification_date = verified_at or date.today().isoformat()
     requested = list(brands or OFFICIAL_PROVIDERS)
@@ -141,7 +143,10 @@ def collect_official_refresh(
         raise ValueError("Official providers returned duplicate paint ids across brands.")
     for paint in unique.values():
         paint["verified_at"] = verification_date
+    associated, container_formats = associate_containers(unique.values(), catalog.get("paints", []), container_evidence)
     return {
+        "container_formats": container_formats,
+        "container_audit": {"associated": len(associated), "unidentified": sum(p["container_format_id"].startswith("unidentified-") for p in associated)},
         "coverage": [
             {"brand": brand, "complete": OFFICIAL_PROVIDERS[brand].coverage_complete,
              "scope": "current", "description": OFFICIAL_PROVIDERS[brand].scope,
@@ -154,5 +159,5 @@ def collect_official_refresh(
             "official_urls": [url for brand in selected for url in OFFICIAL_PROVIDERS[brand].official_urls],
         },
         "audit": audit,
-        "paints": sorted(unique.values(), key=lambda paint: (paint["brand"], paint["range"], paint["name"], paint["id"])),
+        "paints": sorted(associated, key=lambda paint: (paint["brand"], paint["range"], paint["name"], paint["id"])),
     }

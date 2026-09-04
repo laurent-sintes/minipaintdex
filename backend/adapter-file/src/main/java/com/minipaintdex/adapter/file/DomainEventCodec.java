@@ -39,6 +39,7 @@ import java.util.Objects;
 
 /** Explicit, versioned mapping between typed domain events and their JSONL representation. */
 public final class DomainEventCodec {
+    private final RackDataCodec racks = new RackDataCodec();
     public EventEnvelope decode(Map<String, Object> entry) {
         var actor = map(entry.get("actor"));
         var eventType = text(entry.get("event_type"));
@@ -47,6 +48,8 @@ public final class DomainEventCodec {
         var occurredAt = instant(entry.get("occurred_at"));
         var payload = map(entry.get("payload"));
         var event = decodeEvent(eventType, aggregateId, paintingProjectId, occurredAt, payload);
+        if (!aggregateId.equals(event.aggregateId()) || !occurredAt.equals(event.occurredAt()))
+            throw new FileStorageException("Event payload identity/time does not match envelope.", null);
         var schemaVersion = number(entry.getOrDefault("schema_version", 1));
         if (schemaVersion != 1) {
             throw new FileStorageException("Unsupported domain event schema version: " + schemaVersion, null);
@@ -91,6 +94,7 @@ public final class DomainEventCodec {
     private DomainEvent decodeEvent(
             String type, String aggregateId, String paintingProjectId, Instant at, Map<String, Object> payload) {
         return switch (type) {
+            case "workshop_rack.registered", "workshop_rack.configured", "workshop_paint_storage.arrangement_recorded", "paint_pot.container_identified" -> racks.event(type, payload);
             case "paint_pot.registered" -> new PaintPotRegistered(aggregateId, text(payload.get("paint_product_id")),
                     payload.get("acquired_at") == null ? null : instant(payload.get("acquired_at")), at);
             case "paint_pot.observed" -> new PaintPotObserved(aggregateId, PaintPotCondition.fromId(text(payload.get("condition"))),
@@ -151,6 +155,9 @@ public final class DomainEventCodec {
     }
 
     private Map<String, Object> encodePayload(DomainEvent event) {
+        if (event instanceof com.minipaintdex.domain.workshop.storage.WorkshopRack.RackEvent
+                || event instanceof com.minipaintdex.domain.workshop.storage.WorkshopPaintStorage.ArrangementRecorded
+                || event instanceof PaintPotContainerIdentified) return racks.encode(event);
         var payload = new LinkedHashMap<String, Object>();
         switch (event) {
             case PaintPotRegistered value -> {

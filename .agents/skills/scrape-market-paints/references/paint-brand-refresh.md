@@ -1,5 +1,26 @@
 # Rafraîchissement des marques
 
+## Contenants internes — partie obligatoire du même scraping
+
+Pendant la consultation des fiches de la marque, relever aussi le conditionnement de chaque
+référence : forme, volume, génération éventuelle et dimensions documentées du contenant fermé.
+Ne pas confondre volume de peinture et dimensions extérieures ; ne pas généraliser un diamètre
+à toutes les gammes d'une marque.
+
+Préparer un manifeste JSON indexé par ID exact de PaintProduct. Chaque valeur est une fiche
+PaintContainerFormat snake_case avec `schema_version: 1`, `id`, `name`, `brand`, `family`,
+`volume_ml`, `dimensions` (`width_mm`, `depth_mm`, `height_mm`), `evidence_status`,
+`sources` HTTPS et `notes`. Réutiliser les identités existantes pour un même conditionnement.
+Les sources CAO/communautaires restent estimées. Les dimensions non trouvées restent null.
+Passer ce manifeste à `catalog refresh-official-paints --container-evidence <manifest>`.
+Le collecteur associe `container_format_id` à chaque peinture ; le change set inclut
+`container_formats`, appliqués atomiquement avec les peintures par Java.
+Sans preuve nouvelle, conserver l'association existante. Une nouvelle référence sans
+conditionnement identifié reçoit un format explicitement inconnu propre à cette référence :
+elle est signalée dans l'audit et ne devient pas rangeable par supposition.
+Contrôler `containers.unidentified` dans l'audit avant d'appliquer. Ce référentiel ne possède
+aucun écran utilisateur et ne doit pas être exposé comme un filtre de peintures.
+
 1. Résoudre la marque dans le catalogue local. `all` signifie toutes les marques connues disposant d’un provider officiel ; signaler les autres.
 2. Utiliser catalogues, pages de gamme et pages produit officiels. Déclarer `coverage.complete: true` uniquement avec une preuve d’exhaustivité.
 3. Comparer identifiants, références, métadonnées, images, provenance et dates. Ignorer les seules différences de présentation. Conserver la charge source sémantique complète dans `source_snapshots` ; exclure explicitement les horodatages fabriqués à l'heure de la requête, et faire porter la recherche uniquement sur le profil canonique.

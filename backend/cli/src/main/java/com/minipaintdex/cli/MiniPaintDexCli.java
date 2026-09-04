@@ -339,7 +339,8 @@ public final class MiniPaintDexCli implements Runnable {
                 number(payload.get("schema_version")), String.valueOf(payload.get("kind")), operations, dryRun,
                 (payload.get("catalog_editions") instanceof List<?> editions ? editions : List.of()).stream()
                     .map(value -> document(stringMap(value))).toList(),
-                mapList(payload.get("paint_usage_guides")).stream().map(MiniPaintDexCli::document).toList());
+                mapList(payload.get("paint_usage_guides")).stream().map(MiniPaintDexCli::document).toList(),
+                mapList(payload.get("container_formats")).stream().map(MiniPaintDexCli::document).toList());
     }
 
     ApplyMarketPaintableProductChangeSetCommand readPaintableProductChangeSet(Path path, boolean dryRun) throws Exception {
@@ -452,7 +453,7 @@ public final class MiniPaintDexCli implements Runnable {
     }
 
     @Command(name = "market", mixinStandardHelpOptions = true,
-            subcommands = {Market.Paints.class, PaintUsageGuidesCli.class, Market.CatalogEditions.class, Market.PaintableProducts.class, Market.Guides.class})
+            subcommands = {Market.Paints.class, PaintUsageGuidesCli.class, Market.CatalogEditions.class, Market.PaintableProducts.class, Market.Guides.class, RacksCli.RackProducts.class, RacksCli.ContainerFormats.class})
     static final class Market implements Runnable {
         @ParentCommand MiniPaintDexCli root;
         public void run() { CommandLine.usage(this, System.out); }
@@ -590,7 +591,7 @@ public final class MiniPaintDexCli implements Runnable {
     }
 
     @Command(name = "workshop", subcommands = {Workshop.Overview.class, Workshop.PaintingProjects.class,
-            Workshop.Paintables.class, Workshop.Recipes.class, Workshop.PaintStocks.class, PaintPotsCli.class, ShoppingList.class})
+            Workshop.Paintables.class, Workshop.Recipes.class, Workshop.PaintStocks.class, PaintPotsCli.class, ShoppingList.class, RacksCli.WorkshopRacks.class, RacksCli.PaintStorage.class})
     static final class Workshop implements Runnable {
         @ParentCommand MiniPaintDexCli root;
         public void run() { CommandLine.usage(this, System.out); }

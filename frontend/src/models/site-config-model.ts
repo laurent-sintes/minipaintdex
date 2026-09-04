@@ -1,4 +1,5 @@
 export type SiteConfig = {
+  racks: Record<string, string>;
   paintPots: {
     title: string; description: string; add: string; all: string; back: string; empty: string;
     includeRemoved: string; personalPhoto: string; catalogPhoto: string; noPhoto: string;

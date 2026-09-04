@@ -30,6 +30,6 @@ final class EffectiveSnapshotRepository implements SnapshotRepository {
         var events = List.copyOf(eventsById.values());
         return new DataSnapshot(
                 snapshot.site(), snapshot.paintProducts(),
-                snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.shopping(), events, snapshot.paintCatalogEditions(), snapshot.paintUsageGuides());
+                snapshot.paintableProducts(), snapshot.marketPaintingGuides(), snapshot.shopping(), events, snapshot.paintCatalogEditions(), snapshot.paintUsageGuides(), snapshot.rackCatalog());
     }
 }
