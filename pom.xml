@@ -42,6 +42,7 @@
     <node.version>v24.11.1</node.version>
     <pnpm.version>11.19.0</pnpm.version>
     <frontend.skip>false</frontend.skip>
+    <frontend.install.directory>${maven.multiModuleProjectDirectory}/.tools/frontend</frontend.install.directory>
     <python.executable>python</python.executable>
     <data-tools.skip>false</data-tools.skip>
     <jacoco.line.minimum>0.00</jacoco.line.minimum>
@@ -141,7 +142,7 @@
         <inherited>false</inherited>
         <configuration>
           <workingDirectory>${maven.multiModuleProjectDirectory}/frontend</workingDirectory>
-          <installDirectory>${maven.multiModuleProjectDirectory}/.tools/frontend</installDirectory>
+          <installDirectory>${frontend.install.directory}</installDirectory>
           <skip>${frontend.skip}</skip>
           <environmentVariables>
             <CI>true</CI>
@@ -219,6 +220,13 @@
           <configuration>
             <executable>powershell.exe</executable>
             <arguments><argument>-NoProfile</argument><argument>-File</argument><argument>${maven.multiModuleProjectDirectory}/scripts/tests/local-server.tests.ps1</argument></arguments>
+          </configuration>
+        </execution>
+        <execution>
+          <id>verification-tests</id><phase>test</phase><goals><goal>exec</goal></goals>
+          <configuration>
+            <executable>${python.executable}</executable>
+            <arguments><argument>-m</argument><argument>unittest</argument><argument>discover</argument><argument>-s</argument><argument>${maven.multiModuleProjectDirectory}/scripts/tests</argument><argument>-p</argument><argument>test_verification.py</argument><argument>-v</argument></arguments>
           </configuration>
         </execution></executions>
       </plugin></plugins></build>

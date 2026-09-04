@@ -41,6 +41,18 @@ Le reactor Maven est l’unique point d’entrée du build : validation des réf
 .\scripts\minipaintdex.ps1 build
 ```
 
+Pour valider sans répéter un build déjà réussi et inchangé :
+
+```powershell
+.\scripts\minipaintdex.ps1 verify
+.\scripts\minipaintdex.ps1 verification-status
+```
+
+La preuve couvre aussi les tests, les données et la configuration. `verify` ne touche pas au
+serveur si elle est réutilisable ; sinon il gère l’arrêt et la relance après succès.
+Après sélection explicite des fichiers avec Git, `prepare-commit` valide l’index exact,
+puis `commit -Message "…"` crée uniquement le commit demandé. Voir [la validation réutilisable](docs/admin/verification.md).
+
 Arrêter d’abord l’instance gérée avec `stop` : son classpath ne doit pas être modifié pendant
 l’exécution. La validation complète produit aussi une empreinte réutilisable par `start`.
 

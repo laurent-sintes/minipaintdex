@@ -10,6 +10,10 @@ le workflow à chaque demande et n’impose pas un `clean verify` pour un simple
 Voir [le cycle du serveur local](local-server.md), notamment les contrôles de fraîcheur et les
 temps distincts de démarrage et de tests post-démarrage. Aucun skill supplémentaire n’est nécessaire.
 
+La livraison utilise aussi [les preuves de validation réutilisables](verification.md) : `verify`
+pour le dossier de travail, `prepare-commit` pour l’index exact, puis `commit -Message` uniquement
+sur demande explicite. Une preuve valide évite de reconstruire et de redémarrer le serveur.
+
 ## scrape-market-paints
 
 Skill dédié à ce que le produit appelle « scraper les peintures du marché ». L'appel explicite est `$scrape-market-paints`. Il couvre le refresh courant, la reconstruction depuis un catalogue vide, la normalisation, les couleurs, les images, les audits et l'idempotence.

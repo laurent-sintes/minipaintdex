@@ -17,8 +17,9 @@ endpoints. `status`/`doctor` exposent aussi le dernier lancement enregistré.
 
 Le lanceur réutilise les classes et ressources dont les empreintes sont valides. Sinon il
 prépare le serveur via Maven `process-classes`, sans tests complets ni packaging. Ne pas
-précéder un simple lancement par `build`. `build` reste la validation complète `clean verify`,
-à exécuter après les modifications du produit et avant livraison, serveur géré arrêté.
+précéder un simple lancement par `build`. Après modification du produit, utiliser `verify`
+pour une validation complète ou sa réutilisation exacte ; suivre `git-delivery.md` avant commit.
+`build` force toujours `clean verify`, serveur géré arrêté.
 
 L’exécution est cachée, avec journaux persistants dans `.local-build/server/`. Il n’est pas
 nécessaire de conserver une fenêtre ou une session PTY. Lire les chemins de logs retournés

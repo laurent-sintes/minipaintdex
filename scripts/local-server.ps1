@@ -20,7 +20,11 @@ function Get-ContentDigest([string[]]$Paths, [string[]]$Values = @()) {
 }
 
 function Get-TreeFiles([string]$Directory) {
-    if (Test-Path -LiteralPath $Directory) { Get-ChildItem -LiteralPath $Directory -File -Recurse | Select-Object -ExpandProperty FullName }
+    if (Test-Path -LiteralPath $Directory) {
+        Get-ChildItem -LiteralPath $Directory -File -Recurse |
+            Where-Object { $_.FullName -notmatch '[\\/]__pycache__[\\/]' -and $_.Extension -notin @('.pyc', '.pyo') } |
+            Select-Object -ExpandProperty FullName
+    }
 }
 
 function Get-ServerModules([string]$Root) {
