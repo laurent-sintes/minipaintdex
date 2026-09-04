@@ -29,6 +29,17 @@
     </resources>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId><artifactId>maven-dependency-plugin</artifactId>
+        <executions><execution>
+          <id>local-runtime-classpath</id><phase>process-classes</phase><goals><goal>build-classpath</goal></goals>
+          <configuration>
+            <includeScope>runtime</includeScope>
+            <excludeGroupIds>com.minipaintdex</excludeGroupIds>
+            <outputFile>${project.build.directory}/runtime-classpath.txt</outputFile>
+          </configuration>
+        </execution></executions>
+      </plugin>
+      <plugin>
         <groupId>org.springframework.boot</groupId><artifactId>spring-boot-maven-plugin</artifactId>
         <executions><execution><goals><goal>build-info</goal></goals></execution></executions>
       </plugin>

@@ -141,7 +141,7 @@
         <inherited>false</inherited>
         <configuration>
           <workingDirectory>${maven.multiModuleProjectDirectory}/frontend</workingDirectory>
-          <installDirectory>${project.build.directory}/toolchain</installDirectory>
+          <installDirectory>${maven.multiModuleProjectDirectory}/.tools/frontend</installDirectory>
           <skip>${frontend.skip}</skip>
           <environmentVariables>
             <CI>true</CI>
@@ -162,6 +162,12 @@
             <phase>generate-resources</phase>
             <goals><goal>pnpm</goal></goals>
             <configuration><arguments>install --frozen-lockfile</arguments></configuration>
+          </execution>
+          <execution>
+            <id>frontend-build</id>
+            <phase>generate-resources</phase>
+            <goals><goal>pnpm</goal></goals>
+            <configuration><arguments>run build</arguments></configuration>
           </execution>
           <execution>
             <id>frontend-check</id>
@@ -202,4 +208,20 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>windows-launcher-tests</id>
+      <activation><os><family>Windows</family></os></activation>
+      <build><plugins><plugin>
+        <groupId>org.codehaus.mojo</groupId><artifactId>exec-maven-plugin</artifactId>
+        <executions><execution>
+          <id>local-server-tests</id><phase>test</phase><goals><goal>exec</goal></goals>
+          <configuration>
+            <executable>powershell.exe</executable>
+            <arguments><argument>-NoProfile</argument><argument>-File</argument><argument>${maven.multiModuleProjectDirectory}/scripts/tests/local-server.tests.ps1</argument></arguments>
+          </configuration>
+        </execution></executions>
+      </plugin></plugins></build>
+    </profile>
+  </profiles>
 </project>

@@ -8,11 +8,24 @@ Dans l’espace de travail actuel, le JDK portable, Maven, Node et pnpm sont dé
 
 ```powershell
 .\scripts\install-photo-model.ps1
-.\scripts\minipaintdex.ps1 build
-.\scripts\minipaintdex.ps1 server
+.\scripts\minipaintdex.ps1 start
 ```
 
-L’application complète est disponible sur [http://127.0.0.1:8080](http://127.0.0.1:8080). Arrêter le serveur avec `Ctrl+C`.
+L’application complète est disponible sur [http://127.0.0.1:8080](http://127.0.0.1:8080).
+Le lanceur compile si nécessaire, démarre en arrière-plan et vérifie les API et la SPA.
+Les lancements suivants réutilisent les classes compilées, sans tests complets ni packaging.
+
+```powershell
+.\scripts\minipaintdex.ps1 restart
+.\scripts\minipaintdex.ps1 status
+.\scripts\minipaintdex.ps1 doctor
+.\scripts\minipaintdex.ps1 stop
+```
+
+Le JSON indique séparément la préparation, l’arrêt précédent, le démarrage jusqu’à readiness
+(`startupSeconds`) et les tests HTTP post-démarrage (`postStartTestSeconds`). Chaque endpoint
+dispose aussi d’un temps en millisecondes. Les logs et le dernier résultat sont conservés sous
+`.local-build/server/`. Voir [le lanceur local](docs/admin/local-server.md).
 
 Sur une nouvelle machine, seul un JDK 25 doit être disponible via `JAVA_HOME` ou placé dans `.tools\jdk25`. Le Maven Wrapper télécharge Maven ; le build Maven télécharge ensuite les versions verrouillées de Node et pnpm.
 
@@ -27,6 +40,9 @@ Le reactor Maven est l’unique point d’entrée du build : validation des réf
 ```powershell
 .\scripts\minipaintdex.ps1 build
 ```
+
+Arrêter d’abord l’instance gérée avec `stop` : son classpath ne doit pas être modifié pendant
+l’exécution. La validation complète produit aussi une empreinte réutilisable par `start`.
 
 Équivalent Maven pour un environnement Java déjà configuré :
 
@@ -78,14 +94,14 @@ Utiliser `... cli --help` pour l’arbre complet des commandes.
 Le développement conserve deux processus pour bénéficier du rechargement Vite, sans changer l’architecture d’exécution :
 
 ```powershell
-.\scripts\minipaintdex.ps1 server
+.\scripts\minipaintdex.ps1 start
 ```
 
 Puis, dans un second terminal après un premier build :
 
 ```powershell
 Push-Location .\frontend
-..\target\toolchain\node\pnpm.cmd dev
+..\.tools\frontend\node\pnpm.cmd dev
 ```
 
 Vite sert alors le SPA sur `http://127.0.0.1:5173` et transmet `/api` et `/media` à Spring Boot sur le port `8080`.
@@ -131,7 +147,8 @@ La configuration typée `minipaintdex` couvre notamment :
 Les propriétés sont validées au démarrage. Chaque jeu de poids du matcher doit être positif ou nul et totaliser exactement `1.0`. Par exemple, une surcharge locale peut être passée sans modifier le code :
 
 ```powershell
-.\scripts\minipaintdex.ps1 server --minipaintdex.paint-matching.candidate-limit=8
+$env:MINIPAINTDEX_PAINTMATCHING_CANDIDATELIMIT = '8'
+.\scripts\minipaintdex.ps1 restart
 ```
 
 Spring résout ces valeurs et construit des objets Java typés. Le domaine et les services applicatifs restent indépendants de Spring ; l’adaptateur fichier ne contient plus de chemins relatifs codés en dur.

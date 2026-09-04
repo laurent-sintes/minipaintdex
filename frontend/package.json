@@ -14,7 +14,7 @@
     "typecheck": "tsc --noEmit",
     "validate:catalogs": "node scripts/validate-catalogs.mjs",
     "check": "pnpm run check:web",
-    "check:web": "pnpm run validate:catalogs && pnpm run lint && pnpm run typecheck && pnpm run test:web && pnpm run build",
+    "check:web": "pnpm run validate:catalogs && pnpm run lint && pnpm run typecheck && pnpm run test:web",
     "format": "oxfmt"
   },
   "dependencies": {

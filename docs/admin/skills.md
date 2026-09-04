@@ -4,6 +4,12 @@
 
 Skill chapeau pour diagnostiquer, construire, tester et lancer l’application. Il route aussi les demandes Git explicites. `Go` autorise le travail demandé mais jamais un commit ou un push. `commit` ne signifie pas `push`.
 
+Le démarrage utilise les commandes déterministes `start`, `restart`, `stop`, `status` et `doctor`
+du lanceur PowerShell. Le skill interprète leurs résultats et leurs erreurs ; il ne reconstruit pas
+le workflow à chaque demande et n’impose pas un `clean verify` pour un simple redémarrage.
+Voir [le cycle du serveur local](local-server.md), notamment les contrôles de fraîcheur et les
+temps distincts de démarrage et de tests post-démarrage. Aucun skill supplémentaire n’est nécessaire.
+
 ## scrape-market-paints
 
 Skill dédié à ce que le produit appelle « scraper les peintures du marché ». L'appel explicite est `$scrape-market-paints`. Il couvre le refresh courant, la reconstruction depuis un catalogue vide, la normalisation, les couleurs, les images, les audits et l'idempotence.

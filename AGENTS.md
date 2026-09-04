@@ -140,6 +140,14 @@ Maven is the single build and test entry point for every technology in the repos
 
 MiniPaintDex follows the self-contained system pattern. The production deliverable is one executable Spring Boot JAR containing the REST API and the compiled SPA. Spring Boot serves `index.html`, frontend assets, media, and the client-side route fallback. The separate Vite server exists only for development and proxies API requests to Spring Boot.
 
+Local development launch uses `scripts/minipaintdex.ps1 start|restart|stop|status|doctor`.
+The launcher reuses fingerprint-verified compiled classes/resources and resolved dependencies,
+or prepares them through root Maven `process-classes` without packaging or full tests. This does
+not replace final `verify` or change the production JAR deliverable. Stop the managed instance
+before any direct Maven build that replaces its live classpath. Process ownership checks,
+graceful shutdown, readiness and HTTP smoke tests belong to the deterministic launcher;
+the project skill invokes it rather than rebuilding on every restart.
+
 ```text
 backend/
   domain/                 # Pure Java entities, value objects, events, workflow rules
